@@ -194,9 +194,12 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:minHeight="48dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:text="@string/already_have_an_account"
                 android:textColor="#3F51B5"
-                android:textSize="19sp" />
+                android:textSize="19sp"
+                tools:ignore="VisualLintButtonSize" />
 
             <!-- sign Button -->
             <Button
