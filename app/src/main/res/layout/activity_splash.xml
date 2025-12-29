@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3E469B">
+
+    <!-- Just the S letter (Netflix style) -->
+    <ImageView
+        android:id="@+id/letter_s"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/letter_s"
+        android:scaleX="0.3"
+        android:scaleY="0.3"
+        android:alpha="0" />
+
+    <!-- Full Save logo (fades in after S) -->
+    <ImageView
+        android:id="@+id/full_logo"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/white"
+        android:visibility="invisible"
+        android:alpha="0" />
+
+
+</RelativeLayout>

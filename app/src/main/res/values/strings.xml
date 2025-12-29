@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Save</string>
+    <string name="app_logo">app_logo</string>
+    <string name="onboard">onboard</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="member">Member</string>
+    <string name="admin">Admin</string>
+    <string name="welcome">Welcome</string>
+    <string name="choose_an_option_below">Choose an option below</string>
+    <string name="logo">Logo</string>
+    <string name="sign_up">Sign up</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="password">Password*</string>
+    <string name="email">Email*</string>
+    <string name="create_account">Create Account</string>
+    <string name="group_name">Group Name*</string>
+    <string name="phone_number">Phone Number*</string>
+    <string name="confirm_password">Confirm_password*</string>
+    <string name="already_have_an_account">Already have an account?</string>
+</resources>
