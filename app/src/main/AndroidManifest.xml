@@ -14,7 +14,7 @@
 
         <!-- Splash Activity as Launcher (shows first) -->
         <activity
-            android:name=".SplashActivity"
+            android:name="Activities.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -25,28 +25,33 @@
 
         <!-- Main Activity (shows after splash) -->
         <activity
-            android:name=".MainActivity"
+            android:name="Activities.MainActivity"
             android:exported="false" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name="Activities.LoginActivity"
             android:exported="false" />
 
         <activity
-            android:name=".AdminregActivity"
+            android:name="Activities.AdminregActivity"
             android:exported="false" />
 
         <activity
-            android:name=".MemberregActivity"
+            android:name="Activities.MemberregActivity"
             android:exported="false" />
 
         <activity
-            android:name=".SignupActivity"
+            android:name="Activities.SignupActivity"
             android:exported="false" />
 
         <activity
-            android:name=".AdminmainActivity"
+            android:name="Activities.AdminmainActivity"
             android:exported="false" />
+
+        <activity
+            android:name="Activities.ResetPasswordActivity"
+            android:exported="false" />
+
 
 
     </application>

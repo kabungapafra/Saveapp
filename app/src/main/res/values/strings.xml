@@ -21,4 +21,6 @@
     <string name="already_have_an_account">Already have an account?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="having_trouble_contact_support">Having trouble? Contact support</string>
 </resources>

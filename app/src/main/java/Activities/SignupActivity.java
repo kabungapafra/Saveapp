@@ -1,4 +1,4 @@
-package com.example.save;
+package Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentTransaction;
 
+import Fragments.Otp;
+import com.example.save.R;
+
 public class SignupActivity extends AppCompatActivity {
 
     private EditText nameInput, phoneInput, emailInput, passwordInput, confirmPasswordInput;
     private Button signupButton;
     private TextView alreadyHaveAccount;
-    private CardView loginCard;
+    private CardView loginCard;  // This should be signupCard in your layout
     private View fragmentContainer;
 
     @Override
@@ -35,7 +38,7 @@ public class SignupActivity extends AppCompatActivity {
         confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
         signupButton = findViewById(R.id.signupButton);
         alreadyHaveAccount = findViewById(R.id.alreadyHaveAccount);
-        loginCard = findViewById(R.id.loginCard);
+        loginCard = findViewById(R.id.loginCard);  // Update this ID in your XML to signupCard
         fragmentContainer = findViewById(R.id.fragmentContainer);
 
         // Handle back press with OnBackPressedDispatcher
@@ -43,7 +46,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 // If fragment is visible, show signup form again
-                if (fragmentContainer.getVisibility() == View.VISIBLE) {
+                if (fragmentContainer != null && fragmentContainer.getVisibility() == View.VISIBLE) {
                     loginCard.setVisibility(View.VISIBLE);
                     fragmentContainer.setVisibility(View.GONE);
                     getSupportFragmentManager().popBackStack();
@@ -67,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     /**
-     * Handle login tab click from XML
+     * Handle login tab click from XML (if you have a login tab in signup screen)
      */
     public void onloginClick(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -153,12 +156,12 @@ public class SignupActivity extends AppCompatActivity {
         loginCard.setVisibility(View.GONE);
         fragmentContainer.setVisibility(View.VISIBLE);
 
-        // Create OTP fragment with admin data
-        Otp otpFragment = Otp.newInstance(name, phone, email, password);
+        // Create OTP fragment with admin data - USE THE CORRECT METHOD
+        Otp otp = Otp.newInstanceForRegistration(name, phone, email, password);
 
         // Replace current view with OTP fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainer, otpFragment);
+        transaction.replace(R.id.fragmentContainer, otp);
         transaction.addToBackStack(null);
         transaction.commit();
     }

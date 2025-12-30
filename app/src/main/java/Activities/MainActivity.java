@@ -1,10 +1,14 @@
-package com.example.save;
+package Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.save.OnboardingAdapter;
+import com.example.save.OnboardingItem;
+import com.example.save.R;
 
 import java.util.ArrayList;
 import java.util.List;

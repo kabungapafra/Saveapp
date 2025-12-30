@@ -1,10 +1,10 @@
-package com.example.save;
+package Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.save.R;
 
 public class AdminmainActivity extends AppCompatActivity {
 

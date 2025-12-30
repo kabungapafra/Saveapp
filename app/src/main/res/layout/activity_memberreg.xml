@@ -206,4 +206,12 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.29" />
 
+    <!-- Fragment Container (for Forgot Password) -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

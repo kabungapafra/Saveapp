@@ -1,4 +1,4 @@
-package com.example.save;
+package Activities;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
@@ -12,6 +12,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.save.R;
 
 public class SplashActivity extends AppCompatActivity {
 
