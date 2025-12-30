@@ -257,8 +257,8 @@ public class Otp extends Fragment {
             if (otp.equals("1234")) {
                 Toast.makeText(getContext(), "Registration successful!", Toast.LENGTH_SHORT).show();
 
-                // Navigate to MainActivity
-                Intent intent = new Intent(getActivity(), MainActivity.class);
+                // Navigate to AdminMainActivity
+                Intent intent = new Intent(getActivity(), AdminmainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 if (getActivity() != null) {
