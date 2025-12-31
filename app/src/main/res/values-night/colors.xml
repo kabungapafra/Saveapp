@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="deep_blue">#3E469B</color> <!-- Keep Deep Blue solid in Dark Mode as requested -->
+    <color name="black">#FFFFFFFF</color> <!-- Invert black/white for dark mode text if needed, but usually text colors should be semantic. 
+    However, the text on the button is white. White on 5C6BC0 is readable. 
+    Let's keep specific color overrides minimal. -->
+</resources>

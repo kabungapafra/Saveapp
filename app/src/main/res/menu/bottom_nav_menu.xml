@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_members"
+        android:icon="@drawable/ic_people"
+        android:title="Members" />
+
+    <item
+        android:id="@+id/nav_payouts"
+        android:icon="@drawable/ic_payments"
+        android:title="Payouts" />
+
+    <item
+        android:id="@+id/nav_loans"
+        android:icon="@drawable/ic_loan"
+        android:title="Loans" />
+
+    <item
+        android:id="@+id/nav_analytics"
+        android:icon="@drawable/ic_analytics"
+        android:title="Analytics" />
+
+</menu>

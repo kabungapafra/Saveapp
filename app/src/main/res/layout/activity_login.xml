@@ -2,93 +2,109 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp">
+    android:background="@drawable/gradient_background">
+
+    <!-- Logo (White version for contrast) -->
+
+    <!-- Main Content Card -->
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="154dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="144dp"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="100dp"
         android:contentDescription="@string/app_logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/save_logo" />
+        app:srcCompat="@drawable/white" />
 
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:text="@string/welcome"
-        android:textAlignment="center"
-        android:textColor="#1F1F1F"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView" />
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45">
 
-    <TextView
-        android:id="@+id/subtitleText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/choose_an_option_below"
-        android:textAlignment="center"
-        android:textColor="#757575"
-        android:textSize="19sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleText" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="32dp">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="271dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/button_primary_bg"
-        android:text="@string/admin"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:onClick="onAdminClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subtitleText" />
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/welcome"
+                android:textAlignment="center"
+                android:textColor="@color/deep_blue"
+                android:textSize="32sp"
+                android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="270dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_primary_bg"
-        android:text="@string/member"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:onClick="onMemberClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button" />
+            <TextView
+                android:id="@+id/subtitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/choose_an_option_below"
+                android:textAlignment="center"
+                android:textColor="#757575"
+                android:textSize="16sp" />
 
+            <!-- Admin Button -->
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/button_primary_bg"
+                app:backgroundTint="@null"
+                android:onClick="onAdminClick"
+                android:text="@string/admin"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Member Button -->
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_primary_bg"
+                app:backgroundTint="@null"
+                android:onClick="onMemberClick"
+                android:text="@string/member"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Illustration at the bottom -->
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="239dp"
-        android:layout_height="253dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:alpha="0.9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.606"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
-        app:layout_constraintVertical_bias="0.333"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:srcCompat="@drawable/lng" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
