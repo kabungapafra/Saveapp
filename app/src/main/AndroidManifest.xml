@@ -52,6 +52,12 @@
             android:name="Activities.ResetPasswordActivity"
             android:exported="false" />
 
+        <activity
+            android:name="Activities.DailyTasksActivity"
+            android:exported="false"
+            android:parentActivityName="Activities.AdminmainActivity"
+            android:theme="@style/Theme.Save" />
+
 
 
     </application>

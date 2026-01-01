@@ -1,5 +1,6 @@
 package Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -67,6 +68,7 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
         setupRecentActivity();
     }
 
+    @SuppressLint("GestureBackNavigation")
     @Override
     public void onBackPressed() {
         // If we're showing a fragment (not on home), go back to home
@@ -317,7 +319,7 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
             for (int i = 0; i < 30; i++) {
                 String day = dayFormat.format(calendar.getTime()).toUpperCase();
                 String date = dateFormat.format(calendar.getTime());
-                dates.add(new DateItem(day, date, i == 0));
+                dates.add(new DateItem(day, date, i == 0, calendar));
                 calendar.add(Calendar.DAY_OF_YEAR, 1);
             }
 
@@ -330,11 +332,13 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
         String day;
         String date;
         boolean isSelected;
+        Calendar calendar;
 
-        DateItem(String day, String date, boolean isSelected) {
+        DateItem(String day, String date, boolean isSelected, Calendar calendar) {
             this.day = day;
             this.date = date;
             this.isSelected = isSelected;
+            this.calendar = (Calendar) calendar.clone();
         }
     }
 
@@ -371,12 +375,20 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
                 holder.dateText.setTextColor(Color.parseColor("#1A1A1A"));
             }
 
-            // Simple click listener to update selection
+            // Click listener to navigate to CreateTaskActivity
             holder.itemView.setOnClickListener(v -> {
+                // Update selection visually
                 for (DateItem d : dates)
                     d.isSelected = false;
                 item.isSelected = true;
                 notifyDataSetChanged();
+
+                // Navigate to DailyTasksActivity with selected date
+                Intent intent = new Intent(AdminmainActivity.this, DailyTasksActivity.class);
+                SimpleDateFormat fullDateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
+                String formattedDate = fullDateFormat.format(item.calendar.getTime());
+                intent.putExtra("selected_date", formattedDate);
+                startActivity(intent);
             });
         }
 
