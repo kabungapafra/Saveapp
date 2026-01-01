@@ -27,8 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import com.example.save.R;
+import Data.MemberRepository;
 
-public class AdminmainActivity extends AppCompatActivity {
+public class AdminmainActivity extends AppCompatActivity implements MemberRepository.MemberChangeListener {
 
     // Views
     private TextView adminName, groupName, currentBalance, savingsBalance, activeMembers;
@@ -46,12 +47,16 @@ public class AdminmainActivity extends AppCompatActivity {
     // Data
     private String adminNameStr;
     private String groupNameStr;
+    private MemberRepository memberRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Correct layout name
         setContentView(R.layout.activity_adminmain);
+
+        memberRepository = MemberRepository.getInstance();
+        memberRepository.addListener(this);
 
         initializeViews();
         loadAdminData();
@@ -60,6 +65,17 @@ public class AdminmainActivity extends AppCompatActivity {
         loadDashboardData();
         setupDatePicker();
         setupRecentActivity();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // If we're showing a fragment (not on home), go back to home
+        if (fragmentContainer.getVisibility() == View.VISIBLE) {
+            updateNav(navHome, txtHome, imgHome);
+        } else {
+            // We're on home, so exit the app
+            super.onBackPressed();
+        }
     }
 
     private void initializeViews() {
@@ -131,10 +147,16 @@ public class AdminmainActivity extends AppCompatActivity {
 
         // Add Member card
         addMemberCard.setOnClickListener(v -> {
-            // Navigate to Add Member screen
-            Toast.makeText(this, "Add Member", Toast.LENGTH_SHORT).show();
-            // Intent intent = new Intent(this, AddMemberActivity.class);
-            // startActivity(intent);
+            // Navigate to Members fragment and show add dialog
+            updateNav(navMembers, txtMembers, imgMembers);
+
+            // Post a delayed action to ensure fragment is loaded before showing dialog
+            navMembers.postDelayed(() -> {
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                if (fragment instanceof Fragments.MembersFragment) {
+                    ((Fragments.MembersFragment) fragment).showAddMemberDialog();
+                }
+            }, 100);
         });
 
         // Execute Payout card
@@ -241,7 +263,6 @@ public class AdminmainActivity extends AppCompatActivity {
         layout.setLayoutParams(params);
 
         layout.setBackground(null);
-        text.setVisibility(View.GONE);
 
         // White Color for Inactive State
         image.setImageTintList(ColorStateList.valueOf(Color.BLACK)); // Using Black/White as per theme? Actually
@@ -258,7 +279,28 @@ public class AdminmainActivity extends AppCompatActivity {
             currentBalance.setText("UGX 1,500,000");
         if (savingsBalance != null)
             savingsBalance.setText("UGX 350,000");
-        activeMembers.setText("28/30");
+
+        updateMemberCount();
+    }
+
+    private void updateMemberCount() {
+        int activeMembersCount = memberRepository.getActiveMemberCount();
+        int totalMembers = memberRepository.getTotalMemberCount();
+        activeMembers.setText(activeMembersCount + "/" + totalMembers);
+    }
+
+    @Override
+    public void onMembersChanged() {
+        // Update the member count on the dashboard when members change
+        runOnUiThread(() -> updateMemberCount());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (memberRepository != null) {
+            memberRepository.removeListener(this);
+        }
     }
 
     private void setupDatePicker() {
