@@ -1,15 +1,11 @@
 package Activities;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,68 +13,75 @@ import com.example.save.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DURATION = 10000;
+    private static final int SPLASH_DURATION = 25000;
     private ImageView letterS, fullLogo;
-    private ValueAnimator colorAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // Initialize Views
         letterS = findViewById(R.id.letter_s);
         fullLogo = findViewById(R.id.full_logo);
+        View shimmerView = findViewById(R.id.shimmer_view);
 
-        Animation netflixZoom = AnimationUtils.loadAnimation(this, R.anim.netflix_zoom);
-        Animation slideOutRight = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
-        Animation slideInLeft = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
-        Animation glowShine = AnimationUtils.loadAnimation(this, R.anim.glow_shine);
+        // Initial State
+        letterS.setVisibility(android.view.View.VISIBLE);
+        letterS.setAlpha(0f);
+        letterS.setScaleX(0.5f);
+        letterS.setScaleY(0.5f);
 
-        netflixZoom.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                letterS.setAlpha(1.0f);
-                letterS.setScaleX(0.3f);
-                letterS.setScaleY(0.3f);
-            }
+        fullLogo.setVisibility(android.view.View.VISIBLE);
+        fullLogo.setAlpha(0f);
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                letterS.setScaleX(1.0f);
-                letterS.setScaleY(1.0f);
-                letterS.setAlpha(1.0f);
-                letterS.startAnimation(slideOutRight);
-            }
+        // 1. S Scales In (Duration 800ms)
+        letterS.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(800)
+                .setInterpolator(new android.view.animation.OvershootInterpolator())
+                .withEndAction(() -> {
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
+                    // 2. Slide S to left and fade in Full Logo (Duration 600ms)
+                    // We simply fade S out and Logo in, assuming they are centered.
+                    // To give the "Slide" effect, we translate S left and Logo In.
 
-        letterS.startAnimation(netflixZoom);
+                    float slideDistance = -100f; // Move left
 
+                    letterS.animate()
+                            .translationX(slideDistance)
+                            .alpha(0f) // Fade out S as it moves
+                            .setDuration(600)
+                            .setStartDelay(200)
+                            .start();
+
+                    fullLogo.setTranslationX(100f); // Start slightly right
+                    fullLogo.animate()
+                            .translationX(0f)
+                            .alpha(1f)
+                            .setDuration(600)
+                            .setStartDelay(200)
+                            .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                            .withEndAction(() -> {
+
+                                // 3. Shimmer Effect (Pass over the logo)
+                                shimmerView.setVisibility(android.view.View.VISIBLE);
+                                shimmerView.setTranslationX(-300f);
+                                shimmerView.animate()
+                                        .translationX(300f)
+                                        .setDuration(800)
+                                        .withEndAction(() -> shimmerView.setVisibility(android.view.View.GONE))
+                                        .start();
+
+                            })
+                            .start();
+                })
+                .start();
+
+        // Navigate to Next Screen (Total delay ~3.5s)
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            letterS.setVisibility(android.view.View.INVISIBLE);
-            letterS.setAlpha(0f);
-
-            fullLogo.setVisibility(android.view.View.VISIBLE);
-            fullLogo.setAlpha(0f);
-            fullLogo.startAnimation(slideInLeft);
-
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                fullLogo.setAlpha(1.0f);
-                fullLogo.setScaleX(1.0f);
-                fullLogo.setScaleY(1.0f);
-                fullLogo.startAnimation(glowShine);
-
-                // Start color transition animation
-                startColorTransition();
-            }, 700);
-        }, 1800);
-
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (colorAnimator != null) {
-                colorAnimator.cancel();
-            }
 
             // Check if this is the first time opening the app
             SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
@@ -94,27 +97,8 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
-        }, SPLASH_DURATION);
-    }
-
-    private void startColorTransition() {
-        // Create color transition: white → light blue → blue → light blue → white
-        int colorWhite = 0xFFFFFFFF;
-        int colorLightBlue = 0xFFADD8E6;
-        int colorBlue = 0xFF1565C0;
-
-        colorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(),
-                colorWhite, colorLightBlue, colorBlue, colorLightBlue, colorWhite);
-        colorAnimator.setDuration(3000); // 3 seconds for full cycle
-        colorAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        colorAnimator.setRepeatMode(ValueAnimator.RESTART);
-
-        colorAnimator.addUpdateListener(animator -> {
-            int color = (int) animator.getAnimatedValue();
-            fullLogo.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-        });
-
-        colorAnimator.start();
+        }, 3500);
     }
 }

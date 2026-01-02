@@ -14,4 +14,14 @@
     <color name="text_secondary">#666666</color>
     <color name="text_hint">#AAAAAA</color>
 
+    <color name="gradient_start_lilac">#F3F0FF</color>
+    <color name="gradient_end_lavender">#E6E6FA</color>
+    <color name="gradient_main_card_start">#E7EBF9</color> <!-- Light bluish purple -->
+    <color name="gradient_main_card_end">#D1C4E9</color>
+    <color name="accent_purple">#6200EA</color>
+    <color name="accent_blue_purple">#4527A0</color>
+    <color name="light_purple_bg">#F4F1FD</color>
+    <color name="negative_red">#FF5252</color>
+    <color name="text_dark">#212121</color>
+
 </resources>

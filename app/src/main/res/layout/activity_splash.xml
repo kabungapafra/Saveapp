@@ -4,26 +4,39 @@
     android:layout_height="match_parent"
     android:background="#3E469B">
 
-    <!-- Just the S letter (Netflix style) -->
-    <ImageView
-        android:id="@+id/letter_s"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/letter_s"
-        android:scaleX="0.3"
-        android:scaleY="0.3"
-        android:alpha="0" />
+    <!-- Container for the logo animation -->
+    <RelativeLayout
+        android:id="@+id/logo_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
 
-    <!-- Full Save logo (fades in after S) -->
-    <ImageView
-        android:id="@+id/full_logo"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/white"
-        android:visibility="invisible"
-        android:alpha="0" />
+        <!-- Just the S letter -->
+        <ImageView
+            android:id="@+id/letter_s"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/letter_s"
+            android:visibility="invisible" />
 
-
+        <!-- Full Save logo -->
+        <ImageView
+            android:id="@+id/full_logo"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/white"
+            android:visibility="invisible" />
+            
+        <!-- Shimmer View -->
+        <View
+            android:id="@+id/shimmer_view"
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:background="#50FFFFFF"
+            android:rotation="20"
+            android:visibility="invisible" />
+            
+    </RelativeLayout>
 </RelativeLayout>

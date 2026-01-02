@@ -17,12 +17,12 @@ import androidx.fragment.app.FragmentTransaction;
 import Fragments.Otp;
 import com.example.save.R;
 
-public class SignupActivity extends AppCompatActivity {
+public class AdminSignupActivity extends AppCompatActivity {
 
     private EditText nameInput, phoneInput, emailInput, passwordInput, confirmPasswordInput;
     private Button signupButton;
     private TextView alreadyHaveAccount;
-    private CardView loginCard;  // This should be signupCard in your layout
+    private CardView loginCard; // This should be signupCard in your layout
     private View fragmentContainer;
 
     @Override
@@ -38,7 +38,7 @@ public class SignupActivity extends AppCompatActivity {
         confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
         signupButton = findViewById(R.id.signupButton);
         alreadyHaveAccount = findViewById(R.id.alreadyHaveAccount);
-        loginCard = findViewById(R.id.loginCard);  // Update this ID in your XML to signupCard
+        loginCard = findViewById(R.id.loginCard); // Update this ID in your XML to signupCard
         fragmentContainer = findViewById(R.id.fragmentContainer);
 
         // Handle back press with OnBackPressedDispatcher
@@ -63,7 +63,7 @@ public class SignupActivity extends AppCompatActivity {
 
         // Already have account - navigate to login
         alreadyHaveAccount.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, AdminLoginActivity.class);
             startActivity(intent);
             finish();
         });
@@ -73,8 +73,9 @@ public class SignupActivity extends AppCompatActivity {
      * Handle login tab click from XML (if you have a login tab in signup screen)
      */
     public void onloginClick(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, AdminLoginActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
 
@@ -169,6 +170,6 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left1, R.anim.slide_out_right1);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

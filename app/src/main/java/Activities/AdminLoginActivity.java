@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.save.R;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class AdminregActivity extends AppCompatActivity {
+public class AdminLoginActivity extends AppCompatActivity {
 
     private TextInputEditText groupNameInput, phoneInput, passwordInput;
     private Button loginButton, signUpTab;
@@ -39,8 +39,9 @@ public class AdminregActivity extends AppCompatActivity {
     }
 
     public void onsingupClick(View view) {
-        Intent intent = new Intent(AdminregActivity.this, SignupActivity.class);
+        Intent intent = new Intent(AdminLoginActivity.this, AdminSignupActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     /**
@@ -104,8 +105,15 @@ public class AdminregActivity extends AppCompatActivity {
         // For now, just show a toast and navigate to admin main
         Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(AdminregActivity.this, AdminmainActivity.class);
+        Intent intent = new Intent(AdminLoginActivity.this, AdminmainActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

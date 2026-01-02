@@ -22,8 +22,9 @@ public class LoginActivity extends AppCompatActivity {
      * Handle Admin button click from XML
      */
     public void onAdminClick(View view) {
-        Intent intent = new Intent(this, AdminregActivity.class);
+        Intent intent = new Intent(this, AdminLoginActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     /**
@@ -32,11 +33,12 @@ public class LoginActivity extends AppCompatActivity {
     public void onMemberClick(View view) {
         Intent intent = new Intent(this, MemberregActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left1, R.anim.slide_out_right1);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

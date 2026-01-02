@@ -25,8 +25,6 @@ import com.example.save.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import Activities.LoginActivity;
-
 /**
  * Fragment for forgot password flow: Email input → OTP verification → Navigate
  * to password reset

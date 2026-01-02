@@ -92,12 +92,17 @@ public class MemberregActivity extends AppCompatActivity {
         }
 
         // TODO: Implement actual member login logic with backend
-        // For now, just show a toast
+        // Navigate to member main activity
         Toast.makeText(this, "Member login successful!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MemberregActivity.this, MemberMainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        finish();
+    }
 
-        // Navigate to member main activity (if you have one)
-        // Intent intent = new Intent(MemberregActivity.this, MemberMainActivity.class);
-        // startActivity(intent);
-        // finish();
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

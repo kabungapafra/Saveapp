@@ -147,7 +147,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             if ("MemberregActivity".equals(sourceActivity)) {
                 targetActivity = MemberregActivity.class;
             } else {
-                targetActivity = AdminregActivity.class; // Default to admin
+                targetActivity = AdminLoginActivity.class; // Default to admin
             }
 
             Intent intent = new Intent(this, targetActivity);

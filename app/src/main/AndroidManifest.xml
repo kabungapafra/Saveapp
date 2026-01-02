@@ -33,16 +33,18 @@
             android:exported="false" />
 
         <activity
-            android:name="Activities.AdminregActivity"
+            android:name="Activities.AdminLoginActivity"
+            android:exported="true"
+            tools:ignore="DuplicateActivity" />
+        <activity
+            android:name="Activities.MemberMainActivity"
             android:exported="false" />
-
         <activity
             android:name="Activities.MemberregActivity"
-            android:exported="false" />
-
+            android:exported="true" />
         <activity
-            android:name="Activities.SignupActivity"
-            android:exported="false" />
+            android:name="Activities.AdminSignupActivity"
+            android:exported="true" />
 
         <activity
             android:name="Activities.AdminmainActivity"
