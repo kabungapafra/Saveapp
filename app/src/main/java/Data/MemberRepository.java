@@ -9,11 +9,13 @@ public class MemberRepository {
     private static MemberRepository instance;
     private List<Member> members;
     private List<MemberChangeListener> listeners;
+    private double groupBalance = 0;
 
     private MemberRepository() {
         members = new ArrayList<>();
         listeners = new ArrayList<>();
         loadInitialData();
+        calculateInitialBalance();
     }
 
     public static MemberRepository getInstance() {
@@ -29,7 +31,9 @@ public class MemberRepository {
         members.add(new Member("Bob Smith", "Secretary", true));
         members.add(new Member("Charlie Brown", "Member", false));
         members.add(new Member("David Lee", "Treasurer", true));
-        members.add(new Member("Eve Adams", "Member", true));
+        Member eve = new Member("Eve Adams", "Member", true);
+        eve.setShortfallAmount(50000); // 50k shortfall
+        members.add(eve);
     }
 
     public List<Member> getAllMembers() {
@@ -46,6 +50,16 @@ public class MemberRepository {
             members.remove(position);
             notifyListeners();
         }
+    }
+
+    public List<Member> getMembersWithShortfalls() {
+        List<Member> shortfalls = new ArrayList<>();
+        for (Member member : members) {
+            if (member.getShortfallAmount() > 0) {
+                shortfalls.add(member);
+            }
+        }
+        return shortfalls;
     }
 
     public void updateMember(int position, Member member) {
@@ -67,6 +81,60 @@ public class MemberRepository {
 
     public int getTotalMemberCount() {
         return members.size();
+    }
+
+    private void calculateInitialBalance() {
+        // Dummy logic: mostly just a static starting point
+        groupBalance = 1500000;
+        // Adjust for payouts if we had real data
+    }
+
+    public double getGroupBalance() {
+        return groupBalance;
+    }
+
+    public void addToBalance(double amount) {
+        groupBalance += amount;
+        notifyListeners();
+    }
+
+    public Member getNextPayoutRecipient() {
+        // Simple round-robin or first eligible member logic
+        for (Member member : members) {
+            if (!member.hasReceivedPayout() && member.isActive()) {
+                return member;
+            }
+        }
+        return null; // All have received or no active members
+    }
+
+    public boolean executePayout(Member member) {
+        if (member == null)
+            return false;
+
+        double payoutAmount = 500000; // Fixed dummy amount for now
+
+        if (groupBalance >= payoutAmount) {
+            groupBalance -= payoutAmount;
+            member.setHasReceivedPayout(true);
+            member.setPayoutAmount(String.valueOf(payoutAmount));
+            member.setPayoutDate(java.text.DateFormat.getDateInstance().format(new java.util.Date()));
+            notifyListeners();
+            return true;
+        }
+        return false;
+    }
+
+    public void resolveShortfall(Member member) {
+        if (member != null && member.getShortfallAmount() > 0) {
+            // Logic: Deduct from group balance to cover the member's shortfall
+            // Ideally we'd have a separate "Reserve" fund, but for now we use groupBalance
+            if (groupBalance >= member.getShortfallAmount()) {
+                groupBalance -= member.getShortfallAmount();
+                member.setShortfallAmount(0);
+                notifyListeners();
+            }
+        }
     }
 
     // Listener pattern for updates

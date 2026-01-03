@@ -6,6 +6,10 @@ public class Member {
     private boolean isActive;
     private String phone;
     private String email;
+    private String payoutDate;
+    private String payoutAmount;
+    private boolean hasReceivedPayout;
+    private double shortfallAmount;
 
     public Member(String name, String role, boolean isActive) {
         this(name, role, isActive, "0700000000", "email@example.com");
@@ -17,6 +21,10 @@ public class Member {
         this.isActive = isActive;
         this.phone = phone;
         this.email = email;
+        this.payoutDate = "Not Scheduled";
+        this.payoutAmount = "0";
+        this.hasReceivedPayout = false;
+        this.shortfallAmount = 0;
     }
 
     public String getName() {
@@ -57,5 +65,37 @@ public class Member {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPayoutDate() {
+        return payoutDate;
+    }
+
+    public void setPayoutDate(String payoutDate) {
+        this.payoutDate = payoutDate;
+    }
+
+    public String getPayoutAmount() {
+        return payoutAmount;
+    }
+
+    public void setPayoutAmount(String payoutAmount) {
+        this.payoutAmount = payoutAmount;
+    }
+
+    public boolean hasReceivedPayout() {
+        return hasReceivedPayout;
+    }
+
+    public void setHasReceivedPayout(boolean hasReceivedPayout) {
+        this.hasReceivedPayout = hasReceivedPayout;
+    }
+
+    public double getShortfallAmount() {
+        return shortfallAmount;
+    }
+
+    public void setShortfallAmount(double shortfallAmount) {
+        this.shortfallAmount = shortfallAmount;
     }
 }

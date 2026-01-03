@@ -23,4 +23,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="verify_email">Verify Email</string>
     <string name="having_trouble_contact_support">Having trouble? Contact support</string>
+    <string name="export_transaction_history">Export Transaction History</string>
+    <string name="reset_cycle">Reset Cycle</string>
+    <string name="data_management">Data Management</string>
+    <string name="confirm_via_otp_before_executing">Confirm via OTP before executing</string>
+    <string name="require_2fa_for_payouts">Require 2FA for Payouts</string>
+    <string name="security">Security</string>
+    <string name="skip_members_with_shortfalls">Skip members with shortfalls</string>
+    <string name="enforce_eligibility">Enforce Eligibility</string>
+    <string name="contribution_amount_ugx">Contribution Amount (UGX)</string>
+    <string name="financial_configuration">Financial Configuration</string>
+    <string name="settings">Settings</string>
+    <string name="todo">TODO</string>
+    <string name="_50000">50000</string>
+    <string name="late_payment_penalty_ugx">Late Payment Penalty (UGX)</string>
+    <string name="_5000">5000</string>
 </resources>

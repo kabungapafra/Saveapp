@@ -35,7 +35,7 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
     // Views
     private TextView adminName, groupName, currentBalance, savingsBalance, activeMembers;
     private ImageView profileIcon, menuIcon;
-    private CardView addMemberCard, executePayoutCard, viewLoansCard;
+    private CardView addMemberCard, executePayoutCard, viewLoansCard, navContainer;
     private RecyclerView activityRecyclerView;
     private NestedScrollView mainScrollView;
     private FrameLayout fragmentContainer;
@@ -71,11 +71,17 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
     @SuppressLint("GestureBackNavigation")
     @Override
     public void onBackPressed() {
-        // If we're showing a fragment (not on home), go back to home
+        android.widget.FrameLayout fragmentContainer = findViewById(R.id.fragment_container);
         if (fragmentContainer.getVisibility() == View.VISIBLE) {
-            updateNav(navHome, txtHome, imgHome);
+            fragmentContainer.setVisibility(View.GONE);
+            findViewById(R.id.main_content_scroll_view).setVisibility(View.VISIBLE);
+            findViewById(R.id.navContainer).setVisibility(View.VISIBLE); // Restore nav
+
+            // Clear fragment back stack? Or simple hide/show
+            getSupportFragmentManager().beginTransaction()
+                    .remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container))
+                    .commit();
         } else {
-            // We're on home, so exit the app
             super.onBackPressed();
         }
     }
@@ -88,6 +94,12 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
         activeMembers = findViewById(R.id.activeMembers);
         profileIcon = findViewById(R.id.profileIcon);
         menuIcon = findViewById(R.id.menuIcon);
+        menuIcon.setOnClickListener(v -> {
+            loadFragment(new Fragments.SettingsFragment());
+            // Optionally hide bottom nav or other elements if needed,
+            // but loadFragment handles container visibility.
+            navContainer.setVisibility(View.GONE); // Hide nav for full screen settings
+        });
         addMemberCard = findViewById(R.id.addMemberCard);
         executePayoutCard = findViewById(R.id.executePayoutCard);
         viewLoansCard = findViewById(R.id.viewLoansCard);
@@ -96,6 +108,7 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
 
         mainScrollView = findViewById(R.id.main_content_scroll_view);
         fragmentContainer = findViewById(R.id.fragment_container);
+        navContainer = findViewById(R.id.navContainer);
 
         // Navigation Views
         navHome = findViewById(R.id.nav_home);
@@ -139,12 +152,6 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
         profileIcon.setOnClickListener(v -> {
             // Navigate to profile screen
             Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show();
-        });
-
-        // Menu icon click
-        menuIcon.setOnClickListener(v -> {
-            // Show menu options
-            Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show();
         });
 
         // Add Member card
@@ -258,6 +265,14 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
         }
     }
 
+    private void loadFragment(Fragment fragment) {
+        mainScrollView.setVisibility(View.GONE);
+        fragmentContainer.setVisibility(View.VISIBLE);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+    }
+
     private void resetNavItem(LinearLayout layout, TextView text, ImageView image) {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
         params.width = 0;
@@ -274,13 +289,14 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
     }
 
     private void loadDashboardData() {
-        // TODO: Load data from backend API or local database
+        // Load data from repository
+        double balance = memberRepository.getGroupBalance();
+        double savings = balance * 0.2; // Dummy logic for savings portion
 
-        // For now, use dummy data
         if (currentBalance != null)
-            currentBalance.setText("UGX 1,500,000");
+            currentBalance.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(balance));
         if (savingsBalance != null)
-            savingsBalance.setText("UGX 350,000");
+            savingsBalance.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(savings));
 
         updateMemberCount();
     }
@@ -293,8 +309,8 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
 
     @Override
     public void onMembersChanged() {
-        // Update the member count on the dashboard when members change
-        runOnUiThread(() -> updateMemberCount());
+        // Update the member count and balance on the dashboard when members change
+        runOnUiThread(() -> loadDashboardData());
     }
 
     @Override
