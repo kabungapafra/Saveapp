@@ -1,4 +1,5 @@
 package com.example.save.ui.activities;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -31,6 +32,23 @@ public class MemberregActivity extends AppCompatActivity {
         // Setup click listeners
         binding.loginButton.setOnClickListener(v -> handleLogin());
         binding.forgotPassword.setOnClickListener(v -> showForgotPasswordFragment());
+
+        // Handle back press
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // If fragment is visible, show login form again
+                if (binding.fragmentContainer != null && binding.fragmentContainer.getVisibility() == View.VISIBLE) {
+                    binding.loginCard.setVisibility(View.VISIBLE);
+                    binding.sideTabContainer.setVisibility(View.VISIBLE);
+                    binding.fragmentContainer.setVisibility(View.GONE);
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
+            }
+        });
     }
 
     /**
@@ -48,19 +66,6 @@ public class MemberregActivity extends AppCompatActivity {
                 .replace(R.id.fragmentContainer, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-        // If fragment is visible, show login form again
-        if (binding.fragmentContainer != null && binding.fragmentContainer.getVisibility() == View.VISIBLE) {
-            binding.loginCard.setVisibility(View.VISIBLE);
-            binding.sideTabContainer.setVisibility(View.VISIBLE);
-            binding.fragmentContainer.setVisibility(View.GONE);
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     private void handleLogin() {
