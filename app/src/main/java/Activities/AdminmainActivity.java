@@ -34,7 +34,7 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
 
     // Views
     private TextView adminName, groupName, currentBalance, savingsBalance, activeMembers;
-    private ImageView profileIcon, menuIcon;
+    private ImageView profileIcon;
     private CardView addMemberCard, executePayoutCard, viewLoansCard, navContainer;
     private RecyclerView activityRecyclerView;
     private NestedScrollView mainScrollView;
@@ -93,13 +93,6 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
         savingsBalance = findViewById(R.id.savingsBalance);
         activeMembers = findViewById(R.id.activeMembers);
         profileIcon = findViewById(R.id.profileIcon);
-        menuIcon = findViewById(R.id.menuIcon);
-        menuIcon.setOnClickListener(v -> {
-            loadFragment(new Fragments.SettingsFragment());
-            // Optionally hide bottom nav or other elements if needed,
-            // but loadFragment handles container visibility.
-            navContainer.setVisibility(View.GONE); // Hide nav for full screen settings
-        });
         addMemberCard = findViewById(R.id.addMemberCard);
         executePayoutCard = findViewById(R.id.executePayoutCard);
         viewLoansCard = findViewById(R.id.viewLoansCard);
@@ -150,8 +143,8 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
     private void setupListeners() {
         // Profile icon click
         profileIcon.setOnClickListener(v -> {
-            // Navigate to profile screen
-            Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         });
 
         // Add Member card
@@ -178,18 +171,14 @@ public class AdminmainActivity extends AppCompatActivity implements MemberReposi
 
         // View Loans card
         viewLoansCard.setOnClickListener(v -> {
-            // Navigate to Loans screen
-            Toast.makeText(this, "View Loans", Toast.LENGTH_SHORT).show();
-            // Intent intent = new Intent(this, LoansActivity.class);
-            // startActivity(intent);
+            loadFragment(new Fragments.LoansFragment());
         });
 
         // View Details button
         TextView viewDetailsBtn = findViewById(R.id.viewAllActivity);
         if (viewDetailsBtn != null) {
             viewDetailsBtn.setOnClickListener(v -> {
-                // Navigate to full report
-                Toast.makeText(this, "View Full Report", Toast.LENGTH_SHORT).show();
+                loadFragment(Fragments.AnalyticsFragment.newInstance(true));
             });
         }
     }

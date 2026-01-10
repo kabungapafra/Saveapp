@@ -55,6 +55,11 @@
             android:exported="false" />
 
         <activity
+            android:name="Activities.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName="Activities.AdminmainActivity" />
+
+        <activity
             android:name="Activities.DailyTasksActivity"
             android:exported="false"
             android:parentActivityName="Activities.AdminmainActivity"

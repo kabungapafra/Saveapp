@@ -136,7 +136,7 @@ public class MemberMainActivity extends AppCompatActivity {
 
         navStats.setOnClickListener(v -> {
             updateNav(navStats, txtStats, imgStats);
-            Toast.makeText(this, "View Statistics", Toast.LENGTH_SHORT).show();
+            loadFragment(Fragments.AnalyticsFragment.newInstance(false));
         });
     }
 
