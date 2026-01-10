@@ -14,7 +14,7 @@
 
         <!-- Splash Activity as Launcher (shows first) -->
         <activity
-            android:name="Activities.SplashActivity"
+            android:name="com.example.save.ui.activities.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -25,44 +25,44 @@
 
         <!-- Main Activity (shows after splash) -->
         <activity
-            android:name="Activities.MainActivity"
+            android:name="com.example.save.ui.activities.MainActivity"
             android:exported="false" />
 
         <activity
-            android:name="Activities.LoginActivity"
+            android:name="com.example.save.ui.activities.LoginActivity"
             android:exported="false" />
 
         <activity
-            android:name="Activities.AdminLoginActivity"
+            android:name="com.example.save.ui.activities.AdminLoginActivity"
             android:exported="true"
             tools:ignore="DuplicateActivity" />
         <activity
-            android:name="Activities.MemberMainActivity"
+            android:name="com.example.save.ui.activities.MemberMainActivity"
             android:exported="false" />
         <activity
-            android:name="Activities.MemberregActivity"
+            android:name="com.example.save.ui.activities.MemberregActivity"
             android:exported="true" />
         <activity
-            android:name="Activities.AdminSignupActivity"
+            android:name="com.example.save.ui.activities.AdminSignupActivity"
             android:exported="true" />
 
         <activity
-            android:name="Activities.AdminmainActivity"
+            android:name="com.example.save.ui.activities.AdminmainActivity"
             android:exported="false" />
 
         <activity
-            android:name="Activities.ResetPasswordActivity"
+            android:name="com.example.save.ui.activities.ResetPasswordActivity"
             android:exported="false" />
 
         <activity
-            android:name="Activities.SettingsActivity"
+            android:name="com.example.save.ui.activities.SettingsActivity"
             android:exported="false"
-            android:parentActivityName="Activities.AdminmainActivity" />
+            android:parentActivityName="com.example.save.ui.activities.AdminmainActivity" />
 
         <activity
-            android:name="Activities.DailyTasksActivity"
+            android:name="com.example.save.ui.activities.DailyTasksActivity"
             android:exported="false"
-            android:parentActivityName="Activities.AdminmainActivity"
+            android:parentActivityName="com.example.save.ui.activities.AdminmainActivity"
             android:theme="@style/Theme.Save" />
 
 

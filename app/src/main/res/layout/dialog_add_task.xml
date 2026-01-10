@@ -3,26 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="@dimen/spacing_xl"
     android:background="@color/white">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Transaction Task"
-        android:textSize="20sp"
+        android:text="@string/new_transaction_task"
+        android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
         android:textColor="@color/deep_blue"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="@dimen/spacing_xl"/>
 
     <!-- Task Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Task Title"
+        android:text="@string/task_title"
         android:textColor="#666666"
-        android:textSize="12sp"
-        android:layout_marginBottom="4dp"/>
+        android:textSize="@dimen/text_size_xs"
+        android:layout_marginBottom="@dimen/spacing_xs"/>
 
     <EditText
         android:id="@+id/etTaskTitle"
@@ -37,26 +37,26 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Receiver (Member)"
+        android:text="@string/receiver_member"
         android:textColor="#666666"
-        android:textSize="12sp"
-        android:layout_marginBottom="4dp"/>
+        android:textSize="@dimen/text_size_xs"
+        android:layout_marginBottom="@dimen/spacing_xs"/>
 
     <Spinner
         android:id="@+id/spinnerMembers"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/otp_input_bg"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="@dimen/spacing_normal"/>
 
     <!-- Amount -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Amount (UGX)"
+        android:text="@string/amount_ugx"
         android:textColor="#666666"
-        android:textSize="12sp"
-        android:layout_marginBottom="4dp"/>
+        android:textSize="@dimen/text_size_xs"
+        android:layout_marginBottom="@dimen/spacing_xs"/>
 
     <EditText
         android:id="@+id/etAmount"
@@ -72,27 +72,27 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time"
+        android:text="@string/time"
         android:textColor="#666666"
-        android:textSize="12sp"
-        android:layout_marginBottom="4dp"/>
+        android:textSize="@dimen/text_size_xs"
+        android:layout_marginBottom="@dimen/spacing_xs"/>
 
     <EditText
         android:id="@+id/etTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="e.g. 10:00 AM"
-        android:padding="12dp"
+        android:padding="@dimen/spacing_medium"
         android:background="@drawable/otp_input_bg"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="@dimen/spacing_xl"/>
 
     <Button
         android:id="@+id/btnSaveTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Task"
+        android:text="@string/create_task"
         android:backgroundTint="@color/deep_blue"
         android:textColor="@color/white"
-        android:padding="12dp"/>
+        android:padding="@dimen/spacing_medium"/>
 
 </LinearLayout>

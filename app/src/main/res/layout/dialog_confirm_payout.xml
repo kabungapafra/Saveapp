@@ -3,31 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="8dp"
+    app:cardCornerRadius="@dimen/corner_radius_large"
+    app:cardElevation="@dimen/card_elevation_normal"
     app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
+        android:padding="@dimen/spacing_xl"
         android:gravity="center_horizontal">
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/icon_size_large"
+            android:layout_height="@dimen/icon_size_large"
             android:src="@drawable/ic_send_money"
             app:tint="@color/deep_blue"
             android:background="@drawable/circle_background_light"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:padding="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Confirm Payout"
-            android:textSize="22sp"
+            android:text="@string/confirm_payout"
+            android:textSize="@dimen/text_size_xl"
             android:textStyle="bold"
             android:textColor="@color/text_primary"
             android:layout_marginBottom="8dp"/>
@@ -35,10 +35,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You are about to send funds to:"
+            android:text="@string/you_are_about_to_send_funds"
             android:textColor="@android:color/darker_gray"
-            android:textSize="14sp"
-            android:layout_marginBottom="16dp"/>
+            android:textSize="@dimen/text_size_small"
+            android:layout_marginBottom="@dimen/spacing_normal"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,17 +46,17 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:background="@drawable/item_background"
-            android:padding="12dp"
-            android:layout_marginBottom="24dp">
+            android:padding="@dimen/spacing_medium"
+            android:layout_marginBottom="@dimen/spacing_xl">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/icon_size_normal"
+                android:layout_height="@dimen/icon_size_normal"
                 android:src="@drawable/ic_person"
                 app:tint="@color/deep_blue"
                 android:background="@drawable/circle_background_light_orange"
-                android:padding="8dp"
-                android:layout_marginEnd="12dp"/>
+                android:padding="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_medium"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -67,8 +67,8 @@
                     android:id="@+id/tvRecipientName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Recipient Name"
-                    android:textSize="18sp"
+                    android:text="@string/recipient_name"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
 
@@ -76,8 +76,8 @@
                     android:id="@+id/tvPayoutAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="UGX 500,000"
-                    android:textSize="16sp"
+                    android:text="@string/ugx_500000"
+                    android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/deep_blue"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -94,10 +94,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:backgroundTint="#F5F5F5"
                 android:textColor="@color/black"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/spacing_small"
                 style="?android:attr/borderlessButtonStyle"/>
 
             <Button
@@ -105,10 +105,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Confirm"
+                android:text="@string/confirm"
                 android:backgroundTint="@color/deep_blue"
                 android:textColor="@color/white"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="@dimen/spacing_small"/>
         </LinearLayout>
 
     </LinearLayout>

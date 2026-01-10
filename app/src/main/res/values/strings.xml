@@ -38,4 +38,53 @@
     <string name="_50000">50000</string>
     <string name="late_payment_penalty_ugx">Late Payment Penalty (UGX)</string>
     <string name="_5000">5000</string>
+    
+    <!-- Dialog Strings -->
+    <string name="confirm_payout">Confirm Payout</string>
+    <string name="you_are_about_to_send_funds">You are about to send funds to:</string>
+    <string name="recipient_name">Recipient Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    
+    <string name="create_member_account">Create Member Account</string>
+    <string name="full_name">Full Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="one_time_access_code">One-Time Access Code (OTP)</string>
+    <string name="member_will_use_otp">Member will use this OTP to login for the first time and change their password.</string>
+    
+    <string name="new_transaction_task">New Transaction Task</string>
+    <string name="task_title">Task Title</string>
+    <string name="receiver_member">Receiver (Member)</string>
+    <string name="amount_ugx">Amount (UGX)</string>
+    <string name="time">Time</string>
+    <string name="create_task">Create Task</string>
+    
+    <string name="shortfalls_detected">Shortfalls Detected</string>
+    <string name="members_missed_contributions">The following members have missed contributions for this cycle:</string>
+    <string name="send_reminders">Send Reminders</string>
+    <string name="cover_from_reserve">Cover from Reserve</string>
+    <string name="dismiss">Dismiss</string>
+    
+    <string name="member_profile">Member Profile</string>
+    <string name="member_name">Member Name</string>
+    <string name="phone">Phone</string>
+    <string name="phone_placeholder">+256 700 000 000</string>
+    <string name="email_placeholder">member@example.com</string>
+    <string name="total_savings">Total Savings</string>
+    <string name="ugx_amount_placeholder">UGX 1,200,000</string>
+    <string name="close">Close</string>
+    <string name="ugx_500000">UGX 500,000</string>
+    
+    <string name="payout_schedule">Payout Schedule</string>
+    <string name="members_next_in_days">12 Members • Next in 5 days</string>
+    
+    <!-- Onboarding Strings -->
+    <string name="onboarding_title_1">Save Together, Grow Together</string>
+    <string name="onboarding_subtitle_1">Join or create savings circles with friends, \nfamily, or colleagues. Pool money monthly and \nreceive payouts when it\'s your turn.</string>
+    
+    <string name="onboarding_title_2">Simple 3-Step Process</string>
+    <string name="onboarding_subtitle_2">1. Contribute - Pay via Mobile Money automatically\n2. Pool Together - Track group progress in real-time\n3. Receive Payouts - Get your lump sum on schedule</string>
+    
+    <string name="onboarding_title_3">Everything You Need in One App</string>
+    <string name="onboarding_subtitle_3">✓ Automated Mobile Money payments\n✓ Real-time tracking &amp; notifications\n✓ Emergency loan access from reserve\n✓ 100% transparent transaction history</string>
 </resources>

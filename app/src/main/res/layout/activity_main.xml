@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#3D4A8F"
-    tools:context="Activities.MainActivity">
+    tools:context="com.example.save.ui.activities.MainActivity">
 
     <!-- Logo -->
     <ImageView

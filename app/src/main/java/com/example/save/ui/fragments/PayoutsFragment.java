@@ -1,0 +1,357 @@
+package com.example.save.ui.fragments;
+
+import com.example.save.ui.activities.*;
+import com.example.save.ui.fragments.*;
+import com.example.save.ui.adapters.*;
+import com.example.save.data.models.*;
+import com.example.save.data.repository.*;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import androidx.cardview.widget.CardView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.save.data.models.Member;
+import com.example.save.R;
+import com.example.save.databinding.DialogConfirmPayoutBinding;
+import com.example.save.databinding.DialogManageShortfallsBinding;
+import com.example.save.databinding.DialogPayoutQueueBinding;
+import com.example.save.databinding.FragmentPayoutsBinding;
+import com.example.save.databinding.ItemMemberSimpleBinding;
+import com.example.save.databinding.ItemPayoutQueueBinding;
+import com.example.save.ui.viewmodels.PayoutsViewModel;
+
+public class PayoutsFragment extends Fragment {
+
+    private FragmentPayoutsBinding binding;
+    private PayoutsViewModel viewModel;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+        binding = FragmentPayoutsBinding.inflate(inflater, container, false);
+
+        viewModel = new ViewModelProvider(this).get(PayoutsViewModel.class);
+
+        setupListeners();
+        observeViewModel();
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    private void observeViewModel() {
+        viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
+            if (members != null) {
+                updateUI(members);
+            }
+        });
+    }
+
+    private void updateUI(java.util.List<Member> allMembers) {
+        if (getContext() == null)
+            return;
+
+        // Setup Upcoming Payouts List (Top 3 Eligible)
+        binding.upcomingPayoutsRecyclerView
+                .setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+
+        java.util.List<Member> upcomingMembers = new java.util.ArrayList<>();
+
+        int count = 0;
+        for (Member member : allMembers) {
+            if (!member.hasReceivedPayout() && member.isActive()) {
+                upcomingMembers.add(member);
+                count++;
+                if (count >= 3)
+                    break; // Show top 3
+            }
+        }
+
+        binding.upcomingPayoutsRecyclerView.setAdapter(new UpcomingPayoutAdapter(upcomingMembers));
+    }
+
+    private void setupListeners() {
+        binding.btnExecutePayout.setOnClickListener(v -> {
+            Member nextRecipient = viewModel.getNextPayoutRecipient();
+
+            if (nextRecipient != null) {
+                // Custom Confirmation Dialog
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                DialogConfirmPayoutBinding dialogBinding = DialogConfirmPayoutBinding
+                        .inflate(LayoutInflater.from(getContext()));
+                builder.setView(dialogBinding.getRoot());
+                android.app.AlertDialog dialog = builder.create();
+                dialog.getWindow().setBackgroundDrawable(
+                        new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+                dialogBinding.tvRecipientName.setText(nextRecipient.getName());
+                dialogBinding.tvPayoutAmount.setText("UGX 500,000"); // Dynamic amount if available
+
+                dialogBinding.btnConfirm.setOnClickListener(view -> {
+                    boolean success = viewModel.executePayout(nextRecipient);
+                    if (success) {
+                        android.widget.Toast.makeText(getContext(),
+                                "Payout executed for " + nextRecipient.getName(),
+                                android.widget.Toast.LENGTH_SHORT).show();
+                        // UI updates automatically via LiveData
+                    } else {
+                        // Ideally getGroupBalance should be exposed via ViewModel too, but for error
+                        // msg we might need to fetch it or skip showing balance
+                        android.widget.Toast.makeText(getContext(),
+                                "Insufficient balance or invalid member",
+                                android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                    dialog.dismiss();
+                });
+
+                dialogBinding.btnCancel.setOnClickListener(view -> dialog.dismiss());
+
+                dialog.show();
+            } else {
+                android.widget.Toast.makeText(getContext(),
+                        "No recipient available",
+                        android.widget.Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.btnManageShortfalls.setOnClickListener(v -> {
+            showShortfallsDialog();
+        });
+
+        binding.viewFullQueue.setOnClickListener(v -> {
+            showQueueDialog();
+        });
+    }
+
+    private void showShortfallsDialog() {
+        if (getContext() == null)
+            return;
+
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+        DialogManageShortfallsBinding dialogBinding = DialogManageShortfallsBinding
+                .inflate(LayoutInflater.from(getContext()));
+        builder.setView(dialogBinding.getRoot());
+        android.app.AlertDialog dialog = builder.create();
+        dialog.getWindow()
+                .setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        dialogBinding.shortfallsRecyclerView
+                .setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+
+        java.util.List<Member> members = viewModel.getMembers().getValue();
+        java.util.List<Member> shortfalls = new java.util.ArrayList<>();
+        if (members != null) {
+            for (Member m : members) {
+                if (m.getShortfallAmount() > 0)
+                    shortfalls.add(m);
+            }
+        }
+
+        dialogBinding.shortfallsRecyclerView.setAdapter(new ShortfallAdapter(shortfalls));
+
+        dialogBinding.btnSendReminders.setOnClickListener(v -> {
+            android.widget.Toast.makeText(getContext(), "Reminders Sent to " + shortfalls.size() + " members",
+                    android.widget.Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        dialogBinding.btnCoverReserve.setOnClickListener(v -> {
+            int coveredCount = 0;
+            for (Member m : shortfalls) {
+                viewModel.resolveShortfall(m); // Resolve for each member in the list
+                coveredCount++;
+            }
+            android.widget.Toast.makeText(getContext(), "Covered shortfalls for " + coveredCount + " members",
+                    android.widget.Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        dialogBinding.btnCloseShortfalls.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private class ShortfallAdapter
+            extends androidx.recyclerview.widget.RecyclerView.Adapter<ShortfallAdapter.ShortfallViewHolder> {
+        private java.util.List<Member> members;
+
+        ShortfallAdapter(java.util.List<Member> members) {
+            this.members = members;
+        }
+
+        @NonNull
+        @Override
+        public ShortfallViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            ItemMemberSimpleBinding itemBinding = ItemMemberSimpleBinding.inflate(
+                    LayoutInflater.from(parent.getContext()), parent, false);
+            return new ShortfallViewHolder(itemBinding);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ShortfallViewHolder holder, int position) {
+            Member member = members.get(position);
+            holder.name.setText(member.getName());
+            holder.role.setText("Shortfall: UGX "
+                    + java.text.NumberFormat.getIntegerInstance().format(member.getShortfallAmount()));
+            holder.role.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            holder.status.setBackgroundResource(R.drawable.circle_red); // Need a red circle drawable or tint
+            // Or just reuse circle_background and tint it
+            holder.status.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.RED));
+        }
+
+        @Override
+        public int getItemCount() {
+            return members.size();
+        }
+
+        class ShortfallViewHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
+            final ItemMemberSimpleBinding itemBinding;
+            TextView name, role;
+            View status;
+
+            ShortfallViewHolder(ItemMemberSimpleBinding itemBinding) {
+                super(itemBinding.getRoot());
+                this.itemBinding = itemBinding;
+                name = itemBinding.tvMemberName;
+                role = itemBinding.tvMemberRole;
+                status = itemBinding.statusIndicator;
+            }
+        }
+    }
+
+    private class UpcomingPayoutAdapter
+            extends androidx.recyclerview.widget.RecyclerView.Adapter<UpcomingPayoutAdapter.UpcomingViewHolder> {
+        private java.util.List<Member> members;
+
+        UpcomingPayoutAdapter(java.util.List<Member> members) {
+            this.members = members;
+        }
+
+        @NonNull
+        @Override
+        public UpcomingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            ItemPayoutQueueBinding itemBinding = ItemPayoutQueueBinding.inflate(
+                    LayoutInflater.from(parent.getContext()), parent, false);
+            return new UpcomingViewHolder(itemBinding);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull UpcomingViewHolder holder, int position) {
+            Member member = members.get(position);
+            holder.rank.setText(String.valueOf(position + 1));
+            holder.name.setText(member.getName());
+            // Dummy date logic for preview
+            holder.date.setText("Estimated: " + (position == 0 ? "This Month" : "Next Month"));
+            holder.amount.setText("500k"); // Dummy amount
+        }
+
+        @Override
+        public int getItemCount() {
+            return members.size();
+        }
+
+        class UpcomingViewHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
+            final ItemPayoutQueueBinding itemBinding;
+            TextView rank, name, date, amount;
+
+            UpcomingViewHolder(ItemPayoutQueueBinding itemBinding) {
+                super(itemBinding.getRoot());
+                this.itemBinding = itemBinding;
+                rank = itemBinding.tvRank;
+                name = itemBinding.tvName;
+                date = itemBinding.tvDate;
+                amount = itemBinding.tvAmount;
+            }
+        }
+    }
+
+    private void showQueueDialog() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+        DialogPayoutQueueBinding dialogBinding = DialogPayoutQueueBinding.inflate(LayoutInflater.from(getContext()));
+        builder.setView(dialogBinding.getRoot());
+        android.app.AlertDialog dialog = builder.create();
+        dialog.getWindow()
+                .setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        dialogBinding.queueRecyclerView
+                .setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+
+        // Observe directly from VM or use current list value
+        java.util.List<Member> members = viewModel.getMembers().getValue();
+        if (members == null)
+            members = new java.util.ArrayList<>();
+
+        dialogBinding.queueRecyclerView.setAdapter(new QueueAdapter(members));
+
+        dialogBinding.btnCloseQueue.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private class QueueAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<QueueAdapter.QueueViewHolder> {
+        private java.util.List<Member> members;
+
+        QueueAdapter(java.util.List<Member> members) {
+            this.members = members;
+        }
+
+        @NonNull
+        @Override
+        public QueueViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            // Using detailed item layout now
+            ItemPayoutQueueBinding itemBinding = ItemPayoutQueueBinding.inflate(
+                    LayoutInflater.from(parent.getContext()), parent, false);
+            return new QueueViewHolder(itemBinding);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull QueueViewHolder holder, int position) {
+            Member member = members.get(position);
+            holder.rank.setText(String.valueOf(position + 1));
+            holder.name.setText(member.getName());
+
+            if (member.hasReceivedPayout()) {
+                holder.date.setText("Paid on: " + member.getPayoutDate());
+                holder.date.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                holder.amount.setText("Paid");
+            } else {
+                holder.date.setText("Estimated: Future Date");
+                holder.date.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                holder.amount.setText("500k");
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return members.size();
+        }
+
+        class QueueViewHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
+            final ItemPayoutQueueBinding itemBinding;
+            TextView rank, name, date, amount;
+
+            QueueViewHolder(ItemPayoutQueueBinding itemBinding) {
+                super(itemBinding.getRoot());
+                this.itemBinding = itemBinding;
+                // Bind to item_payout_queue IDs
+                rank = itemBinding.tvRank;
+                name = itemBinding.tvName;
+                date = itemBinding.tvDate;
+                amount = itemBinding.tvAmount;
+            }
+        }
+    }
+}

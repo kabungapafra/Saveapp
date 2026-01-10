@@ -8,108 +8,108 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="@dimen/spacing_xl">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Create Member Account"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:text="@string/create_member_account"
             android:textColor="@color/deep_blue"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
 
         <!-- Name Input -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Full Name"
+            android:layout_marginBottom="@dimen/spacing_xs"
+            android:text="@string/full_name"
             android:textColor="@color/deep_blue"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_size_small" />
 
         <EditText
             android:id="@+id/etMemberName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
             android:background="@drawable/otp_input_bg"
             android:hint="e.g. John Doe"
             android:inputType="textPersonName"
             android:paddingHorizontal="12dp"
             android:textColor="@color/deep_blue"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_size_normal" />
 
         <!-- Phone Input -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Phone Number"
+            android:layout_marginBottom="@dimen/spacing_xs"
+            android:text="@string/phone_number"
             android:textColor="@color/deep_blue"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_size_small" />
 
         <EditText
             android:id="@+id/etMemberPhone"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
             android:background="@drawable/otp_input_bg"
             android:hint="e.g. 0770000000"
             android:inputType="phone"
             android:paddingHorizontal="12dp"
             android:textColor="@color/deep_blue"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_size_normal" />
 
         <!-- Email Input -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Email Address"
+            android:layout_marginBottom="@dimen/spacing_xs"
+            android:text="@string/email_address"
             android:textColor="@color/deep_blue"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_size_small" />
 
         <EditText
             android:id="@+id/etMemberEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
             android:background="@drawable/otp_input_bg"
             android:hint="e.g. john@example.com"
             android:inputType="textEmailAddress"
             android:paddingHorizontal="12dp"
             android:textColor="@color/deep_blue"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_size_normal" />
 
         <!-- Initial OTP/Password Input -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="One-Time Access Code (OTP)"
+            android:layout_marginBottom="@dimen/spacing_xs"
+            android:text="@string/one_time_access_code"
             android:textColor="@color/deep_blue"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_size_small" />
 
         <EditText
             android:id="@+id/etMemberOTP"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:background="@drawable/otp_input_bg"
             android:hint="Set temporary code"
             android:inputType="number"
             android:paddingHorizontal="12dp"
             android:textColor="@color/deep_blue"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Member will use this OTP to login for the first time and change their password."
+            android:text="@string/member_will_use_otp"
             android:textColor="#3F51B5"
-            android:textSize="12sp"
-            android:layout_marginBottom="16dp"/>
+            android:textSize="@dimen/text_size_xs"
+            android:layout_marginBottom="@dimen/spacing_normal"/>
 
     </LinearLayout>
 </ScrollView>
