@@ -66,6 +66,12 @@ public class AnalyticsFragment extends Fragment {
 
         binding.recyclerRecentActivity.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        binding.backButton.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
         updateUI();
         return binding.getRoot();
     }
@@ -103,10 +109,8 @@ public class AnalyticsFragment extends Fragment {
         binding.tvMetric4Value.setText(String.valueOf(membersViewModel.getTotalMemberCount()));
 
         // Chart
-        binding.tvChartTitle.setText("Revenue vs Monthly Target");
-        int progress = 78;
-        binding.progressActual.setProgress(progress);
-        binding.tvProgressValue.setText(progress + "%");
+        binding.tvChartTitle.setText("Weekly Performance");
+        setupChart(true);
 
         // Loan Health (Visible)
         binding.cardLoanHealth.setVisibility(View.VISIBLE);
@@ -142,10 +146,8 @@ public class AnalyticsFragment extends Fragment {
         binding.tvMetric4Value.setText("Due in 5 days");
 
         // Chart
-        binding.tvChartTitle.setText("Personal Savings Goal");
-        int progress = 45;
-        binding.progressActual.setProgress(progress);
-        binding.tvProgressValue.setText(progress + "%");
+        binding.tvChartTitle.setText("Weekly Stash Growth");
+        setupChart(false);
 
         // Loan Health (Hidden)
         binding.cardLoanHealth.setVisibility(View.GONE);
@@ -157,6 +159,65 @@ public class AnalyticsFragment extends Fragment {
         activities.add(new ActivityModel("Dividend Payout", "1 month ago", 15000, true));
 
         binding.recyclerRecentActivity.setAdapter(new AnalyticsActivityAdapter(activities));
+    }
+
+    private void setupChart(boolean isAdmin) {
+        com.github.mikephil.charting.charts.PieChart chart = binding.pieChart;
+        chart.getDescription().setEnabled(false);
+        chart.setDrawHoleEnabled(true);
+        chart.setHoleColor(android.graphics.Color.WHITE);
+        chart.setHoleRadius(50f);
+        chart.setTransparentCircleRadius(55f);
+        chart.setDrawCenterText(true);
+        chart.setCenterText("This Month");
+        chart.setCenterTextSize(12f);
+
+        // Improve Legend
+        com.github.mikephil.charting.components.Legend legend = chart.getLegend();
+        legend.setVerticalAlignment(com.github.mikephil.charting.components.Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(com.github.mikephil.charting.components.Legend.LegendOrientation.HORIZONTAL);
+        legend.setDrawInside(false);
+        legend.setTextSize(11f);
+        legend.setTextColor(android.graphics.Color.DKGRAY);
+
+        List<com.github.mikephil.charting.data.PieEntry> entries = new ArrayList<>();
+
+        // Mock Weekly Data
+        if (isAdmin) {
+            entries.add(new com.github.mikephil.charting.data.PieEntry(35f, "Week 1"));
+            entries.add(new com.github.mikephil.charting.data.PieEntry(25f, "Week 2"));
+            entries.add(new com.github.mikephil.charting.data.PieEntry(20f, "Week 3"));
+            entries.add(new com.github.mikephil.charting.data.PieEntry(20f, "Week 4"));
+        } else {
+            entries.add(new com.github.mikephil.charting.data.PieEntry(40f, "Week 1"));
+            entries.add(new com.github.mikephil.charting.data.PieEntry(30f, "Week 2"));
+            entries.add(new com.github.mikephil.charting.data.PieEntry(15f, "Week 3"));
+            entries.add(new com.github.mikephil.charting.data.PieEntry(15f, "Week 4"));
+        }
+
+        com.github.mikephil.charting.data.PieDataSet dataSet = new com.github.mikephil.charting.data.PieDataSet(entries,
+                "");
+
+        // Vibrant Colors for Weeks
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(getResources().getColor(R.color.deep_blue));
+        colors.add(android.graphics.Color.parseColor("#42A5F5")); // Blue Light
+        colors.add(android.graphics.Color.parseColor("#66BB6A")); // Green Light
+        colors.add(android.graphics.Color.parseColor("#FFA726")); // Orange Light
+        dataSet.setColors(colors);
+
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setValueTextSize(12f);
+        dataSet.setValueTextColor(android.graphics.Color.WHITE);
+
+        com.github.mikephil.charting.data.PieData data = new com.github.mikephil.charting.data.PieData(dataSet);
+        chart.setData(data);
+        chart.invalidate(); // refresh
+
+        // Animate
+        chart.animateY(1000, com.github.mikephil.charting.animation.Easing.EaseInOutQuad);
     }
 
     private String formatCurrency(double amount) {

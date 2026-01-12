@@ -1,60 +1,83 @@
 package com.example.save.ui.fragments;
 
-import com.example.save.ui.activities.*;
-import com.example.save.ui.fragments.*;
-import com.example.save.ui.adapters.*;
-import com.example.save.data.models.*;
-import com.example.save.data.repository.*;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.save.R;
 import com.example.save.databinding.FragmentLoansBinding;
-import com.example.save.ui.viewmodels.LoansViewModel;
+import com.example.save.databinding.ItemLoanRequestBinding;
+import com.example.save.data.models.LoanRequest;
+import com.example.save.ui.viewmodels.MembersViewModel;
+
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.example.save.ui.adapters.LoansAdapter;
-import com.example.save.data.models.Loan;
-
 public class LoansFragment extends Fragment {
 
     private FragmentLoansBinding binding;
-    private LoansAdapter adapter;
-    private LoansViewModel viewModel;
+    private MembersViewModel viewModel;
+    private LoanRequestAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         binding = FragmentLoansBinding.inflate(inflater, container, false);
-
-        viewModel = new ViewModelProvider(this).get(LoansViewModel.class);
-
-        setupRecyclerView();
-        observeViewModel();
-
-        binding.fabAddLoan.setOnClickListener(
-                v -> Toast.makeText(getContext(), "Issue New Loan feature coming soon", Toast.LENGTH_SHORT).show());
-
         return binding.getRoot();
     }
 
-    private void observeViewModel() {
-        viewModel.getLoans().observe(getViewLifecycleOwner(), loans -> {
-            if (loans != null) {
-                updateUI(loans);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new androidx.lifecycle.ViewModelProvider(requireActivity()).get(MembersViewModel.class);
+
+        setupRecyclerView();
+        setupListeners();
+        observeLoanRequests();
+    }
+
+    private void setupListeners() {
+        binding.backButton.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+    }
+
+    private void setupRecyclerView() {
+        binding.rvLoanRequests.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new LoanRequestAdapter();
+        binding.rvLoanRequests.setAdapter(adapter);
+    }
+
+    private void observeLoanRequests() {
+        viewModel.getLoanRequests().observe(getViewLifecycleOwner(), requests -> {
+            if (requests != null && !requests.isEmpty()) {
+                adapter.updateList(requests);
+                binding.tvEmptyState.setVisibility(View.GONE);
+                binding.rvLoanRequests.setVisibility(View.VISIBLE);
+
+                // Update pending count
+                int pendingCount = 0;
+                for (LoanRequest req : requests) {
+                    if ("PENDING".equals(req.getStatus()))
+                        pendingCount++;
+                }
+                binding.tvPendingCount.setText(pendingCount + " Pending");
+            } else {
+                binding.tvEmptyState.setVisibility(View.VISIBLE);
+                binding.rvLoanRequests.setVisibility(View.GONE);
+                binding.tvPendingCount.setText("0 Pending");
             }
         });
     }
@@ -65,103 +88,94 @@ public class LoansFragment extends Fragment {
         binding = null;
     }
 
-    // initViews removed as Binding handles it
+    // Adapter
+    private class LoanRequestAdapter extends RecyclerView.Adapter<LoanRequestAdapter.ViewHolder> {
+        private List<LoanRequest> requests = new ArrayList<>();
 
-    private void setupRecyclerView() {
-        binding.recyclerLoans.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
+        void updateList(List<LoanRequest> newList) {
+            this.requests = newList;
+            notifyDataSetChanged();
+        }
 
-    private void updateUI(List<Loan> allLoans) {
-        if (getContext() == null)
-            return;
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            ItemLoanRequestBinding itemBinding = ItemLoanRequestBinding.inflate(
+                    LayoutInflater.from(parent.getContext()), parent, false);
+            return new ViewHolder(itemBinding);
+        }
 
-        // Manual stats calculation (can be moved to ViewModel but keeping here for
-        // simplicity for now)
-        double outstanding = 0;
-        List<Loan> pendingLoans = new ArrayList<>();
-        List<Loan> activeLoans = new ArrayList<>();
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            LoanRequest request = requests.get(position);
+            holder.bind(request);
+        }
 
-        for (Loan l : allLoans) {
-            if (Loan.STATUS_ACTIVE.equals(l.getStatus())) {
-                outstanding += (l.getTotalDue() - l.getRepaidAmount());
-                activeLoans.add(l);
-            } else if (Loan.STATUS_PENDING.equals(l.getStatus())) {
-                pendingLoans.add(l);
+        @Override
+        public int getItemCount() {
+            return requests.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ItemLoanRequestBinding binding;
+
+            ViewHolder(ItemLoanRequestBinding binding) {
+                super(binding.getRoot());
+                this.binding = binding;
             }
-        }
 
-        // Not showing interest calculation here to keep it simple, or re-fetch if
-        // needed
+            void bind(LoanRequest request) {
+                binding.tvMemberName.setText(request.getMemberName());
+                binding.tvStatus.setText(request.getStatus());
+                binding.tvAmount
+                        .setText("UGX " + NumberFormat.getNumberInstance(Locale.US).format(request.getAmount()));
+                binding.tvDuration.setText(request.getDurationMonths() + " months");
+                binding.tvRepayment.setText(
+                        "UGX " + NumberFormat.getNumberInstance(Locale.US).format(request.getTotalRepayment()));
 
-        binding.tvTotalOutstanding.setText(String.format(Locale.getDefault(), "UGX %,.0f", outstanding));
-        binding.tvPendingCount.setText(String.valueOf(pendingLoans.size()));
-        // The original code had tvInterestEarned, but the new instruction removes its
-        // calculation.
-        // For now, we'll leave the TextView update out or set it to a default if it's
-        // still in the layout.
-        // Assuming it's okay to not update it if the calculation is removed.
-        // If tvInterestEarned is still in the layout, it might show old data or need a
-        // default value.
-        // For now, I'll comment out the line that updated it.
-        // binding.tvInterestEarned.setText(String.format(Locale.getDefault(), "UGX
-        // %,.0f", 0.0)); // Or some default
-
-        // Build List Items
-        List<Object> items = new ArrayList<>();
-
-        if (!pendingLoans.isEmpty()) {
-            items.add("Pending Requests");
-            items.addAll(pendingLoans);
-        }
-
-        if (!activeLoans.isEmpty()) {
-            items.add("Active Loans");
-            items.addAll(activeLoans);
-        } else if (items.isEmpty()) {
-            items.add("No active loans or requests.");
-        }
-
-        if (adapter == null) {
-            adapter = new LoansAdapter(items, new LoansAdapter.LoanActionListener() {
-                @Override
-                public void onApprove(Loan loan) {
-                    viewModel.approveLoan(loan.getId());
-                    Toast.makeText(getContext(), "Loan Approved", Toast.LENGTH_SHORT).show();
+                if (request.getGuarantor() != null && !request.getGuarantor().isEmpty()) {
+                    binding.tvGuarantor.setText("Guarantor: " + request.getGuarantor());
+                    binding.tvGuarantor.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvGuarantor.setVisibility(View.GONE);
                 }
 
-                @Override
-                public void onReject(Loan loan) {
-                    viewModel.rejectLoan(loan.getId());
-                    Toast.makeText(getContext(), "Loan Rejected", Toast.LENGTH_SHORT).show();
+                if (request.getReason() != null && !request.getReason().isEmpty()) {
+                    binding.tvReason.setText("Reason: " + request.getReason());
+                    binding.tvReason.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvReason.setVisibility(View.GONE);
                 }
 
-                @Override
-                public void onRemind(Loan loan) {
-                    Toast.makeText(getContext(), "Reminder sent to " + loan.getMemberName(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            binding.recyclerLoans.setAdapter(adapter);
-        } else {
-            // Re-create adapter to refresh list (simplified for now)
-            adapter = new LoansAdapter(items, new LoansAdapter.LoanActionListener() {
-                @Override
-                public void onApprove(Loan loan) {
-                    viewModel.approveLoan(loan.getId());
-                    Toast.makeText(getContext(), "Loan Approved", Toast.LENGTH_SHORT).show();
+                binding.tvDate.setText("Requested: " + request.getRequestDate());
+
+                // Show/hide action buttons based on status
+                if ("PENDING".equals(request.getStatus())) {
+                    binding.layoutActions.setVisibility(View.VISIBLE);
+
+                    binding.btnApprove.setOnClickListener(v -> {
+                        viewModel.approveLoanRequest(request.getId());
+                        Toast.makeText(getContext(), "Loan approved for " + request.getMemberName(), Toast.LENGTH_SHORT)
+                                .show();
+                    });
+
+                    binding.btnReject.setOnClickListener(v -> {
+                        viewModel.rejectLoanRequest(request.getId());
+                        Toast.makeText(getContext(), "Loan rejected", Toast.LENGTH_SHORT).show();
+                    });
+                } else {
+                    binding.layoutActions.setVisibility(View.GONE);
                 }
 
-                @Override
-                public void onReject(Loan loan) {
-                    viewModel.rejectLoan(loan.getId());
-                    Toast.makeText(getContext(), "Loan Rejected", Toast.LENGTH_SHORT).show();
+                // Update status badge color
+                if ("APPROVED".equals(request.getStatus())) {
+                    binding.tvStatus.setBackgroundColor(0xFF4CAF50);
+                } else if ("REJECTED".equals(request.getStatus())) {
+                    binding.tvStatus.setBackgroundColor(0xFFD32F2F);
+                } else {
+                    binding.tvStatus.setBackgroundColor(0xFFFF9800);
                 }
-
-                @Override
-                public void onRemind(Loan loan) {
-                    Toast.makeText(getContext(), "Reminder sent to " + loan.getMemberName(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            binding.recyclerLoans.setAdapter(adapter);
+            }
         }
     }
 }

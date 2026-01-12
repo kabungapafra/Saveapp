@@ -85,17 +85,17 @@ public class MemberMainActivity extends AppCompatActivity {
 
         binding.navPay.setOnClickListener(v -> {
             updateNav(binding.navPay, binding.txtPay, binding.imgPay);
-            Toast.makeText(this, "Make a Payment", Toast.LENGTH_SHORT).show();
+            loadFragment(PaymentFragment.newInstance("Alice Johnson")); // Using default/logged-in user
         });
 
         binding.navQueue.setOnClickListener(v -> {
             updateNav(binding.navQueue, binding.txtQueue, binding.imgQueue);
-            Toast.makeText(this, "View Queue", Toast.LENGTH_SHORT).show();
+            loadFragment(QueueFragment.newInstance());
         });
 
         binding.navLoans.setOnClickListener(v -> {
             updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans);
-            Toast.makeText(this, "Apply for Loan", Toast.LENGTH_SHORT).show();
+            loadFragment(LoanApplicationFragment.newInstance());
         });
 
         binding.navStats.setOnClickListener(v -> {

@@ -26,14 +26,15 @@
             android:paddingBottom="100dp">
 
             <!-- Header Section -->
+
+            <!-- Header Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
+                android:orientation="horizontal">
 
-                <!-- Greeting Text -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -43,77 +44,60 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hello"
-                        android:textSize="16sp"
-                        android:textColor="#666666" />
+                        android:text="@string/hello"
+                        android:textColor="#757575"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"/>
 
                     <TextView
                         android:id="@+id/adminName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Admin"
-                        android:textSize="24sp"
+                        android:textColor="@color/black"
+                        android:textSize="26sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary" />
+                        android:fontFamily="sans-serif-black"/>
 
                     <TextView
                         android:id="@+id/groupName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         android:text="Weekend Savers Club"
-                        android:textSize="12sp"
-                        android:textColor="#999999"
-                        android:layout_marginTop="4dp" />
+                        android:textColor="@color/deep_blue"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:background="@drawable/bg_icon_circle"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"/>
                 </LinearLayout>
 
-                <!-- Profile Icon -->
-                <ImageView
-                    android:id="@+id/profileIcon"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_profile_placeholder"
-                    android:background="@drawable/circle_background"
-                    android:padding="2dp"
-                    android:scaleType="centerCrop" />
-
-
+                <androidx.cardview.widget.CardView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#F5F5F5">
+                    
+                    <ImageView
+                        android:id="@+id/profileIcon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_profile_placeholder" />
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
-
-            <!-- Search Bar -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="20dp"
-                app:cardCornerRadius="25dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/white">
-
-                <EditText
-                    android:id="@+id/searchBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:hint="Search members, payments..."
-                    android:textColorHint="@color/text_hint"
-                    android:textSize="14sp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:drawableEnd="@drawable/ic_search"
-                    android:drawablePadding="12dp"
-                    android:inputType="text"
-                    android:imeOptions="actionSearch" />
-
-            </androidx.cardview.widget.CardView>
 
             <!-- Balance Cards (Green Card) -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/balanceCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="6dp"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
                 app:cardPreventCornerOverlap="false">
 
                 <LinearLayout
@@ -121,9 +105,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/card_gradient_background"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="24dp">
 
-                    <!-- Header -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -134,28 +117,32 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Total Balance"
-                            android:textColor="#E0E0E0"
-                            android:textSize="14sp" />
+                            android:text="Total Group Balance"
+                            android:textColor="#B3E5FC"
+                            android:textSize="13sp"
+                            android:letterSpacing="0.05"
+                            android:textAllCaps="true"
+                            android:fontFamily="sans-serif-medium"/>
 
                         <ImageView
                             android:id="@+id/balanceMenuIcon"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_more_vert"
-                            app:tint="@color/white" />
+                            app:tint="@color/white"
+                            android:alpha="0.7"/>
                     </LinearLayout>
 
-                    <!-- Big Balance Value -->
                     <TextView
                         android:id="@+id/currentBalance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="24dp"
                         android:text="UGX 1,500,000"
                         android:textColor="@color/white"
-                        android:textSize="32sp"
+                        android:textSize="36sp"
+                        android:fontFamily="sans-serif-black"
                         android:textStyle="bold" />
 
                     <!-- Secondary Stats Row -->
@@ -164,28 +151,32 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <!-- Reserve -->
+                        <!-- My Savings -->
                         <LinearLayout
+                            android:id="@+id/layoutMySavings"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:paddingEnd="16dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Reserve"
-                                android:textColor="#B0BEC5"
+                                android:text="My Contribution"
+                                android:textColor="#B3E5FC"
                                 android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/savingsBalance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="UGX 350,000"
+                                android:text="UGX 0"
                                 android:textColor="@color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:lines="1"
+                                android:ellipsize="end"/>
                         </LinearLayout>
 
                         <!-- Members -->
@@ -193,13 +184,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:paddingStart="16dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Members"
-                                android:textColor="#B0BEC5"
+                                android:text="Active Members"
+                                android:textColor="#B3E5FC"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -208,7 +200,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="28/30"
                                 android:textColor="@color/white"
-                                android:textSize="16sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -224,128 +216,205 @@
                 android:layout_height="wrap_content"
                 android:text="Quick Actions"
                 android:textSize="18sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-black"
                 android:textColor="@color/text_primary"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="16dp" />
 
             <!-- Quick Action Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3"
+                android:orientation="vertical"
                 android:layout_marginBottom="24dp">
 
-                <!-- Add Member Button -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/addMemberCard"
-                    android:layout_width="0dp"
+                <!-- Row 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/white">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp"
+                    android:weightSum="2">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <!-- Add Member Button -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/addMemberCard"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="12dp"
-                        android:gravity="center">
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/white">
 
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_person_add"
-                            app:tint="#3F51B5" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Add Member"
-                            android:textSize="11sp"
-                            android:textColor="#666666"
-                            android:layout_marginTop="8dp"
-                            android:gravity="center" />
+                            android:orientation="horizontal"
+                            android:padding="16dp"
+                            android:gravity="center_vertical"
+                            android:background="?attr/selectableItemBackground">
 
-                    </LinearLayout>
+                            <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_icon_circle">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_person_add"
+                                    app:tint="@color/deep_blue" />
+                            </FrameLayout>
 
-                </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Add Member"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#333333"
+                                android:layout_marginStart="12dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
-                <!-- Execute Payout Button -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/executePayoutCard"
-                    android:layout_width="0dp"
+                    <!-- Execute Payout Button -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/executePayoutCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/white">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="16dp"
+                            android:gravity="center_vertical"
+                            android:background="?attr/selectableItemBackground">
+
+                             <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_icon_circle">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_send_money"
+                                    app:tint="@color/negative_red" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Payout"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#333333"
+                                android:layout_marginStart="12dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <!-- Row 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/white">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <!-- View Loans Button -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/viewLoansCard"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="12dp"
-                        android:gravity="center">
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/white">
 
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_send_money"
-                            app:tint="@color/deep_blue" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Execute Payout"
-                            android:textSize="11sp"
-                            android:textColor="#666666"
-                            android:layout_marginTop="8dp"
-                            android:gravity="center" />
+                            android:orientation="horizontal"
+                            android:padding="16dp"
+                            android:gravity="center_vertical"
+                            android:background="?attr/selectableItemBackground">
 
-                    </LinearLayout>
+                            <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_icon_circle">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_loan"
+                                    app:tint="#FB8C00" />
+                            </FrameLayout>
 
-                </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Loans"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#333333"
+                                android:layout_marginStart="12dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
-                <!-- View Loans Button -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/viewLoansCard"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/white">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <!-- My Savings Button -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/myPaymentCard"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="12dp"
-                        android:gravity="center">
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/white">
 
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_loan"
-                            app:tint="#3F51B5" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="View Loans"
-                            android:textSize="11sp"
-                            android:textColor="#666666"
-                            android:layout_marginTop="8dp"
-                            android:gravity="center" />
+                            android:orientation="horizontal"
+                            android:padding="16dp"
+                            android:gravity="center_vertical"
+                            android:background="?attr/selectableItemBackground">
 
-                    </LinearLayout>
+                             <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_icon_circle">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_payments"
+                                    app:tint="#43A047" />
+                            </FrameLayout>
 
-                </androidx.cardview.widget.CardView>
-
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="My Stash"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#333333"
+                                android:layout_marginStart="12dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
             </LinearLayout>
 
             <!-- Date Picker Section -->
@@ -354,8 +423,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

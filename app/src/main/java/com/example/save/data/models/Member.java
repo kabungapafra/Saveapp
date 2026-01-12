@@ -1,4 +1,5 @@
 package com.example.save.data.models;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -30,6 +31,8 @@ public class Member {
         this.payoutAmount = "0";
         this.hasReceivedPayout = false;
         this.shortfallAmount = 0;
+        this.contributionTarget = 1000000; // Default target 1M
+        this.contributionPaid = 0;
     }
 
     public String getName() {
@@ -102,5 +105,31 @@ public class Member {
 
     public void setShortfallAmount(double shortfallAmount) {
         this.shortfallAmount = shortfallAmount;
+    }
+
+    // Payment / Contribution Fields for Installments
+    private double contributionTarget;
+    private double contributionPaid;
+
+    public double getContributionTarget() {
+        return contributionTarget;
+    }
+
+    public void setContributionTarget(double contributionTarget) {
+        this.contributionTarget = contributionTarget;
+    }
+
+    public double getContributionPaid() {
+        return contributionPaid;
+    }
+
+    public void setContributionPaid(double contributionPaid) {
+        this.contributionPaid = contributionPaid;
+    }
+
+    public int getPaymentProgress() {
+        if (contributionTarget == 0)
+            return 0;
+        return (int) ((contributionPaid / contributionTarget) * 100);
     }
 }

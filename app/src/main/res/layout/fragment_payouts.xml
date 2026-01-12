@@ -7,95 +7,171 @@
     android:background="@color/background_gray">
 
     <!-- Header -->
-    <LinearLayout
-        android:id="@+id/headerLayout"
-        android:layout_width="match_parent"
+    <!-- Header -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/bg_icon_circle"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/text_primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/tvPayoutsTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="25dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Payout Management"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View and manage group payouts"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_marginTop="4dp" />
-    </LinearLayout>
+        android:layout_marginTop="16dp"
+        android:text="Payouts"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/backButton"
+        app:layout_constraintTop_toBottomOf="@id/backButton" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintTop_toBottomOf="@id/tvPayoutsTitle"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:padding="24dp"
             android:paddingBottom="100dp">
 
-            <!-- Payout Queue Section -->
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Next Payout Hero Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardNextPayoutHero"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Upcoming Payouts"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/deep_blue"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_gradient_background"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:id="@+id/tvHeroLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Next Payout Ready"
+                        android:textColor="#CCFFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvNextRecipientName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvHeroLabel"
+                        android:layout_marginTop="8dp"
+                        android:text="Jane Doe"
+                        android:textColor="@color/white"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvNextRecipientName"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvHeroAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="UGX 500,000"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:background="@drawable/badge_bg"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="Due Today"
+                            android:textColor="#CCFFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Upcoming Payouts Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Payout Queue"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/viewFullQueue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View All"
+                    android:textColor="@color/deep_blue"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"/>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/upcomingPayoutsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:nestedScrollingEnabled="false"/>
-
-            <TextView
-                android:id="@+id/viewFullQueue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View Full Schedule"
-                android:textColor="@color/deep_blue"
-                android:textStyle="bold"
-                android:layout_gravity="end"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginBottom="32dp"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_payout_queue" />
 
             <!-- Actions Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Actions"
+                android:text="Direct Actions"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="12dp" />
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Execute Monthly Payout -->
+                <!-- Execute Monthly Payout Tile -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnExecutePayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
                     android:foreground="?attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/white">
 
@@ -104,16 +180,16 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:padding="16dp"
-                        android:background="?attr/selectableItemBackground">
+                        android:padding="16dp">
 
                         <ImageView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:src="@drawable/ic_send_money" 
                             app:tint="@color/deep_blue"
-                            android:padding="10dp"
-                            android:background="@drawable/circle_background_light"/>
+                            android:padding="12dp"
+                            android:background="@drawable/bg_icon_circle"
+                            android:backgroundTint="#F0F4FF"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -125,37 +201,36 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Execute Monthly Payout"
+                                android:text="Execute Payout"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
-                                android:textColor="@color/text_primary"/>
+                                android:textColor="@color/black"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Process payment for the current period"
+                                android:text="Send funds to next recipient"
                                 android:textSize="12sp"
                                 android:textColor="#757575"
                                 android:layout_marginTop="2dp"/>
                         </LinearLayout>
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
                             app:tint="#BDBDBD"/>
-
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Manage Shortfalls -->
+                <!-- Manage Shortfalls Tile -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnManageShortfalls"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
                     android:foreground="?attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/white">
 
@@ -164,16 +239,16 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:padding="16dp"
-                        android:background="?attr/selectableItemBackground">
+                        android:padding="16dp">
 
                         <ImageView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:src="@drawable/ic_warning" 
-                            app:tint="#FF9800"
-                            android:padding="10dp"
-                            android:background="@drawable/circle_background_light_orange"/>
+                            app:tint="#F44336"
+                            android:padding="12dp"
+                            android:background="@drawable/bg_icon_circle"
+                            android:backgroundTint="#FFF1F0"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -185,10 +260,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Manage Shortfalls"
+                                android:text="Shortfall Tracking"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
-                                android:textColor="@color/text_primary"/>
+                                android:textColor="@color/black"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -200,11 +275,10 @@
                         </LinearLayout>
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
                             app:tint="#BDBDBD"/>
-
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

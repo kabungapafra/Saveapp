@@ -60,7 +60,7 @@ public class AdminmainActivity extends AppCompatActivity {
         // Initialize ViewModel
         viewModel = new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
 
-        // Listener removed
+        setupListeners();
 
         setupBottomNavigation();
         // Assuming setupQuickActions() and updateDashboardStats() are new methods to be
@@ -119,37 +119,53 @@ public class AdminmainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // Main Card: My Savings Click
+        if (binding.layoutMySavings != null) {
+            binding.layoutMySavings.setOnClickListener(v -> {
+                loadFragment(PaymentFragment.newInstance("Admin"));
+            });
+        }
+
         // Add Member card
         binding.addMemberCard.setOnClickListener(v -> {
-            // Navigate to Members fragment and show add dialog
             updateNav(binding.navMembers, binding.txtMembers, binding.imgMembers);
+            // Replace the standard fragment with one that has the argument
+            MembersFragment fragment = new MembersFragment();
+            Bundle args = new Bundle();
+            args.putBoolean("SHOW_ADD_DIALOG", true);
+            fragment.setArguments(args);
 
-            // Post a delayed action to ensure fragment is loaded before showing dialog
-            binding.navMembers.postDelayed(() -> {
-                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                if (fragment instanceof MembersFragment) {
-                    ((MembersFragment) fragment).showAddMemberDialog();
-                }
-            }, 100);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
         });
 
         // Execute Payout card
         binding.executePayoutCard.setOnClickListener(v -> {
-            // Navigate to Execute Payout screen
-            Toast.makeText(this, "Execute Payout", Toast.LENGTH_SHORT).show();
-            // Intent intent = new Intent(this, ExecutePayoutActivity.class);
-            // startActivity(intent);
+            // Use existing fragment or toast for now
+            // Assuming PayoutsFragment exists and is correct destination
+            updateNav(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
+            // Toast.makeText(this, "Execute Payout", Toast.LENGTH_SHORT).show();
         });
+
+        // My Savings card (Quick Action)
+        if (binding.myPaymentCard != null) {
+            binding.myPaymentCard.setOnClickListener(v -> {
+                loadFragment(PaymentFragment.newInstance("Admin"));
+            });
+        }
 
         // View Loans card
         binding.viewLoansCard.setOnClickListener(v -> {
-            loadFragment(new LoansFragment());
+            // Ensure visual nav update if desired, or just load fragment
+            updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans);
+            // loadFragment(new LoansFragment()); // updateNav already loads it
         });
 
         // View Details button
         if (binding.viewAllActivity != null) {
             binding.viewAllActivity.setOnClickListener(v -> {
-                loadFragment(AnalyticsFragment.newInstance(true));
+                updateNav(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
             });
         }
     }
@@ -252,13 +268,30 @@ public class AdminmainActivity extends AppCompatActivity {
 
     private void loadDashboardData() {
         // Load data from ViewModel
-        double balance = viewModel.getGroupBalance();
-        double savings = balance * 0.2; // Dummy logic for savings portion
+        // double balance = viewModel.getGroupBalance(); // This line is now redundant
+        // as balance is fetched inside the if block
+        // double savings = balance * 0.2; // Dummy logic for savings portion - this is
+        // also replaced
 
-        if (binding.currentBalance != null)
-            binding.currentBalance.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(balance));
-        if (binding.savingsBalance != null)
-            binding.savingsBalance.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(savings));
+        if (binding.currentBalance != null && viewModel != null) {
+            double balance = viewModel.getGroupBalance(); // Use actual group balance
+            String formattedBalance = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "UG"))
+                    .format(balance);
+            binding.currentBalance.setText(formattedBalance);
+        }
+
+        if (binding.savingsBalance != null && viewModel != null) {
+            // Show Admin's personal savings
+            com.example.save.data.models.Member admin = viewModel.getMemberByName("Admin");
+            if (admin != null) {
+                double mySavings = admin.getContributionPaid();
+                String formattedSavings = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "UG"))
+                        .format(mySavings);
+                binding.savingsBalance.setText(formattedSavings);
+            } else {
+                binding.savingsBalance.setText("UGX 0");
+            }
+        }
 
         updateMemberCount();
     }

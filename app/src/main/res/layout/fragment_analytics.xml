@@ -1,27 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    android:fillViewport="true">
+    android:background="#F5F5F5">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Header -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/bg_icon_circle"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/text_primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/tvAnalyticsTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:paddingBottom="80dp">
+        android:layout_marginTop="16dp"
+        android:text="Financial Overview"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/backButton"
+        app:layout_constraintTop_toBottomOf="@id/backButton" />
 
-        <TextView
-            android:id="@+id/tvAnalyticsTitle"
-            android:layout_width="wrap_content"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/tvAnalyticsTitle"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Financial Overview"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="20dp"/>
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:paddingBottom="80dp">
 
         <!-- Key Metrics Grid 2x2 -->
         <LinearLayout
@@ -232,68 +256,13 @@
                     android:text="Progress vs Goal"
                     android:gravity="center"
                     android:textColor="#757575"
+                    android:textSize="14sp"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Simulated Bar Chart -->
-                <LinearLayout
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="8dp">
-                        <TextView
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:text="Target"
-                            android:textSize="12sp"/>
-                        <ProgressBar
-                            android:layout_width="0dp"
-                            android:layout_height="12dp"
-                            android:layout_weight="1"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:progress="100"
-                            android:progressTint="#E0E0E0"/>
-                         <TextView
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="100%"
-                            android:gravity="end"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-                    
-                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-                        <TextView
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:text="Actual"
-                            android:textSize="12sp"/>
-                        <ProgressBar
-                            android:id="@+id/progressActual"
-                            android:layout_width="0dp"
-                            android:layout_height="12dp"
-                            android:layout_weight="1"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:progress="65"
-                            android:progressTint="@color/deep_blue"/>
-                         <TextView
-                             android:id="@+id/tvProgressValue"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="65%"
-                            android:gravity="end"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:layout_height="220dp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -437,3 +406,4 @@
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

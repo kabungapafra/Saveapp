@@ -64,6 +64,16 @@ public class PayoutsFragment extends Fragment {
         if (getContext() == null)
             return;
 
+        // Populate Hero Card with next recipient
+        Member nextRecipient = viewModel.getNextPayoutRecipient();
+        if (nextRecipient != null) {
+            binding.tvNextRecipientName.setText(nextRecipient.getName());
+            binding.tvHeroAmount.setText("UGX 500,000");
+        } else {
+            binding.tvNextRecipientName.setText("No Payouts Due");
+            binding.tvHeroAmount.setText("---");
+        }
+
         // Setup Upcoming Payouts List (Top 3 Eligible)
         binding.upcomingPayoutsRecyclerView
                 .setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
@@ -133,6 +143,12 @@ public class PayoutsFragment extends Fragment {
 
         binding.viewFullQueue.setOnClickListener(v -> {
             showQueueDialog();
+        });
+
+        binding.backButton.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
         });
     }
 

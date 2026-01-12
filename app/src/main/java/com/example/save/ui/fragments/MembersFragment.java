@@ -40,7 +40,8 @@ import java.util.List;
 public class MembersFragment extends Fragment {
 
     private FragmentMembersBinding binding;
-    private MemberAdapter adapter;
+    private com.example.save.ui.adapters.MemberAdapter adapter;
+    private com.example.save.ui.adapters.MemberAdapter adminsAdapter; // Adapter for admin list
     private MembersViewModel viewModel;
 
     @Nullable
@@ -49,40 +50,88 @@ public class MembersFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         binding = FragmentMembersBinding.inflate(inflater, container, false);
 
-        viewModel = new ViewModelProvider(this).get(MembersViewModel.class);
+        // Initialize ViewModel
+        viewModel = new androidx.lifecycle.ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
         setupRecyclerView();
         observeViewModel();
 
-        // Fixed ID: btnAddMember (CardView) from fragment_members.xml
-        binding.btnAddMember.setOnClickListener(v -> showAddMemberDialog());
+        binding.fabAddMember.setOnClickListener(v -> showAddMemberDialog());
+        binding.btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
+
+        // Check for auto-open argument
+        if (getArguments() != null && getArguments().getBoolean("SHOW_ADD_DIALOG", false)) {
+            // Post to ensure view is ready
+            binding.getRoot().post(this::showAddMemberDialog);
+        }
 
         return binding.getRoot();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
     private void observeViewModel() {
+        // Show loading initially
+        if (binding.progressBar != null) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        }
+
         viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
-            if (members != null) {
-                if (adapter == null) {
-                    adapter = new MemberAdapter(members);
-                    binding.membersRecyclerView.setAdapter(adapter);
-                } else {
-                    adapter.updateList(members);
-                }
+            // Hide loading when data arrives
+            if (binding.progressBar != null) {
+                binding.progressBar.setVisibility(View.GONE);
+            }
+
+            if (members != null && adapter != null) {
+                adapter.updateList(members);
                 updateMemberCount(members.size());
+
+                // Update Admins List
+                List<Member> admins = viewModel.getAdmins();
+                if (adminsAdapter != null) {
+                    adminsAdapter.updateList(admins);
+                }
+
+                // Toggle Admins Card Visibility
+                if (binding.cvAdmins != null) {
+                    binding.cvAdmins.setVisibility(admins.isEmpty() ? View.GONE : View.VISIBLE);
+                }
             }
         });
     }
 
     private void setupRecyclerView() {
-        // Fixed ID: membersRecyclerView
+        // Set layout manager and adapter
         binding.membersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Create adapter with click listeners
+        adapter = new com.example.save.ui.adapters.MemberAdapter(
+                new com.example.save.ui.adapters.MemberAdapter.OnMemberClickListener() {
+                    @Override
+                    public void onMemberClick(Member member) {
+                        showProfileDialog(member);
+                    }
+
+                    @Override
+                    public void onMoreActionsClick(View view, Member member, int position) {
+                        showPopupMenu(view, member, position);
+                    }
+                });
+        binding.membersRecyclerView.setAdapter(adapter);
+
+        // Setup Admins RecyclerView (vertical list)
+        binding.rvAdmins.setLayoutManager(new LinearLayoutManager(getContext()));
+        adminsAdapter = new com.example.save.ui.adapters.MemberAdapter(
+                new com.example.save.ui.adapters.MemberAdapter.OnMemberClickListener() {
+                    @Override
+                    public void onMemberClick(Member member) {
+                        showProfileDialog(member);
+                    }
+
+                    @Override
+                    public void onMoreActionsClick(View view, Member member, int position) {
+                        showPopupMenu(view, member, position);
+                    }
+                });
+        binding.rvAdmins.setAdapter(adminsAdapter);
     }
 
     private void updateMemberCount(int count) {
@@ -132,120 +181,78 @@ public class MembersFragment extends Fragment {
         DialogMemberProfileBinding dialogBinding = DialogMemberProfileBinding
                 .inflate(LayoutInflater.from(getContext()));
         builder.setView(dialogBinding.getRoot());
-        AlertDialog dialog = builder.create();
 
-        if (dialog.getWindow() != null)
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-        // Populating data (checking for nulls/empty)
-        // Note: DialogMemberProfileBinding IDs based on previous context:
-        // dialogProfileName, dialogProfileRole etc.
-        // Assuming these IDs exist based on previous view_file of similar fragments or
-        // keeping existing patterns.
-        // If compilation fails on IDs, check dialog_member_profile.xml
-
-        // Using IDs from typical profile dialogs or previous MembersFragment usage
-        // Note: Previous Usage had: dialogBinding.tvProfileName (in code I wrote
-        // earlier)
-        // BUT another version of code had dialogBinding.dialogProfileName.
-        // I will assume the Binding class generated correct fields.
-        // To be safe, I'll rely on what IDE would suggest, but here I just stick to
-        // standard naming conventions found in previous read.
-        // The last read of `MembersFragment.java` showed
-        // `dialogBinding.dialogProfileName`.
-
+        // Populate data using correct field IDs
         dialogBinding.dialogProfileName.setText(member.getName());
         dialogBinding.dialogProfileRole.setText(member.getRole());
-        dialogBinding.dialogProfileEmail.setText(member.getEmail().isEmpty() ? "N/A" : member.getEmail());
 
-        // Status Indicator Color
-        int color = member.isActive() ? getContext().getResources().getColor(android.R.color.holo_green_dark)
+        // Status indicator color
+        int color = member.isActive()
+                ? getContext().getResources().getColor(android.R.color.holo_green_dark)
                 : getContext().getResources().getColor(android.R.color.darker_gray);
-        dialogBinding.dialogProfileStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(color));
+        dialogBinding.dialogProfileStatus.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(color));
 
-        dialogBinding.btnCloseProfile.setOnClickListener(v -> dialog.dismiss());
+        // Set contact info if available
+        if (member.getEmail() != null && !member.getEmail().isEmpty()) {
+            dialogBinding.dialogProfileEmail.setText(member.getEmail());
+        }
 
-        dialog.show();
+        // Set savings/contribution info
+        dialogBinding.dialogProfileSavings.setText(
+                String.format("UGX %,.0f", member.getContributionPaid()));
+
+        dialogBinding.btnCloseProfile.setOnClickListener(v -> builder.create().dismiss());
+
+        builder.show();
     }
 
-    // --- Adapter ---
-    private class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberViewHolder> {
-        private List<Member> memberList;
+    private void showPopupMenu(View view, Member member, int position) {
+        PopupMenu popup = new PopupMenu(view.getContext(), view);
 
-        MemberAdapter(List<Member> memberList) {
-            this.memberList = memberList;
-        }
+        // Dynamically add Promote or Demote based on current role
+        boolean isAdmin = member.getRole().equalsIgnoreCase("Administrator") ||
+                member.getRole().equalsIgnoreCase("Admin");
 
-        // Added updateList method
-        void updateList(List<Member> newList) {
-            this.memberList = newList;
-            notifyDataSetChanged();
-        }
-
-        @NonNull
-        @Override
-        public MemberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ItemMemberAdminBinding binding = ItemMemberAdminBinding.inflate(LayoutInflater.from(parent.getContext()),
-                    parent, false);
-            return new MemberViewHolder(binding);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MemberViewHolder holder, int position) {
-            Member member = memberList.get(position);
-            holder.binding.tvMemberName.setText(member.getName());
-            holder.binding.tvMemberRole.setText(member.getRole());
-
-            // Status Indicator Color
-            int color = member.isActive()
-                    ? holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark)
-                    : holder.itemView.getContext().getResources().getColor(android.R.color.darker_gray);
-            holder.binding.statusIndicator.setBackgroundTintList(android.content.res.ColorStateList.valueOf(color));
-
-            holder.itemView.setOnClickListener(v -> showProfileDialog(member));
-
-            // More Actions
-            holder.binding.btnMoreActions.setOnClickListener(v -> showPopupMenu(v, member, position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return memberList.size();
-        }
-
-        private void showPopupMenu(View view, Member member, int position) {
-            PopupMenu popup = new PopupMenu(view.getContext(), view);
-            // Inflate menu resource or add programmatically
+        if (isAdmin) {
+            popup.getMenu().add(0, 1, 0, "Demote to Member");
+        } else {
             popup.getMenu().add(0, 1, 0, "Promote to Admin");
-            popup.getMenu().add(0, 2, 0, "Reset Password");
-            popup.getMenu().add(0, 3, 0, "Remove Member");
+        }
 
-            popup.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == 1) {
-                    Toast.makeText(getContext(), "Promote feature coming soon", Toast.LENGTH_SHORT).show();
-                    // memberRepository.updateMember(position, member); // TODO: Move to ViewModel
-                    return true;
-                } else if (item.getItemId() == 2) {
-                    Toast.makeText(getContext(), "Reset Password feature coming soon", Toast.LENGTH_SHORT).show();
-                    return true;
-                } else if (item.getItemId() == 3) {
-                    Toast.makeText(getContext(), "Remove Member feature coming soon", Toast.LENGTH_SHORT).show();
-                    // memberRepository.removeMember(position); // TODO: Move to ViewModel
-                    return true;
+        popup.getMenu().add(0, 2, 0, "Reset Password");
+        popup.getMenu().add(0, 3, 0, "Remove Member");
+
+        popup.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == 1) {
+                // Promote or Demote
+                if (isAdmin) {
+                    member.setRole("Member");
+                    Toast.makeText(getContext(), member.getName() + " demoted to Member", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    member.setRole("Administrator");
+                    Toast.makeText(getContext(), member.getName() + " promoted to Admin", Toast.LENGTH_SHORT)
+                            .show();
                 }
-                return false;
-            });
-            popup.show();
-        }
-
-        class MemberViewHolder extends RecyclerView.ViewHolder {
-            // Made public for access
-            public final ItemMemberAdminBinding binding;
-
-            MemberViewHolder(ItemMemberAdminBinding binding) {
-                super(binding.getRoot());
-                this.binding = binding;
+                // Trigger repository update to refresh LiveData
+                viewModel.updateMember(position, member);
+                return true;
+            } else if (item.getItemId() == 2) {
+                Toast.makeText(getContext(), "Reset Password feature coming soon", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (item.getItemId() == 3) {
+                Toast.makeText(getContext(), "Remove Member feature coming soon", Toast.LENGTH_SHORT).show();
+                return true;
             }
-        }
+            return false;
+        });
+        popup.show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
