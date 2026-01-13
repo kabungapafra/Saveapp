@@ -88,9 +88,6 @@ public class DailyTasksActivity extends AppCompatActivity {
         List<DateItem> dates = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
 
-        // Pass selected date from Intent if available
-        String selectedDateStr = getIntent().getStringExtra("selected_date");
-
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.ENGLISH);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd", Locale.ENGLISH);
         SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
@@ -105,7 +102,15 @@ public class DailyTasksActivity extends AppCompatActivity {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
 
-        binding.calendarRecyclerView.setAdapter(new CalendarAdapter(dates));
+        binding.calendarRecyclerView.setAdapter(new DailyCalendarAdapter(dates, item -> {
+            // Update Month Header
+            SimpleDateFormat mFormat = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
+            binding.monthText.setText(mFormat.format(item.calendar.getTime()));
+
+            // Update selected date and load tasks
+            selectedDate = item.calendar;
+            loadTasksForDate(selectedDate);
+        }));
     }
 
     private void setupTimeline() {
@@ -236,7 +241,9 @@ public class DailyTasksActivity extends AppCompatActivity {
         }
 
         if (timelineAdapter == null) {
-            timelineAdapter = new TimelineAdapter(taskList);
+            timelineAdapter = new TimelineAdapter(taskList, (task, position) -> {
+                showTaskOptionsDialog(task, position);
+            });
             binding.tasksRecyclerView.setAdapter(timelineAdapter);
         } else {
             timelineAdapter.notifyDataSetChanged();
@@ -340,175 +347,4 @@ public class DailyTasksActivity extends AppCompatActivity {
                 .show();
     }
 
-    // --- Calendar Adapter & Model ---
-
-    private static class DateItem {
-        String day;
-        String date;
-        boolean isSelected;
-        Calendar calendar;
-
-        DateItem(String day, String date, boolean isSelected, Calendar calendar) {
-            this.day = day;
-            this.date = date;
-            this.isSelected = isSelected;
-            this.calendar = (Calendar) calendar.clone();
-        }
-    }
-
-    private class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.DateViewHolder> {
-        private List<DateItem> dates;
-
-        CalendarAdapter(List<DateItem> dates) {
-            this.dates = dates;
-        }
-
-        @NonNull
-        @Override
-        public DateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ItemCalendarDateBinding itemBinding = ItemCalendarDateBinding.inflate(
-                    LayoutInflater.from(parent.getContext()), parent, false);
-            return new DateViewHolder(itemBinding);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull DateViewHolder holder, int position) {
-            DateItem item = dates.get(position);
-            holder.dayText.setText(item.day);
-            holder.dateText.setText(item.date);
-
-            if (item.isSelected) {
-                holder.container.setBackgroundResource(R.drawable.date_selector_bg);
-                holder.container.setSelected(true);
-                holder.dayText.setTextColor(Color.WHITE);
-                holder.dateText.setTextColor(Color.WHITE);
-            } else {
-                holder.container.setBackgroundResource(R.drawable.date_selector_bg);
-                holder.container.setSelected(false);
-                holder.dayText.setTextColor(Color.parseColor("#666666")); // Gray
-                holder.dateText.setTextColor(Color.parseColor("#1A1A1A")); // Black
-            }
-
-            holder.itemView.setOnClickListener(v -> {
-                for (DateItem d : dates)
-                    d.isSelected = false;
-                item.isSelected = true;
-                notifyDataSetChanged();
-
-                // Update Month Header
-                SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
-                binding.monthText.setText(monthFormat.format(item.calendar.getTime()));
-
-                // Update selected date and load tasks
-                selectedDate = item.calendar;
-                loadTasksForDate(selectedDate);
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return dates.size();
-        }
-
-        class DateViewHolder extends RecyclerView.ViewHolder {
-            private final ItemCalendarDateBinding itemBinding;
-            LinearLayout container;
-            TextView dayText, dateText;
-
-            DateViewHolder(ItemCalendarDateBinding itemBinding) {
-                super(itemBinding.getRoot());
-                this.itemBinding = itemBinding;
-                container = itemBinding.dateContent;
-                dayText = itemBinding.dayText;
-                dateText = itemBinding.dateText;
-            }
-        }
-    }
-
-    // --- Timeline Adapter & Model ---
-
-    private static class TaskModel {
-        String time;
-        String title;
-        String subtitle;
-        String status;
-        String progress;
-        int color;
-        int iconRes;
-        Calendar dateAssigned;
-        String amount;
-
-        TaskModel(String time, String title, String subtitle, String status, String progress, int color, int iconRes,
-                Calendar dateAssigned, String amount) {
-            this.time = time;
-            this.title = title;
-            this.subtitle = subtitle;
-            this.status = status;
-            this.progress = progress;
-            this.color = color;
-            this.iconRes = iconRes;
-            this.dateAssigned = dateAssigned != null ? (Calendar) dateAssigned.clone() : null;
-            this.amount = amount;
-        }
-    }
-
-    private class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TaskViewHolder> {
-        private List<TaskModel> tasks;
-
-        TimelineAdapter(List<TaskModel> tasks) {
-            this.tasks = tasks;
-        }
-
-        @NonNull
-        @Override
-        public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ItemTimelineTaskBinding itemBinding = ItemTimelineTaskBinding.inflate(
-                    LayoutInflater.from(parent.getContext()), parent, false);
-            return new TaskViewHolder(itemBinding);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
-            TaskModel task = tasks.get(position);
-
-            holder.timeText.setText(task.time);
-            holder.taskTitle.setText(task.title);
-            holder.taskSubtitle.setText(task.subtitle);
-            holder.statusText.setText(task.status);
-            holder.progressText.setText(task.progress);
-
-            holder.taskCard.setCardBackgroundColor(task.color);
-            holder.taskIcon.setImageResource(task.iconRes);
-
-            // Add click listener to more icon for edit/delete
-            holder.itemView.setOnLongClickListener(v -> {
-                showTaskOptionsDialog(task, position);
-                return true;
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return tasks.size();
-        }
-
-        class TaskViewHolder extends RecyclerView.ViewHolder {
-            private final ItemTimelineTaskBinding itemBinding;
-            TextView timeText, taskTitle, taskSubtitle, statusText, progressText;
-            CardView taskCard;
-            ImageView taskIcon;
-
-            TaskViewHolder(ItemTimelineTaskBinding itemBinding) {
-                super(itemBinding.getRoot());
-                this.itemBinding = itemBinding;
-                timeText = itemBinding.timeText;
-                taskTitle = itemBinding.taskTitle;
-                taskSubtitle = itemBinding.taskSubtitle;
-                statusText = itemBinding.statusText;
-                progressText = itemBinding.progressText;
-                taskCard = itemBinding.taskCard;
-                taskIcon = itemBinding.taskIcon;
-            }
-        }
-    }
 }

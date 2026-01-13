@@ -1,4 +1,5 @@
 package com.example.save.ui.fragments;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -27,6 +28,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
+import com.example.save.ui.utils.OtpUtils;
 import com.example.save.databinding.FragmentNwpasswordBinding;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,7 +37,7 @@ import com.google.android.material.textfield.TextInputLayout;
  * Fragment for forgot password flow: Email input → OTP verification → Navigate
  * to password reset
  */
-public class nwpasswordFragment extends Fragment {
+public class NewPasswordFragment extends Fragment {
 
     // Step 1: Email input
     private FragmentNwpasswordBinding binding;
@@ -45,12 +47,12 @@ public class nwpasswordFragment extends Fragment {
     private String userEmail = "";
     private CountDownTimer countDownTimer;
 
-    public nwpasswordFragment() {
+    public NewPasswordFragment() {
         // Required empty public constructor
     }
 
-    public static nwpasswordFragment newInstance() {
-        return new nwpasswordFragment();
+    public static NewPasswordFragment newInstance() {
+        return new NewPasswordFragment();
     }
 
     @Override
@@ -183,51 +185,14 @@ public class nwpasswordFragment extends Fragment {
     }
 
     private void setupOtpAutoFocus() {
-        binding.otpDigit1.addTextChangedListener(new OtpTextWatcher(binding.otpDigit1, binding.otpDigit2));
-        binding.otpDigit2.addTextChangedListener(new OtpTextWatcher(binding.otpDigit2, binding.otpDigit3));
-        binding.otpDigit3.addTextChangedListener(new OtpTextWatcher(binding.otpDigit3, binding.otpDigit4));
-        binding.otpDigit4.addTextChangedListener(new OtpTextWatcher(binding.otpDigit4, null));
+        binding.otpDigit1.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit1, binding.otpDigit2));
+        binding.otpDigit2.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit2, binding.otpDigit3));
+        binding.otpDigit3.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit3, binding.otpDigit4));
+        binding.otpDigit4.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit4, null));
 
-        setupBackspaceHandler(binding.otpDigit2, binding.otpDigit1);
-        setupBackspaceHandler(binding.otpDigit3, binding.otpDigit2);
-        setupBackspaceHandler(binding.otpDigit4, binding.otpDigit3);
-    }
-
-    private void setupBackspaceHandler(EditText current, EditText previous) {
-        current.setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN) {
-                if (current.getText().toString().isEmpty() && previous != null) {
-                    previous.requestFocus();
-                    return true;
-                }
-            }
-            return false;
-        });
-    }
-
-    private class OtpTextWatcher implements TextWatcher {
-        private final EditText currentView;
-        private final EditText nextView;
-
-        OtpTextWatcher(EditText currentView, EditText nextView) {
-            this.currentView = currentView;
-            this.nextView = nextView;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (s.length() == 1 && nextView != null) {
-                nextView.requestFocus();
-            }
-        }
+        OtpUtils.setupBackspaceHandler(binding.otpDigit2, binding.otpDigit1);
+        OtpUtils.setupBackspaceHandler(binding.otpDigit3, binding.otpDigit2);
+        OtpUtils.setupBackspaceHandler(binding.otpDigit4, binding.otpDigit3);
     }
 
     private void startResendTimer() {

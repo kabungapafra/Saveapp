@@ -1,4 +1,5 @@
 package com.example.save.ui.activities;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -95,7 +96,7 @@ public class SplashActivity extends AppCompatActivity {
             Intent intent;
             if (isFirstTime) {
                 // First time - show onboarding
-                intent = new Intent(SplashActivity.this, MainActivity.class);
+                intent = new Intent(SplashActivity.this, OnboardingActivity.class);
             } else {
                 // Not first time - go directly to login
                 intent = new Intent(SplashActivity.this, LoginActivity.class);

@@ -1,4 +1,5 @@
 package com.example.save.ui.activities;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -131,8 +132,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
             // Navigate back to the login page where user clicked forgot password
             Class<?> targetActivity;
-            if ("MemberregActivity".equals(sourceActivity)) {
-                targetActivity = MemberregActivity.class;
+            if ("MemberRegistrationActivity".equals(sourceActivity)) {
+                targetActivity = MemberRegistrationActivity.class;
             } else {
                 targetActivity = AdminLoginActivity.class; // Default to admin
             }

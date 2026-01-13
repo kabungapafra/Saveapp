@@ -1,41 +1,50 @@
-package com.example.save.data.models;
+package com.example.save.data.local.entities;
 
-import com.example.save.ui.activities.*;
-import com.example.save.ui.fragments.*;
-import com.example.save.ui.adapters.*;
-import com.example.save.data.models.*;
-import com.example.save.data.repository.*;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
-public class Member {
+/**
+ * Room entity for Member data
+ */
+@Entity(tableName = "members", indices = { @Index(value = "name"), @Index(value = "email", unique = true) })
+public class MemberEntity {
+
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
     private String name;
     private String role;
     private boolean isActive;
     private String phone;
     private String email;
+    private String password; // Stores OTP or hashed password
     private String payoutDate;
     private String payoutAmount;
     private boolean hasReceivedPayout;
     private double shortfallAmount;
+    private double contributionTarget;
+    private double contributionPaid;
 
-    private String password;
-
-    public Member(String name, String role, boolean isActive) {
-        this(name, role, isActive, "0700000000", "email@example.com");
+    public MemberEntity() {
     }
 
-    public Member(String name, String role, boolean isActive, String phone, String email) {
+    public MemberEntity(String name, String role, String email, String phone) {
         this.name = name;
         this.role = role;
-        this.isActive = isActive;
+        this.isActive = true; // Default to true
         this.phone = phone;
         this.email = email;
         this.password = "123456"; // Default password
-        this.payoutDate = "Not Scheduled";
-        this.payoutAmount = "0";
-        this.hasReceivedPayout = false;
-        this.shortfallAmount = 0;
-        this.contributionTarget = 1000000; // Default target 1M
-        this.contributionPaid = 0;
+    }
+
+    // Getters and Setters
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -78,6 +87,14 @@ public class Member {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPayoutDate() {
         return payoutDate;
     }
@@ -94,7 +111,7 @@ public class Member {
         this.payoutAmount = payoutAmount;
     }
 
-    public boolean hasReceivedPayout() {
+    public boolean isHasReceivedPayout() {
         return hasReceivedPayout;
     }
 
@@ -110,10 +127,6 @@ public class Member {
         this.shortfallAmount = shortfallAmount;
     }
 
-    // Payment / Contribution Fields for Installments
-    private double contributionTarget;
-    private double contributionPaid;
-
     public double getContributionTarget() {
         return contributionTarget;
     }
@@ -128,19 +141,5 @@ public class Member {
 
     public void setContributionPaid(double contributionPaid) {
         this.contributionPaid = contributionPaid;
-    }
-
-    public int getPaymentProgress() {
-        if (contributionTarget == 0)
-            return 0;
-        return (int) ((contributionPaid / contributionTarget) * 100);
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

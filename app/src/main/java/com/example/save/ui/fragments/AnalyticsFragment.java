@@ -97,7 +97,11 @@ public class AnalyticsFragment extends Fragment {
 
         // Metrics
         binding.tvMetric1Label.setText("Total Savings");
-        binding.tvMetric1Value.setText(formatCurrency(membersViewModel.getGroupBalance()));
+        membersViewModel.getGroupBalance().observe(getViewLifecycleOwner(), balance -> {
+            if (balance != null) {
+                binding.tvMetric1Value.setText(formatCurrency(balance));
+            }
+        });
 
         binding.tvMetric2Label.setText("Active Loans");
         binding.tvMetric2Value.setText(formatCurrency(loansViewModel.getTotalOutstanding()));
@@ -106,7 +110,23 @@ public class AnalyticsFragment extends Fragment {
         binding.tvMetric3Value.setText(formatCurrency(loansViewModel.getTotalInterestEarned()));
 
         binding.tvMetric4Label.setText("Members");
-        binding.tvMetric4Value.setText(String.valueOf(membersViewModel.getTotalMemberCount()));
+        // Load member count on background thread
+        new Thread(() -> {
+            try {
+                int memberCount = membersViewModel.getTotalMemberCountSync();
+                requireActivity().runOnUiThread(() -> {
+                    if (binding != null) {
+                        binding.tvMetric4Value.setText(String.valueOf(memberCount));
+                    }
+                });
+            } catch (Exception e) {
+                requireActivity().runOnUiThread(() -> {
+                    if (binding != null) {
+                        binding.tvMetric4Value.setText("0");
+                    }
+                });
+            }
+        }).start();
 
         // Chart
         binding.tvChartTitle.setText("Weekly Performance");

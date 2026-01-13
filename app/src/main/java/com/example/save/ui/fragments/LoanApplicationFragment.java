@@ -19,6 +19,8 @@ import com.example.save.ui.viewmodels.MembersViewModel;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import com.example.save.ui.utils.SimpleTextWatcher;
+
 public class LoanApplicationFragment extends Fragment {
 
     private FragmentLoanApplicationBinding binding;
@@ -142,16 +144,6 @@ public class LoanApplicationFragment extends Fragment {
 
         } catch (NumberFormatException e) {
             Toast.makeText(getContext(), "Invalid input", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    abstract class SimpleTextWatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
         }
     }
 

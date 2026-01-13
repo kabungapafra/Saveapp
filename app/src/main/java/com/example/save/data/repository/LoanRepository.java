@@ -1,37 +1,47 @@
 package com.example.save.data.repository;
 
-import com.example.save.ui.activities.*;
-import com.example.save.ui.fragments.*;
-import com.example.save.ui.adapters.*;
-import com.example.save.data.models.*;
-import com.example.save.data.repository.*;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
+import com.example.save.data.local.AppDatabase;
+import com.example.save.data.local.dao.LoanDao;
+import com.example.save.data.local.entities.LoanEntity;
 import com.example.save.data.models.Loan;
+
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class LoanRepository {
     private static LoanRepository instance;
-    private List<Loan> loans;
-    private MutableLiveData<List<Loan>> loansLiveData;
+    private final LoanDao loanDao;
+    private final Executor executor;
+    private LiveData<List<Loan>> loansLiveData;
 
-    private LoanRepository() {
-        loans = new ArrayList<>();
-        loansLiveData = new MutableLiveData<>();
-        generateMockData();
-        updateLiveData();
+    private LoanRepository(Context context) {
+        AppDatabase database = AppDatabase.getInstance(context);
+        loanDao = database.loanDao();
+        executor = Executors.newSingleThreadExecutor();
+
+        // Transform entity LiveData to model LiveData
+        LiveData<List<LoanEntity>> entityLiveData = loanDao.getAllLoans();
+        loansLiveData = Transformations.map(entityLiveData, this::convertEntitiesToModels);
     }
 
+    public static synchronized LoanRepository getInstance(Context context) {
+        if (instance == null) {
+            instance = new LoanRepository(context.getApplicationContext());
+        }
+        return instance;
+    }
+
+    // Keep singleton method for backward compatibility
     public static synchronized LoanRepository getInstance() {
         if (instance == null) {
-            instance = new LoanRepository();
+            throw new IllegalStateException("LoanRepository not initialized. Call getInstance(Context) first.");
         }
         return instance;
     }
@@ -40,111 +50,75 @@ public class LoanRepository {
         return loansLiveData;
     }
 
-    private void generateMockData() {
-        Calendar cal = Calendar.getInstance();
-
-        // Active Loan
-        cal.add(Calendar.DAY_OF_YEAR, -10);
-        Loan l1 = new Loan(UUID.randomUUID().toString(), "m1", "John Doe", 200000, 20000, "Medical Emergency",
-                cal.getTime(), Loan.STATUS_ACTIVE);
-        cal.add(Calendar.DAY_OF_YEAR, 30); // Due in 20 days
-        l1.setDueDate(cal.getTime());
-        l1.setRepaidAmount(50000);
-        loans.add(l1);
-
-        // Pending Request
-        cal = Calendar.getInstance();
-        Loan l2 = new Loan(UUID.randomUUID().toString(), "m2", "Jane Smith", 500000, 50000, "School Fees",
-                cal.getTime(), Loan.STATUS_PENDING);
-        loans.add(l2);
-
-        // Another Active Loan
-        cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_YEAR, -5);
-        Loan l3 = new Loan(UUID.randomUUID().toString(), "m3", "Peter Parker", 100000, 10000, "Business Stock",
-                cal.getTime(), Loan.STATUS_ACTIVE);
-        cal.add(Calendar.DAY_OF_YEAR, 25);
-        l3.setDueDate(cal.getTime());
-        l3.setRepaidAmount(80000); // 72% paid
-        loans.add(l3);
-
-        // Another Pending
-        cal = Calendar.getInstance();
-        Loan l4 = new Loan(UUID.randomUUID().toString(), "m4", "Clark Kent", 1000000, 100000, "Farm Equipment",
-                cal.getTime(), Loan.STATUS_PENDING);
-        loans.add(l4);
-    }
-
     public List<Loan> getAllLoans() {
-        return new ArrayList<>(loans);
+        List<LoanEntity> entities = loanDao.getAllLoansSync();
+        return convertEntitiesToModels(entities);
     }
 
     public List<Loan> getPendingLoans() {
-        List<Loan> pending = new ArrayList<>();
-        for (Loan l : loans) {
-            if (Loan.STATUS_PENDING.equals(l.getStatus())) {
-                pending.add(l);
-            }
-        }
-        return pending;
+        List<LoanEntity> entities = loanDao.getPendingLoans();
+        return convertEntitiesToModels(entities);
     }
 
     public List<Loan> getActiveLoans() {
-        List<Loan> active = new ArrayList<>();
-        for (Loan l : loans) {
-            if (Loan.STATUS_ACTIVE.equals(l.getStatus())) {
-                active.add(l);
-            }
-        }
-        return active;
+        List<LoanEntity> entities = loanDao.getActiveLoans();
+        return convertEntitiesToModels(entities);
     }
 
     public void approveLoan(String id) {
-        for (Loan l : loans) {
-            if (l.getId().equals(id)) {
-                l.setStatus(Loan.STATUS_ACTIVE);
-                Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.DAY_OF_YEAR, 30); // Default 30 day term
-                l.setDueDate(cal.getTime());
-                updateLiveData();
-                break;
+        executor.execute(() -> {
+            LoanEntity entity = loanDao.getLoanByExternalId(id);
+            if (entity != null) {
+                entity.setStatus(Loan.STATUS_ACTIVE);
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                cal.add(java.util.Calendar.DAY_OF_YEAR, 30); // Default 30 day term
+                entity.setDueDate(cal.getTime());
+                loanDao.update(entity);
             }
-        }
+        });
     }
 
     public void rejectLoan(String id) {
-        for (Loan l : loans) {
-            if (l.getId().equals(id)) {
-                l.setStatus(Loan.STATUS_REJECTED); // Or remove
-                // loans.remove(l); // Alternatively remove
-                updateLiveData();
-                break;
+        executor.execute(() -> {
+            LoanEntity entity = loanDao.getLoanByExternalId(id);
+            if (entity != null) {
+                entity.setStatus(Loan.STATUS_REJECTED);
+                loanDao.update(entity);
             }
-        }
+        });
     }
 
     public double getTotalOutstanding() {
-        double total = 0;
-        for (Loan l : loans) {
-            if (Loan.STATUS_ACTIVE.equals(l.getStatus())) {
-                total += (l.getTotalDue() - l.getRepaidAmount());
-            }
-        }
-        return total;
+        Double total = loanDao.getTotalOutstanding();
+        return total != null ? total : 0.0;
     }
 
     public double getTotalInterestEarned() {
-        // Simplified: Interest on active + paid loans
-        double total = 0;
-        for (Loan l : loans) {
-            if (Loan.STATUS_ACTIVE.equals(l.getStatus()) || Loan.STATUS_PAID.equals(l.getStatus())) {
-                total += l.getInterest();
-            }
-        }
-        return total;
+        Double total = loanDao.getTotalInterestEarned();
+        return total != null ? total : 0.0;
     }
 
-    private void updateLiveData() {
-        loansLiveData.setValue(new ArrayList<>(loans));
+    // Conversion Methods
+    private List<Loan> convertEntitiesToModels(List<LoanEntity> entities) {
+        List<Loan> loans = new ArrayList<>();
+        for (LoanEntity entity : entities) {
+            loans.add(convertEntityToModel(entity));
+        }
+        return loans;
+    }
+
+    private Loan convertEntityToModel(LoanEntity entity) {
+        Loan loan = new Loan(
+                entity.getExternalId(),
+                entity.getMemberId(),
+                entity.getMemberName(),
+                entity.getAmount(),
+                entity.getInterest(),
+                entity.getReason(),
+                entity.getDateRequested(),
+                entity.getStatus());
+        loan.setDueDate(entity.getDueDate());
+        loan.setRepaidAmount(entity.getRepaidAmount());
+        return loan;
     }
 }

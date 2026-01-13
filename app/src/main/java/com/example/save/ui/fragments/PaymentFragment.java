@@ -90,14 +90,24 @@ public class PaymentFragment extends Fragment {
     }
 
     private void loadMemberData() {
-        // Fetch fresh member data
-        currentMember = viewModel.getMemberByName(memberName);
-
-        if (currentMember != null) {
-            updateUI(currentMember);
-        } else {
-            Toast.makeText(getContext(), "Member not found: " + memberName, Toast.LENGTH_SHORT).show();
-        }
+        // Fetch member data on background thread to avoid Room main thread violation
+        new Thread(() -> {
+            try {
+                Member member = viewModel.getMemberByName(memberName);
+                requireActivity().runOnUiThread(() -> {
+                    currentMember = member;
+                    if (currentMember != null) {
+                        updateUI(currentMember);
+                    } else {
+                        Toast.makeText(getContext(), "Member not found: " + memberName, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e) {
+                requireActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(), "Error loading member data", Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
     }
 
     private void updateUI(Member member) {
@@ -134,7 +144,8 @@ public class PaymentFragment extends Fragment {
                 viewModel.makePayment(currentMember, amount);
                 Toast.makeText(getContext(), "Payment Successful!", Toast.LENGTH_SHORT).show();
                 etAmount.setText("");
-                updateUI(currentMember); // Refresh UI
+                // Reload member data to refresh UI with updated contribution
+                loadMemberData();
             }
         });
     }

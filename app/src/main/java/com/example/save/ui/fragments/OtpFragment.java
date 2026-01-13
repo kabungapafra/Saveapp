@@ -1,4 +1,5 @@
 package com.example.save.ui.fragments;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -25,11 +26,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
+import com.example.save.ui.utils.OtpUtils;
 import com.example.save.databinding.FragmentOtpBinding;
 
-import com.example.save.ui.activities.AdminmainActivity;
+import com.example.save.ui.activities.AdminMainActivity;
 
-public class Otp extends Fragment {
+public class OtpFragment extends Fragment {
 
     private static final String ARG_NAME = "name";
     private static final String ARG_PHONE = "phone";
@@ -44,8 +46,8 @@ public class Otp extends Fragment {
     private FragmentOtpBinding binding;
     private CountDownTimer countDownTimer;
 
-    public static Otp newInstance() {
-        Otp fragment = new Otp();
+    public static OtpFragment newInstance() {
+        OtpFragment fragment = new OtpFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NAME, name);
         args.putString(ARG_PHONE, phone);
@@ -55,8 +57,8 @@ public class Otp extends Fragment {
         return fragment;
     }
 
-    public static Otp newInstanceForRegistration(String name, String phone, String email, String password) {
-        Otp fragment = new Otp();
+    public static OtpFragment newInstanceForRegistration(String name, String phone, String email, String password) {
+        OtpFragment fragment = new OtpFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NAME, name);
         args.putString(ARG_PHONE, phone);
@@ -131,58 +133,15 @@ public class Otp extends Fragment {
      * Setup auto-focus between OTP digits
      */
     private void setupOtpAutoFocus() {
-        binding.otpDigit1.addTextChangedListener(new OtpTextWatcher(binding.otpDigit1, binding.otpDigit2));
-        binding.otpDigit2.addTextChangedListener(new OtpTextWatcher(binding.otpDigit2, binding.otpDigit3));
-        binding.otpDigit3.addTextChangedListener(new OtpTextWatcher(binding.otpDigit3, binding.otpDigit4));
-        binding.otpDigit4.addTextChangedListener(new OtpTextWatcher(binding.otpDigit4, null));
+        binding.otpDigit1.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit1, binding.otpDigit2));
+        binding.otpDigit2.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit2, binding.otpDigit3));
+        binding.otpDigit3.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit3, binding.otpDigit4));
+        binding.otpDigit4.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit4, null));
 
         // Handle backspace
-        setupBackspaceHandler(binding.otpDigit2, binding.otpDigit1);
-        setupBackspaceHandler(binding.otpDigit3, binding.otpDigit2);
-        setupBackspaceHandler(binding.otpDigit4, binding.otpDigit3);
-    }
-
-    /**
-     * Handle backspace to go to previous field
-     */
-    private void setupBackspaceHandler(EditText current, EditText previous) {
-        current.setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN) {
-                if (current.getText().toString().isEmpty() && previous != null) {
-                    previous.requestFocus();
-                    return true;
-                }
-            }
-            return false;
-        });
-    }
-
-    /**
-     * TextWatcher for OTP auto-focus
-     */
-    private class OtpTextWatcher implements TextWatcher {
-        private final EditText currentView;
-        private final EditText nextView;
-
-        OtpTextWatcher(EditText currentView, EditText nextView) {
-            this.currentView = currentView;
-            this.nextView = nextView;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (s.length() == 1 && nextView != null) {
-                nextView.requestFocus();
-            }
-        }
+        OtpUtils.setupBackspaceHandler(binding.otpDigit2, binding.otpDigit1);
+        OtpUtils.setupBackspaceHandler(binding.otpDigit3, binding.otpDigit2);
+        OtpUtils.setupBackspaceHandler(binding.otpDigit4, binding.otpDigit3);
     }
 
     /**
@@ -250,10 +209,22 @@ public class Otp extends Fragment {
 
             // Check if OTP is correct (for testing, accept "1234")
             if (otp.equals("1234")) {
-                Toast.makeText(getContext(), "Registration successful!", Toast.LENGTH_SHORT).show();
+                // SAVE NEW ADMIN TO DATABASE
+                com.example.save.ui.viewmodels.MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(
+                        this).get(com.example.save.ui.viewmodels.MembersViewModel.class);
 
-                // Navigate to MainActivity
-                Intent intent = new Intent(getActivity(), AdminmainActivity.class);
+                // Create Admin Member
+                Member newAdmin = new Member(name, "Administrator", true, phone, email);
+                newAdmin.setPassword(password); // Set provided password
+
+                // Save asynchronously
+                viewModel.addMember(newAdmin);
+
+                // Show success and navigate
+                Toast.makeText(getContext(), "Account created! Please login.", Toast.LENGTH_LONG).show();
+
+                // Navigate to Login (so they can log in with new creds)
+                Intent intent = new Intent(getActivity(), AdminLoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 if (getActivity() != null) {

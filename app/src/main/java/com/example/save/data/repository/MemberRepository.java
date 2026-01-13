@@ -1,73 +1,66 @@
 package com.example.save.data.repository;
 
-import com.example.save.ui.activities.*;
-import com.example.save.ui.fragments.*;
-import com.example.save.ui.adapters.*;
-import com.example.save.data.models.*;
-import com.example.save.data.repository.*;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
+import com.example.save.data.local.AppDatabase;
+import com.example.save.data.local.dao.MemberDao;
+import com.example.save.data.local.entities.MemberEntity;
 import com.example.save.data.models.Member;
+import com.example.save.utils.ValidationUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.save.data.models.Member;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MemberRepository {
     private static MemberRepository instance;
-    private List<Member> members;
-    private MutableLiveData<List<Member>> membersLiveData;
-    private double groupBalance;
-    private double contributionTarget; // Admin-configurable contribution target for all members
+    private final MemberDao memberDao;
+    private final Executor executor;
+    private LiveData<List<Member>> membersLiveData;
+    private MutableLiveData<Double> groupBalance;
+    private double contributionTarget;
 
-    private MemberRepository() {
-        members = new ArrayList<>();
-        membersLiveData = new MutableLiveData<>();
+    // Loan Configuration
+    private double maxLoanAmount = 500000;
+    private double loanInterestRate = 5.0;
+    private int maxLoanDuration = 12;
+    private boolean requireGuarantor = true;
+
+    // Loan Requests Management
+    private List<com.example.save.data.models.LoanRequest> loanRequests = new ArrayList<>();
+    private MutableLiveData<List<com.example.save.data.models.LoanRequest>> loanRequestsLiveData = new MutableLiveData<>();
+
+    private MemberRepository(Context context) {
+        AppDatabase database = AppDatabase.getInstance(context);
+        memberDao = database.memberDao();
+        executor = Executors.newSingleThreadExecutor();
         contributionTarget = 1000000; // Default: 1M UGX
+        groupBalance = new MutableLiveData<>(1500000.0); // Initialize LiveData
 
-        // Simulate network delay for loading state demonstration
-        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
-            loadInitialData();
-            calculateInitialBalance();
-            updateLiveData();
-        }, 1500); // 1.5 second delay
+        // Transform entity LiveData to model LiveData
+        LiveData<List<MemberEntity>> entityLiveData = memberDao.getAllMembers();
+        membersLiveData = Transformations.map(entityLiveData, this::convertEntitiesToModels);
     }
 
-    public static synchronized MemberRepository getInstance() {
+    public static synchronized MemberRepository getInstance(Context context) {
         if (instance == null) {
-            instance = new MemberRepository();
+            instance = new MemberRepository(context.getApplicationContext());
         }
         return instance;
     }
 
-    private void loadInitialData() {
-        // Load initial dummy data
-        Member alice = new Member("Alice Johnson", "Member", true);
-        alice.setContributionTarget(contributionTarget);
-        members.add(alice);
-
-        Member bob = new Member("Bob Smith", "Secretary", true);
-        bob.setContributionTarget(contributionTarget);
-        members.add(bob);
-
-        Member charlie = new Member("Charlie Brown", "Member", false);
-        charlie.setContributionTarget(contributionTarget);
-        members.add(charlie);
-
-        Member david = new Member("David Lee", "Treasurer", true);
-        david.setContributionTarget(contributionTarget);
-        members.add(david);
-
-        Member eve = new Member("Eve Adams", "Member", true);
-        eve.setShortfallAmount(50000); // 50k shortfall
-        eve.setContributionTarget(contributionTarget);
-        members.add(eve);
-
-        Member admin = new Member("Admin", "Administrator", true);
-        admin.setContributionTarget(contributionTarget);
-        members.add(admin); // Add Admin for payment features
+    // Keep singleton method for backward compatibility (will fail if context not
+    // set)
+    public static synchronized MemberRepository getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("MemberRepository not initialized. Call getInstance(Context) first.");
+        }
+        return instance;
     }
 
     public LiveData<List<Member>> getMembers() {
@@ -75,101 +68,139 @@ public class MemberRepository {
     }
 
     public List<Member> getAllMembers() {
-        return new ArrayList<>(members);
+        // This needs to run on background thread
+        List<MemberEntity> entities = memberDao.getAllMembersSync();
+        return convertEntitiesToModels(entities);
     }
 
     public void addMember(Member member) {
-        member.setContributionTarget(contributionTarget); // Set target for new member
-        members.add(0, member);
-        updateLiveData();
-    }
-
-    public void removeMember(int position) {
-        if (position >= 0 && position < members.size()) {
-            members.remove(position);
-            updateLiveData();
-        }
-    }
-
-    public List<Member> getMembersWithShortfalls() {
-        List<Member> shortfalls = new ArrayList<>();
-        for (Member member : members) {
-            if (member.getShortfallAmount() > 0) {
-                shortfalls.add(member);
-            }
-        }
-        return shortfalls;
-    }
-
-    public List<Member> getAdmins() {
-        List<Member> admins = new ArrayList<>();
-        for (Member member : members) {
-            if (member.getRole() != null && (member.getRole().equalsIgnoreCase("Administrator")
-                    || member.getRole().equalsIgnoreCase("Admin"))) {
-                admins.add(member);
-            }
-        }
-        return admins;
-    }
-
-    public void updateMember(int position, Member member) {
-        if (position >= 0 && position < members.size()) {
-            members.set(position, member);
-            updateLiveData();
-        }
-    }
-
-    public int getActiveMemberCount() {
-        int count = 0;
-        for (Member member : members) {
-            if (member.isActive()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public int getTotalMemberCount() {
-        return members.size();
+        executor.execute(() -> {
+            MemberEntity entity = convertModelToEntity(member);
+            entity.setContributionTarget(contributionTarget);
+            memberDao.insert(entity);
+        });
     }
 
     private void calculateInitialBalance() {
-        // Dummy logic: mostly just a static starting point
-        groupBalance = 1500000;
-        // Adjust for payouts if we had real data
+        executor.execute(() -> {
+            // Simple logic: Sum all contributionPaid from members
+            List<MemberEntity> allMembers = memberDao.getAllMembersSync();
+            double total = 0;
+            for (MemberEntity m : allMembers) {
+                total += m.getContributionPaid();
+            }
+            groupBalance.postValue(total);
+        });
     }
 
-    public double getGroupBalance() {
+    public void removeMember(Member member) {
+        if (member != null) {
+            executor.execute(() -> {
+                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+                if (entity != null) {
+                    memberDao.delete(entity);
+                }
+            });
+        }
+    }
+
+    public String resetPassword(Member member) {
+        String newOtp = com.example.save.utils.ValidationUtils.generateOTP();
+        if (member != null) {
+            executor.execute(() -> {
+                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+                if (entity != null) {
+                    entity.setPassword(newOtp); // In real app, hash this
+                    memberDao.update(entity);
+                }
+            });
+        }
+        return newOtp;
+    }
+
+    public LiveData<List<Member>> searchMembers(String query) {
+        // Current implementation is dummy search on list, but we should use DAO
+        // However, converting LiveData<List<Entity>> to LiveData<List<Model>> requires
+        // Transformations
+        // For simplicity, we can load sync or assume the Fragment handles filtering if
+        // the user wants memory search
+        // But let's use the DAO search
+        return androidx.lifecycle.Transformations.map(memberDao.searchMembers(query), entities -> {
+            List<Member> models = new java.util.ArrayList<>();
+            for (MemberEntity e : entities) {
+                models.add(convertEntityToModel(e));
+            }
+            return models;
+        });
+    }
+
+    public void updateMember(int position, Member member) {
+        // Position is not reliable with database, use email/ID to identify member
+        executor.execute(() -> {
+            MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+            if (entity != null) {
+                updateEntityFromModel(entity, member);
+                memberDao.update(entity);
+            }
+        });
+    }
+
+    public List<Member> getMembersWithShortfalls() {
+        List<MemberEntity> entities = memberDao.getMembersWithShortfalls();
+        return convertEntitiesToModels(entities);
+    }
+
+    public List<Member> getAdmins() {
+        List<MemberEntity> entities = memberDao.getAdmins();
+        return convertEntitiesToModels(entities);
+    }
+
+    public int getActiveMemberCount() {
+        return memberDao.getActiveMemberCount();
+    }
+
+    public int getTotalMemberCount() {
+        return memberDao.getMemberCount();
+    }
+
+    public LiveData<Double> getGroupBalance() {
         return groupBalance;
     }
 
     public void addToBalance(double amount) {
-        groupBalance += amount;
-        updateLiveData();
+        double current = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+        groupBalance.postValue(current + amount);
     }
 
     public Member getNextPayoutRecipient() {
-        // Simple round-robin or first eligible member logic
-        for (Member member : members) {
-            if (!member.hasReceivedPayout() && member.isActive()) {
-                return member;
+        // Sync version for background threads
+        List<MemberEntity> entities = memberDao.getActiveMembers();
+        for (MemberEntity entity : entities) {
+            if (!entity.isHasReceivedPayout()) {
+                return convertEntityToModel(entity);
             }
         }
-        return null; // All have received or no active members
+        return null;
     }
 
     public boolean executePayout(Member member) {
         if (member == null)
             return false;
 
-        double payoutAmount = 500000; // Fixed dummy amount for now
+        double payoutAmount = 500000;
+        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
 
-        if (groupBalance >= payoutAmount) {
-            groupBalance -= payoutAmount;
-            member.setHasReceivedPayout(true);
-            member.setPayoutAmount(String.valueOf(payoutAmount));
-            member.setPayoutDate(java.text.DateFormat.getDateInstance().format(new java.util.Date()));
-            updateLiveData();
+        if (currentBalance >= payoutAmount) {
+            groupBalance.postValue(currentBalance - payoutAmount);
+            executor.execute(() -> {
+                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+                if (entity != null) {
+                    entity.setHasReceivedPayout(true);
+                    entity.setPayoutAmount(String.valueOf(payoutAmount));
+                    entity.setPayoutDate(java.text.DateFormat.getDateInstance().format(new java.util.Date()));
+                    memberDao.update(entity);
+                }
+            });
             return true;
         }
         return false;
@@ -177,36 +208,61 @@ public class MemberRepository {
 
     public void resolveShortfall(Member member) {
         if (member != null && member.getShortfallAmount() > 0) {
-            // Logic: Deduct from group balance to cover the member's shortfall
-            // Ideally we'd have a separate "Reserve" fund, but for now we use groupBalance
-            if (groupBalance >= member.getShortfallAmount()) {
-                groupBalance -= member.getShortfallAmount();
-                member.setShortfallAmount(0);
-                updateLiveData();
+            double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+
+            if (currentBalance >= member.getShortfallAmount()) {
+                groupBalance.postValue(currentBalance - member.getShortfallAmount());
+                executor.execute(() -> {
+                    MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+                    if (entity != null) {
+                        entity.setShortfallAmount(0);
+                        memberDao.update(entity);
+                    }
+                });
             }
         }
-    }
-
-    private void updateLiveData() {
-        membersLiveData.setValue(new ArrayList<>(members));
     }
 
     public Member getMemberByName(String name) {
-        for (Member member : members) {
-            if (member.getName().equalsIgnoreCase(name)) {
-                return member;
-            }
-        }
-        return null;
+        MemberEntity entity = memberDao.getMemberByName(name);
+        return entity != null ? convertEntityToModel(entity) : null;
+    }
+
+    public Member getMemberByEmail(String email) {
+        MemberEntity entity = memberDao.getMemberByEmail(email);
+        return entity != null ? convertEntityToModel(entity) : null;
+    }
+
+    public Member getMemberByPhone(String phone) {
+        MemberEntity entity = memberDao.getMemberByPhone(phone);
+        return entity != null ? convertEntityToModel(entity) : null;
+    }
+
+    // Synchronous method explicitly for background thread use
+    public Member getMemberByNameSync() {
+        MemberEntity entity = memberDao.getMemberByName("Admin");
+        return entity != null ? convertEntityToModel(entity) : null;
     }
 
     public void makePayment(Member member, double amount) {
         if (member != null) {
-            member.setContributionPaid(member.getContributionPaid() + amount);
             addToBalance(amount);
-            // In a real app, we would record the transaction date/type here
-            updateLiveData();
+            executor.execute(() -> {
+                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+                if (entity != null) {
+                    entity.setContributionPaid(entity.getContributionPaid() + amount);
+                    memberDao.update(entity);
+                }
+            });
         }
+    }
+
+    public int getActiveMemberCountSync() {
+        return memberDao.getActiveMemberCount();
+    }
+
+    public int getTotalMemberCountSync() {
+        return memberDao.getMemberCount();
     }
 
     // Contribution Target Management
@@ -217,23 +273,17 @@ public class MemberRepository {
     public void setContributionTarget(double target) {
         if (target > 0) {
             this.contributionTarget = target;
-            updateAllMembersTarget(target);
+            executor.execute(() -> {
+                List<MemberEntity> allMembers = memberDao.getAllMembersSync();
+                for (MemberEntity entity : allMembers) {
+                    entity.setContributionTarget(target);
+                    memberDao.update(entity);
+                }
+            });
         }
-    }
-
-    private void updateAllMembersTarget(double newTarget) {
-        for (Member member : members) {
-            member.setContributionTarget(newTarget);
-        }
-        updateLiveData();
     }
 
     // Loan Configuration
-    private double maxLoanAmount = 500000;
-    private double loanInterestRate = 5.0;
-    private int maxLoanDuration = 12;
-    private boolean requireGuarantor = true;
-
     public double getMaxLoanAmount() {
         return maxLoanAmount;
     }
@@ -267,9 +317,6 @@ public class MemberRepository {
     }
 
     // Loan Requests Management
-    private List<com.example.save.data.models.LoanRequest> loanRequests = new ArrayList<>();
-    private MutableLiveData<List<com.example.save.data.models.LoanRequest>> loanRequestsLiveData = new MutableLiveData<>();
-
     public void submitLoanRequest(com.example.save.data.models.LoanRequest request) {
         request.setInterestRate(loanInterestRate);
         request.setTotalRepayment(request.getAmount() + (request.getAmount() * loanInterestRate / 100));
@@ -309,5 +356,54 @@ public class MemberRepository {
                 break;
             }
         }
+    }
+
+    // Conversion Methods
+    private List<Member> convertEntitiesToModels(List<MemberEntity> entities) {
+        List<Member> members = new ArrayList<>();
+        for (MemberEntity entity : entities) {
+            members.add(convertEntityToModel(entity));
+        }
+        return members;
+    }
+
+    private Member convertEntityToModel(MemberEntity entity) {
+        Member member = new Member(entity.getName(), entity.getRole(), true, entity.getPhone(), entity.getEmail());
+        member.setPassword(entity.getPassword());
+        member.setPayoutDate(entity.getPayoutDate());
+        member.setPayoutAmount(entity.getPayoutAmount());
+        member.setHasReceivedPayout(entity.isHasReceivedPayout());
+        member.setShortfallAmount(entity.getShortfallAmount());
+        member.setContributionTarget(entity.getContributionTarget());
+        member.setContributionPaid(entity.getContributionPaid());
+        return member;
+    }
+
+    private MemberEntity convertModelToEntity(Member member) {
+        MemberEntity entity = new MemberEntity(member.getName(), member.getRole(), member.getEmail(),
+                member.getPhone());
+        entity.setPassword(member.getPassword());
+        entity.setPayoutDate(member.getPayoutDate());
+        entity.setPayoutAmount(member.getPayoutAmount());
+        entity.setHasReceivedPayout(member.hasReceivedPayout());
+        entity.setShortfallAmount(member.getShortfallAmount());
+        entity.setContributionTarget(member.getContributionTarget());
+        entity.setContributionPaid(member.getContributionPaid());
+        return entity;
+    }
+
+    private void updateEntityFromModel(MemberEntity entity, Member model) {
+        entity.setName(model.getName());
+        entity.setRole(model.getRole());
+        entity.setActive(model.isActive());
+        entity.setPhone(model.getPhone());
+        entity.setEmail(model.getEmail());
+        entity.setPayoutDate(model.getPayoutDate());
+        entity.setPayoutAmount(model.getPayoutAmount());
+        entity.setHasReceivedPayout(model.hasReceivedPayout());
+        entity.setShortfallAmount(model.getShortfallAmount());
+        entity.setContributionTarget(model.getContributionTarget());
+        entity.setContributionPaid(model.getContributionPaid());
+        // Password is not copied from model to entity (managed separately)
     }
 }

@@ -20,7 +20,7 @@ import com.example.save.databinding.ActivityMainBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class OnboardingActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private OnboardingAdapter adapter;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.putBoolean("isFirstTime", false);
                     editor.apply();
 
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(OnboardingActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                 }

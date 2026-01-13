@@ -40,7 +40,7 @@ import com.example.save.databinding.ItemCalendarDateBinding;
 import com.example.save.data.repository.MemberRepository;
 import com.example.save.ui.viewmodels.MembersViewModel;
 
-public class AdminmainActivity extends AppCompatActivity {
+public class AdminMainActivity extends AppCompatActivity {
 
     private ActivityAdminmainBinding binding;
 
@@ -61,6 +61,7 @@ public class AdminmainActivity extends AppCompatActivity {
         viewModel = new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
 
         setupListeners();
+        observeViewModel();
 
         setupBottomNavigation();
         // Assuming setupQuickActions() and updateDashboardStats() are new methods to be
@@ -72,6 +73,13 @@ public class AdminmainActivity extends AppCompatActivity {
         loadDashboardData();
         setupDatePicker();
         setupRecentActivity();
+
+        // Setup Profile Icon to open Settings
+        if (binding.profileIcon != null) {
+            binding.profileIcon.setOnClickListener(v -> {
+                startActivity(new Intent(AdminMainActivity.this, SettingsActivity.class));
+            });
+        }
     }
 
     @SuppressLint("GestureBackNavigation")
@@ -110,6 +118,16 @@ public class AdminmainActivity extends AppCompatActivity {
         // Set to UI
         binding.adminName.setText(adminNameStr + "!");
         binding.groupName.setText(groupNameStr);
+    }
+
+    private void observeViewModel() {
+        if (viewModel != null) {
+            viewModel.getMembers().observe(this, members -> {
+                if (members != null) {
+                    loadDashboardData();
+                }
+            });
+        }
     }
 
     private void setupListeners() {
@@ -268,38 +286,72 @@ public class AdminmainActivity extends AppCompatActivity {
 
     private void loadDashboardData() {
         // Load data from ViewModel
-        // double balance = viewModel.getGroupBalance(); // This line is now redundant
-        // as balance is fetched inside the if block
-        // double savings = balance * 0.2; // Dummy logic for savings portion - this is
-        // also replaced
-
+        // Load data from ViewModel
         if (binding.currentBalance != null && viewModel != null) {
-            double balance = viewModel.getGroupBalance(); // Use actual group balance
-            String formattedBalance = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "UG"))
-                    .format(balance);
-            binding.currentBalance.setText(formattedBalance);
+            viewModel.getGroupBalance().observe(this, balance -> {
+                if (balance != null) {
+                    String formattedBalance = java.text.NumberFormat
+                            .getCurrencyInstance(new java.util.Locale("en", "UG"))
+                            .format(balance);
+                    binding.currentBalance.setText(formattedBalance);
+                }
+            });
         }
 
         if (binding.savingsBalance != null && viewModel != null) {
-            // Show Admin's personal savings
-            com.example.save.data.models.Member admin = viewModel.getMemberByName("Admin");
-            if (admin != null) {
-                double mySavings = admin.getContributionPaid();
-                String formattedSavings = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "UG"))
-                        .format(mySavings);
-                binding.savingsBalance.setText(formattedSavings);
-            } else {
-                binding.savingsBalance.setText("UGX 0");
-            }
+            // Show Admin's personal savings - Run on background thread
+            new Thread(() -> {
+                try {
+                    String email = getIntent().getStringExtra("admin_email");
+                    com.example.save.data.models.Member admin;
+
+                    if (email != null) {
+                        admin = viewModel.getMemberByEmail(email);
+                    } else {
+                        // Fallback to "Admin" name query if email not passed
+                        admin = viewModel.getMemberByNameSync();
+                    }
+
+                    com.example.save.data.models.Member finalAdmin = admin;
+                    runOnUiThread(() -> {
+                        if (finalAdmin != null) {
+                            double mySavings = finalAdmin.getContributionPaid();
+                            String formattedSavings = java.text.NumberFormat
+                                    .getCurrencyInstance(new java.util.Locale("en", "UG"))
+                                    .format(mySavings);
+                            binding.savingsBalance.setText(formattedSavings);
+                        } else {
+                            binding.savingsBalance.setText("UGX 0");
+                        }
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(() -> binding.savingsBalance.setText("UGX 0"));
+                }
+            }).start();
         }
 
         updateMemberCount();
     }
 
     private void updateMemberCount() {
-        int activeMembersCount = viewModel.getActiveMemberCount();
-        int totalMembers = viewModel.getTotalMemberCount();
-        binding.activeMembers.setText(activeMembersCount + "/" + totalMembers);
+        // Run on background thread
+        new Thread(() -> {
+            try {
+                int activeMembersCount = viewModel.getActiveMemberCountSync();
+                int totalMembers = viewModel.getTotalMemberCountSync();
+                runOnUiThread(() -> {
+                    if (binding != null && binding.activeMembers != null) {
+                        binding.activeMembers.setText(activeMembersCount + "/" + totalMembers);
+                    }
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    if (binding != null && binding.activeMembers != null) {
+                        binding.activeMembers.setText("0/0");
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -330,92 +382,6 @@ public class AdminmainActivity extends AppCompatActivity {
         }
     }
 
-    // Date Picker Data Model
-    private static class DateItem {
-        String day;
-        String date;
-        boolean isSelected;
-        Calendar calendar;
-
-        DateItem(String day, String date, boolean isSelected, Calendar calendar) {
-            this.day = day;
-            this.date = date;
-            this.isSelected = isSelected;
-            this.calendar = (Calendar) calendar.clone();
-        }
-    }
-
-    // Date Picker Adapter
-    private class DateAdapter extends RecyclerView.Adapter<DateAdapter.DateViewHolder> {
-        private List<DateItem> dates;
-
-        DateAdapter(List<DateItem> dates) {
-            this.dates = dates;
-        }
-
-        @NonNull
-        @Override
-        public DateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ItemCalendarDateBinding itemBinding = ItemCalendarDateBinding.inflate(
-                    LayoutInflater.from(parent.getContext()), parent, false);
-            return new DateViewHolder(itemBinding);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull DateViewHolder holder, int position) {
-            DateItem item = dates.get(position);
-            holder.dayText.setText(item.day);
-            holder.dateText.setText(item.date);
-
-            if (item.isSelected) {
-                holder.container.setBackgroundResource(R.drawable.date_selector_bg);
-                holder.container.setSelected(true);
-                holder.dayText.setTextColor(Color.WHITE);
-                holder.dateText.setTextColor(Color.WHITE);
-            } else {
-                holder.container.setBackground(null);
-                holder.container.setSelected(false);
-                holder.dayText.setTextColor(Color.parseColor("#9E9E9E"));
-                holder.dateText.setTextColor(Color.parseColor("#1A1A1A"));
-            }
-
-            // Click listener to navigate to CreateTaskActivity
-            holder.itemView.setOnClickListener(v -> {
-                // Update selection visually
-                for (DateItem d : dates)
-                    d.isSelected = false;
-                item.isSelected = true;
-                notifyDataSetChanged();
-
-                // Navigate to DailyTasksActivity with selected date
-                Intent intent = new Intent(AdminmainActivity.this, DailyTasksActivity.class);
-                SimpleDateFormat fullDateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
-                String formattedDate = fullDateFormat.format(item.calendar.getTime());
-                intent.putExtra("selected_date", formattedDate);
-                startActivity(intent);
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return dates.size();
-        }
-
-        class DateViewHolder extends RecyclerView.ViewHolder {
-            private final ItemCalendarDateBinding itemBinding;
-            android.widget.LinearLayout container;
-            TextView dayText, dateText;
-
-            DateViewHolder(ItemCalendarDateBinding itemBinding) {
-                super(itemBinding.getRoot());
-                this.itemBinding = itemBinding;
-                container = itemBinding.dateContent;
-                dayText = itemBinding.dayText;
-                dateText = itemBinding.dateText;
-            }
-        }
-    }
-
     private void setupRecentActivity() {
         if (binding.activityRecyclerView != null) {
             binding.activityRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
@@ -429,68 +395,6 @@ public class AdminmainActivity extends AppCompatActivity {
             activities.add(new RecentActivityModel("Penalty Paid", "John D - Late Meeting", "+ UGX 5,000", true));
 
             binding.activityRecyclerView.setAdapter(new RecentActivityAdapter(activities));
-        }
-    }
-
-    // Recent Activity Model
-    private static class RecentActivityModel {
-        String title;
-        String description;
-        String amount;
-        boolean isPositive;
-
-        RecentActivityModel(String title, String description, String amount, boolean isPositive) {
-            this.title = title;
-            this.description = description;
-            this.amount = amount;
-            this.isPositive = isPositive;
-        }
-    }
-
-    // Recent Activity Adapter
-    private class RecentActivityAdapter extends RecyclerView.Adapter<RecentActivityAdapter.ActivityViewHolder> {
-        private List<RecentActivityModel> list;
-
-        RecentActivityAdapter(List<RecentActivityModel> list) {
-            this.list = list;
-        }
-
-        @NonNull
-        @Override
-        public ActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ItemActivityBinding itemBinding = ItemActivityBinding.inflate(
-                    LayoutInflater.from(parent.getContext()), parent, false);
-            return new ActivityViewHolder(itemBinding);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ActivityViewHolder holder, int position) {
-            RecentActivityModel item = list.get(position);
-            holder.title.setText(item.title);
-            holder.date.setText(item.description);
-            holder.amount.setText(item.amount);
-
-            if (item.isPositive) {
-                holder.amount.setTextColor(Color.parseColor("#4CAF50")); // Green
-            } else {
-                holder.amount.setTextColor(Color.parseColor("#F44336")); // Red
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return list.size();
-        }
-
-        class ActivityViewHolder extends RecyclerView.ViewHolder {
-            TextView title, date, amount;
-
-            ActivityViewHolder(ItemActivityBinding itemBinding) {
-                super(itemBinding.getRoot());
-                title = itemBinding.activityTitle;
-                date = itemBinding.activityDate;
-                amount = itemBinding.activityAmount;
-            }
         }
     }
 }

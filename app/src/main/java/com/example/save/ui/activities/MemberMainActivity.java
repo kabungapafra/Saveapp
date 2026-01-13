@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent; // Added import
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
@@ -61,6 +62,13 @@ public class MemberMainActivity extends AppCompatActivity {
         if (binding.btnHeaderMembers != null) {
             binding.btnHeaderMembers.setOnClickListener(v -> {
                 showMembersSection();
+            });
+        }
+
+        // Clicking the greeting opens Settings (for logout)
+        if (binding.greetingName != null) {
+            binding.greetingName.setOnClickListener(v -> {
+                startActivity(new Intent(MemberMainActivity.this, SettingsActivity.class));
             });
         }
     }
@@ -165,20 +173,58 @@ public class MemberMainActivity extends AppCompatActivity {
         // line 155: binding.txtBalance.setText("UGX 1,500,000");
         // It was hardcoded!
 
-        if (binding.txtBalance != null)
-            binding.txtBalance.setText("UGX 1,500,000"); // Kept hardcoded as per original
+        if (binding.txtBalance != null && viewModel != null) {
+            viewModel.getGroupBalance().observe(this, balance -> {
+                if (balance != null) {
+                    String formattedBalance = java.text.NumberFormat
+                            .getCurrencyInstance(new java.util.Locale("en", "UG"))
+                            .format(balance);
+                    binding.txtBalance.setText(formattedBalance);
+                }
+            });
+        }
 
-        if (binding.savingsBalance != null)
-            binding.savingsBalance.setText("UGX 350,000");
+        if (binding.savingsBalance != null && viewModel != null) {
+            String email = getIntent().getStringExtra("member_email");
+            if (email != null) {
+                new Thread(() -> {
+                    com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
+                    runOnUiThread(() -> {
+                        if (member != null) {
+                            double mySavings = member.getContributionPaid();
+                            String formatted = java.text.NumberFormat
+                                    .getCurrencyInstance(new java.util.Locale("en", "UG")).format(mySavings);
+                            binding.savingsBalance.setText(formatted);
+                        }
+                    });
+                }).start();
+            } else {
+                binding.savingsBalance.setText("UGX 0");
+            }
+        }
 
         updateMemberCount();
     }
 
     private void updateMemberCount() {
         if (viewModel != null && binding.activeMembers != null) {
-            int activeMembersCount = viewModel.getActiveMemberCount();
-            int totalMembers = viewModel.getTotalMemberCount();
-            binding.activeMembers.setText(activeMembersCount + "/" + totalMembers);
+            new Thread(() -> {
+                try {
+                    int activeMembersCount = viewModel.getActiveMemberCountSync();
+                    int totalMembers = viewModel.getTotalMemberCountSync();
+                    runOnUiThread(() -> {
+                        if (binding != null && binding.activeMembers != null) {
+                            binding.activeMembers.setText(activeMembersCount + "/" + totalMembers);
+                        }
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(() -> {
+                        if (binding != null && binding.activeMembers != null) {
+                            binding.activeMembers.setText("0/0");
+                        }
+                    });
+                }
+            }).start();
         }
     }
 

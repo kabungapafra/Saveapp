@@ -1,16 +1,22 @@
 package com.example.save.ui.viewmodels;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
+
 import com.example.save.data.models.Member;
 import com.example.save.data.repository.MemberRepository;
+
 import java.util.List;
 
-public class PayoutsViewModel extends ViewModel {
+public class PayoutsViewModel extends AndroidViewModel {
     private final MemberRepository repository;
 
-    public PayoutsViewModel() {
-        this.repository = MemberRepository.getInstance();
+    public PayoutsViewModel(@NonNull Application application) {
+        super(application);
+        this.repository = MemberRepository.getInstance(application);
     }
 
     public LiveData<List<Member>> getMembers() {

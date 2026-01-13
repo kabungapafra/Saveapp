@@ -82,6 +82,24 @@
             android:textColor="@color/deep_blue"
             android:textSize="@dimen/text_size_normal" />
 
+        <!-- Role Input -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_xs"
+            android:text="Role"
+            android:textColor="@color/deep_blue"
+            android:textSize="@dimen/text_size_small" />
+
+        <Spinner
+            android:id="@+id/spinnerMemberRole"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:padding="8dp"
+            android:background="@drawable/nav_item_pill_white" 
+            android:spinnerMode="dropdown" />
+
         <!-- Initial OTP/Password Input -->
         <TextView
             android:layout_width="wrap_content"

@@ -19,9 +19,10 @@ import com.example.save.R;
 import com.example.save.databinding.ActivityMemberregBinding;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class MemberregActivity extends AppCompatActivity {
+public class MemberRegistrationActivity extends AppCompatActivity {
 
     private ActivityMemberregBinding binding;
+    private com.example.save.ui.viewmodels.MembersViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,9 @@ public class MemberregActivity extends AppCompatActivity {
         // Setup click listeners
         binding.loginButton.setOnClickListener(v -> handleLogin());
         binding.forgotPassword.setOnClickListener(v -> showForgotPasswordFragment());
+
+        viewModel = new androidx.lifecycle.ViewModelProvider(this)
+                .get(com.example.save.ui.viewmodels.MembersViewModel.class);
 
         // Handle back press
         getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
@@ -61,7 +65,7 @@ public class MemberregActivity extends AppCompatActivity {
         binding.fragmentContainer.setVisibility(View.VISIBLE);
 
         // Show forgot password fragment
-        nwpasswordFragment fragment = nwpasswordFragment.newInstance();
+        NewPasswordFragment fragment = NewPasswordFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, fragment)
                 .addToBackStack(null)
@@ -73,32 +77,49 @@ public class MemberregActivity extends AppCompatActivity {
         String phone = binding.phoneInput.getText().toString().trim();
         String password = binding.passwordInput.getText().toString().trim();
 
-        // Validate inputs
-        if (groupName.isEmpty()) {
-            binding.groupNameInput.setError("Group name is required");
-            binding.groupNameInput.requestFocus();
+        // Validate inputs using ValidationUtils
+        if (!com.example.save.utils.ValidationUtils.isNotEmpty(groupName)) {
+            com.example.save.utils.ValidationUtils.showError(binding.groupNameInput, "Group name is required");
             return;
         }
 
-        if (phone.isEmpty() || phone.length() != 9) {
-            binding.phoneInput.setError("Valid phone number is required");
-            binding.phoneInput.requestFocus();
+        if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
+            com.example.save.utils.ValidationUtils.showError(binding.phoneInput, "Invalid phone number format");
             return;
         }
 
-        if (password.isEmpty() || password.length() < 8) {
-            binding.passwordInput.setError("Password must be at least 8 characters");
-            binding.passwordInput.requestFocus();
+        if (!com.example.save.utils.ValidationUtils.isValidPassword(password)) {
+            com.example.save.utils.ValidationUtils.showError(binding.passwordInput,
+                    "Password must be at least 8 characters");
             return;
         }
 
-        // TODO: Implement actual member login logic with backend
-        // Navigate to member main activity
-        Toast.makeText(this, "Member login successful!", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(MemberregActivity.this, MemberMainActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        finish();
+        binding.loginButton.setEnabled(false);
+        binding.loginButton.setText("Signing in...");
+
+        // Background thread for database query
+        new Thread(() -> {
+            Member member = viewModel.getMemberByPhone(phone); // Auth by Phone
+
+            runOnUiThread(() -> {
+                binding.loginButton.setEnabled(true);
+                binding.loginButton.setText("Login");
+
+                if (member != null && member.getPassword().equals(password)) {
+                    Toast.makeText(MemberRegistrationActivity.this, "Welcome " + member.getName(), Toast.LENGTH_SHORT)
+                            .show();
+                    Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
+                    intent.putExtra("member_email", member.getEmail()); // Pass email to Dashboard
+                    // Clear back stack so user can't go back to login
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                } else {
+                    Toast.makeText(MemberRegistrationActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
     }
 
     @Override

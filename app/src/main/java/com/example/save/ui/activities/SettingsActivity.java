@@ -56,8 +56,13 @@ public class SettingsActivity extends AppCompatActivity {
         binding.backButton.setOnClickListener(v -> finish());
 
         binding.btnLogout.setOnClickListener(v -> {
-            // TODO: Implement actual logout logic (clear prefs, intent to LoginActivity)
-            Toast.makeText(this, "Logout Clicked", Toast.LENGTH_SHORT).show();
+            // Clear any stored session data (if added in future)
+            // For now, just navigate back to Login/Entry point cleanly
+            android.content.Intent intent = new android.content.Intent(this, MemberRegistrationActivity.class);
+            intent.setFlags(
+                    android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         });
 
         // Listeners for clickable items (Toasts for now)

@@ -27,6 +27,9 @@ import com.example.save.databinding.ItemMemberSimpleBinding;
 import com.example.save.databinding.ItemPayoutQueueBinding;
 import com.example.save.ui.viewmodels.PayoutsViewModel;
 
+import com.example.save.ui.adapters.ShortfallAdapter;
+import com.example.save.ui.adapters.PayoutQueueAdapter;
+
 public class PayoutsFragment extends Fragment {
 
     private FragmentPayoutsBinding binding;
@@ -64,15 +67,30 @@ public class PayoutsFragment extends Fragment {
         if (getContext() == null)
             return;
 
-        // Populate Hero Card with next recipient
-        Member nextRecipient = viewModel.getNextPayoutRecipient();
-        if (nextRecipient != null) {
-            binding.tvNextRecipientName.setText(nextRecipient.getName());
-            binding.tvHeroAmount.setText("UGX 500,000");
-        } else {
-            binding.tvNextRecipientName.setText("No Payouts Due");
-            binding.tvHeroAmount.setText("---");
-        }
+        // Populate Hero Card with next recipient - use background thread
+        new Thread(() -> {
+            try {
+                Member nextRecipient = viewModel.getNextPayoutRecipient();
+                requireActivity().runOnUiThread(() -> {
+                    if (binding != null) {
+                        if (nextRecipient != null) {
+                            binding.tvNextRecipientName.setText(nextRecipient.getName());
+                            binding.tvHeroAmount.setText("UGX 500,000");
+                        } else {
+                            binding.tvNextRecipientName.setText("No Payouts Due");
+                            binding.tvHeroAmount.setText("---");
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                requireActivity().runOnUiThread(() -> {
+                    if (binding != null) {
+                        binding.tvNextRecipientName.setText("Error");
+                        binding.tvHeroAmount.setText("---");
+                    }
+                });
+            }
+        }).start();
 
         // Setup Upcoming Payouts List (Top 3 Eligible)
         binding.upcomingPayoutsRecyclerView
@@ -90,51 +108,76 @@ public class PayoutsFragment extends Fragment {
             }
         }
 
-        binding.upcomingPayoutsRecyclerView.setAdapter(new UpcomingPayoutAdapter(upcomingMembers));
+        binding.upcomingPayoutsRecyclerView.setAdapter(new PayoutQueueAdapter(upcomingMembers, false));
     }
 
     private void setupListeners() {
         binding.btnExecutePayout.setOnClickListener(v -> {
-            Member nextRecipient = viewModel.getNextPayoutRecipient();
+            // Fetch next recipient on background thread
+            new Thread(() -> {
+                try {
+                    Member nextRecipient = viewModel.getNextPayoutRecipient();
 
-            if (nextRecipient != null) {
-                // Custom Confirmation Dialog
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
-                DialogConfirmPayoutBinding dialogBinding = DialogConfirmPayoutBinding
-                        .inflate(LayoutInflater.from(getContext()));
-                builder.setView(dialogBinding.getRoot());
-                android.app.AlertDialog dialog = builder.create();
-                dialog.getWindow().setBackgroundDrawable(
-                        new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    requireActivity().runOnUiThread(() -> {
+                        if (nextRecipient != null) {
+                            // Custom Confirmation Dialog
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                            DialogConfirmPayoutBinding dialogBinding = DialogConfirmPayoutBinding
+                                    .inflate(LayoutInflater.from(getContext()));
+                            builder.setView(dialogBinding.getRoot());
+                            android.app.AlertDialog dialog = builder.create();
+                            dialog.getWindow().setBackgroundDrawable(
+                                    new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-                dialogBinding.tvRecipientName.setText(nextRecipient.getName());
-                dialogBinding.tvPayoutAmount.setText("UGX 500,000"); // Dynamic amount if available
+                            dialogBinding.tvRecipientName.setText(nextRecipient.getName());
+                            dialogBinding.tvPayoutAmount.setText("UGX 500,000"); // Dynamic amount if available
 
-                dialogBinding.btnConfirm.setOnClickListener(view -> {
-                    boolean success = viewModel.executePayout(nextRecipient);
-                    if (success) {
+                            dialogBinding.btnConfirm.setOnClickListener(view -> {
+                                // Execute payout on background thread
+                                new Thread(() -> {
+                                    try {
+                                        boolean success = viewModel.executePayout(nextRecipient);
+                                        requireActivity().runOnUiThread(() -> {
+                                            if (success) {
+                                                android.widget.Toast.makeText(getContext(),
+                                                        "Payout executed for " + nextRecipient.getName(),
+                                                        android.widget.Toast.LENGTH_SHORT).show();
+                                                // UI updates automatically via LiveData
+                                            } else {
+                                                android.widget.Toast.makeText(getContext(),
+                                                        "Insufficient balance or invalid member",
+                                                        android.widget.Toast.LENGTH_SHORT).show();
+                                            }
+                                            dialog.dismiss();
+                                        });
+                                    } catch (Exception e) {
+                                        requireActivity().runOnUiThread(() -> {
+                                            android.widget.Toast.makeText(getContext(),
+                                                    "Error executing payout",
+                                                    android.widget.Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();
+                                        });
+                                    }
+                                }).start();
+                            });
+
+                            dialogBinding.btnCancel.setOnClickListener(view -> dialog.dismiss());
+
+                            dialog.show();
+                        } else {
+                            android.widget.Toast.makeText(getContext(),
+                                    "No recipient available",
+                                    android.widget.Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (Exception e) {
+                    requireActivity().runOnUiThread(() -> {
                         android.widget.Toast.makeText(getContext(),
-                                "Payout executed for " + nextRecipient.getName(),
+                                "Error loading recipient",
                                 android.widget.Toast.LENGTH_SHORT).show();
-                        // UI updates automatically via LiveData
-                    } else {
-                        // Ideally getGroupBalance should be exposed via ViewModel too, but for error
-                        // msg we might need to fetch it or skip showing balance
-                        android.widget.Toast.makeText(getContext(),
-                                "Insufficient balance or invalid member",
-                                android.widget.Toast.LENGTH_SHORT).show();
-                    }
-                    dialog.dismiss();
-                });
-
-                dialogBinding.btnCancel.setOnClickListener(view -> dialog.dismiss());
-
-                dialog.show();
-            } else {
-                android.widget.Toast.makeText(getContext(),
-                        "No recipient available",
-                        android.widget.Toast.LENGTH_SHORT).show();
-            }
+                    });
+                }
+            }).start();
         });
 
         binding.btnManageShortfalls.setOnClickListener(v -> {
@@ -310,64 +353,10 @@ public class PayoutsFragment extends Fragment {
         if (members == null)
             members = new java.util.ArrayList<>();
 
-        dialogBinding.queueRecyclerView.setAdapter(new QueueAdapter(members));
+        dialogBinding.queueRecyclerView.setAdapter(new PayoutQueueAdapter(members, true));
 
         dialogBinding.btnCloseQueue.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
-    }
-
-    private class QueueAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<QueueAdapter.QueueViewHolder> {
-        private java.util.List<Member> members;
-
-        QueueAdapter(java.util.List<Member> members) {
-            this.members = members;
-        }
-
-        @NonNull
-        @Override
-        public QueueViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            // Using detailed item layout now
-            ItemPayoutQueueBinding itemBinding = ItemPayoutQueueBinding.inflate(
-                    LayoutInflater.from(parent.getContext()), parent, false);
-            return new QueueViewHolder(itemBinding);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull QueueViewHolder holder, int position) {
-            Member member = members.get(position);
-            holder.rank.setText(String.valueOf(position + 1));
-            holder.name.setText(member.getName());
-
-            if (member.hasReceivedPayout()) {
-                holder.date.setText("Paid on: " + member.getPayoutDate());
-                holder.date.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-                holder.amount.setText("Paid");
-            } else {
-                holder.date.setText("Estimated: Future Date");
-                holder.date.setTextColor(getResources().getColor(android.R.color.darker_gray));
-                holder.amount.setText("500k");
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return members.size();
-        }
-
-        class QueueViewHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
-            final ItemPayoutQueueBinding itemBinding;
-            TextView rank, name, date, amount;
-
-            QueueViewHolder(ItemPayoutQueueBinding itemBinding) {
-                super(itemBinding.getRoot());
-                this.itemBinding = itemBinding;
-                // Bind to item_payout_queue IDs
-                rank = itemBinding.tvRank;
-                name = itemBinding.tvName;
-                date = itemBinding.tvDate;
-                amount = itemBinding.tvAmount;
-            }
-        }
     }
 }

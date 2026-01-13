@@ -1,4 +1,5 @@
 package com.example.save.ui.activities;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -22,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class AdminLoginActivity extends AppCompatActivity {
 
     private ActivityAdminregBinding binding;
+    private com.example.save.ui.viewmodels.MembersViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,9 @@ public class AdminLoginActivity extends AppCompatActivity {
         // Setup click listeners
         binding.loginButton.setOnClickListener(v -> handleLogin());
         binding.forgotPassword.setOnClickListener(v -> showForgotPasswordFragment());
+
+        viewModel = new androidx.lifecycle.ViewModelProvider(this)
+                .get(com.example.save.ui.viewmodels.MembersViewModel.class);
     }
 
     public void onsingupClick(View view) {
@@ -50,7 +55,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         binding.fragmentContainer.setVisibility(View.VISIBLE);
 
         // Show forgot password fragment
-        nwpasswordFragment fragment = nwpasswordFragment.newInstance();
+        NewPasswordFragment fragment = NewPasswordFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, fragment)
                 .addToBackStack(null)
@@ -83,26 +88,52 @@ public class AdminLoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (phone.isEmpty() || phone.length() != 9) {
+        if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
             binding.phoneInput.setError("Valid phone number is required");
             binding.phoneInput.requestFocus();
             return;
         }
 
-        if (password.isEmpty() || password.length() < 8) {
-            binding.passwordInput.setError("Password must be at least 8 characters");
+        if (password.isEmpty()) {
+            binding.passwordInput.setError("Password is required");
             binding.passwordInput.requestFocus();
             return;
         }
 
-        // TODO: Implement actual login logic with backend
-        // For now, just show a toast and navigate to admin main
-        Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+        binding.loginButton.setEnabled(false);
+        binding.loginButton.setText("Signing in...");
 
-        Intent intent = new Intent(AdminLoginActivity.this, AdminmainActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        finish();
+        // Background thread for database query
+        new Thread(() -> {
+            Member member = viewModel.getMemberByPhone(phone); // Auth by Phone
+
+            runOnUiThread(() -> {
+                binding.loginButton.setEnabled(true);
+                binding.loginButton.setText("Login");
+
+                if (member != null && member.getPassword().equals(password)) {
+                    // Check if user is Admin
+                    if (member.getRole().equalsIgnoreCase("Administrator") ||
+                            member.getRole().equalsIgnoreCase("Admin")) {
+
+                        Toast.makeText(AdminLoginActivity.this, "Welcome " + member.getName(), Toast.LENGTH_SHORT)
+                                .show();
+                        Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
+                        intent.putExtra("admin_email", member.getEmail()); // Pass email
+                        // Clear back stack so user can't go back to login
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                    } else {
+                        Toast.makeText(AdminLoginActivity.this, "Access Denied: Not an Administrator",
+                                Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(AdminLoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
     }
 
     @Override

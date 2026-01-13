@@ -25,7 +25,7 @@
 
         <!-- Main Activity (shows after splash) -->
         <activity
-            android:name="com.example.save.ui.activities.MainActivity"
+            android:name="com.example.save.ui.activities.OnboardingActivity"
             android:exported="false" />
 
         <activity
@@ -40,14 +40,14 @@
             android:name="com.example.save.ui.activities.MemberMainActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.save.ui.activities.MemberregActivity"
+            android:name="com.example.save.ui.activities.MemberRegistrationActivity"
             android:exported="true" />
         <activity
             android:name="com.example.save.ui.activities.AdminSignupActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.example.save.ui.activities.AdminmainActivity"
+            android:name="com.example.save.ui.activities.AdminMainActivity"
             android:exported="false" />
 
         <activity
@@ -57,12 +57,12 @@
         <activity
             android:name="com.example.save.ui.activities.SettingsActivity"
             android:exported="false"
-            android:parentActivityName="com.example.save.ui.activities.AdminmainActivity" />
+            android:parentActivityName="com.example.save.ui.activities.AdminMainActivity" />
 
         <activity
             android:name="com.example.save.ui.activities.DailyTasksActivity"
             android:exported="false"
-            android:parentActivityName="com.example.save.ui.activities.AdminmainActivity"
+            android:parentActivityName="com.example.save.ui.activities.AdminMainActivity"
             android:theme="@style/Theme.Save" />
 
 

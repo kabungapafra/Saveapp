@@ -141,14 +141,30 @@
                     android:layout_marginEnd="8dp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvAdminTitle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Administrators"
                     android:textColor="@color/deep_blue"
                     android:textSize="14sp"
                     android:fontFamily="sans-serif-black"
                     android:textAllCaps="true"
                     android:letterSpacing="0.05"/>
+
+                <TextView
+                    android:id="@+id/tvAdminCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/deep_blue"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:background="@drawable/bg_icon_circle"
+                    android:backgroundTint="#F0F4FF"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:gravity="center"/>
             </LinearLayout>
 
             <!-- Using a horizontal RecyclerView for admins if many, or vertical list -->

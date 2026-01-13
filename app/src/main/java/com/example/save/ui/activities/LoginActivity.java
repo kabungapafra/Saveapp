@@ -1,4 +1,5 @@
 package com.example.save.ui.activities;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -40,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
      * Handle Member button click from XML
      */
     public void onMemberClick(View view) {
-        Intent intent = new Intent(this, MemberregActivity.class);
+        Intent intent = new Intent(this, MemberRegistrationActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

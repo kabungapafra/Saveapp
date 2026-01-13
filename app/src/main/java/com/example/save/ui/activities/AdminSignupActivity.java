@@ -1,4 +1,5 @@
 package com.example.save.ui.activities;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -19,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.save.ui.fragments.Otp;
+import com.example.save.ui.fragments.OtpFragment;
 import com.example.save.R;
 import com.example.save.databinding.ActivitySignupBinding;
 
@@ -82,35 +83,30 @@ public class AdminSignupActivity extends AppCompatActivity {
         String password = binding.passwordInput.getText().toString();
         String confirmPassword = binding.confirmPasswordInput.getText().toString();
 
-        // Validate inputs
-        if (name.isEmpty()) {
-            binding.companyInput.setError("Group name is required");
-            binding.companyInput.requestFocus();
+        // Validate inputs using ValidationUtils
+        if (!com.example.save.utils.ValidationUtils.isNotEmpty(name)) {
+            com.example.save.utils.ValidationUtils.showError(binding.companyInput, "Group name is required");
             return;
         }
 
-        // Phone validation: expecting 9 digits after +256 prefix
-        if (phone.isEmpty() || phone.length() != 9) {
-            binding.phoneInput.setError("Phone number must be 9 digits");
-            binding.phoneInput.requestFocus();
+        if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
+            com.example.save.utils.ValidationUtils.showError(binding.phoneInput, "Invalid phone number format");
             return;
         }
 
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.emailInput.setError("Valid email is required");
-            binding.emailInput.requestFocus();
+        if (!com.example.save.utils.ValidationUtils.isValidEmail(email)) {
+            com.example.save.utils.ValidationUtils.showError(binding.emailInput, "Invalid email format");
             return;
         }
 
-        if (password.isEmpty() || password.length() < 8) {
-            binding.passwordInput.setError("Password must be at least 8 characters");
-            binding.passwordInput.requestFocus();
+        if (!com.example.save.utils.ValidationUtils.isValidPassword(password)) {
+            com.example.save.utils.ValidationUtils.showError(binding.passwordInput,
+                    "Password must be at least 8 characters");
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            binding.confirmPasswordInput.setError("Passwords do not match");
-            binding.confirmPasswordInput.requestFocus();
+            com.example.save.utils.ValidationUtils.showError(binding.confirmPasswordInput, "Passwords do not match");
             return;
         }
 
@@ -150,7 +146,7 @@ public class AdminSignupActivity extends AppCompatActivity {
         binding.fragmentContainer.setVisibility(View.VISIBLE);
 
         // Create OTP fragment with admin data - USE THE CORRECT METHOD
-        Otp otp = Otp.newInstanceForRegistration(name, phone, email, password);
+        OtpFragment otp = OtpFragment.newInstanceForRegistration(name, phone, email, password);
 
         // Replace current view with OTP fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
