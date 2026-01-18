@@ -108,7 +108,10 @@ public class MemberMainActivity extends AppCompatActivity {
 
         binding.navStats.setOnClickListener(v -> {
             updateNav(binding.navStats, binding.txtStats, binding.imgStats);
-            loadFragment(AnalyticsFragment.newInstance(false));
+            String email = getIntent().getStringExtra("member_email");
+            if (email == null)
+                email = "email@example.com"; // Fallback
+            loadFragment(AnalyticsFragment.newInstance(false, email));
         });
     }
 

@@ -14,7 +14,7 @@
         android:id="@+id/logoImage"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="80dp"
         android:contentDescription="@string/logo"
         android:src="@drawable/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
         android:id="@+id/loginCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="160dp"
         android:layout_marginEnd="3dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="12dp"
@@ -55,6 +55,7 @@
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
+
             <!-- Group Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -76,6 +77,31 @@
                     android:minHeight="60dp"
                     android:hint="@string/group_name"
                     android:inputType="textEmailAddress"
+                    android:textColor="#3F51B5"
+                    android:textColorHint="#3F51B5" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Admin Name Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:boxBackgroundColor="#80FFFFFF"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:endIconMode="clear_text"
+                app:endIconTint="#3F51B5"
+                app:hintTextColor="#3F51B5">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/adminNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="60dp"
+                    android:hint="Your Name (Admin)"
+                    android:inputType="textPersonName"
                     android:textColor="#3F51B5"
                     android:textColorHint="#3F51B5" />
             </com.google.android.material.textfield.TextInputLayout>

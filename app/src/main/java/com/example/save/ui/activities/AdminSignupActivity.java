@@ -75,16 +75,25 @@ public class AdminSignupActivity extends AppCompatActivity {
     /**
      * Validate inputs and send OTP to admin
      */
+    /**
+     * Validate inputs and send OTP to admin
+     */
     private void sendOtp() {
         // Get input values
-        String name = binding.companyInput.getText().toString().trim();
+        String adminName = binding.adminNameInput.getText().toString().trim();
+        String groupName = binding.companyInput.getText().toString().trim();
         String phone = binding.phoneInput.getText().toString().trim();
         String email = binding.emailInput.getText().toString().trim();
         String password = binding.passwordInput.getText().toString();
         String confirmPassword = binding.confirmPasswordInput.getText().toString();
 
         // Validate inputs using ValidationUtils
-        if (!com.example.save.utils.ValidationUtils.isNotEmpty(name)) {
+        if (!com.example.save.utils.ValidationUtils.isNotEmpty(adminName)) {
+            com.example.save.utils.ValidationUtils.showError(binding.adminNameInput, "Admin Name is required");
+            return;
+        }
+
+        if (!com.example.save.utils.ValidationUtils.isNotEmpty(groupName)) {
             com.example.save.utils.ValidationUtils.showError(binding.companyInput, "Group name is required");
             return;
         }
@@ -119,13 +128,13 @@ public class AdminSignupActivity extends AppCompatActivity {
         // Body: { "phone": "+256" + phone, "email": email }
 
         // For now, simulate OTP sent
-        simulateOtpSent(name, phone, email, password);
+        simulateOtpSent(adminName, groupName, phone, email, password);
     }
 
     /**
      * TEMPORARY: Simulate OTP sent (replace with actual API call)
      */
-    private void simulateOtpSent(String name, String phone, String email, String password) {
+    private void simulateOtpSent(String adminName, String groupName, String phone, String email, String password) {
         new Handler().postDelayed(() -> {
             binding.signupButton.setEnabled(true);
             binding.signupButton.setText(getString(R.string.create_account));
@@ -133,20 +142,21 @@ public class AdminSignupActivity extends AppCompatActivity {
             Toast.makeText(this, "OTP sent to " + email, Toast.LENGTH_SHORT).show();
 
             // Navigate to OTP fragment
-            navigateToOtpFragment(name, phone, email, password);
+            navigateToOtpFragment(adminName, groupName, phone, email, password);
         }, 1500);
     }
 
     /**
      * Navigate to OTP fragment
      */
-    private void navigateToOtpFragment(String name, String phone, String email, String password) {
+    private void navigateToOtpFragment(String adminName, String groupName, String phone, String email,
+            String password) {
         // Hide signup form, show fragment container
         binding.loginCard.setVisibility(View.GONE);
         binding.fragmentContainer.setVisibility(View.VISIBLE);
 
         // Create OTP fragment with admin data - USE THE CORRECT METHOD
-        OtpFragment otp = OtpFragment.newInstanceForRegistration(name, phone, email, password);
+        OtpFragment otp = OtpFragment.newInstanceForRegistration(adminName, groupName, phone, email, password);
 
         // Replace current view with OTP fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

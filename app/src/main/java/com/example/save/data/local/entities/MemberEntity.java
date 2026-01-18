@@ -29,6 +29,7 @@ public class MemberEntity {
     public MemberEntity() {
     }
 
+    @androidx.room.Ignore
     public MemberEntity(String name, String role, String email, String phone) {
         this.name = name;
         this.role = role;

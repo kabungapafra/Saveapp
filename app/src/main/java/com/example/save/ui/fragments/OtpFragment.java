@@ -34,11 +34,13 @@ import com.example.save.ui.activities.AdminMainActivity;
 public class OtpFragment extends Fragment {
 
     private static final String ARG_NAME = "name";
+    private static final String ARG_GROUP_NAME = "group_name"; // New Argument
     private static final String ARG_PHONE = "phone";
     private static final String ARG_EMAIL = "email";
     private static final String ARG_PASSWORD = "password";
 
     private static String name;
+    private static String groupName; // New Field
     private static String phone;
     private static String email;
     private static String password;
@@ -47,20 +49,15 @@ public class OtpFragment extends Fragment {
     private CountDownTimer countDownTimer;
 
     public static OtpFragment newInstance() {
-        OtpFragment fragment = new OtpFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_NAME, name);
-        args.putString(ARG_PHONE, phone);
-        args.putString(ARG_EMAIL, email);
-        args.putString(ARG_PASSWORD, password);
-        fragment.setArguments(args);
-        return fragment;
+        return new OtpFragment();
     }
 
-    public static OtpFragment newInstanceForRegistration(String name, String phone, String email, String password) {
+    public static OtpFragment newInstanceForRegistration(String name, String groupName, String phone, String email,
+            String password) {
         OtpFragment fragment = new OtpFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NAME, name);
+        args.putString(ARG_GROUP_NAME, groupName);
         args.putString(ARG_PHONE, phone);
         args.putString(ARG_EMAIL, email);
         args.putString(ARG_PASSWORD, password);
@@ -73,6 +70,7 @@ public class OtpFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             name = getArguments().getString(ARG_NAME);
+            groupName = getArguments().getString(ARG_GROUP_NAME);
             phone = getArguments().getString(ARG_PHONE);
             email = getArguments().getString(ARG_EMAIL);
             password = getArguments().getString(ARG_PASSWORD);
@@ -126,9 +124,6 @@ public class OtpFragment extends Fragment {
         binding = null;
     }
 
-    /**
-     * Setup auto-focus between OTP digits
-     */
     /**
      * Setup auto-focus between OTP digits
      */
@@ -219,6 +214,17 @@ public class OtpFragment extends Fragment {
 
                 // Save asynchronously
                 viewModel.addMember(newAdmin);
+
+                // SAVE GROUP NAME AND ADMIN INFO TO PREFS
+                if (getActivity() != null) {
+                    android.content.SharedPreferences prefs = getActivity().getSharedPreferences("ChamaPrefs",
+                            android.content.Context.MODE_PRIVATE);
+                    android.content.SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("group_name", groupName);
+                    editor.putString("admin_name", name);
+                    editor.putString("admin_email", email); // Save Email
+                    editor.apply();
+                }
 
                 // Show success and navigate
                 Toast.makeText(getContext(), "Account created! Please login.", Toast.LENGTH_LONG).show();

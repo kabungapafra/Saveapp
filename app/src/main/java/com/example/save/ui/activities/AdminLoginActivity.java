@@ -118,8 +118,20 @@ public class AdminLoginActivity extends AppCompatActivity {
 
                         Toast.makeText(AdminLoginActivity.this, "Welcome " + member.getName(), Toast.LENGTH_SHORT)
                                 .show();
+
+                        // SAVE CREDENTIALS TO PREFS for persistence
+                        android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
+                        prefs.edit()
+                                .putString("admin_name", member.getName())
+                                .putString("group_name", groupName)
+                                .putString("admin_email", member.getEmail()) // Save Email for recovery
+                                .apply();
+
                         Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
                         intent.putExtra("admin_email", member.getEmail()); // Pass email
+                        intent.putExtra("admin_name", member.getName()); // Pass name for Greeting
+                        intent.putExtra("group_name", groupName); // Pass group name for Header
+
                         // Clear back stack so user can't go back to login
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
 /**
  * Room Database for the Save app
  */
-@Database(entities = { MemberEntity.class, LoanEntity.class }, version = 1, exportSchema = false)
+@Database(entities = { MemberEntity.class, LoanEntity.class }, version = 2, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -41,6 +41,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                                         context.getApplicationContext(),
                                                         AppDatabase.class,
                                                         DATABASE_NAME)
+                                                        .fallbackToDestructiveMigration() // Wipe data on version change
                                                         .addCallback(new Callback() {
                                                                 @Override
                                                                 public void onCreate(

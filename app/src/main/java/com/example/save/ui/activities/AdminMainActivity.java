@@ -106,18 +106,104 @@ public class AdminMainActivity extends AppCompatActivity {
     private void loadAdminData() {
         // Get admin data from SharedPreferences or Intent
         SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
+        // Default to "Admin" if not found
         adminNameStr = prefs.getString("admin_name", "Admin");
         groupNameStr = prefs.getString("group_name", "Weekend Savers Club");
 
-        // Or get from Intent
+        // Overwrite with Intent extra if present
         Intent intent = getIntent();
         if (intent.hasExtra("admin_name")) {
             adminNameStr = intent.getStringExtra("admin_name");
         }
+        if (intent.hasExtra("group_name")) {
+            groupNameStr = intent.getStringExtra("group_name");
+        }
+
+        // If still default "Admin", try to fetch from DB using email
+        if ("Admin".equals(adminNameStr) || "Weekend Savers Club".equals(groupNameStr)) {
+            // Try to get email from Intent OR SharedPreferences (Robust Fallback)
+            String email = intent.getStringExtra("admin_email");
+            if (email == null) {
+                email = prefs.getString("admin_email", null);
+            }
+
+            if (email != null) {
+                String finalEmail = email; // For lambda
+                new Thread(() -> {
+                    com.example.save.data.models.Member admin = viewModel.getMemberByEmail(finalEmail);
+                    if (admin != null) {
+                        String realName = admin.getName();
+                        runOnUiThread(() -> {
+                            binding.adminName.setText(realName + "!");
+                            // Save to prefs for next time
+                            prefs.edit().putString("admin_name", realName).apply();
+                            // Optional: Toast to confirm recovery (Debug)
+                            // Toast.makeText(AdminMainActivity.this, "Restored session for: " + realName,
+                            // Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }).start();
+            } else {
+                // ULTIMATE FALLBACK: If no email locally, just find the first Administrator in
+                // the DB
+                new Thread(() -> {
+                    List<com.example.save.data.models.Member> admins = viewModel.getAdmins();
+                    if (admins != null && !admins.isEmpty()) {
+                        com.example.save.data.models.Member firstAdmin = admins.get(0);
+                        String recoveredName = firstAdmin.getName();
+                        String recoveredEmail = firstAdmin.getEmail();
+
+                        runOnUiThread(() -> {
+                            binding.adminName.setText(recoveredName + "!");
+                            // Save recovered identity
+                            prefs.edit()
+                                    .putString("admin_name", recoveredName)
+                                    .putString("admin_email", recoveredEmail)
+                                    .apply();
+                            // Optional: Toast to confirm recovery (Debug)
+                            // Toast.makeText(AdminMainActivity.this, "DEBUG: Recovered: " + recoveredName,
+                            // Toast.LENGTH_SHORT).show();
+                        });
+                    } else {
+                        // DEBUG: No admin found
+                        runOnUiThread(() -> {
+                            // Toast.makeText(AdminMainActivity.this, "DEBUG: No Admin found in Database!",
+                            // Toast.LENGTH_LONG).show();
+                        });
+                    }
+                }).start();
+            }
+        }
 
         // Set to UI
-        binding.adminName.setText(adminNameStr + "!");
-        binding.groupName.setText(groupNameStr);
+        if (binding.adminName != null)
+            binding.adminName.setText(adminNameStr + "!");
+        if (binding.groupName != null)
+            binding.groupName.setText(groupNameStr);
+    }
+
+    // ...
+
+    private void setupRecentActivity() {
+        if (binding.activityRecyclerView != null) {
+            binding.activityRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+
+            List<RecentActivityModel> activities = new ArrayList<>();
+            // TODO: Fetch real recent activity from database
+
+            if (activities.isEmpty()) {
+                // Determine if we have an empty state view, if not create a simple snackbar or
+                // just leave empty
+                // But user says "i cant see the recent activities", implying they expect to see
+                // *something*
+                // Since we don't have a specific EmptyView in XML yet, let's just add a
+                // placeholder
+                activities
+                        .add(new RecentActivityModel("No Recent Activity", "Transactions will appear here", "", true));
+            }
+
+            binding.activityRecyclerView.setAdapter(new RecentActivityAdapter(activities));
+        }
     }
 
     private void observeViewModel() {
@@ -249,7 +335,7 @@ public class AdminMainActivity extends AppCompatActivity {
             else if (selectedLayout == binding.navLoans)
                 fragment = new LoansFragment();
             else if (selectedLayout == binding.navAnalytics)
-                fragment = new AnalyticsFragment();
+                fragment = AnalyticsFragment.newInstance(true);
 
             if (fragment != null) {
                 getSupportFragmentManager().beginTransaction()
@@ -382,19 +468,4 @@ public class AdminMainActivity extends AppCompatActivity {
         }
     }
 
-    private void setupRecentActivity() {
-        if (binding.activityRecyclerView != null) {
-            binding.activityRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
-
-            List<RecentActivityModel> activities = new ArrayList<>();
-            activities.add(new RecentActivityModel("Payment Received", "James K - Monthly Contribution", "+ UGX 50,000",
-                    true));
-            activities.add(new RecentActivityModel("New Member", "Sarah M joined the group", "Active", true));
-            activities
-                    .add(new RecentActivityModel("Loan Approved", "Peter L - Emergency Loan", "- UGX 200,000", false));
-            activities.add(new RecentActivityModel("Penalty Paid", "John D - Late Meeting", "+ UGX 5,000", true));
-
-            binding.activityRecyclerView.setAdapter(new RecentActivityAdapter(activities));
-        }
-    }
 }
