@@ -23,8 +23,10 @@ public class MemberEntity {
     private String payoutAmount;
     private boolean hasReceivedPayout;
     private double shortfallAmount;
+    private boolean isFirstLogin; // Track if member must change password after first OTP login
     private double contributionTarget;
     private double contributionPaid;
+    private int paymentStreak;
 
     public MemberEntity() {
     }
@@ -37,6 +39,7 @@ public class MemberEntity {
         this.phone = phone;
         this.email = email;
         this.password = "123456"; // Default password
+        this.isFirstLogin = true; // New members must change password
     }
 
     // Getters and Setters
@@ -142,5 +145,21 @@ public class MemberEntity {
 
     public void setContributionPaid(double contributionPaid) {
         this.contributionPaid = contributionPaid;
+    }
+
+    public boolean isFirstLogin() {
+        return isFirstLogin;
+    }
+
+    public void setFirstLogin(boolean firstLogin) {
+        isFirstLogin = firstLogin;
+    }
+
+    public int getPaymentStreak() {
+        return paymentStreak;
+    }
+
+    public void setPaymentStreak(int paymentStreak) {
+        this.paymentStreak = paymentStreak;
     }
 }

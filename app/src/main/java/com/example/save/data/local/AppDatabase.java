@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
 /**
  * Room Database for the Save app
  */
-@Database(entities = { MemberEntity.class, LoanEntity.class }, version = 2, exportSchema = false)
+@Database(entities = { MemberEntity.class, LoanEntity.class }, version = 4, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -94,6 +94,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 member.setPayoutAmount("0");
                 member.setHasReceivedPayout(false);
                 member.setShortfallAmount(0);
+                member.setFirstLogin(true); // New members need to change password
                 member.setContributionTarget(1000000);
                 member.setContributionPaid(0);
                 return member;

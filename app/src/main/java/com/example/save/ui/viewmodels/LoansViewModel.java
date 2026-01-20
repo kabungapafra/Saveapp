@@ -40,4 +40,8 @@ public class LoansViewModel extends AndroidViewModel {
     public double getTotalInterestEarned() {
         return repository.getTotalInterestEarned();
     }
+
+    public List<Loan> getLoansSync() {
+        return repository.getLoansSync();
+    }
 }

@@ -60,6 +60,9 @@ public class AdminMainActivity extends AppCompatActivity {
         // Initialize ViewModel
         viewModel = new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
 
+        // Load admin and group name FIRST (before other data)
+        loadAdminData();
+
         setupListeners();
         observeViewModel();
 
@@ -85,17 +88,25 @@ public class AdminMainActivity extends AppCompatActivity {
     @SuppressLint("GestureBackNavigation")
     @Override
     public void onBackPressed() {
-        if (binding.fragmentContainer != null && binding.fragmentContainer.getVisibility() == View.VISIBLE) {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else if (binding.fragmentContainer != null && binding.fragmentContainer.getVisibility() == View.VISIBLE) {
             binding.fragmentContainer.setVisibility(View.GONE);
             binding.mainContentScrollView.setVisibility(View.VISIBLE);
             binding.navContainer.setVisibility(View.VISIBLE); // Restore nav
 
-            // Clear fragment back stack? Or simple hide/show
-            getSupportFragmentManager().beginTransaction()
-                    .remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container))
-                    .commit();
+            // Use beginTransaction().commit() to ensure state is committed
+            // We can remove the fragment to cleanup resources, or just hide the container
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            if (currentFragment != null) {
+                getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+            }
+
+            // Reset nav selection to Home
+            updateNav(binding.navHome, binding.txtHome, binding.imgHome);
         } else {
-            super.onBackPressed();
+            // Exit app instead of going back to login
+            finishAffinity();
         }
     }
 
@@ -226,7 +237,7 @@ public class AdminMainActivity extends AppCompatActivity {
         // Main Card: My Savings Click
         if (binding.layoutMySavings != null) {
             binding.layoutMySavings.setOnClickListener(v -> {
-                loadFragment(PaymentFragment.newInstance("Admin"));
+                loadFragment(PaymentFragment.newInstance(adminNameStr));
             });
         }
 
@@ -255,7 +266,7 @@ public class AdminMainActivity extends AppCompatActivity {
         // My Savings card (Quick Action)
         if (binding.myPaymentCard != null) {
             binding.myPaymentCard.setOnClickListener(v -> {
-                loadFragment(PaymentFragment.newInstance("Admin"));
+                loadFragment(PaymentFragment.newInstance(adminNameStr));
             });
         }
 
@@ -333,7 +344,7 @@ public class AdminMainActivity extends AppCompatActivity {
             else if (selectedLayout == binding.navPayouts)
                 fragment = new PayoutsFragment();
             else if (selectedLayout == binding.navLoans)
-                fragment = new LoansFragment();
+                fragment = new AdminLoansFragment();
             else if (selectedLayout == binding.navAnalytics)
                 fragment = AnalyticsFragment.newInstance(true);
 

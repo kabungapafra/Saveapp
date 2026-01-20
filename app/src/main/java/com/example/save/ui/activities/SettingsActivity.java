@@ -42,12 +42,105 @@ public class SettingsActivity extends AppCompatActivity {
     private void initViews() {
         // Load current contribution target
         double currentTarget = viewModel.getContributionTarget();
-        binding.etContributionAmount.setText(String.format("%.0f", currentTarget));
+        binding.etContributionAmount.setText(String.format(java.util.Locale.US, "%.0f", currentTarget));
 
         // Save when user finishes editing
         binding.etContributionAmount.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 saveContributionTarget();
+            }
+        });
+
+        // Initialize new Admin Configs
+        setupSlotsSpinner();
+        setupDatePicker();
+        setupReservePercentage();
+    }
+
+    private void setupSlotsSpinner() {
+        android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
+        int savedSlots = prefs.getInt("slots_per_round", 1);
+
+        Integer[] items = new Integer[] { 1, 2, 3, 4, 5, 10, 15, 20 };
+        android.widget.ArrayAdapter<Integer> adapter = new android.widget.ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerSlotsPerRound.setAdapter(adapter);
+
+        // Set selection
+        int position = 0;
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] == savedSlots) {
+                position = i;
+                break;
+            }
+        }
+        binding.spinnerSlotsPerRound.setSelection(position);
+
+        binding.spinnerSlotsPerRound.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                int selected = (int) parent.getItemAtPosition(position);
+                prefs.edit().putInt("slots_per_round", selected).apply();
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void setupDatePicker() {
+        android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
+        long savedDate = prefs.getLong("cycle_start_date", 0);
+
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        if (savedDate != 0) {
+            calendar.setTimeInMillis(savedDate);
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMM yyyy",
+                    java.util.Locale.getDefault());
+            binding.tvCycleStartDate.setText(sdf.format(calendar.getTime()));
+        }
+
+        binding.tvCycleStartDate.setOnClickListener(v -> {
+            new android.app.DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+                calendar.set(year, month, dayOfMonth);
+                long millis = calendar.getTimeInMillis();
+
+                prefs.edit().putLong("cycle_start_date", millis).apply();
+
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMM yyyy",
+                        java.util.Locale.getDefault());
+                binding.tvCycleStartDate.setText(sdf.format(calendar.getTime()));
+
+            }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH),
+                    calendar.get(java.util.Calendar.DAY_OF_MONTH)).show();
+        });
+    }
+
+    private void setupReservePercentage() {
+        android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
+        int savedPercent = prefs.getInt("date_reserve_percentage", 0);
+        binding.etReservePercentage.setText(String.valueOf(savedPercent));
+
+        binding.etReservePercentage.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String valStr = binding.etReservePercentage.getText().toString().trim();
+                if (!TextUtils.isEmpty(valStr)) {
+                    try {
+                        int val = Integer.parseInt(valStr);
+                        if (val < 0)
+                            val = 0;
+                        if (val > 100)
+                            val = 100;
+
+                        binding.etReservePercentage.setText(String.valueOf(val)); // Normalize display
+                        prefs.edit().putInt("date_reserve_percentage", val).apply();
+                        Toast.makeText(this, "Reserve percentage saved", Toast.LENGTH_SHORT).show();
+                    } catch (NumberFormatException e) {
+                        binding.etReservePercentage.setError("Invalid number");
+                    }
+                }
             }
         });
     }

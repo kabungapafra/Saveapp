@@ -25,6 +25,9 @@ import com.example.save.databinding.ActivityMemberMainBinding;
 public class MemberMainActivity extends AppCompatActivity {
 
     private ActivityMemberMainBinding binding;
+    private RecipientSmallAdapter recipientAdapter;
+    private UpcomingPaymentAdapter upcomingPaymentAdapter;
+    private TransactionAdapter transactionAdapter;
 
     // Data
     private MembersViewModel viewModel;
@@ -43,8 +46,48 @@ public class MemberMainActivity extends AppCompatActivity {
         loadDashboardData();
     }
 
+    @android.annotation.SuppressLint("GestureBackNavigation")
+    @Override
+    public void onBackPressed() {
+        // If a fragment is showing, go back to dashboard
+        if (binding.fragmentContainer != null
+                && binding.fragmentContainer.getVisibility() == android.view.View.VISIBLE) {
+            switchToDashboard();
+        } else {
+            // Exit app instead of going back to login
+            finishAffinity();
+        }
+    }
+
     private void initializeViews() {
-        // All views now accessed via binding
+        // Initialize RecyclerView
+        recipientAdapter = new RecipientSmallAdapter();
+        if (binding.rvMonthRecipients != null) {
+            binding.rvMonthRecipients.setAdapter(recipientAdapter);
+            binding.rvMonthRecipients.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this,
+                    androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
+        }
+
+        // Initialize Upcoming Payments
+        if (binding.rvUpcomingPayments != null) {
+            java.util.List<TaskModel> samplePayments = new java.util.ArrayList<>();
+            samplePayments.add(new TaskModel("00:00", "Dec Contribution", "UGX 50,000/mo", "2 days left", "",
+                    0xFF3F51B5, R.drawable.ic_calendar_month, null, "50000"));
+            samplePayments.add(new TaskModel("00:00", "Loan Repay", "UGX 200,000", "5 days left", "",
+                    0xFFF44336, R.drawable.ic_loan, null, "200000"));
+
+            upcomingPaymentAdapter = new UpcomingPaymentAdapter(samplePayments);
+            binding.rvUpcomingPayments.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this,
+                    androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
+            binding.rvUpcomingPayments.setAdapter(upcomingPaymentAdapter);
+        }
+
+        // Initialize Recent Transactions
+        if (binding.rvRecentTransactions != null) {
+            transactionAdapter = new TransactionAdapter(new java.util.ArrayList<>());
+            binding.rvRecentTransactions.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+            binding.rvRecentTransactions.setAdapter(transactionAdapter);
+        }
     }
 
     /*
@@ -93,7 +136,22 @@ public class MemberMainActivity extends AppCompatActivity {
 
         binding.navPay.setOnClickListener(v -> {
             updateNav(binding.navPay, binding.txtPay, binding.imgPay);
-            loadFragment(PaymentFragment.newInstance("Alice Johnson")); // Using default/logged-in user
+            String email = getIntent().getStringExtra("member_email");
+            if (email != null) {
+                // Fetch member name from email in background
+                new Thread(() -> {
+                    com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
+                    runOnUiThread(() -> {
+                        if (member != null) {
+                            loadFragment(PaymentFragment.newInstance(member.getName()));
+                        } else {
+                            loadFragment(PaymentFragment.newInstance("Member"));
+                        }
+                    });
+                }).start();
+            } else {
+                loadFragment(PaymentFragment.newInstance("Member"));
+            }
         });
 
         binding.navQueue.setOnClickListener(v -> {
@@ -103,7 +161,7 @@ public class MemberMainActivity extends AppCompatActivity {
 
         binding.navLoans.setOnClickListener(v -> {
             updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans);
-            loadFragment(LoanApplicationFragment.newInstance());
+            loadFragment(new LoansFragment());
         });
 
         binding.navStats.setOnClickListener(v -> {
@@ -111,7 +169,7 @@ public class MemberMainActivity extends AppCompatActivity {
             String email = getIntent().getStringExtra("member_email");
             if (email == null)
                 email = "email@example.com"; // Fallback
-            loadFragment(AnalyticsFragment.newInstance(false, email));
+            loadFragment(AnalyticsFragment.newInstance(true, email));
         });
     }
 
@@ -138,11 +196,21 @@ public class MemberMainActivity extends AppCompatActivity {
                 binding.mainScrollView.setVisibility(View.VISIBLE);
             if (binding.fragmentContainer != null)
                 binding.fragmentContainer.setVisibility(View.GONE);
+
+            // Show Header on Dashboard only
+            if (binding.header != null) {
+                binding.header.setVisibility(View.VISIBLE);
+            }
         } else {
             if (binding.mainScrollView != null)
                 binding.mainScrollView.setVisibility(View.GONE);
             if (binding.fragmentContainer != null)
                 binding.fragmentContainer.setVisibility(View.VISIBLE);
+
+            // Hide Header on other tabs
+            if (binding.header != null) {
+                binding.header.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -162,19 +230,23 @@ public class MemberMainActivity extends AppCompatActivity {
     }
 
     private void loadDashboardData() {
-        // Load balance data (placeholder for now, or from VM if available)
-        // Note: MembersViewModel has getGroupBalance(), so we can use it if appropriate
-        // OR kept as placeholder if it was intended.
-        // Previous code accessed memberRepository.getActiveMemberCount() so we should
-        // migrate that.
+        // Get member email from intent
+        String email = getIntent().getStringExtra("member_email");
 
-        // Let's use ViewModel for consistency if balance is needed
-        // Assuming MemberMainActivity mimics AdminMainActivity logic or similar
-        // BUT the original code:
-        // binding.txtBalance.setText("UGX 1,500,000"); // Hardcoded string in original?
-        // Wait, looking at the view_file output for MemberMainActivity:
-        // line 155: binding.txtBalance.setText("UGX 1,500,000");
-        // It was hardcoded!
+        // Fetch member data in background thread to get the name
+        if (email != null && viewModel != null) {
+            new Thread(() -> {
+                com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
+                runOnUiThread(() -> {
+                    if (member != null && binding.greetingName != null) {
+                        // Extract first name for cleaner display
+                        String fullName = member.getName();
+                        String firstName = fullName.split(" ")[0];
+                        binding.greetingName.setText(firstName + "!");
+                    }
+                });
+            }).start();
+        }
 
         if (binding.txtBalance != null && viewModel != null) {
             viewModel.getGroupBalance().observe(this, balance -> {
@@ -187,26 +259,68 @@ public class MemberMainActivity extends AppCompatActivity {
             });
         }
 
-        if (binding.savingsBalance != null && viewModel != null) {
-            String email = getIntent().getStringExtra("member_email");
-            if (email != null) {
-                new Thread(() -> {
-                    com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
-                    runOnUiThread(() -> {
-                        if (member != null) {
-                            double mySavings = member.getContributionPaid();
-                            String formatted = java.text.NumberFormat
-                                    .getCurrencyInstance(new java.util.Locale("en", "UG")).format(mySavings);
-                            binding.savingsBalance.setText(formatted);
-                        }
-                    });
-                }).start();
-            } else {
-                binding.savingsBalance.setText("UGX 0");
-            }
+        if (binding.savingsBalance != null && viewModel != null && email != null) {
+            new Thread(() -> {
+                com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
+                runOnUiThread(() -> {
+                    if (member != null) {
+                        double mySavings = member.getContributionPaid();
+                        String formatted = java.text.NumberFormat
+                                .getCurrencyInstance(new java.util.Locale("en", "UG")).format(mySavings);
+                        binding.savingsBalance.setText(formatted);
+                    } else {
+                        // Member not found, show zero as actual value (not hardcoded fallback)
+                        String formatted = java.text.NumberFormat
+                                .getCurrencyInstance(new java.util.Locale("en", "UG")).format(0.0);
+                        binding.savingsBalance.setText(formatted);
+                    }
+                });
+            }).start();
+        } else if (binding.savingsBalance != null) {
+            // No email provided, show zero as actual value
+            String formatted = java.text.NumberFormat
+                    .getCurrencyInstance(new java.util.Locale("en", "UG")).format(0.0);
+            binding.savingsBalance.setText(formatted);
         }
 
+        updateExtraStats();
         updateMemberCount();
+        loadRecentTransactions();
+    }
+
+    private void updateExtraStats() {
+        String email = getIntent().getStringExtra("member_email");
+        if (viewModel == null)
+            return;
+
+        // Fetch recipients
+        int slots = getSharedPreferences("ChamaPrefs", MODE_PRIVATE).getInt("slots_per_round", 5);
+        new Thread(() -> {
+            try {
+                java.util.List<com.example.save.data.models.Member> recipients = viewModel.getMonthlyRecipients(slots);
+                int pendingCount = viewModel.getPendingPaymentsCount();
+
+                com.example.save.data.models.Member currentMember = null;
+                if (email != null) {
+                    currentMember = viewModel.getMemberByEmail(email);
+                }
+
+                com.example.save.data.models.Member finalMember = currentMember;
+                runOnUiThread(() -> {
+                    if (recipientAdapter != null) {
+                        recipientAdapter.updateList(recipients);
+                    }
+                    if (binding.tvPendingCount != null) {
+                        binding.tvPendingCount.setText(String.valueOf(pendingCount));
+                    }
+                    if (binding.tvPaymentStreak != null && finalMember != null) {
+                        binding.tvPaymentStreak.setText(String.valueOf(finalMember.getPaymentStreak()));
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void updateMemberCount() {
@@ -223,11 +337,18 @@ public class MemberMainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     runOnUiThread(() -> {
                         if (binding != null && binding.activeMembers != null) {
-                            binding.activeMembers.setText("0/0");
+                            // On error, still try to show meaningful data or leave empty
+                            binding.activeMembers.setText("--");
                         }
                     });
                 }
             }).start();
+        }
+    }
+
+    public void switchToDashboard() {
+        if (binding != null && binding.navDashboard != null) {
+            binding.navDashboard.performClick();
         }
     }
 
@@ -242,5 +363,90 @@ public class MemberMainActivity extends AppCompatActivity {
 
         // White Color for Inactive State
         image.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+    }
+
+    private void loadRecentTransactions() {
+        String email = getIntent().getStringExtra("member_email");
+        if (email == null || viewModel == null || transactionAdapter == null) {
+            return;
+        }
+
+        // Load transactions in background
+        new Thread(() -> {
+            try {
+                java.util.List<Transaction> transactions = new java.util.ArrayList<>();
+                com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
+
+                if (member != null) {
+                    // Add contribution transaction (sample - based on member's contribution)
+                    if (member.getContributionPaid() > 0) {
+                        transactions.add(new Transaction(
+                                "Monthly Savings",
+                                new java.text.SimpleDateFormat("dd MMM, hh:mm a", java.util.Locale.getDefault())
+                                        .format(new java.util.Date()),
+                                member.getContributionPaid() / 12, // Approximate monthly
+                                true, // Credit
+                                R.drawable.ic_money,
+                                0xFFE8F5E9 // Light green
+                        ));
+                    }
+
+                    // Get member's loans directly from repository
+                    com.example.save.ui.viewmodels.LoansViewModel loansViewModel = new androidx.lifecycle.ViewModelProvider(
+                            this).get(com.example.save.ui.viewmodels.LoansViewModel.class);
+
+                    java.util.List<com.example.save.data.models.Loan> allLoans = loansViewModel.getLoansSync();
+
+                    if (allLoans != null) {
+                        for (com.example.save.data.models.Loan loan : allLoans) {
+                            if (member.getName().equals(loan.getMemberName())) {
+                                // Add loan disbursement
+                                if ("ACTIVE".equals(loan.getStatus()) || "PAID".equals(loan.getStatus())) {
+                                    transactions.add(new Transaction(
+                                            "Loan Disbursement",
+                                            new java.text.SimpleDateFormat("dd MMM, hh:mm a",
+                                                    java.util.Locale.getDefault())
+                                                    .format(loan.getDateRequested() != null
+                                                            ? loan.getDateRequested()
+                                                            : new java.util.Date()),
+                                            loan.getAmount(),
+                                            true, // Credit (received money)
+                                            R.drawable.ic_loan,
+                                            0xFFE3F2FD // Light blue
+                                    ));
+                                }
+
+                                // Add repayment if any
+                                if (loan.getRepaidAmount() > 0) {
+                                    transactions.add(new Transaction(
+                                            "Loan Repayment",
+                                            new java.text.SimpleDateFormat("dd MMM, hh:mm a",
+                                                    java.util.Locale.getDefault())
+                                                    .format(new java.util.Date()),
+                                            loan.getRepaidAmount(),
+                                            false, // Debit (paid money)
+                                            R.drawable.ic_loan,
+                                            0xFFFFEBEE // Light red
+                                    ));
+                                }
+                            }
+                        }
+                    }
+
+                    // Limit to 5 most recent
+                    final java.util.List<Transaction> finalTransactions = transactions.size() > 5
+                            ? transactions.subList(0, 5)
+                            : transactions;
+
+                    runOnUiThread(() -> {
+                        if (transactionAdapter != null) {
+                            transactionAdapter.updateTransactions(finalTransactions);
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

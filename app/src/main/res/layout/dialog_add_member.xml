@@ -49,17 +49,35 @@
             android:textColor="@color/deep_blue"
             android:textSize="@dimen/text_size_small" />
 
-        <EditText
-            android:id="@+id/etMemberPhone"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:background="@drawable/otp_input_bg"
-            android:hint="e.g. 0770000000"
-            android:inputType="phone"
-            android:paddingHorizontal="12dp"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_normal" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="+256"
+                android:textColor="@color/deep_blue"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etMemberPhone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="770000000"
+                android:inputType="phone"
+                android:maxLength="9"
+                android:textColor="@color/deep_blue"
+                android:textSize="@dimen/text_size_normal" />
+        </LinearLayout>
 
         <!-- Email Input -->
         <TextView

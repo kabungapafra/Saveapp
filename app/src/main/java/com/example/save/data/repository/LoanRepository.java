@@ -55,6 +55,10 @@ public class LoanRepository {
         return convertEntitiesToModels(entities);
     }
 
+    public List<Loan> getLoansSync() {
+        return getAllLoans();
+    }
+
     public List<Loan> getPendingLoans() {
         List<LoanEntity> entities = loanDao.getPendingLoans();
         return convertEntitiesToModels(entities);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="@color/background_primary">
 
     <!-- Header -->
     <ImageView
@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total Savings"
-                        android:textColor="#757575"
+                        android:textColor="@color/text_secondary"
                         android:textSize="12sp"/>
                     <TextView
                         android:id="@+id/tvMetric1Value"
@@ -325,7 +325,7 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="#E0E0E0"/>
+                        android:background="@color/divider_color"/>
                         
                      <!-- At Risk -->
                     <LinearLayout

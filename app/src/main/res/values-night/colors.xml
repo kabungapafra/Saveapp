@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="deep_blue">#3E469B</color> <!-- Keep Deep Blue solid in Dark Mode as requested -->
-    <!-- Removed incorrect 'black' override which was setting it to white -->
+    <!-- Force light mode colors even in dark mode -->
+    <!-- This prevents the app from changing colors when phone is in dark mode -->
+    
+    <!-- Keep brand colors consistent -->
+    <color name="deep_blue">#3E469B</color>
+    
+    <!-- Force light backgrounds in dark mode -->
+    <color name="background_gray">#F5F5F5</color>
+    <color name="background_primary">#F5F5F5</color>
+    <color name="background_secondary">#FFFFFF</color>
+    
+    <!-- Force dark text in dark mode -->
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_hint">#AAAAAA</color>
+    <color name="text_dark">#212121</color>
+    <color name="text_on_surface">#1A1A1A</color>
+    
+    <!-- Force light UI colors in dark mode -->
+    <color name="divider_color">#E0E0E0</color>
+    <color name="icon_tint_primary">#1A1A1A</color>
+    <color name="icon_tint_secondary">#666666</color>
+    
+    <!-- Force light status colors in dark mode -->
+    <color name="background_success_light">#E8F5E9</color>
+    <color name="background_error_light">#FFEBEE</color>
+    
+    <!-- Keep black and white as they are -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>

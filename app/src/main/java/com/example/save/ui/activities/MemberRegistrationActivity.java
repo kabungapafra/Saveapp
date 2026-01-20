@@ -88,9 +88,10 @@ public class MemberRegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        if (!com.example.save.utils.ValidationUtils.isValidPassword(password)) {
+        // Allow both OTP (6 digits) and regular passwords (8+ characters)
+        if (!com.example.save.utils.ValidationUtils.isNotEmpty(password)) {
             com.example.save.utils.ValidationUtils.showError(binding.passwordInput,
-                    "Password must be at least 8 characters");
+                    "Password is required");
             return;
         }
 
@@ -105,16 +106,46 @@ public class MemberRegistrationActivity extends AppCompatActivity {
                 binding.loginButton.setEnabled(true);
                 binding.loginButton.setText("Login");
 
+                // DEBUG: Log member details
+                if (member != null) {
+                    android.util.Log.d("MemberLogin", "Found member: " + member.getName() +
+                            ", Phone: " + member.getPhone() +
+                            ", Email: " + member.getEmail() +
+                            ", Password in DB: " + member.getPassword() +
+                            ", Entered password: " + password +
+                            ", isFirstLogin: " + member.isFirstLogin());
+                } else {
+                    android.util.Log.d("MemberLogin", "No member found for phone: " + phone);
+                }
+
                 if (member != null && member.getPassword().equals(password)) {
-                    Toast.makeText(MemberRegistrationActivity.this, "Welcome " + member.getName(), Toast.LENGTH_SHORT)
-                            .show();
-                    Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
-                    intent.putExtra("member_email", member.getEmail()); // Pass email to Dashboard
-                    // Clear back stack so user can't go back to login
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    finish();
+                    // Check if this is first login with OTP
+                    if (member.isFirstLogin()) {
+                        // First login - must change password
+                        Toast.makeText(MemberRegistrationActivity.this,
+                                "Welcome! Please create a new password", Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(MemberRegistrationActivity.this, ChangePasswordActivity.class);
+                        intent.putExtra("member_email", member.getEmail());
+                        intent.putExtra("member_name", member.getName());
+                        // First login - clear stack since this is mandatory password change
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                    } else {
+                        // Normal login - proceed to dashboard
+                        Toast.makeText(MemberRegistrationActivity.this, "Welcome " + member.getName(),
+                                Toast.LENGTH_SHORT)
+                                .show();
+                        Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
+                        intent.putExtra("member_email", member.getEmail()); // Pass email to Dashboard
+                        // Clear back stack - user should not go back to login after successful login
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                    }
                 } else {
                     Toast.makeText(MemberRegistrationActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                 }

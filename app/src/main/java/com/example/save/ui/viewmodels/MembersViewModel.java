@@ -32,6 +32,18 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getAdmins();
     }
 
+    public void deleteAllMembers() {
+        repository.deleteAllMembers();
+    }
+
+    public List<Member> getMonthlyRecipients(int limit) {
+        return repository.getMonthlyRecipients(limit);
+    }
+
+    public int getPendingPaymentsCount() {
+        return repository.getPendingPaymentsCount();
+    }
+
     public void addMember(Member member) {
         repository.addMember(member);
     }
@@ -77,8 +89,8 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getMemberByNameSync();
     }
 
-    public void makePayment(Member member, double amount) {
-        repository.makePayment(member, amount);
+    public void makePayment(Member member, double amount, String phoneNumber) {
+        repository.makePayment(member, amount, phoneNumber);
     }
 
     public double getContributionTarget() {
@@ -134,5 +146,12 @@ public class MembersViewModel extends AndroidViewModel {
 
     public void rejectLoanRequest(String requestId) {
         repository.rejectLoanRequest(requestId);
+    }
+
+    /**
+     * Change password after first OTP login
+     */
+    public void changePassword(Member member, String newPassword) {
+        repository.changePassword(member, newPassword);
     }
 }

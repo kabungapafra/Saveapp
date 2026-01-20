@@ -20,7 +20,7 @@ import com.example.save.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DURATION = 25000;
+    private static final int SPLASH_DURATION = 3500; // Match animation duration
     private ActivitySplashBinding binding;
 
     @Override

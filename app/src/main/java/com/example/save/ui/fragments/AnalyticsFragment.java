@@ -83,7 +83,9 @@ public class AnalyticsFragment extends Fragment {
         binding.recyclerRecentActivity.setLayoutManager(new LinearLayoutManager(getContext()));
 
         binding.backButton.setOnClickListener(v -> {
-            if (getActivity() != null) {
+            if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
+                ((com.example.save.ui.activities.MemberMainActivity) getActivity()).switchToDashboard();
+            } else if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
         });

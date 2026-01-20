@@ -6,18 +6,21 @@ public class LoanRequest {
     private double amount;
     private int durationMonths;
     private String guarantor;
+    private String guarantorPhone;
     private String reason;
     private String status; // "PENDING", "APPROVED", "REJECTED"
     private String requestDate;
     private double interestRate;
     private double totalRepayment;
 
-    public LoanRequest(String memberName, double amount, int durationMonths, String guarantor, String reason) {
+    public LoanRequest(String memberName, double amount, int durationMonths, String guarantor, String guarantorPhone,
+            String reason) {
         this.id = java.util.UUID.randomUUID().toString();
         this.memberName = memberName;
         this.amount = amount;
         this.durationMonths = durationMonths;
         this.guarantor = guarantor;
+        this.guarantorPhone = guarantorPhone;
         this.reason = reason;
         this.status = "PENDING";
         this.requestDate = java.text.DateFormat.getDateInstance().format(new java.util.Date());
@@ -62,6 +65,14 @@ public class LoanRequest {
 
     public void setGuarantor(String guarantor) {
         this.guarantor = guarantor;
+    }
+
+    public String getGuarantorPhone() {
+        return guarantorPhone;
+    }
+
+    public void setGuarantorPhone(String guarantorPhone) {
+        this.guarantorPhone = guarantorPhone;
     }
 
     public String getReason() {

@@ -48,7 +48,8 @@ public class QueueFragment extends Fragment {
     }
 
     private void setupGenericInteractions() {
-        binding.btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+        binding.btnBack.setOnClickListener(
+                v -> ((com.example.save.ui.activities.MemberMainActivity) requireActivity()).switchToDashboard());
     }
 
     private void setupRecyclerView() {

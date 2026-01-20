@@ -132,7 +132,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                         intent.putExtra("admin_name", member.getName()); // Pass name for Greeting
                         intent.putExtra("group_name", groupName); // Pass group name for Header
 
-                        // Clear back stack so user can't go back to login
+                        // Clear back stack - user should not go back to login after successful login
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

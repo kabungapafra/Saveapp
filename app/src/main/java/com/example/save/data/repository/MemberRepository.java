@@ -111,11 +111,29 @@ public class MemberRepository {
                 MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
                 if (entity != null) {
                     entity.setPassword(newOtp); // In real app, hash this
+                    entity.setFirstLogin(true); // Reset to first login since it's a new OTP
                     memberDao.update(entity);
                 }
             });
         }
         return newOtp;
+    }
+
+    /**
+     * Change member password after first OTP login
+     * Marks isFirstLogin as false so OTP expires
+     */
+    public void changePassword(Member member, String newPassword) {
+        if (member != null && newPassword != null) {
+            executor.execute(() -> {
+                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+                if (entity != null) {
+                    entity.setPassword(newPassword); // In production, hash this
+                    entity.setFirstLogin(false); // Mark as no longer first login
+                    memberDao.update(entity);
+                }
+            });
+        }
     }
 
     public LiveData<List<Member>> searchMembers(String query) {
@@ -244,17 +262,52 @@ public class MemberRepository {
         return entity != null ? convertEntityToModel(entity) : null;
     }
 
-    public void makePayment(Member member, double amount) {
+    public void makePayment(Member member, double amount, String phoneNumber) {
         if (member != null) {
             addToBalance(amount);
             executor.execute(() -> {
                 MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
                 if (entity != null) {
                     entity.setContributionPaid(entity.getContributionPaid() + amount);
+                    // In a real app, we would record the transaction with the phone number here
+                    // e.g., transactionDao.insert(new Transaction(member.getId(), amount,
+                    // phoneNumber));
                     memberDao.update(entity);
                 }
             });
         }
+    }
+
+    public void deleteAllMembers() {
+        executor.execute(() -> {
+            memberDao.deleteAll();
+        });
+    }
+
+    public List<Member> getMonthlyRecipients(int limit) {
+        List<MemberEntity> allActive = memberDao.getActiveMembers();
+        List<Member> recipients = new ArrayList<>();
+        int count = 0;
+        for (MemberEntity entity : allActive) {
+            if (!entity.isHasReceivedPayout()) {
+                recipients.add(convertEntityToModel(entity));
+                count++;
+                if (count >= limit)
+                    break;
+            }
+        }
+        return recipients;
+    }
+
+    public int getPendingPaymentsCount() {
+        List<MemberEntity> allActive = memberDao.getActiveMembers();
+        int pending = 0;
+        for (MemberEntity entity : allActive) {
+            if (entity.getContributionPaid() < entity.getContributionTarget()) {
+                pending++;
+            }
+        }
+        return pending;
     }
 
     public int getActiveMemberCountSync() {
@@ -376,6 +429,8 @@ public class MemberRepository {
         member.setShortfallAmount(entity.getShortfallAmount());
         member.setContributionTarget(entity.getContributionTarget());
         member.setContributionPaid(entity.getContributionPaid());
+        member.setFirstLogin(entity.isFirstLogin()); // Sync isFirstLogin field
+        member.setPaymentStreak(entity.getPaymentStreak());
         return member;
     }
 
@@ -389,6 +444,8 @@ public class MemberRepository {
         entity.setShortfallAmount(member.getShortfallAmount());
         entity.setContributionTarget(member.getContributionTarget());
         entity.setContributionPaid(member.getContributionPaid());
+        entity.setFirstLogin(member.isFirstLogin()); // Sync isFirstLogin field
+        entity.setPaymentStreak(member.getPaymentStreak());
         return entity;
     }
 
@@ -404,6 +461,8 @@ public class MemberRepository {
         entity.setShortfallAmount(model.getShortfallAmount());
         entity.setContributionTarget(model.getContributionTarget());
         entity.setContributionPaid(model.getContributionPaid());
+        entity.setFirstLogin(model.isFirstLogin()); // Sync isFirstLogin field
+        entity.setPaymentStreak(model.getPaymentStreak());
         // Password is not copied from model to entity (managed separately)
     }
 }

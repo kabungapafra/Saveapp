@@ -16,6 +16,7 @@ public class Member {
     private String payoutAmount;
     private boolean hasReceivedPayout;
     private double shortfallAmount;
+    private boolean isFirstLogin; // Track if member needs to change password
 
     private String password;
 
@@ -34,8 +35,10 @@ public class Member {
         this.payoutAmount = "0";
         this.hasReceivedPayout = false;
         this.shortfallAmount = 0;
+        this.isFirstLogin = true; // New members must change password
         this.contributionTarget = 1000000; // Default target 1M
         this.contributionPaid = 0;
+        this.paymentStreak = 0;
     }
 
     public String getName() {
@@ -142,5 +145,23 @@ public class Member {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isFirstLogin() {
+        return isFirstLogin;
+    }
+
+    public void setFirstLogin(boolean firstLogin) {
+        isFirstLogin = firstLogin;
+    }
+
+    private int paymentStreak;
+
+    public int getPaymentStreak() {
+        return paymentStreak;
+    }
+
+    public void setPaymentStreak(int paymentStreak) {
+        this.paymentStreak = paymentStreak;
     }
 }
