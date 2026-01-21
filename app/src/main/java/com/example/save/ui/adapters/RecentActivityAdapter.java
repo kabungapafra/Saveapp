@@ -8,19 +8,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.save.data.models.RecentActivityModel;
+import com.example.save.data.local.entities.TransactionEntity;
 import com.example.save.databinding.ItemActivityBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Adapter for the recent activity list in AdminMainActivity
  */
 public class RecentActivityAdapter extends RecyclerView.Adapter<RecentActivityAdapter.ActivityViewHolder> {
-    private List<RecentActivityModel> list;
+    private List<TransactionEntity> list;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
 
-    public RecentActivityAdapter(List<RecentActivityModel> list) {
+    public RecentActivityAdapter(List<TransactionEntity> list) {
         this.list = list;
+    }
+
+    public void updateList(List<TransactionEntity> newList) {
+        this.list = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -33,12 +41,15 @@ public class RecentActivityAdapter extends RecyclerView.Adapter<RecentActivityAd
 
     @Override
     public void onBindViewHolder(@NonNull ActivityViewHolder holder, int position) {
-        RecentActivityModel item = list.get(position);
-        holder.title.setText(item.title);
-        holder.date.setText(item.description);
-        holder.amount.setText(item.amount);
+        TransactionEntity item = list.get(position);
+        holder.title.setText(item.getDescription());
+        holder.date.setText(dateFormat.format(item.getDate()));
 
-        if (item.isPositive) {
+        String formattedAmount = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG"))
+                .format(item.getAmount());
+        holder.amount.setText(formattedAmount);
+
+        if (item.isPositive()) {
             holder.amount.setTextColor(Color.parseColor("#4CAF50")); // Green
         } else {
             holder.amount.setTextColor(Color.parseColor("#F44336")); // Red

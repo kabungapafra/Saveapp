@@ -161,7 +161,10 @@ public class MemberMainActivity extends AppCompatActivity {
 
         binding.navLoans.setOnClickListener(v -> {
             updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans);
-            loadFragment(new LoansFragment());
+            String email = getIntent().getStringExtra("member_email");
+            if (email == null)
+                email = "email@example.com"; // Fallback
+            loadFragment(LoansFragment.newInstance(email));
         });
 
         binding.navStats.setOnClickListener(v -> {
@@ -371,81 +374,55 @@ public class MemberMainActivity extends AppCompatActivity {
             return;
         }
 
-        // Load transactions in background
+        // Fetch Member Name first to filter relevant transactions
         new Thread(() -> {
-            try {
-                java.util.List<Transaction> transactions = new java.util.ArrayList<>();
-                com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
+            com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
+            if (member != null) {
+                final String memberName = member.getName();
+                runOnUiThread(() -> {
+                    viewModel.getRecentTransactions().observe(this, transactionEntities -> {
+                        if (transactionEntities != null) {
+                            java.util.List<Transaction> uiTransactions = new java.util.ArrayList<>();
 
-                if (member != null) {
-                    // Add contribution transaction (sample - based on member's contribution)
-                    if (member.getContributionPaid() > 0) {
-                        transactions.add(new Transaction(
-                                "Monthly Savings",
-                                new java.text.SimpleDateFormat("dd MMM, hh:mm a", java.util.Locale.getDefault())
-                                        .format(new java.util.Date()),
-                                member.getContributionPaid() / 12, // Approximate monthly
-                                true, // Credit
-                                R.drawable.ic_money,
-                                0xFFE8F5E9 // Light green
-                        ));
-                    }
+                            for (com.example.save.data.local.entities.TransactionEntity entity : transactionEntities) {
+                                // Filter by name in description
+                                // Note: This is a loose match. Robust system needs MemberID in
+                                // TransactionEntity.
+                                if (entity.getDescription() != null && entity.getDescription().contains(memberName)) {
 
-                    // Get member's loans directly from repository
-                    com.example.save.ui.viewmodels.LoansViewModel loansViewModel = new androidx.lifecycle.ViewModelProvider(
-                            this).get(com.example.save.ui.viewmodels.LoansViewModel.class);
+                                    int iconRes = R.drawable.ic_money;
+                                    int color = 0xFF4CAF50; // Green
+                                    if (!entity.isPositive()) {
+                                        color = 0xFFF44336; // Red
+                                        iconRes = R.drawable.ic_loan; // Generic debit icon
+                                    }
 
-                    java.util.List<com.example.save.data.models.Loan> allLoans = loansViewModel.getLoansSync();
-
-                    if (allLoans != null) {
-                        for (com.example.save.data.models.Loan loan : allLoans) {
-                            if (member.getName().equals(loan.getMemberName())) {
-                                // Add loan disbursement
-                                if ("ACTIVE".equals(loan.getStatus()) || "PAID".equals(loan.getStatus())) {
-                                    transactions.add(new Transaction(
-                                            "Loan Disbursement",
-                                            new java.text.SimpleDateFormat("dd MMM, hh:mm a",
-                                                    java.util.Locale.getDefault())
-                                                    .format(loan.getDateRequested() != null
-                                                            ? loan.getDateRequested()
-                                                            : new java.util.Date()),
-                                            loan.getAmount(),
-                                            true, // Credit (received money)
-                                            R.drawable.ic_loan,
-                                            0xFFE3F2FD // Light blue
-                                    ));
-                                }
-
-                                // Add repayment if any
-                                if (loan.getRepaidAmount() > 0) {
-                                    transactions.add(new Transaction(
-                                            "Loan Repayment",
-                                            new java.text.SimpleDateFormat("dd MMM, hh:mm a",
-                                                    java.util.Locale.getDefault())
-                                                    .format(new java.util.Date()),
-                                            loan.getRepaidAmount(),
-                                            false, // Debit (paid money)
-                                            R.drawable.ic_loan,
-                                            0xFFFFEBEE // Light red
-                                    ));
+                                    uiTransactions.add(new Transaction(
+                                            entity.getDescription(),
+                                            new java.text.SimpleDateFormat("MMM dd, hh:mm a",
+                                                    java.util.Locale.getDefault()).format(entity.getDate()),
+                                            entity.getAmount(),
+                                            entity.isPositive(),
+                                            iconRes,
+                                            color));
                                 }
                             }
-                        }
-                    }
 
-                    // Limit to 5 most recent
-                    final java.util.List<Transaction> finalTransactions = transactions.size() > 5
-                            ? transactions.subList(0, 5)
-                            : transactions;
+                            // Take top 5
+                            if (uiTransactions.size() > 5) {
+                                uiTransactions = uiTransactions.subList(0, 5);
+                            }
 
-                    runOnUiThread(() -> {
-                        if (transactionAdapter != null) {
-                            transactionAdapter.updateTransactions(finalTransactions);
+                            if (uiTransactions.isEmpty()) {
+                                // Add an empty state placeholder if needed, or just leave empty
+                                uiTransactions.add(new Transaction("No recent activity", "", 0, true,
+                                        R.drawable.ic_info, 0xFF9E9E9E));
+                            }
+
+                            transactionAdapter.updateTransactions(uiTransactions);
                         }
                     });
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+                });
             }
         }).start();
     }

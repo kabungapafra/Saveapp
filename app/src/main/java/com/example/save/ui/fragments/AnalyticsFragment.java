@@ -144,10 +144,7 @@ public class AnalyticsFragment extends Fragment {
                         activeLoansAmount += outstanding;
                         activeCount++;
 
-                        // Calculate Revenue (Interest Earned so far is simplistic, let's use total
-                        // interest for active/paid)
-                        // Or better: Revenue is realized when paid. For now, let's project Total
-                        // Interest of all Active+Paid loans
+                        // Calculate Revenue
                         revenueInterest += loan.getInterest(); // Simple projection
 
                         // Loan Health
@@ -186,9 +183,11 @@ public class AnalyticsFragment extends Fragment {
             // Chart Data - Loan Status Distribution
             setupChart(activeLoanCount, paidCount, pendingCount, rejectedCount);
             binding.tvChartTitle.setText("Loan Status Distribution");
+        });
 
-            // Recent Activity (Loans as proxy for now)
-            populateRecentActivity(loans, null);
+        // Recent Activity - Now from Transactions
+        membersViewModel.getRecentTransactions().observe(getViewLifecycleOwner(), transactions -> {
+            populateRecentActivity(transactions, null);
         });
 
         binding.tvMetric4Label.setText("Members");
@@ -266,7 +265,7 @@ public class AnalyticsFragment extends Fragment {
                     // Simple monthly logic
                     binding.tvMetric4Value.setText("Due Monthly");
 
-                    // Metric 2: Active Loan & Chart & Recent Activity needs Loan Data
+                    // Metric 2: Active Loan & Chart
                     loansViewModel.getLoans().observe(getViewLifecycleOwner(), allLoans -> {
                         double myActiveLoanStr = 0;
                         List<Loan> myLoans = new ArrayList<>();
@@ -274,8 +273,6 @@ public class AnalyticsFragment extends Fragment {
                         // Filter
                         if (allLoans != null) {
                             for (Loan l : allLoans) {
-                                // Match by Name as ID might be tricky, but ideally Member ID
-                                // Falling back to Name if ID match fails or using Name directly
                                 if (member.getName().equals(l.getMemberName())) {
                                     myLoans.add(l);
                                     if (Loan.STATUS_ACTIVE.equals(l.getStatus())) {
@@ -292,49 +289,45 @@ public class AnalyticsFragment extends Fragment {
                         // Let's show Savings Growth (Mocked as weekly increments)
                         setupMockSavingsChart();
                         binding.tvChartTitle.setText("Savings Growth (Est)");
+                    });
 
-                        // Recent Activity
-                        populateRecentActivity(myLoans, member.getName());
+                    // Recent Activity - Now from Transactions
+                    membersViewModel.getRecentTransactions().observe(getViewLifecycleOwner(), transactions -> {
+                        populateRecentActivity(transactions, member.getName());
                     });
                 });
             }
         }).start();
     }
 
-    private void populateRecentActivity(List<Loan> loans, String filterMemberName) {
+    private void populateRecentActivity(List<com.example.save.data.local.entities.TransactionEntity> transactions,
+            String filterMemberName) {
         List<ActivityModel> activities = new ArrayList<>();
 
-        if (loans != null) {
-            // Sort by date requested desc
-            Collections.sort(loans, (l1, l2) -> {
-                if (l1.getDateRequested() == null || l2.getDateRequested() == null)
-                    return 0;
-                return l2.getDateRequested().compareTo(l1.getDateRequested());
-            });
-
-            for (Loan l : loans) {
-                // If filtering for member view
-                if (filterMemberName != null && !filterMemberName.equals(l.getMemberName())) {
-                    continue;
+        if (transactions != null) {
+            for (com.example.save.data.local.entities.TransactionEntity tx : transactions) {
+                // Filter by name if provided
+                if (filterMemberName != null) {
+                    if (tx.getDescription() == null || !tx.getDescription().contains(filterMemberName)) {
+                        continue;
+                    }
                 }
-
-                String title = l.getStatus().equals("ACTIVE") ? "Loan Approved" : "Loan Request: " + l.getStatus();
-                if (l.getStatus().equals("PAID"))
-                    title = "Loan Repayed";
 
                 String time = "Recently";
-                if (l.getDateRequested() != null) {
-                    time = new java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(l.getDateRequested());
+                if (tx.getDate() != null) {
+                    time = new java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(tx.getDate());
                 }
 
-                boolean isPositive = !l.getStatus().equals("ACTIVE"); // Debt is negative-ish visually? Or just use
-                                                                      // color
+                // If filter is active (Member view), description is self-explanatory or we can
+                // trim details if needed.
+                // If filter is null (Admin view), description usually contains the name
+                // "Contribution from X", so it's good.
 
                 activities.add(new ActivityModel(
-                        title + (filterMemberName == null ? " - " + l.getMemberName() : ""),
+                        tx.getDescription(),
                         time,
-                        l.getAmount(),
-                        isPositive));
+                        tx.getAmount(),
+                        tx.isPositive()));
 
                 if (activities.size() >= 10)
                     break; // Limit to 10

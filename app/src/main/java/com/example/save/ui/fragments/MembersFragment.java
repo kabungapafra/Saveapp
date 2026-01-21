@@ -296,12 +296,35 @@ public class MembersFragment extends Fragment {
         dialogBinding.dialogProfileName.setText(member.getName());
         dialogBinding.dialogProfileRole.setText(member.getRole());
 
-        // Status indicator color
-        int color = member.isActive()
-                ? getContext().getResources().getColor(android.R.color.holo_green_dark)
-                : getContext().getResources().getColor(android.R.color.darker_gray);
+        // Status indicator color and text
+        int color;
+        String statusText;
+        if (member.isActive()) {
+            color = getContext().getResources().getColor(android.R.color.holo_green_dark);
+            statusText = "Active";
+        } else {
+            color = getContext().getResources().getColor(android.R.color.holo_red_dark);
+            statusText = "Suspended";
+        }
+
         dialogBinding.dialogProfileStatus.setBackgroundTintList(
                 android.content.res.ColorStateList.valueOf(color));
+
+        // Update Status Text if it exists in layout
+        if (dialogBinding.dialogProfileStatusText != null) {
+            dialogBinding.dialogProfileStatusText.setText(statusText);
+            dialogBinding.dialogProfileStatusText.setTextColor(color);
+        }
+
+        // Credit Score Calculation (Mock Logic)
+        // Base 300 + (Streak * 20), capped at 850
+        int score = 300 + (member.getPaymentStreak() * 20);
+        if (score > 850)
+            score = 850;
+
+        if (dialogBinding.dialogProfileScore != null) {
+            dialogBinding.dialogProfileScore.setText(String.valueOf(score));
+        }
 
         // Set contact info
         if (member.getEmail() != null && !member.getEmail().isEmpty()) {
@@ -332,6 +355,14 @@ public class MembersFragment extends Fragment {
         }
 
         popup.getMenu().add(0, 2, 0, "Reset Password");
+
+        // Suspend/Activate Toggle
+        if (member.isActive()) {
+            popup.getMenu().add(0, 4, 0, "Suspend Member");
+        } else {
+            popup.getMenu().add(0, 4, 0, "Activate Member");
+        }
+
         popup.getMenu().add(0, 3, 0, "Remove Member");
 
         popup.setOnMenuItemClickListener(item -> {
@@ -355,6 +386,15 @@ public class MembersFragment extends Fragment {
             } else if (item.getItemId() == 3) {
                 // Remove Member
                 showRemoveMemberConfirmation(member);
+                return true;
+            } else if (item.getItemId() == 4) {
+                // Suspend/Activate
+                boolean newStatus = !member.isActive();
+                member.setActive(newStatus);
+                viewModel.updateMember(position, member);
+
+                String action = newStatus ? "Activated" : "Suspended";
+                Toast.makeText(getContext(), member.getName() + " has been " + action, Toast.LENGTH_SHORT).show();
                 return true;
             }
             return false;

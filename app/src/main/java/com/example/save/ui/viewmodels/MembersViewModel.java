@@ -148,10 +148,18 @@ public class MembersViewModel extends AndroidViewModel {
         repository.rejectLoanRequest(requestId);
     }
 
+    public void repayLoan(Member member, double amount) {
+        repository.repayLoan(member, amount);
+    }
+
     /**
      * Change password after first OTP login
      */
     public void changePassword(Member member, String newPassword) {
         repository.changePassword(member, newPassword);
+    }
+
+    public LiveData<List<com.example.save.data.local.entities.TransactionEntity>> getRecentTransactions() {
+        return repository.getRecentTransactions();
     }
 }

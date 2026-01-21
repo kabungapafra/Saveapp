@@ -7,8 +7,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import com.example.save.data.local.AppDatabase;
+import com.example.save.data.local.dao.LoanDao;
 import com.example.save.data.local.dao.MemberDao;
+import com.example.save.data.local.dao.TransactionDao;
+import com.example.save.data.local.entities.LoanEntity;
 import com.example.save.data.local.entities.MemberEntity;
+import com.example.save.data.local.entities.TransactionEntity;
 import com.example.save.data.models.Member;
 import com.example.save.utils.ValidationUtils;
 
@@ -20,6 +24,8 @@ import java.util.concurrent.Executors;
 public class MemberRepository {
     private static MemberRepository instance;
     private final MemberDao memberDao;
+    private final TransactionDao transactionDao;
+    private final LoanDao loanDao;
     private final Executor executor;
     private LiveData<List<Member>> membersLiveData;
     private MutableLiveData<Double> groupBalance;
@@ -38,6 +44,8 @@ public class MemberRepository {
     private MemberRepository(Context context) {
         AppDatabase database = AppDatabase.getInstance(context);
         memberDao = database.memberDao();
+        transactionDao = database.transactionDao();
+        loanDao = database.loanDao();
         executor = Executors.newSingleThreadExecutor();
         contributionTarget = 1000000; // Default: 1M UGX
         groupBalance = new MutableLiveData<>(1500000.0); // Initialize LiveData
@@ -269,10 +277,17 @@ public class MemberRepository {
                 MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
                 if (entity != null) {
                     entity.setContributionPaid(entity.getContributionPaid() + amount);
-                    // In a real app, we would record the transaction with the phone number here
-                    // e.g., transactionDao.insert(new Transaction(member.getId(), amount,
-                    // phoneNumber));
                     memberDao.update(entity);
+
+                    // Log Transaction
+                    TransactionEntity tx = new TransactionEntity(
+                            "CONTRIBUTION",
+                            amount,
+                            "Contribution from " + member.getName(),
+                            new java.util.Date(),
+                            true // Money coming in
+                    );
+                    transactionDao.insert(tx);
                 }
             });
         }
@@ -394,10 +409,67 @@ public class MemberRepository {
     public void approveLoanRequest(String requestId) {
         for (com.example.save.data.models.LoanRequest request : loanRequests) {
             if (request.getId().equals(requestId)) {
-                request.setStatus("APPROVED");
-                loanRequestsLiveData.setValue(new ArrayList<>(loanRequests));
+                if ("PENDING".equals(request.getStatus())) {
+                    double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+                    if (currentBalance >= request.getAmount()) {
+                        groupBalance.postValue(currentBalance - request.getAmount());
+
+                        // Log Transaction
+                        executor.execute(() -> {
+                            TransactionEntity tx = new TransactionEntity(
+                                    "LOAN_PAYOUT",
+                                    request.getAmount(),
+                                    "Loan payout to " + request.getMemberName(),
+                                    new java.util.Date(),
+                                    false // Money leaving the group
+                            );
+                            transactionDao.insert(tx);
+                        });
+
+                        request.setStatus("APPROVED");
+                        loanRequestsLiveData.setValue(new ArrayList<>(loanRequests));
+                    }
+                }
                 break;
             }
+        }
+    }
+
+    public void repayLoan(Member member, double amount) {
+        if (member != null) {
+            addToBalance(amount);
+            executor.execute(() -> {
+                // 1. Update Loan Entity
+                // Find active loan for this member
+                List<LoanEntity> activeLoans = loanDao.getActiveLoans(); // Assumes getActiveLoans filters by status
+                for (LoanEntity loan : activeLoans) {
+                    // Match by name or ID. System seems to use Name predominantly for member
+                    // identification in loans
+                    if (loan.getMemberName() != null && loan.getMemberName().equals(member.getName())) {
+                        double newRepaid = loan.getRepaidAmount() + amount;
+                        loan.setRepaidAmount(newRepaid);
+
+                        // Check if fully paid
+                        double totalDue = loan.getAmount() + loan.getInterest();
+                        if (newRepaid >= totalDue) {
+                            loan.setStatus("PAID");
+                        }
+
+                        loanDao.update(loan);
+                        break; // Pay off one loan at a time
+                    }
+                }
+
+                // 2. Log Transaction
+                TransactionEntity tx = new TransactionEntity(
+                        "LOAN_REPAYMENT",
+                        amount,
+                        "Loan repayment from " + member.getName(),
+                        new java.util.Date(),
+                        true // Money coming in
+                );
+                transactionDao.insert(tx);
+            });
         }
     }
 
@@ -464,5 +536,10 @@ public class MemberRepository {
         entity.setFirstLogin(model.isFirstLogin()); // Sync isFirstLogin field
         entity.setPaymentStreak(model.getPaymentStreak());
         // Password is not copied from model to entity (managed separately)
+    }
+
+    // Transaction Management
+    public LiveData<List<TransactionEntity>> getRecentTransactions() {
+        return transactionDao.getRecentTransactions();
     }
 }

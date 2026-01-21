@@ -13,6 +13,8 @@ import com.example.save.data.local.dao.LoanDao;
 import com.example.save.data.local.dao.MemberDao;
 import com.example.save.data.local.entities.LoanEntity;
 import com.example.save.data.local.entities.MemberEntity;
+import com.example.save.data.local.entities.TransactionEntity;
+import com.example.save.data.local.dao.TransactionDao;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -22,7 +24,8 @@ import java.util.concurrent.Executors;
 /**
  * Room Database for the Save app
  */
-@Database(entities = { MemberEntity.class, LoanEntity.class }, version = 4, exportSchema = false)
+@Database(entities = { MemberEntity.class, LoanEntity.class,
+                TransactionEntity.class }, version = 5, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -32,6 +35,8 @@ public abstract class AppDatabase extends RoomDatabase {
         public abstract MemberDao memberDao();
 
         public abstract LoanDao loanDao();
+
+        public abstract TransactionDao transactionDao();
 
         public static AppDatabase getInstance(Context context) {
                 if (INSTANCE == null) {

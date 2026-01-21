@@ -111,10 +111,8 @@ public class LoanPaymentFragment extends Fragment {
 
             if (currentMember != null) {
                 // Perform payment
-                // For now, we reuse makePayment or create a new method for loan repayment logic
-                // Since user asked to "put the number where money will be deducted",
-                // we treat this as a payment transaction.
-                // In a real scenario, this might reduce loan balance.
+                // We use repayLoan to log this specific transaction type
+                viewModel.repayLoan(currentMember, amount);
 
                 // We'll simulate success
                 showSuccessAnimation();

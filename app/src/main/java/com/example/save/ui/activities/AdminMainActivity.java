@@ -199,21 +199,18 @@ public class AdminMainActivity extends AppCompatActivity {
         if (binding.activityRecyclerView != null) {
             binding.activityRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
 
-            List<RecentActivityModel> activities = new ArrayList<>();
-            // TODO: Fetch real recent activity from database
+            // Initialize adapter with empty list
+            RecentActivityAdapter adapter = new RecentActivityAdapter(new ArrayList<>());
+            binding.activityRecyclerView.setAdapter(adapter);
 
-            if (activities.isEmpty()) {
-                // Determine if we have an empty state view, if not create a simple snackbar or
-                // just leave empty
-                // But user says "i cant see the recent activities", implying they expect to see
-                // *something*
-                // Since we don't have a specific EmptyView in XML yet, let's just add a
-                // placeholder
-                activities
-                        .add(new RecentActivityModel("No Recent Activity", "Transactions will appear here", "", true));
-            }
-
-            binding.activityRecyclerView.setAdapter(new RecentActivityAdapter(activities));
+            // Observe recent transactions from ViewModel
+            viewModel.getRecentTransactions().observe(this, transactions -> {
+                if (transactions != null && !transactions.isEmpty()) {
+                    adapter.updateList(transactions);
+                } else {
+                    // Optional: Show empty state
+                }
+            });
         }
     }
 
