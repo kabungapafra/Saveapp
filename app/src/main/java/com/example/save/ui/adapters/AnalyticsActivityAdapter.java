@@ -1,4 +1,5 @@
 package com.example.save.ui.adapters;
+
 import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
@@ -40,8 +41,10 @@ public class AnalyticsActivityAdapter extends RecyclerView.Adapter<AnalyticsActi
 
         String prefix = activity.isPositive() ? "+ " : "- ";
         int color = activity.isPositive()
-                ? holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark)
-                : holder.itemView.getContext().getResources().getColor(android.R.color.holo_red_dark);
+                ? androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
+                        android.R.color.holo_green_dark)
+                : androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
+                        android.R.color.holo_red_dark);
 
         holder.tvAmount.setText(prefix + String.format(Locale.getDefault(), "UGX %,.0f", activity.getAmount()));
         holder.tvAmount.setTextColor(color);

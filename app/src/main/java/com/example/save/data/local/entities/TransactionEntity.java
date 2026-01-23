@@ -9,18 +9,23 @@ public class TransactionEntity {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
+    private String memberName; // New: Associate with user
     private String type; // "CONTRIBUTION", "LOAN_PAYOUT", "LOAN_REPAYMENT"
     private double amount;
     private String description;
     private Date date;
     private boolean isPositive; // For UI display (Green/Red)
+    private String paymentMethod; // New: "Phone", "Bank", "Cash"
 
-    public TransactionEntity(String type, double amount, String description, Date date, boolean isPositive) {
+    public TransactionEntity(String memberName, String type, double amount, String description, Date date,
+            boolean isPositive, String paymentMethod) {
+        this.memberName = memberName;
         this.type = type;
         this.amount = amount;
         this.description = description;
         this.date = date;
         this.isPositive = isPositive;
+        this.paymentMethod = paymentMethod;
     }
 
     public long getId() {
@@ -69,5 +74,21 @@ public class TransactionEntity {
 
     public void setPositive(boolean positive) {
         isPositive = positive;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

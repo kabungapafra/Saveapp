@@ -109,7 +109,15 @@ public class LoansFragment extends Fragment {
                         paidLoans.add(loan);
                     }
                 }
-                historyAdapter.setLoans(paidLoans);
+                if (paidLoans.isEmpty()) {
+                    binding.rvLoanHistory.setVisibility(View.GONE);
+                    binding.emptyStateLayout.getRoot().setVisibility(View.VISIBLE);
+                    // binding.emptyStateLayout.tvEmptyTitle.setText("No loan history");
+                } else {
+                    binding.rvLoanHistory.setVisibility(View.VISIBLE);
+                    binding.emptyStateLayout.getRoot().setVisibility(View.GONE);
+                    historyAdapter.setLoans(paidLoans);
+                }
             }
         });
     }

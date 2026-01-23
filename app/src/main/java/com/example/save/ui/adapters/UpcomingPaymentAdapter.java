@@ -23,6 +23,11 @@ public class UpcomingPaymentAdapter extends RecyclerView.Adapter<UpcomingPayment
         this.payments = payments;
     }
 
+    public void updateList(List<TaskModel> newPayments) {
+        this.payments = newPayments;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,6 +54,32 @@ public class UpcomingPaymentAdapter extends RecyclerView.Adapter<UpcomingPayment
             holder.iconContainer.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFE8EAF6)); // Light
                                                                                                                 // Blue
             holder.ivIcon.setImageTintList(android.content.res.ColorStateList.valueOf(0xFF3F51B5)); // Blue
+        }
+        // Urgency Logic
+        String status = payment.status.toLowerCase();
+        int pillColor = 0xFFE0F7FA; // Default Cyan-ish
+        int textColor = 0xFF006064;
+
+        if (status.contains("due now") || status.contains("today") || status.contains("tomorrow")
+                || status.contains("1 day")) {
+            pillColor = 0xFFFFEBEE; // Red Light
+            textColor = 0xFFD32F2F; // Red
+        } else if (status.contains("2 days") || status.contains("3 days")) {
+            pillColor = 0xFFFFF3E0; // Orange Light
+            textColor = 0xFFEF6C00; // Orange
+        } else if (status.contains("great") || status.contains("relax")) {
+            pillColor = 0xFFE8F5E9; // Green Light
+            textColor = 0xFF2E7D32; // Green
+        }
+
+        holder.tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(pillColor));
+        holder.tvStatus.setTextColor(textColor);
+
+        // Ensure icon tint matches text for consistency if using drawables
+        for (android.graphics.drawable.Drawable d : holder.tvStatus.getCompoundDrawablesRelative()) {
+            if (d != null) {
+                d.setTint(textColor);
+            }
         }
     }
 

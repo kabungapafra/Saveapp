@@ -106,7 +106,7 @@ public class LoanRequestAdapter extends RecyclerView.Adapter<LoanRequestAdapter.
             }
 
             // Update status badge color
-            if ("APPROVED".equals(request.getStatus())) {
+            if ("APPROVED".equals(request.getStatus()) || "ACTIVE".equals(request.getStatus())) {
                 binding.tvStatus.setBackgroundColor(0xFF4CAF50);
             } else if ("REJECTED".equals(request.getStatus())) {
                 binding.tvStatus.setBackgroundColor(0xFFD32F2F);

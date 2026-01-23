@@ -18,15 +18,23 @@ import java.util.List;
 public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.QueueViewHolder> {
     private List<Member> members;
     private boolean isFullQueue;
+    private double payoutAmount;
 
     /**
-     * @param members     List of members to display
-     * @param isFullQueue If true, show payout status (paid/estimated); if false,
-     *                    show relative estimates (This Month/Next Month)
+     * @param members      List of members to display
+     * @param isFullQueue  If true, show payout status (paid/estimated); if false,
+     *                     show relative estimates (This Month/Next Month)
+     * @param payoutAmount The amount to be paid out
      */
-    public PayoutQueueAdapter(List<Member> members, boolean isFullQueue) {
+    public PayoutQueueAdapter(List<Member> members, boolean isFullQueue, double payoutAmount) {
         this.members = members;
         this.isFullQueue = isFullQueue;
+        this.payoutAmount = payoutAmount;
+    }
+
+    public void updateList(List<Member> newList) {
+        this.members = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -35,6 +43,16 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
         ItemPayoutQueueBinding itemBinding = ItemPayoutQueueBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false);
         return new QueueViewHolder(itemBinding);
+    }
+
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(Member member);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -47,20 +65,29 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
             if (member.hasReceivedPayout()) {
                 holder.date.setText("Paid on: " + member.getPayoutDate());
                 holder.date.setTextColor(
-                        holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+                        androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
+                                android.R.color.holo_green_dark));
                 holder.amount.setText("Paid");
             } else {
-                holder.date.setText("Estimated: Future Date");
+                holder.date.setText("Receiving: " + member.getNextPayoutDate());
                 holder.date.setTextColor(
-                        holder.itemView.getContext().getResources().getColor(android.R.color.darker_gray));
-                holder.amount.setText("500k");
+                        androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
+                                android.R.color.darker_gray));
+                holder.amount.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(payoutAmount));
             }
         } else {
             // Upcoming mode (Top 3)
-            holder.date.setText("Estimated: " + (position == 0 ? "This Month" : "Next Month"));
-            holder.date.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.darker_gray));
-            holder.amount.setText("500k");
+            holder.date.setText("Receiving: " + member.getNextPayoutDate());
+            holder.date.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
+                    android.R.color.darker_gray));
+            holder.amount.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(payoutAmount));
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(member);
+            }
+        });
     }
 
     @Override

@@ -90,6 +90,17 @@ public class AnalyticsFragment extends Fragment {
             }
         });
 
+        // Initialize LineChart
+        setupLineChart(null); // Init with empty data or styling
+
+        // Export Button
+        binding.btnExport.setOnClickListener(v -> exportReport());
+
+        // Setup SwipeRefresh
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            updateUI();
+        });
+
         updateUI();
         return binding.getRoot();
     }
@@ -101,15 +112,20 @@ public class AnalyticsFragment extends Fragment {
     }
 
     private void updateUI() {
-        if (isAdmin) {
-            setupAdminView();
-        } else {
-            setupMemberView();
-        }
+        // Standardize: Everyone sees Group Performance
+        setupGroupView();
+
+        // Setup Line Chart Data
+        membersViewModel.getSavingsTrend().observe(getViewLifecycleOwner(), entries -> {
+            setupLineChart(entries);
+            if (binding != null && binding.swipeRefresh != null) {
+                binding.swipeRefresh.setRefreshing(false);
+            }
+        });
     }
 
-    private void setupAdminView() {
-        binding.tvAnalyticsTitle.setText("Group Overview");
+    private void setupGroupView() {
+        binding.tvAnalyticsTitle.setText("Group Performance");
 
         // Metric 1: Total Savings
         binding.tvMetric1Label.setText("Total Savings");
@@ -231,75 +247,6 @@ public class AnalyticsFragment extends Fragment {
         }
     }
 
-    private void setupMemberView() {
-        binding.tvAnalyticsTitle.setText("My Financials");
-
-        // Hide Admin Sections
-        binding.cardLoanHealth.setVisibility(View.GONE);
-
-        if (memberEmail == null) {
-            // Fallback for demo or error
-            binding.tvMetric1Value.setText("Error");
-            return;
-        }
-
-        // Fetch Member Logic
-        new Thread(() -> {
-            Member member = membersViewModel.getMemberByEmail(memberEmail);
-            if (member != null && getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    if (binding == null)
-                        return;
-
-                    // Metric 1: My Savings
-                    binding.tvMetric1Label.setText("My Savings");
-                    binding.tvMetric1Value.setText(formatCurrency(member.getContributionPaid()));
-
-                    // Metric 3: Dividends (Mock calculation based on savings 5%)
-                    binding.tvMetric3Label.setText("Est. Dividends");
-                    double dividends = member.getContributionPaid() * 0.05;
-                    binding.tvMetric3Value.setText(formatCurrency(dividends));
-
-                    // Metric 4: Next Contribution
-                    binding.tvMetric4Label.setText("Next Contribution");
-                    // Simple monthly logic
-                    binding.tvMetric4Value.setText("Due Monthly");
-
-                    // Metric 2: Active Loan & Chart
-                    loansViewModel.getLoans().observe(getViewLifecycleOwner(), allLoans -> {
-                        double myActiveLoanStr = 0;
-                        List<Loan> myLoans = new ArrayList<>();
-
-                        // Filter
-                        if (allLoans != null) {
-                            for (Loan l : allLoans) {
-                                if (member.getName().equals(l.getMemberName())) {
-                                    myLoans.add(l);
-                                    if (Loan.STATUS_ACTIVE.equals(l.getStatus())) {
-                                        myActiveLoanStr += (l.getTotalDue() - l.getRepaidAmount());
-                                    }
-                                }
-                            }
-                        }
-
-                        binding.tvMetric2Label.setText("My Active Loan");
-                        binding.tvMetric2Value.setText(formatCurrency(myActiveLoanStr));
-
-                        // Chart - My Spending vs Savings? Or Loan Repayment?
-                        // Let's show Savings Growth (Mocked as weekly increments)
-                        setupMockSavingsChart();
-                        binding.tvChartTitle.setText("Savings Growth (Est)");
-                    });
-
-                    // Recent Activity - Now from Transactions
-                    membersViewModel.getRecentTransactions().observe(getViewLifecycleOwner(), transactions -> {
-                        populateRecentActivity(transactions, member.getName());
-                    });
-                });
-            }
-        }).start();
-    }
-
     private void populateRecentActivity(List<com.example.save.data.local.entities.TransactionEntity> transactions,
             String filterMemberName) {
         List<ActivityModel> activities = new ArrayList<>();
@@ -403,36 +350,75 @@ public class AnalyticsFragment extends Fragment {
         chart.animateY(1000, com.github.mikephil.charting.animation.Easing.EaseInOutQuad);
     }
 
-    private void setupMockSavingsChart() {
-        // Keep the aesthetic mock chart for individual savings growth as we don't have
-        // historical transaction data yet
+    private void setupLineChart(List<com.github.mikephil.charting.data.Entry> entries) {
         if (binding == null)
             return;
 
-        com.github.mikephil.charting.charts.PieChart chart = binding.pieChart;
-        chart.setCenterText("Growth");
+        com.github.mikephil.charting.charts.LineChart chart = binding.lineChart;
+        chart.getDescription().setEnabled(false);
+        chart.setTouchEnabled(true);
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(true);
+        chart.setPinchZoom(true);
+        chart.setDrawGridBackground(false);
 
-        List<com.github.mikephil.charting.data.PieEntry> entries = new ArrayList<>();
-        entries.add(new com.github.mikephil.charting.data.PieEntry(40f, "Week 1"));
-        entries.add(new com.github.mikephil.charting.data.PieEntry(30f, "Week 2"));
-        entries.add(new com.github.mikephil.charting.data.PieEntry(15f, "Week 3"));
-        entries.add(new com.github.mikephil.charting.data.PieEntry(15f, "Week 4"));
+        if (entries != null && !entries.isEmpty()) {
+            com.github.mikephil.charting.data.LineDataSet set1;
+            if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
+                set1 = (com.github.mikephil.charting.data.LineDataSet) chart.getData().getDataSetByIndex(0);
+                set1.setValues(entries);
+                chart.getData().notifyDataChanged();
+                chart.notifyDataSetChanged();
+            } else {
+                set1 = new com.github.mikephil.charting.data.LineDataSet(entries, "Savings Growth");
 
-        com.github.mikephil.charting.data.PieDataSet dataSet = new com.github.mikephil.charting.data.PieDataSet(entries,
-                "");
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(getResources().getColor(R.color.deep_blue));
-        colors.add(android.graphics.Color.parseColor("#42A5F5"));
-        colors.add(android.graphics.Color.parseColor("#66BB6A"));
-        colors.add(android.graphics.Color.parseColor("#FFA726"));
-        dataSet.setColors(colors);
+                set1.setDrawIcons(false);
+                set1.setColor(getResources().getColor(R.color.deep_blue));
+                set1.setCircleColor(getResources().getColor(R.color.deep_blue));
+                set1.setLineWidth(2f);
+                set1.setCircleRadius(4f);
+                set1.setDrawCircleHole(false);
+                set1.setValueTextSize(9f);
+                set1.setDrawFilled(true);
 
-        dataSet.setSliceSpace(3f);
-        dataSet.setValueTextColor(android.graphics.Color.WHITE);
+                if (androidx.core.content.ContextCompat.getDrawable(getContext(), R.drawable.fade_blue) != null) {
+                    set1.setFillDrawable(
+                            androidx.core.content.ContextCompat.getDrawable(getContext(), R.drawable.fade_blue));
+                } else {
+                    set1.setFillColor(android.graphics.Color.BLUE);
+                }
 
-        com.github.mikephil.charting.data.PieData data = new com.github.mikephil.charting.data.PieData(dataSet);
-        chart.setData(data);
-        chart.invalidate();
+                java.util.ArrayList<com.github.mikephil.charting.interfaces.datasets.ILineDataSet> dataSets = new java.util.ArrayList<>();
+                dataSets.add(set1);
+                com.github.mikephil.charting.data.LineData data = new com.github.mikephil.charting.data.LineData(
+                        dataSets);
+                chart.setData(data);
+            }
+            chart.invalidate();
+        } else {
+            chart.setNoDataText("No savings history yet.");
+            chart.invalidate();
+        }
+    }
+
+    private void exportReport() {
+        // Simpler approach for demo:
+        membersViewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
+            membersViewModel.getGroupBalance().observe(getViewLifecycleOwner(), balance -> {
+                loansViewModel.getLoans().observe(getViewLifecycleOwner(), loans -> {
+                    double activeLoans = 0;
+                    if (loans != null) {
+                        for (Loan l : loans) {
+                            if (Loan.STATUS_ACTIVE.equals(l.getStatus())) {
+                                activeLoans += (l.getTotalDue() - l.getRepaidAmount());
+                            }
+                        }
+                    }
+                    com.example.save.utils.ReportUtils.generateAndShareReport(getContext(), members,
+                            balance != null ? balance : 0, activeLoans);
+                });
+            });
+        });
     }
 
     private String formatCurrency(double amount) {

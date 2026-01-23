@@ -48,6 +48,9 @@ public interface LoanDao {
     @Query("SELECT * FROM loans WHERE status = 'ACTIVE' ORDER BY id DESC")
     List<LoanEntity> getActiveLoans();
 
+    @Query("SELECT * FROM loans WHERE memberName = :memberName AND status = 'ACTIVE' LIMIT 1")
+    LoanEntity getActiveLoanByMemberName(String memberName);
+
     @Query("SELECT SUM(amount + interest - repaidAmount) FROM loans WHERE status = 'ACTIVE'")
     double getTotalOutstanding();
 

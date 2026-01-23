@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_xl">
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_large"
+            android:layout_height="@dimen/icon_size_large"
+            android:src="@drawable/ic_money"
+            android:tint="@color/deep_blue"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contribution Settings"
+            android:textSize="@dimen/text_size_xxl"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set up how members will contribute"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/text_secondary"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_xxl" />
+
+        <!-- Contribution Amount -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contribution Amount (UGX)"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/deep_blue"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_medium"
+            app:startIconDrawable="@drawable/ic_money"
+            app:startIconTint="@color/deep_blue"
+            app:prefixText="UGX "
+            android:layout_marginBottom="@dimen/spacing_normal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etContributionAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Contribution Frequency -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contribution Frequency"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="@dimen/spacing_small" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupFrequency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            android:layout_marginBottom="@dimen/spacing_normal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipWeekly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weekly"
+                android:checked="true"
+                style="@style/Widget.Material3.Chip.Filter" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipBiweekly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bi-weekly"
+                style="@style/Widget.Material3.Chip.Filter" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMonthly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monthly"
+                style="@style/Widget.Material3.Chip.Filter" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Late Payment Penalty -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Late Payment Penalty (%)"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/deep_blue"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_medium"
+            app:startIconDrawable="@drawable/ic_warning"
+            app:startIconTint="@color/status_overdue"
+            app:suffixText="%"
+            app:helperText="Percentage charged for late contributions"
+            android:layout_marginBottom="@dimen/spacing_normal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLatePenalty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="5"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -23,7 +23,7 @@ public class QueueFragment extends Fragment {
 
     private FragmentQueueBinding binding;
     private MembersViewModel viewModel;
-    private MemberAdapter adapter;
+    private com.example.save.ui.adapters.PayoutQueueAdapter adapter;
 
     public static QueueFragment newInstance() {
         return new QueueFragment();
@@ -54,7 +54,8 @@ public class QueueFragment extends Fragment {
 
     private void setupRecyclerView() {
         binding.rvQueue.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MemberAdapter();
+        // Initialize with empty list, full queue mode, and default payout
+        adapter = new com.example.save.ui.adapters.PayoutQueueAdapter(new ArrayList<>(), true, 500000);
         binding.rvQueue.setAdapter(adapter);
     }
 
@@ -77,8 +78,7 @@ public class QueueFragment extends Fragment {
                 // Update Top Card
                 if (nextRecipient != null) {
                     binding.tvNextRecipient.setText(nextRecipient.getName());
-                    // Placeholder logic for date (e.g. 2 weeks from now)
-                    binding.tvNextDate.setText("Scheduled");
+                    binding.tvNextDate.setText(nextRecipient.getNextPayoutDate());
                 } else {
                     binding.tvNextRecipient.setText("No pending payouts");
                     binding.tvNextDate.setText("-");

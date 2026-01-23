@@ -41,7 +41,8 @@ public class ShortfallAdapter extends RecyclerView.Adapter<ShortfallAdapter.Shor
         holder.name.setText(member.getName());
         holder.role.setText("Shortfall: UGX "
                 + NumberFormat.getIntegerInstance().format(member.getShortfallAmount()));
-        holder.role.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_red_dark));
+        holder.role.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
+                android.R.color.holo_red_dark));
         holder.status.setBackgroundResource(R.drawable.circle_red);
         holder.status.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
     }

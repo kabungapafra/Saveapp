@@ -33,7 +33,8 @@
     <dimen name="icon_size_medium">48dp</dimen>
     <dimen name="icon_size_large">64dp</dimen>
 
-    <!-- Card Elevation -->
-    <dimen name="card_elevation_normal">8dp</dimen>
-    <dimen name="card_elevation_raised">12dp</dimen>
+    <!-- Standardized Card Dimensions -->
+    <dimen name="card_elevation_primary">4dp</dimen>
+    <dimen name="card_elevation_secondary">2dp</dimen>
+    <dimen name="card_corner_radius_standard">16dp</dimen>
 </resources>

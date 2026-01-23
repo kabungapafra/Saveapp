@@ -32,8 +32,30 @@ public class ValidationUtils {
             return false;
         }
         // Remove spaces and check if it's 9 or 10 digits
-        String cleanPhone = phone.replaceAll("\\s+", "");
-        return cleanPhone.matches("^0?[7][0-9]{8}$"); // Uganda format starting with 07
+        String cleanPhone = normalizePhone(phone);
+        return cleanPhone.matches("^[7][0-9]{8}$"); // Uganda format starting with 7
+    }
+
+    /**
+     * Normalizes phone number by removing spaces and leading zero
+     * 
+     * @param phone Phone number to normalize
+     * @return Normalized phone number (e.g. 772123456)
+     */
+    public static String normalizePhone(String phone) {
+        if (phone == null)
+            return "";
+        String clean = phone.replaceAll("\\s+", "");
+        if (clean.startsWith("+256")) {
+            clean = clean.substring(4);
+        }
+        if (clean.startsWith("256")) {
+            clean = clean.substring(3);
+        }
+        if (clean.startsWith("0")) {
+            clean = clean.substring(1);
+        }
+        return clean;
     }
 
     /**

@@ -46,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Admin Configuration
         loadContributionAmount();
         loadLatePenalty();
+        loadPayoutSettings();
         loadAdminSwitches();
         setupSlotsSpinner();
         setupDatePicker();
@@ -82,6 +83,28 @@ public class SettingsActivity extends AppCompatActivity {
         binding.etLatePenalty.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 saveLatePenalty();
+            }
+        });
+    }
+
+    private void loadPayoutSettings() {
+        // Payout Amount
+        double amount = viewModel.getPayoutAmount();
+        binding.etPayoutAmount.setText(String.format(java.util.Locale.US, "%.0f", amount));
+
+        binding.etPayoutAmount.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                savePayoutAmount();
+            }
+        });
+
+        // Retention Percentage
+        double retention = viewModel.getRetentionPercentage();
+        binding.etRetentionPercentage.setText(String.format(java.util.Locale.US, "%.1f", retention));
+
+        binding.etRetentionPercentage.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                saveRetentionPercentage();
             }
         });
     }
@@ -359,6 +382,54 @@ public class SettingsActivity extends AppCompatActivity {
 
         } catch (NumberFormatException e) {
             binding.etLatePenalty.setError("Invalid amount");
+        }
+    }
+
+    private void savePayoutAmount() {
+        String amountStr = binding.etPayoutAmount.getText().toString().trim();
+
+        if (TextUtils.isEmpty(amountStr)) {
+            binding.etPayoutAmount.setError("Enter amount");
+            return;
+        }
+
+        try {
+            double amount = Double.parseDouble(amountStr.replace(",", ""));
+
+            if (amount <= 0) {
+                binding.etPayoutAmount.setError("Amount must be greater than 0");
+                return;
+            }
+
+            viewModel.setPayoutAmount(amount);
+            Toast.makeText(this, "Payout amount saved", Toast.LENGTH_SHORT).show();
+
+        } catch (NumberFormatException e) {
+            binding.etPayoutAmount.setError("Invalid amount");
+        }
+    }
+
+    private void saveRetentionPercentage() {
+        String rateStr = binding.etRetentionPercentage.getText().toString().trim();
+
+        if (TextUtils.isEmpty(rateStr)) {
+            binding.etRetentionPercentage.setError("Enter percentage");
+            return;
+        }
+
+        try {
+            double rate = Double.parseDouble(rateStr);
+
+            if (rate < 0 || rate > 100) {
+                binding.etRetentionPercentage.setError("Percentage must be between 0 and 100");
+                return;
+            }
+
+            viewModel.setRetentionPercentage(rate);
+            Toast.makeText(this, "Retention percentage saved", Toast.LENGTH_SHORT).show();
+
+        } catch (NumberFormatException e) {
+            binding.etRetentionPercentage.setError("Invalid percentage");
         }
     }
 

@@ -79,15 +79,34 @@ public class AdminLoansFragment extends Fragment {
         adapter = new LoanRequestAdapter(new LoanRequestAdapter.OnLoanActionListener() {
             @Override
             public void onApprove(LoanRequest request) {
-                viewModel.approveLoanRequest(request.getId());
-                Toast.makeText(getContext(), "Loan approved for " + request.getMemberName(), Toast.LENGTH_SHORT)
-                        .show();
+                // Execute approval on background thread
+                new Thread(() -> {
+                    boolean success = viewModel.approveLoanRequest(request.getId());
+                    requireActivity().runOnUiThread(() -> {
+                        if (success) {
+                            Toast.makeText(getContext(),
+                                    "Loan approved for " + request.getMemberName(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(),
+                                    "Cannot approve: Insufficient group balance",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }).start();
             }
 
             @Override
             public void onReject(LoanRequest request) {
-                viewModel.rejectLoanRequest(request.getId());
-                Toast.makeText(getContext(), "Loan rejected", Toast.LENGTH_SHORT).show();
+                // Execute rejection on background thread for consistency
+                new Thread(() -> {
+                    viewModel.rejectLoanRequest(request.getId());
+                    requireActivity().runOnUiThread(() -> {
+                        Toast.makeText(getContext(),
+                                "Loan rejected for " + request.getMemberName(),
+                                Toast.LENGTH_SHORT).show();
+                    });
+                }).start();
             }
         });
         binding.rvLoanRequests.setAdapter(adapter);
@@ -118,8 +137,14 @@ public class AdminLoansFragment extends Fragment {
         String targetStatus = (tabIndex == 0) ? "PENDING" : "APPROVED";
 
         for (LoanRequest req : allRequests) {
-            if (targetStatus.equals(req.getStatus())) {
-                filteredList.add(req);
+            if (tabIndex == 0) {
+                if ("PENDING".equals(req.getStatus())) {
+                    filteredList.add(req);
+                }
+            } else {
+                if ("APPROVED".equals(req.getStatus()) || "ACTIVE".equals(req.getStatus())) {
+                    filteredList.add(req);
+                }
             }
         }
 

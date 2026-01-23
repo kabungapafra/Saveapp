@@ -74,8 +74,11 @@ public class MemberRegistrationActivity extends AppCompatActivity {
 
     private void handleLogin() {
         String groupName = binding.groupNameInput.getText().toString().trim();
-        String phone = binding.phoneInput.getText().toString().trim();
-        String password = binding.passwordInput.getText().toString().trim();
+        String phoneInput = binding.phoneInput.getText().toString().trim();
+        String password = binding.passwordInput.getText().toString().trim(); // Trimmed
+
+        // Normalize phone number (Remove leading zero if any)
+        String phone = com.example.save.utils.ValidationUtils.normalizePhone(phoneInput);
 
         // Validate inputs using ValidationUtils
         if (!com.example.save.utils.ValidationUtils.isNotEmpty(groupName)) {
@@ -138,6 +141,12 @@ public class MemberRegistrationActivity extends AppCompatActivity {
                         Toast.makeText(MemberRegistrationActivity.this, "Welcome " + member.getName(),
                                 Toast.LENGTH_SHORT)
                                 .show();
+
+                        // SAVE SESSION using SessionManager
+                        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                                getApplicationContext());
+                        session.createLoginSession(member.getName(), member.getEmail(), member.getRole());
+
                         Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
                         intent.putExtra("member_email", member.getEmail()); // Pass email to Dashboard
                         // Clear back stack - user should not go back to login after successful login

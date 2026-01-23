@@ -7,6 +7,7 @@ import com.example.save.data.models.*;
 import com.example.save.data.repository.*;
 
 public class Member {
+    private long id;
     private String name;
     private String role;
     private boolean isActive;
@@ -17,6 +18,8 @@ public class Member {
     private boolean hasReceivedPayout;
     private double shortfallAmount;
     private boolean isFirstLogin; // Track if member needs to change password
+    private String nextPayoutDate;
+    private String nextPaymentDueDate;
 
     private String password;
 
@@ -36,6 +39,8 @@ public class Member {
         this.hasReceivedPayout = false;
         this.shortfallAmount = 0;
         this.isFirstLogin = true; // New members must change password
+        this.nextPayoutDate = "Not Scheduled";
+        this.nextPaymentDueDate = "TBD";
         this.contributionTarget = 1000000; // Default target 1M
         this.contributionPaid = 0;
         this.paymentStreak = 0;
@@ -163,5 +168,62 @@ public class Member {
 
     public void setPaymentStreak(int paymentStreak) {
         this.paymentStreak = paymentStreak;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getFormattedId() {
+        return String.format("MEM-%03d", id);
+    }
+
+    public String getNextPayoutDate() {
+        return nextPayoutDate;
+    }
+
+    public void setNextPayoutDate(String nextPayoutDate) {
+        this.nextPayoutDate = nextPayoutDate;
+    }
+
+    public String getNextPaymentDueDate() {
+        return nextPaymentDueDate;
+    }
+
+    public void setNextPaymentDueDate(String nextPaymentDueDate) {
+        this.nextPaymentDueDate = nextPaymentDueDate;
+    }
+
+    // Auto-Pay Fields
+    private boolean autoPayEnabled;
+    private double autoPayAmount;
+    private int autoPayDay;
+
+    public boolean isAutoPayEnabled() {
+        return autoPayEnabled;
+    }
+
+    public void setAutoPayEnabled(boolean autoPayEnabled) {
+        this.autoPayEnabled = autoPayEnabled;
+    }
+
+    public double getAutoPayAmount() {
+        return autoPayAmount;
+    }
+
+    public void setAutoPayAmount(double autoPayAmount) {
+        this.autoPayAmount = autoPayAmount;
+    }
+
+    public int getAutoPayDay() {
+        return autoPayDay;
+    }
+
+    public void setAutoPayDay(int autoPayDay) {
+        this.autoPayDay = autoPayDay;
     }
 }

@@ -197,7 +197,8 @@ public class NewPasswordFragment extends Fragment {
 
     private void startResendTimer() {
         binding.resendOtp.setEnabled(false);
-        binding.resendOtp.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        binding.resendOtp.setTextColor(
+                androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.darker_gray));
         binding.timerText.setVisibility(View.VISIBLE);
 
         countDownTimer = new CountDownTimer(30000, 1000) {

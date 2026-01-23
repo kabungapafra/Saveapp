@@ -78,8 +78,11 @@ public class AdminLoginActivity extends AppCompatActivity {
 
     private void handleLogin() {
         String groupName = binding.groupNameInput.getText().toString().trim();
-        String phone = binding.phoneInput.getText().toString().trim();
-        String password = binding.passwordInput.getText().toString().trim();
+        String phoneInput = binding.phoneInput.getText().toString().trim();
+        String password = binding.passwordInput.getText().toString().trim(); // Trimmed
+
+        // Normalize phone number (Remove leading zero if any)
+        String phone = com.example.save.utils.ValidationUtils.normalizePhone(phoneInput);
 
         // Validate inputs
         if (groupName.isEmpty()) {
@@ -105,11 +108,19 @@ public class AdminLoginActivity extends AppCompatActivity {
 
         // Background thread for database query
         new Thread(() -> {
-            Member member = viewModel.getMemberByPhone(phone); // Auth by Phone
+            Member member = viewModel.getMemberByPhone(phone);
 
             runOnUiThread(() -> {
                 binding.loginButton.setEnabled(true);
                 binding.loginButton.setText("Login");
+
+                android.util.Log.d("AdminLogin", "Querying phone: " + phone);
+                if (member == null) {
+                    android.util.Log.d("AdminLogin", "Member not found for phone: " + phone);
+                } else {
+                    android.util.Log.d("AdminLogin", "Member found: " + member.getName() + ", Role: " + member.getRole()
+                            + ", Password: " + member.getPassword());
+                }
 
                 if (member != null && member.getPassword().equals(password)) {
                     // Check if user is Admin
@@ -119,20 +130,24 @@ public class AdminLoginActivity extends AppCompatActivity {
                         Toast.makeText(AdminLoginActivity.this, "Welcome " + member.getName(), Toast.LENGTH_SHORT)
                                 .show();
 
-                        // SAVE CREDENTIALS TO PREFS for persistence
+                        // SAVE SESSION using SessionManager
+                        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                                getApplicationContext());
+                        session.createLoginSession(member.getName(), member.getEmail(), member.getRole());
+
+                        // Also save to SharedPreferences for backward compatibility
                         android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
                         prefs.edit()
                                 .putString("admin_name", member.getName())
                                 .putString("group_name", groupName)
-                                .putString("admin_email", member.getEmail()) // Save Email for recovery
+                                .putString("admin_email", member.getEmail())
                                 .apply();
 
                         Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
-                        intent.putExtra("admin_email", member.getEmail()); // Pass email
-                        intent.putExtra("admin_name", member.getName()); // Pass name for Greeting
-                        intent.putExtra("group_name", groupName); // Pass group name for Header
+                        intent.putExtra("admin_email", member.getEmail());
+                        intent.putExtra("admin_name", member.getName());
+                        intent.putExtra("group_name", groupName);
 
-                        // Clear back stack - user should not go back to login after successful login
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

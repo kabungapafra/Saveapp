@@ -27,9 +27,12 @@ public class MemberRepository {
     private final TransactionDao transactionDao;
     private final LoanDao loanDao;
     private final Executor executor;
+    private final android.content.SharedPreferences prefs;
     private LiveData<List<Member>> membersLiveData;
-    private MutableLiveData<Double> groupBalance;
+    private LiveData<Double> groupBalance;
     private double contributionTarget;
+    private double payoutAmount;
+    private double retentionPercentage;
 
     // Loan Configuration
     private double maxLoanAmount = 500000;
@@ -37,22 +40,25 @@ public class MemberRepository {
     private int maxLoanDuration = 12;
     private boolean requireGuarantor = true;
 
-    // Loan Requests Management
-    private List<com.example.save.data.models.LoanRequest> loanRequests = new ArrayList<>();
-    private MutableLiveData<List<com.example.save.data.models.LoanRequest>> loanRequestsLiveData = new MutableLiveData<>();
-
     private MemberRepository(Context context) {
         AppDatabase database = AppDatabase.getInstance(context);
         memberDao = database.memberDao();
         transactionDao = database.transactionDao();
         loanDao = database.loanDao();
         executor = Executors.newSingleThreadExecutor();
+        prefs = context.getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
+
         contributionTarget = 1000000; // Default: 1M UGX
-        groupBalance = new MutableLiveData<>(1500000.0); // Initialize LiveData
+        payoutAmount = Double.longBitsToDouble(prefs.getLong("payout_amount", Double.doubleToLongBits(500000.0)));
+        retentionPercentage = Double
+                .longBitsToDouble(prefs.getLong("retention_percentage", Double.doubleToLongBits(0.0)));
+
+        groupBalance = transactionDao.getGroupBalance(); // Central source of truth from DB
 
         // Transform entity LiveData to model LiveData
         LiveData<List<MemberEntity>> entityLiveData = memberDao.getAllMembers();
         membersLiveData = Transformations.map(entityLiveData, this::convertEntitiesToModels);
+
     }
 
     public static synchronized MemberRepository getInstance(Context context) {
@@ -71,6 +77,10 @@ public class MemberRepository {
         return instance;
     }
 
+    public Executor getExecutor() {
+        return executor;
+    }
+
     public LiveData<List<Member>> getMembers() {
         return membersLiveData;
     }
@@ -81,24 +91,32 @@ public class MemberRepository {
         return convertEntitiesToModels(entities);
     }
 
-    public void addMember(Member member) {
+    public void addMember(Member member, MemberAddCallback callback) {
+        if (member != null) {
+            // Normalize phone before saving
+            member.setPhone(com.example.save.utils.ValidationUtils.normalizePhone(member.getPhone()));
+        }
         executor.execute(() -> {
-            MemberEntity entity = convertModelToEntity(member);
-            entity.setContributionTarget(contributionTarget);
-            memberDao.insert(entity);
+            try {
+                MemberEntity entity = convertModelToEntity(member);
+                entity.setContributionTarget(contributionTarget);
+                memberDao.insert(entity);
+                if (callback != null) {
+                    // Post success to main thread if needed, or let ViewModel handle it
+                    // Ideally, we run callback on the original thread or main thread
+                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> callback.onResult(true, null));
+                }
+            } catch (Exception e) {
+                if (callback != null) {
+                    new android.os.Handler(android.os.Looper.getMainLooper())
+                            .post(() -> callback.onResult(false, e.getMessage()));
+                }
+            }
         });
     }
 
-    private void calculateInitialBalance() {
-        executor.execute(() -> {
-            // Simple logic: Sum all contributionPaid from members
-            List<MemberEntity> allMembers = memberDao.getAllMembersSync();
-            double total = 0;
-            for (MemberEntity m : allMembers) {
-                total += m.getContributionPaid();
-            }
-            groupBalance.postValue(total);
-        });
+    public interface MemberAddCallback {
+        void onResult(boolean success, String message);
     }
 
     public void removeMember(Member member) {
@@ -171,6 +189,20 @@ public class MemberRepository {
         });
     }
 
+    public void enableAutoPay(Member member, double amount, int day) {
+        if (member != null) {
+            executor.execute(() -> {
+                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+                if (entity != null) {
+                    entity.setAutoPayEnabled(true);
+                    entity.setAutoPayAmount(amount);
+                    entity.setAutoPayDay(day);
+                    memberDao.update(entity);
+                }
+            });
+        }
+    }
+
     public List<Member> getMembersWithShortfalls() {
         List<MemberEntity> entities = memberDao.getMembersWithShortfalls();
         return convertEntitiesToModels(entities);
@@ -193,11 +225,6 @@ public class MemberRepository {
         return groupBalance;
     }
 
-    public void addToBalance(double amount) {
-        double current = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
-        groupBalance.postValue(current + amount);
-    }
-
     public Member getNextPayoutRecipient() {
         // Sync version for background threads
         List<MemberEntity> entities = memberDao.getActiveMembers();
@@ -213,18 +240,34 @@ public class MemberRepository {
         if (member == null)
             return false;
 
-        double payoutAmount = 500000;
-        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+        if (member == null)
+            return false;
 
-        if (currentBalance >= payoutAmount) {
-            groupBalance.postValue(currentBalance - payoutAmount);
+        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+        double netPayout = getNetPayoutAmount();
+
+        if (currentBalance >= netPayout) {
             executor.execute(() -> {
                 MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
                 if (entity != null) {
                     entity.setHasReceivedPayout(true);
-                    entity.setPayoutAmount(String.valueOf(payoutAmount));
+                    entity.setPayoutAmount(String.valueOf(payoutAmount)); // Store Gross Amount or Net? Logic usually
+                                                                          // implies what they got. Storing Gross for
+                                                                          // records.
                     entity.setPayoutDate(java.text.DateFormat.getDateInstance().format(new java.util.Date()));
                     memberDao.update(entity);
+
+                    // Log Transaction for Payout (Net Amount Leaving)
+                    TransactionEntity tx = new TransactionEntity(
+                            member.getName(),
+                            "MEMBER_PAYOUT",
+                            netPayout,
+                            "Member payout to " + member.getName(),
+                            new java.util.Date(),
+                            false, // Money leaving the group
+                            "Bank" // Default
+                    );
+                    transactionDao.insert(tx);
                 }
             });
             return true;
@@ -232,17 +275,37 @@ public class MemberRepository {
         return false;
     }
 
+    public boolean canExecutePayout() {
+        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+        return currentBalance >= getNetPayoutAmount();
+    }
+
+    public double getBalanceShortfall() {
+        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+        return Math.max(0, getNetPayoutAmount() - currentBalance);
+    }
+
     public void resolveShortfall(Member member) {
         if (member != null && member.getShortfallAmount() > 0) {
             double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
 
             if (currentBalance >= member.getShortfallAmount()) {
-                groupBalance.postValue(currentBalance - member.getShortfallAmount());
                 executor.execute(() -> {
                     MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
                     if (entity != null) {
                         entity.setShortfallAmount(0);
                         memberDao.update(entity);
+
+                        // Log Transaction for Shortfall Resolution
+                        TransactionEntity tx = new TransactionEntity(
+                                member.getName(),
+                                "SHORTFALL_RESOLUTION",
+                                member.getShortfallAmount(),
+                                "Shortfall resolution for " + member.getName(),
+                                new java.util.Date(),
+                                false, // Money leaving the group
+                                "System");
+                        transactionDao.insert(tx);
                     }
                 });
             }
@@ -260,33 +323,44 @@ public class MemberRepository {
     }
 
     public Member getMemberByPhone(String phone) {
-        MemberEntity entity = memberDao.getMemberByPhone(phone);
+        String normalizedPhone = com.example.save.utils.ValidationUtils.normalizePhone(phone);
+        MemberEntity entity = memberDao.getMemberByPhone(normalizedPhone);
         return entity != null ? convertEntityToModel(entity) : null;
     }
 
     // Synchronous method explicitly for background thread use
-    public Member getMemberByNameSync() {
-        MemberEntity entity = memberDao.getMemberByName("Admin");
+    public Member getMemberByNameSync(String identifier) {
+        if (identifier == null || identifier.isEmpty())
+            return null;
+
+        MemberEntity entity = memberDao.getMemberByName(identifier);
+        if (entity == null) {
+            entity = memberDao.getMemberByEmail(identifier);
+        }
         return entity != null ? convertEntityToModel(entity) : null;
     }
 
-    public void makePayment(Member member, double amount, String phoneNumber) {
+    public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod) {
         if (member != null) {
-            addToBalance(amount);
             executor.execute(() -> {
                 MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
                 if (entity != null) {
                     entity.setContributionPaid(entity.getContributionPaid() + amount);
+
+                    // Update Streak (Simple logic: +1 per payment for now)
+                    entity.setPaymentStreak(entity.getPaymentStreak() + 1);
+
                     memberDao.update(entity);
 
                     // Log Transaction
                     TransactionEntity tx = new TransactionEntity(
+                            member.getName(),
                             "CONTRIBUTION",
                             amount,
                             "Contribution from " + member.getName(),
                             new java.util.Date(),
-                            true // Money coming in
-                    );
+                            true, // Money coming in
+                            paymentMethod);
                     transactionDao.insert(tx);
                 }
             });
@@ -386,58 +460,113 @@ public class MemberRepository {
 
     // Loan Requests Management
     public void submitLoanRequest(com.example.save.data.models.LoanRequest request) {
-        request.setInterestRate(loanInterestRate);
-        request.setTotalRepayment(request.getAmount() + (request.getAmount() * loanInterestRate / 100));
-        loanRequests.add(0, request);
-        loanRequestsLiveData.setValue(new ArrayList<>(loanRequests));
+        executor.execute(() -> {
+            // Create LoanEntity from LoanRequest
+            LoanEntity entity = new LoanEntity();
+            entity.setExternalId(java.util.UUID.randomUUID().toString());
+
+            // Find member by name to get ID
+            MemberEntity member = memberDao.getMemberByName(request.getMemberName());
+            if (member != null) {
+                entity.setMemberId(String.valueOf(member.getId()));
+            } else {
+                entity.setMemberId("0"); // Fallback
+            }
+
+            entity.setMemberName(request.getMemberName());
+            entity.setAmount(request.getAmount());
+
+            // Calculate interest amount
+            double interestAmount = request.getAmount() * loanInterestRate / 100.0;
+            entity.setInterest(interestAmount);
+
+            entity.setReason(request.getReason());
+            entity.setDateRequested(new java.util.Date());
+            entity.setStatus("PENDING");
+            entity.setDueDate(new java.util.Date(
+                    System.currentTimeMillis() + (long) request.getDurationMonths() * 30L * 24L * 60L * 60L * 1000L));
+
+            loanDao.insert(entity);
+        });
     }
 
     public LiveData<List<com.example.save.data.models.LoanRequest>> getLoanRequests() {
-        return loanRequestsLiveData;
+        // Return transformed LiveData from DB
+        return Transformations.map(loanDao.getAllLoans(), entities -> {
+            List<com.example.save.data.models.LoanRequest> requests = new ArrayList<>();
+            for (LoanEntity entity : entities) {
+                com.example.save.data.models.LoanRequest req = new com.example.save.data.models.LoanRequest(
+                        entity.getMemberName(),
+                        entity.getAmount(),
+                        12, // Duration not stored in entity
+                        "N/A", // Guarantor not in entity
+                        "N/A",
+                        entity.getReason());
+                req.setId(entity.getExternalId());
+                req.setStatus(entity.getStatus());
+                requests.add(req);
+            }
+            return requests;
+        });
     }
 
     public List<com.example.save.data.models.LoanRequest> getPendingLoanRequests() {
-        List<com.example.save.data.models.LoanRequest> pending = new ArrayList<>();
-        for (com.example.save.data.models.LoanRequest request : loanRequests) {
-            if ("PENDING".equals(request.getStatus())) {
-                pending.add(request);
-            }
+        // Sync fetch for background threads
+        List<LoanEntity> entities = loanDao.getPendingLoans();
+        List<com.example.save.data.models.LoanRequest> requests = new ArrayList<>();
+        for (LoanEntity entity : entities) {
+            com.example.save.data.models.LoanRequest req = new com.example.save.data.models.LoanRequest(
+                    entity.getMemberName(),
+                    entity.getAmount(),
+                    12,
+                    "N/A",
+                    "N/A",
+                    entity.getReason());
+            req.setId(entity.getExternalId());
+            req.setStatus(entity.getStatus());
+            requests.add(req);
         }
-        return pending;
+        return requests;
     }
 
-    public void approveLoanRequest(String requestId) {
-        for (com.example.save.data.models.LoanRequest request : loanRequests) {
-            if (request.getId().equals(requestId)) {
-                if ("PENDING".equals(request.getStatus())) {
-                    double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
-                    if (currentBalance >= request.getAmount()) {
-                        groupBalance.postValue(currentBalance - request.getAmount());
+    public LoanEntity getActiveLoanForMember(String memberName) {
+        return loanDao.getActiveLoanByMemberName(memberName);
+    }
 
-                        // Log Transaction
-                        executor.execute(() -> {
-                            TransactionEntity tx = new TransactionEntity(
-                                    "LOAN_PAYOUT",
-                                    request.getAmount(),
-                                    "Loan payout to " + request.getMemberName(),
-                                    new java.util.Date(),
-                                    false // Money leaving the group
-                            );
-                            transactionDao.insert(tx);
-                        });
-
-                        request.setStatus("APPROVED");
-                        loanRequestsLiveData.setValue(new ArrayList<>(loanRequests));
-                    }
-                }
-                break;
-            }
+    public boolean approveLoanRequest(String requestId) {
+        LoanEntity entity = loanDao.getLoanByExternalId(requestId);
+        if (entity == null || !"PENDING".equals(entity.getStatus())) {
+            return false;
         }
+
+        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+        if (currentBalance >= entity.getAmount()) {
+            executor.execute(() -> {
+                // Log Transaction
+                TransactionEntity tx = new TransactionEntity(
+                        entity.getMemberName(),
+                        "LOAN_PAYOUT",
+                        entity.getAmount(),
+                        "Loan payout to " + entity.getMemberName(),
+                        new java.util.Date(),
+                        false, // Money leaving the group
+                        "Bank");
+                transactionDao.insert(tx);
+
+                // Update Loan Status in DB
+                entity.setStatus("ACTIVE");
+                // Set due date (simple 1 month logic if not specified)
+                entity.setDueDate(new java.util.Date(
+                        System.currentTimeMillis() + 30L * 24L * 60L * 60L * 1000L));
+                loanDao.update(entity);
+            });
+            return true;
+        }
+        return false;
     }
 
     public void repayLoan(Member member, double amount) {
         if (member != null) {
-            addToBalance(amount);
             executor.execute(() -> {
                 // 1. Update Loan Entity
                 // Find active loan for this member
@@ -462,25 +591,26 @@ public class MemberRepository {
 
                 // 2. Log Transaction
                 TransactionEntity tx = new TransactionEntity(
+                        member.getName(),
                         "LOAN_REPAYMENT",
                         amount,
                         "Loan repayment from " + member.getName(),
                         new java.util.Date(),
-                        true // Money coming in
-                );
+                        true, // Money coming in
+                        "Phone");
                 transactionDao.insert(tx);
             });
         }
     }
 
     public void rejectLoanRequest(String requestId) {
-        for (com.example.save.data.models.LoanRequest request : loanRequests) {
-            if (request.getId().equals(requestId)) {
-                request.setStatus("REJECTED");
-                loanRequestsLiveData.setValue(new ArrayList<>(loanRequests));
-                break;
+        executor.execute(() -> {
+            LoanEntity entity = loanDao.getLoanByExternalId(requestId);
+            if (entity != null && "PENDING".equals(entity.getStatus())) {
+                entity.setStatus("REJECTED");
+                loanDao.update(entity);
             }
-        }
+        });
     }
 
     // Conversion Methods
@@ -494,6 +624,7 @@ public class MemberRepository {
 
     private Member convertEntityToModel(MemberEntity entity) {
         Member member = new Member(entity.getName(), entity.getRole(), true, entity.getPhone(), entity.getEmail());
+        member.setId(entity.getId());
         member.setPassword(entity.getPassword());
         member.setPayoutDate(entity.getPayoutDate());
         member.setPayoutAmount(entity.getPayoutAmount());
@@ -503,6 +634,11 @@ public class MemberRepository {
         member.setContributionPaid(entity.getContributionPaid());
         member.setFirstLogin(entity.isFirstLogin()); // Sync isFirstLogin field
         member.setPaymentStreak(entity.getPaymentStreak());
+        member.setNextPayoutDate(entity.getNextPayoutDate());
+        member.setNextPaymentDueDate(entity.getNextPaymentDueDate());
+        member.setAutoPayEnabled(entity.isAutoPayEnabled());
+        member.setAutoPayAmount(entity.getAutoPayAmount());
+        member.setAutoPayDay(entity.getAutoPayDay());
         return member;
     }
 
@@ -518,6 +654,11 @@ public class MemberRepository {
         entity.setContributionPaid(member.getContributionPaid());
         entity.setFirstLogin(member.isFirstLogin()); // Sync isFirstLogin field
         entity.setPaymentStreak(member.getPaymentStreak());
+        entity.setNextPayoutDate(member.getNextPayoutDate());
+        entity.setNextPaymentDueDate(member.getNextPaymentDueDate());
+        entity.setAutoPayEnabled(member.isAutoPayEnabled());
+        entity.setAutoPayAmount(member.getAutoPayAmount());
+        entity.setAutoPayDay(member.getAutoPayDay());
         return entity;
     }
 
@@ -535,11 +676,112 @@ public class MemberRepository {
         entity.setContributionPaid(model.getContributionPaid());
         entity.setFirstLogin(model.isFirstLogin()); // Sync isFirstLogin field
         entity.setPaymentStreak(model.getPaymentStreak());
+        entity.setNextPayoutDate(model.getNextPayoutDate());
+        entity.setNextPaymentDueDate(model.getNextPaymentDueDate());
+        entity.setAutoPayEnabled(model.isAutoPayEnabled());
+        entity.setAutoPayAmount(model.getAutoPayAmount());
+        entity.setAutoPayDay(model.getAutoPayDay());
         // Password is not copied from model to entity (managed separately)
     }
 
     // Transaction Management
     public LiveData<List<TransactionEntity>> getRecentTransactions() {
         return transactionDao.getRecentTransactions();
+    }
+
+    public LiveData<List<TransactionEntity>> getGenericTransactions() {
+        // Just reusing recent for now, but ideally get ALL for trend
+        return transactionDao.getRecentTransactions();
+    }
+
+    public LiveData<List<TransactionEntity>> getLatestMemberTransactions(String memberName) {
+        return transactionDao.getLatestMemberTransactions(memberName);
+    }
+
+    // Payout Configuration
+    public double getPayoutAmount() {
+        return payoutAmount;
+    }
+
+    public void setPayoutAmount(double amount) {
+        this.payoutAmount = amount;
+        prefs.edit().putLong("payout_amount", Double.doubleToRawLongBits(amount)).apply();
+    }
+
+    public double getRetentionPercentage() {
+        return retentionPercentage;
+    }
+
+    public void setRetentionPercentage(double percentage) {
+        this.retentionPercentage = percentage;
+        prefs.edit().putLong("retention_percentage", Double.doubleToRawLongBits(percentage)).apply();
+    }
+
+    public double getNetPayoutAmount() {
+        return payoutAmount * (1 - (retentionPercentage / 100.0));
+    }
+
+    // --- Payout Improvements ---
+
+    public void savePayoutRules(boolean autoPayoutEnabled, int dayOfMonth, double minReserve) {
+        prefs.edit()
+                .putBoolean("auto_payout_enabled", autoPayoutEnabled)
+                .putInt("auto_payout_day", dayOfMonth)
+                .putLong("auto_min_reserve", Double.doubleToRawLongBits(minReserve))
+                .apply();
+        // Here we would trigger the WorkManager if this was fully implemented
+    }
+
+    public boolean executePayout(Member member, double amount, boolean deferRemaining) {
+        if (member == null)
+            return false;
+
+        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+
+        // Check balance logic (using amount requested)
+        if (currentBalance >= amount) {
+            executor.execute(() -> {
+                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+                if (entity != null) {
+                    // Update Member Payout Info
+                    entity.setHasReceivedPayout(true);
+                    entity.setPayoutAmount(String.valueOf(amount));
+                    entity.setPayoutDate(java.text.DateFormat.getDateInstance().format(new java.util.Date()));
+
+                    if (deferRemaining) {
+                        // Defer logic: calculate remainder (Net Payout - Amount Paid)
+                        double fullNet = getNetPayoutAmount();
+                        double remainder = fullNet - amount;
+                        if (remainder > 0) {
+                            // Where do we store deferrals?
+                            // For V1, we might just note it in a separate field or just add to 'shortfall'
+                            // (negative shortfall = credit?)
+                            // OR, create a new "Deferred Payout" transaction/record.
+                            // Simplified: Just log the partial payout.
+                            // The system keeps track that they HAVE received *a* payout.
+                            // If we want to pay remainder later, we need to track it.
+                            // Let's assume for now deferrals are manual tracking or we add a
+                            // "PayoutBalance" field later.
+                            // Logging it in transaction description for now.
+                        }
+                    }
+
+                    memberDao.update(entity);
+
+                    // Log Transaction
+                    TransactionEntity tx = new TransactionEntity(
+                            member.getName(),
+                            "MEMBER_PAYOUT",
+                            amount,
+                            "Payout to " + member.getName() + (deferRemaining ? " (Partial)" : ""),
+                            new java.util.Date(),
+                            false, // Money leaving
+                            "Bank");
+                    transactionDao.insert(tx);
+                }
+            });
+            return true;
+        }
+        return false;
     }
 }

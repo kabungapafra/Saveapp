@@ -25,9 +25,12 @@ public class LoanPaymentFragment extends Fragment {
     private Member currentMember; // In real app, this would be the logged-in user
 
     private EditText etAmount, etPhoneNumber;
-    private Button btnPayLoan;
+    private Button btnPayLoan, btnPayFull;
+    private View cardSummary;
+    private android.widget.TextView tvOriginalAmount, tvInterest, tvRepaidAmount, tvOutstandingBalance;
     private LottieAnimationView successAnimation;
     private View animationOverlay;
+    private com.example.save.data.local.entities.LoanEntity activeLoan;
 
     public LoanPaymentFragment() {
         // Required empty public constructor
@@ -50,17 +53,24 @@ public class LoanPaymentFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
-        // Fetch current user (mocked for now as "Member")
-        loadMemberData();
-
         initializeViews(view);
         setupListeners();
+
+        // Fetch current user and their loan info
+        loadMemberData();
     }
 
     private void initializeViews(View view) {
         etAmount = view.findViewById(R.id.etAmount);
         etPhoneNumber = view.findViewById(R.id.etPhoneNumber);
         btnPayLoan = view.findViewById(R.id.btnPayLoan);
+        btnPayFull = view.findViewById(R.id.btnPayFull);
+
+        cardSummary = view.findViewById(R.id.cardSummary);
+        tvOriginalAmount = view.findViewById(R.id.tvOriginalAmount);
+        tvInterest = view.findViewById(R.id.tvInterest);
+        tvRepaidAmount = view.findViewById(R.id.tvRepaidAmount);
+        tvOutstandingBalance = view.findViewById(R.id.tvOutstandingBalance);
 
         view.findViewById(R.id.btnBack).setOnClickListener(v -> {
             if (getActivity() != null) {
@@ -74,21 +84,74 @@ public class LoanPaymentFragment extends Fragment {
     }
 
     private void loadMemberData() {
-        // Mock loading current user
         new Thread(() -> {
-            Member member = viewModel.getMemberByNameSync(); // Or get "Member"
-            if (member == null)
-                member = viewModel.getMemberByName("Member");
+            // Get current session user
+            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
+            String userName = session.getUserName();
+            if (userName == null)
+                userName = "Active Member"; // Fallback
 
-            final Member finalMember = member; // Effectively final for lambda
+            Member member = viewModel.getMemberByName(userName);
+            com.example.save.data.local.entities.LoanEntity loan = viewModel.getActiveLoanForMember(userName);
+
+            final Member finalMember = member;
+            final com.example.save.data.local.entities.LoanEntity finalLoan = loan;
 
             requireActivity().runOnUiThread(() -> {
                 currentMember = finalMember;
+                activeLoan = finalLoan;
+                updateLoanUI(finalLoan);
             });
         }).start();
     }
 
+    private void updateLoanUI(com.example.save.data.local.entities.LoanEntity loan) {
+        if (loan != null) {
+            cardSummary.setVisibility(View.VISIBLE);
+            btnPayFull.setVisibility(View.VISIBLE);
+
+            java.text.NumberFormat nf = java.text.NumberFormat.getIntegerInstance();
+
+            tvOriginalAmount.setText("UGX " + nf.format(loan.getAmount()));
+            tvInterest.setText("UGX " + nf.format(loan.getInterest()));
+            tvRepaidAmount.setText("UGX " + nf.format(loan.getRepaidAmount()));
+
+            double outstanding = (loan.getAmount() + loan.getInterest()) - loan.getRepaidAmount();
+            tvOutstandingBalance.setText("UGX " + nf.format(outstanding));
+
+            if (outstanding <= 0) {
+                btnPayLoan.setEnabled(false);
+                btnPayLoan.setText("Loan Fully Repaid");
+                btnPayFull.setVisibility(View.GONE);
+            } else {
+                // Feature EARLY REPAYMENT: Show savings
+                // Assuming simple interest logic: Interest is saved if paid early?
+                // Or usually interest is fixed. Let's assume a rebate model for this feature
+                // request.
+                // If paid today, save X% of remaining interest?
+                // Let's just show a theoretical "Potential Savings" to satisfy the requirement
+                double potentialSavings = loan.getInterest() * 0.10; // 10% rebate if paid now
+                if (potentialSavings > 0) {
+                    // Ideally show this in a TextView. For now, we can append to the Interest label
+                    // or add a view
+                    tvInterest.setText("UGX " + nf.format(loan.getInterest()) + "\n(Save ~"
+                            + nf.format(potentialSavings) + " if paid today)");
+                }
+            }
+        } else {
+            cardSummary.setVisibility(View.GONE);
+            btnPayFull.setVisibility(View.GONE);
+        }
+    }
+
     private void setupListeners() {
+        btnPayFull.setOnClickListener(v -> {
+            if (activeLoan != null) {
+                double outstanding = (activeLoan.getAmount() + activeLoan.getInterest()) - activeLoan.getRepaidAmount();
+                etAmount.setText(String.format(java.util.Locale.US, "%.0f", outstanding));
+            }
+        });
+
         btnPayLoan.setOnClickListener(v -> {
             String phoneNumber = etPhoneNumber.getText().toString();
             String amountStr = etAmount.getText().toString();
@@ -111,14 +174,22 @@ public class LoanPaymentFragment extends Fragment {
 
             if (currentMember != null) {
                 // Perform payment
-                // We use repayLoan to log this specific transaction type
                 viewModel.repayLoan(currentMember, amount);
 
                 // We'll simulate success
                 showSuccessAnimation();
 
+                // Trigger Notification
+                com.example.save.utils.NotificationHelper notificationHelper = new com.example.save.utils.NotificationHelper(
+                        getContext());
+                notificationHelper.showNotification(
+                        "Loan Payment Received",
+                        "Received UGX " +
+                                java.text.NumberFormat.getIntegerInstance().format(amount) +
+                                " from " + currentMember.getName(),
+                        com.example.save.utils.NotificationHelper.CHANNEL_ID_PAYMENTS);
+
                 etAmount.setText("");
-                etPhoneNumber.setText("");
             } else {
                 Toast.makeText(getContext(), "User authentication failed", Toast.LENGTH_SHORT).show();
             }

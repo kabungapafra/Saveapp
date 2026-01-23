@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/corner_radius_large"
-    app:cardElevation="@dimen/card_elevation_normal"
+    app:cardElevation="@dimen/card_elevation_primary"
     app:cardBackgroundColor="@color/white">
 
     <LinearLayout
@@ -70,16 +70,33 @@
                     android:text="@string/recipient_name"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="4dp"/>
 
-                <TextView
-                    android:id="@+id/tvPayoutAmount"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirmed Payout Amount (UGX)"
+                    app:boxBackgroundMode="outline"
+                    android:layout_marginBottom="4dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPayoutAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:text="500000"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                
+                <CheckBox
+                    android:id="@+id/cbDeferRemaining"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ugx_500000"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/deep_blue"
-                    android:textStyle="bold"/>
+                    android:text="Defer remaining balance"
+                    android:checked="true"
+                    android:textSize="12sp"/>
             </LinearLayout>
 
         </LinearLayout>

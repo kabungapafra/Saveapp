@@ -104,8 +104,10 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tvName.setText(member.getName());
             tvRole.setText(member.getRole());
             tvSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
-            int color = member.isActive() ? itemView.getContext().getColor(android.R.color.holo_green_dark)
-                    : itemView.getContext().getColor(android.R.color.darker_gray);
+            int color = member.isActive()
+                    ? androidx.core.content.ContextCompat.getColor(itemView.getContext(),
+                            android.R.color.holo_green_dark)
+                    : androidx.core.content.ContextCompat.getColor(itemView.getContext(), android.R.color.darker_gray);
             statusView.setBackgroundTintList(ColorStateList.valueOf(color));
         }
     }
@@ -130,8 +132,10 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tvRole.setText(member.getRole());
             tvSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
 
-            int color = member.isActive() ? itemView.getContext().getColor(android.R.color.holo_green_dark)
-                    : itemView.getContext().getColor(android.R.color.darker_gray);
+            int color = member.isActive()
+                    ? androidx.core.content.ContextCompat.getColor(itemView.getContext(),
+                            android.R.color.holo_green_dark)
+                    : androidx.core.content.ContextCompat.getColor(itemView.getContext(), android.R.color.darker_gray);
             statusView.setBackgroundTintList(ColorStateList.valueOf(color));
 
             if (listener != null) {

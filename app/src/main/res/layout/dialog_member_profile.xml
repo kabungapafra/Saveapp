@@ -1,251 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_margin="24dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="24dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="Member Profile"
-            android:textColor="@color/deep_blue"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- Profile Image -->
-        <FrameLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="16dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/circle_background_light"
-                android:padding="20dp"
-                android:src="@drawable/ic_profile_placeholder"
-                app:tint="@color/deep_blue" />
-
-            <View
-                android:id="@+id/dialogProfileStatus"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="bottom|end"
-                android:background="@drawable/circle_background"
-                android:backgroundTint="#4CAF50"
-                android:layout_margin="6dp"/>
-        </FrameLayout>
-
-        <!-- Name & Role -->
-        <TextView
-            android:id="@+id/dialogProfileName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Member Name"
-            android:textColor="@color/text_primary"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/dialogProfileStatusText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Active"
-            android:textColor="#4CAF50"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/dialogProfileRole"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/nav_item_pill_white"
-            android:backgroundTint="#E8EAF6"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="4dp"
-            android:text="Member"
-            android:textColor="@color/deep_blue"
-            android:textSize="14sp" />
-
-        <!-- Credit Score -->
+        <!-- Header with Initials -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginBottom="24dp">
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_dashboard"
-                app:tint="#FFC107" />
+            <FrameLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle_background"
+                    android:backgroundTint="#3F51B5" />
+
+                <TextView
+                    android:id="@+id/tvProfileInitials"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="JD"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
 
             <TextView
+                android:id="@+id/tvProfileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Credit Score:"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                android:text="John Doe"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/dialogProfileScore"
+                android:id="@+id/tvProfileRole"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="750"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="14sp" />
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_role_badge"
+                android:backgroundTint="#E8EAF6"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="Member"
+                android:textColor="#3F51B5"
+                android:textSize="12sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="24dp"
-            android:background="@color/divider_color" />
-
-        <!-- Contact Info -->
+        <!-- Details Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="8dp">
+            android:background="@drawable/rounded_bg_gray"
+            android:backgroundTint="#F5F5F5"
+            android:padding="16dp">
 
-            <!-- Phone -->
+            <!-- Member ID -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:layout_marginBottom="16dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_call"
-                    app:tint="@color/text_secondary" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:text="Member ID"
+                    android:textColor="#757575"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Phone"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/dialogProfilePhone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+256 700 000 000"
-                        android:textColor="@color/text_primary"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tvProfileId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="MEM-2024-001"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium" />
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginBottom="16dp"/>
 
             <!-- Email -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:layout_marginBottom="16dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_email"
-                    app:tint="@color/text_secondary" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:text="Email Address"
+                    android:textColor="#757575"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/dialogProfileEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="member@example.com"
-                        android:textColor="@color/text_primary"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tvProfileEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="john.doe@example.com"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
             </LinearLayout>
-            
-             <!-- Balance Info -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Stats Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_account_balance_wallet"
-                    app:tint="@color/text_secondary" />
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Savings"
-                        android:textColor="@color/text_secondary"
+                        android:text="Joined"
+                        android:textColor="#757575"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/dialogProfileSavings"
+                        android:id="@+id/tvProfileJoined"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="UGX 1,200,000"
-                        android:textColor="@color/deep_blue"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
+                        android:layout_marginTop="4dp"
+                        android:text="Jan 2024"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status"
+                        android:textColor="#757575"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Active"
+                        android:textColor="#4CAF50"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Achievements Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Achievements"
+                    android:textColor="#757575"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="8dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvBadges"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/layout_badge_item" />
             </LinearLayout>
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnCloseProfile"
+        <!-- Actions -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="@color/deep_blue"
-            android:text="Close"
-            android:textColor="@color/white" />
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btnCloseProfile"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Close"
+                android:textColor="#757575" />
+
+            <Button
+                android:id="@+id/btnLogout"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textColor="#F44336" />
+        </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+
+</com.google.android.material.card.MaterialCardView>

@@ -25,7 +25,9 @@ import java.util.concurrent.Executors;
  * Room Database for the Save app
  */
 @Database(entities = { MemberEntity.class, LoanEntity.class,
-                TransactionEntity.class }, version = 5, exportSchema = false)
+                TransactionEntity.class,
+                com.example.save.data.local.entities.TaskEntity.class,
+                com.example.save.data.local.entities.NotificationEntity.class }, version = 9, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -38,6 +40,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
         public abstract TransactionDao transactionDao();
 
+        public abstract com.example.save.data.local.dao.TaskDao taskDao();
+
+        public abstract com.example.save.data.local.dao.NotificationDao notificationDao();
+
         public static AppDatabase getInstance(Context context) {
                 if (INSTANCE == null) {
                         synchronized (AppDatabase.class) {
@@ -47,76 +53,10 @@ public abstract class AppDatabase extends RoomDatabase {
                                                         AppDatabase.class,
                                                         DATABASE_NAME)
                                                         .fallbackToDestructiveMigration() // Wipe data on version change
-                                                        .addCallback(new Callback() {
-                                                                @Override
-                                                                public void onCreate(
-                                                                                @NonNull SupportSQLiteDatabase db) {
-                                                                        super.onCreate(db);
-                                                                        // Seed initial data on first database creation
-                                                                        Executors.newSingleThreadExecutor()
-                                                                                        .execute(() -> {
-                                                                                                seedDemoData(INSTANCE);
-                                                                                        });
-                                                                }
-                                                        })
                                                         .build();
                                 }
                         }
                 }
                 return INSTANCE;
-        }
-
-        /**
-         * Seeds demo data into the database
-         */
-        private static void seedDemoData(AppDatabase database) {
-                MemberDao memberDao = database.memberDao();
-                LoanDao loanDao = database.loanDao();
-
-                // Demo data seeding removed for production/operational mode
-                // The app will start empty, requiring the user to Sign Up as an Admin first.
-
-                /*
-                 * // Seed Members
-                 * MemberEntity alice = createMember("Alice Johnson", "Member", true,
-                 * "0701234567",
-                 * "alice@example.com", "123456");
-                 * // ... (rest of commented out code)
-                 * loanDao.insert(loan4);
-                 */
-        }
-
-        private static MemberEntity createMember(String name, String role, boolean isActive,
-                        String phone, String email, String password) {
-                MemberEntity member = new MemberEntity();
-                member.setName(name);
-                member.setRole(role);
-                member.setActive(isActive);
-                member.setPhone(phone);
-                member.setEmail(email);
-                member.setPassword(password);
-                member.setPayoutDate("Not Scheduled");
-                member.setPayoutAmount("0");
-                member.setHasReceivedPayout(false);
-                member.setShortfallAmount(0);
-                member.setFirstLogin(true); // New members need to change password
-                member.setContributionTarget(1000000);
-                member.setContributionPaid(0);
-                return member;
-        }
-
-        private static LoanEntity createLoan(String memberId, String memberName, double amount,
-                        double interest, String reason, Date dateRequested, String status) {
-                LoanEntity loan = new LoanEntity();
-                loan.setExternalId(UUID.randomUUID().toString());
-                loan.setMemberId(memberId);
-                loan.setMemberName(memberName);
-                loan.setAmount(amount);
-                loan.setInterest(interest);
-                loan.setReason(reason);
-                loan.setDateRequested(dateRequested);
-                loan.setStatus(status);
-                loan.setRepaidAmount(0);
-                return loan;
         }
 }

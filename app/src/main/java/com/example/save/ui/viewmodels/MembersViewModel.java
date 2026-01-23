@@ -44,8 +44,8 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getPendingPaymentsCount();
     }
 
-    public void addMember(Member member) {
-        repository.addMember(member);
+    public void addMember(Member member, MemberRepository.MemberAddCallback callback) {
+        repository.addMember(member, callback);
     }
 
     public void removeMember(Member member) {
@@ -85,12 +85,12 @@ public class MembersViewModel extends AndroidViewModel {
     }
 
     // Synchronous method for background thread calls
-    public Member getMemberByNameSync() {
-        return repository.getMemberByNameSync();
+    public Member getMemberByNameSync(String identifier) {
+        return repository.getMemberByNameSync(identifier);
     }
 
-    public void makePayment(Member member, double amount, String phoneNumber) {
-        repository.makePayment(member, amount, phoneNumber);
+    public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod) {
+        repository.makePayment(member, amount, phoneNumber, paymentMethod);
     }
 
     public double getContributionTarget() {
@@ -136,12 +136,16 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getLoanRequests();
     }
 
+    public com.example.save.data.local.entities.LoanEntity getActiveLoanForMember(String memberName) {
+        return repository.getActiveLoanForMember(memberName);
+    }
+
     public List<com.example.save.data.models.LoanRequest> getPendingLoanRequests() {
         return repository.getPendingLoanRequests();
     }
 
-    public void approveLoanRequest(String requestId) {
-        repository.approveLoanRequest(requestId);
+    public boolean approveLoanRequest(String requestId) {
+        return repository.approveLoanRequest(requestId);
     }
 
     public void rejectLoanRequest(String requestId) {
@@ -159,7 +163,129 @@ public class MembersViewModel extends AndroidViewModel {
         repository.changePassword(member, newPassword);
     }
 
+    public void enableAutoPay(Member member, double amount, int day) {
+        repository.enableAutoPay(member, amount, day);
+    }
+
     public LiveData<List<com.example.save.data.local.entities.TransactionEntity>> getRecentTransactions() {
         return repository.getRecentTransactions();
+    }
+
+    public LiveData<List<com.example.save.data.local.entities.TransactionEntity>> getLatestMemberTransactions(
+            String memberName) {
+        return repository.getLatestMemberTransactions(memberName);
+    }
+
+    // Payout Configuration
+    public double getPayoutAmount() {
+        return repository.getPayoutAmount();
+    }
+
+    public void setPayoutAmount(double amount) {
+        repository.setPayoutAmount(amount);
+    }
+
+    public double getRetentionPercentage() {
+        return repository.getRetentionPercentage();
+    }
+
+    public void setRetentionPercentage(double percentage) {
+        repository.setRetentionPercentage(percentage);
+    }
+
+    // LiveData wrappers for async operations (replaces manual threads)
+    public LiveData<Member> getMemberByEmailLive(String email) {
+        androidx.lifecycle.MutableLiveData<Member> liveData = new androidx.lifecycle.MutableLiveData<>();
+        repository.getExecutor().execute(() -> {
+            Member member = repository.getMemberByEmail(email);
+            liveData.postValue(member);
+        });
+        return liveData;
+    }
+
+    public LiveData<List<Member>> getMonthlyRecipientsLive(int limit) {
+        androidx.lifecycle.MutableLiveData<List<Member>> liveData = new androidx.lifecycle.MutableLiveData<>();
+        repository.getExecutor().execute(() -> {
+            List<Member> recipients = repository.getMonthlyRecipients(limit);
+            liveData.postValue(recipients);
+        });
+        return liveData;
+    }
+
+    public LiveData<Integer> getPendingPaymentsCountLive() {
+        androidx.lifecycle.MutableLiveData<Integer> liveData = new androidx.lifecycle.MutableLiveData<>();
+        repository.getExecutor().execute(() -> {
+            int count = repository.getPendingPaymentsCount();
+            liveData.postValue(count);
+        });
+        return liveData;
+    }
+
+    public LiveData<Integer> getActiveMemberCountLive() {
+        androidx.lifecycle.MutableLiveData<Integer> liveData = new androidx.lifecycle.MutableLiveData<>();
+        repository.getExecutor().execute(() -> {
+            int count = repository.getActiveMemberCountSync();
+            liveData.postValue(count);
+        });
+        return liveData;
+    }
+
+    public LiveData<Integer> getTotalMemberCountLive() {
+        androidx.lifecycle.MutableLiveData<Integer> liveData = new androidx.lifecycle.MutableLiveData<>();
+        repository.getExecutor().execute(() -> {
+            int count = repository.getTotalMemberCountSync();
+            liveData.postValue(count);
+        });
+        return liveData;
+    }
+
+    // Advanced Features
+    public double getLoanEligibility(Member member) {
+        if (member == null)
+            return 0;
+        // Logic: 3x Savings
+        return member.getContributionPaid() * 3;
+    }
+
+    public int calculateCreditScore(Member member) {
+        if (member == null)
+            return 300;
+
+        int baseScore = 0;
+        int maxScore = 850;
+
+        // 1. Payment Streak: +10 points per month
+        int streakPoints = member.getPaymentStreak() * 10;
+
+        // 2. Savings: +1 point per 10,000 UGX
+        int savingsPoints = (int) (member.getContributionPaid() / 10000);
+
+        // 3. Loans: -50 points if shortfall exists (penalty)
+        int penalty = member.getShortfallAmount() > 0 ? 50 : 0;
+
+        int totalScore = baseScore + streakPoints + savingsPoints - penalty;
+
+        return Math.min(totalScore, maxScore);
+    }
+
+    public LiveData<List<com.github.mikephil.charting.data.Entry>> getSavingsTrend() {
+        return androidx.lifecycle.Transformations.map(repository.getGenericTransactions(), transactions -> {
+            List<com.github.mikephil.charting.data.Entry> entries = new java.util.ArrayList<>();
+            double cumulative = 0;
+            // Sort by date just in case
+            java.util.Collections.sort(transactions, (a, b) -> a.getDate().compareTo(b.getDate()));
+
+            int index = 0;
+            for (com.example.save.data.local.entities.TransactionEntity tx : transactions) {
+                if (tx.isPositive()) {
+                    cumulative += tx.getAmount();
+                } else {
+                    cumulative -= tx.getAmount();
+                }
+                // Use index as X axis for simplicity, or Date conversion
+                entries.add(new com.github.mikephil.charting.data.Entry(index++, (float) cumulative));
+            }
+            return entries;
+        });
     }
 }

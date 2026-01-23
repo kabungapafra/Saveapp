@@ -131,6 +131,17 @@
                     android:textColor="@color/black"/>
 
                 <TextView
+                    android:id="@+id/btnViewCalendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Calendar"
+                    android:textColor="@color/deep_blue"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <TextView
                     android:id="@+id/viewFullQueue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

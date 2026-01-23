@@ -19,5 +19,23 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <!-- Typography Styles -->
+    <style name="AppTypography.Medium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
 
+    <style name="AppTypography.Black" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <!-- Card Styles -->
+    <style name="Widget.App.CardView.Primary" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardElevation">@dimen/card_elevation_primary</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius_standard</item>
+    </style>
+
+    <style name="Widget.App.CardView.Secondary" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardElevation">@dimen/card_elevation_secondary</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius_standard</item>
+    </style>
 </resources>

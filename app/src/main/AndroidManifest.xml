@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -34,17 +37,17 @@
 
         <activity
             android:name="com.example.save.ui.activities.AdminLoginActivity"
-            android:exported="true"
+            android:exported="false"
             tools:ignore="DuplicateActivity" />
         <activity
             android:name="com.example.save.ui.activities.MemberMainActivity"
             android:exported="false" />
         <activity
             android:name="com.example.save.ui.activities.MemberRegistrationActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name="com.example.save.ui.activities.AdminSignupActivity"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity
             android:name="com.example.save.ui.activities.AdminMainActivity"
@@ -69,7 +72,31 @@
             android:name="com.example.save.ui.activities.ChangePasswordActivity"
             android:exported="false" />
 
+        <activity
+            android:name="com.example.save.ui.activities.AdminSetupWizardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Save" />
 
+
+        <!-- Firebase Messaging Service (uncomment if using Firebase)
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        -->
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

@@ -62,6 +62,11 @@ public class MembersFragment extends Fragment {
             binding.getRoot().post(this::showAddMemberDialog);
         }
 
+        // Setup Swipe Refresh
+        binding.swipeRefreshUtils.setOnRefreshListener(() -> {
+            loadMembers();
+        });
+
         return binding.getRoot();
     }
 
@@ -101,9 +106,9 @@ public class MembersFragment extends Fragment {
         });
     }
 
-    private void observeViewModel() {
-        // Show loading initially
-        if (binding.progressBar != null) {
+    private void loadMembers() {
+        // Show loading initially if not refreshing
+        if (!binding.swipeRefreshUtils.isRefreshing() && binding.progressBar != null) {
             binding.progressBar.setVisibility(View.VISIBLE);
         }
 
@@ -112,40 +117,56 @@ public class MembersFragment extends Fragment {
             if (binding.progressBar != null) {
                 binding.progressBar.setVisibility(View.GONE);
             }
+            if (binding.swipeRefreshUtils != null) {
+                binding.swipeRefreshUtils.setRefreshing(false);
+            }
 
             if (members != null && adapter != null && !isSearching) {
+                // Ensure complete list is shown, including Admins if they are in the 'members'
+                // table
                 currentMembersList = members;
                 adapter.updateList(members);
                 updateMemberCount(members.size());
 
                 // Update Admins List on background thread
-                new Thread(() -> {
-                    try {
-                        List<Member> admins = viewModel.getAdmins();
-                        requireActivity().runOnUiThread(() -> {
-                            if (binding != null && adminsAdapter != null) {
-                                adminsAdapter.updateList(admins);
-
-                                if (binding.tvAdminCount != null) {
-                                    binding.tvAdminCount.setText(String.valueOf(admins.size()));
-                                }
-
-                                // Toggle Admins Card Visibility
-                                if (binding.cvAdmins != null) {
-                                    binding.cvAdmins.setVisibility(admins.isEmpty() ? View.GONE : View.VISIBLE);
-                                }
-                            }
-                        });
-                    } catch (Exception e) {
-                        requireActivity().runOnUiThread(() -> {
-                            if (binding != null && binding.cvAdmins != null) {
-                                binding.cvAdmins.setVisibility(View.GONE);
-                            }
-                        });
-                    }
-                }).start();
+                refreshAdmins();
             }
         });
+    }
+
+    private void refreshAdmins() {
+        new Thread(() -> {
+            try {
+                List<Member> admins = viewModel.getAdmins();
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        if (binding != null && adminsAdapter != null) {
+                            adminsAdapter.updateList(admins);
+
+                            if (binding.tvAdminCount != null) {
+                                binding.tvAdminCount.setText(String.valueOf(admins.size()));
+                            }
+
+                            if (binding.cvAdmins != null) {
+                                binding.cvAdmins.setVisibility(admins.isEmpty() ? View.GONE : View.VISIBLE);
+                            }
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        if (binding != null && binding.cvAdmins != null) {
+                            binding.cvAdmins.setVisibility(View.GONE);
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
+    private void observeViewModel() {
+        loadMembers();
     }
 
     private void setupRecyclerView() {
@@ -231,39 +252,61 @@ public class MembersFragment extends Fragment {
             String manualOtp = dialogBinding.etMemberOTP.getText().toString().trim();
 
             // Validate inputs
-            if (!ValidationUtils.isNotEmpty(name)) {
-                ValidationUtils.showError(dialogBinding.etMemberName, "Name is required");
+            if (!com.example.save.utils.ValidationUtils.isNotEmpty(name)) {
+                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberName, "Name is required");
                 return;
             }
 
-            if (!ValidationUtils.isValidEmail(email)) {
-                ValidationUtils.showError(dialogBinding.etMemberEmail, "Invalid email format");
+            if (!com.example.save.utils.ValidationUtils.isValidEmail(email)) {
+                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberEmail, "Invalid email format");
                 return;
             }
 
-            if (!ValidationUtils.isValidPhone(phone)) {
-                ValidationUtils.showError(dialogBinding.etMemberPhone, "Invalid phone number format");
+            if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
+                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPhone,
+                        "Invalid phone number format");
                 return;
             }
 
             // Validate OTP if manually entered
             if (!manualOtp.isEmpty() && manualOtp.length() < 4) {
-                ValidationUtils.showError(dialogBinding.etMemberOTP, "OTP must be at least 4 digits");
+                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberOTP,
+                        "OTP must be at least 4 digits");
                 return;
             }
 
             // Generate OTP for new member if not provided
-            String otp = manualOtp.isEmpty() ? ValidationUtils.generateOTP() : manualOtp;
+            String otp = manualOtp.isEmpty() ? com.example.save.utils.ValidationUtils.generateOTP() : manualOtp;
 
+            // Create member with all fields
             // Create member with all fields
             Member newMember = new Member(name, role, true, phone, email);
             newMember.setPassword(otp); // Set the generated/manual OTP as password
-            viewModel.addMember(newMember);
+            newMember.setFirstLogin(true); // New members need to change password
 
-            finalDialog.dismiss();
+            // Disable button to prevent double clicks
+            finalDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 
-            // Show OTP to admin
-            showOTPDialog(name, otp);
+            viewModel.addMember(newMember, (success, message) -> {
+                // Re-enable button
+                if (finalDialog != null && finalDialog.isShowing()) {
+                    finalDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                }
+
+                if (success) {
+                    finalDialog.dismiss();
+                    // Show OTP to admin
+                    showOTPDialog(name, otp);
+                } else {
+                    String errorMsg = "Failed to add member. Email or Phone might already exist.";
+                    if (message != null && message.contains("Constraint")) {
+                        errorMsg = "Member with this Email or Phone already exists.";
+                    } else if (message != null) {
+                        errorMsg = "Error: " + message;
+                    }
+                    Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+                }
+            });
         });
     }
 
@@ -284,61 +327,16 @@ public class MembersFragment extends Fragment {
     }
 
     private void showProfileDialog(Member member) {
-        if (getContext() == null)
+        if (member.getEmail() == null)
             return;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        DialogMemberProfileBinding dialogBinding = DialogMemberProfileBinding
-                .inflate(LayoutInflater.from(getContext()));
-        builder.setView(dialogBinding.getRoot());
-
-        // Populate data
-        dialogBinding.dialogProfileName.setText(member.getName());
-        dialogBinding.dialogProfileRole.setText(member.getRole());
-
-        // Status indicator color and text
-        int color;
-        String statusText;
-        if (member.isActive()) {
-            color = getContext().getResources().getColor(android.R.color.holo_green_dark);
-            statusText = "Active";
-        } else {
-            color = getContext().getResources().getColor(android.R.color.holo_red_dark);
-            statusText = "Suspended";
-        }
-
-        dialogBinding.dialogProfileStatus.setBackgroundTintList(
-                android.content.res.ColorStateList.valueOf(color));
-
-        // Update Status Text if it exists in layout
-        if (dialogBinding.dialogProfileStatusText != null) {
-            dialogBinding.dialogProfileStatusText.setText(statusText);
-            dialogBinding.dialogProfileStatusText.setTextColor(color);
-        }
-
-        // Credit Score Calculation (Mock Logic)
-        // Base 300 + (Streak * 20), capped at 850
-        int score = 300 + (member.getPaymentStreak() * 20);
-        if (score > 850)
-            score = 850;
-
-        if (dialogBinding.dialogProfileScore != null) {
-            dialogBinding.dialogProfileScore.setText(String.valueOf(score));
-        }
-
-        // Set contact info
-        if (member.getEmail() != null && !member.getEmail().isEmpty()) {
-            dialogBinding.dialogProfileEmail.setText(member.getEmail());
-        }
-
-        // Set savings/contribution info
-        dialogBinding.dialogProfileSavings.setText(
-                String.format("UGX %,.0f", member.getContributionPaid()));
-
-        AlertDialog dialog = builder.create();
-        dialogBinding.btnCloseProfile.setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
+        // Navigate to MemberProfileFragment
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(((ViewGroup) getView().getParent()).getId(),
+                        com.example.save.ui.fragments.MemberProfileFragment.newInstance(member.getEmail()))
+                .addToBackStack(null)
+                .commit();
     }
 
     private void showPopupMenu(View view, Member member, int position) {

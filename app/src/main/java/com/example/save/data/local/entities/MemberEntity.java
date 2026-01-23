@@ -27,6 +27,11 @@ public class MemberEntity {
     private double contributionTarget;
     private double contributionPaid;
     private int paymentStreak;
+    private String nextPayoutDate;
+    private String nextPaymentDueDate;
+    private boolean isAutoPayEnabled; // New
+    private int autoPayDay; // New: Day of month (1-31)
+    private double autoPayAmount; // New
 
     public MemberEntity() {
     }
@@ -40,6 +45,8 @@ public class MemberEntity {
         this.email = email;
         this.password = "123456"; // Default password
         this.isFirstLogin = true; // New members must change password
+        this.nextPayoutDate = "Not Scheduled";
+        this.nextPaymentDueDate = "TBD";
     }
 
     // Getters and Setters
@@ -161,5 +168,45 @@ public class MemberEntity {
 
     public void setPaymentStreak(int paymentStreak) {
         this.paymentStreak = paymentStreak;
+    }
+
+    public String getNextPayoutDate() {
+        return nextPayoutDate;
+    }
+
+    public void setNextPayoutDate(String nextPayoutDate) {
+        this.nextPayoutDate = nextPayoutDate;
+    }
+
+    public String getNextPaymentDueDate() {
+        return nextPaymentDueDate;
+    }
+
+    public void setNextPaymentDueDate(String nextPaymentDueDate) {
+        this.nextPaymentDueDate = nextPaymentDueDate;
+    }
+
+    public boolean isAutoPayEnabled() {
+        return isAutoPayEnabled;
+    }
+
+    public void setAutoPayEnabled(boolean autoPayEnabled) {
+        isAutoPayEnabled = autoPayEnabled;
+    }
+
+    public int getAutoPayDay() {
+        return autoPayDay;
+    }
+
+    public void setAutoPayDay(int autoPayDay) {
+        this.autoPayDay = autoPayDay;
+    }
+
+    public double getAutoPayAmount() {
+        return autoPayAmount;
+    }
+
+    public void setAutoPayAmount(double autoPayAmount) {
+        this.autoPayAmount = autoPayAmount;
     }
 }

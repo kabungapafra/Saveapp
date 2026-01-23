@@ -82,10 +82,13 @@ public class AdminSignupActivity extends AppCompatActivity {
         // Get input values
         String adminName = binding.adminNameInput.getText().toString().trim();
         String groupName = binding.companyInput.getText().toString().trim();
-        String phone = binding.phoneInput.getText().toString().trim();
+        String phoneInput = binding.phoneInput.getText().toString().trim();
         String email = binding.emailInput.getText().toString().trim();
-        String password = binding.passwordInput.getText().toString();
-        String confirmPassword = binding.confirmPasswordInput.getText().toString();
+        String password = binding.passwordInput.getText().toString().trim(); // Trimmed
+        String confirmPassword = binding.confirmPasswordInput.getText().toString().trim(); // Trimmed
+
+        // Normalize phone number (Remove leading zero if any)
+        String phone = com.example.save.utils.ValidationUtils.normalizePhone(phoneInput);
 
         // Validate inputs using ValidationUtils
         if (!com.example.save.utils.ValidationUtils.isNotEmpty(adminName)) {

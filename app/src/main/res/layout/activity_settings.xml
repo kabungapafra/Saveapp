@@ -131,6 +131,66 @@
 
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" />
 
+                    <!-- Payout Amount -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Payout Amount (UGX)"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
+
+                        <EditText
+                            android:id="@+id/etPayoutAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:inputType="number"
+                            android:minHeight="48dp"
+                            android:paddingTop="8dp"
+                            android:text="500,000"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" />
+
+                    <!-- Retention Percentage -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Retention Percentage (%)"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
+
+                        <EditText
+                            android:id="@+id/etRetentionPercentage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:inputType="numberDecimal"
+                            android:minHeight="48dp"
+                            android:paddingTop="8dp"
+                            android:text="0"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" />
+
                     <!-- Randomized Queue -->
                     <LinearLayout
                         android:layout_width="match_parent"

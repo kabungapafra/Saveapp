@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:layout_marginHorizontal="4dp"
+    app:cardBackgroundColor="#F5F5F5"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <!-- Avatar Skeleton -->
+            <View
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_icon_circle"
+                android:backgroundTint="#E0E0E0"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <!-- Name Skeleton -->
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="16dp"
+                    android:background="#E0E0E0"
+                    android:layout_marginBottom="8dp"/>
+
+                <!-- Role Skeleton -->
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="12dp"
+                    android:background="#E0E0E0"/>
+            </LinearLayout>
+
+            <!-- Status Skeleton -->
+            <View
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/bg_icon_circle"
+                android:backgroundTint="#E0E0E0"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Savings Skeleton -->
+        <View
+            android:layout_width="100dp"
+            android:layout_height="14dp"
+            android:background="#E0E0E0"
+            android:layout_gravity="end"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

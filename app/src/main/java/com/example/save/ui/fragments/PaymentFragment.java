@@ -35,19 +35,20 @@ public class PaymentFragment extends Fragment {
     private TextView tvProgressPercentage;
     private TextView txtPaidAmount, txtTargetAmount, txtRemainingAmount, tvDueDate;
     private View chipClear, chipPayBalance;
-    private com.google.android.material.textfield.TextInputEditText etAmount, etPhoneNumber;
     private com.google.android.material.button.MaterialButton btnPayNow;
+
+    // Changed etPhoneNumber to EditText to match new layout
+    private com.google.android.material.textfield.TextInputEditText etAmount;
+    private android.widget.EditText etPhoneNumber;
 
     // Loan Options
     private View cardLoanOptions;
-    private View btnRequestLoan, btnPayLoan;
+    private com.google.android.material.button.MaterialButton btnRequestLoan;
+    private com.google.android.material.button.MaterialButton btnPayLoan;
 
+    // Animation Views
     private LottieAnimationView successAnimation;
     private View animationOverlay;
-
-    public PaymentFragment() {
-        // Required empty public constructor
-    }
 
     public static PaymentFragment newInstance(String memberName) {
         PaymentFragment fragment = new PaymentFragment();
@@ -57,21 +58,10 @@ public class PaymentFragment extends Fragment {
         return fragment;
     }
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            memberName = getArguments().getString("MEMBER_NAME");
-        } else {
-            // Default to Member if no name provided
-            memberName = "Member";
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_payment, container, false);
     }
 
@@ -81,9 +71,14 @@ public class PaymentFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
+        // Get member name from arguments
+        if (getArguments() != null) {
+            memberName = getArguments().getString("MEMBER_NAME");
+        }
+
         initializeViews(view);
-        loadMemberData();
         setupListeners();
+        loadMemberData();
     }
 
     private void initializeViews(View view) {
@@ -99,7 +94,7 @@ public class PaymentFragment extends Fragment {
         chipPayBalance = view.findViewById(R.id.chipPayBalance);
 
         etAmount = view.findViewById(R.id.etAmount);
-        etPhoneNumber = view.findViewById(R.id.etPhoneNumber);
+        etPhoneNumber = view.findViewById(R.id.etPhoneNumber); // This is now a standard EditText
         btnPayNow = view.findViewById(R.id.btnPayNow);
 
         // Loan Views
@@ -197,6 +192,11 @@ public class PaymentFragment extends Fragment {
             });
         }
 
+        // Pre-fill phone number if available
+        if (etPhoneNumber != null && member.getPhone() != null) {
+            etPhoneNumber.setText(member.getPhone());
+        }
+
         // Loan Logic: Show Loan Options only for Admin
         if (cardLoanOptions != null) {
             if ("Admin".equalsIgnoreCase(member.getRole()) || "Administrator".equalsIgnoreCase(member.getRole())) {
@@ -233,6 +233,18 @@ public class PaymentFragment extends Fragment {
             String phoneNumber = etPhoneNumber.getText().toString();
             String amountStr = etAmount.getText().toString();
 
+            // Get selected payment method
+            String paymentMethod = "Mobile Money";
+            com.google.android.material.chip.ChipGroup chipGroup = getView().findViewById(R.id.chipGroupPaymentMethod);
+            if (chipGroup != null) {
+                int selectedId = chipGroup.getCheckedChipId();
+                if (selectedId == R.id.chipMethodBank) {
+                    paymentMethod = "Bank Transfer";
+                } else if (selectedId == R.id.chipMethodCash) {
+                    paymentMethod = "Cash";
+                }
+            }
+
             if (TextUtils.isEmpty(phoneNumber)) {
                 etPhoneNumber.setError("Enter phone number");
                 return;
@@ -250,7 +262,7 @@ public class PaymentFragment extends Fragment {
             }
 
             if (currentMember != null) {
-                viewModel.makePayment(currentMember, amount, phoneNumber);
+                viewModel.makePayment(currentMember, amount, phoneNumber, paymentMethod);
 
                 // Show success animation
                 showSuccessAnimation();
@@ -259,8 +271,17 @@ public class PaymentFragment extends Fragment {
                 etPhoneNumber.setText("");
                 // Reload member data to refresh UI with updated contribution
                 loadMemberData();
+
+                // Generate Receipt
+                com.example.save.utils.ReceiptUtils.generateAndShareReceipt(getContext(), currentMember.getName(),
+                        amount, "Contribution", new java.util.Date());
             }
         });
+
+        View btnSetupAutoPay = getView().findViewById(R.id.btnSetupAutoPay);
+        if (btnSetupAutoPay != null) {
+            btnSetupAutoPay.setOnClickListener(v -> showAutoPayDialog());
+        }
 
     }
 
@@ -303,5 +324,66 @@ public class PaymentFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private void showAutoPayDialog() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext());
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_autopay_setup, null);
+        builder.setView(dialogView);
+        android.app.AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(
+                    new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+
+        com.google.android.material.textfield.TextInputEditText etAutoPayAmount = dialogView
+                .findViewById(R.id.etAutoPayAmount);
+        com.google.android.material.slider.Slider sliderDay = dialogView.findViewById(R.id.sliderDay);
+        TextView tvSelectedDay = dialogView.findViewById(R.id.tvSelectedDay);
+        Button btnSave = dialogView.findViewById(R.id.btnSaveAutoPay);
+        Button btnCancel = dialogView.findViewById(R.id.btnCancelAutoPay);
+
+        // Pre-fill if already enabled
+        if (currentMember != null && currentMember.isAutoPayEnabled()) {
+            etAutoPayAmount.setText(String.valueOf(currentMember.getAutoPayAmount()));
+            sliderDay.setValue(currentMember.getAutoPayDay());
+            tvSelectedDay.setText("Day " + currentMember.getAutoPayDay() + " of every month");
+            btnSave.setText("Update Auto-Pay");
+        } else {
+            // Default amount: Remaining Contribution
+            if (currentMember != null) {
+                double remaining = Math.max(0,
+                        currentMember.getContributionTarget() - currentMember.getContributionPaid());
+                if (remaining > 0) {
+                    etAutoPayAmount.setText(String.valueOf((int) remaining));
+                } else {
+                    etAutoPayAmount.setText("50000");
+                }
+            }
+        }
+
+        sliderDay.addOnChangeListener((slider, value, fromUser) -> {
+            tvSelectedDay.setText("Day " + (int) value + " of every month");
+        });
+
+        btnSave.setOnClickListener(v -> {
+            String amountStr = etAutoPayAmount.getText().toString();
+            if (TextUtils.isEmpty(amountStr)) {
+                etAutoPayAmount.setError("Enter amount");
+                return;
+            }
+            double amount = Double.parseDouble(amountStr);
+            int day = (int) sliderDay.getValue();
+
+            if (currentMember != null) {
+                viewModel.enableAutoPay(currentMember, amount, day);
+                Toast.makeText(getContext(), "Auto-Pay Enabled for Day " + day, Toast.LENGTH_SHORT).show();
+            }
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 }

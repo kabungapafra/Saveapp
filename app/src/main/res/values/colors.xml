@@ -32,4 +32,10 @@
     <color name="negative_red">#FF5252</color>
     <color name="text_dark">#212121</color>
 
+    <!-- Semantic Status Colors -->
+    <color name="status_pending">#FFC107</color> <!-- Amber -->
+    <color name="status_approved">#4CAF50</color> <!-- Green -->
+    <color name="status_overdue">#F44336</color> <!-- Red -->
+    <color name="status_paid">#2196F3</color> <!-- Blue -->
+
 </resources>

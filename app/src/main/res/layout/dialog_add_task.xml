@@ -84,7 +84,43 @@
         android:hint="e.g. 10:00 AM"
         android:padding="@dimen/spacing_medium"
         android:background="@drawable/otp_input_bg"
-        android:layout_marginBottom="@dimen/spacing_xl"/>
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Next Payout Date -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Payout Date"
+        android:textColor="#666666"
+        android:textSize="@dimen/text_size_xs"
+        android:layout_marginBottom="@dimen/spacing_xs"/>
+
+    <EditText
+        android:id="@+id/etNextPayoutDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="e.g. 15 Oct 2023"
+        android:padding="12dp"
+        android:background="@drawable/otp_input_bg"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Next Payment Due Date -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Payment Due Date"
+        android:textColor="#666666"
+        android:textSize="@dimen/text_size_xs"
+        android:layout_marginBottom="@dimen/spacing_xs"/>
+
+    <EditText
+        android:id="@+id/etNextDueDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="e.g. 30 Sep 2023"
+        android:padding="12dp"
+        android:background="@drawable/otp_input_bg"
+        android:layout_marginBottom="24dp"/>
 
     <Button
         android:id="@+id/btnSaveTask"

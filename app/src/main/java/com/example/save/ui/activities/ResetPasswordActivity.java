@@ -123,25 +123,43 @@ public class ResetPasswordActivity extends AppCompatActivity {
         // POST /auth/reset-password
         // Body: { "email": userEmail, "newPassword": newPassword }
 
-        // Simulate password change
-        new Handler().postDelayed(() -> {
-            binding.loadingIndicator.setVisibility(View.GONE);
-            binding.actionButton.setEnabled(true);
+        // Call backend API (ViewModel) to update password
+        com.example.save.ui.viewmodels.MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(this)
+                .get(com.example.save.ui.viewmodels.MembersViewModel.class);
 
-            Toast.makeText(this, "Password changed successfully!", Toast.LENGTH_SHORT).show();
+        // We need to fetch the member object first to pass to changePassword
+        // This should ideally be done on a background thread via the ViewModel
+        new Thread(() -> {
+            Member member = viewModel.getMemberByEmail(userEmail);
+            if (member != null) {
+                viewModel.changePassword(member, newPassword);
 
-            // Navigate back to the login page where user clicked forgot password
-            Class<?> targetActivity;
-            if ("MemberRegistrationActivity".equals(sourceActivity)) {
-                targetActivity = MemberRegistrationActivity.class;
+                runOnUiThread(() -> {
+                    binding.loadingIndicator.setVisibility(View.GONE);
+                    binding.actionButton.setEnabled(true);
+
+                    Toast.makeText(this, "Password changed successfully!", Toast.LENGTH_SHORT).show();
+
+                    // Navigate back to the login page where user clicked forgot password
+                    Class<?> targetActivity;
+                    if ("MemberRegistrationActivity".equals(sourceActivity)) {
+                        targetActivity = MemberRegistrationActivity.class;
+                    } else {
+                        targetActivity = AdminLoginActivity.class; // Default to admin
+                    }
+
+                    Intent intent = new Intent(this, targetActivity);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                });
             } else {
-                targetActivity = AdminLoginActivity.class; // Default to admin
+                runOnUiThread(() -> {
+                    binding.loadingIndicator.setVisibility(View.GONE);
+                    binding.actionButton.setEnabled(true);
+                    Toast.makeText(this, "Error finding user account", Toast.LENGTH_SHORT).show();
+                });
             }
-
-            Intent intent = new Intent(this, targetActivity);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        }, 2000);
+        }).start();
     }
 }

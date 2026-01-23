@@ -19,6 +19,7 @@ import com.example.save.ui.viewmodels.MembersViewModel;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import com.example.save.R;
 import com.example.save.ui.utils.SimpleTextWatcher;
 
 public class LoanApplicationFragment extends Fragment {
@@ -53,10 +54,62 @@ public class LoanApplicationFragment extends Fragment {
         double interest = viewModel.getLoanInterestRate();
         boolean needsGuarantor = viewModel.isGuarantorRequired();
 
-        binding.tvMaxLoanAmount.setText("UGX " + NumberFormat.getNumberInstance(Locale.US).format(maxLoan));
+        binding.tvMaxLoanAmount.setText("Max Limit: UGX " + NumberFormat.getNumberInstance(Locale.US).format(maxLoan));
         binding.tvInterestRate.setText("Interest Rate: " + interest + "%");
 
+        // Check Eligibility (3x Savings) based on current user session
+        // For now, we fetch the member from ViewModel asynchronous
+        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
+        String userName = session.getUserName();
+        if (userName != null) {
+            new Thread(() -> {
+                com.example.save.data.models.Member member = viewModel.getMemberByNameSync(userName);
+                if (member != null) {
+                    double eligibility = viewModel.getLoanEligibility(member);
+                    requireActivity().runOnUiThread(() -> {
+                        binding.tvMaxLoanAmount.setText(
+                                "Your Limit: UGX " + NumberFormat.getNumberInstance(Locale.US).format(eligibility));
+                        if (eligibility < maxLoan) {
+                            binding.tvMaxLoanAmount
+                                    .setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+                        }
+                    });
+                }
+            }).start();
+        }
+
         binding.layoutGuarantor.setVisibility(needsGuarantor ? View.VISIBLE : View.GONE);
+
+        // Add View Schedule Button Logic if button exists, or just append a view
+        // programmatically if ID not found
+        // For this task, assuming we might need to add a button to the layout or just
+        // show it via a new dialog triggered by a textview link
+    }
+
+    private void showRepaymentSchedule(double amount, int duration, double interestRate) {
+        // Simple Dialog to show schedule
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext());
+        builder.setTitle("Repayment Schedule");
+
+        StringBuilder schedule = new StringBuilder();
+        double totalInterest = amount * interestRate / 100;
+        double totalAmount = amount + totalInterest;
+        double monthlyInstallment = totalAmount / duration;
+
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+
+        for (int i = 1; i <= duration; i++) {
+            cal.add(java.util.Calendar.MONTH, 1);
+            schedule.append("Month ").append(i).append(": ")
+                    .append(sdf.format(cal.getTime())).append(" - ")
+                    .append("UGX ").append(NumberFormat.getNumberInstance(Locale.US).format(monthlyInstallment))
+                    .append("\n");
+        }
+
+        builder.setMessage(schedule.toString());
+        builder.setPositiveButton("OK", null);
+        builder.show();
     }
 
     private java.util.List<com.example.save.data.models.Member> availableGuarantors = new java.util.ArrayList<>();
@@ -123,6 +176,8 @@ public class LoanApplicationFragment extends Fragment {
     private void calculateSummary() {
         try {
             String amountStr = binding.etLoanAmount.getText().toString().replace(",", "");
+            String durationStr = binding.etDuration.getText().toString();
+
             if (!amountStr.isEmpty()) {
                 double amount = Double.parseDouble(amountStr);
                 double interestRate = viewModel.getLoanInterestRate();
@@ -130,6 +185,15 @@ public class LoanApplicationFragment extends Fragment {
 
                 binding.tvRepaymentSummary.setText("Total Repayment: UGX " +
                         NumberFormat.getNumberInstance(Locale.US).format(total));
+
+                // If duration is valid, enable clicking summary to see schedule
+                if (!durationStr.isEmpty()) {
+                    int duration = Integer.parseInt(durationStr);
+                    binding.tvRepaymentSummary
+                            .setOnClickListener(v -> showRepaymentSchedule(amount, duration, interestRate));
+                    binding.tvRepaymentSummary.setTextColor(getResources().getColor(R.color.deep_blue)); // Make it look
+                                                                                                         // clickable
+                }
             } else {
                 binding.tvRepaymentSummary.setText("Total Repayment: UGX 0");
             }
@@ -191,8 +255,13 @@ public class LoanApplicationFragment extends Fragment {
             }
 
             // Create and submit loan request
+            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
+            String userName = session.getUserName();
+            if (userName == null)
+                userName = "Active Member"; // Fallback
+
             com.example.save.data.models.LoanRequest loanRequest = new com.example.save.data.models.LoanRequest(
-                    "Current User", // TODO: Get actual logged-in user name
+                    userName,
                     amount,
                     duration,
                     guarantor,

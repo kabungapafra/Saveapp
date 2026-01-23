@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    // alias(libs.plugins.google.services)
 }
 
 android {
@@ -14,17 +15,26 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-DEBUG"
+            isDebuggable = true
+        }
+        
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -49,11 +59,23 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     
-    // Lottie Animation
-    implementation("com.airbnb.android:lottie:6.1.0")
+    // Lottie Animation - Updated
+    implementation("com.airbnb.android:lottie:6.6.0")
     
+    // Charts
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    
+    // SwipeRefreshLayout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    
+    // WorkManager - Updated
+    implementation("androidx.work:work-runtime:2.9.1")
+    
+    // Firebase (optional - uncomment if using)
+    // implementation(libs.firebase.messaging)
+    
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

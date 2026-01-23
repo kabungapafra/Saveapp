@@ -144,7 +144,8 @@ public class OtpFragment extends Fragment {
      */
     private void startResendTimer() {
         binding.resendOtp.setEnabled(false);
-        binding.resendOtp.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        binding.resendOtp.setTextColor(
+                androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.darker_gray));
         binding.timerText.setVisibility(View.VISIBLE);
 
         countDownTimer = new CountDownTimer(30000, 1000) {
@@ -210,32 +211,38 @@ public class OtpFragment extends Fragment {
 
                 // Create Admin Member
                 Member newAdmin = new Member(name, "Administrator", true, phone, email);
-                newAdmin.setPassword(password); // Set provided password
+                newAdmin.setPassword(password != null ? password.trim() : ""); // Trimmed
+                newAdmin.setFirstLogin(false); // Admin doesn't need to change password on first login
 
                 // Save asynchronously
-                viewModel.addMember(newAdmin);
+                viewModel.addMember(newAdmin, (success, message) -> {
+                    if (success) {
+                        // SAVE GROUP NAME AND ADMIN INFO TO PREFS
+                        if (getActivity() != null) {
+                            android.content.SharedPreferences prefs = getActivity().getSharedPreferences("ChamaPrefs",
+                                    android.content.Context.MODE_PRIVATE);
+                            android.content.SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("group_name", groupName);
+                            editor.putString("admin_name", name);
+                            editor.putString("admin_email", email); // Save Email
+                            editor.apply();
 
-                // SAVE GROUP NAME AND ADMIN INFO TO PREFS
-                if (getActivity() != null) {
-                    android.content.SharedPreferences prefs = getActivity().getSharedPreferences("ChamaPrefs",
-                            android.content.Context.MODE_PRIVATE);
-                    android.content.SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("group_name", groupName);
-                    editor.putString("admin_name", name);
-                    editor.putString("admin_email", email); // Save Email
-                    editor.apply();
-                }
+                            Toast.makeText(getContext(), "Account created! Please login.", Toast.LENGTH_LONG).show();
 
-                // Show success and navigate
-                Toast.makeText(getContext(), "Account created! Please login.", Toast.LENGTH_LONG).show();
-
-                // Navigate to Login (so they can log in with new creds)
-                Intent intent = new Intent(getActivity(), AdminLoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
+                            // Navigate to Login (so they can log in with new creds)
+                            Intent intent = new Intent(getActivity(), AdminLoginActivity.class);
+                            // Pass credentials to pre-fill if possible (optional)
+                            intent.putExtra("PHONE", phone);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    } else {
+                        // Show error
+                        binding.errorMessage.setText("Failed to create account: " + message);
+                        binding.errorMessage.setVisibility(View.VISIBLE);
+                    }
+                });
             } else {
                 binding.errorMessage.setText("Invalid OTP. Please try again.");
                 binding.errorMessage.setVisibility(View.VISIBLE);
