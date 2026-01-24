@@ -16,9 +16,10 @@ public class TransactionEntity {
     private Date date;
     private boolean isPositive; // For UI display (Green/Red)
     private String paymentMethod; // New: "Phone", "Bank", "Cash"
+    private String status; // "COMPLETED", "PENDING_APPROVAL", "REJECTED"
 
     public TransactionEntity(String memberName, String type, double amount, String description, Date date,
-            boolean isPositive, String paymentMethod) {
+            boolean isPositive, String paymentMethod, String status) {
         this.memberName = memberName;
         this.type = type;
         this.amount = amount;
@@ -26,6 +27,7 @@ public class TransactionEntity {
         this.date = date;
         this.isPositive = isPositive;
         this.paymentMethod = paymentMethod;
+        this.status = status;
     }
 
     public long getId() {
@@ -90,5 +92,13 @@ public class TransactionEntity {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

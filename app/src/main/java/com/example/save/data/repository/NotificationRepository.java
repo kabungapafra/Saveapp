@@ -63,6 +63,26 @@ public class NotificationRepository {
         });
     }
 
+    public void addUniqueNotification(String title, String message, String type) {
+        executor.execute(() -> {
+            // Only add if there's no unread notification of this exact type
+            List<NotificationEntity> unread = notificationDao.getUnreadByTypeSync(type);
+            boolean alreadyExists = false;
+            for (NotificationEntity e : unread) {
+                if (e.getTitle().equals(title)) {
+                    alreadyExists = true;
+                    break;
+                }
+            }
+
+            if (!alreadyExists) {
+                NotificationEntity entity = new NotificationEntity(title, message, type, System.currentTimeMillis(),
+                        false);
+                notificationDao.insert(entity);
+            }
+        });
+    }
+
     public void markAsRead(long id) {
         // Need to query, update, insert... simpler if we update by ID query but used
         // @Update annotation on obj

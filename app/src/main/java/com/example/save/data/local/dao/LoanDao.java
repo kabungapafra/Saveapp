@@ -37,7 +37,10 @@ public interface LoanDao {
     List<LoanEntity> getAllLoansSync();
 
     @Query("SELECT * FROM loans WHERE id = :loanId")
-    LiveData<LoanEntity> getLoanById(long loanId);
+    LoanEntity getLoanByIdSync(long loanId);
+
+    @Query("UPDATE loans SET status = :status WHERE id = :id")
+    void updateStatus(long id, String status);
 
     @Query("SELECT * FROM loans WHERE externalId = :externalId LIMIT 1")
     LoanEntity getLoanByExternalId(String externalId);

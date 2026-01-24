@@ -89,22 +89,24 @@ public class SplashActivity extends AppCompatActivity {
         // Navigate to Next Screen (Total delay ~3.5s)
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
 
-            // Check if this is the first time opening the app
             SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
             boolean isFirstTime = prefs.getBoolean("isFirstTime", true);
 
-            Intent intent;
             if (isFirstTime) {
-                // First time - show onboarding
-                intent = new Intent(SplashActivity.this, OnboardingActivity.class);
+                Intent intent = new Intent(SplashActivity.this, OnboardingActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
             } else {
-                // Not first time - go directly to login
-                intent = new Intent(SplashActivity.this, LoginActivity.class);
-            }
+                // Always require fresh login
+                com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
+                session.logoutUser(); // Clear any existing session to be safe
 
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            finish();
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            }
         }, 3500);
     }
 }

@@ -336,6 +336,13 @@ public class AdminMainActivity extends AppCompatActivity {
                 updateNav(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
             });
         }
+
+        // Pending Approvals Card
+        if (binding.cardPendingApprovals != null) {
+            binding.cardPendingApprovals.setOnClickListener(v -> {
+                loadFragment(new ApprovalsFragment());
+            });
+        }
     }
 
     private void setupBottomNavigation() {
@@ -487,6 +494,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
         updateMemberCount();
         updateNotificationBadge();
+        updateApprovalBadge();
 
         // Sync pending tasks to notifications
         new Thread(() -> {
@@ -521,6 +529,29 @@ public class AdminMainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void updateApprovalBadge() {
+        if (viewModel != null) {
+            viewModel.getPendingTransactions().observe(this, transactions -> {
+                int txCount = transactions != null ? transactions.size() : 0;
+                new Thread(() -> {
+                    int loanCount = viewModel.getPendingLoanRequests().size();
+                    int total = txCount + loanCount;
+
+                    runOnUiThread(() -> {
+                        if (binding.tvApprovalBadge != null) {
+                            if (total > 0) {
+                                binding.tvApprovalBadge.setText(String.valueOf(total));
+                                binding.tvApprovalBadge.setVisibility(View.VISIBLE);
+                            } else {
+                                binding.tvApprovalBadge.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                }).start();
+            });
+        }
     }
 
     private com.example.save.ui.viewmodels.NotificationsViewModel notificationsViewModel;

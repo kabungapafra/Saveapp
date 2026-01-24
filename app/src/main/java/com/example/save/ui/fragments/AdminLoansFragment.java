@@ -79,21 +79,14 @@ public class AdminLoansFragment extends Fragment {
         adapter = new LoanRequestAdapter(new LoanRequestAdapter.OnLoanActionListener() {
             @Override
             public void onApprove(LoanRequest request) {
-                // Execute approval on background thread
-                new Thread(() -> {
-                    boolean success = viewModel.approveLoanRequest(request.getId());
-                    requireActivity().runOnUiThread(() -> {
-                        if (success) {
-                            Toast.makeText(getContext(),
-                                    "Loan approved for " + request.getMemberName(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getContext(),
-                                    "Cannot approve: Insufficient group balance",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }).start();
+                com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(getContext());
+                String adminEmail = session.getUserEmail();
+
+                viewModel.initiateLoanApproval(request.getId(), adminEmail, (success, message) -> {
+                    if (isVisible()) {
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override

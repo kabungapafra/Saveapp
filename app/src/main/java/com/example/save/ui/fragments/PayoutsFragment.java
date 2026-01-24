@@ -237,13 +237,18 @@ public class PayoutsFragment extends Fragment {
                         .setTitle("Large Payout Warning")
                         .setMessage("This amount is above 2M UGX. Please confirm you want to proceed.")
                         .setPositiveButton("Process Payout", (d, w) -> {
-                            executePayout(recipient, amount, defer);
+                            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                                    getContext());
+                            String adminEmail = session.getUserEmail();
+                            executePayout(recipient, amount, defer, adminEmail);
                             dialog.dismiss();
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
             } else {
-                executePayout(recipient, amount, defer);
+                com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(getContext());
+                String adminEmail = session.getUserEmail();
+                executePayout(recipient, amount, defer, adminEmail);
                 dialog.dismiss();
             }
         });
@@ -252,17 +257,17 @@ public class PayoutsFragment extends Fragment {
         dialog.show();
     }
 
-    private void executePayout(Member recipient, double amount, boolean defer) {
+    private void executePayout(Member recipient, double amount, boolean defer, String adminEmail) {
         new Thread(() -> {
-            boolean success = viewModel.executePayout(recipient, amount, defer);
+            boolean success = viewModel.executePayout(recipient, amount, defer, adminEmail);
             requireActivity().runOnUiThread(() -> {
                 if (success) {
-                    android.widget.Toast.makeText(getContext(), "Payout executed!", android.widget.Toast.LENGTH_SHORT)
+                    android.widget.Toast
+                            .makeText(getContext(), "Approval initiated for payout!", android.widget.Toast.LENGTH_SHORT)
                             .show();
-                    // Notification Logic...
                 } else {
                     android.widget.Toast
-                            .makeText(getContext(), "Failed: Insufficient balance", android.widget.Toast.LENGTH_SHORT)
+                            .makeText(getContext(), "Failed to initiate payout", android.widget.Toast.LENGTH_SHORT)
                             .show();
                 }
             });

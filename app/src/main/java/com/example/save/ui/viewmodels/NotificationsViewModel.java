@@ -40,26 +40,18 @@ public class NotificationsViewModel extends AndroidViewModel {
         repository.markAllAsRead();
     }
 
-    // Testing helper
+    // Testing helper - Removed to prevent spam
     public void createTestNotification() {
-        repository.addNotification("Welcome to Notification Center",
-                "This is a test notification to verify the system.", "SYSTEM");
+        // Disabled
     }
 
     public void createAnnouncement(String title, String message) {
-        repository.addNotification(title, message, "ANNOUNCEMENT");
+        repository.addUniqueNotification(title, message, "ANNOUNCEMENT");
     }
 
     public void ensureSystemNotification(String title, String message, String type) {
-        // Just add it for now. In a real app we'd check if it exists first.
-        // For this "Admin Pending Task" use case, we can assume if the condition marks
-        // it as pending,
-        // we should remind the user.
-        // To avoid duplicates on every resume, we could check sharedprefs, but simple
-        // "add" is okay for now
-        // if we assume "Pending" state is worth nagging about.
-        // Ideally: repository.ensureNotification(title, message, type);
-        // But for this fix:
-        repository.addNotification(title, message, type);
+        // Use unique notification to avoid spamming the database on every dashboard
+        // load
+        repository.addUniqueNotification(title, message, type);
     }
 }

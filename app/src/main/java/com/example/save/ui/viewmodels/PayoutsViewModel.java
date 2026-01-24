@@ -71,14 +71,14 @@ public class PayoutsViewModel extends AndroidViewModel {
         repository.savePayoutRules(autoPayoutEnabled, dayOfMonth, minReserve);
     }
 
-    public boolean executePayout(Member member, double amount, boolean deferRemaining) {
-        return repository.executePayout(member, amount, deferRemaining);
+    public boolean executePayout(Member member, double amount, boolean deferRemaining, String adminEmail) {
+        return repository.executePayout(member, amount, deferRemaining, adminEmail);
     }
 
     // Overload for backward compatibility if needed, using default amount
     // @Override // Remove @Override if it was checking against a superclass method
     // that doesn't exist or just fix duplication
-    public boolean executePayout(Member member) {
-        return repository.executePayout(member, getNetPayoutAmount(), false);
+    public boolean executePayout(Member member, String adminEmail) {
+        return repository.executePayout(member, getNetPayoutAmount(), false, adminEmail);
     }
 }

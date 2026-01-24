@@ -307,11 +307,9 @@ public class SettingsActivity extends AppCompatActivity {
         binding.backButton.setOnClickListener(v -> finish());
 
         binding.btnLogout.setOnClickListener(v -> {
-            android.content.Intent intent = new android.content.Intent(this, MemberRegistrationActivity.class);
-            intent.setFlags(
-                    android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
+            session.logoutUser();
+            finishAffinity();
         });
 
         // Listeners for clickable items (Toasts for now)

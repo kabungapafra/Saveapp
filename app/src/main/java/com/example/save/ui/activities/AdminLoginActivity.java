@@ -123,7 +123,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                 }
 
                 if (member != null && member.getPassword().equals(password)) {
-                    // Check if user is Admin
+                    Intent intent;
                     if (member.getRole().equalsIgnoreCase("Administrator") ||
                             member.getRole().equalsIgnoreCase("Admin")) {
 
@@ -143,7 +143,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                                 .putString("admin_email", member.getEmail())
                                 .apply();
 
-                        Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
+                        intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
                         intent.putExtra("admin_email", member.getEmail());
                         intent.putExtra("admin_name", member.getName());
                         intent.putExtra("group_name", groupName);
@@ -153,7 +153,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         finish();
                     } else {
-                        Toast.makeText(AdminLoginActivity.this, "Access Denied: Not an Administrator",
+                        Toast.makeText(AdminLoginActivity.this, "Access Denied: Please use the Member login portal.",
                                 Toast.LENGTH_LONG).show();
                     }
                 } else {

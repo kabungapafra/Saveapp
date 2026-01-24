@@ -144,8 +144,8 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getPendingLoanRequests();
     }
 
-    public boolean approveLoanRequest(String requestId) {
-        return repository.approveLoanRequest(requestId);
+    public void initiateLoanApproval(String requestId, String adminEmail, MemberRepository.ApprovalCallback callback) {
+        repository.initiateLoanApproval(requestId, adminEmail, callback);
     }
 
     public void rejectLoanRequest(String requestId) {
@@ -287,5 +287,25 @@ public class MembersViewModel extends AndroidViewModel {
             }
             return entries;
         });
+    }
+
+    public void approveTransaction(long txId, String adminEmail, MemberRepository.ApprovalCallback callback) {
+        repository.approveTransaction(txId, adminEmail, callback);
+    }
+
+    public void approveLoan(long loanId, String adminEmail, MemberRepository.ApprovalCallback callback) {
+        repository.approveLoan(loanId, adminEmail, callback);
+    }
+
+    public LiveData<List<com.example.save.data.local.entities.TransactionEntity>> getPendingTransactions() {
+        return repository.getPendingTransactions();
+    }
+
+    public boolean hasAdminApproved(String type, long id, String adminEmail) {
+        return repository.hasAdminApproved(type, id, adminEmail);
+    }
+
+    public int getAdminCount() {
+        return repository.getAdminCount();
     }
 }

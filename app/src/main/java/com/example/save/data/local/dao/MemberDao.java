@@ -55,6 +55,9 @@ public interface MemberDao {
     @Query("SELECT * FROM members WHERE role IN ('Administrator', 'Admin') ORDER BY id DESC")
     List<MemberEntity> getAdmins();
 
+    @Query("SELECT COUNT(*) FROM members WHERE role IN ('Administrator', 'Admin')")
+    int getAdminCount();
+
     @Query("SELECT * FROM members WHERE isActive = 1")
     List<MemberEntity> getActiveMembers();
 

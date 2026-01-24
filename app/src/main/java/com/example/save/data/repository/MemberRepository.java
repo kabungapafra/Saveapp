@@ -26,6 +26,7 @@ public class MemberRepository {
     private final MemberDao memberDao;
     private final TransactionDao transactionDao;
     private final LoanDao loanDao;
+    private final com.example.save.data.local.dao.ApprovalDao approvalDao;
     private final Executor executor;
     private final android.content.SharedPreferences prefs;
     private LiveData<List<Member>> membersLiveData;
@@ -33,6 +34,7 @@ public class MemberRepository {
     private double contributionTarget;
     private double payoutAmount;
     private double retentionPercentage;
+    private final com.example.save.utils.NotificationHelper notificationHelper;
 
     // Loan Configuration
     private double maxLoanAmount = 500000;
@@ -45,8 +47,10 @@ public class MemberRepository {
         memberDao = database.memberDao();
         transactionDao = database.transactionDao();
         loanDao = database.loanDao();
+        approvalDao = database.approvalDao();
         executor = Executors.newSingleThreadExecutor();
         prefs = context.getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
+        notificationHelper = new com.example.save.utils.NotificationHelper(context);
 
         contributionTarget = 1000000; // Default: 1M UGX
         payoutAmount = Double.longBitsToDouble(prefs.getLong("payout_amount", Double.doubleToLongBits(500000.0)));
@@ -265,8 +269,8 @@ public class MemberRepository {
                             "Member payout to " + member.getName(),
                             new java.util.Date(),
                             false, // Money leaving the group
-                            "Bank" // Default
-                    );
+                            "Bank", // Default
+                            "COMPLETED");
                     transactionDao.insert(tx);
                 }
             });
@@ -304,7 +308,8 @@ public class MemberRepository {
                                 "Shortfall resolution for " + member.getName(),
                                 new java.util.Date(),
                                 false, // Money leaving the group
-                                "System");
+                                "System",
+                                "COMPLETED");
                         transactionDao.insert(tx);
                     }
                 });
@@ -360,7 +365,8 @@ public class MemberRepository {
                             "Contribution from " + member.getName(),
                             new java.util.Date(),
                             true, // Money coming in
-                            paymentMethod);
+                            paymentMethod,
+                            "COMPLETED");
                     transactionDao.insert(tx);
                 }
             });
@@ -533,36 +539,69 @@ public class MemberRepository {
         return loanDao.getActiveLoanByMemberName(memberName);
     }
 
-    public boolean approveLoanRequest(String requestId) {
-        LoanEntity entity = loanDao.getLoanByExternalId(requestId);
-        if (entity == null || !"PENDING".equals(entity.getStatus())) {
-            return false;
-        }
+    public synchronized void initiateLoanApproval(String requestId, String adminEmail, ApprovalCallback callback) {
+        executor.execute(() -> {
+            try {
+                LoanEntity entity = loanDao.getLoanByExternalId(requestId);
+                if (entity == null || !"PENDING".equals(entity.getStatus())) {
+                    postResult(callback, false, "Invalid loan or already approved");
+                    return;
+                }
 
-        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
-        if (currentBalance >= entity.getAmount()) {
-            executor.execute(() -> {
-                // Log Transaction
-                TransactionEntity tx = new TransactionEntity(
-                        entity.getMemberName(),
-                        "LOAN_PAYOUT",
-                        entity.getAmount(),
-                        "Loan payout to " + entity.getMemberName(),
-                        new java.util.Date(),
-                        false, // Money leaving the group
-                        "Bank");
-                transactionDao.insert(tx);
+                double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+                if (currentBalance < entity.getAmount()) {
+                    postResult(callback, false, "Insufficient group balance");
+                    return;
+                }
 
-                // Update Loan Status in DB
-                entity.setStatus("ACTIVE");
-                // Set due date (simple 1 month logic if not specified)
-                entity.setDueDate(new java.util.Date(
-                        System.currentTimeMillis() + 30L * 24L * 60L * 60L * 1000L));
-                loanDao.update(entity);
-            });
-            return true;
-        }
-        return false;
+                // First, register the initiator's approval
+                long loanId = entity.getId();
+                try {
+                    approvalDao
+                            .insert(new com.example.save.data.local.entities.ApprovalEntity("LOAN", loanId, adminEmail,
+                                    new java.util.Date()));
+                } catch (Exception e) {
+                    // Already approved by this admin
+                    postResult(callback, false, "You have already approved this");
+                    return;
+                }
+
+                // Check if already fully approved
+                int currentApprovals = approvalDao.getApprovalCount("LOAN", loanId);
+                int requiredApprovals = memberDao.getAdminCount();
+
+                if (currentApprovals >= requiredApprovals) {
+                    finalizeLoan(entity);
+                    postResult(callback, true, "Loan fully approved and active!");
+                } else {
+                    postResult(callback, true,
+                            "Approval initiated. " + (requiredApprovals - currentApprovals) + " more needed.");
+                }
+            } catch (Exception e) {
+                postResult(callback, false, e.getMessage());
+            }
+        });
+    }
+
+    private void finalizeLoan(LoanEntity entity) {
+        // Log Transaction
+        TransactionEntity tx = new TransactionEntity(
+                entity.getMemberName(),
+                "LOAN_PAYOUT",
+                entity.getAmount(),
+                "Loan payout to " + entity.getMemberName(),
+                new java.util.Date(),
+                false, // Money leaving the group
+                "Bank",
+                "COMPLETED");
+        transactionDao.insert(tx);
+
+        // Update Loan Status in DB
+        entity.setStatus("ACTIVE");
+        // Set due date (simple 1 month logic if not specified)
+        entity.setDueDate(new java.util.Date(
+                System.currentTimeMillis() + 30L * 24L * 60L * 60L * 1000L));
+        loanDao.update(entity);
     }
 
     public void repayLoan(Member member, double amount) {
@@ -597,7 +636,8 @@ public class MemberRepository {
                         "Loan repayment from " + member.getName(),
                         new java.util.Date(),
                         true, // Money coming in
-                        "Phone");
+                        "Phone",
+                        "COMPLETED");
                 transactionDao.insert(tx);
             });
         }
@@ -732,56 +772,196 @@ public class MemberRepository {
         // Here we would trigger the WorkManager if this was fully implemented
     }
 
-    public boolean executePayout(Member member, double amount, boolean deferRemaining) {
+    public boolean executePayout(Member member, double amount, boolean deferRemaining, String adminEmail) {
         if (member == null)
             return false;
 
-        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+        executor.execute(() -> {
+            synchronized (this) {
+                // Check current admin count
+                int adminCount = memberDao.getAdminCount();
+                String status = (adminCount <= 1) ? "COMPLETED" : "PENDING_APPROVAL";
 
-        // Check balance logic (using amount requested)
-        if (currentBalance >= amount) {
-            executor.execute(() -> {
-                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
-                if (entity != null) {
-                    // Update Member Payout Info
-                    entity.setHasReceivedPayout(true);
-                    entity.setPayoutAmount(String.valueOf(amount));
-                    entity.setPayoutDate(java.text.DateFormat.getDateInstance().format(new java.util.Date()));
+                // Log Transaction (Initially Pending)
+                TransactionEntity tx = new TransactionEntity(
+                        member.getName(),
+                        "MEMBER_PAYOUT",
+                        amount,
+                        "Payout to " + member.getName() + (deferRemaining ? " (Partial)" : ""),
+                        new java.util.Date(),
+                        false, // Money leaving
+                        "Bank",
+                        status);
 
-                    if (deferRemaining) {
-                        // Defer logic: calculate remainder (Net Payout - Amount Paid)
-                        double fullNet = getNetPayoutAmount();
-                        double remainder = fullNet - amount;
-                        if (remainder > 0) {
-                            // Where do we store deferrals?
-                            // For V1, we might just note it in a separate field or just add to 'shortfall'
-                            // (negative shortfall = credit?)
-                            // OR, create a new "Deferred Payout" transaction/record.
-                            // Simplified: Just log the partial payout.
-                            // The system keeps track that they HAVE received *a* payout.
-                            // If we want to pay remainder later, we need to track it.
-                            // Let's assume for now deferrals are manual tracking or we add a
-                            // "PayoutBalance" field later.
-                            // Logging it in transaction description for now.
-                        }
+                if (status.equals("COMPLETED")) {
+                    transactionDao.insert(tx);
+                    finalizePayout(member, amount);
+                } else {
+                    long txId = transactionDao.insert(tx);
+                    // Register the initiator's approval immediately
+                    try {
+                        approvalDao.insert(
+                                new com.example.save.data.local.entities.ApprovalEntity("PAYOUT", txId, adminEmail,
+                                        new java.util.Date()));
+                    } catch (Exception e) {
+                        // Already initiated
+                    }
+                }
+            }
+        });
+        return true;
+    }
+
+    private void finalizePayout(Member member, double amount) {
+        MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
+        if (entity != null) {
+            entity.setHasReceivedPayout(true);
+            entity.setPayoutAmount(String.valueOf(amount));
+            entity.setPayoutDate(java.text.DateFormat.getDateInstance().format(new java.util.Date()));
+            memberDao.update(entity);
+        }
+    }
+
+    // --- Multi-Admin Approval Logic ---
+
+    public void approveTransaction(long txId, String adminEmail, ApprovalCallback callback) {
+        executor.execute(() -> {
+            synchronized (this) { // SYNCHRONIZED to prevent double-click bypass
+                try {
+                    TransactionEntity tx = transactionDao.getTransactionById(txId);
+                    if (tx == null || !"PENDING_APPROVAL".equals(tx.getStatus())) {
+                        postResult(callback, false, "Invalid transaction or already approved");
+                        return;
                     }
 
-                    memberDao.update(entity);
+                    // Check if already approved by this admin
+                    if (approvalDao.getAdminApproval("PAYOUT", txId, adminEmail) != null) {
+                        postResult(callback, false, "You have already approved this");
+                        return;
+                    }
 
-                    // Log Transaction
-                    TransactionEntity tx = new TransactionEntity(
-                            member.getName(),
-                            "MEMBER_PAYOUT",
-                            amount,
-                            "Payout to " + member.getName() + (deferRemaining ? " (Partial)" : ""),
-                            new java.util.Date(),
-                            false, // Money leaving
-                            "Bank");
-                    transactionDao.insert(tx);
+                    // Insert approval
+                    try {
+                        approvalDao.insert(
+                                new com.example.save.data.local.entities.ApprovalEntity("PAYOUT", txId, adminEmail,
+                                        new java.util.Date()));
+                    } catch (Exception e) {
+                        postResult(callback, false, "You have already approved this");
+                        return;
+                    }
+
+                    // Check if fully approved
+                    int currentApprovals = approvalDao.getApprovalCount("PAYOUT", txId);
+                    int requiredApprovals = memberDao.getAdminCount();
+
+                    if (currentApprovals >= requiredApprovals) {
+                        // Finalize
+                        tx.setStatus("COMPLETED");
+                        transactionDao.updateStatus(txId, "COMPLETED");
+
+                        // Update member status
+                        Member member = getMemberByNameSync(tx.getMemberName());
+                        if (member != null) {
+                            finalizePayout(member, tx.getAmount());
+                        }
+                        notificationHelper.showNotification("Payout Fully Approved",
+                                "The payout for " + tx.getMemberName() + " has been authorized by all admins.",
+                                com.example.save.utils.NotificationHelper.CHANNEL_ID_PAYMENTS);
+                        postResult(callback, true, "Payout fully approved and executed!");
+                    } else {
+                        postResult(callback, true,
+                                "Approved. " + (requiredApprovals - currentApprovals) + " more needed.");
+                    }
+                } catch (Exception e) {
+                    postResult(callback, false, e.getMessage());
                 }
-            });
-            return true;
+            }
+        });
+    }
+
+    public void approveLoan(long loanId, String adminEmail, ApprovalCallback callback) {
+        executor.execute(() -> {
+            synchronized (this) { // SYNCHRONIZED to prevent double-click bypass
+                try {
+                    LoanEntity loan = loanDao.getLoanByIdSync(loanId);
+                    if (loan == null || !"PENDING".equals(loan.getStatus())) {
+                        postResult(callback, false, "Invalid loan or already approved");
+                        return;
+                    }
+
+                    if (approvalDao.getAdminApproval("LOAN", loanId, adminEmail) != null) {
+                        postResult(callback, false, "You have already approved this");
+                        return;
+                    }
+
+                    try {
+                        approvalDao.insert(
+                                new com.example.save.data.local.entities.ApprovalEntity("LOAN", loanId, adminEmail,
+                                        new java.util.Date()));
+                    } catch (Exception e) {
+                        postResult(callback, false, "You have already approved this");
+                        return;
+                    }
+
+                    int currentApprovals = approvalDao.getApprovalCount("LOAN", loanId);
+                    int requiredApprovals = memberDao.getAdminCount();
+
+                    if (currentApprovals >= requiredApprovals) {
+                        // Finalize Loan
+                        loan.setStatus("ACTIVE");
+                        loan.setDueDate(new java.util.Date(System.currentTimeMillis() + 30L * 24L * 60L * 60L * 1000L));
+                        loanDao.update(loan);
+
+                        // Add Transaction
+                        TransactionEntity tx = new TransactionEntity(
+                                loan.getMemberName(),
+                                "LOAN_PAYOUT",
+                                loan.getAmount(),
+                                "Loan payout to " + loan.getMemberName(),
+                                new java.util.Date(),
+                                false,
+                                "Bank",
+                                "COMPLETED");
+                        transactionDao.insert(tx);
+
+                        postResult(callback, true, "Loan fully approved and active!");
+                        notificationHelper.showNotification("Loan Fully Approved",
+                                "A loan request for " + loan.getMemberName() + " has been authorized by all admins.",
+                                com.example.save.utils.NotificationHelper.CHANNEL_ID_LOANS);
+                    } else {
+                        postResult(callback, true,
+                                "Approved. " + (requiredApprovals - currentApprovals) + " more needed.");
+                    }
+                } catch (Exception e) {
+                    postResult(callback, false, e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void postResult(ApprovalCallback callback, boolean success, String msg) {
+        if (callback != null) {
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> callback.onResult(success, msg));
         }
-        return false;
+    }
+
+    public interface ApprovalCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public LiveData<List<TransactionEntity>> getPendingTransactions() {
+        return transactionDao.getPendingTransactions();
+    }
+
+    public int getApprovalCount(String type, long targetId) {
+        return approvalDao.getApprovalCount(type, targetId);
+    }
+
+    public int getAdminCount() {
+        return memberDao.getAdminCount();
+    }
+
+    public boolean hasAdminApproved(String type, long id, String adminEmail) {
+        return approvalDao.getAdminApproval(type, id, adminEmail) != null;
     }
 }

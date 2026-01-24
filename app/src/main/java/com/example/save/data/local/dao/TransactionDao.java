@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface TransactionDao {
     @Insert
-    void insert(TransactionEntity transaction);
+    long insert(TransactionEntity transaction);
 
     @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT 20")
     LiveData<List<TransactionEntity>> getRecentTransactions();
@@ -21,14 +21,23 @@ public interface TransactionDao {
     @Query("SELECT * FROM transactions ORDER BY date DESC")
     List<TransactionEntity> getAllTransactionsSync();
 
-    @Query("SELECT TOTAL(amount) FROM transactions WHERE isPositive = 1")
+    @Query("SELECT TOTAL(amount) FROM transactions WHERE isPositive = 1 AND status = 'COMPLETED'")
     double getTotalIncoming();
 
-    @Query("SELECT TOTAL(amount) FROM transactions WHERE isPositive = 0")
+    @Query("SELECT TOTAL(amount) FROM transactions WHERE isPositive = 0 AND status = 'COMPLETED'")
     double getTotalOutgoing();
 
-    @Query("SELECT TOTAL(CASE WHEN isPositive = 1 THEN amount ELSE -amount END) FROM transactions")
+    @Query("SELECT TOTAL(CASE WHEN isPositive = 1 THEN amount ELSE -amount END) FROM transactions WHERE status = 'COMPLETED'")
     LiveData<Double> getGroupBalance();
+
+    @Query("SELECT * FROM transactions WHERE status = 'PENDING_APPROVAL' ORDER BY date DESC")
+    LiveData<List<TransactionEntity>> getPendingTransactions();
+
+    @Query("SELECT * FROM transactions WHERE id = :id")
+    TransactionEntity getTransactionById(long id);
+
+    @Query("UPDATE transactions SET status = :status WHERE id = :id")
+    void updateStatus(long id, String status);
 
     // Pagination
     @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT :limit OFFSET :offset")

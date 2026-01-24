@@ -28,6 +28,9 @@ public interface NotificationDao {
     @Query("SELECT * FROM notifications WHERE isRead = 0")
     List<NotificationEntity> getUnreadNotificationsSync();
 
+    @Query("SELECT * FROM notifications WHERE type = :type AND isRead = 0")
+    List<NotificationEntity> getUnreadByTypeSync(String type);
+
     @Query("SELECT COUNT(*) FROM notifications WHERE isRead = 0")
     LiveData<Integer> getUnreadCount();
 

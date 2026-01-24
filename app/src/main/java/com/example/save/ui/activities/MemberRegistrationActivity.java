@@ -137,23 +137,30 @@ public class MemberRegistrationActivity extends AppCompatActivity {
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         finish();
                     } else {
-                        // Normal login - proceed to dashboard
-                        Toast.makeText(MemberRegistrationActivity.this, "Welcome " + member.getName(),
-                                Toast.LENGTH_SHORT)
-                                .show();
+                        if (member.getRole().equalsIgnoreCase("Administrator") ||
+                                member.getRole().equalsIgnoreCase("Admin")) {
+                            Toast.makeText(MemberRegistrationActivity.this,
+                                    "Access Denied: Please use the Admin login portal.", Toast.LENGTH_LONG).show();
+                        } else {
+                            // Normal login - proceed to appropriate dashboard
+                            Toast.makeText(MemberRegistrationActivity.this, "Welcome " + member.getName(),
+                                    Toast.LENGTH_SHORT)
+                                    .show();
 
-                        // SAVE SESSION using SessionManager
-                        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
-                                getApplicationContext());
-                        session.createLoginSession(member.getName(), member.getEmail(), member.getRole());
+                            // SAVE SESSION using SessionManager
+                            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                                    getApplicationContext());
+                            session.createLoginSession(member.getName(), member.getEmail(), member.getRole());
 
-                        Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
-                        intent.putExtra("member_email", member.getEmail()); // Pass email to Dashboard
-                        // Clear back stack - user should not go back to login after successful login
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        finish();
+                            Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
+                            intent.putExtra("member_email", member.getEmail());
+
+                            // Clear back stack
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            finish();
+                        }
                     }
                 } else {
                     Toast.makeText(MemberRegistrationActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
