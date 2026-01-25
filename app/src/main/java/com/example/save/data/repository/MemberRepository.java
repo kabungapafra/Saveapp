@@ -221,6 +221,14 @@ public class MemberRepository {
         return memberDao.getActiveMemberCount();
     }
 
+    public int getAdminCount() {
+        return memberDao.getAdminCount();
+    }
+
+    public LiveData<Integer> getAdminCountLive() {
+        return memberDao.getAdminCountLive();
+    }
+
     public int getTotalMemberCount() {
         return memberDao.getMemberCount();
     }
@@ -804,12 +812,22 @@ public class MemberRepository {
                                 new com.example.save.data.local.entities.ApprovalEntity("PAYOUT", txId, adminEmail,
                                         new java.util.Date()));
                     } catch (Exception e) {
-                        // Already initiated
+                        // Ignore
                     }
                 }
             }
         });
         return true;
+    }
+
+    public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(
+            String adminEmail) {
+        return transactionDao.getPendingTransactionsWithApproval(adminEmail);
+    }
+
+    public LiveData<List<com.example.save.data.models.LoanWithApproval>> getPendingLoansWithApproval(
+            String adminEmail) {
+        return loanDao.getPendingLoansWithApproval(adminEmail);
     }
 
     private void finalizePayout(Member member, double amount) {
@@ -955,10 +973,6 @@ public class MemberRepository {
 
     public int getApprovalCount(String type, long targetId) {
         return approvalDao.getApprovalCount(type, targetId);
-    }
-
-    public int getAdminCount() {
-        return memberDao.getAdminCount();
     }
 
     public boolean hasAdminApproved(String type, long id, String adminEmail) {

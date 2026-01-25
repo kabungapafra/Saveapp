@@ -42,4 +42,14 @@ public interface TransactionDao {
     // Pagination
     @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT :limit OFFSET :offset")
     List<TransactionEntity> getTransactionsPaged(int limit, int offset);
+
+    @Query("SELECT t.*, " +
+            "(SELECT COUNT(*) FROM approvals a WHERE a.targetId = t.id AND a.type = 'PAYOUT') as approvalCount, " +
+            "(SELECT COUNT(*) > 0 FROM approvals a WHERE a.targetId = t.id AND a.type = 'PAYOUT' AND a.adminEmail = :adminEmail) as isApprovedByAdmin "
+            +
+            "FROM transactions t " +
+            "WHERE t.status = 'PENDING_APPROVAL' OR t.status = 'PENDING' " +
+            "ORDER BY t.date DESC")
+    LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(
+            String adminEmail);
 }

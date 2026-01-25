@@ -62,4 +62,13 @@ public interface LoanDao {
 
     @Query("DELETE FROM loans")
     void deleteAll();
+
+    @Query("SELECT l.*, " +
+            "(SELECT COUNT(*) FROM approvals a WHERE a.targetId = l.id AND a.type = 'LOAN') as approvalCount, " +
+            "(SELECT COUNT(*) > 0 FROM approvals a WHERE a.targetId = l.id AND a.type = 'LOAN' AND a.adminEmail = :adminEmail) as isApprovedByAdmin "
+            +
+            "FROM loans l " +
+            "WHERE l.status = 'PENDING' " +
+            "ORDER BY l.id DESC")
+    LiveData<List<com.example.save.data.models.LoanWithApproval>> getPendingLoansWithApproval(String adminEmail);
 }

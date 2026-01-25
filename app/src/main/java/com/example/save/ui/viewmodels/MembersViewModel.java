@@ -301,11 +301,131 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getPendingTransactions();
     }
 
+    // New optimized reactive method
+    public LiveData<List<com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem>> getCombinedApprovals(
+            String adminEmail) {
+        androidx.lifecycle.MediatorLiveData<List<com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem>> mediator = new androidx.lifecycle.MediatorLiveData<>();
+
+        LiveData<List<com.example.save.data.models.TransactionWithApproval>> txSource = repository
+                .getPendingTransactionsWithApproval(adminEmail);
+        LiveData<List<com.example.save.data.models.LoanWithApproval>> loanSource = repository
+                .getPendingLoansWithApproval(adminEmail);
+
+        mediator.addSource(txSource, txs -> combineApprovals(mediator, txs, loanSource.getValue()));
+        mediator.addSource(loanSource, loans -> combineApprovals(mediator, txSource.getValue(), loans));
+
+        return mediator;
+    }
+
+    private void combineApprovals(
+            androidx.lifecycle.MutableLiveData<List<com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem>> mediator,
+            List<com.example.save.data.models.TransactionWithApproval> transactions,
+            List<com.example.save.data.models.LoanWithApproval> loans) {
+
+        java.util.List<com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem> combined = new java.util.ArrayList<>();
+
+        if (transactions != null) {
+            for (com.example.save.data.models.TransactionWithApproval item : transactions) {
+                // Skip if current admin already approved
+                if (!item.isApprovedByAdmin) {
+                    combined.add(new ApprovalItemImpl(
+                            item.transaction.getId(),
+                            "PAYOUT",
+                            item.transaction.getMemberName(),
+                            item.transaction.getAmount(),
+                            item.transaction.getDescription(),
+                            item.transaction.getDate(),
+                            item.approvalCount,
+                            item.isApprovedByAdmin));
+                }
+            }
+        }
+
+        if (loans != null) {
+            for (com.example.save.data.models.LoanWithApproval item : loans) {
+                if (!item.isApprovedByAdmin) {
+                    combined.add(new ApprovalItemImpl(
+                            item.loan.getId(),
+                            "LOAN",
+                            item.loan.getMemberName(),
+                            item.loan.getAmount(),
+                            item.loan.getReason(),
+                            item.loan.getDateRequested(),
+                            item.approvalCount,
+                            item.isApprovedByAdmin));
+                }
+            }
+        }
+
+        // Sort by date (newest first)
+        java.util.Collections.sort(combined, (a, b) -> b.getDate().compareTo(a.getDate()));
+
+        mediator.setValue(combined);
+    }
+
+    // Static implementation to avoid leaks
+    private static class ApprovalItemImpl implements com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem {
+        private final long id;
+        private final String type, title, description;
+        private final double amount;
+        private final java.util.Date date;
+        private final int approvalCount;
+        private final boolean hasApproved;
+
+        public ApprovalItemImpl(long id, String type, String title, double amount, String description,
+                java.util.Date date, int approvalCount, boolean hasApproved) {
+            this.id = id;
+            this.type = type;
+            this.title = title;
+            this.amount = amount;
+            this.description = description;
+            this.date = date;
+            this.approvalCount = approvalCount;
+            this.hasApproved = hasApproved;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public double getAmount() {
+            return amount;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public java.util.Date getDate() {
+            return date;
+        }
+
+        public int getApprovalCount() {
+            return approvalCount;
+        }
+
+        public boolean hasApproved() {
+            return hasApproved;
+        }
+    }
+
     public boolean hasAdminApproved(String type, long id, String adminEmail) {
         return repository.hasAdminApproved(type, id, adminEmail);
     }
 
     public int getAdminCount() {
         return repository.getAdminCount();
+    }
+
+    public LiveData<Integer> getAdminCountLive() {
+        return repository.getAdminCountLive();
     }
 }

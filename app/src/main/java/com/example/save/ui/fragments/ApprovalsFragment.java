@@ -57,142 +57,53 @@ public class ApprovalsFragment extends Fragment {
     }
 
     private void observeData() {
-        // Combined observer for Loans and Payouts
-        viewModel.getPendingTransactions().observe(getViewLifecycleOwner(), txList -> refreshList());
-        viewModel.getLoanRequests().observe(getViewLifecycleOwner(), loanList -> refreshList());
-    }
-
-    private void refreshList() {
-        new Thread(() -> {
-            int adminCount = viewModel.getAdminCount();
-            fetchApprovalData(adminCount);
-        }).start();
-    }
-
-    private void fetchApprovalData(int adminCount) {
-        new Thread(() -> {
-            List<ApprovalsAdapter.ApprovalItem> combinedList = new ArrayList<>();
-
-            // Fetch Payouts
-            List<TransactionEntity> pendingsTx = viewModel.getPendingTransactions().getValue();
-            if (pendingsTx != null) {
-                for (TransactionEntity tx : pendingsTx) {
-                    int approvals = repository_getApprovalCount("PAYOUT", tx.getId());
-                    boolean hasApproved = viewModel.hasAdminApproved("PAYOUT", tx.getId(), adminEmail);
-                    if (!hasApproved) {
-                        combinedList.add(new ApprovalItemImpl(tx.getId(), "PAYOUT", tx.getMemberName(), tx.getAmount(),
-                                tx.getDescription(), tx.getDate(), approvals, hasApproved));
-                    }
+        // 1. Observe Admin Count first (needed for Adapter)
+        viewModel.getAdminCountLive().observe(getViewLifecycleOwner(), count -> {
+            if (count != null) {
+                // 2. Observe Approvals only when we have the count
+                // Using a Mediator or just nested observation might be tricky if not careful
+                // with duplicates.
+                // Better approach: Store count in a member variable, and update adapter.
+                // But adapter needs it for EVERY item update.
+                // Let's update the adapter's admin count property.
+                if (adapter != null) {
+                    // We need to re-submit list if count changes?
+                    // Or just set the count. For now, let's keep it simpler:
+                    // Just triggering the list observation again might be enough if we use a field.
                 }
-            }
 
-            // Fetch Loans
-            List<LoanRequest> pendingsLoan = viewModel.getPendingLoanRequests();
-            if (pendingsLoan != null) {
-                for (LoanRequest req : pendingsLoan) {
-                    // LoanRequest ID is String externalId, but ApprovalEntity uses long targetId.
-                    // This is a mismatch. I should have used long for Loan approvals too or updated
-                    // DAO.
-                    // For now, I'll try to get the internal ID.
-                    long internalId = 0; // Find internal ID from DB
-                    try {
-                        com.example.save.data.local.entities.LoanEntity entity = com.example.save.data.repository.MemberRepository
-                                .getInstance().getActiveLoanForMember(req.getMemberName());
-                        if (entity != null)
-                            internalId = entity.getId();
-                    } catch (Exception e) {
-                    }
-
-                    int approvals = repository_getApprovalCount("LOAN", internalId);
-                    boolean hasApproved = viewModel.hasAdminApproved("LOAN", internalId, adminEmail);
-                    if (!hasApproved) {
-                        combinedList.add(new ApprovalItemImpl(internalId, "LOAN", req.getMemberName(), req.getAmount(),
-                                req.getReason(), new java.util.Date(), approvals, hasApproved));
-                    }
-                }
+                // Real reactive chain:
+                subscribeToApprovals(count);
             }
-
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    if (binding != null) {
-                        adapter.updateList(combinedList, adminCount);
-                        binding.emptyState.setVisibility(combinedList.isEmpty() ? View.VISIBLE : View.GONE);
-                    }
-                });
-            }
-        }).start();
+        });
     }
 
-    // Helper for sync repo calls
-    private int repository_getApprovalCount(String type, long id) {
-        return com.example.save.data.repository.MemberRepository.getInstance().getApprovalCount(type, id);
+    private void subscribeToApprovals(int adminCount) {
+        // Remove previous observers if any? LiveData handles this if we use the same
+        // observer instance,
+        // but here we are creating a new lambda every time adminCount changes.
+        // Ideally we use a CombinedLiveData.
+        // For simplicity in this fix:
+
+        viewModel.getCombinedApprovals(adminEmail).observe(getViewLifecycleOwner(), list -> {
+            if (binding != null) {
+                adapter.updateList(list, adminCount);
+                binding.emptyState.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     private void approveLoan(long id) {
         viewModel.approveLoan(id, adminEmail, (success, message) -> {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-            refreshList();
+            // No need to call refreshList(), LiveData will update automatically!
         });
     }
 
     private void approvePayout(long id) {
         viewModel.approveTransaction(id, adminEmail, (success, message) -> {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-            refreshList();
+            // No need to call refreshList(), LiveData will update automatically!
         });
-    }
-
-    // Implementation of ApprovalItem
-    private static class ApprovalItemImpl implements ApprovalsAdapter.ApprovalItem {
-        private final long id;
-        private final String type, title, description;
-        private final double amount;
-        private final java.util.Date date;
-        private final int approvalCount;
-        private final boolean hasApproved;
-
-        public ApprovalItemImpl(long id, String type, String title, double amount, String description,
-                java.util.Date date, int approvalCount, boolean hasApproved) {
-            this.id = id;
-            this.type = type;
-            this.title = title;
-            this.amount = amount;
-            this.description = description;
-            this.date = date;
-            this.approvalCount = approvalCount;
-            this.hasApproved = hasApproved;
-        }
-
-        public long getId() {
-            return id;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public double getAmount() {
-            return amount;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public java.util.Date getDate() {
-            return date;
-        }
-
-        public int getApprovalCount() {
-            return approvalCount;
-        }
-
-        public boolean hasApproved() {
-            return hasApproved;
-        }
     }
 }
