@@ -8,6 +8,10 @@ import java.util.Random;
 
 /**
  * Utility class for input validation
+ * 
+ * SECURITY NOTE: These are client-side validations for UX only.
+ * ALL validations MUST be re-validated on the backend for security.
+ * Client-side validation can be bypassed by malicious users.
  */
 public class ValidationUtils {
 
@@ -84,9 +88,16 @@ public class ValidationUtils {
     /**
      * Generates a random 6-digit OTP
      * 
+     * SECURITY WARNING: This is for testing/demo only.
+     * OTP generation MUST be done on backend for security.
+     * Backend should use cryptographically secure random number generation.
+     * 
      * @return String containing 6-digit OTP
      */
+    @Deprecated
     public static String generateOTP() {
+        // SECURITY: This should not be used in production
+        // Backend should generate OTP using secure random number generator
         Random random = new Random();
         int otp = 100000 + random.nextInt(900000); // Range: 100000-999999
         return String.valueOf(otp);

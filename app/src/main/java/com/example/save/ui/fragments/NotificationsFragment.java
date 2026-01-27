@@ -28,6 +28,10 @@ public class NotificationsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
         viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
+        
+        emptyStateLayout = view.findViewById(R.id.emptyStateLayout);
+        tvEmptyTitle = view.findViewById(R.id.tvEmptyTitle);
+        tvEmptyMessage = view.findViewById(R.id.tvEmptyMessage);
 
         RecyclerView rv = view.findViewById(R.id.notificationsRecyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -69,6 +73,10 @@ public class NotificationsFragment extends Fragment {
 
         return view;
     }
+    
+    private View emptyStateLayout;
+    private android.widget.TextView tvEmptyTitle;
+    private android.widget.TextView tvEmptyMessage;
 
     public static NotificationsFragment newInstance(boolean isAdmin) {
         NotificationsFragment fragment = new NotificationsFragment();
@@ -107,6 +115,15 @@ public class NotificationsFragment extends Fragment {
     private void observeViewModel() {
         viewModel.getNotifications().observe(getViewLifecycleOwner(), notifications -> {
             adapter.setNotifications(notifications);
+            if (notifications == null || notifications.isEmpty()) {
+                if (emptyStateLayout != null) {
+                    emptyStateLayout.setVisibility(View.VISIBLE);
+                    if (tvEmptyTitle != null) tvEmptyTitle.setText("No notifications");
+                    if (tvEmptyMessage != null) tvEmptyMessage.setText("You're all caught up!");
+                }
+            } else {
+                 if (emptyStateLayout != null) emptyStateLayout.setVisibility(View.GONE);
+            }
         });
     }
 }

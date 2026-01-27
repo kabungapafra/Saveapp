@@ -75,4 +75,10 @@ public interface MemberDao {
 
     @Query("DELETE FROM members")
     void deleteAll();
+
+    @Query("UPDATE members SET contributionPaid = 0")
+    void resetAllContributions();
+
+    @Query("UPDATE members SET nextPaymentDueDate = :nextDate")
+    void updateAllDueDates(String nextDate);
 }

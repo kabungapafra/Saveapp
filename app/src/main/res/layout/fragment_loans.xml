@@ -34,13 +34,29 @@
         app:layout_constraintStart_toStartOf="@id/backButton"
         app:layout_constraintTop_toBottomOf="@id/backButton" />
 
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_edittext"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="12dp"
+        android:hint="Search loans..."
+        android:padding="12dp"
+        android:inputType="textCapWords"
+        app:layout_constraintStart_toStartOf="@id/tvLoansTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvLoansTitle" />
+
     <LinearLayout
         android:id="@+id/actionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvLoansTitle">
+        app:layout_constraintTop_toBottomOf="@id/etSearch">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardRequestLoan"

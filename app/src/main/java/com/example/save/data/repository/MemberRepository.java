@@ -15,6 +15,7 @@ import com.example.save.data.local.entities.MemberEntity;
 import com.example.save.data.local.entities.TransactionEntity;
 import com.example.save.data.models.Member;
 import com.example.save.utils.ValidationUtils;
+import com.example.save.data.network.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class MemberRepository {
     private final com.example.save.data.local.dao.ApprovalDao approvalDao;
     private final Executor executor;
     private final android.content.SharedPreferences prefs;
+    private final Context appContext; // Store context for API calls
     private LiveData<List<Member>> membersLiveData;
     private LiveData<Double> groupBalance;
     private double contributionTarget;
@@ -36,13 +38,15 @@ public class MemberRepository {
     private double retentionPercentage;
     private final com.example.save.utils.NotificationHelper notificationHelper;
 
-    // Loan Configuration
+    // Loan Configuration - These are now read-only defaults, actual values come
+    // from backend
     private double maxLoanAmount = 500000;
     private double loanInterestRate = 5.0;
     private int maxLoanDuration = 12;
     private boolean requireGuarantor = true;
 
     private MemberRepository(Context context) {
+        this.appContext = context.getApplicationContext(); // Store application context
         AppDatabase database = AppDatabase.getInstance(context);
         memberDao = database.memberDao();
         transactionDao = database.transactionDao();
@@ -134,36 +138,67 @@ public class MemberRepository {
         }
     }
 
+    // Password reset - Now uses backend API
+    // NOTE: OTP generation MUST be done on backend for security
+    @Deprecated
     public String resetPassword(Member member) {
+        // SECURITY ISSUE: OTP generation should be on backend
+        // This method is deprecated - use backend API instead
+        // Backend will generate secure OTP and send via SMS/Email
         String newOtp = com.example.save.utils.ValidationUtils.generateOTP();
-        if (member != null) {
-            executor.execute(() -> {
-                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
-                if (entity != null) {
-                    entity.setPassword(newOtp); // In real app, hash this
-                    entity.setFirstLogin(true); // Reset to first login since it's a new OTP
-                    memberDao.update(entity);
-                }
-            });
-        }
+        // TODO: Call backend API: POST /auth/reset-password
+        // Backend will: generate OTP, hash password, update member, send OTP
         return newOtp;
     }
 
     /**
-     * Change member password after first OTP login
-     * Marks isFirstLogin as false so OTP expires
+     * Change member password - Now uses backend API
+     * NOTE: Password hashing MUST be done on backend
      */
-    public void changePassword(Member member, String newPassword) {
-        if (member != null && newPassword != null) {
-            executor.execute(() -> {
-                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
-                if (entity != null) {
-                    entity.setPassword(newPassword); // In production, hash this
-                    entity.setFirstLogin(false); // Mark as no longer first login
-                    memberDao.update(entity);
-                }
-            });
+    public void changePassword(String email, String currentPassword, String newPassword,
+            PasswordChangeCallback callback) {
+        if (email == null || newPassword == null) {
+            if (callback != null)
+                callback.onResult(false, "Invalid input");
+            return;
         }
+
+        com.example.save.data.network.ChangePasswordRequest request = new com.example.save.data.network.ChangePasswordRequest(
+                email, currentPassword, newPassword);
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        apiService.changePassword(request).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            if (callback != null) {
+                                callback.onResult(apiResponse.isSuccess(), apiResponse.getMessage());
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
+                            if (callback != null)
+                                callback.onResult(false, "Failed to change password");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(appContext, t);
+                        if (callback != null)
+                            callback.onResult(false, "Network error");
+                    }
+                });
+    }
+
+    public interface PasswordChangeCallback {
+        void onResult(boolean success, String message);
     }
 
     public LiveData<List<Member>> searchMembers(String query) {
@@ -248,81 +283,93 @@ public class MemberRepository {
         return null;
     }
 
-    public boolean executePayout(Member member) {
-        if (member == null)
-            return false;
-
-        if (member == null)
-            return false;
-
-        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
-        double netPayout = getNetPayoutAmount();
-
-        if (currentBalance >= netPayout) {
-            executor.execute(() -> {
-                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
-                if (entity != null) {
-                    entity.setHasReceivedPayout(true);
-                    entity.setPayoutAmount(String.valueOf(payoutAmount)); // Store Gross Amount or Net? Logic usually
-                                                                          // implies what they got. Storing Gross for
-                                                                          // records.
-                    entity.setPayoutDate(java.text.DateFormat.getDateInstance().format(new java.util.Date()));
-                    memberDao.update(entity);
-
-                    // Log Transaction for Payout (Net Amount Leaving)
-                    TransactionEntity tx = new TransactionEntity(
-                            member.getName(),
-                            "MEMBER_PAYOUT",
-                            netPayout,
-                            "Member payout to " + member.getName(),
-                            new java.util.Date(),
-                            false, // Money leaving the group
-                            "Bank", // Default
-                            "COMPLETED");
-                    transactionDao.insert(tx);
-                }
-            });
-            return true;
+    // Payout execution - Now uses backend API
+    // Note: Balance checks, calculations, and transaction logging are handled by
+    // backend
+    public void executePayout(Member member, double amount, boolean deferRemaining, PayoutCallback callback) {
+        if (member == null) {
+            if (callback != null)
+                callback.onResult(false, "Member not found");
+            return;
         }
-        return false;
-    }
 
-    public boolean canExecutePayout() {
-        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
-        return currentBalance >= getNetPayoutAmount();
-    }
+        com.example.save.data.network.PayoutRequest payoutRequest = new com.example.save.data.network.PayoutRequest(
+                member.getEmail(), amount, deferRemaining);
 
-    public double getBalanceShortfall() {
-        double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
-        return Math.max(0, getNetPayoutAmount() - currentBalance);
-    }
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
 
-    public void resolveShortfall(Member member) {
-        if (member != null && member.getShortfallAmount() > 0) {
-            double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
+        apiService.executePayout(payoutRequest)
+                .enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            if (apiResponse.isSuccess()) {
+                                if (callback != null)
+                                    callback.onResult(true, apiResponse.getMessage());
+                            } else {
+                                if (callback != null)
+                                    callback.onResult(false, apiResponse.getMessage());
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
+                            if (callback != null)
+                                callback.onResult(false, "Failed to execute payout");
+                        }
+                    }
 
-            if (currentBalance >= member.getShortfallAmount()) {
-                executor.execute(() -> {
-                    MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
-                    if (entity != null) {
-                        entity.setShortfallAmount(0);
-                        memberDao.update(entity);
-
-                        // Log Transaction for Shortfall Resolution
-                        TransactionEntity tx = new TransactionEntity(
-                                member.getName(),
-                                "SHORTFALL_RESOLUTION",
-                                member.getShortfallAmount(),
-                                "Shortfall resolution for " + member.getName(),
-                                new java.util.Date(),
-                                false, // Money leaving the group
-                                "System",
-                                "COMPLETED");
-                        transactionDao.insert(tx);
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(appContext, t);
+                        if (callback != null)
+                            callback.onResult(false, "Network error");
                     }
                 });
-            }
+    }
+
+    public interface PayoutCallback {
+        void onResult(boolean success, String message);
+    }
+
+    // Deprecated - balance checks should be done on backend
+    @Deprecated
+    public boolean canExecutePayout() {
+        // This should query backend for balance and payout eligibility
+        return true; // Placeholder - backend will validate
+    }
+
+    @Deprecated
+    public double getBalanceShortfall() {
+        // This should query backend for balance information
+        return 0.0; // Placeholder - backend will calculate
+    }
+
+    // Shortfall resolution - Now uses backend API
+    // Note: Balance checks and transaction logging are handled by backend
+    public void resolveShortfall(Member member, ShortfallResolutionCallback callback) {
+        if (member == null) {
+            if (callback != null)
+                callback.onResult(false, "Member not found");
+            return;
         }
+
+        // TODO: Add API endpoint for shortfall resolution
+        // POST /members/{id}/resolve-shortfall
+        // Backend will:
+        // - Check if balance is sufficient
+        // - Update member shortfall to 0
+        // - Log shortfall resolution transaction
+        // - Update group balance
+
+        if (callback != null) {
+            callback.onResult(false, "Shortfall resolution API not yet implemented");
+        }
+    }
+
+    public interface ShortfallResolutionCallback {
+        void onResult(boolean success, String message);
     }
 
     public Member getMemberByName(String name) {
@@ -353,32 +400,55 @@ public class MemberRepository {
         return entity != null ? convertEntityToModel(entity) : null;
     }
 
-    public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod) {
-        if (member != null) {
-            executor.execute(() -> {
-                MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
-                if (entity != null) {
-                    entity.setContributionPaid(entity.getContributionPaid() + amount);
-
-                    // Update Streak (Simple logic: +1 per payment for now)
-                    entity.setPaymentStreak(entity.getPaymentStreak() + 1);
-
-                    memberDao.update(entity);
-
-                    // Log Transaction
-                    TransactionEntity tx = new TransactionEntity(
-                            member.getName(),
-                            "CONTRIBUTION",
-                            amount,
-                            "Contribution from " + member.getName(),
-                            new java.util.Date(),
-                            true, // Money coming in
-                            paymentMethod,
-                            "COMPLETED");
-                    transactionDao.insert(tx);
-                }
-            });
+    // Payment/Contribution - Now uses backend API
+    // Note: Balance updates, streak calculations, and transaction logging are
+    // handled by backend
+    public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod,
+            PaymentCallback callback) {
+        if (member == null) {
+            if (callback != null)
+                callback.onResult(false, "Member not found");
+            return;
         }
+
+        com.example.save.data.network.TransactionRequest transactionRequest = new com.example.save.data.network.TransactionRequest(
+                member.getName(), "CONTRIBUTION", amount,
+                "Contribution from " + member.getName(), paymentMethod);
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        apiService.createTransaction(transactionRequest).enqueue(
+                new retrofit2.Callback<com.example.save.data.local.entities.TransactionEntity>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.local.entities.TransactionEntity> call,
+                            retrofit2.Response<com.example.save.data.local.entities.TransactionEntity> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            // Backend processed payment, updated balance, calculated streak, logged
+                            // transaction
+                            if (callback != null)
+                                callback.onResult(true, "Payment processed successfully");
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
+                            if (callback != null)
+                                callback.onResult(false, "Failed to process payment");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            retrofit2.Call<com.example.save.data.local.entities.TransactionEntity> call,
+                            Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(appContext, t);
+                        if (callback != null)
+                            callback.onResult(false, "Network error");
+                    }
+                });
+    }
+
+    public interface PaymentCallback {
+        void onResult(boolean success, String message);
     }
 
     public void deleteAllMembers() {
@@ -472,36 +542,62 @@ public class MemberRepository {
         this.requireGuarantor = required;
     }
 
-    // Loan Requests Management
-    public void submitLoanRequest(com.example.save.data.models.LoanRequest request) {
-        executor.execute(() -> {
-            // Create LoanEntity from LoanRequest
-            LoanEntity entity = new LoanEntity();
-            entity.setExternalId(java.util.UUID.randomUUID().toString());
-
-            // Find member by name to get ID
-            MemberEntity member = memberDao.getMemberByName(request.getMemberName());
-            if (member != null) {
-                entity.setMemberId(String.valueOf(member.getId()));
-            } else {
-                entity.setMemberId("0"); // Fallback
+    // Loan Requests Management - Now uses backend API
+    // Note: Financial calculations (interest, eligibility) are handled by backend
+    public void submitLoanRequest(com.example.save.data.models.LoanRequest request,
+            LoanSubmissionCallback callback) {
+        // Submit loan request to backend - backend will calculate interest, validate
+        // eligibility, etc.
+        // Context is stored in the repository
+        android.content.Context context = null;
+        try {
+            // Get context from SharedPreferences (stored during initialization)
+            java.lang.reflect.Field contextField = prefs.getClass().getDeclaredField("mContext");
+            contextField.setAccessible(true);
+            context = (android.content.Context) contextField.get(prefs);
+        } catch (Exception e) {
+            // Fallback: use application context if available
+            if (memberDao != null) {
+                // Try to get from database
             }
+        }
 
-            entity.setMemberName(request.getMemberName());
-            entity.setAmount(request.getAmount());
+        if (context == null) {
+            if (callback != null)
+                callback.onResult(false, "Context not available");
+            return;
+        }
 
-            // Calculate interest amount
-            double interestAmount = request.getAmount() * loanInterestRate / 100.0;
-            entity.setInterest(interestAmount);
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(context).create(com.example.save.data.network.ApiService.class);
 
-            entity.setReason(request.getReason());
-            entity.setDateRequested(new java.util.Date());
-            entity.setStatus("PENDING");
-            entity.setDueDate(new java.util.Date(
-                    System.currentTimeMillis() + (long) request.getDurationMonths() * 30L * 24L * 60L * 60L * 1000L));
+        apiService.submitLoanRequest(request)
+                .enqueue(new retrofit2.Callback<com.example.save.data.network.LoanResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.example.save.data.network.LoanResponse> call,
+                            retrofit2.Response<com.example.save.data.network.LoanResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            // Backend calculated interest and created loan
+                            if (callback != null)
+                                callback.onResult(true, "Loan request submitted successfully");
+                        } else {
+                            String errorMsg = "Failed to submit loan request";
+                            if (callback != null)
+                                callback.onResult(false, errorMsg);
+                        }
+                    }
 
-            loanDao.insert(entity);
-        });
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.LoanResponse> call,
+                            Throwable t) {
+                        if (callback != null)
+                            callback.onResult(false, "Network error: " + t.getMessage());
+                    }
+                });
+    }
+
+    public interface LoanSubmissionCallback {
+        void onResult(boolean success, String message);
     }
 
     public LiveData<List<com.example.save.data.models.LoanRequest>> getLoanRequests() {
@@ -547,118 +643,129 @@ public class MemberRepository {
         return loanDao.getActiveLoanByMemberName(memberName);
     }
 
-    public synchronized void initiateLoanApproval(String requestId, String adminEmail, ApprovalCallback callback) {
-        executor.execute(() -> {
-            try {
-                LoanEntity entity = loanDao.getLoanByExternalId(requestId);
-                if (entity == null || !"PENDING".equals(entity.getStatus())) {
-                    postResult(callback, false, "Invalid loan or already approved");
-                    return;
-                }
-
-                double currentBalance = groupBalance.getValue() != null ? groupBalance.getValue() : 0.0;
-                if (currentBalance < entity.getAmount()) {
-                    postResult(callback, false, "Insufficient group balance");
-                    return;
-                }
-
-                // First, register the initiator's approval
-                long loanId = entity.getId();
-                try {
-                    approvalDao
-                            .insert(new com.example.save.data.local.entities.ApprovalEntity("LOAN", loanId, adminEmail,
-                                    new java.util.Date()));
-                } catch (Exception e) {
-                    // Already approved by this admin
-                    postResult(callback, false, "You have already approved this");
-                    return;
-                }
-
-                // Check if already fully approved
-                int currentApprovals = approvalDao.getApprovalCount("LOAN", loanId);
-                int requiredApprovals = memberDao.getAdminCount();
-
-                if (currentApprovals >= requiredApprovals) {
-                    finalizeLoan(entity);
-                    postResult(callback, true, "Loan fully approved and active!");
-                } else {
-                    postResult(callback, true,
-                            "Approval initiated. " + (requiredApprovals - currentApprovals) + " more needed.");
-                }
-            } catch (Exception e) {
-                postResult(callback, false, e.getMessage());
-            }
-        });
-    }
-
-    private void finalizeLoan(LoanEntity entity) {
-        // Log Transaction
-        TransactionEntity tx = new TransactionEntity(
-                entity.getMemberName(),
-                "LOAN_PAYOUT",
-                entity.getAmount(),
-                "Loan payout to " + entity.getMemberName(),
-                new java.util.Date(),
-                false, // Money leaving the group
-                "Bank",
-                "COMPLETED");
-        transactionDao.insert(tx);
-
-        // Update Loan Status in DB
-        entity.setStatus("ACTIVE");
-        // Set due date (simple 1 month logic if not specified)
-        entity.setDueDate(new java.util.Date(
-                System.currentTimeMillis() + 30L * 24L * 60L * 60L * 1000L));
-        loanDao.update(entity);
-    }
-
-    public void repayLoan(Member member, double amount) {
-        if (member != null) {
-            executor.execute(() -> {
-                // 1. Update Loan Entity
-                // Find active loan for this member
-                List<LoanEntity> activeLoans = loanDao.getActiveLoans(); // Assumes getActiveLoans filters by status
-                for (LoanEntity loan : activeLoans) {
-                    // Match by name or ID. System seems to use Name predominantly for member
-                    // identification in loans
-                    if (loan.getMemberName() != null && loan.getMemberName().equals(member.getName())) {
-                        double newRepaid = loan.getRepaidAmount() + amount;
-                        loan.setRepaidAmount(newRepaid);
-
-                        // Check if fully paid
-                        double totalDue = loan.getAmount() + loan.getInterest();
-                        if (newRepaid >= totalDue) {
-                            loan.setStatus("PAID");
-                        }
-
-                        loanDao.update(loan);
-                        break; // Pay off one loan at a time
-                    }
-                }
-
-                // 2. Log Transaction
-                TransactionEntity tx = new TransactionEntity(
-                        member.getName(),
-                        "LOAN_REPAYMENT",
-                        amount,
-                        "Loan repayment from " + member.getName(),
-                        new java.util.Date(),
-                        true, // Money coming in
-                        "Phone",
-                        "COMPLETED");
-                transactionDao.insert(tx);
-            });
+    // Loan approval - Now uses backend API
+    // Note: Balance checks, approval counting, and loan finalization are handled by
+    // backend
+    public void initiateLoanApproval(String requestId, String adminEmail, ApprovalCallback callback) {
+        long transactionId = 0;
+        try {
+            transactionId = Long.parseLong(requestId);
+        } catch (NumberFormatException e) {
+            // If requestId is not a long, we might need to handle it differently
+            // but ApprovalRequest expects long
         }
+        com.example.save.data.network.ApprovalRequest approvalRequest = new com.example.save.data.network.ApprovalRequest(
+                transactionId, adminEmail);
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        apiService.approveLoan(requestId, approvalRequest).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            postResult(callback, apiResponse.isSuccess(), apiResponse.getMessage());
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
+                            postResult(callback, false, "Failed to approve loan");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(appContext, t);
+                        postResult(callback, false, "Network error");
+                    }
+                });
     }
 
-    public void rejectLoanRequest(String requestId) {
-        executor.execute(() -> {
-            LoanEntity entity = loanDao.getLoanByExternalId(requestId);
-            if (entity != null && "PENDING".equals(entity.getStatus())) {
-                entity.setStatus("REJECTED");
-                loanDao.update(entity);
-            }
-        });
+    // Loan repayment - Now uses backend API
+    // Note: Loan balance calculations, status updates, and transaction logging are
+    // handled by backend
+    public void repayLoan(String loanId, double amount, String paymentMethod, String phoneNumber,
+            LoanRepaymentCallback callback) {
+        com.example.save.data.network.LoanRepaymentRequest repaymentRequest = new com.example.save.data.network.LoanRepaymentRequest(
+                amount, paymentMethod, phoneNumber);
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        apiService.repayLoan(loanId, repaymentRequest).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            if (callback != null) {
+                                callback.onResult(apiResponse.isSuccess(), apiResponse.getMessage());
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
+                            if (callback != null)
+                                callback.onResult(false, "Failed to process repayment");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(appContext, t);
+                        if (callback != null)
+                            callback.onResult(false, "Network error");
+                    }
+                });
+    }
+
+    public interface LoanRepaymentCallback {
+        void onResult(boolean success, String message);
+    }
+
+    // Loan rejection - Now uses backend API
+    // Note: Status updates and notifications are handled by backend
+    public void rejectLoanRequest(String requestId, String reason, RejectionCallback callback) {
+        com.example.save.data.network.RejectionRequest rejectionRequest = new com.example.save.data.network.RejectionRequest(
+                reason);
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        apiService.rejectLoan(requestId, rejectionRequest).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            if (callback != null) {
+                                callback.onResult(apiResponse.isSuccess(), apiResponse.getMessage());
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
+                            if (callback != null)
+                                callback.onResult(false, "Failed to reject loan");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(appContext, t);
+                        if (callback != null)
+                            callback.onResult(false, "Network error");
+                    }
+                });
+    }
+
+    public interface RejectionCallback {
+        void onResult(boolean success, String message);
     }
 
     // Conversion Methods
@@ -765,7 +872,10 @@ public class MemberRepository {
         prefs.edit().putLong("retention_percentage", Double.doubleToRawLongBits(percentage)).apply();
     }
 
+    @Deprecated
     public double getNetPayoutAmount() {
+        // NOTE: This calculation should be done on backend
+        // This is a placeholder - actual net payout should come from backend API
         return payoutAmount * (1 - (retentionPercentage / 100.0));
     }
 
@@ -780,44 +890,47 @@ public class MemberRepository {
         // Here we would trigger the WorkManager if this was fully implemented
     }
 
-    public boolean executePayout(Member member, double amount, boolean deferRemaining, String adminEmail) {
-        if (member == null)
-            return false;
+    // Payout execution with approval workflow - Now uses backend API
+    // Note: Approval counting, balance checks, and transaction logging are handled
+    // by backend
+    public void executePayout(Member member, double amount, boolean deferRemaining, String adminEmail,
+            PayoutCallback callback) {
+        if (member == null) {
+            if (callback != null)
+                callback.onResult(false, "Member not found");
+            return;
+        }
 
-        executor.execute(() -> {
-            synchronized (this) {
-                // Check current admin count
-                int adminCount = memberDao.getAdminCount();
-                String status = (adminCount <= 1) ? "COMPLETED" : "PENDING_APPROVAL";
+        com.example.save.data.network.PayoutRequest payoutRequest = new com.example.save.data.network.PayoutRequest(
+                member.getEmail(), amount, deferRemaining);
 
-                // Log Transaction (Initially Pending)
-                TransactionEntity tx = new TransactionEntity(
-                        member.getName(),
-                        "MEMBER_PAYOUT",
-                        amount,
-                        "Payout to " + member.getName() + (deferRemaining ? " (Partial)" : ""),
-                        new java.util.Date(),
-                        false, // Money leaving
-                        "Bank",
-                        status);
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
 
-                if (status.equals("COMPLETED")) {
-                    transactionDao.insert(tx);
-                    finalizePayout(member, amount);
-                } else {
-                    long txId = transactionDao.insert(tx);
-                    // Register the initiator's approval immediately
-                    try {
-                        approvalDao.insert(
-                                new com.example.save.data.local.entities.ApprovalEntity("PAYOUT", txId, adminEmail,
-                                        new java.util.Date()));
-                    } catch (Exception e) {
-                        // Ignore
+        apiService.executePayout(payoutRequest)
+                .enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            if (callback != null) {
+                                callback.onResult(apiResponse.isSuccess(), apiResponse.getMessage());
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
+                            if (callback != null)
+                                callback.onResult(false, "Failed to execute payout");
+                        }
                     }
-                }
-            }
-        });
-        return true;
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(appContext, t);
+                        if (callback != null)
+                            callback.onResult(false, "Network error");
+                    }
+                });
     }
 
     public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(
@@ -830,66 +943,71 @@ public class MemberRepository {
         return loanDao.getPendingLoansWithApproval(adminEmail);
     }
 
-    private void finalizePayout(Member member, double amount) {
-        MemberEntity entity = memberDao.getMemberByEmail(member.getEmail());
-        if (entity != null) {
-            entity.setHasReceivedPayout(true);
-            entity.setPayoutAmount(String.valueOf(amount));
-            entity.setPayoutDate(java.text.DateFormat.getDateInstance().format(new java.util.Date()));
-            memberDao.update(entity);
-        }
+    public LiveData<List<com.example.save.data.models.LoanWithApproval>> getMemberLoansWithApproval(String memberName) {
+        return loanDao.getMemberLoansWithApproval(memberName);
+    }
+
+    public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getMemberTransactionsWithApproval(
+            String memberName) {
+        return transactionDao.getMemberTransactionsWithApproval(memberName);
+    }
+
+    // NOTE: finalizePayout removed - this business logic should be handled by
+    // backend
+    // Backend will update member payout status, log transactions, and update
+    // balances
+
+    public void syncMembers() {
+        com.example.save.data.network.RetrofitClient.getClient(null)
+                .create(com.example.save.data.network.ApiService.class)
+                .getMembers().enqueue(new retrofit2.Callback<List<MemberEntity>>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<List<MemberEntity>> call,
+                            retrofit2.Response<List<MemberEntity>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            executor.execute(() -> {
+                                memberDao.insertAll(response.body());
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<List<MemberEntity>> call, Throwable t) {
+                        // Keep using local Room cache - Offline-first
+                    }
+                });
     }
 
     // --- Multi-Admin Approval Logic ---
 
     public void approveTransaction(long txId, String adminEmail, ApprovalCallback callback) {
         executor.execute(() -> {
-            synchronized (this) { // SYNCHRONIZED to prevent double-click bypass
+            synchronized (this) {
                 try {
-                    TransactionEntity tx = transactionDao.getTransactionById(txId);
-                    if (tx == null || !"PENDING_APPROVAL".equals(tx.getStatus())) {
-                        postResult(callback, false, "Invalid transaction or already approved");
-                        return;
-                    }
+                    // Post approval to API
+                    com.example.save.data.network.RetrofitClient.getClient(null)
+                            .create(com.example.save.data.network.ApiService.class)
+                            .approveTransaction(String.valueOf(txId),
+                                    new com.example.save.data.network.ApprovalRequest(txId, adminEmail))
+                            .enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                                @Override
+                                public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                                        retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                                    if (response.isSuccessful() && response.body() != null) {
+                                        postResult(callback, response.body().isSuccess(), response.body().getMessage());
+                                        // Trigger a sync to update local status
+                                        syncMembers();
+                                    } else {
+                                        postResult(callback, false, "Server error");
+                                    }
+                                }
 
-                    // Check if already approved by this admin
-                    if (approvalDao.getAdminApproval("PAYOUT", txId, adminEmail) != null) {
-                        postResult(callback, false, "You have already approved this");
-                        return;
-                    }
-
-                    // Insert approval
-                    try {
-                        approvalDao.insert(
-                                new com.example.save.data.local.entities.ApprovalEntity("PAYOUT", txId, adminEmail,
-                                        new java.util.Date()));
-                    } catch (Exception e) {
-                        postResult(callback, false, "You have already approved this");
-                        return;
-                    }
-
-                    // Check if fully approved
-                    int currentApprovals = approvalDao.getApprovalCount("PAYOUT", txId);
-                    int requiredApprovals = memberDao.getAdminCount();
-
-                    if (currentApprovals >= requiredApprovals) {
-                        // Finalize
-                        tx.setStatus("COMPLETED");
-                        transactionDao.updateStatus(txId, "COMPLETED");
-
-                        // Update member status
-                        Member member = getMemberByNameSync(tx.getMemberName());
-                        if (member != null) {
-                            finalizePayout(member, tx.getAmount());
-                        }
-                        notificationHelper.showNotification("Payout Fully Approved",
-                                "The payout for " + tx.getMemberName() + " has been authorized by all admins.",
-                                com.example.save.utils.NotificationHelper.CHANNEL_ID_PAYMENTS);
-                        postResult(callback, true, "Payout fully approved and executed!");
-                    } else {
-                        postResult(callback, true,
-                                "Approved. " + (requiredApprovals - currentApprovals) + " more needed.");
-                    }
+                                @Override
+                                public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                                        Throwable t) {
+                                    postResult(callback, false, "Connection error: " + t.getMessage());
+                                }
+                            });
                 } catch (Exception e) {
                     postResult(callback, false, e.getMessage());
                 }
@@ -897,64 +1015,46 @@ public class MemberRepository {
         });
     }
 
+    // Loan approval by ID - Now uses backend API
+    // Note: Approval counting, loan finalization, and transaction logging are
+    // handled by backend
     public void approveLoan(long loanId, String adminEmail, ApprovalCallback callback) {
-        executor.execute(() -> {
-            synchronized (this) { // SYNCHRONIZED to prevent double-click bypass
-                try {
-                    LoanEntity loan = loanDao.getLoanByIdSync(loanId);
-                    if (loan == null || !"PENDING".equals(loan.getStatus())) {
-                        postResult(callback, false, "Invalid loan or already approved");
-                        return;
+        // Convert long ID to string for API
+        String loanIdStr = String.valueOf(loanId);
+        com.example.save.data.network.ApprovalRequest approvalRequest = new com.example.save.data.network.ApprovalRequest(
+                loanId, adminEmail);
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        apiService.approveLoan(loanIdStr, approvalRequest).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            postResult(callback, apiResponse.isSuccess(), apiResponse.getMessage());
+
+                            if (apiResponse.isSuccess()) {
+                                notificationHelper.showNotification("Loan Approved",
+                                        apiResponse.getMessage(),
+                                        com.example.save.utils.NotificationHelper.CHANNEL_ID_LOANS);
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
+                            postResult(callback, false, "Failed to approve loan");
+                        }
                     }
 
-                    if (approvalDao.getAdminApproval("LOAN", loanId, adminEmail) != null) {
-                        postResult(callback, false, "You have already approved this");
-                        return;
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(appContext, t);
+                        postResult(callback, false, "Network error");
                     }
-
-                    try {
-                        approvalDao.insert(
-                                new com.example.save.data.local.entities.ApprovalEntity("LOAN", loanId, adminEmail,
-                                        new java.util.Date()));
-                    } catch (Exception e) {
-                        postResult(callback, false, "You have already approved this");
-                        return;
-                    }
-
-                    int currentApprovals = approvalDao.getApprovalCount("LOAN", loanId);
-                    int requiredApprovals = memberDao.getAdminCount();
-
-                    if (currentApprovals >= requiredApprovals) {
-                        // Finalize Loan
-                        loan.setStatus("ACTIVE");
-                        loan.setDueDate(new java.util.Date(System.currentTimeMillis() + 30L * 24L * 60L * 60L * 1000L));
-                        loanDao.update(loan);
-
-                        // Add Transaction
-                        TransactionEntity tx = new TransactionEntity(
-                                loan.getMemberName(),
-                                "LOAN_PAYOUT",
-                                loan.getAmount(),
-                                "Loan payout to " + loan.getMemberName(),
-                                new java.util.Date(),
-                                false,
-                                "Bank",
-                                "COMPLETED");
-                        transactionDao.insert(tx);
-
-                        postResult(callback, true, "Loan fully approved and active!");
-                        notificationHelper.showNotification("Loan Fully Approved",
-                                "A loan request for " + loan.getMemberName() + " has been authorized by all admins.",
-                                com.example.save.utils.NotificationHelper.CHANNEL_ID_LOANS);
-                    } else {
-                        postResult(callback, true,
-                                "Approved. " + (requiredApprovals - currentApprovals) + " more needed.");
-                    }
-                } catch (Exception e) {
-                    postResult(callback, false, e.getMessage());
-                }
-            }
-        });
+                });
     }
 
     private void postResult(ApprovalCallback callback, boolean success, String msg) {

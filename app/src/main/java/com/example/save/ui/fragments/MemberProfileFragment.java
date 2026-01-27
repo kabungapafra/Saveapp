@@ -104,14 +104,12 @@ public class MemberProfileFragment extends Fragment {
         int streak = member.getPaymentStreak();
         binding.tvStreak.setText(String.valueOf(streak));
 
-        // Use real calculation from ViewModel
-        int score = viewModel.calculateCreditScore(member);
+        // Use backend credit score
+        int score = member.getCreditScore();
         binding.tvCreditScore.setText(String.valueOf(score));
 
-        // Reliability (Mock calc: streak / (streak + missed)?)
-        // Let's assume 98% base + small variance or perfect if streak high
-        int reliability = 90 + Math.min(10, streak);
-        binding.tvReliability.setText(reliability + "%");
+        // Reliability - Calculated asynchronously from transactions
+        binding.tvReliability.setText("...");
 
         // Badges
         List<Badge> badges = new ArrayList<>();
@@ -127,7 +125,11 @@ public class MemberProfileFragment extends Fragment {
         viewModel.getLatestMemberTransactions(memberName).observe(getViewLifecycleOwner(), entities -> {
             if (entities != null) {
                 List<Transaction> transactions = new ArrayList<>();
+                int successCount = 0;
+                int failCount = 0;
+
                 for (com.example.save.data.local.entities.TransactionEntity entity : entities) {
+                    // Adapt for UI
                     int iconRes = entity.isPositive() ? R.drawable.ic_money : R.drawable.ic_loan;
                     int color = entity.isPositive() ? 0xFF4CAF50 : 0xFFF44336;
 
@@ -139,7 +141,20 @@ public class MemberProfileFragment extends Fragment {
                             entity.isPositive(),
                             iconRes,
                             color));
+
+                    // Reliability Calculation
+                     if ("REJECTED".equalsIgnoreCase(entity.getStatus())) {
+                        failCount++;
+                    } else {
+                        successCount++;
+                    }
                 }
+                
+                // Calculate Reliability
+                int total = successCount + failCount;
+                int reliability = total > 0 ? (int) (((double) successCount / total) * 100) : 100;
+                binding.tvReliability.setText(reliability + "%");
+
                 TransactionAdapter adapter = new TransactionAdapter(transactions);
                 binding.rvTransactions.setAdapter(adapter);
             }

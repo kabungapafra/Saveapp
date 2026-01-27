@@ -101,72 +101,64 @@ public class MemberRegistrationActivity extends AppCompatActivity {
         binding.loginButton.setEnabled(false);
         binding.loginButton.setText("Signing in...");
 
-        // Background thread for database query
-        new Thread(() -> {
-            Member member = viewModel.getMemberByPhone(phone); // Auth by Phone
+        // Call backend API for authentication
+        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(
+                phone, password, groupName, "member");
 
-            runOnUiThread(() -> {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(this).create(com.example.save.data.network.ApiService.class);
+
+        apiService.login(loginRequest).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
+                    retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
                 binding.loginButton.setEnabled(true);
                 binding.loginButton.setText("Login");
 
-                // DEBUG: Log member details
-                if (member != null) {
-                    android.util.Log.d("MemberLogin", "Found member: " + member.getName() +
-                            ", Phone: " + member.getPhone() +
-                            ", Email: " + member.getEmail() +
-                            ", Password in DB: " + member.getPassword() +
-                            ", Entered password: " + password +
-                            ", isFirstLogin: " + member.isFirstLogin());
-                } else {
-                    android.util.Log.d("MemberLogin", "No member found for phone: " + phone);
-                }
-
-                if (member != null && member.getPassword().equals(password)) {
-                    // Check if this is first login with OTP
-                    if (member.isFirstLogin()) {
-                        // First login - must change password
+                if (response.isSuccessful() && response.body() != null) {
+                    com.example.save.data.network.LoginResponse loginResponse = response.body();
+                    
+                    // Verify user is not admin
+                    if ("Administrator".equalsIgnoreCase(loginResponse.getRole()) || 
+                        "Admin".equalsIgnoreCase(loginResponse.getRole())) {
                         Toast.makeText(MemberRegistrationActivity.this,
-                                "Welcome! Please create a new password", Toast.LENGTH_LONG).show();
-
-                        Intent intent = new Intent(MemberRegistrationActivity.this, ChangePasswordActivity.class);
-                        intent.putExtra("member_email", member.getEmail());
-                        intent.putExtra("member_name", member.getName());
-                        // First login - clear stack since this is mandatory password change
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        finish();
-                    } else {
-                        if (member.getRole().equalsIgnoreCase("Administrator") ||
-                                member.getRole().equalsIgnoreCase("Admin")) {
-                            Toast.makeText(MemberRegistrationActivity.this,
-                                    "Access Denied: Please use the Admin login portal.", Toast.LENGTH_LONG).show();
-                        } else {
-                            // Normal login - proceed to appropriate dashboard
-                            Toast.makeText(MemberRegistrationActivity.this, "Welcome " + member.getName(),
-                                    Toast.LENGTH_SHORT)
-                                    .show();
-
-                            // SAVE SESSION using SessionManager
-                            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
-                                    getApplicationContext());
-                            session.createLoginSession(member.getName(), member.getEmail(), member.getRole());
-
-                            Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
-                            intent.putExtra("member_email", member.getEmail());
-
-                            // Clear back stack
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                            finish();
-                        }
+                                "Access Denied: Please use the Admin login portal.", Toast.LENGTH_LONG).show();
+                        return;
                     }
+
+                    // Save session with JWT token
+                    com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                            getApplicationContext());
+                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), 
+                            loginResponse.getRole());
+                    
+                    if (loginResponse.getToken() != null) {
+                        session.saveJwtToken(loginResponse.getToken());
+                    }
+
+                    Toast.makeText(MemberRegistrationActivity.this, "Welcome " + loginResponse.getName(),
+                            Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
+                    intent.putExtra("member_email", loginResponse.getEmail());
+
+                    // Clear back stack
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
                 } else {
-                    Toast.makeText(MemberRegistrationActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                    com.example.save.utils.ApiErrorHandler.handleResponse(MemberRegistrationActivity.this, response);
                 }
-            });
-        }).start();
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
+                binding.loginButton.setEnabled(true);
+                binding.loginButton.setText("Login");
+                com.example.save.utils.ApiErrorHandler.handleError(MemberRegistrationActivity.this, t);
+            }
+        });
     }
 
     @Override

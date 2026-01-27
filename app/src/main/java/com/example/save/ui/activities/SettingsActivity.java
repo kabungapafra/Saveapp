@@ -6,6 +6,7 @@ import com.example.save.ui.adapters.*;
 import com.example.save.data.models.*;
 import com.example.save.data.repository.*;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -312,24 +313,49 @@ public class SettingsActivity extends AppCompatActivity {
             finishAffinity();
         });
 
-        // Listeners for clickable items (Toasts for now)
+        // Listeners for clickable items
         View.OnClickListener notImplementedListener = v -> Toast
                 .makeText(this, "Feature coming soon", Toast.LENGTH_SHORT).show();
 
-        binding.btnProfileInfo.setOnClickListener(notImplementedListener);
-        binding.btnChangePassword.setOnClickListener(notImplementedListener);
-        binding.btnLanguage.setOnClickListener(notImplementedListener);
+        binding.btnProfileInfo.setOnClickListener(v -> {
+            startActivity(new Intent(this, ProfileInfoActivity.class));
+        });
+        binding.btnChangePassword.setOnClickListener(v -> {
+             startActivity(new Intent(this, ChangePasswordActivity.class));
+        });
+        binding.btnLanguage.setOnClickListener(v -> {
+            startActivity(new Intent(this, LanguageSelectionActivity.class));
+        });
         binding.btnNotificationMethod.setOnClickListener(notImplementedListener);
         binding.btnAutoLock.setOnClickListener(notImplementedListener);
-        binding.btnDefaultPayment.setOnClickListener(notImplementedListener);
-        binding.btnGroupDetails.setOnClickListener(notImplementedListener);
-        binding.btnViewMembers.setOnClickListener(notImplementedListener);
-        binding.btnContactAdmin.setOnClickListener(notImplementedListener);
+        binding.btnDefaultPayment.setOnClickListener(v -> {
+            startActivity(new Intent(this, PaymentMethodSelectionActivity.class));
+        });
+        binding.btnGroupDetails.setOnClickListener(v -> {
+             // Navigate to AdminMain and show Members/Group info
+             Intent intent = new Intent(this, AdminMainActivity.class);
+             intent.putExtra("NAVIGATE_TO", "MEMBERS");
+             startActivity(intent);
+        });
+        binding.btnViewMembers.setOnClickListener(v -> {
+             Intent intent = new Intent(this, AdminMainActivity.class);
+             intent.putExtra("NAVIGATE_TO", "MEMBERS");
+             startActivity(intent);
+        });
+        binding.btnContactAdmin.setOnClickListener(v -> {
+            startActivity(new Intent(this, ContactAdminActivity.class));
+        });
         binding.btnDownloadData.setOnClickListener(notImplementedListener);
         binding.btnClearCache.setOnClickListener(v -> Toast.makeText(this, "Cache Cleared", Toast.LENGTH_SHORT).show());
-        binding.btnHelpSupport.setOnClickListener(notImplementedListener);
-        binding.btnTOS.setOnClickListener(notImplementedListener);
-        binding.btnPrivacyPolicy.setOnClickListener(notImplementedListener);
+        binding.btnHelpSupport.setOnClickListener(v -> {
+            startActivity(new Intent(this, HelpSupportActivity.class));
+        });
+        binding.btnTOS.setOnClickListener(v -> {
+            startActivity(new Intent(this, TermsOfServiceActivity.class));
+        });
+        binding.btnPrivacyPolicy.setOnClickListener(v -> {
+            startActivity(new Intent(this, PrivacyPolicyActivity.class));
+        });
         binding.btnRate
                 .setOnClickListener(v -> Toast.makeText(this, "Thank you for rating!", Toast.LENGTH_SHORT).show());
         binding.btnShare.setOnClickListener(v -> Toast.makeText(this, "Sharing...", Toast.LENGTH_SHORT).show());

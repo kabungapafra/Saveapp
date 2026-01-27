@@ -139,17 +139,46 @@ public class NewPasswordFragment extends Fragment {
         binding.verifyButton.setText("Sending...");
         binding.loadingIndicator.setVisibility(View.VISIBLE);
 
-        // TODO: Call backend API
-        // POST /auth/forgot-password
-        // Body: { "email": email }
+        // Call backend API to send password reset OTP
+        com.example.save.data.network.ForgotPasswordRequest request = new com.example.save.data.network.ForgotPasswordRequest(
+                email);
 
-        // Simulate sending OTP
-        new Handler().postDelayed(() -> {
-            binding.loadingIndicator.setVisibility(View.GONE);
-            binding.verifyButton.setEnabled(true);
-            Toast.makeText(getContext(), "OTP sent to " + email, Toast.LENGTH_SHORT).show();
-            showOtpStep();
-        }, 1500);
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(requireContext()).create(com.example.save.data.network.ApiService.class);
+
+        apiService.forgotPassword(request).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        binding.loadingIndicator.setVisibility(View.GONE);
+                        binding.verifyButton.setEnabled(true);
+
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            if (apiResponse.isSuccess()) {
+                                Toast.makeText(getContext(), "OTP sent to " + email, Toast.LENGTH_SHORT).show();
+                                showOtpStep();
+                            } else {
+                                Toast.makeText(getContext(),
+                                        apiResponse.getMessage() != null ? apiResponse.getMessage()
+                                                : "Failed to send OTP",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(requireContext(), response);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            Throwable t) {
+                        binding.loadingIndicator.setVisibility(View.GONE);
+                        binding.verifyButton.setEnabled(true);
+                        com.example.save.utils.ApiErrorHandler.handleError(requireContext(), t);
+                    }
+                });
     }
 
     // ========== STEP 2: OTP VERIFICATION ==========
@@ -159,7 +188,7 @@ public class NewPasswordFragment extends Fragment {
 
         // Update title and subtitle
         binding.emailTitle.setText("Verify OTP");
-        binding.otpSubtitle.setText("Enter the 4-digit code sent to");
+        binding.otpSubtitle.setText("Enter the 6-digit code sent to");
 
         // Hide email input
         binding.emailInputLayout.setVisibility(View.GONE);
@@ -188,11 +217,15 @@ public class NewPasswordFragment extends Fragment {
         binding.otpDigit1.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit1, binding.otpDigit2));
         binding.otpDigit2.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit2, binding.otpDigit3));
         binding.otpDigit3.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit3, binding.otpDigit4));
-        binding.otpDigit4.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit4, null));
+        binding.otpDigit4.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit4, binding.otpDigit5));
+        binding.otpDigit5.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit5, binding.otpDigit6));
+        binding.otpDigit6.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit6, null));
 
         OtpUtils.setupBackspaceHandler(binding.otpDigit2, binding.otpDigit1);
         OtpUtils.setupBackspaceHandler(binding.otpDigit3, binding.otpDigit2);
         OtpUtils.setupBackspaceHandler(binding.otpDigit4, binding.otpDigit3);
+        OtpUtils.setupBackspaceHandler(binding.otpDigit5, binding.otpDigit4);
+        OtpUtils.setupBackspaceHandler(binding.otpDigit6, binding.otpDigit5);
     }
 
     private void startResendTimer() {
@@ -221,10 +254,12 @@ public class NewPasswordFragment extends Fragment {
         String otp = binding.otpDigit1.getText().toString() +
                 binding.otpDigit2.getText().toString() +
                 binding.otpDigit3.getText().toString() +
-                binding.otpDigit4.getText().toString();
+                binding.otpDigit4.getText().toString() +
+                binding.otpDigit5.getText().toString() +
+                binding.otpDigit6.getText().toString();
 
-        if (otp.length() != 4) {
-            binding.errorMessage.setText("Please enter complete 4-digit OTP");
+        if (otp.length() != 6) {
+            binding.errorMessage.setText("Please enter complete 6-digit OTP");
             binding.errorMessage.setVisibility(View.VISIBLE);
             return;
         }
@@ -234,52 +269,109 @@ public class NewPasswordFragment extends Fragment {
         binding.verifyButton.setText("Verifying...");
         binding.loadingIndicator.setVisibility(View.VISIBLE);
 
-        // TODO: Call backend API
-        // POST /auth/verify-reset-otp
-        // Body: { "email": userEmail, "otp": otp }
+        // Call backend API to verify reset OTP
+        com.example.save.data.network.OtpVerificationRequest request = new com.example.save.data.network.OtpVerificationRequest(
+                userEmail, otp);
 
-        // Simulate verification
-        new Handler().postDelayed(() -> {
-            binding.loadingIndicator.setVisibility(View.GONE);
-            binding.verifyButton.setEnabled(true);
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(requireContext()).create(com.example.save.data.network.ApiService.class);
 
-            if (otp.equals("1234")) { // For testing
-                Toast.makeText(getContext(), "OTP verified! Redirecting to reset password...", Toast.LENGTH_SHORT)
-                        .show();
+        apiService.verifyResetOtp(request).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        binding.loadingIndicator.setVisibility(View.GONE);
+                        binding.verifyButton.setEnabled(true);
 
-                // Navigate to ResetPasswordActivity to set new password
-                Intent intent = new Intent(getActivity(), ResetPasswordActivity.class);
-                intent.putExtra("email", userEmail);
-                intent.putExtra("verified", true);
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            if (apiResponse.isSuccess()) {
+                                Toast.makeText(getContext(), "OTP verified! Redirecting to reset password...",
+                                        Toast.LENGTH_SHORT).show();
 
-                // Pass the source activity code so we know where to return
-                if (getActivity() != null) {
-                    intent.putExtra("sourceActivity", getActivity().getClass().getSimpleName());
-                }
+                                // Navigate to ResetPasswordActivity to set new password
+                                Intent intent = new Intent(getActivity(), ResetPasswordActivity.class);
+                                intent.putExtra("email", userEmail);
+                                intent.putExtra("verified", true);
+                                intent.putExtra("otp", otp); // Pass OTP for password reset
 
-                startActivity(intent);
+                                if (getActivity() != null) {
+                                    intent.putExtra("sourceActivity", getActivity().getClass().getSimpleName());
+                                }
 
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
-            } else {
-                binding.errorMessage.setText("Invalid OTP. Please try again.");
-                binding.errorMessage.setVisibility(View.VISIBLE);
-                clearOtpFields();
-            }
-        }, 2000);
+                                startActivity(intent);
+
+                                if (getActivity() != null) {
+                                    getActivity().finish();
+                                }
+                            } else {
+                                binding.errorMessage.setText(
+                                        apiResponse.getMessage() != null ? apiResponse.getMessage()
+                                                : "Invalid OTP. Please try again.");
+                                binding.errorMessage.setVisibility(View.VISIBLE);
+                                clearOtpFields();
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(requireContext(), response);
+                            binding.errorMessage.setText("OTP verification failed. Please try again.");
+                            binding.errorMessage.setVisibility(View.VISIBLE);
+                            clearOtpFields();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            Throwable t) {
+                        binding.loadingIndicator.setVisibility(View.GONE);
+                        binding.verifyButton.setEnabled(true);
+                        com.example.save.utils.ApiErrorHandler.handleError(requireContext(), t);
+                        binding.errorMessage.setText("Network error. Please try again.");
+                        binding.errorMessage.setVisibility(View.VISIBLE);
+                    }
+                });
     }
 
     private void resendOtpCode() {
         Toast.makeText(getContext(), "Resending OTP...", Toast.LENGTH_SHORT).show();
 
-        // TODO: Call backend API
-        // POST /auth/resend-reset-otp
-        // Body: { "email": userEmail }
+        // Call backend API to resend reset OTP
+        com.example.save.data.network.ForgotPasswordRequest request = new com.example.save.data.network.ForgotPasswordRequest(
+                userEmail);
 
-        startResendTimer();
-        clearOtpFields();
-        Toast.makeText(getContext(), "OTP sent to " + userEmail, Toast.LENGTH_SHORT).show();
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(requireContext()).create(com.example.save.data.network.ApiService.class);
+
+        apiService.resendResetOtp(request).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            if (apiResponse.isSuccess()) {
+                                Toast.makeText(getContext(), "OTP sent to " + userEmail, Toast.LENGTH_SHORT).show();
+                                startResendTimer();
+                                clearOtpFields();
+                            } else {
+                                Toast.makeText(getContext(),
+                                        apiResponse.getMessage() != null ? apiResponse.getMessage()
+                                                : "Failed to resend OTP",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(requireContext(), response);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(requireContext(), t);
+                    }
+                });
     }
 
     private void clearOtpFields() {
@@ -287,6 +379,8 @@ public class NewPasswordFragment extends Fragment {
         binding.otpDigit2.setText("");
         binding.otpDigit3.setText("");
         binding.otpDigit4.setText("");
+        binding.otpDigit5.setText("");
+        binding.otpDigit6.setText("");
         binding.otpDigit1.requestFocus();
     }
 

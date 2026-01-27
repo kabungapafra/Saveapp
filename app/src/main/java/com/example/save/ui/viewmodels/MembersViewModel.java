@@ -89,8 +89,10 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getMemberByNameSync(identifier);
     }
 
-    public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod) {
-        repository.makePayment(member, amount, phoneNumber, paymentMethod);
+    // Payment/Contribution - Now uses backend API with callback
+    public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod,
+            MemberRepository.PaymentCallback callback) {
+        repository.makePayment(member, amount, phoneNumber, paymentMethod, callback);
     }
 
     public double getContributionTarget() {
@@ -127,9 +129,10 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getTotalMemberCountSync();
     }
 
-    // Loan Requests
-    public void submitLoanRequest(com.example.save.data.models.LoanRequest request) {
-        repository.submitLoanRequest(request);
+    // Loan Requests - Now uses backend API with callback
+    public void submitLoanRequest(com.example.save.data.models.LoanRequest request,
+            MemberRepository.LoanSubmissionCallback callback) {
+        repository.submitLoanRequest(request, callback);
     }
 
     public LiveData<List<com.example.save.data.models.LoanRequest>> getLoanRequests() {
@@ -148,19 +151,26 @@ public class MembersViewModel extends AndroidViewModel {
         repository.initiateLoanApproval(requestId, adminEmail, callback);
     }
 
-    public void rejectLoanRequest(String requestId) {
-        repository.rejectLoanRequest(requestId);
+    // Loan rejection - Now uses backend API with callback
+    public void rejectLoanRequest(String requestId, String reason, MemberRepository.RejectionCallback callback) {
+        repository.rejectLoanRequest(requestId, reason, callback);
     }
 
-    public void repayLoan(Member member, double amount) {
-        repository.repayLoan(member, amount);
+    // Loan repayment - Now uses backend API with callback
+    // Note: Requires loanId, paymentMethod, and phoneNumber - these should be
+    // provided by UI
+    public void repayLoan(String loanId, double amount, String paymentMethod, String phoneNumber,
+            MemberRepository.LoanRepaymentCallback callback) {
+        repository.repayLoan(loanId, amount, paymentMethod, phoneNumber, callback);
     }
 
     /**
-     * Change password after first OTP login
+     * Change password - Now uses backend API
+     * NOTE: Password hashing is done on backend
      */
-    public void changePassword(Member member, String newPassword) {
-        repository.changePassword(member, newPassword);
+    public void changePassword(String email, String currentPassword, String newPassword,
+            MemberRepository.PasswordChangeCallback callback) {
+        repository.changePassword(email, currentPassword, newPassword, callback);
     }
 
     public void enableAutoPay(Member member, double amount, int day) {
@@ -174,6 +184,11 @@ public class MembersViewModel extends AndroidViewModel {
     public LiveData<List<com.example.save.data.local.entities.TransactionEntity>> getLatestMemberTransactions(
             String memberName) {
         return repository.getLatestMemberTransactions(memberName);
+    }
+
+    public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getMemberTransactionsWithApproval(
+            String memberName) {
+        return repository.getMemberTransactionsWithApproval(memberName);
     }
 
     // Payout Configuration
@@ -240,33 +255,20 @@ public class MembersViewModel extends AndroidViewModel {
     }
 
     // Advanced Features
+    @Deprecated
     public double getLoanEligibility(Member member) {
+        // NOTE: Loan eligibility calculation should be done on backend
+        // Backend will consider: savings amount, existing loans, payment history, etc.
+        // This is a placeholder - actual eligibility should come from backend API
         if (member == null)
             return 0;
-        // Logic: 3x Savings
+        // Placeholder logic: 3x Savings (backend will have more complex rules)
         return member.getContributionPaid() * 3;
     }
 
-    public int calculateCreditScore(Member member) {
-        if (member == null)
-            return 300;
-
-        int baseScore = 0;
-        int maxScore = 850;
-
-        // 1. Payment Streak: +10 points per month
-        int streakPoints = member.getPaymentStreak() * 10;
-
-        // 2. Savings: +1 point per 10,000 UGX
-        int savingsPoints = (int) (member.getContributionPaid() / 10000);
-
-        // 3. Loans: -50 points if shortfall exists (penalty)
-        int penalty = member.getShortfallAmount() > 0 ? 50 : 0;
-
-        int totalScore = baseScore + streakPoints + savingsPoints - penalty;
-
-        return Math.min(totalScore, maxScore);
-    }
+    // TODO: Add method to fetch loan eligibility from backend
+    // public void getLoanEligibilityFromBackend(String memberEmail,
+    // LoanEligibilityCallback callback)
 
     public LiveData<List<com.github.mikephil.charting.data.Entry>> getSavingsTrend() {
         return androidx.lifecycle.Transformations.map(repository.getGenericTransactions(), transactions -> {
@@ -317,6 +319,10 @@ public class MembersViewModel extends AndroidViewModel {
         return mediator;
     }
 
+    public LiveData<List<com.example.save.data.models.LoanWithApproval>> getMemberLoansWithApproval(String memberName) {
+        return repository.getMemberLoansWithApproval(memberName);
+    }
+
     private void combineApprovals(
             androidx.lifecycle.MutableLiveData<List<com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem>> mediator,
             List<com.example.save.data.models.TransactionWithApproval> transactions,
@@ -326,34 +332,31 @@ public class MembersViewModel extends AndroidViewModel {
 
         if (transactions != null) {
             for (com.example.save.data.models.TransactionWithApproval item : transactions) {
-                // Skip if current admin already approved
-                if (!item.isApprovedByAdmin) {
-                    combined.add(new ApprovalItemImpl(
-                            item.transaction.getId(),
-                            "PAYOUT",
-                            item.transaction.getMemberName(),
-                            item.transaction.getAmount(),
-                            item.transaction.getDescription(),
-                            item.transaction.getDate(),
-                            item.approvalCount,
-                            item.isApprovedByAdmin));
-                }
+                // Include all pending items, even if already approved by this admin
+                combined.add(new ApprovalItemImpl(
+                        item.transaction.getId(),
+                        "PAYOUT",
+                        item.transaction.getMemberName(),
+                        item.transaction.getAmount(),
+                        item.transaction.getDescription(),
+                        item.transaction.getDate(),
+                        item.transaction.getStatus(),
+                        item.isApprovedByAdmin));
             }
         }
 
         if (loans != null) {
             for (com.example.save.data.models.LoanWithApproval item : loans) {
-                if (!item.isApprovedByAdmin) {
-                    combined.add(new ApprovalItemImpl(
-                            item.loan.getId(),
-                            "LOAN",
-                            item.loan.getMemberName(),
-                            item.loan.getAmount(),
-                            item.loan.getReason(),
-                            item.loan.getDateRequested(),
-                            item.approvalCount,
-                            item.isApprovedByAdmin));
-                }
+                // Include all pending items, even if already approved by this admin
+                combined.add(new ApprovalItemImpl(
+                        item.loan.getId(),
+                        "LOAN",
+                        item.loan.getMemberName(),
+                        item.loan.getAmount(),
+                        item.loan.getReason(),
+                        item.loan.getDateRequested(),
+                        item.loan.getStatus(),
+                        item.isApprovedByAdmin));
             }
         }
 
@@ -366,21 +369,20 @@ public class MembersViewModel extends AndroidViewModel {
     // Static implementation to avoid leaks
     private static class ApprovalItemImpl implements com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem {
         private final long id;
-        private final String type, title, description;
+        private final String type, title, description, status; // Keep status field
         private final double amount;
         private final java.util.Date date;
-        private final int approvalCount;
         private final boolean hasApproved;
 
         public ApprovalItemImpl(long id, String type, String title, double amount, String description,
-                java.util.Date date, int approvalCount, boolean hasApproved) {
+                java.util.Date date, String status, boolean hasApproved) {
             this.id = id;
             this.type = type;
             this.title = title;
             this.amount = amount;
             this.description = description;
             this.date = date;
-            this.approvalCount = approvalCount;
+            this.status = status;
             this.hasApproved = hasApproved;
         }
 
@@ -408,8 +410,8 @@ public class MembersViewModel extends AndroidViewModel {
             return date;
         }
 
-        public int getApprovalCount() {
-            return approvalCount;
+        public String getStatus() {
+            return status;
         }
 
         public boolean hasApproved() {

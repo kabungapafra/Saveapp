@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:lineSpacingExtra="4dp"
-            android:text="Enter the 4-digit code sent to"
+            android:text="Enter the 6-digit code sent to"
             android:textColor="#666666"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,9 +83,9 @@
             <!-- OTP Digit 1 -->
             <EditText
                 android:id="@+id/otpDigit1"
-                android:layout_width="64dp"
+                android:layout_width="50dp"
                 android:layout_height="64dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/otp_input_bg"
                 android:gravity="center"
                 android:hint="-"
@@ -100,9 +100,9 @@
             <!-- OTP Digit 2 -->
             <EditText
                 android:id="@+id/otpDigit2"
-                android:layout_width="64dp"
+                android:layout_width="50dp"
                 android:layout_height="64dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/otp_input_bg"
                 android:gravity="center"
                 android:hint="-"
@@ -117,9 +117,9 @@
             <!-- OTP Digit 3 -->
             <EditText
                 android:id="@+id/otpDigit3"
-                android:layout_width="64dp"
+                android:layout_width="50dp"
                 android:layout_height="64dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/otp_input_bg"
                 android:gravity="center"
                 android:hint="-"
@@ -134,7 +134,41 @@
             <!-- OTP Digit 4 -->
             <EditText
                 android:id="@+id/otpDigit4"
-                android:layout_width="64dp"
+                android:layout_width="50dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/otp_input_bg"
+                android:gravity="center"
+                android:hint="-"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="#1A1A1A"
+                android:textColorHint="#CCCCCC"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- OTP Digit 5 -->
+            <EditText
+                android:id="@+id/otpDigit5"
+                android:layout_width="50dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/otp_input_bg"
+                android:gravity="center"
+                android:hint="-"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="#1A1A1A"
+                android:textColorHint="#CCCCCC"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- OTP Digit 6 -->
+            <EditText
+                android:id="@+id/otpDigit6"
+                android:layout_width="50dp"
                 android:layout_height="64dp"
                 android:background="@drawable/otp_input_bg"
                 android:gravity="center"

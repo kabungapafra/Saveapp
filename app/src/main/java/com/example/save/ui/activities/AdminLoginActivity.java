@@ -79,12 +79,12 @@ public class AdminLoginActivity extends AppCompatActivity {
     private void handleLogin() {
         String groupName = binding.groupNameInput.getText().toString().trim();
         String phoneInput = binding.phoneInput.getText().toString().trim();
-        String password = binding.passwordInput.getText().toString().trim(); // Trimmed
+        String password = binding.passwordInput.getText().toString().trim();
 
         // Normalize phone number (Remove leading zero if any)
         String phone = com.example.save.utils.ValidationUtils.normalizePhone(phoneInput);
 
-        // Validate inputs
+        // Client-side validation (UX only - backend will validate)
         if (groupName.isEmpty()) {
             binding.groupNameInput.setError("Group name is required");
             binding.groupNameInput.requestFocus();
@@ -106,61 +106,73 @@ public class AdminLoginActivity extends AppCompatActivity {
         binding.loginButton.setEnabled(false);
         binding.loginButton.setText("Signing in...");
 
-        // Background thread for database query
-        new Thread(() -> {
-            Member member = viewModel.getMemberByPhone(phone);
+        // Call backend API for authentication
+        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(
+                phone, password, groupName, "admin");
 
-            runOnUiThread(() -> {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(this).create(com.example.save.data.network.ApiService.class);
+
+        apiService.login(loginRequest).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
+                    retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
                 binding.loginButton.setEnabled(true);
                 binding.loginButton.setText("Login");
 
-                android.util.Log.d("AdminLogin", "Querying phone: " + phone);
-                if (member == null) {
-                    android.util.Log.d("AdminLogin", "Member not found for phone: " + phone);
-                } else {
-                    android.util.Log.d("AdminLogin", "Member found: " + member.getName() + ", Role: " + member.getRole()
-                            + ", Password: " + member.getPassword());
-                }
-
-                if (member != null && member.getPassword().equals(password)) {
-                    Intent intent;
-                    if (member.getRole().equalsIgnoreCase("Administrator") ||
-                            member.getRole().equalsIgnoreCase("Admin")) {
-
-                        Toast.makeText(AdminLoginActivity.this, "Welcome " + member.getName(), Toast.LENGTH_SHORT)
-                                .show();
-
-                        // SAVE SESSION using SessionManager
-                        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
-                                getApplicationContext());
-                        session.createLoginSession(member.getName(), member.getEmail(), member.getRole());
-
-                        // Also save to SharedPreferences for backward compatibility
-                        android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
-                        prefs.edit()
-                                .putString("admin_name", member.getName())
-                                .putString("group_name", groupName)
-                                .putString("admin_email", member.getEmail())
-                                .apply();
-
-                        intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
-                        intent.putExtra("admin_email", member.getEmail());
-                        intent.putExtra("admin_name", member.getName());
-                        intent.putExtra("group_name", groupName);
-
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        finish();
-                    } else {
-                        Toast.makeText(AdminLoginActivity.this, "Access Denied: Please use the Member login portal.",
-                                Toast.LENGTH_LONG).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    com.example.save.data.network.LoginResponse loginResponse = response.body();
+                    
+                    // Verify user is admin
+                    if (!"Administrator".equalsIgnoreCase(loginResponse.getRole()) && 
+                        !"Admin".equalsIgnoreCase(loginResponse.getRole())) {
+                        Toast.makeText(AdminLoginActivity.this, 
+                                "Access Denied: Please use the Member login portal.", Toast.LENGTH_LONG).show();
+                        return;
                     }
+
+                    // Save session with JWT token
+                    com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                            getApplicationContext());
+                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), 
+                            loginResponse.getRole());
+                    
+                    if (loginResponse.getToken() != null) {
+                        session.saveJwtToken(loginResponse.getToken());
+                    }
+
+                    // Save to SharedPreferences for backward compatibility
+                    android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
+                    prefs.edit()
+                            .putString("admin_name", loginResponse.getName())
+                            .putString("group_name", groupName)
+                            .putString("admin_email", loginResponse.getEmail())
+                            .apply();
+
+                    Toast.makeText(AdminLoginActivity.this, "Welcome " + loginResponse.getName(), 
+                            Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
+                    intent.putExtra("admin_email", loginResponse.getEmail());
+                    intent.putExtra("admin_name", loginResponse.getName());
+                    intent.putExtra("group_name", groupName);
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
                 } else {
-                    Toast.makeText(AdminLoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                    com.example.save.utils.ApiErrorHandler.handleResponse(AdminLoginActivity.this, response);
                 }
-            });
-        }).start();
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
+                binding.loginButton.setEnabled(true);
+                binding.loginButton.setText("Login");
+                com.example.save.utils.ApiErrorHandler.handleError(AdminLoginActivity.this, t);
+            }
+        });
     }
 
     @Override

@@ -32,6 +32,7 @@ public class MemberEntity {
     private boolean isAutoPayEnabled; // New
     private int autoPayDay; // New: Day of month (1-31)
     private double autoPayAmount; // New
+    private int creditScore; // New
 
     public MemberEntity() {
     }
@@ -208,5 +209,13 @@ public class MemberEntity {
 
     public void setAutoPayAmount(double autoPayAmount) {
         this.autoPayAmount = autoPayAmount;
+    }
+
+    public int getCreditScore() {
+        return creditScore;
+    }
+
+    public void setCreditScore(int creditScore) {
+        this.creditScore = creditScore;
     }
 }

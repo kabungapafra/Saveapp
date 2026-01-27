@@ -262,19 +262,31 @@ public class PaymentFragment extends Fragment {
             }
 
             if (currentMember != null) {
-                viewModel.makePayment(currentMember, amount, phoneNumber, paymentMethod);
+                // Process payment via API - backend will update balance, calculate streak, log
+                // transaction
+                viewModel.makePayment(currentMember, amount, phoneNumber, paymentMethod,
+                        new com.example.save.data.repository.MemberRepository.PaymentCallback() {
+                            @Override
+                            public void onResult(boolean success, String message) {
+                                if (success) {
+                                    // Show success animation
+                                    showSuccessAnimation();
 
-                // Show success animation
-                showSuccessAnimation();
+                                    etAmount.setText("");
+                                    etPhoneNumber.setText("");
+                                    // Reload member data to refresh UI with updated contribution
+                                    loadMemberData();
 
-                etAmount.setText("");
-                etPhoneNumber.setText("");
-                // Reload member data to refresh UI with updated contribution
-                loadMemberData();
-
-                // Generate Receipt
-                com.example.save.utils.ReceiptUtils.generateAndShareReceipt(getContext(), currentMember.getName(),
-                        amount, "Contribution", new java.util.Date());
+                                    // Generate Receipt
+                                    com.example.save.utils.ReceiptUtils.generateAndShareReceipt(getContext(),
+                                            currentMember.getName(), amount, "Contribution", new java.util.Date());
+                                } else {
+                                    Toast.makeText(getContext(),
+                                            message != null ? message : "Failed to process payment",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
 

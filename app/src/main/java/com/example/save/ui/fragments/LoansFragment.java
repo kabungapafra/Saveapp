@@ -30,6 +30,7 @@ public class LoansFragment extends Fragment {
     private MembersViewModel membersViewModel;
     private LoanHistoryAdapter historyAdapter;
     private String memberEmail;
+    private List<com.example.save.data.models.LoanWithApproval> allLoans = new ArrayList<>();
 
     public static LoansFragment newInstance(String memberEmail) {
         LoansFragment fragment = new LoansFragment();
@@ -74,50 +75,36 @@ public class LoansFragment extends Fragment {
     }
 
     private void loadLoans() {
-        // We need the member's name to filter loans, so first we might need to get the
-        // member by email
-        // if we only have email. Or we can rely on email if loans stored email (they
-        // store memberId usually, or name).
-        // LoanEntity has memberId and memberName.
-
         if (memberEmail != null) {
-            new Thread(() -> {
-                com.example.save.data.models.Member member = membersViewModel.getMemberByEmail(memberEmail);
+            // Reactive chain:
+            // 1. Observe Member (to get name) ->
+            // 2. Observe Admin Count ->
+            // 3. Observe Loans with Approval Stats
+
+            membersViewModel.getMemberByEmailLive(memberEmail).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
                     final String memberName = member.getName();
-                    getActivity().runOnUiThread(() -> {
-                        observeLoans(memberName);
-                    });
+                    observeLoans(memberName);
                 }
-            }).start();
-        } else {
-            // Fallback or show all if admin (logic depends on requirements, assuming empty
-            // for now)
+            });
         }
     }
 
     private void observeLoans(String memberName) {
-        loansViewModel.getLoans().observe(getViewLifecycleOwner(), loans -> {
+        // Observe Admin Count first
+        membersViewModel.getAdminCountLive().observe(getViewLifecycleOwner(), count -> {
+            if (count != null) {
+                historyAdapter.setAdminCount(count);
+            }
+        });
+
+        // Observe Loans
+        // Observe Loans
+        membersViewModel.getMemberLoansWithApproval(memberName).observe(getViewLifecycleOwner(), loans -> {
             if (loans != null) {
-                List<Loan> paidLoans = new ArrayList<>();
-                for (Loan loan : loans) {
-                    // Filter by member name and status
-                    // Status matching logic: Check for "PAID" or "PAID_OFF"
-                    if (loan.getMemberName() != null && loan.getMemberName().equals(memberName) &&
-                            ("PAID".equalsIgnoreCase(loan.getStatus())
-                                    || "PAID_OFF".equalsIgnoreCase(loan.getStatus()))) {
-                        paidLoans.add(loan);
-                    }
-                }
-                if (paidLoans.isEmpty()) {
-                    binding.rvLoanHistory.setVisibility(View.GONE);
-                    binding.emptyStateLayout.getRoot().setVisibility(View.VISIBLE);
-                    // binding.emptyStateLayout.tvEmptyTitle.setText("No loan history");
-                } else {
-                    binding.rvLoanHistory.setVisibility(View.VISIBLE);
-                    binding.emptyStateLayout.getRoot().setVisibility(View.GONE);
-                    historyAdapter.setLoans(paidLoans);
-                }
+                allLoans.clear();
+                allLoans.addAll(loans);
+                filterLoans(binding.etSearch.getText().toString());
             }
         });
     }
@@ -142,6 +129,44 @@ public class LoansFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+
+        binding.etSearch.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterLoans(s.toString());
+            }
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
+    }
+
+    private void filterLoans(String query) {
+        List<com.example.save.data.models.LoanWithApproval> filtered = new ArrayList<>();
+        String lowerQuery = query.toLowerCase().trim();
+
+        for (com.example.save.data.models.LoanWithApproval loanWithApproval : allLoans) {
+            if (loanWithApproval.loan != null) {
+                String status = loanWithApproval.loan.getStatus() != null ? loanWithApproval.loan.getStatus().toLowerCase() : "";
+                String amount = String.valueOf((int) loanWithApproval.loan.getAmount());
+                if (status.contains(lowerQuery) || amount.contains(lowerQuery)) {
+                    filtered.add(loanWithApproval);
+                }
+            }
+        }
+
+        historyAdapter.setLoans(filtered);
+
+        if (filtered.isEmpty()) {
+            binding.rvLoanHistory.setVisibility(View.GONE);
+            binding.emptyStateLayout.getRoot().setVisibility(View.VISIBLE);
+            binding.emptyStateLayout.tvEmptyTitle.setText("No loans found");
+            binding.emptyStateLayout.tvEmptyMessage.setText(query.isEmpty() ? "Apply for a loan to get started" : "Try adjusting your search");
+        } else {
+            binding.rvLoanHistory.setVisibility(View.VISIBLE);
+            binding.emptyStateLayout.getRoot().setVisibility(View.GONE);
+        }
     }
 
     @Override

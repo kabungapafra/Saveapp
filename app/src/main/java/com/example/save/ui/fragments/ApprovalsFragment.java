@@ -57,37 +57,13 @@ public class ApprovalsFragment extends Fragment {
     }
 
     private void observeData() {
-        // 1. Observe Admin Count first (needed for Adapter)
-        viewModel.getAdminCountLive().observe(getViewLifecycleOwner(), count -> {
-            if (count != null) {
-                // 2. Observe Approvals only when we have the count
-                // Using a Mediator or just nested observation might be tricky if not careful
-                // with duplicates.
-                // Better approach: Store count in a member variable, and update adapter.
-                // But adapter needs it for EVERY item update.
-                // Let's update the adapter's admin count property.
-                if (adapter != null) {
-                    // We need to re-submit list if count changes?
-                    // Or just set the count. For now, let's keep it simpler:
-                    // Just triggering the list observation again might be enough if we use a field.
-                }
-
-                // Real reactive chain:
-                subscribeToApprovals(count);
-            }
-        });
+        subscribeToApprovals();
     }
 
-    private void subscribeToApprovals(int adminCount) {
-        // Remove previous observers if any? LiveData handles this if we use the same
-        // observer instance,
-        // but here we are creating a new lambda every time adminCount changes.
-        // Ideally we use a CombinedLiveData.
-        // For simplicity in this fix:
-
+    private void subscribeToApprovals() {
         viewModel.getCombinedApprovals(adminEmail).observe(getViewLifecycleOwner(), list -> {
             if (binding != null) {
-                adapter.updateList(list, adminCount);
+                adapter.updateList(list);
                 binding.emptyState.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
             }
         });

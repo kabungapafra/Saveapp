@@ -118,9 +118,7 @@ public class SessionManager {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    /**
-     * Clear session details
-     */
+    // Clear session details
     public void logoutUser() {
         // Clearing all data from Shared Preferences
         editor.clear();
@@ -133,5 +131,16 @@ public class SessionManager {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         _context.startActivity(i);
+    }
+
+    private static final String KEY_JWT_TOKEN = "jwt_token";
+
+    public void saveJwtToken(String token) {
+        editor.putString(KEY_JWT_TOKEN, token);
+        editor.apply();
+    }
+
+    public String getJwtToken() {
+        return pref.getString(KEY_JWT_TOKEN, null);
     }
 }

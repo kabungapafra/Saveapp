@@ -93,6 +93,17 @@ public class AdminMainActivity extends AppCompatActivity {
             });
         }
 
+        // Handle External Navigation
+        if (getIntent().hasExtra("NAVIGATE_TO")) {
+            String target = getIntent().getStringExtra("NAVIGATE_TO");
+            if ("MEMBERS".equals(target)) {
+                 // Post to message queue to allow UI to settle? Or just run immediate
+                 binding.navMembers.post(() -> updateNav(binding.navMembers, binding.txtMembers, binding.imgMembers));
+            } else if ("LOANS".equals(target)) {
+                 binding.navLoans.post(() -> updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans));
+            }
+        }
+
         // Fix for blank screen on swipe back
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {

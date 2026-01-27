@@ -20,6 +20,7 @@ public class Member {
     private boolean isFirstLogin; // Track if member needs to change password
     private String nextPayoutDate;
     private String nextPaymentDueDate;
+    private int creditScore;
 
     private String password;
 
@@ -196,6 +197,14 @@ public class Member {
 
     public void setNextPaymentDueDate(String nextPaymentDueDate) {
         this.nextPaymentDueDate = nextPaymentDueDate;
+    }
+
+    public int getCreditScore() {
+        return creditScore;
+    }
+
+    public void setCreditScore(int creditScore) {
+        this.creditScore = creditScore;
     }
 
     // Auto-Pay Fields

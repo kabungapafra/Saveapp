@@ -190,20 +190,34 @@ public class MemberMainActivity extends AppCompatActivity {
             viewModel.getMemberByEmailLive(email).observe(this, member -> {
                 if (member != null) {
                     final String memberName = member.getName();
-                    viewModel.getLatestMemberTransactions(memberName).observe(this, transactionEntities -> {
-                        if (transactionEntities != null && binding != null && transactionAdapter != null) {
+                    viewModel.getMemberTransactionsWithApproval(memberName).observe(this, transactionItems -> {
+                        if (transactionItems != null && binding != null && transactionAdapter != null) {
                             allCachedTransactions.clear(); // Clear cache
 
-                            for (com.example.save.data.local.entities.TransactionEntity entity : transactionEntities) {
+                            for (com.example.save.data.models.TransactionWithApproval item : transactionItems) {
+                                com.example.save.data.local.entities.TransactionEntity entity = item.transaction;
+
                                 int iconRes = R.drawable.ic_money;
                                 int color = 0xFF4CAF50; // Green
+                                String description = entity.getDescription();
+
                                 if (!entity.isPositive()) {
                                     color = 0xFFF44336; // Red
                                     iconRes = R.drawable.ic_loan;
                                 }
 
+                                // Pending Status Logic
+                                if ("PENDING_APPROVAL".equals(entity.getStatus())) {
+                                    // Fetch admin count synchronously or assume passed/observed elsewhere?
+                                    // For now, let's just show "Pending Approval" or try to show stats if possible.
+                                    // Ideally, we'd need total admin count here.
+                                    // But we can just show "Pending (x Approvals)" which acts as progress.
+                                    description += " (Pending: " + item.approvalCount + " Approvals)";
+                                    color = 0xFFFF9800; // Orange for pending
+                                }
+
                                 allCachedTransactions.add(new Transaction(
-                                        entity.getDescription(),
+                                        description,
                                         new java.text.SimpleDateFormat("MMM dd, hh:mm a",
                                                 java.util.Locale.getDefault()).format(entity.getDate()),
                                         entity.getAmount(),
@@ -497,6 +511,10 @@ public class MemberMainActivity extends AppCompatActivity {
         // Fetch recipients using LiveData
         int slots = getSharedPreferences("ChamaPrefs", MODE_PRIVATE).getInt("slots_per_round", 5);
 
+        if (binding.tvRecipientsLabel != null) {
+            binding.tvRecipientsLabel.setText(slots > 1 ? "Current Batch Recipients" : "Next Recipient");
+        }
+
         viewModel.getMonthlyRecipientsLive(slots).observe(this, recipients -> {
             if (binding != null && recipientAdapter != null) {
                 recipientAdapter.updateList(recipients);
@@ -526,9 +544,7 @@ public class MemberMainActivity extends AppCompatActivity {
                         binding.tvPaymentStreak.setText(String.valueOf(currentMember.getPaymentStreak()));
                     }
                     if (binding.tvCreditScore != null) {
-                        // Calculate Credit Score using centralized logic
-                        int score = viewModel.calculateCreditScore(currentMember);
-                        binding.tvCreditScore.setText(String.valueOf(score));
+                        binding.tvCreditScore.setText(String.valueOf(currentMember.getCreditScore()));
                     }
 
                     // Update Upcoming Payments based on real data

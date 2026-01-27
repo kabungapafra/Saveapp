@@ -50,7 +50,12 @@ public class PayoutsViewModel extends AndroidViewModel {
     }
 
     public void resolveShortfall(Member member) {
-        repository.resolveShortfall(member);
+        repository.resolveShortfall(member, new MemberRepository.ShortfallResolutionCallback() {
+            @Override
+            public void onResult(boolean success, String message) {
+                // Background update, UI will refresh via LiveData if needed
+            }
+        });
     }
 
     public double getPayoutAmount() {
@@ -71,14 +76,14 @@ public class PayoutsViewModel extends AndroidViewModel {
         repository.savePayoutRules(autoPayoutEnabled, dayOfMonth, minReserve);
     }
 
-    public boolean executePayout(Member member, double amount, boolean deferRemaining, String adminEmail) {
-        return repository.executePayout(member, amount, deferRemaining, adminEmail);
+    // Payout execution - Now uses backend API with callback
+    public void executePayout(Member member, double amount, boolean deferRemaining, String adminEmail,
+            MemberRepository.PayoutCallback callback) {
+        repository.executePayout(member, amount, deferRemaining, adminEmail, callback);
     }
 
-    // Overload for backward compatibility if needed, using default amount
-    // @Override // Remove @Override if it was checking against a superclass method
-    // that doesn't exist or just fix duplication
-    public boolean executePayout(Member member, String adminEmail) {
-        return repository.executePayout(member, getNetPayoutAmount(), false, adminEmail);
+    // Overload for backward compatibility
+    public void executePayout(Member member, String adminEmail, MemberRepository.PayoutCallback callback) {
+        repository.executePayout(member, getNetPayoutAmount(), false, adminEmail, callback);
     }
 }

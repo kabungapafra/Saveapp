@@ -9,47 +9,61 @@ import java.util.List;
 
 @Dao
 public interface TransactionDao {
-    @Insert
-    long insert(TransactionEntity transaction);
+        @Insert
+        long insert(TransactionEntity transaction);
 
-    @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT 20")
-    LiveData<List<TransactionEntity>> getRecentTransactions();
+        @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT 20")
+        LiveData<List<TransactionEntity>> getRecentTransactions();
 
-    @Query("SELECT * FROM transactions WHERE memberName = :memberName ORDER BY date DESC LIMIT 5")
-    LiveData<List<TransactionEntity>> getLatestMemberTransactions(String memberName);
+        @Query("SELECT * FROM transactions WHERE memberName = :memberName ORDER BY date DESC LIMIT 5")
+        LiveData<List<TransactionEntity>> getLatestMemberTransactions(String memberName);
 
-    @Query("SELECT * FROM transactions ORDER BY date DESC")
-    List<TransactionEntity> getAllTransactionsSync();
+        @Query("SELECT * FROM transactions ORDER BY date DESC")
+        List<TransactionEntity> getAllTransactionsSync();
 
-    @Query("SELECT TOTAL(amount) FROM transactions WHERE isPositive = 1 AND status = 'COMPLETED'")
-    double getTotalIncoming();
+        @Query("SELECT TOTAL(amount) FROM transactions WHERE isPositive = 1 AND status = 'COMPLETED'")
+        double getTotalIncoming();
 
-    @Query("SELECT TOTAL(amount) FROM transactions WHERE isPositive = 0 AND status = 'COMPLETED'")
-    double getTotalOutgoing();
+        @Query("SELECT TOTAL(amount) FROM transactions WHERE isPositive = 0 AND status = 'COMPLETED'")
+        double getTotalOutgoing();
 
-    @Query("SELECT TOTAL(CASE WHEN isPositive = 1 THEN amount ELSE -amount END) FROM transactions WHERE status = 'COMPLETED'")
-    LiveData<Double> getGroupBalance();
+        @Query("SELECT TOTAL(CASE WHEN isPositive = 1 THEN amount ELSE -amount END) FROM transactions WHERE status = 'COMPLETED'")
+        LiveData<Double> getGroupBalance();
 
-    @Query("SELECT * FROM transactions WHERE status = 'PENDING_APPROVAL' ORDER BY date DESC")
-    LiveData<List<TransactionEntity>> getPendingTransactions();
+        @Query("SELECT * FROM transactions WHERE status = 'PENDING_APPROVAL' ORDER BY date DESC")
+        LiveData<List<TransactionEntity>> getPendingTransactions();
 
-    @Query("SELECT * FROM transactions WHERE id = :id")
-    TransactionEntity getTransactionById(long id);
+        @Query("SELECT * FROM transactions WHERE id = :id")
+        TransactionEntity getTransactionById(long id);
 
-    @Query("UPDATE transactions SET status = :status WHERE id = :id")
-    void updateStatus(long id, String status);
+        @Query("UPDATE transactions SET status = :status WHERE id = :id")
+        void updateStatus(long id, String status);
 
-    // Pagination
-    @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT :limit OFFSET :offset")
-    List<TransactionEntity> getTransactionsPaged(int limit, int offset);
+        // Pagination
+        @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT :limit OFFSET :offset")
+        List<TransactionEntity> getTransactionsPaged(int limit, int offset);
 
-    @Query("SELECT t.*, " +
-            "(SELECT COUNT(*) FROM approvals a WHERE a.targetId = t.id AND a.type = 'PAYOUT') as approvalCount, " +
-            "(SELECT COUNT(*) > 0 FROM approvals a WHERE a.targetId = t.id AND a.type = 'PAYOUT' AND a.adminEmail = :adminEmail) as isApprovedByAdmin "
-            +
-            "FROM transactions t " +
-            "WHERE t.status = 'PENDING_APPROVAL' OR t.status = 'PENDING' " +
-            "ORDER BY t.date DESC")
-    LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(
-            String adminEmail);
+        @Query("SELECT t.*, " +
+                        "(SELECT COUNT(*) FROM approvals a WHERE a.targetId = t.id AND a.type = 'PAYOUT') as approvalCount, "
+                        +
+                        "(SELECT COUNT(*) > 0 FROM approvals a WHERE a.targetId = t.id AND a.type = 'PAYOUT' AND a.adminEmail = :adminEmail) as isApprovedByAdmin "
+                        +
+                        "FROM transactions t " +
+                        "WHERE t.status = 'PENDING_APPROVAL' OR t.status = 'PENDING' " +
+                        "ORDER BY t.date DESC")
+        LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(
+                        String adminEmail);
+
+        @Query("SELECT t.*, " +
+                        "(SELECT COUNT(*) FROM approvals a WHERE a.targetId = t.id AND a.type = 'PAYOUT') as approvalCount, "
+                        +
+                        "0 as isApprovedByAdmin " +
+                        "FROM transactions t " +
+                        "WHERE t.memberName = :memberName " +
+                        "ORDER BY t.date DESC LIMIT 20")
+        LiveData<List<com.example.save.data.models.TransactionWithApproval>> getMemberTransactionsWithApproval(
+                        String memberName);
+
+        @Query("SELECT COUNT(*) FROM transactions WHERE status = 'PENDING_APPROVAL' AND type = 'MEMBER_PAYOUT'")
+        int getPendingPayoutCount();
 }

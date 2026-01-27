@@ -91,15 +91,35 @@ public class AdminLoansFragment extends Fragment {
 
             @Override
             public void onReject(LoanRequest request) {
-                // Execute rejection on background thread for consistency
-                new Thread(() -> {
-                    viewModel.rejectLoanRequest(request.getId());
-                    requireActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(),
-                                "Loan rejected for " + request.getMemberName(),
-                                Toast.LENGTH_SHORT).show();
-                    });
-                }).start();
+                // Show rejection reason dialog
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                android.widget.EditText reasonInput = new android.widget.EditText(getContext());
+                reasonInput.setHint("Rejection reason (optional)");
+                builder.setTitle("Reject Loan Request");
+                builder.setMessage("Are you sure you want to reject this loan request?");
+                builder.setView(reasonInput);
+                builder.setPositiveButton("Reject", (dialog, which) -> {
+                    String reason = reasonInput.getText().toString().trim();
+                    // Reject via API - backend will update status and notify member
+                    viewModel.rejectLoanRequest(request.getId(), reason,
+                            new com.example.save.data.repository.MemberRepository.RejectionCallback() {
+                                @Override
+                                public void onResult(boolean success, String message) {
+                                    if (isVisible()) {
+                                        Toast.makeText(getContext(),
+                                                message != null ? message
+                                                        : (success ? "Loan rejected" : "Failed to reject loan"),
+                                                Toast.LENGTH_SHORT).show();
+                                        if (success) {
+                                            // Refresh list
+                                            observeLoanRequests();
+                                        }
+                                    }
+                                }
+                            });
+                });
+                builder.setNegativeButton("Cancel", null);
+                builder.show();
             }
         });
         binding.rvLoanRequests.setAdapter(adapter);

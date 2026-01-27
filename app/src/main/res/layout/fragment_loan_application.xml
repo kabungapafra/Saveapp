@@ -247,6 +247,19 @@
                 android:textStyle="bold"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewSchedule"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="View Repayment Schedule"
+                android:textColor="@color/deep_blue"
+                android:textSize="14sp"
+                app:icon="@drawable/ic_calendar_month"
+                app:iconTint="@color/deep_blue"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSubmitLoan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

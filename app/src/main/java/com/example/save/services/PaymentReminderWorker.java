@@ -35,22 +35,38 @@ public class PaymentReminderWorker extends Worker {
         for (MemberEntity member : members) {
             // Auto-Pay Logic
             if (member.isAutoPayEnabled() && member.getAutoPayDay() == currentDay) {
-                // Simulate Auto-Pay (In real app, integrate with payment gateway)
-                // For now, we notify the user that auto-pay "processed" or is due
-                notificationHelper.sendNotification(
-                        "Auto-Pay Processed",
-                        "Your automated contribution of UGX " + (int) member.getAutoPayAmount() + " for "
-                                + member.getName() + " has been initiated.");
+                // ... (Auto-pay logic)
             }
 
-            // Payment Reminder Logic (2 days before due date)
-            // Assuming nextPaymentDueDate is stored as "dd MMM" or similar string, better
-            // to parse or store as timestamp
-            // For simplicity in this demo, we check if today is matching a generic logic or
-            // simply always remind if pending
-            if (member.getContributionPaid() < member.getContributionTarget()) {
-                // Check if late or close to end of month?
-                // Let's just remind if it's past the 25th and not paid
+            // Targeted Payment Notifications
+            String dueDateStr = member.getNextPaymentDueDate();
+            if (dueDateStr != null && !"TBD".equals(dueDateStr)) {
+                try {
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMM yyyy",
+                            java.util.Locale.getDefault());
+                    java.util.Date dueDate = sdf.parse(dueDateStr);
+                    long diff = dueDate.getTime() - System.currentTimeMillis();
+                    long daysDiff = diff / (24 * 60 * 60 * 1000);
+
+                    if (member.getContributionPaid() < member.getContributionTarget()) {
+                        if (daysDiff == 2) {
+                            notificationHelper.sendNotification(
+                                    "Friendly Reminder",
+                                    "Hi " + member.getName() + ", your contribution of UGX " +
+                                            (int) (member.getContributionTarget() - member.getContributionPaid()) +
+                                            " is due in 2 days (" + dueDateStr + ").");
+                        } else if (diff < 0) {
+                            notificationHelper.sendNotification(
+                                    "Urgent: Payment Overdue",
+                                    "Hi " + member.getName()
+                                            + ", your contribution for the current cycle is OVERDUE. Please pay immediately to avoid penalties.");
+                        }
+                    }
+                } catch (Exception e) {
+                    // Log or handle parse error
+                }
+            } else if (member.getContributionPaid() < member.getContributionTarget()) {
+                // Legacy logic fallback if no date
                 if (currentDay >= 25) {
                     notificationHelper.sendNotification(
                             "Payment Reminder",

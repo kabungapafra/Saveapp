@@ -66,6 +66,13 @@
             app:icon="@drawable/ic_add"
             app:iconTint="@color/white"
             android:visibility="gone" />
+
+        <include
+            android:id="@+id/emptyStateLayout"
+            layout="@layout/layout_empty_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
             
     </FrameLayout>
 

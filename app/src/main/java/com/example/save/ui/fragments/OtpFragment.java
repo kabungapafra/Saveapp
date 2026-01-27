@@ -131,12 +131,16 @@ public class OtpFragment extends Fragment {
         binding.otpDigit1.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit1, binding.otpDigit2));
         binding.otpDigit2.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit2, binding.otpDigit3));
         binding.otpDigit3.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit3, binding.otpDigit4));
-        binding.otpDigit4.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit4, null));
+        binding.otpDigit4.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit4, binding.otpDigit5));
+        binding.otpDigit5.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit5, binding.otpDigit6));
+        binding.otpDigit6.addTextChangedListener(new OtpUtils.OtpTextWatcher(binding.otpDigit6, null));
 
         // Handle backspace
         OtpUtils.setupBackspaceHandler(binding.otpDigit2, binding.otpDigit1);
         OtpUtils.setupBackspaceHandler(binding.otpDigit3, binding.otpDigit2);
         OtpUtils.setupBackspaceHandler(binding.otpDigit4, binding.otpDigit3);
+        OtpUtils.setupBackspaceHandler(binding.otpDigit5, binding.otpDigit4);
+        OtpUtils.setupBackspaceHandler(binding.otpDigit6, binding.otpDigit5);
     }
 
     /**
@@ -171,10 +175,12 @@ public class OtpFragment extends Fragment {
         String otp = binding.otpDigit1.getText().toString() +
                 binding.otpDigit2.getText().toString() +
                 binding.otpDigit3.getText().toString() +
-                binding.otpDigit4.getText().toString();
+                binding.otpDigit4.getText().toString() +
+                binding.otpDigit5.getText().toString() +
+                binding.otpDigit6.getText().toString();
 
-        if (otp.length() != 4) {
-            binding.errorMessage.setText("Please enter complete 4-digit OTP");
+        if (otp.length() != 6) {
+            binding.errorMessage.setText("Please enter complete 6-digit OTP");
             binding.errorMessage.setVisibility(View.VISIBLE);
             return;
         }
@@ -185,87 +191,121 @@ public class OtpFragment extends Fragment {
         binding.verifyButton.setText("Verifying...");
         binding.loadingIndicator.setVisibility(View.VISIBLE);
 
-        // TODO: Call backend API to verify OTP and register admin
-        // POST /auth/admin/verify-otp
-        // Body: { "name": name, "phone": phone, "email": email, "password": password,
-        // "otp": otp }
+        // Call backend API to verify OTP and register admin
+        com.example.save.data.network.OtpVerificationRequest request = new com.example.save.data.network.OtpVerificationRequest(
+                name, phone, email, password, otp, groupName);
 
-        // For now, simulate verification
-        simulateOtpVerification(otp);
-    }
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(requireContext()).create(com.example.save.data.network.ApiService.class);
 
-    /**
-     * TEMPORARY: Simulate OTP verification (replace with actual API call)
-     */
-    private void simulateOtpVerification(String otp) {
-        new android.os.Handler().postDelayed(() -> {
-            binding.loadingIndicator.setVisibility(View.GONE);
-            binding.verifyButton.setEnabled(true);
-            binding.verifyButton.setText("Verify OTP");
+        apiService.verifyAdminOtp(request).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.LoginResponse> call,
+                            retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
+                        binding.loadingIndicator.setVisibility(View.GONE);
+                        binding.verifyButton.setEnabled(true);
+                        binding.verifyButton.setText("Verify OTP");
 
-            // Check if OTP is correct (for testing, accept "1234")
-            if (otp.equals("1234")) {
-                // SAVE NEW ADMIN TO DATABASE
-                com.example.save.ui.viewmodels.MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(
-                        this).get(com.example.save.ui.viewmodels.MembersViewModel.class);
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.LoginResponse loginResponse = response.body();
 
-                // Create Admin Member
-                Member newAdmin = new Member(name, "Administrator", true, phone, email);
-                newAdmin.setPassword(password != null ? password.trim() : ""); // Trimmed
-                newAdmin.setFirstLogin(false); // Admin doesn't need to change password on first login
+                            // Save session
+                            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                                    requireContext());
+                            session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
+                                    loginResponse.getRole());
 
-                // Save asynchronously
-                viewModel.addMember(newAdmin, (success, message) -> {
-                    if (success) {
-                        // SAVE GROUP NAME AND ADMIN INFO TO PREFS
-                        if (getActivity() != null) {
-                            android.content.SharedPreferences prefs = getActivity().getSharedPreferences("ChamaPrefs",
-                                    android.content.Context.MODE_PRIVATE);
-                            android.content.SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("group_name", groupName);
-                            editor.putString("admin_name", name);
-                            editor.putString("admin_email", email); // Save Email
-                            editor.apply();
+                            if (loginResponse.getToken() != null) {
+                                session.saveJwtToken(loginResponse.getToken());
+                            }
 
-                            Toast.makeText(getContext(), "Account created! Please login.", Toast.LENGTH_LONG).show();
+                            // Save group info
+                            if (getActivity() != null) {
+                                android.content.SharedPreferences prefs = getActivity()
+                                        .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
+                                android.content.SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("group_name", groupName);
+                                editor.putString("admin_name", loginResponse.getName());
+                                editor.putString("admin_email", loginResponse.getEmail());
+                                editor.apply();
 
-                            // Navigate to Login (so they can log in with new creds)
-                            Intent intent = new Intent(getActivity(), AdminLoginActivity.class);
-                            // Pass credentials to pre-fill if possible (optional)
-                            intent.putExtra("PHONE", phone);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            getActivity().finish();
+                                Toast.makeText(getContext(), "Account created! Please login.",
+                                        Toast.LENGTH_LONG).show();
+
+                                // Navigate to Login
+                                Intent intent = new Intent(getActivity(), AdminLoginActivity.class);
+                                intent.putExtra("PHONE", phone);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(requireContext(), response);
+                            binding.errorMessage.setText("OTP verification failed. Please try again.");
+                            binding.errorMessage.setVisibility(View.VISIBLE);
+                            clearOtpFields();
                         }
-                    } else {
-                        // Show error
-                        binding.errorMessage.setText("Failed to create account: " + message);
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
+                            Throwable t) {
+                        binding.loadingIndicator.setVisibility(View.GONE);
+                        binding.verifyButton.setEnabled(true);
+                        binding.verifyButton.setText("Verify OTP");
+                        com.example.save.utils.ApiErrorHandler.handleError(requireContext(), t);
+                        binding.errorMessage.setText("Network error. Please try again.");
                         binding.errorMessage.setVisibility(View.VISIBLE);
                     }
                 });
-            } else {
-                binding.errorMessage.setText("Invalid OTP. Please try again.");
-                binding.errorMessage.setVisibility(View.VISIBLE);
-                clearOtpFields();
-            }
-        }, 2000);
     }
 
+    // NOTE: simulateOtpVerification removed - now uses backend API
+    // Backend will verify OTP, hash password, create admin account, and return JWT
+    // token
+
     /**
-     * Resend OTP
+     * Resend OTP - Now uses backend API
      */
     private void resendOtpCode() {
         Toast.makeText(getContext(), "Resending OTP...", Toast.LENGTH_SHORT).show();
 
-        // TODO: Call backend API
-        // POST /auth/admin/resend-otp
-        // Body: { "email": email }
+        com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(phone, email);
 
-        // Restart timer
-        startResendTimer();
-        clearOtpFields();
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(requireContext()).create(com.example.save.data.network.ApiService.class);
 
-        Toast.makeText(getContext(), "OTP sent to " + email, Toast.LENGTH_SHORT).show();
+        apiService.resendAdminOtp(request).enqueue(
+                new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.ApiResponse apiResponse = response.body();
+                            if (apiResponse.isSuccess()) {
+                                Toast.makeText(getContext(), "OTP sent to " + email, Toast.LENGTH_SHORT).show();
+                                startResendTimer();
+                                clearOtpFields();
+                            } else {
+                                Toast.makeText(getContext(),
+                                        apiResponse.getMessage() != null ? apiResponse.getMessage()
+                                                : "Failed to resend OTP",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(requireContext(), response);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            Throwable t) {
+                        com.example.save.utils.ApiErrorHandler.handleError(requireContext(), t);
+                    }
+                });
     }
 
     /**
@@ -276,6 +316,8 @@ public class OtpFragment extends Fragment {
         binding.otpDigit2.setText("");
         binding.otpDigit3.setText("");
         binding.otpDigit4.setText("");
+        binding.otpDigit5.setText("");
+        binding.otpDigit6.setText("");
         binding.otpDigit1.requestFocus();
     }
 

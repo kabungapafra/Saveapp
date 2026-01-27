@@ -132,26 +132,36 @@ public class ResetPasswordActivity extends AppCompatActivity {
         new Thread(() -> {
             Member member = viewModel.getMemberByEmail(userEmail);
             if (member != null) {
-                viewModel.changePassword(member, newPassword);
-
                 runOnUiThread(() -> {
-                    binding.loadingIndicator.setVisibility(View.GONE);
-                    binding.actionButton.setEnabled(true);
+                    viewModel.changePassword(member.getEmail(), "RECOVERY", newPassword,
+                            new MemberRepository.PasswordChangeCallback() {
+                                @Override
+                                public void onResult(boolean success, String message) {
+                                    binding.loadingIndicator.setVisibility(View.GONE);
+                                    binding.actionButton.setEnabled(true);
 
-                    Toast.makeText(this, "Password changed successfully!", Toast.LENGTH_SHORT).show();
+                                    if (success) {
+                                        Toast.makeText(ResetPasswordActivity.this, "Password changed successfully!",
+                                                Toast.LENGTH_SHORT).show();
 
-                    // Navigate back to the login page where user clicked forgot password
-                    Class<?> targetActivity;
-                    if ("MemberRegistrationActivity".equals(sourceActivity)) {
-                        targetActivity = MemberRegistrationActivity.class;
-                    } else {
-                        targetActivity = AdminLoginActivity.class; // Default to admin
-                    }
+                                        // Navigate back to the login page where user clicked forgot password
+                                        Class<?> targetActivity;
+                                        if ("MemberRegistrationActivity".equals(sourceActivity)) {
+                                            targetActivity = MemberRegistrationActivity.class;
+                                        } else {
+                                            targetActivity = AdminLoginActivity.class; // Default to admin
+                                        }
 
-                    Intent intent = new Intent(this, targetActivity);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
+                                        Intent intent = new Intent(ResetPasswordActivity.this, targetActivity);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(ResetPasswordActivity.this, "Error: " + message,
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 });
             } else {
                 runOnUiThread(() -> {

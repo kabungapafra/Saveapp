@@ -27,7 +27,7 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<ApprovalsAdapter.Appr
 
         java.util.Date getDate();
 
-        int getApprovalCount();
+        String getStatus();
 
         boolean hasApproved();
     }
@@ -44,9 +44,8 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<ApprovalsAdapter.Appr
         this.listener = listener;
     }
 
-    public void updateList(List<ApprovalItem> newList, int requiredApprovals) {
+    public void updateList(List<ApprovalItem> newList) {
         this.items = newList;
-        this.requiredApprovals = requiredApprovals;
         notifyDataSetChanged();
     }
 
@@ -67,13 +66,14 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<ApprovalsAdapter.Appr
         holder.tvDescription.setText(item.getDescription());
         holder.tvDate.setText(new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(item.getDate()));
 
-        if (item.hasApproved()) {
-            holder.tvApprovalStatus.setText("Approved ✓ (Waiting for others)");
+        String status = item.getStatus();
+        holder.tvApprovalStatus.setText(status);
+
+        if (item.hasApproved() || "COMPLETED".equals(status)) {
             holder.tvApprovalStatus.setTextColor(
                     holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
             holder.btnApprove.setVisibility(View.GONE);
         } else {
-            holder.tvApprovalStatus.setText(item.getApprovalCount() + " of " + requiredApprovals + " Approvals");
             holder.tvApprovalStatus
                     .setTextColor(holder.itemView.getContext().getResources().getColor(R.color.text_secondary));
             holder.btnApprove.setVisibility(View.VISIBLE);

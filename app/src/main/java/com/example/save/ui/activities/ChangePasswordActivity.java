@@ -79,42 +79,37 @@ public class ChangePasswordActivity extends AppCompatActivity {
         binding.btnChangePassword.setEnabled(false);
         binding.btnChangePassword.setText("Changing Password...");
 
-        // Change password in background thread
-        new Thread(() -> {
-            com.example.save.data.models.Member member = viewModel.getMemberByEmail(memberEmail);
+        // Get current password from session or require user to enter it
+        // For first-time password change (OTP login), currentPassword can be the OTP
+        String currentPassword = ""; // TODO: Get from session or input field if needed
 
-            if (member != null) {
-                // Change the password (this will set isFirstLogin to false)
-                viewModel.changePassword(member, newPassword);
+        // Change password via API - backend will hash and validate
+        viewModel.changePassword(memberEmail, currentPassword, newPassword,
+                new com.example.save.data.repository.MemberRepository.PasswordChangeCallback() {
+                    @Override
+                    public void onResult(boolean success, String message) {
+                        binding.btnChangePassword.setEnabled(true);
+                        binding.btnChangePassword.setText("Change Password");
 
-                // Small delay to ensure database update completes
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                        if (success) {
+                            Toast.makeText(ChangePasswordActivity.this,
+                                    message != null ? message : "Password changed successfully!",
+                                    Toast.LENGTH_SHORT).show();
 
-                runOnUiThread(() -> {
-                    Toast.makeText(ChangePasswordActivity.this,
-                            "Password changed successfully!", Toast.LENGTH_SHORT).show();
-
-                    // Navigate to member dashboard
-                    Intent intent = new Intent(ChangePasswordActivity.this, MemberMainActivity.class);
-                    intent.putExtra("member_email", memberEmail);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    finish();
+                            // Navigate to member dashboard
+                            Intent intent = new Intent(ChangePasswordActivity.this, MemberMainActivity.class);
+                            intent.putExtra("member_email", memberEmail);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            finish();
+                        } else {
+                            Toast.makeText(ChangePasswordActivity.this,
+                                    message != null ? message : "Failed to change password",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 });
-            } else {
-                runOnUiThread(() -> {
-                    binding.btnChangePassword.setEnabled(true);
-                    binding.btnChangePassword.setText("Change Password");
-                    Toast.makeText(ChangePasswordActivity.this,
-                            "Error: Member not found", Toast.LENGTH_SHORT).show();
-                });
-            }
-        }).start();
     }
 
     @Override

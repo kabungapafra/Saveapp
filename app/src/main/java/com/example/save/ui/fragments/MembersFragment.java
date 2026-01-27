@@ -94,7 +94,14 @@ public class MembersFragment extends Fragment {
                     viewModel.searchMembers(query).observe(getViewLifecycleOwner(), members -> {
                         if (members != null && adapter != null) {
                             adapter.updateList(members);
-                            updateMemberCount(members.size());
+                            // updateMemberCount(members.size()); // Keep total count or filtered? Filtered usually.
+                            
+                            binding.membersRecyclerView.setVisibility(members.isEmpty() ? View.GONE : View.VISIBLE);
+                            binding.emptyStateLayout.getRoot().setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);
+                            if (members.isEmpty()) {
+                                binding.emptyStateLayout.tvEmptyTitle.setText("No members found");
+                                binding.emptyStateLayout.tvEmptyMessage.setText("Try a different name");
+                            }
                         }
                     });
                 }
@@ -127,6 +134,13 @@ public class MembersFragment extends Fragment {
                 currentMembersList = members;
                 adapter.updateList(members);
                 updateMemberCount(members.size());
+
+                binding.membersRecyclerView.setVisibility(members.isEmpty() ? View.GONE : View.VISIBLE);
+                binding.emptyStateLayout.getRoot().setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);
+                 if (members.isEmpty()) {
+                    binding.emptyStateLayout.tvEmptyTitle.setText("No members yet");
+                    binding.emptyStateLayout.tvEmptyMessage.setText("Add members to get started");
+                 }
 
                 // Update Admins List on background thread
                 refreshAdmins();

@@ -258,20 +258,25 @@ public class PayoutsFragment extends Fragment {
     }
 
     private void executePayout(Member recipient, double amount, boolean defer, String adminEmail) {
-        new Thread(() -> {
-            boolean success = viewModel.executePayout(recipient, amount, defer, adminEmail);
-            requireActivity().runOnUiThread(() -> {
-                if (success) {
-                    android.widget.Toast
-                            .makeText(getContext(), "Approval initiated for payout!", android.widget.Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    android.widget.Toast
-                            .makeText(getContext(), "Failed to initiate payout", android.widget.Toast.LENGTH_SHORT)
-                            .show();
-                }
-            });
-        }).start();
+        // Show loading
+        android.widget.ProgressBar progressBar = new android.widget.ProgressBar(getContext());
+
+        viewModel.executePayout(recipient, amount, defer, adminEmail,
+                new com.example.save.data.repository.MemberRepository.PayoutCallback() {
+                    @Override
+                    public void onResult(boolean success, String message) {
+                        if (success) {
+                            android.widget.Toast.makeText(getContext(),
+                                    message != null ? message : "Payout initiated successfully!",
+                                    android.widget.Toast.LENGTH_SHORT).show();
+                            // Refresh data happens automatically via LiveData observations in updateUI
+                        } else {
+                            android.widget.Toast.makeText(getContext(),
+                                    message != null ? message : "Failed to initiate payout",
+                                    android.widget.Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void showCalendarDialog() {

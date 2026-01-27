@@ -65,6 +65,14 @@ public interface LoanDao {
 
     @Query("SELECT l.*, " +
             "(SELECT COUNT(*) FROM approvals a WHERE a.targetId = l.id AND a.type = 'LOAN') as approvalCount, " +
+            "0 as isApprovedByAdmin " +
+            "FROM loans l " +
+            "WHERE l.memberName = :memberName " +
+            "ORDER BY l.id DESC")
+    LiveData<List<com.example.save.data.models.LoanWithApproval>> getMemberLoansWithApproval(String memberName);
+
+    @Query("SELECT l.*, " +
+            "(SELECT COUNT(*) FROM approvals a WHERE a.targetId = l.id AND a.type = 'LOAN') as approvalCount, " +
             "(SELECT COUNT(*) > 0 FROM approvals a WHERE a.targetId = l.id AND a.type = 'LOAN' AND a.adminEmail = :adminEmail) as isApprovedByAdmin "
             +
             "FROM loans l " +

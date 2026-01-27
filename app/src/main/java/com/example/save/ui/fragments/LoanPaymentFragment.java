@@ -84,25 +84,33 @@ public class LoanPaymentFragment extends Fragment {
     }
 
     private void loadMemberData() {
-        new Thread(() -> {
-            // Get current session user
-            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
-            String userName = session.getUserName();
-            if (userName == null)
-                userName = "Active Member"; // Fallback
+        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
+        String email = session.getUserEmail();
 
-            Member member = viewModel.getMemberByName(userName);
-            com.example.save.data.local.entities.LoanEntity loan = viewModel.getActiveLoanForMember(userName);
-
-            final Member finalMember = member;
-            final com.example.save.data.local.entities.LoanEntity finalLoan = loan;
-
-            requireActivity().runOnUiThread(() -> {
-                currentMember = finalMember;
-                activeLoan = finalLoan;
-                updateLoanUI(finalLoan);
+        if (email != null) {
+            viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
+                if (member != null) {
+                    currentMember = member;
+                    // Load active loan data
+                    loadActiveLoan();
+                }
             });
-        }).start();
+        }
+    }
+
+    private void loadActiveLoan() {
+        if (currentMember != null) {
+            // Fetch Active Loan from database (for display)
+            // NOTE: In production, this should come from backend API
+            java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
+                com.example.save.data.local.entities.LoanEntity loan = viewModel
+                        .getActiveLoanForMember(currentMember.getName());
+                requireActivity().runOnUiThread(() -> {
+                    activeLoan = loan;
+                    updateLoanUI(loan);
+                });
+            });
+        }
     }
 
     private void updateLoanUI(com.example.save.data.local.entities.LoanEntity loan) {
@@ -172,26 +180,43 @@ public class LoanPaymentFragment extends Fragment {
                 return;
             }
 
-            if (currentMember != null) {
-                // Perform payment
-                viewModel.repayLoan(currentMember, amount);
+            if (currentMember != null && activeLoan != null) {
+                // Get loan ID for API call
+                String loanId = activeLoan.getExternalId() != null ? activeLoan.getExternalId()
+                        : String.valueOf(activeLoan.getId());
+                String paymentMethod = "Mobile Money"; // Default or get from settings
 
-                // We'll simulate success
-                showSuccessAnimation();
+                // Perform payment via API - backend will update loan balance and log
+                // transaction
+                viewModel.repayLoan(loanId, amount, paymentMethod, phoneNumber,
+                        new com.example.save.data.repository.MemberRepository.LoanRepaymentCallback() {
+                            @Override
+                            public void onResult(boolean success, String message) {
+                                if (success) {
+                                    showSuccessAnimation();
 
-                // Trigger Notification
-                com.example.save.utils.NotificationHelper notificationHelper = new com.example.save.utils.NotificationHelper(
-                        getContext());
-                notificationHelper.showNotification(
-                        "Loan Payment Received",
-                        "Received UGX " +
-                                java.text.NumberFormat.getIntegerInstance().format(amount) +
-                                " from " + currentMember.getName(),
-                        com.example.save.utils.NotificationHelper.CHANNEL_ID_PAYMENTS);
+                                    // Trigger Notification
+                                    com.example.save.utils.NotificationHelper notificationHelper = new com.example.save.utils.NotificationHelper(
+                                            getContext());
+                                    notificationHelper.showNotification(
+                                            "Loan Payment Processed",
+                                            "Payment of UGX " +
+                                                    java.text.NumberFormat.getIntegerInstance().format(amount) +
+                                                    " processed successfully",
+                                            com.example.save.utils.NotificationHelper.CHANNEL_ID_PAYMENTS);
 
-                etAmount.setText("");
+                                    etAmount.setText("");
+                                    // Reload loan data to show updated balance
+                                    loadActiveLoan();
+                                } else {
+                                    Toast.makeText(getContext(),
+                                            message != null ? message : "Failed to process payment",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             } else {
-                Toast.makeText(getContext(), "User authentication failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Loan information not available", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -57,25 +57,22 @@ public class LoanApplicationFragment extends Fragment {
         binding.tvMaxLoanAmount.setText("Max Limit: UGX " + NumberFormat.getNumberInstance(Locale.US).format(maxLoan));
         binding.tvInterestRate.setText("Interest Rate: " + interest + "%");
 
-        // Check Eligibility (3x Savings) based on current user session
-        // For now, we fetch the member from ViewModel asynchronous
+        // NOTE: Loan eligibility should be fetched from backend API
+        // Backend will calculate eligibility based on: savings, existing loans, payment
+        // history, etc.
+        // For now, showing max loan limit - actual eligibility will be validated by
+        // backend on submission
         com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
         String userName = session.getUserName();
         if (userName != null) {
-            new Thread(() -> {
-                com.example.save.data.models.Member member = viewModel.getMemberByNameSync(userName);
-                if (member != null) {
-                    double eligibility = viewModel.getLoanEligibility(member);
-                    requireActivity().runOnUiThread(() -> {
-                        binding.tvMaxLoanAmount.setText(
-                                "Your Limit: UGX " + NumberFormat.getNumberInstance(Locale.US).format(eligibility));
-                        if (eligibility < maxLoan) {
-                            binding.tvMaxLoanAmount
-                                    .setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
-                        }
-                    });
-                }
-            }).start();
+            // TODO: Call backend API to get loan eligibility
+            // GET /loans/eligibility?memberEmail={email}
+            // Backend will return: { "maxEligibleAmount": 1500000, "reason": "3x savings
+            // rule" }
+
+            // Placeholder: Show max loan limit (backend will validate actual eligibility)
+            binding.tvMaxLoanAmount.setText(
+                    "Max Limit: UGX " + NumberFormat.getNumberInstance(Locale.US).format(maxLoan));
         }
 
         binding.layoutGuarantor.setVisibility(needsGuarantor ? View.VISIBLE : View.GONE);
@@ -189,16 +186,23 @@ public class LoanApplicationFragment extends Fragment {
                 // If duration is valid, enable clicking summary to see schedule
                 if (!durationStr.isEmpty()) {
                     int duration = Integer.parseInt(durationStr);
-                    binding.tvRepaymentSummary
+                    // binding.tvRepaymentSummary.setOnClickListener(v ->
+                    // showRepaymentSchedule(amount, duration, interestRate));
+                    // binding.tvRepaymentSummary.setTextColor(getResources().getColor(R.color.deep_blue));
+
+                    binding.btnViewSchedule.setVisibility(View.VISIBLE);
+                    binding.btnViewSchedule
                             .setOnClickListener(v -> showRepaymentSchedule(amount, duration, interestRate));
-                    binding.tvRepaymentSummary.setTextColor(getResources().getColor(R.color.deep_blue)); // Make it look
-                                                                                                         // clickable
+                } else {
+                    binding.btnViewSchedule.setVisibility(View.GONE);
                 }
             } else {
                 binding.tvRepaymentSummary.setText("Total Repayment: UGX 0");
+                binding.btnViewSchedule.setVisibility(View.GONE);
             }
         } catch (NumberFormatException e) {
             binding.tvRepaymentSummary.setText("Total Repayment: UGX 0");
+            binding.btnViewSchedule.setVisibility(View.GONE);
         }
     }
 
@@ -268,10 +272,23 @@ public class LoanApplicationFragment extends Fragment {
                     guarantorPhone,
                     reason);
 
-            viewModel.submitLoanRequest(loanRequest);
-
-            Toast.makeText(getContext(), "Loan request submitted for admin approval!", Toast.LENGTH_LONG).show();
-            requireActivity().getSupportFragmentManager().popBackStack();
+            // Submit loan request via API - backend will calculate interest and validate
+            viewModel.submitLoanRequest(loanRequest,
+                    new com.example.save.data.repository.MemberRepository.LoanSubmissionCallback() {
+                        @Override
+                        public void onResult(boolean success, String message) {
+                            if (success) {
+                                Toast.makeText(getContext(),
+                                        message != null ? message : "Loan request submitted for admin approval!",
+                                        Toast.LENGTH_LONG).show();
+                                requireActivity().getSupportFragmentManager().popBackStack();
+                            } else {
+                                Toast.makeText(getContext(),
+                                        message != null ? message : "Failed to submit loan request",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
         } catch (NumberFormatException e) {
             Toast.makeText(getContext(), "Invalid input", Toast.LENGTH_SHORT).show();
