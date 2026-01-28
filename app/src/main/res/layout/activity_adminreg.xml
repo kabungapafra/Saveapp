@@ -5,229 +5,197 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Main Login Layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_background">
+        android:background="@drawable/burgundy_gradient">
 
-        <!-- Logo -->
-        <ImageView
-            android:id="@+id/logoImage"
+        <!-- Decorative Circles -->
+        <View
             android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="144dp"
-            android:contentDescription="@string/logo"
-            android:src="@drawable/white"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginStart="-40dp"
+            android:alpha="0.1"
+            android:background="@drawable/white_circle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Main Card Container on Right -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/loginCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="250dp"
-            android:layout_marginEnd="3dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guidelineVertical"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/card_background"
-                android:orientation="vertical"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="45dp"
-                android:paddingBottom="45dp">
-
-                <!-- Login Title -->
-                <TextView
-                    android:id="@+id/loginTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    android:text="@string/login"
-                    android:textColor="#3F51B5"
-                    android:textSize="28sp"
-                    android:textStyle="bold" />
-
-                <!-- Group Name Input -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#80FFFFFF"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:endIconMode="clear_text"
-                    app:endIconTint="#3F51B5"
-                    app:hintTextColor="#3F51B5">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/groupNameInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="60dp"
-                        android:hint="@string/group_name"
-                        android:inputType="text"
-                        android:textColor="#3F51B5"
-                        android:textColorHint="#3F51B5" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Phone Number Input -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#80FFFFFF"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:endIconMode="clear_text"
-                    app:endIconTint="#3F51B5"
-                    app:hintTextColor="#3F51B5"
-                    app:prefixText="+256 "
-                    app:prefixTextColor="#3F51B5">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phoneInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="60dp"
-                        android:hint="@string/phone_number"
-                        android:inputType="phone"
-                        android:textColor="#3F51B5"
-                        android:textColorHint="#3F51B5"
-                        android:maxLength="9" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Password Input -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    app:boxBackgroundColor="#80FFFFFF"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:endIconMode="password_toggle"
-                    app:endIconTint="#3F51B5"
-                    app:hintTextColor="#3F51B5">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/passwordInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="60dp"
-                        android:hint="@string/password"
-                        android:inputType="textPassword"
-                        android:textColor="#3F51B5"
-                        android:textColorHint="#3F51B5" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Forgot Password -->
-                <TextView
-                    android:id="@+id/forgotPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:minHeight="48dp"
-                    android:text="@string/forgot_password"
-                    android:textColor="#3F51B5"
-                    android:textSize="19sp" />
-
-                <!-- Login Button -->
-                <Button
-                    android:id="@+id/loginButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/button_primary_bg"
-                    app:backgroundTint="@null"
-                    android:elevation="4dp"
-                    android:text="@string/login"
-                    android:textColor="#F4F4F8"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Side Tab Container on Left -->
-        <LinearLayout
-            android:id="@+id/sideTabContainer"
+        <TextView
+            android:id="@+id/helloText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/side_tab_bg"
-            android:orientation="vertical"
-            android:paddingStart="20dp"
-            android:paddingTop="24dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="24dp"
-            app:layout_constraintBottom_toBottomOf="@id/loginCard"
-            app:layout_constraintEnd_toStartOf="@id/guidelineVertical"
+            android:layout_marginTop="64dp"
+            android:text="Sign In!"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/loginCard">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Login Tab -->
-            <Button
-                android:id="@+id/loginTab"
-                android:layout_width="106dp"
+        <!-- White Card Background -->
+        <View
+            android:id="@+id/cardBg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="160dp"
+            android:background="@drawable/white_card_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Side Tab Container -->
+        <LinearLayout
+            android:id="@+id/sideTabContainer"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/active_tab_bg"
-                app:backgroundTint="@null"
-                android:paddingStart="16dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp"
-                android:text="@string/login"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:layout_marginBottom="24dp"
+                android:rotation="270"
+                android:text="LOG IN"
+                android:textColor="@color/project_primary"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <!-- Sign up Tab -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/signUpTab"
-                android:layout_width="110dp"
+            <TextView
+                android:id="@+id/sideSignUpTab"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tab_bg"
-                android:minHeight="48dp"
-                android:paddingStart="16dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp"
+                android:layout_marginTop="48dp"
                 android:onClick="onsingupClick"
-                android:text="@string/sign_up"
-                android:textColor="#FFFFFF"
+                android:rotation="270"
+                android:text="SIGN UP"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loginCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="32dp"
+            app:layout_constraintEnd_toStartOf="@+id/sideTabContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardBg">
+
+            <!-- Group Name -->
+            <EditText
+                android:id="@+id/groupNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableStart="@drawable/ic_people"
+                android:drawablePadding="12dp"
+                app:drawableTint="@color/project_primary"
+                android:hint="Group Name"
+                android:inputType="text"
+                android:paddingVertical="16dp"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="#EEEEEE" />
+
+            <!-- Phone Number -->
+            <EditText
+                android:id="@+id/phoneInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableStart="@drawable/ic_phone"
+                android:drawablePadding="12dp"
+                app:drawableTint="@color/project_primary"
+                android:hint="Phone Number"
+                android:inputType="phone"
+                android:paddingVertical="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="#EEEEEE" />
+
+            <!-- Password -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/passwordInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:drawablePadding="12dp"
+                    app:drawableTint="@color/project_primary"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/passwordToggle"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_visibility_off"
+                    app:tint="#CCCCCC"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="#EEEEEE" />
+
+            <TextView
+                android:id="@+id/forgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="Forgot Password?"
+                android:textColor="@color/project_primary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <!-- Login Button -->
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="48dp"
+                android:background="@drawable/gradient_button"
+                app:backgroundTint="@null"
+                android:text="SIGN IN"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1" />
 
         </LinearLayout>
 
-        <!-- Guideline to separate left and right sections -->
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineVertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.29" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Fragment Container (for Forgot Password OTP) -->
+    <!-- Fragment Container -->
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"

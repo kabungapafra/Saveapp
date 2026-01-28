@@ -60,6 +60,8 @@ public class AdminSignupActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        setupPasswordToggles();
     }
 
     /**
@@ -174,6 +176,24 @@ public class AdminSignupActivity extends AppCompatActivity {
         transaction.replace(R.id.fragmentContainer, otp);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void setupPasswordToggles() {
+        binding.passwordToggle.setOnClickListener(v -> togglePassword(binding.passwordInput, binding.passwordToggle));
+        binding.confirmPasswordToggle
+                .setOnClickListener(v -> togglePassword(binding.confirmPasswordInput, binding.confirmPasswordToggle));
+    }
+
+    private void togglePassword(android.widget.EditText editText, android.widget.ImageView toggleIcon) {
+        boolean isVisible = editText.getTransformationMethod() == null;
+        if (isVisible) {
+            editText.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
+            toggleIcon.setImageResource(R.drawable.ic_visibility_off);
+        } else {
+            editText.setTransformationMethod(null);
+            toggleIcon.setImageResource(R.drawable.ic_visibility);
+        }
+        editText.setSelection(editText.getText().length());
     }
 
     @Override

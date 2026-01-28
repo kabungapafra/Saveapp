@@ -34,6 +34,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         // Setup click listeners
         binding.loginButton.setOnClickListener(v -> handleLogin());
         binding.forgotPassword.setOnClickListener(v -> showForgotPasswordFragment());
+        setupPasswordToggle();
 
         viewModel = new androidx.lifecycle.ViewModelProvider(this)
                 .get(com.example.save.ui.viewmodels.MembersViewModel.class);
@@ -122,11 +123,11 @@ public class AdminLoginActivity extends AppCompatActivity {
 
                 if (response.isSuccessful() && response.body() != null) {
                     com.example.save.data.network.LoginResponse loginResponse = response.body();
-                    
+
                     // Verify user is admin
-                    if (!"Administrator".equalsIgnoreCase(loginResponse.getRole()) && 
-                        !"Admin".equalsIgnoreCase(loginResponse.getRole())) {
-                        Toast.makeText(AdminLoginActivity.this, 
+                    if (!"Administrator".equalsIgnoreCase(loginResponse.getRole()) &&
+                            !"Admin".equalsIgnoreCase(loginResponse.getRole())) {
+                        Toast.makeText(AdminLoginActivity.this,
                                 "Access Denied: Please use the Member login portal.", Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -134,9 +135,9 @@ public class AdminLoginActivity extends AppCompatActivity {
                     // Save session with JWT token
                     com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
                             getApplicationContext());
-                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), 
+                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
                             loginResponse.getRole());
-                    
+
                     if (loginResponse.getToken() != null) {
                         session.saveJwtToken(loginResponse.getToken());
                     }
@@ -149,7 +150,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                             .putString("admin_email", loginResponse.getEmail())
                             .apply();
 
-                    Toast.makeText(AdminLoginActivity.this, "Welcome " + loginResponse.getName(), 
+                    Toast.makeText(AdminLoginActivity.this, "Welcome " + loginResponse.getName(),
                             Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
@@ -172,6 +173,20 @@ public class AdminLoginActivity extends AppCompatActivity {
                 binding.loginButton.setText("Login");
                 com.example.save.utils.ApiErrorHandler.handleError(AdminLoginActivity.this, t);
             }
+        });
+    }
+
+    private void setupPasswordToggle() {
+        binding.passwordToggle.setOnClickListener(v -> {
+            boolean isVisible = binding.passwordInput.getTransformationMethod() == null;
+            if (isVisible) {
+                binding.passwordInput.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
+                binding.passwordToggle.setImageResource(R.drawable.ic_visibility_off);
+            } else {
+                binding.passwordInput.setTransformationMethod(null);
+                binding.passwordToggle.setImageResource(R.drawable.ic_visibility);
+            }
+            binding.passwordInput.setSelection(binding.passwordInput.getText().length());
         });
     }
 
