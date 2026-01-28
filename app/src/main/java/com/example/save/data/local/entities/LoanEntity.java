@@ -14,10 +14,10 @@ import java.util.Date;
 @TypeConverters(Converters.class)
 public class LoanEntity {
 
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+    @PrimaryKey
+    @androidx.annotation.NonNull
+    private String id;
 
-    private String externalId; // Original String ID if needed
     private String memberId;
     private String memberName;
     private double amount;
@@ -32,20 +32,12 @@ public class LoanEntity {
     }
 
     // Getters and Setters
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getExternalId() {
-        return externalId;
-    }
-
-    public void setExternalId(String externalId) {
-        this.externalId = externalId;
     }
 
     public String getMemberId() {

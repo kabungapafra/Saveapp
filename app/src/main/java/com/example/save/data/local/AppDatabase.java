@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
                 TransactionEntity.class,
                 com.example.save.data.local.entities.TaskEntity.class,
                 com.example.save.data.local.entities.NotificationEntity.class,
-                com.example.save.data.local.entities.ApprovalEntity.class }, version = 12, exportSchema = false)
+                com.example.save.data.local.entities.ApprovalEntity.class }, version = 13, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
 

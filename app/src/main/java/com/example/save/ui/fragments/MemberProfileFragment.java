@@ -83,6 +83,7 @@ public class MemberProfileFragment extends Fragment {
     private void updateUI(Member member) {
         binding.tvMemberName.setText(member.getName());
         binding.tvMemberRole.setText(member.getRole() + " • Joined Jan 2024");
+        binding.tvMemberId.setText("ID: " + member.getFormattedId());
 
         // Initials
         if (member.getName() != null && !member.getName().isEmpty()) {
@@ -143,13 +144,13 @@ public class MemberProfileFragment extends Fragment {
                             color));
 
                     // Reliability Calculation
-                     if ("REJECTED".equalsIgnoreCase(entity.getStatus())) {
+                    if ("REJECTED".equalsIgnoreCase(entity.getStatus())) {
                         failCount++;
                     } else {
                         successCount++;
                     }
                 }
-                
+
                 // Calculate Reliability
                 int total = successCount + failCount;
                 int reliability = total > 0 ? (int) (((double) successCount / total) * 100) : 100;

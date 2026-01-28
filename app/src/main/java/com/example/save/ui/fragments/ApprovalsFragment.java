@@ -69,14 +69,14 @@ public class ApprovalsFragment extends Fragment {
         });
     }
 
-    private void approveLoan(long id) {
+    private void approveLoan(String id) {
         viewModel.approveLoan(id, adminEmail, (success, message) -> {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             // No need to call refreshList(), LiveData will update automatically!
         });
     }
 
-    private void approvePayout(long id) {
+    private void approvePayout(String id) {
         viewModel.approveTransaction(id, adminEmail, (success, message) -> {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             // No need to call refreshList(), LiveData will update automatically!

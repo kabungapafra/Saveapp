@@ -15,7 +15,6 @@ public class LoanRequest {
 
     public LoanRequest(String memberName, double amount, int durationMonths, String guarantor, String guarantorPhone,
             String reason) {
-        this.id = java.util.UUID.randomUUID().toString();
         this.memberName = memberName;
         this.amount = amount;
         this.durationMonths = durationMonths;

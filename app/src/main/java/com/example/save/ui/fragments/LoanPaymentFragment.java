@@ -182,8 +182,7 @@ public class LoanPaymentFragment extends Fragment {
 
             if (currentMember != null && activeLoan != null) {
                 // Get loan ID for API call
-                String loanId = activeLoan.getExternalId() != null ? activeLoan.getExternalId()
-                        : String.valueOf(activeLoan.getId());
+                String loanId = activeLoan.getId();
                 String paymentMethod = "Mobile Money"; // Default or get from settings
 
                 // Perform payment via API - backend will update loan balance and log

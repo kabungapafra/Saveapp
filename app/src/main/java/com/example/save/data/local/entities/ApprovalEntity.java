@@ -10,26 +10,27 @@ import androidx.room.Index;
  */
 @Entity(tableName = "approvals", indices = { @Index(value = { "type", "targetId", "adminEmail" }, unique = true) })
 public class ApprovalEntity {
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+    @PrimaryKey
+    @androidx.annotation.NonNull
+    private String id;
 
     private String type; // "LOAN" or "PAYOUT"
-    private long targetId; // ID of the LoanEntity or TransactionEntity
+    private String targetId; // ID of the LoanEntity or TransactionEntity
     private String adminEmail; // Email of the admin who approved
     private Date approvalDate;
 
-    public ApprovalEntity(String type, long targetId, String adminEmail, Date approvalDate) {
+    public ApprovalEntity(String type, String targetId, String adminEmail, Date approvalDate) {
         this.type = type;
         this.targetId = targetId;
         this.adminEmail = adminEmail;
         this.approvalDate = approvalDate;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -41,11 +42,11 @@ public class ApprovalEntity {
         this.type = type;
     }
 
-    public long getTargetId() {
+    public String getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(long targetId) {
+    public void setTargetId(String targetId) {
         this.targetId = targetId;
     }
 

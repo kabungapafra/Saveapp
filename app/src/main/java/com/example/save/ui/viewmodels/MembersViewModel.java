@@ -24,6 +24,10 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getMembers();
     }
 
+    public void syncMembers() {
+        repository.syncMembers();
+    }
+
     public LiveData<List<Member>> searchMembers(String query) {
         return repository.searchMembers(query);
     }
@@ -291,11 +295,11 @@ public class MembersViewModel extends AndroidViewModel {
         });
     }
 
-    public void approveTransaction(long txId, String adminEmail, MemberRepository.ApprovalCallback callback) {
+    public void approveTransaction(String txId, String adminEmail, MemberRepository.ApprovalCallback callback) {
         repository.approveTransaction(txId, adminEmail, callback);
     }
 
-    public void approveLoan(long loanId, String adminEmail, MemberRepository.ApprovalCallback callback) {
+    public void approveLoan(String loanId, String adminEmail, MemberRepository.ApprovalCallback callback) {
         repository.approveLoan(loanId, adminEmail, callback);
     }
 
@@ -368,13 +372,13 @@ public class MembersViewModel extends AndroidViewModel {
 
     // Static implementation to avoid leaks
     private static class ApprovalItemImpl implements com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem {
-        private final long id;
+        private final String id;
         private final String type, title, description, status; // Keep status field
         private final double amount;
         private final java.util.Date date;
         private final boolean hasApproved;
 
-        public ApprovalItemImpl(long id, String type, String title, double amount, String description,
+        public ApprovalItemImpl(String id, String type, String title, double amount, String description,
                 java.util.Date date, String status, boolean hasApproved) {
             this.id = id;
             this.type = type;
@@ -386,7 +390,7 @@ public class MembersViewModel extends AndroidViewModel {
             this.hasApproved = hasApproved;
         }
 
-        public long getId() {
+        public String getId() {
             return id;
         }
 
@@ -419,7 +423,7 @@ public class MembersViewModel extends AndroidViewModel {
         }
     }
 
-    public boolean hasAdminApproved(String type, long id, String adminEmail) {
+    public boolean hasAdminApproved(String type, String id, String adminEmail) {
         return repository.hasAdminApproved(type, id, adminEmail);
     }
 

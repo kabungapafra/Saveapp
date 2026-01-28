@@ -10,8 +10,9 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "members", indices = { @Index(value = "name"), @Index(value = "email", unique = true) })
 public class MemberEntity {
 
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+    @PrimaryKey
+    @androidx.annotation.NonNull
+    private String id;
 
     private String name;
     private String role;
@@ -51,11 +52,11 @@ public class MemberEntity {
     }
 
     // Getters and Setters
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

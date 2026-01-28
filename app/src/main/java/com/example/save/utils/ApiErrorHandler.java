@@ -11,7 +11,7 @@ public class ApiErrorHandler {
 
     public static void handleError(Context context, Throwable throwable) {
         String errorMessage = "An error occurred. Please try again.";
-        
+
         if (throwable instanceof java.net.UnknownHostException) {
             errorMessage = "No internet connection. Please check your network.";
         } else if (throwable instanceof java.net.SocketTimeoutException) {
@@ -19,7 +19,7 @@ public class ApiErrorHandler {
         } else if (throwable instanceof retrofit2.HttpException) {
             retrofit2.HttpException httpException = (retrofit2.HttpException) throwable;
             int code = httpException.code();
-            
+
             switch (code) {
                 case 401:
                     errorMessage = "Authentication failed. Please login again.";
@@ -37,8 +37,8 @@ public class ApiErrorHandler {
                     errorMessage = "Error " + code + ": " + httpException.message();
             }
         }
-        
-        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
+
+        Toast.makeText(context, errorMessage + "\n" + throwable.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     public static void handleApiResponse(Context context, ApiResponse response) {

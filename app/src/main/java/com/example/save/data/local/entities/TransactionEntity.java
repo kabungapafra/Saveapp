@@ -6,8 +6,9 @@ import java.util.Date;
 
 @Entity(tableName = "transactions")
 public class TransactionEntity {
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+    @PrimaryKey
+    @androidx.annotation.NonNull
+    private String id;
 
     private String memberName; // New: Associate with user
     private String type; // "CONTRIBUTION", "LOAN_PAYOUT", "LOAN_REPAYMENT"
@@ -30,11 +31,11 @@ public class TransactionEntity {
         this.status = status;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

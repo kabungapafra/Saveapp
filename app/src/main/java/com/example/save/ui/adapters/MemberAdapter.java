@@ -101,7 +101,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         void bind(Member member) {
-            tvName.setText(member.getName());
+            tvName.setText(member.getName() + " (" + member.getFormattedId() + ")");
             tvRole.setText(member.getRole());
             tvSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
             int color = member.isActive()
@@ -128,7 +128,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         void bind(Member member, int position, OnMemberClickListener listener) {
-            tvName.setText(member.getName());
+            tvName.setText(member.getName() + " (" + member.getFormattedId() + ")");
             tvRole.setText(member.getRole());
             tvSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
 

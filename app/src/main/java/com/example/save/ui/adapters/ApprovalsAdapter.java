@@ -15,7 +15,7 @@ import java.util.Locale;
 
 public class ApprovalsAdapter extends RecyclerView.Adapter<ApprovalsAdapter.ApprovalViewHolder> {
     public interface ApprovalItem {
-        long getId();
+        String getId();
 
         String getType();
 

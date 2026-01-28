@@ -7,7 +7,7 @@ import com.example.save.data.models.*;
 import com.example.save.data.repository.*;
 
 public class Member {
-    private long id;
+    private String id;
     private String name;
     private String role;
     private boolean isActive;
@@ -171,16 +171,20 @@ public class Member {
         this.paymentStreak = paymentStreak;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     public String getFormattedId() {
-        return String.format("MEM-%03d", id);
+        if (id == null)
+            return "N/A";
+        if (id.length() > 8)
+            return "MEM-" + id.substring(0, 8).toUpperCase();
+        return "MEM-" + id.toUpperCase();
     }
 
     public String getNextPayoutDate() {

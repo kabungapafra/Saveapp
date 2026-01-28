@@ -612,7 +612,7 @@ public class MemberRepository {
                         "N/A", // Guarantor not in entity
                         "N/A",
                         entity.getReason());
-                req.setId(entity.getExternalId());
+                req.setId(entity.getId());
                 req.setStatus(entity.getStatus());
                 requests.add(req);
             }
@@ -632,7 +632,7 @@ public class MemberRepository {
                     "N/A",
                     "N/A",
                     entity.getReason());
-            req.setId(entity.getExternalId());
+            req.setId(entity.getId());
             req.setStatus(entity.getStatus());
             requests.add(req);
         }
@@ -647,15 +647,8 @@ public class MemberRepository {
     // Note: Balance checks, approval counting, and loan finalization are handled by
     // backend
     public void initiateLoanApproval(String requestId, String adminEmail, ApprovalCallback callback) {
-        long transactionId = 0;
-        try {
-            transactionId = Long.parseLong(requestId);
-        } catch (NumberFormatException e) {
-            // If requestId is not a long, we might need to handle it differently
-            // but ApprovalRequest expects long
-        }
         com.example.save.data.network.ApprovalRequest approvalRequest = new com.example.save.data.network.ApprovalRequest(
-                transactionId, adminEmail);
+                requestId, adminEmail);
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(appContext).create(com.example.save.data.network.ApiService.class);
@@ -958,7 +951,7 @@ public class MemberRepository {
     // balances
 
     public void syncMembers() {
-        com.example.save.data.network.RetrofitClient.getClient(null)
+        com.example.save.data.network.RetrofitClient.getClient(appContext)
                 .create(com.example.save.data.network.ApiService.class)
                 .getMembers().enqueue(new retrofit2.Callback<List<MemberEntity>>() {
                     @Override
@@ -980,14 +973,14 @@ public class MemberRepository {
 
     // --- Multi-Admin Approval Logic ---
 
-    public void approveTransaction(long txId, String adminEmail, ApprovalCallback callback) {
+    public void approveTransaction(String txId, String adminEmail, ApprovalCallback callback) {
         executor.execute(() -> {
             synchronized (this) {
                 try {
                     // Post approval to API
                     com.example.save.data.network.RetrofitClient.getClient(null)
                             .create(com.example.save.data.network.ApiService.class)
-                            .approveTransaction(String.valueOf(txId),
+                            .approveTransaction(txId,
                                     new com.example.save.data.network.ApprovalRequest(txId, adminEmail))
                             .enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
                                 @Override
@@ -1018,16 +1011,14 @@ public class MemberRepository {
     // Loan approval by ID - Now uses backend API
     // Note: Approval counting, loan finalization, and transaction logging are
     // handled by backend
-    public void approveLoan(long loanId, String adminEmail, ApprovalCallback callback) {
-        // Convert long ID to string for API
-        String loanIdStr = String.valueOf(loanId);
+    public void approveLoan(String loanId, String adminEmail, ApprovalCallback callback) {
         com.example.save.data.network.ApprovalRequest approvalRequest = new com.example.save.data.network.ApprovalRequest(
                 loanId, adminEmail);
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(appContext).create(com.example.save.data.network.ApiService.class);
 
-        apiService.approveLoan(loanIdStr, approvalRequest).enqueue(
+        apiService.approveLoan(loanId, approvalRequest).enqueue(
                 new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
                     @Override
                     public void onResponse(
@@ -1071,11 +1062,11 @@ public class MemberRepository {
         return transactionDao.getPendingTransactions();
     }
 
-    public int getApprovalCount(String type, long targetId) {
+    public int getApprovalCount(String type, String targetId) {
         return approvalDao.getApprovalCount(type, targetId);
     }
 
-    public boolean hasAdminApproved(String type, long id, String adminEmail) {
+    public boolean hasAdminApproved(String type, String id, String adminEmail) {
         return approvalDao.getAdminApproval(type, id, adminEmail) != null;
     }
 }

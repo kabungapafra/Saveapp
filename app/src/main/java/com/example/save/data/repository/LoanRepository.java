@@ -71,7 +71,7 @@ public class LoanRepository {
 
     public void approveLoan(String id) {
         executor.execute(() -> {
-            LoanEntity entity = loanDao.getLoanByExternalId(id);
+            LoanEntity entity = loanDao.getLoanByIdSync(id);
             if (entity != null) {
                 entity.setStatus(Loan.STATUS_ACTIVE);
                 java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -84,7 +84,7 @@ public class LoanRepository {
 
     public void rejectLoan(String id) {
         executor.execute(() -> {
-            LoanEntity entity = loanDao.getLoanByExternalId(id);
+            LoanEntity entity = loanDao.getLoanByIdSync(id);
             if (entity != null) {
                 entity.setStatus(Loan.STATUS_REJECTED);
                 loanDao.update(entity);
@@ -113,7 +113,7 @@ public class LoanRepository {
 
     private Loan convertEntityToModel(LoanEntity entity) {
         Loan loan = new Loan(
-                entity.getExternalId(),
+                entity.getId(),
                 entity.getMemberId(),
                 entity.getMemberName(),
                 entity.getAmount(),

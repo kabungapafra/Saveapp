@@ -12,14 +12,14 @@ public interface ApprovalDao {
     void insert(ApprovalEntity approval);
 
     @Query("SELECT * FROM approvals WHERE type = :type AND targetId = :targetId")
-    List<ApprovalEntity> getApprovalsForTarget(String type, long targetId);
+    List<ApprovalEntity> getApprovalsForTarget(String type, String targetId);
 
     @Query("SELECT COUNT(*) FROM approvals WHERE type = :type AND targetId = :targetId")
-    int getApprovalCount(String type, long targetId);
+    int getApprovalCount(String type, String targetId);
 
     @Query("SELECT * FROM approvals WHERE type = :type AND targetId = :targetId AND adminEmail = :adminEmail")
-    ApprovalEntity getAdminApproval(String type, long targetId, String adminEmail);
+    ApprovalEntity getAdminApproval(String type, String targetId, String adminEmail);
 
     @Query("DELETE FROM approvals WHERE type = :type AND targetId = :targetId")
-    void deleteApprovalsForTarget(String type, long targetId);
+    void deleteApprovalsForTarget(String type, String targetId);
 }

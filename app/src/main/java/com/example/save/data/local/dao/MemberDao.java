@@ -19,7 +19,7 @@ import java.util.List;
 public interface MemberDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(MemberEntity member);
+    void insert(MemberEntity member);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<MemberEntity> members);
@@ -37,7 +37,7 @@ public interface MemberDao {
     List<MemberEntity> getAllMembersSync();
 
     @Query("SELECT * FROM members WHERE id = :memberId")
-    LiveData<MemberEntity> getMemberById(long memberId);
+    LiveData<MemberEntity> getMemberById(String memberId);
 
     @Query("SELECT * FROM members WHERE name = :name LIMIT 1")
     MemberEntity getMemberByName(String name);

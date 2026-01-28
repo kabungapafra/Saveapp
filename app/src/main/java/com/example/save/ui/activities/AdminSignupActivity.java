@@ -126,27 +126,35 @@ public class AdminSignupActivity extends AppCompatActivity {
         binding.signupButton.setEnabled(false);
         binding.signupButton.setText("Sending OTP...");
 
-        // TODO: Call backend API to send OTP
-        // POST /auth/admin/send-otp
-        // Body: { "phone": "+256" + phone, "email": email }
+        // Call backend API to send OTP
+        com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(phone, email);
 
-        // For now, simulate OTP sent
-        simulateOtpSent(adminName, groupName, phone, email, password);
-    }
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(this).create(com.example.save.data.network.ApiService.class);
 
-    /**
-     * TEMPORARY: Simulate OTP sent (replace with actual API call)
-     */
-    private void simulateOtpSent(String adminName, String groupName, String phone, String email, String password) {
-        new Handler().postDelayed(() -> {
-            binding.signupButton.setEnabled(true);
-            binding.signupButton.setText(getString(R.string.create_account));
+        apiService.sendAdminOtp(request).enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                    retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                binding.signupButton.setEnabled(true);
+                binding.signupButton.setText(getString(R.string.create_account));
 
-            Toast.makeText(this, "OTP sent to " + email, Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(AdminSignupActivity.this, "OTP sent to " + email, Toast.LENGTH_SHORT).show();
+                    // Navigate to OTP fragment
+                    navigateToOtpFragment(adminName, groupName, phone, email, password);
+                } else {
+                    com.example.save.utils.ApiErrorHandler.handleResponse(AdminSignupActivity.this, response);
+                }
+            }
 
-            // Navigate to OTP fragment
-            navigateToOtpFragment(adminName, groupName, phone, email, password);
-        }, 1500);
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                binding.signupButton.setEnabled(true);
+                binding.signupButton.setText(getString(R.string.create_account));
+                com.example.save.utils.ApiErrorHandler.handleError(AdminSignupActivity.this, t);
+            }
+        });
     }
 
     /**

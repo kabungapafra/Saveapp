@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface TransactionDao {
         @Insert
-        long insert(TransactionEntity transaction);
+        void insert(TransactionEntity transaction);
 
         @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT 20")
         LiveData<List<TransactionEntity>> getRecentTransactions();
@@ -34,10 +34,10 @@ public interface TransactionDao {
         LiveData<List<TransactionEntity>> getPendingTransactions();
 
         @Query("SELECT * FROM transactions WHERE id = :id")
-        TransactionEntity getTransactionById(long id);
+        TransactionEntity getTransactionById(String id);
 
         @Query("UPDATE transactions SET status = :status WHERE id = :id")
-        void updateStatus(long id, String status);
+        void updateStatus(String id, String status);
 
         // Pagination
         @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT :limit OFFSET :offset")
