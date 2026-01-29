@@ -42,4 +42,8 @@
     <color name="project_light">#2196F3</color>
     <color name="project_accent">#E3F2FD</color>
 
+    <!-- Premium Dashboard Card Colors (Project Aligned) -->
+    <color name="card_blue_start">#1976D2</color>
+    <color name="card_blue_end">#0D47A1</color>
+    <color name="card_premium_icon_bg">#33000000</color>
 </resources>

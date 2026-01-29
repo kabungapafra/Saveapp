@@ -103,6 +103,10 @@ public class MemberMainActivity extends AppCompatActivity {
             binding.rvRecentTransactions.setAdapter(transactionAdapter);
         }
 
+        if (binding.btnViewAllMembers != null) {
+            binding.btnViewAllMembers.setOnClickListener(v -> showMembersSection());
+        }
+
         setupFilters();
     }
 
@@ -236,12 +240,6 @@ public class MemberMainActivity extends AppCompatActivity {
     }
 
     private void setupHeaderInteractions() {
-        if (binding.btnHeaderMembers != null) {
-            binding.btnHeaderMembers.setOnClickListener(v -> {
-                showMembersSection();
-            });
-        }
-
         // Clicking the greeting opens Settings (for logout)
         if (binding.greetingName != null) {
             binding.greetingName.setOnClickListener(v -> {
@@ -343,6 +341,10 @@ public class MemberMainActivity extends AppCompatActivity {
             loadFragment(LoansFragment.newInstance(email));
         });
 
+        binding.navMembers.setOnClickListener(v -> {
+            showMembersSection();
+        });
+
         binding.navStats.setOnClickListener(v -> {
             updateNav(binding.navStats, binding.txtStats, binding.imgStats);
             String email = getIntent().getStringExtra("member_email");
@@ -353,39 +355,38 @@ public class MemberMainActivity extends AppCompatActivity {
     }
 
     private void updateNav(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage) {
-        // 1. Reset all items to unselected state first
-        resetAllNavItems();
+        // 1. Reset all items
+        resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
+        resetNavItem(binding.navPay, binding.txtPay, binding.imgPay);
+        resetNavItem(binding.navQueue, binding.txtQueue, binding.imgQueue);
+        resetNavItem(binding.navLoans, binding.txtLoans, binding.imgLoans);
+        resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
+        resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
 
-        // 2. Set the clicked item to selected state
+        // 2. Set active
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) selectedLayout.getLayoutParams();
         params.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         params.weight = 0;
         selectedLayout.setLayoutParams(params);
 
-        // Dark Indigo Color for Active State
-        int activeColor = androidx.core.content.ContextCompat.getColor(this, R.color.deep_blue);
-        selectedLayout.setBackgroundResource(R.drawable.nav_item_pill_white);
+        selectedLayout.setBackgroundResource(R.drawable.nav_item_pill_refined);
         selectedText.setVisibility(View.VISIBLE);
+
+        int activeColor = Color.parseColor("#0D47A1");
         selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
         selectedText.setTextColor(activeColor);
 
-        // Show/Hide Main Content vs Fragment Container
+        // 3. Fragment Visibility
         if (selectedLayout == binding.navDashboard) {
-            if (binding.mainScrollView != null)
-                binding.mainScrollView.setVisibility(View.VISIBLE);
-            if (binding.fragmentContainer != null)
-                binding.fragmentContainer.setVisibility(View.GONE);
-
+            binding.mainScrollView.setVisibility(View.VISIBLE);
+            binding.fragmentContainer.setVisibility(View.GONE);
             // Show Header on Dashboard only
             if (binding.header != null) {
                 binding.header.setVisibility(View.VISIBLE);
             }
         } else {
-            if (binding.mainScrollView != null)
-                binding.mainScrollView.setVisibility(View.GONE);
-            if (binding.fragmentContainer != null)
-                binding.fragmentContainer.setVisibility(View.VISIBLE);
-
+            binding.mainScrollView.setVisibility(View.GONE);
+            binding.fragmentContainer.setVisibility(View.VISIBLE);
             // Hide Header on other tabs
             if (binding.header != null) {
                 binding.header.setVisibility(View.GONE);
@@ -398,6 +399,7 @@ public class MemberMainActivity extends AppCompatActivity {
         resetNavItem(binding.navPay, binding.txtPay, binding.imgPay);
         resetNavItem(binding.navQueue, binding.txtQueue, binding.imgQueue);
         resetNavItem(binding.navLoans, binding.txtLoans, binding.imgLoans);
+        resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
         resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
     }
 
@@ -434,17 +436,6 @@ public class MemberMainActivity extends AppCompatActivity {
             });
         }
 
-        // Load Group ID
-        if (binding.tvGroupId != null) {
-            android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
-            String groupId = prefs.getString("group_id", null);
-            if (groupId == null) {
-                // Should have been generated by Admin, but safe fallback
-                groupId = "GRP-PENDING";
-            }
-            binding.tvGroupId.setText("ID: " + groupId);
-        }
-
         if (binding.txtBalance != null && viewModel != null) {
             viewModel.getGroupBalance().observe(this, balance -> {
                 if (balance != null) {
@@ -470,10 +461,8 @@ public class MemberMainActivity extends AppCompatActivity {
                         if (target > 0) {
                             int progress = (int) ((mySavings / target) * 100);
                             binding.metricsProgress.setProgress(progress);
-                            binding.tvProgressPercentage.setText(progress + "% of Goal");
                         } else {
                             binding.metricsProgress.setProgress(0);
-                            binding.tvProgressPercentage.setText("0% of Goal");
                         }
 
                     } else {
@@ -482,7 +471,6 @@ public class MemberMainActivity extends AppCompatActivity {
                                 .getCurrencyInstance(new java.util.Locale("en", "UG")).format(0.0);
                         binding.savingsBalance.setText(formatted);
                         binding.metricsProgress.setProgress(0);
-                        binding.tvProgressPercentage.setText("0% of Goal");
                     }
                 }
             });
@@ -492,11 +480,9 @@ public class MemberMainActivity extends AppCompatActivity {
                     .getCurrencyInstance(new java.util.Locale("en", "UG")).format(0.0);
             binding.savingsBalance.setText(formatted);
             binding.metricsProgress.setProgress(0);
-            binding.tvProgressPercentage.setText("0% of Goal");
         }
 
         updateExtraStats();
-        updateMemberCount();
         loadRecentTransactions();
     }
 
@@ -592,20 +578,6 @@ public class MemberMainActivity extends AppCompatActivity {
         }
 
         upcomingPaymentAdapter.updateList(payments);
-    }
-
-    private void updateMemberCount() {
-        if (viewModel != null && binding != null && binding.activeMembers != null) {
-            viewModel.getActiveMemberCountLive().observe(this, activeMembersCount -> {
-                if (binding != null && binding.activeMembers != null) {
-                    viewModel.getTotalMemberCountLive().observe(this, totalMembers -> {
-                        if (binding != null && binding.activeMembers != null) {
-                            binding.activeMembers.setText(activeMembersCount + "/" + totalMembers);
-                        }
-                    });
-                }
-            });
-        }
     }
 
     public void switchToDashboard() {

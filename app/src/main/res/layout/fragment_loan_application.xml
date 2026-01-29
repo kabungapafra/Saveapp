@@ -6,54 +6,55 @@
     android:layout_height="match_parent"
     android:background="@color/background_primary">
 
-    <!-- Header -->
+    <!-- Header With Gradient Background -->
+    <View
+        android:id="@+id/headerBg"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/bg_header_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Header Content -->
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/deep_blue"
+        android:layout_marginTop="48dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="20dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_circle_white"
+            android:elevation="2dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="@color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Back"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                app:tint="@color/project_primary" />
         </LinearLayout>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="sans-serif-bold"
             android:gravity="center"
             android:text="Apply for Loan"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <View
-            android:layout_width="60dp"
-            android:layout_height="1dp" />
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -68,50 +69,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
             <!-- Loan Overview Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardBackgroundColor="@color/project_primary"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/gradient_card_bg"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="24dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.05"
                         android:text="AVAILABLE LIMIT"
+                        android:textAllCaps="true"
                         android:textColor="#CCFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textSize="11sp" />
 
                     <TextView
                         android:id="@+id/tvMaxLoanAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="UGX 500,000"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-black"
                         android:textColor="@color/white"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-                        
+                        android:textSize="32sp"
+                        tools:text="UGX 500,000" />
+
+                    <View
+                        android:layout_width=" match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="16dp"
+                        android:background="#22FFFFFF" />
+
                     <TextView
                         android:id="@+id/tvInterestRate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Interest Rate: 5%"
+                        android:fontFamily="sans-serif-medium"
                         android:textColor="#EEFFFFFF"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="Interest Rate: 5%" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -121,18 +129,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Loan Details"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="40dp"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@color/project_primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
                         android:text="Amount Needed (UGX)"
                         android:textColor="@color/text_secondary"
                         android:textSize="12sp" />
@@ -141,31 +165,36 @@
                         android:id="@+id/etLoanAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:background="@drawable/bg_edittext"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="e.g. 200,000"
                         android:inputType="number"
-                        android:padding="12dp"
-                        android:textColor="@color/text_primary" />
+                        android:padding="14dp"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif-medium"
                         android:text="Duration (Months)"
-                        android:textColor="#666666"
+                        android:textColor="@color/text_secondary"
                         android:textSize="12sp" />
 
                     <EditText
                         android:id="@+id/etDuration"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:background="@drawable/bg_edittext"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="Max 12 months"
                         android:inputType="number"
-                        android:padding="12dp"
-                        android:textColor="@color/text_primary" />
+                        android:padding="14dp"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                     <LinearLayout
                         android:id="@+id/layoutGuarantor"
@@ -177,74 +206,82 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Guarantor Name"
-                            android:textColor="#666666"
+                            android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
 
                         <Spinner
                             android:id="@+id/spinnerGuarantor"
                             android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_height="52dp"
+                            android:layout_marginTop="6dp"
                             android:background="@drawable/bg_edittext"
                             android:spinnerMode="dropdown" />
 
-                         <TextView
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Guarantor Phone Number"
-                            android:textColor="#666666"
+                            android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
 
                         <EditText
                             android:id="@+id/etGuarantorPhone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="6dp"
                             android:background="@drawable/bg_edittext"
+                            android:clickable="false"
+                            android:fontFamily="sans-serif-medium"
+                            android:focusable="false"
                             android:hint="Auto-filled"
                             android:inputType="phone"
-                            android:padding="12dp"
-                            android:focusable="false"
-                            android:clickable="false"
-                            android:textColor="@color/text_primary" />
+                            android:padding="14dp"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
                     </LinearLayout>
-                    
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif-medium"
                         android:text="Reason for Loan"
-                        android:textColor="#666666"
+                        android:textColor="@color/text_secondary"
                         android:textSize="12sp" />
 
                     <EditText
                         android:id="@+id/etReason"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:background="@drawable/bg_edittext"
+                        android:fontFamily="sans-serif-medium"
                         android:gravity="top"
                         android:hint="Briefly describe why you need this loan"
                         android:inputType="textMultiLine"
                         android:minLines="3"
-                        android:padding="12dp"
-                        android:textColor="@color/text_primary" />
+                        android:padding="14dp"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-            
+
             <!-- Summary & Action -->
-             <TextView
+            <TextView
                 android:id="@+id/tvRepaymentSummary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-bold"
                 android:gravity="center"
-                android:text="Total Repayment: UGX 0"
-                android:textColor="@color/text_primary"
-                android:textStyle="bold"/>
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:text="Total Repayment: UGX 0" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnViewSchedule"
@@ -252,24 +289,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-bold"
                 android:text="View Repayment Schedule"
-                android:textColor="@color/deep_blue"
+                android:textColor="@color/project_primary"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:icon="@drawable/ic_calendar_month"
-                app:iconTint="@color/deep_blue"
-                android:visibility="gone" />
+                app:iconTint="@color/project_primary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSubmitLoan"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/deep_blue"
-                android:padding="12dp"
+                android:backgroundTint="@color/project_primary"
+                android:fontFamily="sans-serif-bold"
                 android:text="Submit Application"
                 android:textAllCaps="false"
                 android:textSize="16sp"
-                app:cornerRadius="8dp" />
+                app:cornerRadius="28dp"
+                app:elevation="4dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

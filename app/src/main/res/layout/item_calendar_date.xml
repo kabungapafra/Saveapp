@@ -10,11 +10,14 @@
 
     <LinearLayout
         android:id="@+id/dateContent"
-        android:layout_width="50dp"
-        android:layout_height="70dp"
+        android:layout_width="54dp"
+        android:layout_height="74dp"
         android:background="@drawable/date_selector_bg"
         android:gravity="center"
         android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,22 +27,22 @@
             android:id="@+id/dayText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="6dp"
             android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.05"
             android:text="THU"
             android:textAllCaps="true"
-            android:textColor="#9E9E9E"
+            android:textColor="@color/calendar_day_text_selector"
             android:textSize="10sp" />
 
         <TextView
             android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-bold"
+            android:fontFamily="sans-serif-black"
             android:text="05"
-            android:textColor="#1A1A1A"
-            android:textSize="20sp" />
+            android:textColor="@color/calendar_date_text_selector"
+            android:textSize="22sp" />
 
     </LinearLayout>
 

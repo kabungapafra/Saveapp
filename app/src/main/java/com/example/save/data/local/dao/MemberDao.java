@@ -52,13 +52,13 @@ public interface MemberDao {
     @Query("SELECT * FROM members WHERE name LIKE '%' || :query || '%' OR role LIKE '%' || :query || '%' ORDER BY id DESC")
     LiveData<List<MemberEntity>> searchMembers(String query);
 
-    @Query("SELECT * FROM members WHERE role IN ('Administrator', 'Admin') ORDER BY id DESC")
+    @Query("SELECT * FROM members WHERE LOWER(role) IN ('administrator', 'admin') ORDER BY id DESC")
     List<MemberEntity> getAdmins();
 
-    @Query("SELECT COUNT(*) FROM members WHERE role IN ('Administrator', 'Admin')")
+    @Query("SELECT COUNT(*) FROM members WHERE LOWER(role) IN ('administrator', 'admin')")
     int getAdminCount();
 
-    @Query("SELECT COUNT(*) FROM members WHERE role IN ('Administrator', 'Admin')")
+    @Query("SELECT COUNT(*) FROM members WHERE LOWER(role) IN ('administrator', 'admin')")
     LiveData<Integer> getAdminCountLive();
 
     @Query("SELECT * FROM members WHERE isActive = 1")

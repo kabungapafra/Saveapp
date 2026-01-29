@@ -55,11 +55,18 @@ public class MemberViewFragment extends Fragment {
         binding = null;
     }
 
+    private MemberAdapter adminsAdapter;
+
     private void setupRecyclerView() {
         binding.membersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         memberList = new ArrayList<>();
         adapter = new MemberAdapter(memberList);
         binding.membersRecyclerView.setAdapter(adapter);
+
+        // Admins setup
+        adminsAdapter = new MemberAdapter(new ArrayList<>());
+        binding.rvAdmins.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvAdmins.setAdapter(adminsAdapter);
     }
 
     private void observeViewModel() {
@@ -69,8 +76,32 @@ public class MemberViewFragment extends Fragment {
                 memberList.addAll(members);
                 updateMemberCount();
                 adapter.notifyDataSetChanged();
+                refreshAdmins();
             }
         });
+    }
+
+    private void refreshAdmins() {
+        new Thread(() -> {
+            try {
+                List<Member> admins = viewModel.getAdmins();
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        if (binding != null && adminsAdapter != null && admins != null) {
+                            adminsAdapter.updateList(admins);
+                            if (binding.tvAdminCount != null) {
+                                binding.tvAdminCount.setText(String.valueOf(admins.size()));
+                            }
+                            if (binding.cvAdmins != null) {
+                                binding.cvAdmins.setVisibility(admins.isEmpty() ? View.GONE : View.VISIBLE);
+                            }
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void updateMemberCount() {

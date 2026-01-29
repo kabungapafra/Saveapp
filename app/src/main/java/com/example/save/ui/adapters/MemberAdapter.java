@@ -101,13 +101,14 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         void bind(Member member) {
-            tvName.setText(member.getName() + " (" + member.getFormattedId() + ")");
+            tvName.setText(member.getName());
             tvRole.setText(member.getRole());
             tvSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
+
+            // Subtle status color
             int color = member.isActive()
-                    ? androidx.core.content.ContextCompat.getColor(itemView.getContext(),
-                            android.R.color.holo_green_dark)
-                    : androidx.core.content.ContextCompat.getColor(itemView.getContext(), android.R.color.darker_gray);
+                    ? android.graphics.Color.parseColor("#4CAF50")
+                    : android.graphics.Color.parseColor("#BDBDBD");
             statusView.setBackgroundTintList(ColorStateList.valueOf(color));
         }
     }
@@ -128,14 +129,14 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         void bind(Member member, int position, OnMemberClickListener listener) {
-            tvName.setText(member.getName() + " (" + member.getFormattedId() + ")");
+            tvName.setText(member.getName());
             tvRole.setText(member.getRole());
             tvSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
 
+            // Modern status color
             int color = member.isActive()
-                    ? androidx.core.content.ContextCompat.getColor(itemView.getContext(),
-                            android.R.color.holo_green_dark)
-                    : androidx.core.content.ContextCompat.getColor(itemView.getContext(), android.R.color.darker_gray);
+                    ? android.graphics.Color.parseColor("#4CAF50")
+                    : android.graphics.Color.parseColor("#BDBDBD");
             statusView.setBackgroundTintList(ColorStateList.valueOf(color));
 
             if (listener != null) {

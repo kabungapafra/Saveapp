@@ -354,6 +354,13 @@ public class AdminMainActivity extends AppCompatActivity {
                 loadFragment(new ApprovalsFragment());
             });
         }
+
+        // Analytics Quick Action (New)
+        if (binding.actionAnalytics != null) {
+            binding.actionAnalytics.setOnClickListener(v -> {
+                updateNav(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
+            });
+        }
     }
 
     private void setupBottomNavigation() {
@@ -395,8 +402,8 @@ public class AdminMainActivity extends AppCompatActivity {
         selectedLayout.setLayoutParams(params);
 
         // Dark Indigo Color for Active State
-        int activeColor = androidx.core.content.ContextCompat.getColor(this, R.color.deep_blue);
-        selectedLayout.setBackgroundResource(R.drawable.nav_item_pill_white);
+        int activeColor = Color.parseColor("#0D47A1");
+        selectedLayout.setBackgroundResource(R.drawable.nav_item_pill_refined);
         selectedText.setVisibility(View.VISIBLE);
         selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
         selectedText.setTextColor(activeColor);

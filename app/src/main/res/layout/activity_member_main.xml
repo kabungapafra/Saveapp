@@ -6,7 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/background_primary">
 
-    <!-- Header -->
+    <!-- Header With Gradient Background -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@drawable/bg_header_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -14,9 +20,25 @@
         android:orientation="horizontal"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
-        android:paddingTop="48dp"
+        android:paddingTop="54dp"
         android:paddingBottom="16dp"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_circle_white"
+            android:elevation="4dp">
+            <ImageView
+                android:id="@+id/ivUserAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="2dp"
+                android:src="@drawable/ic_person"
+                app:tint="@color/project_primary" />
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/greetingContainer"
@@ -28,10 +50,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hello,"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:fontFamily="sans-serif" />
+                android:text="Welcome back,"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:id="@+id/greetingName"
@@ -39,34 +61,10 @@
                 android:layout_height="wrap_content"
                 android:text="Member!"
                 android:textColor="@color/black"
-                android:textSize="28sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif-medium" />
-
-            <TextView
-                android:id="@+id/tvGroupId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ID: GRP-000000"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"
-                android:layout_marginTop="2dp" />
+                android:fontFamily="sans-serif-bold" />
         </LinearLayout>
-
-        <!-- Members Icon -->
-        <FrameLayout
-            android:id="@+id/btnHeaderMembers"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_circle_white"
-            android:padding="12dp"
-            android:layout_marginEnd="12dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_people"
-                app:tint="@color/black" />
-        </FrameLayout>
 
         <!-- Notification Icon -->
         <FrameLayout
@@ -74,22 +72,20 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/bg_circle_white"
+            android:elevation="2dp"
             android:padding="12dp">
             <ImageView
                 android:id="@+id/notificationIcon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_notifications"
-                app:tint="@color/black" />
-            <!-- Numerical Badge -->
+                app:tint="@color/project_primary" />
             <TextView
                 android:id="@+id/notificationBadge"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:background="@drawable/circle_red"
                 android:layout_gravity="top|end"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="2dp"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="@color/white"
@@ -116,209 +112,345 @@
             android:orientation="vertical"
             android:padding="25dp">
 
-            <!-- Balance Cards (Green Card) -->
+            <!-- Premium Balance Card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/balanceCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="8dp"
+                android:layout_marginTop="-40dp"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="12dp"
                 app:cardPreventCornerOverlap="false">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/card_gradient_background"
-                    android:orientation="vertical"
-                    android:paddingTop="24dp"
-                    android:paddingBottom="24dp"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp">
+                    android:background="@drawable/bg_card_premium_blue">
 
-                    <!-- Header -->
+                    <!-- Right Background Image Overlay -->
+                    <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="200dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/lng"
+                        android:alpha="0.6"
+                        android:importantForAccessibility="no" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="8dp">
+                        android:orientation="vertical"
+                        android:padding="24dp">
 
-                        <TextView
-                            android:layout_width="0dp"
+                        <!-- Top Row: Card Number & Action -->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Total Group Savings"
-                            android:textColor="#B3FFFFFF"
-                            android:textSize="14sp"
-                            android:letterSpacing="0.05"
-                            android:fontFamily="sans-serif-medium"/>
+                            android:layout_marginBottom="32dp">
 
-                        <ImageView
-                            android:id="@+id/balanceMenuIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_more_vert"
-                            app:tint="@color/white"
-                            android:alpha="0.8"/>
-                    </LinearLayout>
-
-                    <!-- Big Balance Value -->
-                    <TextView
-                        android:id="@+id/txtBalance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="UGX 1,500,000"
-                        android:textColor="@color/white"
-                        android:textSize="36sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="24dp"
-                        android:fontFamily="sans-serif-medium"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#33FFFFFF"
-                        android:layout_marginBottom="20dp"/>
-
-                    <!-- Secondary Stats Row -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
-
-                        <!-- My Contributions (With Progress Circle) -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="start">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="My Stash"
-                                android:textColor="#B3FFFFFF"
-                                android:textSize="12sp"
-                                android:layout_marginBottom="4dp"/>
-
-                            <TextView
-                                android:id="@+id/savingsBalance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="UGX 350,000"
-                                android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:layout_marginBottom="8dp"/>
-                            
-                            <!-- Progress Info -->
-                             <LinearLayout
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical">
-                                
-                                <com.google.android.material.progressindicator.CircularProgressIndicator
-                                    android:id="@+id/metricsProgress"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:indicatorSize="24dp"
-                                    app:trackThickness="3dp"
-                                    app:trackColor="#33FFFFFF"
-                                    app:indicatorColor="@color/white"
-                                    android:progress="50"
-                                    android:layout_marginEnd="8dp"/>
-                                    
+
                                 <TextView
-                                    android:id="@+id/tvProgressPercentage"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="50% of Goal"
-                                    android:textColor="#E0E0E0"
-                                    android:textSize="12sp"
+                                    android:text="2 1 4 5  4 5 5 3  6"
+                                    android:textColor="#B3FFFFFF"
+                                    android:textSize="14sp"
+                                    android:letterSpacing="0.2"
                                     android:fontFamily="sans-serif-medium"/>
-                             </LinearLayout>
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_marginStart="12dp"
+                                    android:background="@drawable/bg_circle_white"
+                                    android:backgroundTint="@color/card_premium_icon_bg"
+                                    android:padding="4dp"
+                                    android:src="@drawable/ic_payments"
+                                    app:tint="@color/white" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:layout_alignParentEnd="true"
+                                android:background="@drawable/bg_circle_white"
+                                android:backgroundTint="#22FFFFFF"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_diagonal_arrow"
+                                app:tint="@color/white" />
+                        </RelativeLayout>
+
+                        <!-- Middle Row: Label -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Savings Account"
+                                android:textColor="#CCFFFFFF"
+                                android:textSize="14sp"
+                                android:fontFamily="sans-serif-medium"/>
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginStart="8dp"
+                                android:src="@drawable/ic_visibility"
+                                app:tint="#CCFFFFFF" />
                         </LinearLayout>
 
-                        <!-- Active Members -->
+                        <!-- Bottom row: Balance -->
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
-                            android:orientation="vertical"
-                            android:gravity="end">
+                            android:orientation="horizontal"
+                            android:gravity="bottom">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Members"
-                                android:textColor="#B3FFFFFF"
-                                android:textSize="12sp"
-                                android:layout_marginBottom="4dp"/>
-
-                            <TextView
-                                android:id="@+id/activeMembers"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="28/30"
+                                android:text="UGX"
                                 android:textColor="@color/white"
                                 android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:drawablePadding="6dp"/>
-                                
-                             <FrameLayout
+                                android:fontFamily="sans-serif-bold"
+                                android:layout_marginBottom="6dp"
+                                android:layout_marginEnd="6dp"/>
+
+                            <TextView
+                                android:id="@+id/txtBalance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="6dp"
-                                android:background="@drawable/bg_capsule_translucent"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="4dp">
+                                android:text="1,500,000"
+                                android:textColor="@color/white"
+                                android:textSize="32sp"
+                                android:fontFamily="sans-serif-black" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=".00"
+                                android:textColor="#B3FFFFFF"
+                                android:textSize="18sp"
+                                android:fontFamily="sans-serif-bold"
+                                android:layout_marginBottom="6dp"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#22FFFFFF"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Active"
+                                    android:text="My Contributions"
+                                    android:textColor="#B3FFFFFF"
+                                    android:textSize="11sp"/>
+                                <TextView
+                                    android:id="@+id/savingsBalance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="UGX 0"
                                     android:textColor="@color/white"
-                                    android:textSize="10sp"
-                                    android:textAllCaps="true"
-                                    android:textStyle="bold"/>
-                             </FrameLayout>
+                                    android:textSize="16sp"
+                                    android:fontFamily="sans-serif-bold"/>
+                            </LinearLayout>
+
+                            <com.google.android.material.progressindicator.CircularProgressIndicator
+                                android:id="@+id/metricsProgress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:indicatorSize="24dp"
+                                app:trackThickness="3dp"
+                                app:trackColor="#33FFFFFF"
+                                app:indicatorColor="@color/white"
+                                android:progress="75"/>
                         </LinearLayout>
-
                     </LinearLayout>
-
-                </LinearLayout>
-
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- My Take Section (NEW) -->
+            <!-- Quick Actions -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
+                android:gravity="center">
+
+                <!-- Action: Pay -->
+                <LinearLayout
+                    android:id="@+id/actionPay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_circle_white"
+                        android:elevation="2dp"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_payments"
+                            app:tint="@color/project_primary" />
+                    </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pay"
+                        android:textSize="12sp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="sans-serif-medium"/>
+                </LinearLayout>
+
+                <!-- Action: Loan -->
+                <LinearLayout
+                    android:id="@+id/actionLoan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_circle_white"
+                        android:elevation="2dp"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_loan"
+                            app:tint="@color/project_primary" />
+                    </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Loan"
+                        android:textSize="12sp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="sans-serif-medium"/>
+                </LinearLayout>
+
+                <!-- Action: Queue -->
+                <LinearLayout
+                    android:id="@+id/actionQueue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_circle_white"
+                        android:elevation="2dp"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_queue"
+                            app:tint="@color/project_primary" />
+                    </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Queue"
+                        android:textSize="12sp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="sans-serif-medium"/>
+                </LinearLayout>
+
+                <!-- Action: Profile -->
+                <LinearLayout
+                    android:id="@+id/actionProfile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_circle_white"
+                        android:elevation="2dp"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_person"
+                            app:tint="@color/project_primary" />
+                    </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Profile"
+                        android:textSize="12sp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="sans-serif-medium"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- My Take Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="12dp"
-                android:text="My Take"
+                android:text="My Payout Status"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif-medium" />
+                android:fontFamily="sans-serif-bold" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/myTakeCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="2dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="20dp"
-                    android:background="@drawable/bg_gradient_blue_card">
+                    android:background="#F8F9FE">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -336,7 +468,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Scheduled Payout"
-                                android:textColor="#B3FFFFFF"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="12sp" />
                                 
                             <TextView
@@ -344,22 +476,23 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Not Scheduled"
-                                android:textColor="@color/white"
+                                android:textColor="@color/project_primary"
                                 android:textSize="18sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-bold"/>
                         </LinearLayout>
 
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/ic_account_balance_wallet"
-                            app:tint="@color/white" />
+                            android:src="@drawable/ic_schedule"
+                            app:tint="@color/project_primary" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#33FFFFFF"
+                        android:background="#E0E0E0"
                         android:layout_marginVertical="16dp" />
 
                     <LinearLayout
@@ -378,7 +511,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Next Contribution Due"
-                                android:textColor="#B3FFFFFF"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -386,7 +519,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="TBD"
-                                android:textColor="@color/white"
+                                android:textColor="@color/black"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -394,12 +527,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/nav_item_pill_white"
-                            android:backgroundTint="#33FFFFFF"
+                            android:background="@drawable/bg_capsule_translucent"
+                            android:backgroundTint="@color/project_accent"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="4dp"
                             android:text="Upcoming"
-                            android:textColor="@color/white"
+                            android:textColor="@color/project_primary"
                             android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -413,15 +546,35 @@
                 android:orientation="vertical"
                 android:layout_marginBottom="24dp">
 
+                <!-- Row: Month Recipients -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
                 <TextView
                     android:id="@+id/tvRecipientsLabel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Month Recipients"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_marginBottom="12dp" />
+                    android:textColor="@color/text_primary" />
+
+                <TextView
+                    android:id="@+id/btnViewAllMembers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View All"
+                    android:textColor="@color/project_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:padding="4dp"
+                    android:background="?attr/selectableItemBackground"/>
+            </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvMonthRecipients"
@@ -432,14 +585,14 @@
                     tools:listitem="@layout/item_recipient_small" />
             </LinearLayout>
 
-            <!-- Member Stats Section -->
+            <!-- Member Quick Stats -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="24dp">
 
-                <!-- Pending Payments Card -->
+                <!-- Pending -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -447,101 +600,106 @@
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="16dp"
                         android:gravity="center">
-
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_warning"
+                            app:tint="@color/status_overdue"
+                            android:layout_marginBottom="8dp"/>
                         <TextView
                             android:id="@+id/tvPendingCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="@color/deep_blue"
-                            android:textSize="24sp"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pending Payments"
+                            android:text="Pending"
                             android:textColor="@color/text_secondary"
-                            android:textSize="12sp"
-                            android:gravity="center" />
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Payment Streak Card -->
+                <!-- Streak -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginHorizontal="4dp"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="16dp"
                         android:gravity="center">
-
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_star"
+                            app:tint="#FF9800"
+                            android:layout_marginBottom="8dp"/>
                         <TextView
                             android:id="@+id/tvPaymentStreak"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="#FF9800"
-                            android:textSize="24sp"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Streak"
                             android:textColor="@color/text_secondary"
-                            android:textSize="12sp"
-                            android:gravity="center" />
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Credit Score Card -->
+                <!-- Credit -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="16dp"
                         android:gravity="center">
-
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_analytics"
+                            app:tint="@color/project_primary"
+                            android:layout_marginBottom="8dp"/>
                         <TextView
                             android:id="@+id/tvCreditScore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="300"
-                            android:textColor="@color/deep_blue"
-                            android:textSize="24sp"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Credit Score"
+                            android:text="Credit"
                             android:textColor="@color/text_secondary"
-                            android:textSize="12sp"
-                            android:gravity="center" />
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -685,11 +843,11 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/navContainer"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_margin="16dp"
-        app:cardBackgroundColor="@color/deep_blue"
-        app:cardCornerRadius="35dp"
-        app:cardElevation="8dp"
+        android:layout_height="64dp"
+        android:layout_margin="20dp"
+        app:cardBackgroundColor="#0D47A1"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -698,17 +856,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
 
             <!-- Dashboard (Selected) -->
             <LinearLayout
                 android:id="@+id/nav_dashboard"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="@drawable/nav_item_pill_white"
+                android:layout_height="44dp"
+                android:background="@drawable/nav_item_pill_refined"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
@@ -719,7 +877,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_home"
-                    app:tint="@color/deep_blue" />
+                    app:tint="@color/project_primary" />
 
                 <TextView
                     android:id="@+id/txt_dashboard"
@@ -728,18 +886,16 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Dashboard"
-                    android:textColor="@color/deep_blue"
+                    android:textColor="@color/project_primary"
                     android:textSize="14sp"
                     android:visibility="visible" />
             </LinearLayout>
-
-
 
             <!-- Pay -->
             <LinearLayout
                 android:id="@+id/nav_pay"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -757,7 +913,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Pay"
-                    android:textColor="@color/deep_blue"
+                    android:textColor="@color/project_primary"
                     android:textSize="14sp"
                     android:visibility="gone" />
             </LinearLayout>
@@ -766,7 +922,7 @@
             <LinearLayout
                 android:id="@+id/nav_queue"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -784,7 +940,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Queue"
-                    android:textColor="@color/deep_blue"
+                    android:textColor="@color/project_primary"
                     android:textSize="14sp"
                     android:visibility="gone" />
             </LinearLayout>
@@ -793,7 +949,7 @@
             <LinearLayout
                 android:id="@+id/nav_loans"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -811,7 +967,34 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Loans"
-                    android:textColor="@color/deep_blue"
+                    android:textColor="@color/project_primary"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Members -->
+            <LinearLayout
+                android:id="@+id/nav_members"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_members"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_people"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/txt_members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Members"
+                    android:textColor="@color/project_primary"
                     android:textSize="14sp"
                     android:visibility="gone" />
             </LinearLayout>
@@ -820,7 +1003,7 @@
             <LinearLayout
                 android:id="@+id/nav_stats"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -838,7 +1021,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Analysis"
-                    android:textColor="@color/deep_blue"
+                    android:textColor="@color/project_primary"
                     android:textSize="14sp"
                     android:visibility="gone" />
             </LinearLayout>
