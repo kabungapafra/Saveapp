@@ -81,4 +81,7 @@ public interface MemberDao {
 
     @Query("UPDATE members SET nextPaymentDueDate = :nextDate")
     void updateAllDueDates(String nextDate);
+
+    @Query("DELETE FROM members WHERE id = :memberId")
+    void deleteMemberById(String memberId);
 }

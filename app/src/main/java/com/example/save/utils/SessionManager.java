@@ -37,6 +37,9 @@ public class SessionManager {
     // User Role
     public static final String KEY_ROLE = "role";
 
+    // First Login Flag
+    private static final String KEY_IS_FIRST_LOGIN = "is_first_login";
+
     // Constructor
     public SessionManager(Context context) {
         this._context = context;
@@ -47,7 +50,7 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession(String name, String email, String role) {
+    public void createLoginSession(String name, String email, String role, boolean isFirstLogin) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -59,6 +62,9 @@ public class SessionManager {
 
         // Storing role
         editor.putString(KEY_ROLE, role);
+
+        // Storing first login flag
+        editor.putBoolean(KEY_IS_FIRST_LOGIN, isFirstLogin);
 
         // commit changes
         editor.apply();
@@ -142,5 +148,18 @@ public class SessionManager {
 
     public String getJwtToken() {
         return pref.getString(KEY_JWT_TOKEN, null);
+    }
+
+    public void setFirstLoginStatus(boolean isFirst) {
+        editor.putBoolean(KEY_IS_FIRST_LOGIN, isFirst);
+        editor.apply();
+    }
+
+    public boolean isFirstLogin() {
+        return pref.getBoolean(KEY_IS_FIRST_LOGIN, false);
+    }
+
+    public String getUserRole() {
+        return pref.getString(KEY_ROLE, null);
     }
 }

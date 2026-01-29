@@ -79,9 +79,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
         binding.btnChangePassword.setEnabled(false);
         binding.btnChangePassword.setText("Changing Password...");
 
-        // Get current password from session or require user to enter it
-        // For first-time password change (OTP login), currentPassword can be the OTP
-        String currentPassword = ""; // TODO: Get from session or input field if needed
+        // Retrieve current password (OTP) passed from login
+        String currentPassword = getIntent().getStringExtra("current_password");
+        if (currentPassword == null)
+            currentPassword = "";
 
         // Change password via API - backend will hash and validate
         viewModel.changePassword(memberEmail, currentPassword, newPassword,
@@ -92,6 +93,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         binding.btnChangePassword.setText("Change Password");
 
                         if (success) {
+                            // Update local session status
+                            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                                    getApplicationContext());
+                            session.setFirstLoginStatus(false);
+
                             Toast.makeText(ChangePasswordActivity.this,
                                     message != null ? message : "Password changed successfully!",
                                     Toast.LENGTH_SHORT).show();

@@ -46,10 +46,20 @@ public class LoanRepository {
         return instance;
     }
 
+    /**
+     * Returns a LiveData object providing an observable list of all loans.
+     * 
+     * @return Observable list of Loan models.
+     */
     public LiveData<List<Loan>> getLoans() {
         return loansLiveData;
     }
 
+    /**
+     * Retrieves all loans synchronously from the local database.
+     * 
+     * @return List of Loan models.
+     */
     public List<Loan> getAllLoans() {
         List<LoanEntity> entities = loanDao.getAllLoansSync();
         return convertEntitiesToModels(entities);
@@ -59,6 +69,11 @@ public class LoanRepository {
         return getAllLoans();
     }
 
+    /**
+     * Retrieves all pending loans synchronously.
+     * 
+     * @return List of pending Loan models.
+     */
     public List<Loan> getPendingLoans() {
         List<LoanEntity> entities = loanDao.getPendingLoans();
         return convertEntitiesToModels(entities);
@@ -69,6 +84,12 @@ public class LoanRepository {
         return convertEntitiesToModels(entities);
     }
 
+    /**
+     * Approves a loan by its ID, updating its status to ACTIVE and setting a due
+     * date.
+     * 
+     * @param id The unique ID of the loan to approve.
+     */
     public void approveLoan(String id) {
         executor.execute(() -> {
             LoanEntity entity = loanDao.getLoanByIdSync(id);
@@ -82,6 +103,11 @@ public class LoanRepository {
         });
     }
 
+    /**
+     * Rejects a loan by its ID, updating its status to REJECTED.
+     * 
+     * @param id The unique ID of the loan to reject.
+     */
     public void rejectLoan(String id) {
         executor.execute(() -> {
             LoanEntity entity = loanDao.getLoanByIdSync(id);

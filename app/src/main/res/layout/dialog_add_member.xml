@@ -1,151 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_margin="24dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="12dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_xl">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:text="@string/create_member_account"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
-
-        <!-- Name Input -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_xs"
-            android:text="@string/full_name"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_small" />
-
-        <EditText
-            android:id="@+id/etMemberName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:background="@drawable/otp_input_bg"
-            android:hint="e.g. John Doe"
-            android:inputType="textPersonName"
-            android:paddingHorizontal="12dp"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_normal" />
-
-        <!-- Phone Input -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_xs"
-            android:text="@string/phone_number"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_small" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:background="@drawable/otp_input_bg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="12dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Header -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:text="New Member"
+                        android:textColor="@color/project_primary"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Create a new account"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/btnCloseDialog"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_close"
+                    app:tint="@color/text_secondary" />
+            </RelativeLayout>
+
+
+            <!-- Name Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Full Name"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etMemberName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input_modern"
+                android:fontFamily="sans-serif-medium"
+                android:hint="e.g. John Doe"
+                android:inputType="textPersonName"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp" />
+
+            <!-- Phone Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Phone Number"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input_modern"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <EditText
+                    android:id="@+id/etMemberPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:fontFamily="sans-serif-medium"
+                    android:hint="0770000000"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Email Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Email Address"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etMemberEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input_modern"
+                android:fontFamily="sans-serif-medium"
+                android:hint="e.g. john@example.com"
+                android:inputType="textEmailAddress"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp" />
+
+            <!-- Role Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Role"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input_modern">
+
+                <Spinner
+                    android:id="@+id/spinnerMemberRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:spinnerMode="dropdown" />
+            </FrameLayout>
+
+            <!-- Auto-Generated OTP Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Temporary Access Code"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etMemberOTP"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input_modern_dashed"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="Generating..."
+                    android:inputType="number"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/project_primary"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="18sp"
+                    android:letterSpacing="0.2"
+                    android:enabled="false"/>
+
+                <FrameLayout
+                    android:id="@+id/btnRegenerateOTP"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/bg_button_secondary_square"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_refresh"
+                        app:tint="@color/project_primary" />
+                </FrameLayout>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:text="+256"
-                android:textColor="@color/deep_blue"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold" />
+                android:layout_marginBottom="32dp"
+                android:fontFamily="sans-serif"
+                android:text="This code will be auto-generated. Share it with the member."
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp" />
 
-            <EditText
-                android:id="@+id/etMemberPhone"
+            <!-- Action Buttons -->
+            <Button
+                android:id="@+id/btnCreateMember"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="770000000"
-                android:inputType="phone"
-                android:maxLength="9"
-                android:textColor="@color/deep_blue"
-                android:textSize="@dimen/text_size_normal" />
+                android:layout_height="56dp"
+                android:background="@drawable/gradient_button"
+                app:backgroundTint="@null"
+                android:fontFamily="sans-serif-bold"
+                android:stateListAnimator="@null"
+                android:text="CREATE ACCOUNT"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
         </LinearLayout>
-
-        <!-- Email Input -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_xs"
-            android:text="@string/email_address"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_small" />
-
-        <EditText
-            android:id="@+id/etMemberEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:background="@drawable/otp_input_bg"
-            android:hint="e.g. john@example.com"
-            android:inputType="textEmailAddress"
-            android:paddingHorizontal="12dp"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_normal" />
-
-        <!-- Role Input -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_xs"
-            android:text="Role"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_small" />
-
-        <Spinner
-            android:id="@+id/spinnerMemberRole"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:padding="8dp"
-            android:background="@drawable/nav_item_pill_white" 
-            android:spinnerMode="dropdown" />
-
-        <!-- Initial OTP/Password Input -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_xs"
-            android:text="@string/one_time_access_code"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_small" />
-
-        <EditText
-            android:id="@+id/etMemberOTP"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/spacing_small"
-            android:background="@drawable/otp_input_bg"
-            android:hint="Set temporary code"
-            android:inputType="number"
-            android:paddingHorizontal="12dp"
-            android:textColor="@color/deep_blue"
-            android:textSize="@dimen/text_size_normal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/member_will_use_otp"
-            android:textColor="#3F51B5"
-            android:textSize="@dimen/text_size_xs"
-            android:layout_marginBottom="@dimen/spacing_normal"/>
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</androidx.cardview.widget.CardView>

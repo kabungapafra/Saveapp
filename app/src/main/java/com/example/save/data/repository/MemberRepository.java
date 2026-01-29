@@ -99,25 +99,217 @@ public class MemberRepository {
         return convertEntitiesToModels(entities);
     }
 
+    /**
+     * Refreshes the members list from the backend API.
+     * Fetches the latest list and updates the local database.
+     */
+    public void refreshMembers(MemberAddCallback callback) {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext)
+                .create(com.example.save.data.network.ApiService.class);
+
+        apiService.getMembers()
+                .enqueue(new retrofit2.Callback<List<com.example.save.data.local.entities.MemberEntity>>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<List<com.example.save.data.local.entities.MemberEntity>> call,
+                            retrofit2.Response<List<com.example.save.data.local.entities.MemberEntity>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<com.example.save.data.local.entities.MemberEntity> remoteMembers = response.body();
+
+                            executor.execute(() -> {
+                                try {
+                                    // Get all local members first to check for deletions
+                                    List<MemberEntity> localMembers = memberDao.getAllMembersSync();
+                                    java.util.Set<String> remoteIds = new java.util.HashSet<>();
+
+                                    // Update local database with remote members
+                                    for (com.example.save.data.local.entities.MemberEntity remote : remoteMembers) {
+                                        // Ensure ID is present
+                                        if (remote.getId() == null) {
+                                            remote.setId(java.util.UUID.randomUUID().toString());
+                                        }
+                                        remoteIds.add(remote.getId());
+
+                                        // Ensure contribution target is set
+                                        remote.setContributionTarget(contributionTarget);
+
+                                        // Insert or Update
+                                        memberDao.insert(remote);
+                                    }
+
+                                    // Remove members that are in local but NOT in remote
+                                    for (MemberEntity local : localMembers) {
+                                        if (!remoteIds.contains(local.getId())) {
+                                            memberDao.deleteMemberById(local.getId());
+                                        }
+                                    }
+
+                                    if (callback != null) {
+                                        new android.os.Handler(android.os.Looper.getMainLooper())
+                                                .post(() -> callback.onResult(true,
+                                                        "Synced " + remoteMembers.size() + " members"));
+                                    }
+                                } catch (Exception e) {
+                                    if (callback != null) {
+                                        new android.os.Handler(android.os.Looper.getMainLooper())
+                                                .post(() -> callback.onResult(false, "DB Error: " + e.getMessage()));
+                                    }
+                                }
+                            });
+                        } else {
+                            if (callback != null) {
+                                new android.os.Handler(android.os.Looper.getMainLooper())
+                                        .post(() -> callback.onResult(false,
+                                                "Failed to fetch members: " + response.message()));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<List<com.example.save.data.local.entities.MemberEntity>> call,
+                            Throwable t) {
+                        if (callback != null) {
+                            new android.os.Handler(android.os.Looper.getMainLooper())
+                                    .post(() -> callback.onResult(false, "Network error: " + t.getMessage()));
+                        }
+                    }
+                });
+    }
+
+    public void deleteMember(Member member, MemberAddCallback callback) {
+        if (member == null || member.getId() == null) {
+            if (callback != null)
+                callback.onResult(false, "Invalid member");
+            return;
+        }
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext)
+                .create(com.example.save.data.network.ApiService.class);
+
+        apiService.deleteMember(member.getId())
+                .enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                            retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                            executor.execute(() -> {
+                                memberDao.deleteMemberById(member.getId());
+                                if (callback != null) {
+                                    new android.os.Handler(android.os.Looper.getMainLooper())
+                                            .post(() -> callback.onResult(true, "Member deleted"));
+                                }
+                            });
+                        } else {
+                            String errorMsg = "Failed to delete member";
+                            try {
+                                if (response.errorBody() != null) {
+                                    String errorBodyStr = response.errorBody().string();
+                                    org.json.JSONObject jsonObject = new org.json.JSONObject(errorBodyStr);
+                                    if (jsonObject.has("detail")) {
+                                        errorMsg = jsonObject.getString("detail");
+                                    } else if (jsonObject.has("message")) {
+                                        errorMsg = jsonObject.getString("message");
+                                    }
+                                }
+                            } catch (Exception e) {
+                            }
+
+                            String finalError = errorMsg;
+                            if (callback != null) {
+                                new android.os.Handler(android.os.Looper.getMainLooper())
+                                        .post(() -> callback.onResult(false, finalError));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                        if (callback != null) {
+                            new android.os.Handler(android.os.Looper.getMainLooper())
+                                    .post(() -> callback.onResult(false, "Network error: " + t.getMessage()));
+                        }
+                    }
+                });
+    }
+
     public void addMember(Member member, MemberAddCallback callback) {
         if (member != null) {
             // Normalize phone before saving
             member.setPhone(com.example.save.utils.ValidationUtils.normalizePhone(member.getPhone()));
         }
-        executor.execute(() -> {
-            try {
-                MemberEntity entity = convertModelToEntity(member);
-                entity.setContributionTarget(contributionTarget);
-                memberDao.insert(entity);
-                if (callback != null) {
-                    // Post success to main thread if needed, or let ViewModel handle it
-                    // Ideally, we run callback on the original thread or main thread
-                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> callback.onResult(true, null));
+
+        // Create API request with OTP
+        com.example.save.data.network.MemberRegistrationRequest request = new com.example.save.data.network.MemberRegistrationRequest(
+                member.getName(),
+                member.getEmail(),
+                member.getPhone(),
+                member.getPassword(), // This is the OTP generated by admin
+                member.getRole());
+
+        // Call backend API to register member
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext)
+                .create(com.example.save.data.network.ApiService.class);
+
+        apiService.createMember(request).enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                    retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    // Backend registration successful, now save locally
+                    executor.execute(() -> {
+                        try {
+                            MemberEntity entity = convertModelToEntity(member);
+                            entity.setContributionTarget(contributionTarget);
+                            memberDao.insert(entity);
+                            if (callback != null) {
+                                new android.os.Handler(android.os.Looper.getMainLooper())
+                                        .post(() -> callback.onResult(true, "Member created successfully"));
+                            }
+                        } catch (Exception e) {
+                            if (callback != null) {
+                                new android.os.Handler(android.os.Looper.getMainLooper())
+                                        .post(() -> callback.onResult(false, e.getMessage()));
+                            }
+                        }
+                    });
+                } else {
+                    // Backend registration failed
+                    String errorMsg = "Failed to register member on server";
+                    try {
+                        if (response.errorBody() != null) {
+                            // Parse JSON error response
+                            String errorBodyStr = response.errorBody().string();
+                            org.json.JSONObject jsonObject = new org.json.JSONObject(errorBodyStr);
+                            if (jsonObject.has("detail")) {
+                                errorMsg = jsonObject.getString("detail");
+                            } else if (jsonObject.has("message")) {
+                                errorMsg = jsonObject.getString("message");
+                            } else {
+                                errorMsg = "Server error: " + response.code();
+                            }
+                        } else {
+                            errorMsg = "Server error: " + response.code();
+                        }
+                    } catch (Exception e) {
+                        errorMsg = "Error parsing server response: " + response.code();
+                    }
+
+                    String finalErrorMsg = errorMsg;
+                    if (callback != null) {
+                        new android.os.Handler(android.os.Looper.getMainLooper())
+                                .post(() -> callback.onResult(false, finalErrorMsg));
+                    }
                 }
-            } catch (Exception e) {
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                // Network error
                 if (callback != null) {
                     new android.os.Handler(android.os.Looper.getMainLooper())
-                            .post(() -> callback.onResult(false, e.getMessage()));
+                            .post(() -> callback.onResult(false, "Network error: " + t.getMessage()));
                 }
             }
         });
@@ -154,6 +346,15 @@ public class MemberRepository {
     /**
      * Change member password - Now uses backend API
      * NOTE: Password hashing MUST be done on backend
+     */
+    /**
+     * Changes the member's password by calling the backend API.
+     * 
+     * @param email           The unique email of the member.
+     * @param currentPassword The user's current password for verification.
+     * @param newPassword     The new password to be set.
+     * @param callback        Callback to handle the success or failure of the
+     *                        operation.
      */
     public void changePassword(String email, String currentPassword, String newPassword,
             PasswordChangeCallback callback) {
@@ -286,6 +487,14 @@ public class MemberRepository {
     // Payout execution - Now uses backend API
     // Note: Balance checks, calculations, and transaction logging are handled by
     // backend
+    /**
+     * Executes a payout for a member by calling the backend API.
+     * 
+     * @param member         The member receiving the payout.
+     * @param amount         The payout amount.
+     * @param deferRemaining Whether to defer the remaining balance.
+     * @param callback       Callback to handle the response.
+     */
     public void executePayout(Member member, double amount, boolean deferRemaining, PayoutCallback callback) {
         if (member == null) {
             if (callback != null)
@@ -403,6 +612,16 @@ public class MemberRepository {
     // Payment/Contribution - Now uses backend API
     // Note: Balance updates, streak calculations, and transaction logging are
     // handled by backend
+    /**
+     * Records a contribution or payment by calling the backend API to create a
+     * transaction.
+     * 
+     * @param member        The member making the payment.
+     * @param amount        The payment amount.
+     * @param phoneNumber   The phone number used for payment.
+     * @param paymentMethod The method of payment (e.g., Mobile Money).
+     * @param callback      Callback to handle the response.
+     */
     public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod,
             PaymentCallback callback) {
         if (member == null) {
@@ -544,6 +763,12 @@ public class MemberRepository {
 
     // Loan Requests Management - Now uses backend API
     // Note: Financial calculations (interest, eligibility) are handled by backend
+    /**
+     * Submits a new loan request to the backend API.
+     * 
+     * @param request  The loan request details.
+     * @param callback Callback to handle the response.
+     */
     public void submitLoanRequest(com.example.save.data.models.LoanRequest request,
             LoanSubmissionCallback callback) {
         // Submit loan request to backend - backend will calculate interest, validate
@@ -646,6 +871,13 @@ public class MemberRepository {
     // Loan approval - Now uses backend API
     // Note: Balance checks, approval counting, and loan finalization are handled by
     // backend
+    /**
+     * Initiates the loan approval process by calling the backend API.
+     * 
+     * @param requestId  The ID of the loan request.
+     * @param adminEmail The email of the admin approving the loan.
+     * @param callback   Callback to handle the response.
+     */
     public void initiateLoanApproval(String requestId, String adminEmail, ApprovalCallback callback) {
         com.example.save.data.network.ApprovalRequest approvalRequest = new com.example.save.data.network.ApprovalRequest(
                 requestId, adminEmail);
@@ -680,6 +912,15 @@ public class MemberRepository {
     // Loan repayment - Now uses backend API
     // Note: Loan balance calculations, status updates, and transaction logging are
     // handled by backend
+    /**
+     * Processes a loan repayment through the backend API.
+     * 
+     * @param loanId        The unique ID of the loan.
+     * @param amount        The repayment amount.
+     * @param paymentMethod The method of payment.
+     * @param phoneNumber   The phone number used for payment.
+     * @param callback      Callback to handle the response.
+     */
     public void repayLoan(String loanId, double amount, String paymentMethod, String phoneNumber,
             LoanRepaymentCallback callback) {
         com.example.save.data.network.LoanRepaymentRequest repaymentRequest = new com.example.save.data.network.LoanRepaymentRequest(
@@ -722,6 +963,13 @@ public class MemberRepository {
 
     // Loan rejection - Now uses backend API
     // Note: Status updates and notifications are handled by backend
+    /**
+     * Rejects a loan request by calling the backend API.
+     * 
+     * @param requestId The unique ID of the loan request.
+     * @param reason    The reason for rejection.
+     * @param callback  Callback to handle the response.
+     */
     public void rejectLoanRequest(String requestId, String reason, RejectionCallback callback) {
         com.example.save.data.network.RejectionRequest rejectionRequest = new com.example.save.data.network.RejectionRequest(
                 reason);
@@ -793,6 +1041,7 @@ public class MemberRepository {
     private MemberEntity convertModelToEntity(Member member) {
         MemberEntity entity = new MemberEntity(member.getName(), member.getRole(), member.getEmail(),
                 member.getPhone());
+        entity.setId(member.getId()); // Transfer ID from model
         entity.setPassword(member.getPassword());
         entity.setPayoutDate(member.getPayoutDate());
         entity.setPayoutAmount(member.getPayoutAmount());

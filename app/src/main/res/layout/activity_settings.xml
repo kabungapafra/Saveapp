@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_gray">
+    android:background="@drawable/bg_geometric_pattern">
 
     <!-- Header -->
     <!-- Header -->
@@ -287,6 +287,7 @@
 
             <!-- ADMIN CONFIGURATION SECTION -->
             <TextView
+                android:id="@+id/headerAdminConfig"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Admin Configuration"
@@ -297,6 +298,7 @@
                 android:layout_marginStart="8dp" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAdminConfig"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
@@ -405,6 +407,7 @@
 
             <!-- LOAN CONFIGURATION -->
             <TextView
+                android:id="@+id/headerLoanConfig"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Loan Configuration"
@@ -415,6 +418,7 @@
                 android:layout_marginStart="8dp" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardLoanConfig"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
@@ -524,6 +528,7 @@
             
             <!-- GROUP DETAILS / EXTRAS -->
             <TextView
+                android:id="@+id/headerGroupDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Group Details"
@@ -534,6 +539,7 @@
                 android:layout_marginStart="8dp" />
 
              <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardGroupDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"

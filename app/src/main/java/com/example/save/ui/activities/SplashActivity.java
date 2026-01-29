@@ -100,11 +100,10 @@ public class SplashActivity extends AppCompatActivity {
             } else {
                 // Always require fresh login
                 com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
-                session.logoutUser(); // Clear any existing session to be safe
+                session.logoutUser(); // Clear session and redirect to LoginActivity
 
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                // No need to manually start intent here as logoutUser() already handles it,
+                // but we finish to ensure splash is removed.
                 finish();
             }
         }, 3500);

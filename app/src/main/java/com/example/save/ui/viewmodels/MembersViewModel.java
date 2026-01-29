@@ -53,7 +53,7 @@ public class MembersViewModel extends AndroidViewModel {
     }
 
     public void removeMember(Member member) {
-        repository.removeMember(member);
+        repository.deleteMember(member, null);
     }
 
     public String resetPassword(Member member) {
@@ -97,6 +97,14 @@ public class MembersViewModel extends AndroidViewModel {
     public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod,
             MemberRepository.PaymentCallback callback) {
         repository.makePayment(member, amount, phoneNumber, paymentMethod, callback);
+    }
+
+    public void refreshMembers(MemberRepository.MemberAddCallback callback) {
+        repository.refreshMembers(callback);
+    }
+
+    public void deleteMember(Member member, MemberRepository.MemberAddCallback callback) {
+        repository.deleteMember(member, callback);
     }
 
     public double getContributionTarget() {
@@ -217,6 +225,15 @@ public class MembersViewModel extends AndroidViewModel {
         androidx.lifecycle.MutableLiveData<Member> liveData = new androidx.lifecycle.MutableLiveData<>();
         repository.getExecutor().execute(() -> {
             Member member = repository.getMemberByEmail(email);
+            liveData.postValue(member);
+        });
+        return liveData;
+    }
+
+    public LiveData<Member> getMemberByNameLive(String name) {
+        androidx.lifecycle.MutableLiveData<Member> liveData = new androidx.lifecycle.MutableLiveData<>();
+        repository.getExecutor().execute(() -> {
+            Member member = repository.getMemberByName(name);
             liveData.postValue(member);
         });
         return liveData;

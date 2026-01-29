@@ -136,7 +136,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                     com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
                             getApplicationContext());
                     session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
-                            loginResponse.getRole());
+                            loginResponse.getRole(), false);
 
                     if (loginResponse.getToken() != null) {
                         session.saveJwtToken(loginResponse.getToken());

@@ -131,7 +131,7 @@ public class MemberRegistrationActivity extends AppCompatActivity {
                     com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
                             getApplicationContext());
                     session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
-                            loginResponse.getRole());
+                            loginResponse.getRole(), loginResponse.isFirstLogin());
 
                     if (loginResponse.getToken() != null) {
                         session.saveJwtToken(loginResponse.getToken());
@@ -140,14 +140,30 @@ public class MemberRegistrationActivity extends AppCompatActivity {
                     Toast.makeText(MemberRegistrationActivity.this, "Welcome " + loginResponse.getName(),
                             Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
-                    intent.putExtra("member_email", loginResponse.getEmail());
+                    // Check if this is first login - redirect to change password
+                    if (loginResponse.isFirstLogin()) {
+                        Intent intent = new Intent(MemberRegistrationActivity.this, ChangePasswordActivity.class);
+                        intent.putExtra("member_email", loginResponse.getEmail());
+                        intent.putExtra("member_name", loginResponse.getName());
+                        intent.putExtra("current_password", password); // Pass the OTP used for login
+                        intent.putExtra("is_first_login", true);
 
-                    // Clear back stack
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    finish();
+                        // Clear back stack
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                    } else {
+                        // Normal login - go to main activity
+                        Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
+                        intent.putExtra("member_email", loginResponse.getEmail());
+
+                        // Clear back stack
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                    }
                 } else {
                     com.example.save.utils.ApiErrorHandler.handleResponse(MemberRegistrationActivity.this, response);
                 }

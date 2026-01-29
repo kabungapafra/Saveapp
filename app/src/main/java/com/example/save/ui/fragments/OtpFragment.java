@@ -215,7 +215,7 @@ public class OtpFragment extends Fragment {
                             com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
                                     requireContext());
                             session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
-                                    loginResponse.getRole());
+                                    loginResponse.getRole(), loginResponse.isFirstLogin());
 
                             if (loginResponse.getToken() != null) {
                                 session.saveJwtToken(loginResponse.getToken());

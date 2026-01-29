@@ -47,6 +47,18 @@ public class MemberMainActivity extends AppCompatActivity {
         new NotificationHelper(this);
         PermissionUtils.requestNotificationPermission(this);
 
+        // Security Check: If it's the first login, force password change redirect
+        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
+        if (session.isFirstLogin()) {
+            Intent intent = new Intent(this, ChangePasswordActivity.class);
+            intent.putExtra("member_email", session.getUserEmail());
+            intent.putExtra("is_first_login", true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         initializeViews();
         setupBottomNavigation();
         setupHeaderInteractions();
@@ -240,10 +252,11 @@ public class MemberMainActivity extends AppCompatActivity {
     }
 
     private void setupHeaderInteractions() {
+        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
         // Clicking the greeting opens Settings (for logout)
         if (binding.greetingName != null) {
             binding.greetingName.setOnClickListener(v -> {
-                showProfileDialog();
+                startActivity(new Intent(MemberMainActivity.this, SettingsActivity.class));
             });
         }
 
@@ -264,6 +277,82 @@ public class MemberMainActivity extends AppCompatActivity {
                 // loadFragment(new PayoutsFragment()); // If members should see it
             });
         }
+
+        // --- QUICK ACTION ICONS ---
+
+        // Pay Icon
+        if (binding.actionPay != null) {
+            binding.actionPay.setOnClickListener(v -> {
+                String email = session.getUserEmail();
+                if (email != null) {
+                    new Thread(() -> {
+                        com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
+                        runOnUiThread(() -> {
+                            resetAllNavItems();
+                            hideHeader();
+                            if (member != null) {
+                                loadFragment(PaymentFragment.newInstance(member.getName()));
+                            } else {
+                                loadFragment(PaymentFragment.newInstance("Member"));
+                            }
+                        });
+                    }).start();
+                } else {
+                    resetAllNavItems();
+                    hideHeader();
+                    loadFragment(PaymentFragment.newInstance("Member"));
+                }
+            });
+        }
+
+        // Loan Icon
+        if (binding.actionLoan != null) {
+            binding.actionLoan.setOnClickListener(v -> {
+                resetAllNavItems();
+                hideHeader();
+                String email = session.getUserEmail();
+                if (email == null)
+                    email = "email@example.com";
+                loadFragment(LoansFragment.newInstance(email));
+            });
+        }
+
+        // Queue Icon
+        if (binding.actionQueue != null) {
+            binding.actionQueue.setOnClickListener(v -> {
+                resetAllNavItems();
+                hideHeader();
+                loadFragment(QueueFragment.newInstance());
+            });
+        }
+
+        // Profile Icon
+        if (binding.actionProfile != null) {
+            binding.actionProfile.setOnClickListener(
+                    v -> startActivity(new Intent(MemberMainActivity.this, SettingsActivity.class)));
+        }
+    }
+
+    private void hideHeader() {
+        if (binding.headerGradientView != null)
+            binding.headerGradientView.setVisibility(View.GONE);
+        if (binding.header != null)
+            binding.header.setVisibility(View.GONE);
+        if (binding.mainScrollView != null)
+            binding.mainScrollView.setVisibility(View.GONE);
+        if (binding.fragmentContainer != null)
+            binding.fragmentContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void showHeader() {
+        if (binding.headerGradientView != null)
+            binding.headerGradientView.setVisibility(View.VISIBLE);
+        if (binding.header != null)
+            binding.header.setVisibility(View.VISIBLE);
+        if (binding.mainScrollView != null)
+            binding.mainScrollView.setVisibility(View.VISIBLE);
+        if (binding.fragmentContainer != null)
+            binding.fragmentContainer.setVisibility(View.GONE);
     }
 
     private void showNotifications() {
@@ -282,9 +371,7 @@ public class MemberMainActivity extends AppCompatActivity {
             binding.fragmentContainer.setVisibility(View.VISIBLE);
 
         // Hide Header explicitly
-        if (binding.header != null) {
-            binding.header.setVisibility(View.GONE);
-        }
+        hideHeader();
 
         // 3. Load Notifications Fragment
         loadFragment(new NotificationsFragment());
@@ -294,11 +381,8 @@ public class MemberMainActivity extends AppCompatActivity {
         // 1. Reset all bottom nav items (deselect them)
         resetAllNavItems();
 
-        // 2. Hide Main Content, Show Fragment Container
-        if (binding.mainScrollView != null)
-            binding.mainScrollView.setVisibility(View.GONE);
-        if (binding.fragmentContainer != null)
-            binding.fragmentContainer.setVisibility(View.VISIBLE);
+        // 2. Hide Main Header & Content, Show Fragment Container
+        hideHeader();
 
         // 3. Load Members Fragment
         loadFragment(new MemberViewFragment());
@@ -306,40 +390,10 @@ public class MemberMainActivity extends AppCompatActivity {
 
     private void setupBottomNavigation() {
         binding.navDashboard
-                .setOnClickListener(v -> updateNav(binding.navDashboard, binding.txtDashboard, binding.imgDashboard));
-
-        binding.navPay.setOnClickListener(v -> {
-            updateNav(binding.navPay, binding.txtPay, binding.imgPay);
-            String email = getIntent().getStringExtra("member_email");
-            if (email != null) {
-                // Fetch member name from email in background
-                new Thread(() -> {
-                    com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
-                    runOnUiThread(() -> {
-                        if (member != null) {
-                            loadFragment(PaymentFragment.newInstance(member.getName()));
-                        } else {
-                            loadFragment(PaymentFragment.newInstance("Member"));
-                        }
-                    });
-                }).start();
-            } else {
-                loadFragment(PaymentFragment.newInstance("Member"));
-            }
-        });
-
-        binding.navQueue.setOnClickListener(v -> {
-            updateNav(binding.navQueue, binding.txtQueue, binding.imgQueue);
-            loadFragment(QueueFragment.newInstance());
-        });
-
-        binding.navLoans.setOnClickListener(v -> {
-            updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans);
-            String email = getIntent().getStringExtra("member_email");
-            if (email == null)
-                email = "email@example.com"; // Fallback
-            loadFragment(LoansFragment.newInstance(email));
-        });
+                .setOnClickListener(v -> {
+                    updateNav(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
+                    showHeader();
+                });
 
         binding.navMembers.setOnClickListener(v -> {
             showMembersSection();
@@ -347,6 +401,7 @@ public class MemberMainActivity extends AppCompatActivity {
 
         binding.navStats.setOnClickListener(v -> {
             updateNav(binding.navStats, binding.txtStats, binding.imgStats);
+            hideHeader();
             String email = getIntent().getStringExtra("member_email");
             if (email == null)
                 email = "email@example.com"; // Fallback
@@ -357,9 +412,6 @@ public class MemberMainActivity extends AppCompatActivity {
     private void updateNav(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage) {
         // 1. Reset all items
         resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
-        resetNavItem(binding.navPay, binding.txtPay, binding.imgPay);
-        resetNavItem(binding.navQueue, binding.txtQueue, binding.imgQueue);
-        resetNavItem(binding.navLoans, binding.txtLoans, binding.imgLoans);
         resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
         resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
 
@@ -376,29 +428,16 @@ public class MemberMainActivity extends AppCompatActivity {
         selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
         selectedText.setTextColor(activeColor);
 
-        // 3. Fragment Visibility
+        // 3. Header & Content Visibility
         if (selectedLayout == binding.navDashboard) {
-            binding.mainScrollView.setVisibility(View.VISIBLE);
-            binding.fragmentContainer.setVisibility(View.GONE);
-            // Show Header on Dashboard only
-            if (binding.header != null) {
-                binding.header.setVisibility(View.VISIBLE);
-            }
+            showHeader();
         } else {
-            binding.mainScrollView.setVisibility(View.GONE);
-            binding.fragmentContainer.setVisibility(View.VISIBLE);
-            // Hide Header on other tabs
-            if (binding.header != null) {
-                binding.header.setVisibility(View.GONE);
-            }
+            hideHeader();
         }
     }
 
     private void resetAllNavItems() {
         resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
-        resetNavItem(binding.navPay, binding.txtPay, binding.imgPay);
-        resetNavItem(binding.navQueue, binding.txtQueue, binding.imgQueue);
-        resetNavItem(binding.navLoans, binding.txtLoans, binding.imgLoans);
         resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
         resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
     }
@@ -599,94 +638,4 @@ public class MemberMainActivity extends AppCompatActivity {
         image.setImageTintList(ColorStateList.valueOf(Color.WHITE));
     }
 
-    private void showProfileDialog() {
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
-                getApplicationContext());
-        String email = session.getUserEmail();
-
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_member_profile, null);
-        builder.setView(dialogView);
-        android.app.AlertDialog dialog = builder.create();
-
-        // Add null check for dialog window
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(
-                    new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-
-        // Views
-        TextView tvInitials = dialogView.findViewById(R.id.tvProfileInitials);
-        TextView tvName = dialogView.findViewById(R.id.tvProfileName);
-        TextView tvRole = dialogView.findViewById(R.id.tvProfileRole);
-        TextView tvId = dialogView.findViewById(R.id.tvProfileId);
-        TextView tvEmail = dialogView.findViewById(R.id.tvProfileEmail);
-        TextView tvJoined = dialogView.findViewById(R.id.tvProfileJoined);
-        Button btnLogout = dialogView.findViewById(R.id.btnLogout);
-        Button btnClose = dialogView.findViewById(R.id.btnCloseProfile);
-
-        // Fetch latest data using LiveData
-        if (email != null && viewModel != null) {
-            viewModel.getMemberByEmailLive(email).observe(this, member -> {
-                if (member != null && dialogView != null) {
-                    String name = member.getName();
-                    if (tvName != null)
-                        tvName.setText(name);
-                    if (tvRole != null)
-                        tvRole.setText(member.getRole());
-                    if (tvEmail != null)
-                        tvEmail.setText(member.getEmail());
-
-                    // Initials
-                    if (name != null && !name.isEmpty() && tvInitials != null) {
-                        String[] parts = name.split(" ");
-                        String initials = "";
-                        if (parts.length > 0)
-                            initials += parts[0].charAt(0);
-                        if (parts.length > 1)
-                            initials += parts[1].charAt(0);
-                        tvInitials.setText(initials.toUpperCase());
-                    }
-
-                    // Formatted ID
-                    if (tvId != null)
-                        tvId.setText(member.getFormattedId());
-
-                    // Joined Date (placeholder)
-                    if (tvJoined != null)
-                        tvJoined.setText("Jan 2024");
-
-                    // Setup Badges
-                    androidx.recyclerview.widget.RecyclerView rvBadges = dialogView.findViewById(R.id.rvBadges);
-                    if (rvBadges != null) {
-                        java.util.List<com.example.save.data.models.Badge> badges = new java.util.ArrayList<>();
-                        int streak = member.getPaymentStreak();
-
-                        // Logic for unlocking badges
-                        badges.add(new com.example.save.data.models.Badge("Bronze Saver", R.drawable.ic_stars,
-                                streak >= 3));
-                        badges.add(new com.example.save.data.models.Badge("Silver Saver", R.drawable.ic_stars,
-                                streak >= 6));
-                        badges.add(new com.example.save.data.models.Badge("Gold Saver", R.drawable.ic_stars,
-                                streak >= 12));
-
-                        com.example.save.ui.adapters.BadgeAdapter badgeAdapter = new com.example.save.ui.adapters.BadgeAdapter(
-                                badges);
-                        rvBadges.setAdapter(badgeAdapter);
-                        rvBadges.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(
-                                this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
-                    }
-                }
-            });
-        }
-
-        btnLogout.setOnClickListener(v -> {
-            session.logoutUser();
-            finish();
-        });
-
-        btnClose.setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
-    }
 }

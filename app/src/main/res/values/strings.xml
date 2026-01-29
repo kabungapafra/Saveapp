@@ -88,4 +88,7 @@
     <string name="onboarding_title_3">Everything You Need in One App</string>
     <string name="onboarding_subtitle_3">✓ Automated Mobile Money payments\n✓ Real-time tracking &amp; notifications\n✓ Emergency loan access from reserve\n✓ 100% transparent transaction history</string>
     <string name="hello">Hello</string>
+    <string name="log_in">LOG IN</string>
+    <string name="sign_in">Sign In!</string>
+    <string name="follow_for_more_on_our_social_media">Follow for more on our social media</string>
 </resources>

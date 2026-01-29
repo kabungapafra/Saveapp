@@ -6,23 +6,70 @@
     android:layout_height="match_parent"
     android:background="@drawable/burgundy_gradient">
 
-    <!-- Decorative Circles -->
+    <!-- Cinematic Spheres Background Pattern - Scattered -->
+    <!-- Large sphere top left -->
     <View
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="-20dp"
-        android:alpha="0.1"
-        android:background="@drawable/white_circle"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="-60dp"
+        android:layout_marginStart="-70dp"
+        android:background="@drawable/sphere_signup"
+        android:alpha="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Medium sphere top right -->
+    <View
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="-50dp"
+        android:background="@drawable/sphere_signup"
+        android:alpha="0.35"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Small sphere mid left -->
+    <View
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/sphere_signup"
+        android:alpha="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Medium sphere bottom right -->
+    <View
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="-40dp"
+        android:background="@drawable/sphere_signup"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Tiny sphere mid right -->
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/sphere_signup"
+        android:alpha="0.25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- White Card Background -->
 
     <TextView
         android:id="@+id/signupTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="96dp"
         android:text="Create Your\nAccount"
         android:textColor="@color/white"
         android:textSize="28sp"
@@ -30,22 +77,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- White Card Background -->
     <View
         android:id="@+id/cardBg"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="170dp"
         android:background="@drawable/white_card_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Side Tab Container -->
+    <LinearLayout
+        android:id="@+id/sideTabContainer"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:onClick="onloginClick"
+            android:rotation="270"
+            android:text="LOG IN"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:rotation="270"
+            android:text="SIGN UP"
+            android:textColor="@color/project_primary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/loginCard"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sideTabContainer"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cardBg">
 
         <LinearLayout

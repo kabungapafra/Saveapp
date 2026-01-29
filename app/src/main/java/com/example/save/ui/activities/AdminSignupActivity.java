@@ -41,6 +41,7 @@ public class AdminSignupActivity extends AppCompatActivity {
                 // If fragment is visible, show signup form again
                 if (binding.fragmentContainer != null && binding.fragmentContainer.getVisibility() == View.VISIBLE) {
                     binding.loginCard.setVisibility(View.VISIBLE);
+                    binding.sideTabContainer.setVisibility(View.VISIBLE);
                     binding.fragmentContainer.setVisibility(View.GONE);
                     getSupportFragmentManager().popBackStack();
                 } else {
@@ -164,8 +165,9 @@ public class AdminSignupActivity extends AppCompatActivity {
      */
     private void navigateToOtpFragment(String adminName, String groupName, String phone, String email,
             String password) {
-        // Hide signup form, show fragment container
+        // Hide signup form and side tabs, show fragment container
         binding.loginCard.setVisibility(View.GONE);
+        binding.sideTabContainer.setVisibility(View.GONE);
         binding.fragmentContainer.setVisibility(View.VISIBLE);
 
         // Create OTP fragment with admin data - USE THE CORRECT METHOD

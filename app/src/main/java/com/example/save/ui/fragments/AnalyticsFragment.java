@@ -187,7 +187,7 @@ public class AnalyticsFragment extends Fragment {
             binding.tvMetric2Label.setText("Active Loans");
             binding.tvMetric2Value.setText(formatCurrency(activeLoansAmount));
 
-            binding.tvMetric3Label.setText("Projected Revenue");
+            binding.tvMetric3Label.setText("Revenue");
             binding.tvMetric3Value.setText(formatCurrency(revenueInterest));
 
             // Loan Health Card
@@ -198,7 +198,8 @@ public class AnalyticsFragment extends Fragment {
 
             // Chart Data - Loan Status Distribution
             setupChart(activeLoanCount, paidCount, pendingCount, rejectedCount);
-            binding.tvChartTitle.setText("Loan Status Distribution");
+            // Title is now fixed in XML as "Portfolio Status" to be cleaner
+            // binding.tvChartTitle.setText("Loan Status Distribution");
         });
 
         // Recent Activity - Now from Transactions
@@ -298,11 +299,12 @@ public class AnalyticsFragment extends Fragment {
         chart.getDescription().setEnabled(false);
         chart.setDrawHoleEnabled(true);
         chart.setHoleColor(android.graphics.Color.WHITE);
-        chart.setHoleRadius(50f);
-        chart.setTransparentCircleRadius(55f);
+        chart.setHoleRadius(58f); // Slightly larger hole
+        chart.setTransparentCircleRadius(61f);
         chart.setDrawCenterText(true);
         chart.setCenterText("Loans");
-        chart.setCenterTextSize(12f);
+        chart.setCenterTextSize(14f);
+        chart.setCenterTextColor(android.graphics.Color.parseColor("#9E9E9E"));
 
         // Improve Legend
         com.github.mikephil.charting.components.Legend legend = chart.getLegend();
@@ -310,8 +312,9 @@ public class AnalyticsFragment extends Fragment {
         legend.setHorizontalAlignment(com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER);
         legend.setOrientation(com.github.mikephil.charting.components.Legend.LegendOrientation.HORIZONTAL);
         legend.setDrawInside(false);
-        legend.setTextSize(11f);
-        legend.setTextColor(android.graphics.Color.DKGRAY);
+        legend.setTextSize(12f);
+        legend.setTextColor(android.graphics.Color.parseColor("#757575"));
+        legend.setYOffset(10f); // Add spacing below chart
 
         List<com.github.mikephil.charting.data.PieEntry> entries = new ArrayList<>();
 
@@ -331,23 +334,28 @@ public class AnalyticsFragment extends Fragment {
         com.github.mikephil.charting.data.PieDataSet dataSet = new com.github.mikephil.charting.data.PieDataSet(entries,
                 "");
 
-        // Vibrant Colors
+        // Vibrant, Premium Colors matching the gradient cards
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(getResources().getColor(R.color.deep_blue)); // Active/Main
-        colors.add(android.graphics.Color.parseColor("#66BB6A")); // Green (Paid)
-        colors.add(android.graphics.Color.parseColor("#FFA726")); // Orange (Pending)
-        colors.add(android.graphics.Color.parseColor("#EF5350")); // Red (Rejected)
+        // Card 1: Blue/Purple (Active) - using a solid representation
+        colors.add(android.graphics.Color.parseColor("#4A00E0"));
+        // Card 3: Green/Teal (Paid)
+        colors.add(android.graphics.Color.parseColor("#11998e"));
+        // Card 4: Orange (Pending)
+        colors.add(android.graphics.Color.parseColor("#FF8008"));
+        // Card 2: Red (Rejected/AtRisk)
+        colors.add(android.graphics.Color.parseColor("#cb2d3e"));
         dataSet.setColors(colors);
 
         dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
+        dataSet.setSelectionShift(8f); // More pop on selection
         dataSet.setValueTextSize(12f);
         dataSet.setValueTextColor(android.graphics.Color.WHITE);
+        // Hide values if they are 0 (Handled by logic above effectively)
 
         com.github.mikephil.charting.data.PieData data = new com.github.mikephil.charting.data.PieData(dataSet);
         chart.setData(data);
         chart.invalidate(); // refresh
-        chart.animateY(1000, com.github.mikephil.charting.animation.Easing.EaseInOutQuad);
+        chart.animateY(1400, com.github.mikephil.charting.animation.Easing.EaseInOutCubic); // Smoother animation
     }
 
     private void setupLineChart(List<com.github.mikephil.charting.data.Entry> entries) {
@@ -362,6 +370,20 @@ public class AnalyticsFragment extends Fragment {
         chart.setPinchZoom(true);
         chart.setDrawGridBackground(false);
 
+        // Clean up axes
+        chart.getXAxis().setDrawGridLines(false);
+        chart.getXAxis().setDrawAxisLine(false);
+        chart.getXAxis().setPosition(com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM);
+        chart.getXAxis().setTextColor(android.graphics.Color.parseColor("#9E9E9E"));
+
+        chart.getAxisRight().setEnabled(false);
+        chart.getAxisLeft().setDrawGridLines(true); // Keep horizontal grid lines for reference
+        chart.getAxisLeft().setGridColor(android.graphics.Color.parseColor("#F5F5F5"));
+        chart.getAxisLeft().setDrawAxisLine(false);
+        chart.getAxisLeft().setTextColor(android.graphics.Color.parseColor("#9E9E9E"));
+
+        chart.getLegend().setEnabled(false); // Hide legend as we have one series
+
         if (entries != null && !entries.isEmpty()) {
             com.github.mikephil.charting.data.LineDataSet set1;
             if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
@@ -372,20 +394,26 @@ public class AnalyticsFragment extends Fragment {
             } else {
                 set1 = new com.github.mikephil.charting.data.LineDataSet(entries, "Savings Growth");
 
+                set1.setMode(com.github.mikephil.charting.data.LineDataSet.Mode.CUBIC_BEZIER); // Smooth curve
                 set1.setDrawIcons(false);
-                set1.setColor(getResources().getColor(R.color.deep_blue));
-                set1.setCircleColor(getResources().getColor(R.color.deep_blue));
-                set1.setLineWidth(2f);
-                set1.setCircleRadius(4f);
-                set1.setDrawCircleHole(false);
+                // Deep Purple/Blue for line
+                set1.setColor(android.graphics.Color.parseColor("#8E2DE2"));
+                set1.setCircleColor(android.graphics.Color.parseColor("#4A00E0"));
+                set1.setLineWidth(3f);
+                set1.setCircleRadius(5f);
+                set1.setDrawCircleHole(true);
+                set1.setCircleHoleColor(android.graphics.Color.WHITE);
                 set1.setValueTextSize(9f);
                 set1.setDrawFilled(true);
+                set1.setDrawValues(false); // Clean look
 
+                // Fade gradient for fill
                 if (androidx.core.content.ContextCompat.getDrawable(getContext(), R.drawable.fade_blue) != null) {
                     set1.setFillDrawable(
                             androidx.core.content.ContextCompat.getDrawable(getContext(), R.drawable.fade_blue));
                 } else {
-                    set1.setFillColor(android.graphics.Color.BLUE);
+                    set1.setFillColor(android.graphics.Color.parseColor("#8E2DE2"));
+                    set1.setFillAlpha(40);
                 }
 
                 java.util.ArrayList<com.github.mikephil.charting.interfaces.datasets.ILineDataSet> dataSets = new java.util.ArrayList<>();
@@ -395,6 +423,7 @@ public class AnalyticsFragment extends Fragment {
                 chart.setData(data);
             }
             chart.invalidate();
+            chart.animateX(1000); // Animation
         } else {
             chart.setNoDataText("No savings history yet.");
             chart.invalidate();

@@ -39,6 +39,18 @@ public class SettingsActivity extends AppCompatActivity {
         viewModel = new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
         prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
 
+        // Role-based visibility
+        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
+        String role = session.getUserRole();
+        if (!"admin".equalsIgnoreCase(role)) {
+            binding.headerAdminConfig.setVisibility(View.GONE);
+            binding.cardAdminConfig.setVisibility(View.GONE);
+            binding.headerLoanConfig.setVisibility(View.GONE);
+            binding.cardLoanConfig.setVisibility(View.GONE);
+            binding.headerGroupDetails.setVisibility(View.GONE);
+            binding.cardGroupDetails.setVisibility(View.GONE);
+        }
+
         loadAllSettings();
         setupListeners();
     }
@@ -321,7 +333,7 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(new Intent(this, ProfileInfoActivity.class));
         });
         binding.btnChangePassword.setOnClickListener(v -> {
-             startActivity(new Intent(this, ChangePasswordActivity.class));
+            startActivity(new Intent(this, ChangePasswordActivity.class));
         });
         binding.btnLanguage.setOnClickListener(v -> {
             startActivity(new Intent(this, LanguageSelectionActivity.class));
@@ -332,15 +344,15 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(new Intent(this, PaymentMethodSelectionActivity.class));
         });
         binding.btnGroupDetails.setOnClickListener(v -> {
-             // Navigate to AdminMain and show Members/Group info
-             Intent intent = new Intent(this, AdminMainActivity.class);
-             intent.putExtra("NAVIGATE_TO", "MEMBERS");
-             startActivity(intent);
+            // Navigate to AdminMain and show Members/Group info
+            Intent intent = new Intent(this, AdminMainActivity.class);
+            intent.putExtra("NAVIGATE_TO", "MEMBERS");
+            startActivity(intent);
         });
         binding.btnViewMembers.setOnClickListener(v -> {
-             Intent intent = new Intent(this, AdminMainActivity.class);
-             intent.putExtra("NAVIGATE_TO", "MEMBERS");
-             startActivity(intent);
+            Intent intent = new Intent(this, AdminMainActivity.class);
+            intent.putExtra("NAVIGATE_TO", "MEMBERS");
+            startActivity(intent);
         });
         binding.btnContactAdmin.setOnClickListener(v -> {
             startActivity(new Intent(this, ContactAdminActivity.class));

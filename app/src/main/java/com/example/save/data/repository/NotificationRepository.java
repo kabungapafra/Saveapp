@@ -48,14 +48,31 @@ public class NotificationRepository {
         return instance;
     }
 
+    /**
+     * Returns a LiveData object providing an observable list of all notifications.
+     * 
+     * @return Observable list of Notification models.
+     */
     public LiveData<List<Notification>> getAllNotifications() {
         return notificationsLiveData;
     }
 
+    /**
+     * Returns a LiveData object providing the count of unread notifications.
+     * 
+     * @return Observable count of unread notifications.
+     */
     public LiveData<Integer> getUnreadCount() {
         return notificationDao.getUnreadCount();
     }
 
+    /**
+     * Adds a new notification to the local database.
+     * 
+     * @param title   The title of the notification.
+     * @param message The content of the notification.
+     * @param type    The type/category of notification.
+     */
     public void addNotification(String title, String message, String type) {
         executor.execute(() -> {
             NotificationEntity entity = new NotificationEntity(title, message, type, System.currentTimeMillis(), false);
@@ -97,6 +114,9 @@ public class NotificationRepository {
         // No, let's just make it simple.
     }
 
+    /**
+     * Marks all unread notifications as read.
+     */
     public void markAllAsRead() {
         executor.execute(() -> {
             // Inefficient but works: fetch sync -> update loop
