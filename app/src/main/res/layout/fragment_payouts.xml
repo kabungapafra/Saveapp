@@ -126,6 +126,7 @@
                                 tools:text="UGX 500,000" />
 
                             <TextView
+                                android:id="@+id/tvHeroDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="12dp"

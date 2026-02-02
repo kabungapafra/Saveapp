@@ -81,8 +81,8 @@ public class AdminMainActivity extends AppCompatActivity {
 
         setupBottomNavigation();
         loadDashboardData();
-        setupDatePicker();
-        setupMonthPicker(); // New
+        updateScheduleUI();
+        setupScheduleListeners();
         setupSparklineChart(); // New
         setupRecentActivity();
 
@@ -721,50 +721,83 @@ public class AdminMainActivity extends AppCompatActivity {
         binding = null;
     }
 
-    private void setupDatePicker() {
-        if (binding.dateRecyclerView != null) {
-            binding.dateRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this,
-                    androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
+    private void updateScheduleUI() {
+        if (binding.btnEditSchedule == null)
+            return;
 
-            List<DateItem> dates = new ArrayList<>();
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.ENGLISH);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd", Locale.ENGLISH);
+        // Load saved dates (Mock preference or variables)
+        android.content.SharedPreferences prefs = getSharedPreferences("SaveAppPrefs", MODE_PRIVATE);
+        String contribDate = prefs.getString("sched_contrib_date", "Not Set");
+        String payoutDate = prefs.getString("sched_payout_date", "Not Set");
 
-            for (int i = 0; i < 30; i++) {
-                String day = dayFormat.format(calendar.getTime()).toUpperCase();
-                String date = dateFormat.format(calendar.getTime());
-                dates.add(new DateItem(day, date, i == 0, calendar));
-                calendar.add(Calendar.DAY_OF_YEAR, 1);
-            }
-
-            binding.dateRecyclerView.setAdapter(new DateAdapter(dates));
-        }
+        binding.tvContributionDate.setText(contribDate);
+        binding.tvPayoutDate.setText(payoutDate);
     }
 
-    private void setupMonthPicker() {
-        if (binding.btnSelectMonth != null) {
-            binding.btnSelectMonth.setOnClickListener(v -> {
-                MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Select Month")
-                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                        .build();
+    private void setupScheduleListeners() {
+        if (binding.btnEditSchedule == null)
+            return;
 
-                datePicker.addOnPositiveButtonClickListener(selection -> {
-                    // Update calendar to selected date
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(selection);
-
-                    // Here we would typically regenerate the date list starting from this month
-                    // For now, just a toast to show it works
-                    SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-                    Toast.makeText(this, "Selected: " + format.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
-                });
-
-                datePicker.show(getSupportFragmentManager(), "month_picker");
-            });
-        }
+        binding.btnEditSchedule.setOnClickListener(v -> showEditScheduleDialog());
     }
+
+    private void showEditScheduleDialog() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Update Schedule");
+
+        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
+        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 40);
+
+        // Contributions Button
+        android.widget.Button btnContrib = new android.widget.Button(this);
+        btnContrib.setText("Set Contribution Date");
+        btnContrib.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_calendar_month, 0, 0, 0);
+        layout.addView(btnContrib);
+
+        // Payouts Button
+        android.widget.Button btnPayout = new android.widget.Button(this);
+        btnPayout.setText("Set Payout Date");
+        btnPayout.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_calendar_month, 0, 0, 0);
+        android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(
+                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.topMargin = 30;
+        btnPayout.setLayoutParams(params);
+        layout.addView(btnPayout);
+
+        builder.setView(layout);
+        builder.setPositiveButton("Close", null);
+
+        android.app.AlertDialog dialog = builder.create();
+
+        btnContrib.setOnClickListener(v -> {
+            Calendar c = Calendar.getInstance();
+            new android.app.DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+                String date = dayOfMonth + "/" + (month + 1) + "/" + year;
+                getSharedPreferences("SaveAppPrefs", MODE_PRIVATE).edit().putString("sched_contrib_date", date).apply();
+                updateScheduleUI();
+                android.widget.Toast.makeText(this, "Contribution Date Updated", android.widget.Toast.LENGTH_SHORT)
+                        .show();
+                dialog.dismiss();
+            }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+        });
+
+        btnPayout.setOnClickListener(v -> {
+            Calendar c = Calendar.getInstance();
+            new android.app.DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+                String date = dayOfMonth + "/" + (month + 1) + "/" + year;
+                getSharedPreferences("SaveAppPrefs", MODE_PRIVATE).edit().putString("sched_payout_date", date).apply();
+                updateScheduleUI();
+                android.widget.Toast.makeText(this, "Payout Date Updated", android.widget.Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+        });
+
+        dialog.show();
+    }
+
+    // Month picker removed as per redesign
 
     private void setupSparklineChart() {
         if (binding.sparklineChart == null)

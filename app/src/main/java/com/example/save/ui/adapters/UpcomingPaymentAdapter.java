@@ -10,20 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.save.R;
-import com.example.save.data.models.TaskModel; // Reusing TaskModel as a DTO for payments temporarily
+import com.example.save.data.models.PaymentItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UpcomingPaymentAdapter extends RecyclerView.Adapter<UpcomingPaymentAdapter.ViewHolder> {
 
-    private List<TaskModel> payments = new ArrayList<>();
+    private List<PaymentItem> payments = new ArrayList<>();
 
-    public UpcomingPaymentAdapter(List<TaskModel> payments) {
+    public UpcomingPaymentAdapter(List<PaymentItem> payments) {
         this.payments = payments;
     }
 
-    public void updateList(List<TaskModel> newPayments) {
+    public void updateList(List<PaymentItem> newPayments) {
         this.payments = newPayments;
         notifyDataSetChanged();
     }
@@ -37,14 +37,14 @@ public class UpcomingPaymentAdapter extends RecyclerView.Adapter<UpcomingPayment
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TaskModel payment = payments.get(position);
+        PaymentItem payment = payments.get(position);
 
         holder.tvTitle.setText(payment.title);
-        holder.tvAmount.setText(payment.subtitle); // Storing Amount in subtitle field for reuse
+        holder.tvAmount.setText(payment.amount);
         holder.tvStatus.setText(payment.status);
 
         // Icon logic
-        if (payment.title.contains("Loan")) {
+        if (payment.type != null && payment.type.toLowerCase().contains("loan")) {
             holder.ivIcon.setImageResource(R.drawable.ic_loan);
             holder.iconContainer.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFFFEBEE)); // Light
                                                                                                                 // Red
@@ -55,6 +55,7 @@ public class UpcomingPaymentAdapter extends RecyclerView.Adapter<UpcomingPayment
                                                                                                                 // Blue
             holder.ivIcon.setImageTintList(android.content.res.ColorStateList.valueOf(0xFF3F51B5)); // Blue
         }
+
         // Urgency Logic
         String status = payment.status.toLowerCase();
         int pillColor = 0xFFE0F7FA; // Default Cyan-ish
@@ -74,13 +75,6 @@ public class UpcomingPaymentAdapter extends RecyclerView.Adapter<UpcomingPayment
 
         holder.tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(pillColor));
         holder.tvStatus.setTextColor(textColor);
-
-        // Ensure icon tint matches text for consistency if using drawables
-        for (android.graphics.drawable.Drawable d : holder.tvStatus.getCompoundDrawablesRelative()) {
-            if (d != null) {
-                d.setTint(textColor);
-            }
-        }
     }
 
     @Override

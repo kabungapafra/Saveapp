@@ -30,6 +30,13 @@ public class PaymentReminderWorker extends Worker {
         Calendar calendar = Calendar.getInstance();
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
 
+        android.content.SharedPreferences prefs = context.getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
+        boolean remindersEnabled = prefs.getBoolean("payment_reminders", true);
+
+        if (!remindersEnabled) {
+            return Result.success();
+        }
+
         List<MemberEntity> members = memberDao.getAllMembersSync();
 
         for (MemberEntity member : members) {

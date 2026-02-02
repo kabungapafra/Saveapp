@@ -4,6 +4,7 @@ import com.example.save.data.local.entities.MemberEntity;
 import com.example.save.data.local.entities.TransactionEntity;
 import com.example.save.data.models.LoanRequest;
 import com.example.save.data.models.Member;
+import com.example.save.data.models.ComprehensiveReportResponse;
 
 import java.util.List;
 
@@ -277,4 +278,12 @@ public interface ApiService {
         @GET("analytics/reports")
         Call<ReportResponse> getReports(@Query("startDate") Long startDate,
                         @Query("endDate") Long endDate);
+
+        /**
+         * Fetches a comprehensive detailed report for the group. Admin only.
+         * 
+         * @return Call for ComprehensiveReportResponse.
+         */
+        @GET("analytics/report/comprehensive")
+        Call<ComprehensiveReportResponse> getComprehensiveReport();
 }

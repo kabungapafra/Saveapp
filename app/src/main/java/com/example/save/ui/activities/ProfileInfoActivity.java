@@ -2,6 +2,7 @@ package com.example.save.ui.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,12 +13,16 @@ import com.example.save.utils.SessionManager;
 public class ProfileInfoActivity extends AppCompatActivity {
 
     private ActivityProfileInfoBinding binding;
+    private com.example.save.ui.viewmodels.MembersViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProfileInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        viewModel = new androidx.lifecycle.ViewModelProvider(this)
+                .get(com.example.save.ui.viewmodels.MembersViewModel.class);
 
         setupListeners();
         loadProfileInfo();
@@ -29,43 +34,43 @@ public class ProfileInfoActivity extends AppCompatActivity {
 
     private void loadProfileInfo() {
         SessionManager session = new SessionManager(this);
-        
-        String userName = session.getUserName();
         String userEmail = session.getUserEmail();
-        
-        // Get user role from session details
-        java.util.HashMap<String, String> userDetails = session.getUserDetails();
-        String userRole = userDetails.get(SessionManager.KEY_ROLE);
 
-        binding.tvUserName.setText(userName != null ? userName : "Not Available");
-        binding.tvUserEmail.setText(userEmail != null ? userEmail : "Not Available");
-        binding.tvUserRole.setText(userRole != null ? userRole : "Not Available");
-
-        // Get phone and group info from preferences
-        android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
-        String userPhone = prefs.getString("user_phone", "Not Available");
-        String groupName = prefs.getString("group_name", "Not Available");
-        
-        binding.tvUserPhone.setText(userPhone);
-        binding.tvGroupName.setText(groupName);
-
-        // Get account creation date (if stored)
-        // This would typically come from the database
-        binding.tvMemberSince.setText("Member since: " + getAccountCreationDate());
-    }
-
-    private String getAccountCreationDate() {
-        // This would typically fetch from database
-        // For now, return a placeholder
-        android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
-        long creationDate = prefs.getLong("account_creation_date", 0);
-        
-        if (creationDate > 0) {
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd, yyyy", java.util.Locale.getDefault());
-            return sdf.format(new java.util.Date(creationDate));
+        if (userEmail == null) {
+            Toast.makeText(this, "Session error: Please login again", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
-        
-        return "Recently";
+
+        // Initially load from session
+        binding.tvUserName.setText(session.getUserName() != null ? session.getUserName() : "Loading...");
+        binding.tvUserEmail.setText(userEmail);
+        binding.tvUserRole.setText(session.getUserRole() != null ? session.getUserRole() : "Member");
+
+        // Fetch real data from DB
+        new Thread(() -> {
+            com.example.save.data.models.Member member = viewModel.getMemberByEmail(userEmail);
+            runOnUiThread(() -> {
+                if (member != null) {
+                    binding.tvUserName.setText(member.getName());
+                    binding.tvUserPhone.setText(member.getPhone());
+                    binding.tvUserRole.setText(member.getRole());
+
+                    if (member.getJoinedDate() != null) {
+                        binding.tvMemberSince.setText("Member since: " + member.getJoinedDate());
+                    }
+                } else {
+                    // Fallback to Prefs if not in DB (e.g. if sync hasn't happened)
+                    android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
+                    binding.tvUserPhone.setText(prefs.getString("user_phone", "Not Available"));
+                    binding.tvGroupName.setText(prefs.getString("group_name", "Weekend Savers Club"));
+                }
+            });
+        }).start();
+
+        // Always get group name from Prefs
+        android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
+        binding.tvGroupName.setText(prefs.getString("group_name", "Weekend Savers Club"));
     }
 
     @Override

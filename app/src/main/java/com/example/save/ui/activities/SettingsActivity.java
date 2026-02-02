@@ -23,6 +23,7 @@ import com.example.save.R;
 import com.example.save.databinding.ActivitySettingsBinding;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import android.content.SharedPreferences;
+import com.example.save.utils.SessionManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -40,8 +41,12 @@ public class SettingsActivity extends AppCompatActivity {
         prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
 
         // Role-based visibility
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
+        SessionManager session = new SessionManager(this);
         String role = session.getUserRole();
+        // Load User Info in Header
+        binding.userName.setText(session.getUserName() != null ? session.getUserName() : "User");
+        binding.userEmail.setText(session.getUserEmail() != null ? session.getUserEmail() : "email@example.com");
+
         if (!"admin".equalsIgnoreCase(role)) {
             binding.headerAdminConfig.setVisibility(View.GONE);
             binding.cardAdminConfig.setVisibility(View.GONE);
@@ -274,7 +279,7 @@ public class SettingsActivity extends AppCompatActivity {
             binding.tvCycleStartDate.setText(sdf.format(calendar.getTime()));
         }
 
-        binding.tvCycleStartDate.setOnClickListener(v -> {
+        binding.btnCycleStartDate.setOnClickListener(v -> {
             new android.app.DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
                 calendar.set(year, month, dayOfMonth);
                 long millis = calendar.getTimeInMillis();
@@ -333,7 +338,11 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(new Intent(this, ProfileInfoActivity.class));
         });
         binding.btnChangePassword.setOnClickListener(v -> {
-            startActivity(new Intent(this, ChangePasswordActivity.class));
+            SessionManager session = new SessionManager(this);
+            Intent intent = new Intent(this, ChangePasswordActivity.class);
+            intent.putExtra("member_email", session.getUserEmail());
+            intent.putExtra("member_name", session.getUserName());
+            startActivity(intent);
         });
         binding.btnLanguage.setOnClickListener(v -> {
             startActivity(new Intent(this, LanguageSelectionActivity.class));

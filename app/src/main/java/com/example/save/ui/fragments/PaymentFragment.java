@@ -50,12 +50,17 @@ public class PaymentFragment extends Fragment {
     private LottieAnimationView successAnimation;
     private View animationOverlay;
 
-    public static PaymentFragment newInstance(String memberName) {
+    public static PaymentFragment newInstance(String memberName, String memberEmail) {
         PaymentFragment fragment = new PaymentFragment();
         Bundle args = new Bundle();
         args.putString("MEMBER_NAME", memberName);
+        args.putString("MEMBER_EMAIL", memberEmail);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static PaymentFragment newInstance(String memberName) {
+        return newInstance(memberName, null);
     }
 
     @Nullable
@@ -71,12 +76,22 @@ public class PaymentFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
-        // Get member name from arguments
+        // Get member name and email from arguments
         if (getArguments() != null) {
             memberName = getArguments().getString("MEMBER_NAME");
+            memberEmail = getArguments().getString("MEMBER_EMAIL");
         }
 
         initializeViews(view);
+
+        // IMMEDIATE ADMIN CHECK: Don't wait for data to show admin controls
+        if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+            if (cardLoanOptions != null) {
+                cardLoanOptions.setVisibility(View.VISIBLE);
+                setupLoanListeners();
+            }
+        }
+
         setupListeners();
         loadMemberData();
     }
@@ -116,22 +131,37 @@ public class PaymentFragment extends Fragment {
         animationOverlay = view.findViewById(R.id.animationOverlay);
     }
 
+    private String memberEmail;
+
     private void loadMemberData() {
         // Fetch member data on background thread to avoid Room main thread violation
         new Thread(() -> {
             try {
-                Member member = viewModel.getMemberByName(memberName);
+                Member member = null;
+                if (memberEmail != null) {
+                    member = viewModel.getMemberByEmail(memberEmail);
+                }
+
+                if (member == null && memberName != null) {
+                    member = viewModel.getMemberByName(memberName);
+                }
+
+                final Member finalMember = member;
                 requireActivity().runOnUiThread(() -> {
-                    currentMember = member;
+                    currentMember = finalMember;
                     if (currentMember != null) {
                         updateUI(currentMember);
                     } else {
-                        Toast.makeText(getContext(), "Member not found: " + memberName, Toast.LENGTH_SHORT).show();
+                        // If we are strictly on admin side, we already showed the card,
+                        // but we might want to log that data didn't load.
+                        if (!(getActivity() instanceof com.example.save.ui.activities.AdminMainActivity)) {
+                            Toast.makeText(getContext(), "Member data not found", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             } catch (Exception e) {
                 requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(), "Error loading member data", Toast.LENGTH_SHORT).show();
+                    // Fail silently or log
                 });
             }
         }).start();
@@ -197,9 +227,12 @@ public class PaymentFragment extends Fragment {
             etPhoneNumber.setText(member.getPhone());
         }
 
-        // Loan Logic: Show Loan Options only for Admin
+        // Role-based visibility (as backup or for member view if applicable)
         if (cardLoanOptions != null) {
-            if ("Admin".equalsIgnoreCase(member.getRole()) || "Administrator".equalsIgnoreCase(member.getRole())) {
+            boolean isAdmin = (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) ||
+                    ("Admin".equalsIgnoreCase(member.getRole()) || "Administrator".equalsIgnoreCase(member.getRole()));
+
+            if (isAdmin) {
                 cardLoanOptions.setVisibility(View.VISIBLE);
                 setupLoanListeners();
             } else {

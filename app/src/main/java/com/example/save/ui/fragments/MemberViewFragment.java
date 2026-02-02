@@ -46,6 +46,9 @@ public class MemberViewFragment extends Fragment {
         setupRecyclerView();
         observeViewModel();
 
+        // Initial sync to ensure data is fresh
+        viewModel.syncMembers();
+
         return binding.getRoot();
     }
 
@@ -82,6 +85,9 @@ public class MemberViewFragment extends Fragment {
     }
 
     private void refreshAdmins() {
+        if (binding == null)
+            return;
+
         new Thread(() -> {
             try {
                 List<Member> admins = viewModel.getAdmins();
@@ -99,7 +105,13 @@ public class MemberViewFragment extends Fragment {
                     });
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        if (binding != null && binding.cvAdmins != null) {
+                            binding.cvAdmins.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
         }).start();
     }

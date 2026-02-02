@@ -19,21 +19,18 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
     private List<Member> members;
     private boolean isFullQueue;
     private double payoutAmount;
+    private String basePayoutDate;
 
-    /**
-     * @param members      List of members to display
-     * @param isFullQueue  If true, show payout status (paid/estimated); if false,
-     *                     show relative estimates (This Month/Next Month)
-     * @param payoutAmount The amount to be paid out
-     */
-    public PayoutQueueAdapter(List<Member> members, boolean isFullQueue, double payoutAmount) {
+    public PayoutQueueAdapter(List<Member> members, boolean isFullQueue, double payoutAmount, String basePayoutDate) {
         this.members = members;
         this.isFullQueue = isFullQueue;
         this.payoutAmount = payoutAmount;
+        this.basePayoutDate = basePayoutDate;
     }
 
-    public void updateList(List<Member> newList) {
+    public void updateList(List<Member> newList, String basePayoutDate) {
         this.members = newList;
+        this.basePayoutDate = basePayoutDate;
         notifyDataSetChanged();
     }
 
@@ -61,33 +58,51 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
         holder.rank.setText(String.valueOf(position + 1));
         holder.name.setText(member.getName());
 
-        if (isFullQueue) {
-            if (member.hasReceivedPayout()) {
-                holder.date.setText("Paid on: " + member.getPayoutDate());
-                holder.date.setTextColor(
-                        androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
-                                android.R.color.holo_green_dark));
-                holder.amount.setText("Paid");
-            } else {
-                holder.date.setText("Receiving: " + member.getNextPayoutDate());
-                holder.date.setTextColor(
-                        androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
-                                android.R.color.darker_gray));
-                holder.amount.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(payoutAmount));
-            }
+        String displayDate;
+        if (member.hasReceivedPayout()) {
+            displayDate = "Paid on: " + member.getPayoutDate();
+            holder.date.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
+                    android.R.color.holo_green_dark));
+            holder.amount.setText("Paid");
         } else {
-            // Upcoming mode (Top 3)
-            holder.date.setText("Receiving: " + member.getNextPayoutDate());
+            displayDate = "Receiving: " + calculatePayoutDate(position);
             holder.date.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
                     android.R.color.darker_gray));
             holder.amount.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(payoutAmount));
         }
+        holder.date.setText(displayDate);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(member);
             }
         });
+    }
+
+    private String calculatePayoutDate(int position) {
+        if (basePayoutDate == null || basePayoutDate.isEmpty() || basePayoutDate.contains("Not")
+                || basePayoutDate.equals("TBD")) {
+            return "TBD";
+        }
+        try {
+            String[] parts = basePayoutDate.split("/");
+            if (parts.length != 3)
+                return basePayoutDate;
+
+            int day = Integer.parseInt(parts[0]);
+            int month = Integer.parseInt(parts[1]) - 1; // 0-indexed month
+            int year = Integer.parseInt(parts[2]);
+
+            java.util.Calendar cal = java.util.Calendar.getInstance();
+            cal.set(year, month, day);
+            cal.add(java.util.Calendar.MONTH, position);
+
+            return cal.get(java.util.Calendar.DAY_OF_MONTH) + "/" +
+                    (cal.get(java.util.Calendar.MONTH) + 1) + "/" +
+                    cal.get(java.util.Calendar.YEAR);
+        } catch (Exception e) {
+            return basePayoutDate;
+        }
     }
 
     @Override

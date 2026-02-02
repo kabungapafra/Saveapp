@@ -96,11 +96,9 @@ public class MemberMainActivity extends AppCompatActivity {
 
         // Initialize Upcoming Payments
         if (binding.rvUpcomingPayments != null) {
-            java.util.List<TaskModel> samplePayments = new java.util.ArrayList<>();
-            samplePayments.add(new TaskModel("00:00", "Dec Contribution", "UGX 50,000/mo", "2 days left", "",
-                    0xFF3F51B5, R.drawable.ic_calendar_month, null, "50000"));
-            samplePayments.add(new TaskModel("00:00", "Loan Repay", "UGX 200,000", "5 days left", "",
-                    0xFFF44336, R.drawable.ic_loan, null, "200000"));
+            java.util.List<PaymentItem> samplePayments = new java.util.ArrayList<>();
+            samplePayments.add(new PaymentItem("Dec Contribution", "UGX 50,000/mo", "2 days left", "Contribution"));
+            samplePayments.add(new PaymentItem("Loan Repay", "UGX 200,000", "5 days left", "Loan"));
 
             upcomingPaymentAdapter = new UpcomingPaymentAdapter(samplePayments);
             binding.rvUpcomingPayments.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this,
@@ -464,12 +462,17 @@ public class MemberMainActivity extends AppCompatActivity {
                     String firstName = fullName.split(" ")[0];
                     binding.greetingName.setText(firstName + "!");
 
-                    // Update My Take Section
+                    // Update My Take Section from Admin Schedule Preferences
+                    android.content.SharedPreferences adminPrefs = getSharedPreferences("SaveAppPrefs", MODE_PRIVATE);
+                    String schedContribDate = adminPrefs.getString("sched_contrib_date",
+                            member.getNextPaymentDueDate());
+                    String schedPayoutDate = adminPrefs.getString("sched_payout_date", member.getNextPayoutDate());
+
                     if (binding.tvMyTakePayoutDate != null) {
-                        binding.tvMyTakePayoutDate.setText(member.getNextPayoutDate());
+                        binding.tvMyTakePayoutDate.setText(schedPayoutDate);
                     }
                     if (binding.tvMyTakeDueDate != null) {
-                        binding.tvMyTakeDueDate.setText(member.getNextPaymentDueDate());
+                        binding.tvMyTakeDueDate.setText(schedContribDate);
                     }
                 }
             });
@@ -540,9 +543,12 @@ public class MemberMainActivity extends AppCompatActivity {
             binding.tvRecipientsLabel.setText(slots > 1 ? "Current Batch Recipients" : "Next Recipient");
         }
 
+        android.content.SharedPreferences adminPrefs = getSharedPreferences("SaveAppPrefs", MODE_PRIVATE);
+        String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
+
         viewModel.getMonthlyRecipientsLive(slots).observe(this, recipients -> {
             if (binding != null && recipientAdapter != null) {
-                recipientAdapter.updateList(recipients);
+                recipientAdapter.updateList(recipients, schedPayoutDate);
             }
         });
 
@@ -583,7 +589,7 @@ public class MemberMainActivity extends AppCompatActivity {
         if (binding.rvUpcomingPayments == null || upcomingPaymentAdapter == null)
             return;
 
-        java.util.List<TaskModel> payments = new java.util.ArrayList<>();
+        java.util.List<PaymentItem> payments = new java.util.ArrayList<>();
 
         // Check Monthly Contribution
         if (member.getContributionPaid() < member.getContributionTarget()) {
@@ -591,29 +597,22 @@ public class MemberMainActivity extends AppCompatActivity {
             String amountStr = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "UG"))
                     .format(remaining);
 
-            payments.add(new TaskModel(
-                    "Due Now",
+            android.content.SharedPreferences adminPrefs = getSharedPreferences("SaveAppPrefs", MODE_PRIVATE);
+            String schedContribDate = adminPrefs.getString("sched_contrib_date", "Active Cycle");
+
+            payments.add(new PaymentItem(
                     "Monthly Contribution",
                     amountStr + " remaining",
-                    "Active Cycle",
-                    "",
-                    0xFF3F51B5, // Indigo
-                    R.drawable.ic_calendar_month,
-                    null,
-                    String.valueOf((int) remaining)));
+                    "Due: " + schedContribDate,
+                    "Contribution"));
         }
 
         if (payments.isEmpty()) {
-            payments.add(new TaskModel(
-                    "Great!",
+            payments.add(new PaymentItem(
                     "All Paid Up",
                     "You are current",
                     "Relax",
-                    "",
-                    0xFF4CAF50, // Green
-                    R.drawable.ic_notifications,
-                    null,
-                    "0"));
+                    "Status"));
         }
 
         upcomingPaymentAdapter.updateList(payments);

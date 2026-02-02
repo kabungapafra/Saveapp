@@ -53,9 +53,14 @@ public class QueueFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        binding.rvQueue.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvQueue.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+        android.content.SharedPreferences adminPrefs = requireActivity().getSharedPreferences("SaveAppPrefs",
+                android.content.Context.MODE_PRIVATE);
+        String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
+
         // Initialize with empty list, full queue mode, and default payout
-        adapter = new com.example.save.ui.adapters.PayoutQueueAdapter(new ArrayList<>(), true, 500000);
+        adapter = new com.example.save.ui.adapters.PayoutQueueAdapter(new java.util.ArrayList<>(), true, 500000,
+                schedPayoutDate);
         binding.rvQueue.setAdapter(adapter);
     }
 
@@ -78,7 +83,13 @@ public class QueueFragment extends Fragment {
                 // Update Top Card
                 if (nextRecipient != null) {
                     binding.tvNextRecipient.setText(nextRecipient.getName());
-                    binding.tvNextDate.setText(nextRecipient.getNextPayoutDate());
+
+                    // Use Admin Schedule if set
+                    android.content.SharedPreferences adminPrefs = requireActivity()
+                            .getSharedPreferences("SaveAppPrefs", android.content.Context.MODE_PRIVATE);
+                    String schedPayoutDate = adminPrefs.getString("sched_payout_date",
+                            nextRecipient.getNextPayoutDate());
+                    binding.tvNextDate.setText(schedPayoutDate);
                 } else {
                     binding.tvNextRecipient.setText("No pending payouts");
                     binding.tvNextDate.setText("-");
@@ -86,7 +97,10 @@ public class QueueFragment extends Fragment {
 
                 // Update List
                 if (adapter != null) {
-                    adapter.updateList(queueList);
+                    android.content.SharedPreferences adminPrefs = requireActivity()
+                            .getSharedPreferences("SaveAppPrefs", android.content.Context.MODE_PRIVATE);
+                    String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
+                    adapter.updateList(queueList, schedPayoutDate);
                 }
             }
         });

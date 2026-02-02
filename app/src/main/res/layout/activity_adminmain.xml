@@ -612,63 +612,149 @@
 
             </GridLayout>
 
-            <!-- Date Picker Section -->
+            <!-- Premium Payment Schedule Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/white">
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
+                app:cardPreventCornerOverlap="true">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="12dp">
+                    android:background="@drawable/bg_card_premium_blue">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="DATE"
-                        android:textColor="@color/project_primary"
-                        android:textSize="11sp"
-                        android:fontFamily="sans-serif-black"
-                        android:letterSpacing="0.1" />
+                    <!-- Background Pattern -->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:src="@drawable/ic_card_wave_pattern"
+                        android:scaleType="centerCrop"
+                        android:alpha="0.1"
+                        app:tint="#FFFFFF"
+                        android:layout_alignParentTop="true"/>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="24dp"
-                        android:background="#EEE"
-                        android:layout_marginHorizontal="16dp"/>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnSelectMonth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Select Month"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:textColor="@color/text_primary"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif-medium"
-                        app:icon="@drawable/ic_calendar_month"
-                        app:iconSize="18dp"
-                        app:iconTint="@color/project_primary"
-                        android:padding="0dp"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/dateRecyclerView"
+                    <!-- Content -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        tools:listitem="@layout/item_calendar_date"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        android:orientation="vertical"
+                        android:padding="24dp">
 
-                </LinearLayout>
+                        <!-- Header -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="24dp">
+                            
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="PAYMENT SCHEDULE"
+                                android:textColor="#DDFFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:letterSpacing="0.15"/>
+
+                            <TextView
+                                android:id="@+id/btnEditSchedule"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="EDIT"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:background="?attr/selectableItemBackground"
+                                android:padding="4dp"/>
+                        </LinearLayout>
+
+                        <!-- Data Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
+                            
+                            <!-- Contributions -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:background="@drawable/bg_capsule_translucent"
+                                android:padding="16dp"
+                                android:layout_marginEnd="8dp">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_payments"
+                                    app:tint="#FFFFFF"
+                                    android:alpha="0.9"/>
+                                
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Contributions"
+                                    android:textColor="#CCFFFFFF"
+                                    android:textSize="11sp"
+                                    android:layout_marginTop="12dp"/>
+                                
+                                <TextView
+                                    android:id="@+id/tvContributionDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Set Date"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="4dp"/>
+                            </LinearLayout>
+
+                            <!-- Payouts -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:background="@drawable/bg_capsule_translucent"
+                                android:padding="16dp"
+                                android:layout_marginStart="8dp">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_send_money"
+                                    app:tint="#FFFFFF"
+                                    android:alpha="0.9"/>
+                                
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Next Payout"
+                                    android:textColor="#CCFFFFFF"
+                                    android:textSize="11sp"
+                                    android:layout_marginTop="12dp"/>
+                                
+                                <TextView
+                                    android:id="@+id/tvPayoutDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Set Date"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="4dp"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
             <!-- Recent Activity Section -->

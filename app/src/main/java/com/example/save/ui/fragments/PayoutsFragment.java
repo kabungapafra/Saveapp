@@ -73,10 +73,17 @@ public class PayoutsFragment extends Fragment {
                 Member nextRecipient = viewModel.getNextPayoutRecipient();
                 requireActivity().runOnUiThread(() -> {
                     if (binding != null) {
+                        // Load Admin Schedule
+                        android.content.SharedPreferences adminPrefs = requireActivity()
+                                .getSharedPreferences("SaveAppPrefs", android.content.Context.MODE_PRIVATE);
+                        String schedPayoutDate = adminPrefs.getString("sched_payout_date", "Scheduled");
+
                         if (nextRecipient != null) {
                             binding.tvNextRecipientName.setText(nextRecipient.getName());
                             binding.tvHeroAmount.setText("UGX " + java.text.NumberFormat.getIntegerInstance()
                                     .format(viewModel.getPayoutAmount()));
+
+                            binding.tvHeroDate.setText(schedPayoutDate);
 
                             binding.tvNextRecipientName.setOnClickListener(v -> {
                                 getParentFragmentManager().beginTransaction()
@@ -89,6 +96,7 @@ public class PayoutsFragment extends Fragment {
                         } else {
                             binding.tvNextRecipientName.setText("No Payouts Due");
                             binding.tvHeroAmount.setText("---");
+                            binding.tvHeroDate.setText("---");
                             binding.tvNextRecipientName.setOnClickListener(null);
                         }
                     }
@@ -103,9 +111,13 @@ public class PayoutsFragment extends Fragment {
             }
         }).start();
 
-        // Setup Upcoming Payouts List (Top 3 Eligible)
+        // Setup Upcoming Payouts List (Limited by Slots per Round)
         binding.upcomingPayoutsRecyclerView
                 .setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+
+        android.content.SharedPreferences chamaPrefs = requireActivity().getSharedPreferences("ChamaPrefs",
+                android.content.Context.MODE_PRIVATE);
+        int slotsLimit = chamaPrefs.getInt("slots_per_round", 5);
 
         java.util.List<Member> upcomingMembers = new java.util.ArrayList<>();
 
@@ -114,12 +126,17 @@ public class PayoutsFragment extends Fragment {
             if (!member.hasReceivedPayout() && member.isActive()) {
                 upcomingMembers.add(member);
                 count++;
-                if (count >= 3)
-                    break; // Show top 3
+                if (count >= slotsLimit)
+                    break;
             }
         }
 
-        PayoutQueueAdapter adapter = new PayoutQueueAdapter(upcomingMembers, false, viewModel.getPayoutAmount());
+        android.content.SharedPreferences adminPrefs = requireActivity().getSharedPreferences("SaveAppPrefs",
+                android.content.Context.MODE_PRIVATE);
+        String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
+
+        PayoutQueueAdapter adapter = new PayoutQueueAdapter(upcomingMembers, false, viewModel.getPayoutAmount(),
+                schedPayoutDate);
         adapter.setOnItemClickListener(member -> {
             getParentFragmentManager().beginTransaction()
                     .replace(((ViewGroup) getView().getParent()).getId(),
@@ -212,10 +229,17 @@ public class PayoutsFragment extends Fragment {
                 .setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         TextView tvName = dialogView.findViewById(R.id.tvRecipientName);
+        TextView tvDate = dialogView.findViewById(R.id.tvRecipientDate);
         com.google.android.material.textfield.TextInputEditText etAmount = dialogView.findViewById(R.id.etPayoutAmount);
         android.widget.CheckBox cbDefer = dialogView.findViewById(R.id.cbDeferRemaining);
 
         tvName.setText(recipient.getName());
+
+        // Load Admin Schedule
+        android.content.SharedPreferences adminPrefs = requireActivity().getSharedPreferences("SaveAppPrefs",
+                android.content.Context.MODE_PRIVATE);
+        String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
+        tvDate.setText("Scheduled for: " + schedPayoutDate);
 
         // Set default net amount
         double defaultAmount = viewModel.getNetPayoutAmount();
@@ -358,7 +382,12 @@ public class PayoutsFragment extends Fragment {
         tvSummary.setText(history.size() + " Payouts • Total: UGX "
                 + java.text.NumberFormat.getIntegerInstance().format(totalPaidOut));
 
-        PayoutQueueAdapter adapter = new PayoutQueueAdapter(history, true, viewModel.getPayoutAmount());
+        android.content.SharedPreferences adminPrefs = requireActivity().getSharedPreferences("SaveAppPrefs",
+                android.content.Context.MODE_PRIVATE);
+        String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
+
+        PayoutQueueAdapter adapter = new PayoutQueueAdapter(history, true, viewModel.getPayoutAmount(),
+                schedPayoutDate);
         adapter.setOnItemClickListener(member -> {
             dialog.dismiss(); // Close dialog first? Or open fragment behind? Profile might replace fragment.
             // If we replace fragment, dialog should be dismissed.
@@ -495,7 +524,12 @@ public class PayoutsFragment extends Fragment {
         if (members == null)
             members = new java.util.ArrayList<>();
 
-        PayoutQueueAdapter adapter = new PayoutQueueAdapter(members, true, viewModel.getPayoutAmount());
+        android.content.SharedPreferences adminPrefs = requireActivity().getSharedPreferences("SaveAppPrefs",
+                android.content.Context.MODE_PRIVATE);
+        String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
+
+        PayoutQueueAdapter adapter = new PayoutQueueAdapter(members, true, viewModel.getPayoutAmount(),
+                schedPayoutDate);
         adapter.setOnItemClickListener(member -> {
             dialog.dismiss();
             getParentFragmentManager().beginTransaction()

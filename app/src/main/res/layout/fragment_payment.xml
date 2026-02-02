@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="@drawable/bg_geometric_pattern">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,114 +50,166 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Hero Card -->
+            <!-- Hero Card (Refined & Compact) -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardHero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="8dp"
                 app:cardPreventCornerOverlap="false"
                 app:layout_constraintTop_toBottomOf="@id/layoutHeader">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/card_gradient_background"
-                    android:padding="24dp">
+                    android:background="@drawable/bg_card_premium_blue">
 
-                    <TextView
-                        android:id="@+id/tvProgressLabel"
-                        android:layout_width="wrap_content"
+                    <!-- Full Background Image Overlay -->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignBottom="@+id/heroContent"
+                        android:layout_alignTop="@+id/heroContent"
+                        android:alpha="0.25"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/lng" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/heroContent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Progress"
-                        android:textColor="#E0E0E0"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <!-- Circular Progress -->
-                    <ProgressBar
-                        android:id="@+id/circularProgressBar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="124dp"
-                        android:layout_height="106dp"
-                        android:layout_marginTop="16dp"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="0"
-                        android:progressDrawable="@drawable/circular_progress_drawable"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvProgressLabel" />
-
-                    <TextView
-                        android:id="@+id/tvProgressPercentage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0%"
-                        android:textColor="@color/white"
-                        android:textSize="28sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/circularProgressBar"
-                        app:layout_constraintEnd_toEndOf="@id/circularProgressBar"
-                        app:layout_constraintStart_toStartOf="@id/circularProgressBar"
-                        app:layout_constraintTop_toTopOf="@id/circularProgressBar" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:orientation="vertical"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/circularProgressBar">
+                        android:paddingHorizontal="24dp"
+                        android:paddingVertical="18dp">
 
                         <TextView
+                            android:id="@+id/tvProgressLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Paid Amount"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.1"
+                            android:text="STASH PROGRESS"
                             android:textColor="#B3FFFFFF"
-                            android:textSize="12sp" />
+                            android:textSize="10sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/txtPaidAmount"
-                            android:layout_width="wrap_content"
+                        <!-- Compact Circular Progress -->
+                        <FrameLayout
+                            android:id="@+id/progressContainer"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="12dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvProgressLabel">
+
+                            <ProgressBar
+                                android:id="@+id/circularProgressBar"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:indeterminate="false"
+                                android:max="100"
+                                android:progress="0"
+                                android:progressDrawable="@drawable/circular_progress_drawable" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvProgressPercentage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="0%"
+                                    android:textColor="@color/white"
+                                    android:textSize="22sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:letterSpacing="0.05"
+                                    android:text="SAVED"
+                                    android:textColor="#B3FFFFFF"
+                                    android:textSize="8sp" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <View
+                            android:id="@+id/divider"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            android:background="#22FFFFFF"
+                            app:layout_constraintTop_toBottomOf="@id/progressContainer" />
+
+                        <!-- Stats Row (More Compact) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="UGX 0"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:layout_marginTop="14dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@id/divider">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:gravity="end"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/circularProgressBar">
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Target"
-                            android:textColor="#B3FFFFFF"
-                            android:textSize="12sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="Current Stash"
+                                    android:textColor="#B3FFFFFF"
+                                    android:textSize="10sp" />
 
-                        <TextView
-                            android:id="@+id/txtTargetAmount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="UGX 1M"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                                <TextView
+                                    android:id="@+id/txtPaidAmount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="UGX 0"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="Goal"
+                                    android:textColor="#B3FFFFFF"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/txtTargetAmount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="1,000,000"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
             <!-- Stats Row -->
@@ -483,67 +535,114 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Loan Options -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Loan Options Card (Redesigned) -->
+            <androidx.cardview.widget.CardView
                 android:id="@+id/cardLoanOptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginBottom="32dp"
                 android:visibility="gone"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:layout_constraintTop_toBottomOf="@id/btnPayNow"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
+                app:cardPreventCornerOverlap="false"
+                app:layout_constraintTop_toBottomOf="@id/btnSetupAutoPay"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:background="@drawable/bg_card_premium_blue">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="Loan Options"
-                        android:textColor="@color/deep_blue"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                    <!-- Background Image Overlay -->
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:alpha="0.3"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/lng" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:padding="24dp">
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnRequestLoan"
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="8dp"
-                            android:text="Request"
-                            android:textSize="12sp"
-                            app:backgroundTint="@color/deep_blue"
-                            app:cornerRadius="12dp" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="16dp">
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnPayLoan"
-                            android:layout_width="0dp"
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_loan"
+                                app:tint="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="sans-serif-black"
+                                android:text="STASH LOAN"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:letterSpacing="0.05" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="8dp"
-                            android:text="Pay Loan"
+                            android:text="Borrow from your accumulated savings with instant approval. Limited to your current stash balance."
+                            android:textColor="#CCFFFFFF"
                             android:textSize="12sp"
-                            android:textColor="@color/deep_blue"
-                            app:backgroundTint="#E0E0E0"
-                            app:cornerRadius="12dp" />
+                            android:fontFamily="sans-serif-medium"
+                            android:layout_marginBottom="24dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnRequestLoan"
+                                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                                android:layout_width="0dp"
+                                android:layout_height="54dp"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="8dp"
+                                android:text="REQUEST LOAN"
+                                android:textColor="@color/deep_blue"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-black"
+                                app:backgroundTint="@color/white"
+                                app:cornerRadius="16dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnPayLoan"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="0dp"
+                                android:layout_height="54dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:text="REPAY LOAN"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-black"
+                                app:strokeColor="@color/white"
+                                app:strokeWidth="1.5dp"
+                                app:cornerRadius="16dp" />
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
 
 
 

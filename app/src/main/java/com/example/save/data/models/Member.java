@@ -21,6 +21,7 @@ public class Member {
     private String nextPayoutDate;
     private String nextPaymentDueDate;
     private int creditScore;
+    private String joinedDate;
 
     private String password;
 
@@ -209,6 +210,14 @@ public class Member {
 
     public void setCreditScore(int creditScore) {
         this.creditScore = creditScore;
+    }
+
+    public String getJoinedDate() {
+        return joinedDate;
+    }
+
+    public void setJoinedDate(String joinedDate) {
+        this.joinedDate = joinedDate;
     }
 
     // Auto-Pay Fields

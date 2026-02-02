@@ -26,9 +26,8 @@ import java.util.concurrent.Executors;
  */
 @Database(entities = { MemberEntity.class, LoanEntity.class,
                 TransactionEntity.class,
-                com.example.save.data.local.entities.TaskEntity.class,
                 com.example.save.data.local.entities.NotificationEntity.class,
-                com.example.save.data.local.entities.ApprovalEntity.class }, version = 13, exportSchema = false)
+                com.example.save.data.local.entities.ApprovalEntity.class }, version = 15, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -40,8 +39,6 @@ public abstract class AppDatabase extends RoomDatabase {
         public abstract LoanDao loanDao();
 
         public abstract TransactionDao transactionDao();
-
-        public abstract com.example.save.data.local.dao.TaskDao taskDao();
 
         public abstract com.example.save.data.local.dao.NotificationDao notificationDao();
 

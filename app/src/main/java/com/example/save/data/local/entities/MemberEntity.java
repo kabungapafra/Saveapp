@@ -34,6 +34,7 @@ public class MemberEntity {
     private int autoPayDay; // New: Day of month (1-31)
     private double autoPayAmount; // New
     private int creditScore; // New
+    private String joinedDate;
 
     public MemberEntity() {
     }
@@ -218,5 +219,13 @@ public class MemberEntity {
 
     public void setCreditScore(int creditScore) {
         this.creditScore = creditScore;
+    }
+
+    public String getJoinedDate() {
+        return joinedDate;
+    }
+
+    public void setJoinedDate(String joinedDate) {
+        this.joinedDate = joinedDate;
     }
 }

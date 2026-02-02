@@ -59,6 +59,9 @@ public class MembersFragment extends Fragment {
         observeViewModel();
         setupSearchView();
 
+        // Sync data with backend
+        viewModel.syncMembers();
+
         binding.fabAddMember.setOnClickListener(v -> showAddMemberDialog());
         binding.btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
@@ -90,22 +93,18 @@ public class MembersFragment extends Fragment {
                 String query = s.toString().trim();
                 if (query.isEmpty()) {
                     isSearching = false;
-                    // Show all members
-                    viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
-                        if (members != null && adapter != null) {
-                            adapter.updateList(members);
-                            updateMemberCount(members.size());
-                        }
-                    });
+                    loadMembers();
+                    refreshAdmins(); // Always refresh admins when clearing search
                 } else {
                     isSearching = true;
+                    // Hide admins card if we are searching (to avoid duplicates and focus results)
+                    if (binding.cvAdmins != null) {
+                        binding.cvAdmins.setVisibility(View.GONE);
+                    }
                     // Search members
                     viewModel.searchMembers(query).observe(getViewLifecycleOwner(), members -> {
                         if (members != null && adapter != null) {
                             adapter.updateList(members);
-                            // updateMemberCount(members.size()); // Keep total count or filtered? Filtered
-                            // usually.
-
                             binding.membersRecyclerView.setVisibility(members.isEmpty() ? View.GONE : View.VISIBLE);
                             binding.emptyStateLayout.getRoot()
                                     .setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);
@@ -169,6 +168,9 @@ public class MembersFragment extends Fragment {
     }
 
     private void refreshAdmins() {
+        if (binding == null)
+            return;
+
         new Thread(() -> {
             try {
                 List<Member> admins = viewModel.getAdmins();
@@ -182,18 +184,27 @@ public class MembersFragment extends Fragment {
                             }
 
                             if (binding.cvAdmins != null) {
-                                binding.cvAdmins.setVisibility(admins.isEmpty() ? View.GONE : View.VISIBLE);
+                                // If searching, keep it hidden. Otherwise show if not empty.
+                                if (isSearching) {
+                                    binding.cvAdmins.setVisibility(View.GONE);
+                                } else {
+                                    binding.cvAdmins.setVisibility(admins.isEmpty() ? View.GONE : View.VISIBLE);
+                                }
                             }
 
                             if (admins.size() < 4) {
-                                binding.tvAdminCount.setTextColor(
-                                        requireContext().getResources().getColor(android.R.color.holo_red_dark));
+                                if (isAdded()) {
+                                    binding.tvAdminCount.setTextColor(
+                                            getResources().getColor(android.R.color.holo_red_dark));
+                                }
                                 // Optional: Show a hint that 4 are required for multi-admin approval correctly?
                                 // Actually, my logic uses whatever adminCount exists.
                                 // But the user requested "minimum of 4".
                             } else {
-                                binding.tvAdminCount
-                                        .setTextColor(requireContext().getResources().getColor(R.color.deep_blue));
+                                if (isAdded()) {
+                                    binding.tvAdminCount
+                                            .setTextColor(getResources().getColor(R.color.deep_blue));
+                                }
                             }
                         }
                     });

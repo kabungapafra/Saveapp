@@ -451,4 +451,8 @@ public class MembersViewModel extends AndroidViewModel {
     public LiveData<Integer> getAdminCountLive() {
         return repository.getAdminCountLive();
     }
+
+    public void getComprehensiveReport(MemberRepository.ReportCallback callback) {
+        repository.getComprehensiveReport(callback);
+    }
 }

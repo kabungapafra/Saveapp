@@ -1035,6 +1035,7 @@ public class MemberRepository {
         member.setAutoPayEnabled(entity.isAutoPayEnabled());
         member.setAutoPayAmount(entity.getAutoPayAmount());
         member.setAutoPayDay(entity.getAutoPayDay());
+        member.setJoinedDate(entity.getJoinedDate());
         return member;
     }
 
@@ -1056,6 +1057,7 @@ public class MemberRepository {
         entity.setAutoPayEnabled(member.isAutoPayEnabled());
         entity.setAutoPayAmount(member.getAutoPayAmount());
         entity.setAutoPayDay(member.getAutoPayDay());
+        entity.setJoinedDate(member.getJoinedDate());
         return entity;
     }
 
@@ -1078,6 +1080,7 @@ public class MemberRepository {
         entity.setAutoPayEnabled(model.isAutoPayEnabled());
         entity.setAutoPayAmount(model.getAutoPayAmount());
         entity.setAutoPayDay(model.getAutoPayDay());
+        entity.setJoinedDate(model.getJoinedDate());
         // Password is not copied from model to entity (managed separately)
     }
 
@@ -1278,9 +1281,12 @@ public class MemberRepository {
                             postResult(callback, apiResponse.isSuccess(), apiResponse.getMessage());
 
                             if (apiResponse.isSuccess()) {
-                                notificationHelper.showNotification("Loan Approved",
-                                        apiResponse.getMessage(),
-                                        com.example.save.utils.NotificationHelper.CHANNEL_ID_LOANS);
+                                boolean loanUpdatesEnabled = prefs.getBoolean("loan_updates", true);
+                                if (loanUpdatesEnabled) {
+                                    notificationHelper.showNotification("Loan Approved",
+                                            apiResponse.getMessage(),
+                                            com.example.save.utils.NotificationHelper.CHANNEL_ID_LOANS);
+                                }
                             }
                         } else {
                             com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
@@ -1317,5 +1323,46 @@ public class MemberRepository {
 
     public boolean hasAdminApproved(String type, String id, String adminEmail) {
         return approvalDao.getAdminApproval(type, id, adminEmail) != null;
+    }
+
+    /**
+     * Fetches comprehensive report data from the backend.
+     * 
+     * @param callback Callback to handle the report data.
+     */
+    public void getComprehensiveReport(ReportCallback callback) {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext)
+                .create(com.example.save.data.network.ApiService.class);
+
+        apiService.getComprehensiveReport()
+                .enqueue(new retrofit2.Callback<com.example.save.data.models.ComprehensiveReportResponse>() {
+                    @Override
+                    public void onResponse(
+                            retrofit2.Call<com.example.save.data.models.ComprehensiveReportResponse> call,
+                            retrofit2.Response<com.example.save.data.models.ComprehensiveReportResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (callback != null) {
+                                callback.onResult(true, response.body(), null);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onResult(false, null, "Failed to fetch report: " + response.message());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.models.ComprehensiveReportResponse> call,
+                            Throwable t) {
+                        if (callback != null) {
+                            callback.onResult(false, null, "Network error: " + t.getMessage());
+                        }
+                    }
+                });
+    }
+
+    public interface ReportCallback {
+        void onResult(boolean success, com.example.save.data.models.ComprehensiveReportResponse report, String message);
     }
 }

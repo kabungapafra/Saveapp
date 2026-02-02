@@ -71,7 +71,17 @@
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:layout_marginBottom="4dp"/>
+                    android:layout_marginBottom="2dp"/>
+
+                <TextView
+                    android:id="@+id/tvRecipientDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scheduled for Jan 15"
+                    android:textSize="11sp"
+                    android:textColor="@color/project_primary"
+                    android:layout_marginBottom="4dp"
+                    android:fontFamily="sans-serif-bold"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"

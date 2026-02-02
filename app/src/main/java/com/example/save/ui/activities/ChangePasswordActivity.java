@@ -2,6 +2,7 @@ package com.example.save.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,26 +39,49 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         // Set welcome message
         binding.tvWelcomeMessage.setText("Welcome, " + (memberName != null ? memberName : "Member") + "!");
-        binding.tvSubtitle.setText("Please create a new password for your account");
+
+        // Retrieve current password (OTP) passed from login
+        String intentCurrentPassword = getIntent().getStringExtra("current_password");
+
+        if (intentCurrentPassword != null) {
+            binding.tvSubtitle.setText("Please create a new password for your account");
+            binding.tilCurrentPassword.setVisibility(View.GONE);
+        } else {
+            binding.tvSubtitle.setText("Update your account security");
+            binding.tilCurrentPassword.setVisibility(View.VISIBLE);
+        }
 
         // Setup button listener
-        binding.btnChangePassword.setOnClickListener(v -> handlePasswordChange());
+        binding.btnChangePassword.setOnClickListener(v -> handlePasswordChange(intentCurrentPassword));
 
-        // Prevent back press (force password change)
-        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Toast.makeText(ChangePasswordActivity.this,
-                        "You must create a new password to continue", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Disable "force password change" if not first login/OTP flow
+        if (intentCurrentPassword != null) {
+            getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    Toast.makeText(ChangePasswordActivity.this,
+                            "You must create a new password to continue", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
-    private void handlePasswordChange() {
+    private void handlePasswordChange(String intentPassword) {
+        String currentPassword = intentPassword;
+        if (currentPassword == null) {
+            currentPassword = binding.etCurrentPassword.getText().toString().trim();
+        }
+
         String newPassword = binding.etNewPassword.getText().toString().trim();
         String confirmPassword = binding.etConfirmPassword.getText().toString().trim();
 
         // Validate inputs
+        if (binding.tilCurrentPassword.getVisibility() == View.VISIBLE
+                && !ValidationUtils.isNotEmpty(currentPassword)) {
+            ValidationUtils.showError(binding.etCurrentPassword, "Current password is required");
+            return;
+        }
+
         if (!ValidationUtils.isNotEmpty(newPassword)) {
             ValidationUtils.showError(binding.etNewPassword, "Password is required");
             return;
@@ -79,10 +103,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         binding.btnChangePassword.setEnabled(false);
         binding.btnChangePassword.setText("Changing Password...");
 
-        // Retrieve current password (OTP) passed from login
-        String currentPassword = getIntent().getStringExtra("current_password");
-        if (currentPassword == null)
-            currentPassword = "";
+        String finalCurrentPassword = currentPassword;
 
         // Change password via API - backend will hash and validate
         viewModel.changePassword(memberEmail, currentPassword, newPassword,
@@ -102,13 +123,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                     message != null ? message : "Password changed successfully!",
                                     Toast.LENGTH_SHORT).show();
 
-                            // Navigate to member dashboard
-                            Intent intent = new Intent(ChangePasswordActivity.this, MemberMainActivity.class);
-                            intent.putExtra("member_email", memberEmail);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                            finish();
+                            // If this was a forced change, go to dashboard. Otherwise just finish.
+                            if (intentPassword != null) {
+                                Intent intent = new Intent(ChangePasswordActivity.this, MemberMainActivity.class);
+                                intent.putExtra("member_email", memberEmail);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                finish();
+                            }
                         } else {
                             Toast.makeText(ChangePasswordActivity.this,
                                     message != null ? message : "Failed to change password",

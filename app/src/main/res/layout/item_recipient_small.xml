@@ -66,4 +66,16 @@
         android:textSize="12sp"
         android:fontFamily="sans-serif-medium" />
 
+    <!-- Date -->
+    <TextView
+        android:id="@+id/tvRecipientDate"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Jan 15"
+        android:textColor="@color/project_primary"
+        android:textSize="10sp"
+        android:fontFamily="sans-serif-bold"
+        android:layout_marginTop="2dp" />
+
 </LinearLayout>

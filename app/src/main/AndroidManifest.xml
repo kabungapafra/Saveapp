@@ -63,11 +63,7 @@
             android:exported="false"
             android:parentActivityName="com.example.save.ui.activities.AdminMainActivity" />
 
-        <activity
-            android:name="com.example.save.ui.activities.DailyTasksActivity"
-            android:exported="false"
-            android:parentActivityName="com.example.save.ui.activities.AdminMainActivity"
-            android:theme="@style/Theme.Save" />
+
 
         <activity
             android:name="com.example.save.ui.activities.ChangePasswordActivity"

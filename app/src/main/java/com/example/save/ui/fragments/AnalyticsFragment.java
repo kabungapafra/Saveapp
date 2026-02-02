@@ -431,22 +431,31 @@ public class AnalyticsFragment extends Fragment {
     }
 
     private void exportReport() {
-        // Simpler approach for demo:
-        membersViewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
-            membersViewModel.getGroupBalance().observe(getViewLifecycleOwner(), balance -> {
-                loansViewModel.getLoans().observe(getViewLifecycleOwner(), loans -> {
-                    double activeLoans = 0;
-                    if (loans != null) {
-                        for (Loan l : loans) {
-                            if (Loan.STATUS_ACTIVE.equals(l.getStatus())) {
-                                activeLoans += (l.getTotalDue() - l.getRepaidAmount());
-                            }
-                        }
+        if (binding == null)
+            return;
+
+        // Show loading state visually
+        binding.btnExport.setEnabled(false);
+        binding.btnExport.setAlpha(0.5f);
+
+        membersViewModel.getComprehensiveReport((success, report, message) -> {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    // Restore button state
+                    if (binding != null) {
+                        binding.btnExport.setEnabled(true);
+                        binding.btnExport.setAlpha(1.0f);
                     }
-                    com.example.save.utils.ReportUtils.generateAndShareReport(getContext(), members,
-                            balance != null ? balance : 0, activeLoans);
+
+                    if (success && report != null) {
+                        com.example.save.utils.ReportUtils.generateAndShareReport(getContext(), report);
+                    } else {
+                        android.widget.Toast.makeText(getContext(),
+                                "Failed to generate report: " + message,
+                                android.widget.Toast.LENGTH_SHORT).show();
+                    }
                 });
-            });
+            }
         });
     }
 
