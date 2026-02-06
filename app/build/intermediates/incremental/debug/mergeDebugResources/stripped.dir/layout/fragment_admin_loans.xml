@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <!-- Header With Gradient Background -->
+    <View
+        android:id="@+id/headerBg"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/bg_header_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Header Content -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_circle_white"
+            android:elevation="2dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/project_primary" />
+
+        <TextView
+            android:id="@+id/tvLoansTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-bold"
+            android:text="Loan Management"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout"
+        app:tabIndicatorColor="@color/project_primary"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="@color/project_primary"
+        app:tabTextColor="@color/text_secondary" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvEmptyState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="60dp"
+                android:text="No pending loan requests"
+                android:textColor="@color/text_hint"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLoanRequests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_loan_request" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/tvPendingCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

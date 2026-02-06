@@ -1,0 +1,318 @@
+[
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_nwpassword.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_nwpassword.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_notifications.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_notifications.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_recipient_small.xml",
+        "source": "com.example.save.app-main-65:/layout/item_recipient_small.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_help_support.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_help_support.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_approval.xml",
+        "source": "com.example.save.app-main-65:/layout/item_approval.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_onboarding_welcome.xml",
+        "source": "com.example.save.app-main-65:/layout/item_onboarding_welcome.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_compose_announcement.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_compose_announcement.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_error.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_error.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_onboarding_loans.xml",
+        "source": "com.example.save.app-main-65:/layout/item_onboarding_loans.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/skeleton_transaction_item.xml",
+        "source": "com.example.save.app-main-65:/layout/skeleton_transaction_item.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_loan_history.xml",
+        "source": "com.example.save.app-main-65:/layout/item_loan_history.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_calendar_date.xml",
+        "source": "com.example.save.app-main-65:/layout/item_calendar_date.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_login.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_autopay_setup.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_autopay_setup.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_simple.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_simple.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_member_main.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_member_main.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_main.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_upcoming_payment.xml",
+        "source": "com.example.save.app-main-65:/layout/item_upcoming_payment.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_splash.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_splash.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_wizard_group_info.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_wizard_group_info.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_payout_rules.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_payout_rules.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_member_profile.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_member_profile.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_loans.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_loans.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_notification.xml",
+        "source": "com.example.save.app-main-65:/layout/item_notification.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_member_view.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_member_view.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_wizard_rules.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_wizard_rules.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_analytics.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_analytics.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/layout_empty_state.xml",
+        "source": "com.example.save.app-main-65:/layout/layout_empty_state.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_members.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_members.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_adminreg.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_adminreg.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_activity.xml",
+        "source": "com.example.save.app-main-65:/layout/item_activity.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_terms_of_service.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_terms_of_service.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_member_simple.xml",
+        "source": "com.example.save.app-main-65:/layout/item_member_simple.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_admin_loans.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_admin_loans.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/onboarding_slide.xml",
+        "source": "com.example.save.app-main-65:/layout/onboarding_slide.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_skeleton_member.xml",
+        "source": "com.example.save.app-main-65:/layout/item_skeleton_member.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_add_member.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_add_member.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_onboarding_community.xml",
+        "source": "com.example.save.app-main-65:/layout/item_onboarding_community.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_resetpassword.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_resetpassword.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_payment.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_payment.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_payout_queue.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_payout_queue.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_payout_queue.xml",
+        "source": "com.example.save.app-main-65:/layout/item_payout_queue.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_confirm_payout.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_confirm_payout.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_calendar_date_dark.xml",
+        "source": "com.example.save.app-main-65:/layout/item_calendar_date_dark.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_onboarding.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_onboarding.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_onboarding_savings.xml",
+        "source": "com.example.save.app-main-65:/layout/item_onboarding_savings.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_loan_active.xml",
+        "source": "com.example.save.app-main-65:/layout/item_loan_active.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_language_selection.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_language_selection.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_contact_admin.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_contact_admin.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/layout_feature_tooltip.xml",
+        "source": "com.example.save.app-main-65:/layout/layout_feature_tooltip.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_adminmain.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_adminmain.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_loan_request.xml",
+        "source": "com.example.save.app-main-65:/layout/item_loan_request.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_wizard_complete.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_wizard_complete.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_wizard_contribution.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_wizard_contribution.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_payment_method_selection.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_payment_method_selection.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_loan_application.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_loan_application.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_signup.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_signup.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_member_admin.xml",
+        "source": "com.example.save.app-main-65:/layout/item_member_admin.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/item_transaction.xml",
+        "source": "com.example.save.app-main-65:/layout/item_transaction.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_payout_calendar.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_payout_calendar.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/skeleton_member_item.xml",
+        "source": "com.example.save.app-main-65:/layout/skeleton_member_item.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_member_credentials.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_member_credentials.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_payouts.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_payouts.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_approvals.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_approvals.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_change_password.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_change_password.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_loan_payment.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_loan_payment.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_otp.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_otp.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/layout_badge_item.xml",
+        "source": "com.example.save.app-main-65:/layout/layout_badge_item.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_member_profile.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_member_profile.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_manage_shortfalls.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_manage_shortfalls.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/skeleton_dashboard.xml",
+        "source": "com.example.save.app-main-65:/layout/skeleton_dashboard.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/dialog_payout_history.xml",
+        "source": "com.example.save.app-main-65:/layout/dialog_payout_history.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_admin_setup_wizard.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_admin_setup_wizard.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_profile_info.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_profile_info.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_privacy_policy.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_privacy_policy.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_settings.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/activity_memberreg.xml",
+        "source": "com.example.save.app-main-65:/layout/activity_memberreg.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/fragment_queue.xml",
+        "source": "com.example.save.app-main-65:/layout/fragment_queue.xml"
+    },
+    {
+        "merged": "com.example.save.app-mergeDebugResources-62:/layout/layout_offline_banner.xml",
+        "source": "com.example.save.app-main-65:/layout/layout_offline_banner.xml"
+    }
+]

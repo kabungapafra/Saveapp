@@ -1,0 +1,38 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="412dp"
+    android:height="915dp"
+    android:viewportWidth="412"
+    android:viewportHeight="915">
+    
+    <!-- Base Background Color: White -->
+    <path
+        android:pathData="M0,0h412v915h-412z"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- Large Geometric Shape 1: Top Left - More Visible Gray -->
+    <path
+        android:pathData="M0,0 L300,0 L150,250 L0,150 Z"
+        android:fillColor="#D6D6D6"/>
+
+    <!-- Large Geometric Shape 2: Top Right - More Visible Gray -->
+    <path
+        android:pathData="M200,0 L412,0 L412,300 L250,150 Z"
+        android:fillColor="#E0E0E0"/>
+
+    <!-- Large Geometric Shape 3: Middle Left - More Visible Gray -->
+    <path
+        android:pathData="M0,300 L200,450 L0,600 Z"
+        android:fillColor="#EEEEEE"/>
+
+    <!-- Large Geometric Shape 4: Bottom Right - More Visible Gray -->
+    <path
+        android:pathData="M150,915 L412,915 L412,650 L250,800 Z"
+        android:fillColor="#D6D6D6"/>
+
+    <!-- Overlay Shape: Center Abstract - White Transparent Overlay -->
+    <path
+        android:pathData="M100,200 L350,350 L200,600 L50,450 Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3"/>
+
+</vector>

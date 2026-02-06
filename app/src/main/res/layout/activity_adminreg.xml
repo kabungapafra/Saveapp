@@ -157,17 +157,17 @@
                 android:layout_marginBottom="16dp"
                 android:background="#EEEEEE" />
 
-            <!-- Phone Number -->
+            <!-- Email Address -->
             <EditText
-                android:id="@+id/phoneInput"
+                android:id="@+id/emailInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:drawableStart="@drawable/ic_phone"
+                android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="12dp"
                 app:drawableTint="@color/project_primary"
-                android:hint="Phone Number"
-                android:inputType="phone"
+                android:hint="Email Address"
+                android:inputType="textEmailAddress"
                 android:paddingVertical="16dp"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -237,6 +237,46 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="24dp">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#EEEEEE" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Or sign in with"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginHorizontal="16dp"
+                    android:textSize="12sp"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#EEEEEE" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/googleSignInButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_google"
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </LinearLayout>
 

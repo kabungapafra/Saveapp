@@ -1,0 +1,1368 @@
+-- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:120:9-128:20
+	android:grantUriPermissions
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:124:13-47
+	android:authorities
+		INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:122:13-60
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:123:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:121:13-62
+manifest
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:2:1-132:12
+INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:2:1-132:12
+INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:2:1-132:12
+INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:2:1-132:12
+MERGED from [androidx.databinding:viewbinding:8.13.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/00ae041cbfef75635afa000fb6c96fc6/transformed/viewbinding-8.13.2/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.material:material:1.13.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6760cbb408bfacbae4d45ae871b7ceae/transformed/material-1.13.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/345f40f68f73ee59e5b6f57d8042a7e1/transformed/constraintlayout-2.2.1/AndroidManifest.xml:2:1-9:12
+MERGED from [com.airbnb.android:lottie:6.6.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e912a4b687a70321b7d8990e5c16ed6/transformed/lottie-6.6.0/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.appcompat:appcompat-resources:1.7.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff9890bc4780d1498cac40c241600540/transformed/appcompat-resources-1.7.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.appcompat:appcompat:1.7.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/10c546e488cd8d8e7853527e1ca8f2d3/transformed/appcompat-1.7.1/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:17:1-75:12
+MERGED from [androidx.credentials:credentials:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/63cbb464ab3e6dc53e46219e64b96c4e/transformed/credentials-1.2.0-rc01/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:17:1-44:12
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:17:1-40:12
+MERGED from [androidx.recyclerview:recyclerview:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d45bb38387f0f4a2577de92d14924191/transformed/recyclerview-1.4.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.viewpager2:viewpager2:1.1.0-beta02] /home/darlin-pafra/.gradle/caches/8.13/transforms/c1ca120e91f1305ac41321a80377a67a/transformed/viewpager2-1.1.0-beta02/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:17:1-66:12
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/1d9fdd9f1b125cfa72d40e76c7d33b05/transformed/play-services-auth-base-18.0.4/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ea6b0bcfd08163ce8b23392754b95b89/transformed/firebase-analytics-23.0.0/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:17:1-46:12
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:17:1-39:12
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/af20ddfe0d98abd4fe6af87c29ea28bd/transformed/play-services-measurement-sdk-23.0.0/AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/ca53023a2b3dc5991d308b74a74ad922/transformed/play-services-auth-api-phone-18.0.2/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e0cbf5c10406eea6b3c7f8e30498da6/transformed/recaptcha-18.6.1/AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.play:integrity:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df5cc1c882e71694d76dbb54a1cca805/transformed/integrity-1.3.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3017b379c770c4136063e915823a6920/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:2:1-24:12
+MERGED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:15:1-35:12
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:2:1-24:12
+MERGED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9f4c805b898f462f0731b4ad7e7501d4/transformed/firebase-appcheck-interop-17.0.0/AndroidManifest.xml:15:1-25:12
+MERGED from [com.google.firebase:firebase-installations-interop:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/97011ace86749e3da08a76cbb45f153f/transformed/firebase-installations-interop-17.2.0/AndroidManifest.xml:15:1-19:12
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7745ceddc023679c5161095a2b7b5c17/transformed/firebase-iid-interop-17.1.0/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:2:1-13:12
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:17:1-32:12
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/573b858c1216688007e0b3dacca0b9c2/transformed/play-services-fido-20.1.0/AndroidManifest.xml:2:1-10:12
+MERGED from [androidx.navigationevent:navigationevent-android:1.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/57a8ee7c83a9e53edee5a7d11607c318/transformed/navigationevent/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:17:1-145:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9ffdc023d9f3146a5ba0bc2f2ad4a0c3/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-service:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/c2c2541a1d8944154becbc5666c80085/transformed/lifecycle-service-2.6.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/2875878275fb6e98598d10757e6a32ac/transformed/lifecycle-livedata-core-2.6.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/190ba407942600c83dd777fafc0b5cad/transformed/lifecycle-viewmodel-savedstate-2.6.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/2156bf800094c8dcd3baa09c249f36bf/transformed/swiperefreshlayout-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/873e13ab7c503e0fc894db0f58d36696/transformed/drawerlayout-1.1.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/8110bcc464a9d05b4f82cd1456911de3/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/8eec614108e13321a37618e4b25325d3/transformed/transition-1.5.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/291b42aa4e69393d35059052f94a9332/transformed/dynamicanimation-1.1.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c5b32a0b797f003416fb497e95400df8/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/934b9bcf17e1f1efe830669f4fe0b34a/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d6463ef4def94676934d9f4743f66556/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.graphics:graphics-shapes-android:1.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2f50ec3e3856bec659304989bf762de8/transformed/graphics-shapes-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.privacysandbox.ads:ads-adservices-java:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/38c9b7b5254f2679d039be6decd4b430/transformed/ads-adservices-java-1.1.0-beta11/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/6c839e7272fa7de3b1160491ca263061/transformed/ads-adservices-1.1.0-beta11/AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.core:core-ktx:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/e5c72d493059a64c1fb9d4d70256928d/transformed/core-ktx-1.16.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/3161a4b72816cc94eec23a86cafe794e/transformed/play-services-stats-17.0.2/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ea5b8aaa6faf2f1856b1f87249e551b9/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/1a352f01617af4128564c9a56b7aa0d9/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/17b36c3d2c419e7a14352c49bf5b8797/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/fa78c30470a5ec12a1942a024fdefda3/transformed/customview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.browser:browser:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/4e3d66e6cecbb963796a9c59483951ad/transformed/browser-1.4.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/13125f30e74dac18fbfef4aa979d507c/transformed/play-services-base-18.5.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/bef291d118b3184594a2af25d270e12b/transformed/lifecycle-runtime-2.6.2/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/eb44c631d059cc7595086b029a95bfd4/transformed/lifecycle-livedata-2.6.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/f5bf35b82aab9b938c4dee1a2956f6c8/transformed/lifecycle-viewmodel-2.6.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/f21b671951b2bcfe98c7f2ad14734583/transformed/savedstate-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:17:1-31:12
+MERGED from [androidx.room:room-ktx:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2e6d5b746c06685a1226bc8d2624f3db/transformed/room-ktx-2.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-core-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff6260688088c724b98f41ec3341e497/transformed/datastore-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/be371dd8ab80e9b4672e2e322e7a85c2/transformed/datastore-preferences-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/c87ee90cb68e8cd8d7a7f5b4ed22d06d/transformed/datastore-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/0e04893d548be83445c63d8d95685059/transformed/datastore-preferences-release/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/32eccff322284347dd5ea6988834fa15/transformed/play-services-tasks-18.4.0/AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.firebase:firebase-measurement-connector:20.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/05ead6552d89e37bc08cd061ae62ecf4/transformed/firebase-measurement-connector-20.0.1/AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5dd6cb7057f68a4ec4016ba3e20c65cf/transformed/play-services-ads-identifier-18.0.0/AndroidManifest.xml:17:1-27:12
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:17:1-30:12
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c53591fae46543d19619c25a2ef1ec04/transformed/play-services-measurement-base-23.0.0/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:18.8.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7ecda3048d2bc1398010f640c7d28dbc/transformed/play-services-basement-18.8.0/AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.fragment:fragment:1.5.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/c94de37e9e5ecbc7865cca9b3091501e/transformed/fragment-1.5.4/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.12.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/912c37772fff15e7a8b508bf15b09c27/transformed/activity-1.12.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.PhilJay:MPAndroidChart:v3.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df60768688dd78878d7cdc42d611e870/transformed/MPAndroidChart-v3.1.0/AndroidManifest.xml:2:1-20:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/161181fcbce6703b1d08bd417a06132e/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d330a95c122440811023e915546147a4/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/e330a68695e23cbd61afc99644150c0a/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite-framework:2.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/fb533c8d8a0b294106622bd1a50f59e2/transformed/sqlite-framework-2.4.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite:2.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/96aa1c36c89329fb57f192be0207ecbb/transformed/sqlite-2.4.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/4f25667ea8a5c25996e976463b8118a2/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/e96bce2bda480260293553d389184f3b/transformed/startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fa909928d0e10edb1761605d2700dff5/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/a17532e57813037a9969f62a7ab1cdab/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:firebase-components:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/900d56b7a6c3c6aad75154171c74b761/transformed/firebase-components-19.0.0/AndroidManifest.xml:15:1-20:12
+MERGED from [com.google.firebase:firebase-config-interop:16.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/cb759a94fcf03ed55287dcdf14f84f94/transformed/firebase-config-interop-16.0.1/AndroidManifest.xml:15:1-20:12
+MERGED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:15:1-31:12
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:15:1-35:12
+MERGED from [com.google.firebase:firebase-encoders-json:18.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/abd9f8c67af55587478234d9da6bad29/transformed/firebase-encoders-json-18.0.1/AndroidManifest.xml:15:1-22:12
+MERGED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:15:1-39:12
+MERGED from [com.google.android.datatransport:transport-api:3.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ae17694fb1fdf0d6423a0d61fa4a8bef/transformed/transport-api-3.2.0/AndroidManifest.xml:15:1-20:12
+MERGED from [androidx.tracing:tracing:1.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/58fb057c5377fec3a547c7b14d2d3f52/transformed/tracing-1.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/203eaefefdfbc532fecf5cfff32466f9/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/2724135c6a394e5062f65ac2012634b6/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core-viewtree:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/cf82e09b9efa10c767ffb51b3198a7f1/transformed/core-viewtree-1.0.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/0cd459be0f789d8e99d52f2df77e899e/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3d0a0e23ffc22ade7ad4dd9b13a742d9/transformed/googleid-1.1.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.9.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/710e0017f2e1d88ac53f7cf90b487302/transformed/runtime-annotation/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:2:1-21:12
+	package
+		INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:5:5-67
+MERGED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:25:5-67
+MERGED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:25:5-67
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:22:5-67
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:22:5-67
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e0cbf5c10406eea6b3c7f8e30498da6/transformed/recaptcha-18.6.1/AndroidManifest.xml:7:5-67
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e0cbf5c10406eea6b3c7f8e30498da6/transformed/recaptcha-18.6.1/AndroidManifest.xml:7:5-67
+MERGED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:7:5-67
+MERGED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:7:5-67
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:8:5-67
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:8:5-67
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:8:5-67
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:8:5-67
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:5:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:6:5-79
+MERGED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:26:5-79
+MERGED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:26:5-79
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:22:5-79
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e0cbf5c10406eea6b3c7f8e30498da6/transformed/recaptcha-18.6.1/AndroidManifest.xml:8:5-79
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e0cbf5c10406eea6b3c7f8e30498da6/transformed/recaptcha-18.6.1/AndroidManifest.xml:8:5-79
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:7:5-79
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:7:5-79
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:7:5-79
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:7:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:24:5-79
+MERGED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:20:5-79
+MERGED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:20:5-79
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:6:22-76
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:7:5-76
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:23:5-77
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:23:5-77
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:7:22-74
+application
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:8:5-130:19
+INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:8:5-130:19
+MERGED from [com.google.android.material:material:1.13.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6760cbb408bfacbae4d45ae871b7ceae/transformed/material-1.13.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.13.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6760cbb408bfacbae4d45ae871b7ceae/transformed/material-1.13.0/AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/345f40f68f73ee59e5b6f57d8042a7e1/transformed/constraintlayout-2.2.1/AndroidManifest.xml:7:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/345f40f68f73ee59e5b6f57d8042a7e1/transformed/constraintlayout-2.2.1/AndroidManifest.xml:7:5-20
+MERGED from [com.airbnb.android:lottie:6.6.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e912a4b687a70321b7d8990e5c16ed6/transformed/lottie-6.6.0/AndroidManifest.xml:7:5-20
+MERGED from [com.airbnb.android:lottie:6.6.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e912a4b687a70321b7d8990e5c16ed6/transformed/lottie-6.6.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:28:5-73:19
+MERGED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:28:5-73:19
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:23:5-42:19
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:23:5-42:19
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:22:5-38:19
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:22:5-38:19
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:28:5-64:19
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:28:5-64:19
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ea6b0bcfd08163ce8b23392754b95b89/transformed/firebase-analytics-23.0.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ea6b0bcfd08163ce8b23392754b95b89/transformed/firebase-analytics-23.0.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:28:5-44:19
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:28:5-44:19
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:29:5-37:19
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:29:5-37:19
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/af20ddfe0d98abd4fe6af87c29ea28bd/transformed/play-services-measurement-sdk-23.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/af20ddfe0d98abd4fe6af87c29ea28bd/transformed/play-services-measurement-sdk-23.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.play:integrity:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df5cc1c882e71694d76dbb54a1cca805/transformed/integrity-1.3.0/AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.android.play:integrity:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df5cc1c882e71694d76dbb54a1cca805/transformed/integrity-1.3.0/AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3017b379c770c4136063e915823a6920/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3017b379c770c4136063e915823a6920/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:11:5-22:19
+MERGED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:11:5-22:19
+MERGED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:21:5-33:19
+MERGED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:21:5-33:19
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:11:5-22:19
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:11:5-22:19
+MERGED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9f4c805b898f462f0731b4ad7e7501d4/transformed/firebase-appcheck-interop-17.0.0/AndroidManifest.xml:23:5-20
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9f4c805b898f462f0731b4ad7e7501d4/transformed/firebase-appcheck-interop-17.0.0/AndroidManifest.xml:23:5-20
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7745ceddc023679c5161095a2b7b5c17/transformed/firebase-iid-interop-17.1.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7745ceddc023679c5161095a2b7b5c17/transformed/firebase-iid-interop-17.1.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:29:5-30:19
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:29:5-30:19
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/573b858c1216688007e0b3dacca0b9c2/transformed/play-services-fido-20.1.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/573b858c1216688007e0b3dacca0b9c2/transformed/play-services-fido-20.1.0/AndroidManifest.xml:7:5-8:19
+MERGED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:28:5-143:19
+MERGED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:28:5-143:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/6c839e7272fa7de3b1160491ca263061/transformed/ads-adservices-1.1.0-beta11/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/6c839e7272fa7de3b1160491ca263061/transformed/ads-adservices-1.1.0-beta11/AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/3161a4b72816cc94eec23a86cafe794e/transformed/play-services-stats-17.0.2/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/3161a4b72816cc94eec23a86cafe794e/transformed/play-services-stats-17.0.2/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/13125f30e74dac18fbfef4aa979d507c/transformed/play-services-base-18.5.0/AndroidManifest.xml:4:5-6:19
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/13125f30e74dac18fbfef4aa979d507c/transformed/play-services-base-18.5.0/AndroidManifest.xml:4:5-6:19
+MERGED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:23:5-29:19
+MERGED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:23:5-29:19
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/32eccff322284347dd5ea6988834fa15/transformed/play-services-tasks-18.4.0/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/32eccff322284347dd5ea6988834fa15/transformed/play-services-tasks-18.4.0/AndroidManifest.xml:5:5-20
+MERGED from [com.google.firebase:firebase-measurement-connector:20.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/05ead6552d89e37bc08cd061ae62ecf4/transformed/firebase-measurement-connector-20.0.1/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-measurement-connector:20.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/05ead6552d89e37bc08cd061ae62ecf4/transformed/firebase-measurement-connector-20.0.1/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5dd6cb7057f68a4ec4016ba3e20c65cf/transformed/play-services-ads-identifier-18.0.0/AndroidManifest.xml:25:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5dd6cb7057f68a4ec4016ba3e20c65cf/transformed/play-services-ads-identifier-18.0.0/AndroidManifest.xml:25:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c53591fae46543d19619c25a2ef1ec04/transformed/play-services-measurement-base-23.0.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c53591fae46543d19619c25a2ef1ec04/transformed/play-services-measurement-base-23.0.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.8.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7ecda3048d2bc1398010f640c7d28dbc/transformed/play-services-basement-18.8.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.8.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7ecda3048d2bc1398010f640c7d28dbc/transformed/play-services-basement-18.8.0/AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/e96bce2bda480260293553d389184f3b/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/e96bce2bda480260293553d389184f3b/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fa909928d0e10edb1761605d2700dff5/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fa909928d0e10edb1761605d2700dff5/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:21:5-29:19
+MERGED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:21:5-29:19
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:25:5-33:19
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:25:5-33:19
+MERGED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:23:5-37:19
+MERGED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:23:5-37:19
+MERGED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:11:5-19:19
+MERGED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:11:5-19:19
+	android:extractNativeLibs
+		INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:15:9-35
+	android:label
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:13:9-41
+	android:fullBackupContent
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:11:9-42
+	android:roundIcon
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:14:9-48
+	android:icon
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:12:9-43
+	android:allowBackup
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:9:9-36
+	android:theme
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:16:9-42
+	android:networkSecurityConfig
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:17:9-69
+	android:dataExtractionRules
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:10:9-65
+activity#com.example.save.ui.activities.SplashActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:20:9-28:20
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:22:13-36
+	android:theme
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:23:13-47
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:21:13-73
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:24:13-27:29
+action#android.intent.action.MAIN
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:25:17-69
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:25:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:26:17-77
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:26:27-74
+activity#com.example.save.ui.activities.OnboardingActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:31:9-33:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:33:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:32:13-77
+activity#com.example.save.ui.activities.LoginActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:35:9-37:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:37:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:36:13-72
+activity#com.example.save.ui.activities.AdminLoginActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:39:9-42:48
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:41:13-37
+	tools:ignore
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:42:13-45
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:40:13-77
+activity#com.example.save.ui.activities.MemberMainActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:43:9-45:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:45:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:44:13-77
+activity#com.example.save.ui.activities.MemberRegistrationActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:46:9-48:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:48:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:47:13-85
+activity#com.example.save.ui.activities.AdminSignupActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:49:9-51:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:51:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:50:13-78
+activity#com.example.save.ui.activities.AdminMainActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:53:9-55:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:55:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:54:13-76
+activity#com.example.save.ui.activities.ResetPasswordActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:57:9-59:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:59:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:58:13-80
+activity#com.example.save.ui.activities.SettingsActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:61:9-64:93
+	android:parentActivityName
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:64:13-90
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:63:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:62:13-75
+activity#com.example.save.ui.activities.ChangePasswordActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:68:9-70:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:70:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:69:13-81
+activity#com.example.save.ui.activities.AdminSetupWizardActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:72:9-75:49
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:74:13-37
+	android:theme
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:75:13-46
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:73:13-83
+activity#com.example.save.ui.activities.HelpSupportActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:77:9-79:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:79:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:78:13-78
+activity#com.example.save.ui.activities.TermsOfServiceActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:81:9-83:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:83:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:82:13-81
+activity#com.example.save.ui.activities.PrivacyPolicyActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:85:9-87:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:87:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:86:13-80
+activity#com.example.save.ui.activities.ContactAdminActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:89:9-91:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:91:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:90:13-79
+activity#com.example.save.ui.activities.ProfileInfoActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:93:9-95:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:95:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:94:13-78
+activity#com.example.save.ui.activities.LanguageSelectionActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:97:9-99:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:99:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:98:13-84
+activity#com.example.save.ui.activities.PaymentMethodSelectionActivity
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:101:9-103:40
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:103:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:102:13-89
+service#com.example.save.services.MyFirebaseMessagingService
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:105:9-111:19
+	android:exported
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:107:13-37
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:106:13-80
+intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:108:13-110:29
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:109:17-78
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:109:25-75
+meta-data#com.google.firebase.messaging.default_notification_icon
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:113:9-115:54
+	android:resource
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:115:13-51
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:114:13-83
+meta-data#com.google.firebase.messaging.default_notification_color
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:116:9-118:57
+	android:resource
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:118:13-54
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:117:13-84
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:125:13-127:54
+	android:resource
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:127:17-51
+	android:name
+		ADDED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:126:17-67
+uses-sdk
+INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml
+INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml
+MERGED from [androidx.databinding:viewbinding:8.13.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/00ae041cbfef75635afa000fb6c96fc6/transformed/viewbinding-8.13.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.databinding:viewbinding:8.13.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/00ae041cbfef75635afa000fb6c96fc6/transformed/viewbinding-8.13.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.material:material:1.13.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6760cbb408bfacbae4d45ae871b7ceae/transformed/material-1.13.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.13.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6760cbb408bfacbae4d45ae871b7ceae/transformed/material-1.13.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/345f40f68f73ee59e5b6f57d8042a7e1/transformed/constraintlayout-2.2.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/345f40f68f73ee59e5b6f57d8042a7e1/transformed/constraintlayout-2.2.1/AndroidManifest.xml:5:5-44
+MERGED from [com.airbnb.android:lottie:6.6.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e912a4b687a70321b7d8990e5c16ed6/transformed/lottie-6.6.0/AndroidManifest.xml:5:5-44
+MERGED from [com.airbnb.android:lottie:6.6.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e912a4b687a70321b7d8990e5c16ed6/transformed/lottie-6.6.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.7.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff9890bc4780d1498cac40c241600540/transformed/appcompat-resources-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.7.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff9890bc4780d1498cac40c241600540/transformed/appcompat-resources-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat:1.7.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/10c546e488cd8d8e7853527e1ca8f2d3/transformed/appcompat-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat:1.7.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/10c546e488cd8d8e7853527e1ca8f2d3/transformed/appcompat-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:21:5-23:151
+MERGED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:21:5-23:151
+MERGED from [androidx.credentials:credentials:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/63cbb464ab3e6dc53e46219e64b96c4e/transformed/credentials-1.2.0-rc01/AndroidManifest.xml:5:5-44
+MERGED from [androidx.credentials:credentials:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/63cbb464ab3e6dc53e46219e64b96c4e/transformed/credentials-1.2.0-rc01/AndroidManifest.xml:5:5-44
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:21:5-44
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:21:5-44
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d45bb38387f0f4a2577de92d14924191/transformed/recyclerview-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d45bb38387f0f4a2577de92d14924191/transformed/recyclerview-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.viewpager2:viewpager2:1.1.0-beta02] /home/darlin-pafra/.gradle/caches/8.13/transforms/c1ca120e91f1305ac41321a80377a67a/transformed/viewpager2-1.1.0-beta02/AndroidManifest.xml:5:5-44
+MERGED from [androidx.viewpager2:viewpager2:1.1.0-beta02] /home/darlin-pafra/.gradle/caches/8.13/transforms/c1ca120e91f1305ac41321a80377a67a/transformed/viewpager2-1.1.0-beta02/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/1d9fdd9f1b125cfa72d40e76c7d33b05/transformed/play-services-auth-base-18.0.4/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/1d9fdd9f1b125cfa72d40e76c7d33b05/transformed/play-services-auth-base-18.0.4/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ea6b0bcfd08163ce8b23392754b95b89/transformed/firebase-analytics-23.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ea6b0bcfd08163ce8b23392754b95b89/transformed/firebase-analytics-23.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/af20ddfe0d98abd4fe6af87c29ea28bd/transformed/play-services-measurement-sdk-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/af20ddfe0d98abd4fe6af87c29ea28bd/transformed/play-services-measurement-sdk-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/ca53023a2b3dc5991d308b74a74ad922/transformed/play-services-auth-api-phone-18.0.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/ca53023a2b3dc5991d308b74a74ad922/transformed/play-services-auth-api-phone-18.0.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e0cbf5c10406eea6b3c7f8e30498da6/transformed/recaptcha-18.6.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e0cbf5c10406eea6b3c7f8e30498da6/transformed/recaptcha-18.6.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.play:integrity:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df5cc1c882e71694d76dbb54a1cca805/transformed/integrity-1.3.0/AndroidManifest.xml:4:5-44
+MERGED from [com.google.android.play:integrity:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df5cc1c882e71694d76dbb54a1cca805/transformed/integrity-1.3.0/AndroidManifest.xml:4:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3017b379c770c4136063e915823a6920/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3017b379c770c4136063e915823a6920/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9f4c805b898f462f0731b4ad7e7501d4/transformed/firebase-appcheck-interop-17.0.0/AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9f4c805b898f462f0731b4ad7e7501d4/transformed/firebase-appcheck-interop-17.0.0/AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-installations-interop:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/97011ace86749e3da08a76cbb45f153f/transformed/firebase-installations-interop-17.2.0/AndroidManifest.xml:17:5-44
+MERGED from [com.google.firebase:firebase-installations-interop:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/97011ace86749e3da08a76cbb45f153f/transformed/firebase-installations-interop-17.2.0/AndroidManifest.xml:17:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7745ceddc023679c5161095a2b7b5c17/transformed/firebase-iid-interop-17.1.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7745ceddc023679c5161095a2b7b5c17/transformed/firebase-iid-interop-17.1.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/573b858c1216688007e0b3dacca0b9c2/transformed/play-services-fido-20.1.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/573b858c1216688007e0b3dacca0b9c2/transformed/play-services-fido-20.1.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigationevent:navigationevent-android:1.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/57a8ee7c83a9e53edee5a7d11607c318/transformed/navigationevent/AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigationevent:navigationevent-android:1.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/57a8ee7c83a9e53edee5a7d11607c318/transformed/navigationevent/AndroidManifest.xml:5:5-44
+MERGED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9ffdc023d9f3146a5ba0bc2f2ad4a0c3/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9ffdc023d9f3146a5ba0bc2f2ad4a0c3/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-service:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/c2c2541a1d8944154becbc5666c80085/transformed/lifecycle-service-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-service:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/c2c2541a1d8944154becbc5666c80085/transformed/lifecycle-service-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/2875878275fb6e98598d10757e6a32ac/transformed/lifecycle-livedata-core-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/2875878275fb6e98598d10757e6a32ac/transformed/lifecycle-livedata-core-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/190ba407942600c83dd777fafc0b5cad/transformed/lifecycle-viewmodel-savedstate-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/190ba407942600c83dd777fafc0b5cad/transformed/lifecycle-viewmodel-savedstate-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/2156bf800094c8dcd3baa09c249f36bf/transformed/swiperefreshlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/2156bf800094c8dcd3baa09c249f36bf/transformed/swiperefreshlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/873e13ab7c503e0fc894db0f58d36696/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/873e13ab7c503e0fc894db0f58d36696/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/8110bcc464a9d05b4f82cd1456911de3/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/8110bcc464a9d05b4f82cd1456911de3/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/8eec614108e13321a37618e4b25325d3/transformed/transition-1.5.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.transition:transition:1.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/8eec614108e13321a37618e4b25325d3/transformed/transition-1.5.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/291b42aa4e69393d35059052f94a9332/transformed/dynamicanimation-1.1.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/291b42aa4e69393d35059052f94a9332/transformed/dynamicanimation-1.1.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c5b32a0b797f003416fb497e95400df8/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c5b32a0b797f003416fb497e95400df8/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/934b9bcf17e1f1efe830669f4fe0b34a/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/934b9bcf17e1f1efe830669f4fe0b34a/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d6463ef4def94676934d9f4743f66556/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d6463ef4def94676934d9f4743f66556/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.graphics:graphics-shapes-android:1.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2f50ec3e3856bec659304989bf762de8/transformed/graphics-shapes-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.graphics:graphics-shapes-android:1.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2f50ec3e3856bec659304989bf762de8/transformed/graphics-shapes-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.privacysandbox.ads:ads-adservices-java:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/38c9b7b5254f2679d039be6decd4b430/transformed/ads-adservices-java-1.1.0-beta11/AndroidManifest.xml:5:5-44
+MERGED from [androidx.privacysandbox.ads:ads-adservices-java:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/38c9b7b5254f2679d039be6decd4b430/transformed/ads-adservices-java-1.1.0-beta11/AndroidManifest.xml:5:5-44
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/6c839e7272fa7de3b1160491ca263061/transformed/ads-adservices-1.1.0-beta11/AndroidManifest.xml:20:5-44
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/6c839e7272fa7de3b1160491ca263061/transformed/ads-adservices-1.1.0-beta11/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core-ktx:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/e5c72d493059a64c1fb9d4d70256928d/transformed/core-ktx-1.16.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/e5c72d493059a64c1fb9d4d70256928d/transformed/core-ktx-1.16.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/3161a4b72816cc94eec23a86cafe794e/transformed/play-services-stats-17.0.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/3161a4b72816cc94eec23a86cafe794e/transformed/play-services-stats-17.0.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ea5b8aaa6faf2f1856b1f87249e551b9/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ea5b8aaa6faf2f1856b1f87249e551b9/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/1a352f01617af4128564c9a56b7aa0d9/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/1a352f01617af4128564c9a56b7aa0d9/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/17b36c3d2c419e7a14352c49bf5b8797/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/17b36c3d2c419e7a14352c49bf5b8797/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/fa78c30470a5ec12a1942a024fdefda3/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/fa78c30470a5ec12a1942a024fdefda3/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.browser:browser:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/4e3d66e6cecbb963796a9c59483951ad/transformed/browser-1.4.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.browser:browser:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/4e3d66e6cecbb963796a9c59483951ad/transformed/browser-1.4.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/13125f30e74dac18fbfef4aa979d507c/transformed/play-services-base-18.5.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/13125f30e74dac18fbfef4aa979d507c/transformed/play-services-base-18.5.0/AndroidManifest.xml:3:5-44
+MERGED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/bef291d118b3184594a2af25d270e12b/transformed/lifecycle-runtime-2.6.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/bef291d118b3184594a2af25d270e12b/transformed/lifecycle-runtime-2.6.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/eb44c631d059cc7595086b029a95bfd4/transformed/lifecycle-livedata-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/eb44c631d059cc7595086b029a95bfd4/transformed/lifecycle-livedata-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/f5bf35b82aab9b938c4dee1a2956f6c8/transformed/lifecycle-viewmodel-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/f5bf35b82aab9b938c4dee1a2956f6c8/transformed/lifecycle-viewmodel-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/f21b671951b2bcfe98c7f2ad14734583/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/f21b671951b2bcfe98c7f2ad14734583/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-ktx:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2e6d5b746c06685a1226bc8d2624f3db/transformed/room-ktx-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-ktx:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2e6d5b746c06685a1226bc8d2624f3db/transformed/room-ktx-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff6260688088c724b98f41ec3341e497/transformed/datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff6260688088c724b98f41ec3341e497/transformed/datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/be371dd8ab80e9b4672e2e322e7a85c2/transformed/datastore-preferences-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/be371dd8ab80e9b4672e2e322e7a85c2/transformed/datastore-preferences-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/c87ee90cb68e8cd8d7a7f5b4ed22d06d/transformed/datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/c87ee90cb68e8cd8d7a7f5b4ed22d06d/transformed/datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/0e04893d548be83445c63d8d95685059/transformed/datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.7] /home/darlin-pafra/.gradle/caches/8.13/transforms/0e04893d548be83445c63d8d95685059/transformed/datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/32eccff322284347dd5ea6988834fa15/transformed/play-services-tasks-18.4.0/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/32eccff322284347dd5ea6988834fa15/transformed/play-services-tasks-18.4.0/AndroidManifest.xml:4:5-43
+MERGED from [com.google.firebase:firebase-measurement-connector:20.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/05ead6552d89e37bc08cd061ae62ecf4/transformed/firebase-measurement-connector-20.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:20.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/05ead6552d89e37bc08cd061ae62ecf4/transformed/firebase-measurement-connector-20.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5dd6cb7057f68a4ec4016ba3e20c65cf/transformed/play-services-ads-identifier-18.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5dd6cb7057f68a4ec4016ba3e20c65cf/transformed/play-services-ads-identifier-18.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c53591fae46543d19619c25a2ef1ec04/transformed/play-services-measurement-base-23.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c53591fae46543d19619c25a2ef1ec04/transformed/play-services-measurement-base-23.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:18.8.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7ecda3048d2bc1398010f640c7d28dbc/transformed/play-services-basement-18.8.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.8.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7ecda3048d2bc1398010f640c7d28dbc/transformed/play-services-basement-18.8.0/AndroidManifest.xml:18:5-43
+MERGED from [androidx.fragment:fragment:1.5.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/c94de37e9e5ecbc7865cca9b3091501e/transformed/fragment-1.5.4/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.5.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/c94de37e9e5ecbc7865cca9b3091501e/transformed/fragment-1.5.4/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.12.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/912c37772fff15e7a8b508bf15b09c27/transformed/activity-1.12.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.12.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/912c37772fff15e7a8b508bf15b09c27/transformed/activity-1.12.1/AndroidManifest.xml:20:5-44
+MERGED from [com.github.PhilJay:MPAndroidChart:v3.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df60768688dd78878d7cdc42d611e870/transformed/MPAndroidChart-v3.1.0/AndroidManifest.xml:16:5-18:41
+MERGED from [com.github.PhilJay:MPAndroidChart:v3.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df60768688dd78878d7cdc42d611e870/transformed/MPAndroidChart-v3.1.0/AndroidManifest.xml:16:5-18:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/161181fcbce6703b1d08bd417a06132e/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/161181fcbce6703b1d08bd417a06132e/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d330a95c122440811023e915546147a4/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d330a95c122440811023e915546147a4/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/e330a68695e23cbd61afc99644150c0a/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/e330a68695e23cbd61afc99644150c0a/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/fb533c8d8a0b294106622bd1a50f59e2/transformed/sqlite-framework-2.4.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/fb533c8d8a0b294106622bd1a50f59e2/transformed/sqlite-framework-2.4.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/96aa1c36c89329fb57f192be0207ecbb/transformed/sqlite-2.4.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/96aa1c36c89329fb57f192be0207ecbb/transformed/sqlite-2.4.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/4f25667ea8a5c25996e976463b8118a2/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/4f25667ea8a5c25996e976463b8118a2/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/e96bce2bda480260293553d389184f3b/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/e96bce2bda480260293553d389184f3b/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fa909928d0e10edb1761605d2700dff5/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fa909928d0e10edb1761605d2700dff5/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/a17532e57813037a9969f62a7ab1cdab/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/a17532e57813037a9969f62a7ab1cdab/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-components:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/900d56b7a6c3c6aad75154171c74b761/transformed/firebase-components-19.0.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-components:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/900d56b7a6c3c6aad75154171c74b761/transformed/firebase-components-19.0.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-config-interop:16.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/cb759a94fcf03ed55287dcdf14f84f94/transformed/firebase-config-interop-16.0.1/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-config-interop:16.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/cb759a94fcf03ed55287dcdf14f84f94/transformed/firebase-config-interop-16.0.1/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-encoders-json:18.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/abd9f8c67af55587478234d9da6bad29/transformed/firebase-encoders-json-18.0.1/AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-encoders-json:18.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/abd9f8c67af55587478234d9da6bad29/transformed/firebase-encoders-json-18.0.1/AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.android.datatransport:transport-api:3.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ae17694fb1fdf0d6423a0d61fa4a8bef/transformed/transport-api-3.2.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.android.datatransport:transport-api:3.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ae17694fb1fdf0d6423a0d61fa4a8bef/transformed/transport-api-3.2.0/AndroidManifest.xml:18:5-44
+MERGED from [androidx.tracing:tracing:1.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/58fb057c5377fec3a547c7b14d2d3f52/transformed/tracing-1.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.tracing:tracing:1.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/58fb057c5377fec3a547c7b14d2d3f52/transformed/tracing-1.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/203eaefefdfbc532fecf5cfff32466f9/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/203eaefefdfbc532fecf5cfff32466f9/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/2724135c6a394e5062f65ac2012634b6/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/2724135c6a394e5062f65ac2012634b6/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core-viewtree:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/cf82e09b9efa10c767ffb51b3198a7f1/transformed/core-viewtree-1.0.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-viewtree:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/cf82e09b9efa10c767ffb51b3198a7f1/transformed/core-viewtree-1.0.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/0cd459be0f789d8e99d52f2df77e899e/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/0cd459be0f789d8e99d52f2df77e899e/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3d0a0e23ffc22ade7ad4dd9b13a742d9/transformed/googleid-1.1.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3d0a0e23ffc22ade7ad4dd9b13a742d9/transformed/googleid-1.1.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.9.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/710e0017f2e1d88ac53f7cf90b487302/transformed/runtime-annotation/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.9.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/710e0017f2e1d88ac53f7cf90b487302/transformed/runtime-annotation/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:7:5-9:41
+	tools:overrideLibrary
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:23:9-148
+	android:targetSdkVersion
+		INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml
+activity#com.google.firebase.auth.internal.GenericIdpActivity
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:29:9-46:20
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:31:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:33:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:32:13-36
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:34:13-72
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:30:13-80
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:firebase.auth+data:path:/+data:scheme:genericidp
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:35:13-45:29
+action#android.intent.action.VIEW
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:36:17-69
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:36:25-66
+category#android.intent.category.DEFAULT
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:38:17-76
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:38:27-73
+category#android.intent.category.BROWSABLE
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:39:17-78
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:39:27-75
+data
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:41:17-44:51
+	android:path
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:43:21-37
+	android:host
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:42:21-49
+	android:scheme
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:44:21-48
+activity#com.google.firebase.auth.internal.RecaptchaActivity
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:47:9-64:20
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:49:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:51:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:50:13-36
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:52:13-72
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:48:13-79
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:firebase.auth+data:path:/+data:scheme:recaptcha
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:53:13-63:29
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:66:9-72:19
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:54:9-63:19
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:54:9-63:19
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:30:9-36:19
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:30:9-36:19
+MERGED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:12:9-21:19
+MERGED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:12:9-21:19
+MERGED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:26:9-32:19
+MERGED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:26:9-32:19
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:12:9-21:19
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:12:9-21:19
+MERGED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:30:9-38:19
+MERGED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:30:9-38:19
+MERGED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:22:9-28:19
+MERGED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:22:9-28:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:68:13-37
+	tools:targetApi
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:34:13-32
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:32:13-43
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:67:13-84
+meta-data#com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar
+ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:69:13-71:85
+	android:value
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:71:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/fdec2ec672853d6bcb4996da7e42b0d7/transformed/firebase-auth-24.0.1/AndroidManifest.xml:70:17-109
+service#androidx.credentials.playservices.CredentialProviderMetadataHolder
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:24:9-32:19
+	android:enabled
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:26:13-35
+	android:exported
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:28:13-60
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:25:13-94
+meta-data#androidx.credentials.CREDENTIAL_PROVIDER_KEY
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:29:13-31:104
+	android:value
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:31:17-101
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:30:17-76
+activity#androidx.credentials.playservices.HiddenActivity
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:34:9-41:20
+	android:fitsSystemWindows
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:39:13-45
+	android:enabled
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:38:13-37
+	android:configChanges
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:36:13-87
+	android:theme
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:40:13-48
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /home/darlin-pafra/.gradle/caches/8.13/transforms/d72d45250bdc7ec8e6f5c7da1c8dd340/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:35:13-76
+activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
+ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:23:9-27:75
+	android:excludeFromRecents
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:25:13-46
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:26:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:27:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:24:13-93
+service#com.google.android.gms.auth.api.signin.RevocationBoundService
+ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:33:9-37:51
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:35:13-36
+	android:visibleToInstantApps
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:37:13-48
+	android:permission
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:36:13-107
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3ce3e5437d6cf0eafc97283dd192471b/transformed/play-services-auth-20.7.0/AndroidManifest.xml:34:13-89
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:9:5-68
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:9:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:23:5-68
+MERGED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:23:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:25:5-68
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:24:22-65
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:26:5-82
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:11:5-82
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c92c50db702e358fb72cbfb2ba6517fc/transformed/play-services-cloud-messaging-17.2.0/AndroidManifest.xml:11:5-82
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:26:22-79
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:29:9-40:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:31:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:32:13-73
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:30:13-78
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:33:13-35:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:34:17-81
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:34:25-78
+meta-data#com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:37:13-39:40
+	android:value
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:39:17-37
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:38:17-92
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:46:9-53:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:49:13-37
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:48:13-43
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:47:13-82
+meta-data#com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:57:13-59:85
+	android:value
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:59:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:58:17-122
+meta-data#com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:60:13-62:85
+	android:value
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:62:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/efd92c48d1d006a497db0f2ff4640c49/transformed/firebase-messaging-25.0.1/AndroidManifest.xml:61:17-119
+uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
+ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:26:5-110
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:26:5-110
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:26:5-110
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:26:22-107
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:29:9-33:20
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:31:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:30:13-85
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:35:9-38:40
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:38:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:36:13-84
+service#com.google.android.gms.measurement.AppMeasurementJobService
+ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:39:9-43:72
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:41:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:42:13-37
+	android:permission
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:43:13-69
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/3171c0d2487d1ec962de74e20505b8e9/transformed/play-services-measurement-23.0.0/AndroidManifest.xml:40:13-87
+uses-permission#com.google.android.gms.permission.AD_ID
+ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:25:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:27:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/c14254fa5ce339933741322426fa454c/transformed/play-services-measurement-impl-23.0.0/AndroidManifest.xml:27:5-79
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5dd6cb7057f68a4ec4016ba3e20c65cf/transformed/play-services-ads-identifier-18.0.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5dd6cb7057f68a4ec4016ba3e20c65cf/transformed/play-services-ads-identifier-18.0.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:26:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:26:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:25:22-76
+uses-permission#android.permission.ACCESS_ADSERVICES_ATTRIBUTION
+ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:26:5-88
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:27:5-88
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:27:5-88
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:26:22-85
+uses-permission#android.permission.ACCESS_ADSERVICES_AD_ID
+ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:27:5-82
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:28:5-82
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f22eb43a0eccbc463ab9ec92f7785df/transformed/play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:28:5-82
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:27:22-79
+meta-data#com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar
+ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:33:13-35:85
+	android:value
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:35:17-82
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/11597780c45228a10752fd822c0d9395/transformed/play-services-measurement-api-23.0.0/AndroidManifest.xml:34:17-139
+uses-permission#com.google.android.providers.gsf.permission.READ_GSERVICES
+ADDED from [com.google.android.recaptcha:recaptcha:18.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e0cbf5c10406eea6b3c7f8e30498da6/transformed/recaptcha-18.6.1/AndroidManifest.xml:9:5-98
+	android:name
+		ADDED from [com.google.android.recaptcha:recaptcha:18.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/6e0cbf5c10406eea6b3c7f8e30498da6/transformed/recaptcha-18.6.1/AndroidManifest.xml:9:22-95
+meta-data#com.google.firebase.components:com.google.firebase.crashlytics.FirebaseCrashlyticsKtxRegistrar
+ADDED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:15:13-17:85
+	android:value
+		ADDED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:17:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:16:17-126
+meta-data#com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar
+ADDED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:18:13-20:85
+	android:value
+		ADDED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:20:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-crashlytics:20.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/7fa589f50f24bb429622b02aaa059e3e/transformed/firebase-crashlytics-20.0.4/AndroidManifest.xml:19:17-115
+service#com.google.firebase.sessions.SessionLifecycleService
+ADDED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:22:9-25:40
+	android:enabled
+		ADDED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:24:13-36
+	android:exported
+		ADDED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:25:13-37
+	android:name
+		ADDED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:23:13-80
+meta-data#com.google.firebase.components:com.google.firebase.sessions.FirebaseSessionsRegistrar
+ADDED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:29:13-31:85
+	android:value
+		ADDED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:31:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-sessions:3.0.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/341207ad714d75e7c45b1b9cc3f73305/transformed/firebase-sessions-3.0.4/AndroidManifest.xml:30:17-117
+meta-data#com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar
+ADDED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:15:13-17:85
+	android:value
+		ADDED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:17:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:16:17-130
+meta-data#com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar
+ADDED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:18:13-20:85
+	android:value
+		ADDED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:20:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-installations:19.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/c042c70c5477d5307e00f1075ac4f1c5/transformed/firebase-installations-19.0.1/AndroidManifest.xml:19:17-127
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:23:9-28:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:25:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:27:13-37
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:26:13-43
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:28:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:24:13-77
+meta-data#com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar
+ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:35:13-37:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:37:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5faf71cf5461c6a2430d5ba26e8251b1/transformed/firebase-common-22.0.1/AndroidManifest.xml:36:17-109
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:25:5-81
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:25:22-78
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:26:5-77
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:26:22-74
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:29:9-37:20
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/e96bce2bda480260293553d389184f3b/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/e96bce2bda480260293553d389184f3b/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:33:13-31
+	android:authorities
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:31:13-68
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:30:13-67
+meta-data#androidx.work.WorkManagerInitializer
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:34:13-36:52
+	android:value
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:36:17-49
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:35:17-68
+service#androidx.work.impl.background.systemalarm.SystemAlarmService
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:39:9-45:35
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:42:13-72
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:43:13-37
+	tools:ignore
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:44:13-60
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:45:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:41:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:40:13-88
+service#androidx.work.impl.background.systemjob.SystemJobService
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:46:9-52:35
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:49:13-70
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:50:13-36
+	android:permission
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:51:13-69
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:52:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:48:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:47:13-84
+service#androidx.work.impl.foreground.SystemForegroundService
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:53:9-59:35
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:56:13-77
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:57:13-37
+	tools:ignore
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:58:13-60
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:59:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:55:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:54:13-81
+receiver#androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:61:9-66:35
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:64:13-35
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:65:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:66:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:63:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:62:13-88
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:67:9-77:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:70:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:71:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:72:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:69:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:68:13-106
+intent-filter#action:name:android.intent.action.ACTION_POWER_CONNECTED+action:name:android.intent.action.ACTION_POWER_DISCONNECTED
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:73:13-76:29
+action#android.intent.action.ACTION_POWER_CONNECTED
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:74:17-87
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:74:25-84
+action#android.intent.action.ACTION_POWER_DISCONNECTED
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:75:17-90
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:75:25-87
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:78:9-88:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:81:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:82:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:83:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:80:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:79:13-104
+intent-filter#action:name:android.intent.action.BATTERY_LOW+action:name:android.intent.action.BATTERY_OKAY
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:84:13-87:29
+action#android.intent.action.BATTERY_OKAY
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:85:17-77
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:85:25-74
+action#android.intent.action.BATTERY_LOW
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:86:17-76
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:86:25-73
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:89:9-99:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:92:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:93:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:94:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:91:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:90:13-104
+intent-filter#action:name:android.intent.action.DEVICE_STORAGE_LOW+action:name:android.intent.action.DEVICE_STORAGE_OK
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:95:13-98:29
+action#android.intent.action.DEVICE_STORAGE_LOW
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:96:17-83
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:96:25-80
+action#android.intent.action.DEVICE_STORAGE_OK
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:97:17-82
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:97:25-79
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:100:9-109:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:103:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:104:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:105:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:102:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:101:13-103
+intent-filter#action:name:android.net.conn.CONNECTIVITY_CHANGE
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:106:13-108:29
+action#android.net.conn.CONNECTIVITY_CHANGE
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:107:17-79
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:107:25-76
+receiver#androidx.work.impl.background.systemalarm.RescheduleReceiver
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:110:9-121:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:113:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:114:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:115:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:112:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:111:13-88
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.TIMEZONE_CHANGED+action:name:android.intent.action.TIME_SET
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:116:13-120:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:117:17-79
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:117:25-76
+action#android.intent.action.TIME_SET
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:118:17-73
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:118:25-70
+action#android.intent.action.TIMEZONE_CHANGED
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:119:17-81
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:119:25-78
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:122:9-131:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:125:13-72
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:126:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:127:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:124:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:123:13-99
+intent-filter#action:name:androidx.work.impl.background.systemalarm.UpdateProxies
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:128:13-130:29
+action#androidx.work.impl.background.systemalarm.UpdateProxies
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:129:17-98
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:129:25-95
+receiver#androidx.work.impl.diagnostics.DiagnosticsReceiver
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:132:9-142:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:135:13-35
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:136:13-36
+	android:permission
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:137:13-57
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:138:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:134:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:133:13-78
+intent-filter#action:name:androidx.work.diagnostics.REQUEST_DIAGNOSTICS
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:139:13-141:29
+action#androidx.work.diagnostics.REQUEST_DIAGNOSTICS
+ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:140:17-88
+	android:name
+		ADDED from [androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5e024f072ee9445e5f5c9f492c444fea/transformed/work-runtime-2.9.1/AndroidManifest.xml:140:25-85
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/696728bfd71cc728100a0245c7e327fa/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/073ad47e26d41d5e5c0a784642099077/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+uses-library#android.ext.adservices
+ADDED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/6c839e7272fa7de3b1160491ca263061/transformed/ads-adservices-1.1.0-beta11/AndroidManifest.xml:23:9-25:40
+	android:required
+		ADDED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/6c839e7272fa7de3b1160491ca263061/transformed/ads-adservices-1.1.0-beta11/AndroidManifest.xml:25:13-37
+	android:name
+		ADDED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /home/darlin-pafra/.gradle/caches/8.13/transforms/6c839e7272fa7de3b1160491ca263061/transformed/ads-adservices-1.1.0-beta11/AndroidManifest.xml:24:13-50
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/13125f30e74dac18fbfef4aa979d507c/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:9-173
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/13125f30e74dac18fbfef4aa979d507c/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/13125f30e74dac18fbfef4aa979d507c/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/13125f30e74dac18fbfef4aa979d507c/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:19-85
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:23:9-81
+permission#com.example.save.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:26:22-94
+uses-permission#com.example.save.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.16.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/acfea42891baef19321d415f7ecc78a7/transformed/core-1.16.0/AndroidManifest.xml:26:22-94
+service#androidx.room.MultiInstanceInvalidationService
+ADDED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
+	android:exported
+		ADDED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:28:13-60
+	android:directBootAware
+		ADDED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
+	android:name
+		ADDED from [androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/2ca40d084e2eaa69b9584cd86976209a/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.8.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7ecda3048d2bc1398010f640c7d28dbc/transformed/play-services-basement-18.8.0/AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.8.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7ecda3048d2bc1398010f640c7d28dbc/transformed/play-services-basement-18.8.0/AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.8.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7ecda3048d2bc1398010f640c7d28dbc/transformed/play-services-basement-18.8.0/AndroidManifest.xml:22:13-58
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/0080cad45ef65563880814b979e06019/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+meta-data#com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar
+ADDED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:25:13-27:85
+	android:value
+		ADDED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:27:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-datatransport:19.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/48d501b44a27438268989a5884eecfbd/transformed/firebase-datatransport-19.0.0/AndroidManifest.xml:26:17-115
+service#com.google.android.datatransport.runtime.backends.TransportBackendDiscovery
+ADDED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:26:9-32:19
+MERGED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:34:9-36:40
+MERGED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:34:9-36:40
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:28:13-37
+	android:name
+		ADDED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:27:13-103
+meta-data#backend:com.google.android.datatransport.cct.CctBackendFactory
+ADDED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:29:13-31:39
+	android:value
+		ADDED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:31:17-36
+	android:name
+		ADDED from [com.google.android.datatransport:transport-backend-cct:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/9b585db581c921be3c7524ceb54c0fa2/transformed/transport-backend-cct-3.3.0/AndroidManifest.xml:30:17-94
+service#com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService
+ADDED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:24:9-28:19
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:26:13-37
+	android:permission
+		ADDED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:27:13-69
+	android:name
+		ADDED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:25:13-117
+receiver#com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver
+ADDED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:30:9-32:40
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [com.google.android.datatransport:transport-runtime:3.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/ff124f216fbc0ebcec460fe1f176d01b/transformed/transport-runtime-3.3.0/AndroidManifest.xml:31:13-132
+activity#com.google.android.play.core.common.PlayCoreDialogWrapperActivity
+ADDED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:14:9-18:65
+	android:stateNotNeeded
+		ADDED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:17:13-42
+	android:exported
+		ADDED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:16:13-37
+	android:theme
+		ADDED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:18:13-62
+	android:name
+		ADDED from [com.google.android.play:core-common:2.0.3] /home/darlin-pafra/.gradle/caches/8.13/transforms/136c41caf2f3c7cab7d303ab13a6f64f/transformed/core-common-2.0.3/AndroidManifest.xml:15:13-93

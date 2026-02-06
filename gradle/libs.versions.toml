@@ -10,7 +10,10 @@ constraintlayout = "2.2.1"
 recyclerview = "1.4.0"
 lifecycle = "2.6.2"
 firebaseMessaging = "23.4.0"
-googleServices = "4.4.0"
+firebaseBom = "34.8.0"
+googleServices = "4.4.4"
+firebaseCrashlyticsGradle = "3.0.3"
+
 
 [libraries]
 lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
@@ -24,8 +27,15 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsGradle" }
+
 

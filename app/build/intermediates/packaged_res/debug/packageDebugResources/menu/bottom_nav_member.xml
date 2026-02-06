@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_dashboard"
+        android:title="Dashboard" />
+
+    <item
+        android:id="@+id/nav_pay"
+        android:icon="@drawable/ic_payments"
+        android:title="Pay" />
+
+    <item
+        android:id="@+id/nav_queue"
+        android:icon="@drawable/ic_queue"
+        android:title="Queue" />
+
+    <item
+        android:id="@+id/nav_loans"
+        android:icon="@drawable/ic_loan"
+        android:title="Loans" />
+
+    <item
+        android:id="@+id/nav_stats"
+        android:icon="@drawable/ic_analytics"
+        android:title="Stats" />
+</menu>

@@ -60,6 +60,8 @@ public class MemberRepository {
         payoutAmount = Double.longBitsToDouble(prefs.getLong("payout_amount", Double.doubleToLongBits(500000.0)));
         retentionPercentage = Double
                 .longBitsToDouble(prefs.getLong("retention_percentage", Double.doubleToLongBits(0.0)));
+        maxLoanAmount = Double.longBitsToDouble(prefs.getLong("max_loan_amount", Double.doubleToLongBits(500000.0)));
+        loanInterestRate = Double.longBitsToDouble(prefs.getLong("loan_interest_rate", Double.doubleToLongBits(5.0)));
 
         groupBalance = transactionDao.getGroupBalance(); // Central source of truth from DB
 
@@ -1364,5 +1366,128 @@ public class MemberRepository {
 
     public interface ReportCallback {
         void onResult(boolean success, com.example.save.data.models.ComprehensiveReportResponse report, String message);
+    }
+
+    // --- System Configuration & Logic ---
+
+    public void fetchSystemConfig(ConfigCallback callback) {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        apiService.getSystemConfig().enqueue(new retrofit2.Callback<com.example.save.data.models.SystemConfig>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.models.SystemConfig> call,
+                    retrofit2.Response<com.example.save.data.models.SystemConfig> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    com.example.save.data.models.SystemConfig config = response.body();
+
+                    // Update local cache
+                    loanInterestRate = config.getLoanInterestRate();
+                    maxLoanAmount = config.getMaxLoanLimit();
+                    payoutAmount = config.getPayoutAmount();
+                    retentionPercentage = config.getRetentionPercentage();
+
+                    prefs.edit()
+                            .putLong("payout_amount", Double.doubleToRawLongBits(payoutAmount))
+                            .putLong("retention_percentage", Double.doubleToRawLongBits(retentionPercentage))
+                            .putLong("max_loan_amount", Double.doubleToRawLongBits(maxLoanAmount))
+                            .putLong("loan_interest_rate", Double.doubleToRawLongBits(loanInterestRate))
+                            .apply();
+
+                    if (callback != null) {
+                        callback.onResult(true, config, "Config loaded");
+                    }
+                } else {
+                    if (callback != null) {
+                        callback.onResult(false, null, "Failed to load config");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.models.SystemConfig> call, Throwable t) {
+                if (callback != null) {
+                    callback.onResult(false, null, "Network error: " + t.getMessage());
+                }
+            }
+        });
+    }
+
+    public interface ConfigCallback {
+        void onResult(boolean success, com.example.save.data.models.SystemConfig config, String message);
+    }
+
+    public void checkLoanEligibility(double amount, int duration, EligibilityCallback callback) {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        com.example.save.data.models.LoanEligibilityRequest request = new com.example.save.data.models.LoanEligibilityRequest(
+                amount, duration);
+
+        apiService.checkLoanEligibility(request)
+                .enqueue(new retrofit2.Callback<com.example.save.data.models.LoanEligibilityResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.example.save.data.models.LoanEligibilityResponse> call,
+                            retrofit2.Response<com.example.save.data.models.LoanEligibilityResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (callback != null) {
+                                callback.onResult(true, response.body(), "Success");
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onResult(false, null, "Failed to check eligibility");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.models.LoanEligibilityResponse> call,
+                            Throwable t) {
+                        if (callback != null) {
+                            callback.onResult(false, null, "Network error: " + t.getMessage());
+                        }
+                    }
+                });
+    }
+
+    public interface EligibilityCallback {
+        void onResult(boolean success, com.example.save.data.models.LoanEligibilityResponse response, String message);
+    }
+
+    public void getRepaymentSchedule(double amount, int duration, RepaymentScheduleCallback callback) {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        com.example.save.data.models.RepaymentScheduleRequest request = new com.example.save.data.models.RepaymentScheduleRequest(
+                amount, duration);
+
+        apiService.getRepaymentSchedule(request)
+                .enqueue(new retrofit2.Callback<com.example.save.data.models.RepaymentScheduleResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.example.save.data.models.RepaymentScheduleResponse> call,
+                            retrofit2.Response<com.example.save.data.models.RepaymentScheduleResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (callback != null) {
+                                callback.onResult(true, response.body(), "Success");
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onResult(false, null, "Failed to get schedule");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.models.RepaymentScheduleResponse> call,
+                            Throwable t) {
+                        if (callback != null) {
+                            callback.onResult(false, null, "Network error: " + t.getMessage());
+                        }
+                    }
+                });
+    }
+
+    public interface RepaymentScheduleCallback {
+        void onResult(boolean success, com.example.save.data.models.RepaymentScheduleResponse response, String message);
     }
 }

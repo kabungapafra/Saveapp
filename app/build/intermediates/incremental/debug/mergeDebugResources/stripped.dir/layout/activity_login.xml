@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/burgundy_gradient">
+
+    <!-- Cinematic Spheres Background Pattern - Scattered Like Reference -->
+    <!-- Large sphere top left -->
+
+    <!-- Medium sphere top right -->
+
+    <!-- Small sphere mid left -->
+
+    <!-- Medium sphere bottom right -->
+    <View
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="-70dp"
+        android:layout_marginTop="-60dp"
+        android:alpha="0.4"
+        android:background="@drawable/sphere_login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="-50dp"
+        android:alpha="0.35"
+        android:background="@drawable/sphere_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="196dp"
+        android:alpha="0.3"
+        android:background="@drawable/sphere_login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="-40dp"
+        android:background="@drawable/sphere_login"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Tiny sphere mid right -->
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginEnd="80dp"
+        android:alpha="0.25"
+        android:background="@drawable/sphere_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="186dp"
+        android:layout_height="234dp"
+        android:layout_marginTop="140dp"
+        android:contentDescription="@string/app_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/white" />
+
+    <TextView
+        android:id="@+id/welcomeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:text="Welcome Back"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/adminButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Admin Button -->
+    <Button
+        android:id="@+id/adminButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/outline_button_bg"
+        app:backgroundTint="@null"
+        android:onClick="onAdminClick"
+        android:text="ADMIN"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.1"
+        app:layout_constraintBottom_toTopOf="@+id/memberButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Member Button -->
+
+    <Button
+        android:id="@+id/memberButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="136dp"
+        android:background="@drawable/white_button_bg"
+        android:letterSpacing="0.1"
+        android:onClick="onMemberClick"
+        android:text="MEMBER"
+        android:textColor="@color/project_primary"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/socialText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/follow_for_more_on_our_social_media"
+        android:textColor="#B0FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/socialLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/socialLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="12dp"
+            android:contentDescription="Facebook"
+            android:src="@drawable/ic_facebook"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="12dp"
+            android:contentDescription="Google"
+            android:src="@drawable/ic_google"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="12dp"
+            android:contentDescription="Twitter"
+            android:src="@drawable/ic_twitter"
+            app:tint="@color/white" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

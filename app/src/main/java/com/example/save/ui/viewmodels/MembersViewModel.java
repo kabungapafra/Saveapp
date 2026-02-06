@@ -455,4 +455,17 @@ public class MembersViewModel extends AndroidViewModel {
     public void getComprehensiveReport(MemberRepository.ReportCallback callback) {
         repository.getComprehensiveReport(callback);
     }
+
+    // System Config & Logic
+    public void fetchSystemConfig(MemberRepository.ConfigCallback callback) {
+        repository.fetchSystemConfig(callback);
+    }
+
+    public void checkLoanEligibility(double amount, int duration, MemberRepository.EligibilityCallback callback) {
+        repository.checkLoanEligibility(amount, duration, callback);
+    }
+
+    public void getRepaymentSchedule(double amount, int duration, MemberRepository.RepaymentScheduleCallback callback) {
+        repository.getRepaymentSchedule(amount, duration, callback);
+    }
 }

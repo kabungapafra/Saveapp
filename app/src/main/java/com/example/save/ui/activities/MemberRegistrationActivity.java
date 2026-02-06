@@ -18,11 +18,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.save.R;
 import com.example.save.databinding.ActivityMemberregBinding;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.example.save.data.network.FirebaseLoginRequest;
 
 public class MemberRegistrationActivity extends AppCompatActivity {
 
     private ActivityMemberregBinding binding;
     private com.example.save.ui.viewmodels.MembersViewModel viewModel;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,9 @@ public class MemberRegistrationActivity extends AppCompatActivity {
 
         viewModel = new androidx.lifecycle.ViewModelProvider(this)
                 .get(com.example.save.ui.viewmodels.MembersViewModel.class);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         // Handle back press
         getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
@@ -75,11 +82,8 @@ public class MemberRegistrationActivity extends AppCompatActivity {
 
     private void handleLogin() {
         String groupName = binding.groupNameInput.getText().toString().trim();
-        String phoneInput = binding.phoneInput.getText().toString().trim();
-        String password = binding.passwordInput.getText().toString().trim(); // Trimmed
-
-        // Normalize phone number (Remove leading zero if any)
-        String phone = com.example.save.utils.ValidationUtils.normalizePhone(phoneInput);
+        String email = binding.emailInput.getText().toString().trim();
+        String password = binding.passwordInput.getText().toString().trim();
 
         // Validate inputs using ValidationUtils
         if (!com.example.save.utils.ValidationUtils.isNotEmpty(groupName)) {
@@ -87,24 +91,24 @@ public class MemberRegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
-            com.example.save.utils.ValidationUtils.showError(binding.phoneInput, "Invalid phone number format");
+        if (!com.example.save.utils.ValidationUtils.isValidEmail(email)) {
+            com.example.save.utils.ValidationUtils.showError(binding.emailInput, "Valid email address is required");
             return;
         }
 
-        // Allow both OTP (6 digits) and regular passwords (8+ characters)
         if (!com.example.save.utils.ValidationUtils.isNotEmpty(password)) {
-            com.example.save.utils.ValidationUtils.showError(binding.passwordInput,
-                    "Password is required");
+            com.example.save.utils.ValidationUtils.showError(binding.passwordInput, "Password is required");
             return;
         }
 
         binding.loginButton.setEnabled(false);
         binding.loginButton.setText("Signing in...");
 
-        // Call backend API for authentication
-        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(
-                phone, password, groupName, "member");
+        // Directly call Backend Login (Native Email/Password)
+        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(email,
+                password);
+        loginRequest.setGroupName(groupName);
+        loginRequest.setLoginType("member");
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(this).create(com.example.save.data.network.ApiService.class);
@@ -145,10 +149,9 @@ public class MemberRegistrationActivity extends AppCompatActivity {
                         Intent intent = new Intent(MemberRegistrationActivity.this, ChangePasswordActivity.class);
                         intent.putExtra("member_email", loginResponse.getEmail());
                         intent.putExtra("member_name", loginResponse.getName());
-                        intent.putExtra("current_password", password); // Pass the OTP used for login
+                        intent.putExtra("current_password", password);
                         intent.putExtra("is_first_login", true);
 
-                        // Clear back stack
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -158,7 +161,6 @@ public class MemberRegistrationActivity extends AppCompatActivity {
                         Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
                         intent.putExtra("member_email", loginResponse.getEmail());
 
-                        // Clear back stack
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -176,6 +178,88 @@ public class MemberRegistrationActivity extends AppCompatActivity {
                 com.example.save.utils.ApiErrorHandler.handleError(MemberRegistrationActivity.this, t);
             }
         });
+    }
+
+    private void performBackendLogin(String idToken, String groupName, String password) {
+        // Call backend API with Firebase Token
+        FirebaseLoginRequest loginRequest = new FirebaseLoginRequest(idToken, groupName);
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(this).create(com.example.save.data.network.ApiService.class);
+
+        apiService.firebaseLogin(loginRequest)
+                .enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
+                            retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
+                        binding.loginButton.setEnabled(true);
+                        binding.loginButton.setText("Login");
+
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.save.data.network.LoginResponse loginResponse = response.body();
+
+                            // Verify user is not admin
+                            if ("Administrator".equalsIgnoreCase(loginResponse.getRole()) ||
+                                    "Admin".equalsIgnoreCase(loginResponse.getRole())) {
+                                Toast.makeText(MemberRegistrationActivity.this,
+                                        "Access Denied: Please use the Admin login portal.", Toast.LENGTH_LONG).show();
+                                // Sign out from Firebase if backend says admin
+                                mAuth.signOut();
+                                return;
+                            }
+
+                            // Save session with JWT token
+                            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                                    getApplicationContext());
+                            session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
+                                    loginResponse.getRole(), loginResponse.isFirstLogin());
+
+                            if (loginResponse.getToken() != null) {
+                                session.saveJwtToken(loginResponse.getToken());
+                            }
+
+                            Toast.makeText(MemberRegistrationActivity.this, "Welcome " + loginResponse.getName(),
+                                    Toast.LENGTH_SHORT).show();
+
+                            // Check if this is first login - redirect to change password
+                            if (loginResponse.isFirstLogin()) {
+                                Intent intent = new Intent(MemberRegistrationActivity.this,
+                                        ChangePasswordActivity.class);
+                                intent.putExtra("member_email", loginResponse.getEmail());
+                                intent.putExtra("member_name", loginResponse.getName());
+                                intent.putExtra("current_password", password); // Pass the original password
+                                intent.putExtra("is_first_login", true);
+
+                                // Clear back stack
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                finish();
+                            } else {
+                                // Normal login - go to main activity
+                                Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
+                                intent.putExtra("member_email", loginResponse.getEmail());
+
+                                // Clear back stack
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                finish();
+                            }
+                        } else {
+                            com.example.save.utils.ApiErrorHandler.handleResponse(MemberRegistrationActivity.this,
+                                    response);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
+                            Throwable t) {
+                        binding.loginButton.setEnabled(true);
+                        binding.loginButton.setText("Login");
+                        com.example.save.utils.ApiErrorHandler.handleError(MemberRegistrationActivity.this, t);
+                    }
+                });
     }
 
     private void setupPasswordToggle() {

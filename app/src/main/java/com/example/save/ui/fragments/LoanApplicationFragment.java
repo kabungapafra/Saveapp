@@ -49,64 +49,106 @@ public class LoanApplicationFragment extends Fragment {
     }
 
     private void setupConfig() {
-        // Load config from ViewModel/Repo
-        double maxLoan = viewModel.getMaxLoanAmount();
-        double interest = viewModel.getLoanInterestRate();
-        boolean needsGuarantor = viewModel.isGuarantorRequired();
+        // Fetch config from backend
+        viewModel.fetchSystemConfig((success, config, message) -> {
+            if (success && config != null) {
+                if (getContext() == null)
+                    return;
 
-        binding.tvMaxLoanAmount.setText("Max Limit: UGX " + NumberFormat.getNumberInstance(Locale.US).format(maxLoan));
-        binding.tvInterestRate.setText("Interest Rate: " + interest + "%");
+                binding.tvInterestRate.setText("Interest Rate: " + config.getLoanInterestRate() + "%");
+                // We initially set max loan to the absolute limit, but will update with user
+                // eligibility
+                binding.tvMaxLoanAmount.setText("Max Limit: UGX " +
+                        NumberFormat.getNumberInstance(Locale.US).format(config.getMaxLoanLimit()));
 
-        // NOTE: Loan eligibility should be fetched from backend API
-        // Backend will calculate eligibility based on: savings, existing loans, payment
-        // history, etc.
-        // For now, showing max loan limit - actual eligibility will be validated by
-        // backend on submission
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
-        String userName = session.getUserName();
-        if (userName != null) {
-            // TODO: Call backend API to get loan eligibility
-            // GET /loans/eligibility?memberEmail={email}
-            // Backend will return: { "maxEligibleAmount": 1500000, "reason": "3x savings
-            // rule" }
+                // Fetch user specific eligibility
+                checkEligibility();
+            } else {
+                if (getContext() != null)
+                    Toast.makeText(getContext(), "Failed to load config: " + message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
-            // Placeholder: Show max loan limit (backend will validate actual eligibility)
-            binding.tvMaxLoanAmount.setText(
-                    "Max Limit: UGX " + NumberFormat.getNumberInstance(Locale.US).format(maxLoan));
-        }
+        // Initial visibility
+        binding.layoutGuarantor.setVisibility(viewModel.isGuarantorRequired() ? View.VISIBLE : View.GONE);
+    }
 
-        binding.layoutGuarantor.setVisibility(needsGuarantor ? View.VISIBLE : View.GONE);
+    private void checkEligibility() {
+        // Call with dummy amount to get max eligibility
+        viewModel.checkLoanEligibility(0, 1, (success, response, message) -> {
+            if (success && response != null) {
+                if (getContext() == null)
+                    return;
 
-        // Add View Schedule Button Logic if button exists, or just append a view
-        // programmatically if ID not found
-        // For this task, assuming we might need to add a button to the layout or just
-        // show it via a new dialog triggered by a textview link
+                double maxEligible = response.getMaxEligibleAmount();
+                binding.tvMaxLoanAmount.setText("Max Eligible: UGX " +
+                        NumberFormat.getNumberInstance(Locale.US).format(maxEligible));
+            }
+        });
     }
 
     private void showRepaymentSchedule(double amount, int duration, double interestRate) {
-        // Simple Dialog to show schedule
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext());
-        builder.setTitle("Repayment Schedule");
+        // Call backend for schedule
+        android.app.ProgressDialog progress = new android.app.ProgressDialog(getContext());
+        progress.setMessage("Loading schedule...");
+        progress.show();
 
-        StringBuilder schedule = new StringBuilder();
-        double totalInterest = amount * interestRate / 100;
-        double totalAmount = amount + totalInterest;
-        double monthlyInstallment = totalAmount / duration;
+        viewModel.getRepaymentSchedule(amount, duration, (success, response, message) -> {
+            progress.dismiss();
+            if (success && response != null && getContext() != null) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext());
+                builder.setTitle("Repayment Schedule");
 
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-        java.util.Calendar cal = java.util.Calendar.getInstance();
+                StringBuilder scheduleText = new StringBuilder();
+                scheduleText.append("Total Repayment: UGX ")
+                        .append(NumberFormat.getNumberInstance(Locale.US).format(response.getTotalRepayment()))
+                        .append("\n");
+                scheduleText.append("Monthly: UGX ")
+                        .append(NumberFormat.getNumberInstance(Locale.US).format(response.getMonthlyInstallment()))
+                        .append("\n\n");
 
-        for (int i = 1; i <= duration; i++) {
-            cal.add(java.util.Calendar.MONTH, 1);
-            schedule.append("Month ").append(i).append(": ")
-                    .append(sdf.format(cal.getTime())).append(" - ")
-                    .append("UGX ").append(NumberFormat.getNumberInstance(Locale.US).format(monthlyInstallment))
-                    .append("\n");
-        }
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
 
-        builder.setMessage(schedule.toString());
-        builder.setPositiveButton("OK", null);
-        builder.show();
+                for (com.example.save.data.models.RepaymentScheduleItem item : response.getSchedule()) {
+                    // Parse date string (ISO)
+                    String dateStr = item.getDueDate();
+                    String displayDate = dateStr;
+                    try {
+                        // Backend likely sends ISO format
+                        // Simple ISO parser if needed or just display string if backend sends readable
+                        // Assuming backend sends ISO, we might want to parse.
+                        // For now, let's just display what we get or parse if simpler.
+                        // Actually backend sends datetime object which Pydantic/FastAPI serializes to
+                        // ISO string.
+                        // Let's try to parse or just print.
+                        // Quick parse:
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            java.time.format.DateTimeFormatter isoFormatter = java.time.format.DateTimeFormatter.ISO_DATE_TIME;
+                            java.time.LocalDateTime date = java.time.LocalDateTime.parse(dateStr, isoFormatter);
+                            displayDate = date.format(
+                                    java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.getDefault()));
+                        } else {
+                            // Fallback
+                            displayDate = dateStr.substring(0, 10);
+                        }
+                    } catch (Exception e) {
+                        displayDate = dateStr;
+                    }
+
+                    scheduleText.append("Month ").append(item.getMonth()).append(": ")
+                            .append(displayDate).append(" - ")
+                            .append("UGX ").append(NumberFormat.getNumberInstance(Locale.US).format(item.getAmount()))
+                            .append("\n");
+                }
+
+                builder.setMessage(scheduleText.toString());
+                builder.setPositiveButton("OK", null);
+                builder.show();
+            } else {
+                if (getContext() != null)
+                    Toast.makeText(getContext(), "Failed to load schedule: " + message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private java.util.List<com.example.save.data.models.Member> availableGuarantors = new java.util.ArrayList<>();
@@ -120,6 +162,14 @@ public class LoanApplicationFragment extends Fragment {
                 });
 
         binding.etLoanAmount.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                calculateSummary();
+            }
+        });
+
+        // Also listen to duration changes
+        binding.etDuration.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 calculateSummary();
@@ -177,25 +227,41 @@ public class LoanApplicationFragment extends Fragment {
 
             if (!amountStr.isEmpty()) {
                 double amount = Double.parseDouble(amountStr);
+                // Use cached interest rate or fetch? Use cached for instant feedback,
+                // but strictly we should fetch or use what we got from config.
+                // We updated repo's interest rate in setupConfig, so getLoanInterestRate should
+                // be current
                 double interestRate = viewModel.getLoanInterestRate();
-                double total = amount + (amount * interestRate / 100);
 
-                binding.tvRepaymentSummary.setText("Total Repayment: UGX " +
-                        NumberFormat.getNumberInstance(Locale.US).format(total));
+                // Simple estimation for UI until they click "View Schedule"
+                // Using backend formula locally for estimation: Amount + (Amount * Rate *
+                // (Duration/12))
+                // But wait, backend formula is Annual.
+                // Let's just show "Calculating..." or update via API call? API call on every
+                // keystroke is bad.
+                // We'll use the local estimation matching backend logic.
 
-                // If duration is valid, enable clicking summary to see schedule
+                double total = 0;
                 if (!durationStr.isEmpty()) {
                     int duration = Integer.parseInt(durationStr);
-                    // binding.tvRepaymentSummary.setOnClickListener(v ->
-                    // showRepaymentSchedule(amount, duration, interestRate));
-                    // binding.tvRepaymentSummary.setTextColor(getResources().getColor(R.color.deep_blue));
+                    double interest = amount * (interestRate / 100.0) * (duration / 12.0);
+                    // Wait, if duration < 12, this is small.
+                    // Let's stick to what we see in `business_logic.py`:
+                    // return amount * interest_rate * (duration_months / 12)
+
+                    total = amount + interest;
+
+                    binding.tvRepaymentSummary.setText("Est. Total: UGX " +
+                            NumberFormat.getNumberInstance(Locale.US).format(total));
 
                     binding.btnViewSchedule.setVisibility(View.VISIBLE);
                     binding.btnViewSchedule
                             .setOnClickListener(v -> showRepaymentSchedule(amount, duration, interestRate));
                 } else {
+                    binding.tvRepaymentSummary.setText("Enter Duration");
                     binding.btnViewSchedule.setVisibility(View.GONE);
                 }
+
             } else {
                 binding.tvRepaymentSummary.setText("Total Repayment: UGX 0");
                 binding.btnViewSchedule.setVisibility(View.GONE);
@@ -244,19 +310,11 @@ public class LoanApplicationFragment extends Fragment {
             double amount = Double.parseDouble(amountStr.replace(",", ""));
             int duration = Integer.parseInt(durationStr);
 
-            double maxLoan = viewModel.getMaxLoanAmount();
-            int maxDuration = viewModel.getMaxLoanDuration();
-
-            if (amount > maxLoan) {
-                binding.etLoanAmount
-                        .setError("Exceeds limit of " + NumberFormat.getNumberInstance(Locale.US).format(maxLoan));
-                return;
-            }
-
-            if (duration > maxDuration) {
-                binding.etDuration.setError("Max duration is " + maxDuration + " months");
-                return;
-            }
+            // Validate eligibility via API before submitting?
+            // Or just submit and let backend reject?
+            // User experience is better if we validate first.
+            // But we can also just rely on submit returning error.
+            // Let's just submit. Backend `submitLoanRequest` already checks eligibility.
 
             // Create and submit loan request
             com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
@@ -300,4 +358,5 @@ public class LoanApplicationFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

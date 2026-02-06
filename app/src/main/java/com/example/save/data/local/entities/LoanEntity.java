@@ -2,6 +2,7 @@ package com.example.save.data.local.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.annotation.NonNull;
 import androidx.room.TypeConverters;
 import com.example.save.data.local.Converters;
 

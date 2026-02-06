@@ -3,6 +3,7 @@ package com.example.save.data.local.entities;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.annotation.NonNull;
 
 /**
  * Room entity for Member data

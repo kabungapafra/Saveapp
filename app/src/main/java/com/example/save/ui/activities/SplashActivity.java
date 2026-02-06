@@ -26,6 +26,10 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Fetch system config early
+        com.example.save.data.repository.MemberRepository.getInstance(this).fetchSystemConfig(null);
+
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

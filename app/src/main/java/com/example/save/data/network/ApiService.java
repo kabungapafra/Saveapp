@@ -5,6 +5,11 @@ import com.example.save.data.local.entities.TransactionEntity;
 import com.example.save.data.models.LoanRequest;
 import com.example.save.data.models.Member;
 import com.example.save.data.models.ComprehensiveReportResponse;
+import com.example.save.data.models.SystemConfig;
+import com.example.save.data.models.LoanEligibilityRequest;
+import com.example.save.data.models.LoanEligibilityResponse;
+import com.example.save.data.models.RepaymentScheduleRequest;
+import com.example.save.data.models.RepaymentScheduleResponse;
 
 import java.util.List;
 
@@ -28,6 +33,15 @@ public interface ApiService {
          */
         @POST("auth/login")
         Call<LoginResponse> login(@Body LoginRequest request);
+
+        /**
+         * Authenticates a user using Firebase ID Token.
+         * 
+         * @param request Contains the Firebase ID Token.
+         * @return Call for LoginResponse.
+         */
+        @POST("auth/firebase-login")
+        Call<LoginResponse> firebaseLogin(@Body FirebaseLoginRequest request);
 
         /**
          * Sends an OTP for admin registration.
@@ -286,4 +300,14 @@ public interface ApiService {
          */
         @GET("analytics/report/comprehensive")
         Call<ComprehensiveReportResponse> getComprehensiveReport();
+
+        // System Configuration
+        @GET("config")
+        Call<SystemConfig> getSystemConfig();
+
+        @POST("loans/check-eligibility")
+        Call<LoanEligibilityResponse> checkLoanEligibility(@Body LoanEligibilityRequest request);
+
+        @POST("loans/repayment-schedule")
+        Call<RepaymentScheduleResponse> getRepaymentSchedule(@Body RepaymentScheduleRequest request);
 }
