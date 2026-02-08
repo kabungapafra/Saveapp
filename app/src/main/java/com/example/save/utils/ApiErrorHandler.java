@@ -16,6 +16,8 @@ public class ApiErrorHandler {
             errorMessage = "No internet connection. Please check your network.";
         } else if (throwable instanceof java.net.SocketTimeoutException) {
             errorMessage = "Request timed out. Please try again.";
+        } else if (throwable instanceof java.net.ConnectException) {
+            errorMessage = "Cannot connect to server. Ensure backend is running and IP is correct.";
         } else if (throwable instanceof retrofit2.HttpException) {
             retrofit2.HttpException httpException = (retrofit2.HttpException) throwable;
             int code = httpException.code();
@@ -38,7 +40,17 @@ public class ApiErrorHandler {
             }
         }
 
-        Toast.makeText(context, errorMessage + "\n" + throwable.getMessage(), Toast.LENGTH_LONG).show();
+        // Use the friendly message, append detail only if it's not redundant
+        String detail = throwable.getMessage();
+        if (detail != null && !detail.equals(errorMessage)) {
+            // Avoid duplicating the message if it's identical
+            // and avoid technical jargon if possible, but for debugging we need it.
+            // For now, we'll keep the original behavior of appending it,
+            // but maybe slightly cleaner format.
+            Toast.makeText(context, errorMessage + "\n(" + detail + ")", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
+        }
     }
 
     public static void handleApiResponse(Context context, ApiResponse response) {

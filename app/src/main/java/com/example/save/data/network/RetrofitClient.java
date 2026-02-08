@@ -11,6 +11,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
+    // Default base URL for development. On Android emulator, 10.0.2.2 points to the
+    // host machine.
+    // You can override this at runtime via the 'api_base_url' preference.
+    // MODIFIED: Default to local IP for physical device testing
     private static final String DEFAULT_BASE_URL = "http://192.168.1.14:8000/api/";
     private static Retrofit retrofit = null;
     private static String currentBaseUrl = null;

@@ -46,6 +46,14 @@ public class LoginActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
+    /**
+     * Handle Server Settings click
+     */
+    public void onServerSettingsClick(View view) {
+        com.example.save.ui.fragments.ServerUrlDialogFragment dialog = new com.example.save.ui.fragments.ServerUrlDialogFragment();
+        dialog.show(getSupportFragmentManager(), "ServerUrlDialog");
+    }
+
     @Override
     public void finish() {
         super.finish();

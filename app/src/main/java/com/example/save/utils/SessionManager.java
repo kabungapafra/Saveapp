@@ -9,18 +9,21 @@ import com.example.save.ui.activities.OnboardingActivity;
 
 import java.util.HashMap;
 
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKey;
+
 public class SessionManager {
     // Shared Preferences
-    SharedPreferences pref;
+    private SharedPreferences pref;
 
     // Editor for Shared preferences
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
 
     // Context
-    Context _context;
+    private final Context _context;
 
     // Shared pref mode
-    int PRIVATE_MODE = 0;
+    private static final int PRIVATE_MODE = 0;
 
     // Sharedpref file name
     private static final String PREF_NAME = "ChamaPrefs";
@@ -42,9 +45,37 @@ public class SessionManager {
 
     // Constructor
     public SessionManager(Context context) {
-        this._context = context;
-        pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        editor = pref.edit();
+        this._context = context.getApplicationContext();
+        try {
+            // MasterKey will generate or retrieve an AES256-GCM key stored in the Android
+            // keystore.
+            MasterKey masterKey = new MasterKey.Builder(this._context)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build();
+
+            this.pref = EncryptedSharedPreferences.create(
+                    this._context,
+                    PREF_NAME,
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+
+            // Test if we can read from it. If decryption/SecurityException happens, catch
+            // and fallback.
+            this.pref.getAll();
+
+        } catch (Exception e) {
+            // If encrypted storage fails (e.g. SecurityException due to corrupted keys),
+            // wipe the XML file to recover.
+            try {
+                this._context.getSharedPreferences(PREF_NAME, PRIVATE_MODE).edit().clear().apply();
+            } catch (Exception ex) {
+                // Ignore
+            }
+            // Fallback to regular SharedPreferences
+            this.pref = this._context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        }
+        this.editor = pref.edit();
     }
 
     /**
@@ -126,11 +157,22 @@ public class SessionManager {
 
     // Clear session details
     public void logoutUser() {
-        // Clearing all data from Shared Preferences
-        editor.clear();
-        editor.commit();
+        try {
+            // Clearing all data from Shared Preferences
+            editor.clear();
+            editor.commit();
+        } catch (Exception e) {
+            // If decryption fails or keystore is corrupted, the standard clear() might
+            // fail.
+            // Fallback: Use regular SharedPreferences to wipe the same file.
+            try {
+                _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE).edit().clear().apply();
+            } catch (Exception ex) {
+                // Last resort: If still failing, logging might be helpful but we must not crash
+            }
+        }
 
-        // After logout redirect user to Loing Activity
+        // After logout redirect user to Login Activity
         Intent i = new Intent(_context, LoginActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

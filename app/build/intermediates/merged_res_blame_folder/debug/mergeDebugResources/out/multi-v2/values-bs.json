@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.save.app-mergeDebugResources-61:/values-bs/values-bs.xml",
+            "outputFile": "com.example.save.app-mergeDebugResources-62:/values-bs/values-bs.xml",
             "map": [
                 {
                     "source": "/home/darlin-pafra/.gradle/caches/8.13/transforms/63cbb464ab3e6dc53e46219e64b96c4e/transformed/credentials-1.2.0-rc01/res/values-bs/values-bs.xml",

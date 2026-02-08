@@ -4151,6 +4151,7 @@ id btnSavePaymentMethod
 id btnSaveRules
 id btnSendMessage
 id btnSendReminders
+id btnServerSettings
 id btnSetupAutoPay
 id btnShare
 id btnShareWhatsApp
@@ -4335,6 +4336,7 @@ id etReservePercentage
 id etRetentionPercentage
 id etSearch
 id etSearchMember
+id etServerUrl
 id etSubject
 id etTitle
 id eventsRecyclerView
@@ -5179,6 +5181,7 @@ layout dialog_payout_calendar
 layout dialog_payout_history
 layout dialog_payout_queue
 layout dialog_payout_rules
+layout dialog_server_url
 layout fragment_admin_loans
 layout fragment_analytics
 layout fragment_approvals

@@ -4150,6 +4150,7 @@ int id btnSavePaymentMethod 0x7f0800be
 int id btnSaveRules 0x7f0800bf
 int id btnSendMessage 0x7f0800c0
 int id btnSendReminders 0x7f0800c1
+int id btnServerSettings 0x7f08041e
 int id btnSetupAutoPay 0x7f0800c2
 int id btnShare 0x7f0800c3
 int id btnShareWhatsApp 0x7f0800c4
@@ -4334,6 +4335,7 @@ int id etReservePercentage 0x7f080176
 int id etRetentionPercentage 0x7f080177
 int id etSearch 0x7f080178
 int id etSearchMember 0x7f080179
+int id etServerUrl 0x7f08041f
 int id etSubject 0x7f08017a
 int id etTitle 0x7f08017b
 int id eventsRecyclerView 0x7f08017c
@@ -5178,6 +5180,7 @@ int layout dialog_payout_calendar 0x7f0b004a
 int layout dialog_payout_history 0x7f0b004b
 int layout dialog_payout_queue 0x7f0b004c
 int layout dialog_payout_rules 0x7f0b004d
+int layout dialog_server_url 0x7f0b00be
 int layout fragment_admin_loans 0x7f0b004e
 int layout fragment_analytics 0x7f0b004f
 int layout fragment_approvals 0x7f0b0050

@@ -93,6 +93,7 @@ MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /home
 MERGED from [com.google.android.gms:play-services-basement:18.8.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/7ecda3048d2bc1398010f640c7d28dbc/transformed/play-services-basement-18.8.0/AndroidManifest.xml:16:1-26:12
 MERGED from [androidx.fragment:fragment:1.5.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/c94de37e9e5ecbc7865cca9b3091501e/transformed/fragment-1.5.4/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.12.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/912c37772fff15e7a8b508bf15b09c27/transformed/activity-1.12.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.security:security-crypto:1.1.0-alpha06] /home/darlin-pafra/.gradle/caches/8.13/transforms/75266b0ab8d622d8087f40d247c0f45c/transformed/security-crypto-1.1.0-alpha06/AndroidManifest.xml:17:1-22:12
 MERGED from [com.github.PhilJay:MPAndroidChart:v3.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df60768688dd78878d7cdc42d611e870/transformed/MPAndroidChart-v3.1.0/AndroidManifest.xml:2:1-20:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/161181fcbce6703b1d08bd417a06132e/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.cardview:cardview:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/d330a95c122440811023e915546147a4/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -616,6 +617,8 @@ MERGED from [androidx.fragment:fragment:1.5.4] /home/darlin-pafra/.gradle/caches
 MERGED from [androidx.fragment:fragment:1.5.4] /home/darlin-pafra/.gradle/caches/8.13/transforms/c94de37e9e5ecbc7865cca9b3091501e/transformed/fragment-1.5.4/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.12.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/912c37772fff15e7a8b508bf15b09c27/transformed/activity-1.12.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity:1.12.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/912c37772fff15e7a8b508bf15b09c27/transformed/activity-1.12.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.security:security-crypto:1.1.0-alpha06] /home/darlin-pafra/.gradle/caches/8.13/transforms/75266b0ab8d622d8087f40d247c0f45c/transformed/security-crypto-1.1.0-alpha06/AndroidManifest.xml:20:5-44
+MERGED from [androidx.security:security-crypto:1.1.0-alpha06] /home/darlin-pafra/.gradle/caches/8.13/transforms/75266b0ab8d622d8087f40d247c0f45c/transformed/security-crypto-1.1.0-alpha06/AndroidManifest.xml:20:5-44
 MERGED from [com.github.PhilJay:MPAndroidChart:v3.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df60768688dd78878d7cdc42d611e870/transformed/MPAndroidChart-v3.1.0/AndroidManifest.xml:16:5-18:41
 MERGED from [com.github.PhilJay:MPAndroidChart:v3.1.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/df60768688dd78878d7cdc42d611e870/transformed/MPAndroidChart-v3.1.0/AndroidManifest.xml:16:5-18:41
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/161181fcbce6703b1d08bd417a06132e/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44

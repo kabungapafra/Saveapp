@@ -58,6 +58,9 @@ dependencies {
     // Room Database
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+    // AndroidX Security - EncryptedSharedPreferences for secure local storage
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
     
     // Lottie Animation - Updated
     implementation("com.airbnb.android:lottie:6.6.0")

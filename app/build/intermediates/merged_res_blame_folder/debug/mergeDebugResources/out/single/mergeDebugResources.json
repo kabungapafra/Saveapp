@@ -1,1070 +1,1078 @@
 [
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_stars.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_stars.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_onboarding_community.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_onboarding_community.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_manage_shortfalls.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_manage_shortfalls.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_skeleton_member.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_skeleton_member.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_onboarding_welcome.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_onboarding_welcome.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_check_circle.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_check_circle.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_star.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_star.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_sphere_signup.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/sphere_signup.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_help_support.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_help_support.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_call.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_call.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_nav_item_circle_background_dark.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/nav_item_circle_background_dark.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_circle_white.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_circle_white.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_circle_background_light.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/circle_background_light.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-xxhdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_wizard_group_info.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_wizard_group_info.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_item_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/item_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_layout_offline_banner.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/layout_offline_banner.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-mdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_more_vert.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_more_vert.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_gradient_blue_card.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_gradient_blue_card.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_profile_placeholder.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_profile_placeholder.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_badge_group.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_badge_group.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_header_gradient.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_header_gradient.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_analytics.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_analytics.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_settings.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_settings.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_dashboard_soft.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_dashboard_soft.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_progress_dot_active.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/progress_dot_active.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_role_badge.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_role_badge.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_sphere_accent.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/sphere_accent.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_edittext.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_edittext.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_fade_out.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/fade_out.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_onboarding_savings.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_onboarding_savings.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_info.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_info.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_lock.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_lock.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_member_profile.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_member_profile.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_arrow_left.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_arrow_left.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_gradient_card_4.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_gradient_card_4.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_queue.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_queue.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_letter_s.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/letter_s.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_badge_background_pending.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/badge_background_pending.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_simple.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_simple.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_outline_button_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/outline_button_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_stats.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_stats.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-mdpi/ic_launcher_round.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_calendar_date.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_calendar_date.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_skeleton_dashboard.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/skeleton_dashboard.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_notifications.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_notifications.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_card_premium_blue.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_card_premium_blue.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_letter_e.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/letter_e.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_credentials_card.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_credentials_card.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_more_vert.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_more_vert.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_shopping_cart.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_shopping_cart.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_circle_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/circle_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_button_secondary_square.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_button_secondary_square.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/xml_file_paths.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/xml/file_paths.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_email.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_email.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_approvals.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_approvals.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_date_selected.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_date_selected.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_card_surface.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_card_surface.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_shimmer_placeholder.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/shimmer_placeholder.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_circle_background_light_orange.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/circle_background_light_orange.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_side_tab_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/side_tab_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_onboarding.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_onboarding.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/xml_file_paths.xml.flat",
-        "source": "com.example.save.app-main-65:/xml/file_paths.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_white_button_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/white_button_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_memberreg.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_memberreg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_netflix_zoom.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/netflix_zoom.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_gradient_card_1.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_gradient_card_1.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_layout_badge_item.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/layout_badge_item.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_loan_active.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_loan_active.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_payouts.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_payouts.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_date_selector_dark.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/date_selector_dark.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_nav_item_circle_background_dark.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/nav_item_circle_background_dark.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_item_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/item_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_gradient_card_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/gradient_card_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_balance_gradient.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_balance_gradient.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_otp_input_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/otp_input_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_launcher_foreground.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_active_tab_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/active_tab_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_circle_green_indicator.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/circle_green_indicator.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_splash_gradient.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_splash_gradient.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_onboarding.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_onboarding.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_badge_group.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_badge_group.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_file_download.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_file_download.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_member_view.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_member_view.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_login.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_login.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_notification.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_notification.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_capsule_translucent.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_capsule_translucent.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_whatsapp.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_whatsapp.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_gradient_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/gradient_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-mdpi/ic_launcher_foreground.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_input_modern_dashed.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_input_modern_dashed.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_card_outline.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_card_outline.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_signup.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_signup.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_check_circle.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_check_circle.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_visibility.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_visibility.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_badge_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/badge_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_twitter.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_twitter.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_loan.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_loan.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/menu_bottom_nav_member.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/menu/bottom_nav_member.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_card_gradient_blue.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_card_gradient_blue.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-xhdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_otp_input_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/otp_input_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_nwpassword.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_nwpassword.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/color_calendar_date_text_selector.xml.flat",
-        "source": "com.example.save.app-main-65:/color/calendar_date_text_selector.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_pay.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/pay.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_dashboard_soft.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_dashboard_soft.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_change_password.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_change_password.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_loan_request.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_loan_request.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_close.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_close.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_circular_progress.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/circular_progress.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_button_primary_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/button_primary_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_login.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_login.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_fade_blue.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/fade_blue.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_letter_a.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/letter_a.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_card_premium_blue.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_card_premium_blue.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_payout_queue.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_payout_queue.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/xml_data_extraction_rules.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/xml/data_extraction_rules.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_white_card_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/white_card_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_arrow_back.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_arrow_back.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_arrow_right.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_arrow_right.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_skeleton_member_item.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/skeleton_member_item.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-xxhdpi/ic_launcher.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_fs2.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/fs2.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_payout_history.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_payout_history.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bottom_nav_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bottom_nav_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_analytics.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_analytics.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_member_admin.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_member_admin.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_button_white_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/button_white_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_circle_red.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/circle_red.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_circle_background_light.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/circle_background_light.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_twitter.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_twitter.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_help_support.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_help_support.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.example.save.app-main-65:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_bounce.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/bounce.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_adminreg.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_adminreg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_wizard_complete.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_wizard_complete.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_payout_queue.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_payout_queue.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_member_profile.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_member_profile.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_chip_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_chip_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_settings.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_settings.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_color_transition.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/color_transition.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-xhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_menu_grid.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_menu_grid.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_shopping_cart.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_shopping_cart.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_fs2.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/fs2.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_button_primary.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/button_primary.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_adminmain.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_adminmain.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_onboarding_slide.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/onboarding_slide.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_wizard_contribution.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_wizard_contribution.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_white_button_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/white_button_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_layout_offline_banner.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/layout_offline_banner.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_wizard_complete.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_wizard_complete.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_card_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/card_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_dot.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/dot.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_layout_feature_tooltip.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/layout_feature_tooltip.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_skeleton_transaction_item.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/skeleton_transaction_item.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_visibility_off.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_visibility_off.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_circular_progress_drawable.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/circular_progress_drawable.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_save_logo.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/save_logo.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_lng.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/lng.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_white_rounded.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_white_rounded.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_sphere_login.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/sphere_login.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_progress_dot_active.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/progress_dot_active.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_privacy_policy.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_privacy_policy.xml"
+        "merged": "com.example.save.app-debug-64:/layout_activity_login.xml.flat",
+        "source": "com.example.save.app-main-66:/layout/activity_login.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_lng1.jpeg.flat",
-        "source": "com.example.save.app-main-65:/drawable/lng1.jpeg"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_chip_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_chip_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_zoom_in.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/zoom_in.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_refresh.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_refresh.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_tab_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/tab_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_tab_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/tab_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_main.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_main.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_lng.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/lng.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_edit_text_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/edit_text_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_zoom_in.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/zoom_in.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_save_logo.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/save_logo.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_gradient_card_1.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_gradient_card_1.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_member_simple.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_member_simple.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_warning.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_warning.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_resetpassword.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_resetpassword.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_google.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_google.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_wizard_rules.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_wizard_rules.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_notifications.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_notifications.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_file_download.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_file_download.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_calendar_month.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_calendar_month.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_payout_calendar.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_payout_calendar.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_onboarding_loans.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_onboarding_loans.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_error.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_error.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_glow_shine.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/glow_shine.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_search.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_search.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_queue.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_queue.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_facebook.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_facebook.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_search.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_search.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_contact_admin.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_contact_admin.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_button_secondary.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_button_secondary.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_google.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_google.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_lock.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_lock.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_white_rounded.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_white_rounded.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/color_calendar_day_text_selector.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/color/calendar_day_text_selector.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_dashboard.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_dashboard.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_balance_gradient.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_balance_gradient.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_white_circle.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/white_circle.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_privacy_policy.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_privacy_policy.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_gradient_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/gradient_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_custom_progress.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/custom_progress.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-hdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_quick_action_circle.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_quick_action_circle.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_quick_action_circle.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_quick_action_circle.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_payment_method_selection.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_payment_method_selection.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_date_selected.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_date_selected.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_info.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_info.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_account_balance_wallet.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_account_balance_wallet.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_slide_in_left1.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/slide_in_left1.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_icon_circle.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_icon_circle.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_stats.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_stats.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_outline_button_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/outline_button_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_rounded_gray.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_rounded_gray.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_memberreg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_memberreg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_fs1.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/fs1.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_dot.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/dot.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_layout_badge_item.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/layout_badge_item.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_approval.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_approval.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_square_inactive.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_square_inactive.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_add_member.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_add_member.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_card_surface.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_card_surface.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_button_secondary_square.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_button_secondary_square.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_notifications.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_notifications.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_member_simple.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_member_simple.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-xhdpi/ic_launcher.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_sphere_accent.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/sphere_accent.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_simple.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_simple.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_stars.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_stars.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_badge_red.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_badge_red.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_status_pill_light.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_status_pill_light.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_otp_box_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/otp_box_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_person_add.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_person_add.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_glow_shine.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/glow_shine.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_fs1.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/fs1.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/menu_bottom_nav_menu.xml.flat",
-        "source": "com.example.save.app-main-65:/menu/bottom_nav_menu.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_date_unselected.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_date_unselected.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_adminmain.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_adminmain.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/menu_bottom_nav_menu.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/menu/bottom_nav_menu.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_approval.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_approval.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bottom_nav_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bottom_nav_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_splash.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_splash.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_white.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/white.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_button_primary_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/button_primary_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_wizard_group_info.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_wizard_group_info.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_letter_e.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/letter_e.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_gradient_button.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/gradient_button.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_contact_admin.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_contact_admin.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_custom_progress.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/custom_progress.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_splash.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_splash.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_payout_rules.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_payout_rules.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_upcoming_payment.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_upcoming_payment.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/color_nav_item_color_state.xml.flat",
-        "source": "com.example.save.app-main-65:/color/nav_item_color_state.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_loans.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_loans.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_splash_gradient.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_splash_gradient.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/xml_network_security_config.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/xml/network_security_config.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_notifications.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_notifications.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_geometric_pattern.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_geometric_pattern.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_history.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_history.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_payout_queue.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_payout_queue.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/xml_data_extraction_rules.xml.flat",
-        "source": "com.example.save.app-main-65:/xml/data_extraction_rules.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_card_wave_pattern.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_card_wave_pattern.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_loan_application.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_loan_application.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_loan_history.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_loan_history.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_letter_s.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/letter_s.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_nav_item_pill_white.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/nav_item_pill_white.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_member_profile.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_member_profile.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-mdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_white.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/white.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_loan.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_loan.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_transaction.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_transaction.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_date_selector_dark.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/date_selector_dark.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_close.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_close.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_adminreg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_adminreg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_arrow_back.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_arrow_back.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_language_selection.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_language_selection.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_date_unselected.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_date_unselected.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_money.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_money.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_active_tab_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/active_tab_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_input_modern.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_input_modern.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_add_member.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_add_member.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_burgundy_gradient.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/burgundy_gradient.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_person_add.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_person_add.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_onboarding_sheet.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_onboarding_sheet.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_calendar_month.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_calendar_month.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/raw_success_animation.json.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/raw/success_animation.json"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_member_profile.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_member_profile.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_whatsapp.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_whatsapp.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_members.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_members.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_edittext.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_edittext.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_bounce.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/bounce.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_layout_empty_state.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/layout_empty_state.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_history.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_history.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_compose_announcement.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_compose_announcement.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/xml_backup_rules.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/xml/backup_rules.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_visibility_off.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_visibility_off.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_facebook.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_facebook.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_header_gradient_premium.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_header_gradient_premium.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_dashboard.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_dashboard.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_admin_setup_wizard.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_admin_setup_wizard.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_side_tab_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/side_tab_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/menu_bottom_nav_member.xml.flat",
-        "source": "com.example.save.app-main-65:/menu/bottom_nav_member.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_onboarding_welcome.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_onboarding_welcome.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_date_selector_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/date_selector_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_status_pill_light.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_status_pill_light.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_manage_shortfalls.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_manage_shortfalls.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_terms_of_service.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_terms_of_service.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_square_inactive.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_square_inactive.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_button_secondary.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_button_secondary.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_badge_background_pending.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/badge_background_pending.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_loan_history.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_loan_history.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_wizard_rules.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_wizard_rules.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_badge_success.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_badge_success.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_rounded_gray.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_rounded_gray.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_onboarding_loans.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_onboarding_loans.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_white_card_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/white_card_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_input_modern.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_input_modern.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_slide_out_right1.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/slide_out_right1.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_skeleton_member_item.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/skeleton_member_item.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_card_wave_pattern.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_card_wave_pattern.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_chevron_right.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_chevron_right.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_calendar_date.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_calendar_date.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_slide_out_left.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/slide_out_left.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_signup.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_signup.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_main.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_main.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_fs3.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/fs3.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_loan_payment.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_loan_payment.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_geometric_pattern.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_geometric_pattern.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_color_transition.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/color_transition.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_diagonal_arrow.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_diagonal_arrow.xml"
+        "merged": "com.example.save.app-debug-64:/layout_dialog_server_url.xml.flat",
+        "source": "com.example.save.app-main-66:/layout/dialog_server_url.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_pay.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/pay.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_approvals.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_approvals.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_settings.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_settings.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_capsule_translucent.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_capsule_translucent.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_circle_green_indicator.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/circle_green_indicator.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_burgundy_gradient.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/burgundy_gradient.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_transaction.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_transaction.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_visibility.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_visibility.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_confirm_payout.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_confirm_payout.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/color_calendar_day_text_selector.xml.flat",
-        "source": "com.example.save.app-main-65:/color/calendar_day_text_selector.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_member_admin.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_member_admin.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-hdpi/ic_launcher_foreground.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_member_view.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_member_view.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_sphere_signup.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/sphere_signup.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_loan_application.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_loan_application.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_button_white_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/button_white_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_slide_in_right.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/slide_in_right.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_gradient_blue_card.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_gradient_blue_card.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_rounded_bg_gray.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/rounded_bg_gray.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_circle_background_light_orange.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/circle_background_light_orange.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_admin_setup_wizard.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_admin_setup_wizard.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_phone.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_phone.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_calendar_date_dark.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_calendar_date_dark.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_role_badge.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_role_badge.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_members.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_members.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_fade_out.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/fade_out.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_header_gradient_premium.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_header_gradient_premium.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_input_modern_dashed.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_input_modern_dashed.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_onboarding_savings.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_onboarding_savings.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_netflix_zoom.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/netflix_zoom.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_sphere_login.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/sphere_login.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_change_password.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_change_password.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_member_main.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_member_main.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_gradient_button.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/gradient_button.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_queue.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_queue.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_card_gradient_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/card_gradient_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_arrow_left.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_arrow_left.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_gradient_card_4.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_gradient_card_4.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_loan_active.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_loan_active.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_otp.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_otp.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_card_outline.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_card_outline.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_member_credentials.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_member_credentials.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_badge_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/badge_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_nav_item_circle_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/nav_item_circle_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_skeleton_dashboard.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/skeleton_dashboard.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_fade_blue.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/fade_blue.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_badge_red.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_badge_red.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_slide_out_left.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/slide_out_left.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_slide_in_left1.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/slide_in_left1.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_otp_highlight.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_otp_highlight.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_card_gradient_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/card_gradient_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_payment.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_payment.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_otp.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_otp.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_home.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_home.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_slide_out_right1.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/slide_out_right1.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_card_gradient_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/card_gradient_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_send_money.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_send_money.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-hdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_admin_loans.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_admin_loans.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/color_calendar_date_text_selector.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/color/calendar_date_text_selector.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_payouts.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_payouts.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_member_credentials.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_member_credentials.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_autopay_setup.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_autopay_setup.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_lng1.jpeg.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/lng1.jpeg"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_gradient_card_3.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_gradient_card_3.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_gradient_card_2.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_gradient_card_2.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_account_balance_wallet.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_account_balance_wallet.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_nav_item_pill_refined.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/nav_item_pill_refined.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_layout_empty_state.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/layout_empty_state.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_circle_red.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/circle_red.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_person.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_person.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_shimmer_placeholder.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/shimmer_placeholder.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/xml_backup_rules.xml.flat",
-        "source": "com.example.save.app-main-65:/xml/backup_rules.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_square_active.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_square_active.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_card_gradient_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/card_gradient_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_white_circle.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/white_circle.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_people.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_people.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_fs3.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/fs3.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.example.save.app-main-65:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_payout_rules.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_payout_rules.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_icon_circle.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_icon_circle.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_payout_queue.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_payout_queue.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_payments.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_payments.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_badge_success.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_badge_success.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_onboarding_sheet.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_onboarding_sheet.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_error.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_error.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_dialog_confirm_payout.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/dialog_confirm_payout.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_people.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_people.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-xxhdpi/ic_launcher_round.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_letter_a.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/letter_a.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_circle_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/circle_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_payment_method_selection.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_payment_method_selection.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_nav_item_pill_refined.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/nav_item_pill_refined.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_payments.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_payments.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_schedule.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_schedule.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_loan_request.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_loan_request.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_gradient_card_2.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_gradient_card_2.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_letter_v.png.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/letter_v.png"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-xxxhdpi/ic_launcher.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_person.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_person.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_gradient_card_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/gradient_card_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_phone.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_phone.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_call.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_call.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_card_gradient_blue.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_card_gradient_blue.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_member_main.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_member_main.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_arrow_right.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_arrow_right.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_slide_in_right.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/slide_in_right.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_credentials_card.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_credentials_card.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_upcoming_payment.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_upcoming_payment.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_nav_item_circle_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/nav_item_circle_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_profile_info.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_profile_info.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_autopay_setup.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_autopay_setup.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_calendar_date_dark.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_calendar_date_dark.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_send_money.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_send_money.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_analytics.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_analytics.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_payment.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_payment.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_square_active.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_square_active.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_fragment_admin_loans.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/fragment_admin_loans.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_rounded_bg_gray.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/rounded_bg_gray.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_schedule.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_schedule.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/raw_success_animation.json.flat",
-        "source": "com.example.save.app-main-65:/raw/success_animation.json"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-xxxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_refresh.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_refresh.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_gradient_card_3.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_gradient_card_3.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_fade_in.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/fade_in.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_profile_info.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_profile_info.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_slide_in_left.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/slide_in_left.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_otp_box_bg.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/otp_box_bg.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_skeleton_member.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_skeleton_member.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_slide_out_right.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/slide_out_right.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_progress_dot_inactive.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/progress_dot_inactive.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_launcher_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_wizard_contribution.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_wizard_contribution.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_menu_grid.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_menu_grid.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_warning.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_warning.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_slide_in_left.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/slide_in_left.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_bg_circle_white.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/bg_circle_white.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_edit_text_background.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/edit_text_background.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_button_primary.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/button_primary.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_otp_highlight.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_otp_highlight.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_date_selector_bg.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/date_selector_bg.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_circular_progress_drawable.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/circular_progress_drawable.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_nwpassword.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_nwpassword.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/anim_fade_in.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/anim/fade_in.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_card_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/card_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_onboarding_slide.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/onboarding_slide.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_recipient_small.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_recipient_small.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_home.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_home.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/xml_network_security_config.xml.flat",
-        "source": "com.example.save.app-main-65:/xml/network_security_config.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_terms_of_service.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_terms_of_service.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_letter_v.png.flat",
-        "source": "com.example.save.app-main-65:/drawable/letter_v.png"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_circular_progress.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/circular_progress.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_layout_feature_tooltip.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/layout_feature_tooltip.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/color_nav_item_color_state.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/color/nav_item_color_state.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_chevron_right.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_chevron_right.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_profile_placeholder.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_profile_placeholder.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.example.save.app-main-65:/mipmap-xhdpi/ic_launcher_foreground.webp"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_progress_dot_inactive.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/progress_dot_inactive.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_nav_item_pill_white.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/nav_item_pill_white.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_compose_announcement.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_compose_announcement.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/anim_slide_out_right.xml.flat",
-        "source": "com.example.save.app-main-65:/anim/slide_out_right.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_diagonal_arrow.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_diagonal_arrow.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_launcher_background.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_activity.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_activity.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_queue.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_queue.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_add.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_add.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_loan_payment.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_loan_payment.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_recipient_small.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_recipient_small.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_analytics.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_analytics.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_email.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_email.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_activity.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_activity.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_item_notification.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/item_notification.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_language_selection.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_language_selection.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_skeleton_transaction_item.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/skeleton_transaction_item.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_money.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_money.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.example.save.app-debug-63:/drawable_ic_add.xml.flat",
-        "source": "com.example.save.app-main-65:/drawable/ic_add.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_ic_star.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/ic_star.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_activity_settings.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/activity_settings.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_activity_resetpassword.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/activity_resetpassword.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_item_onboarding_community.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/item_onboarding_community.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_payout_history.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_payout_history.xml"
     },
     {
-        "merged": "com.example.save.app-debug-63:/layout_fragment_loans.xml.flat",
-        "source": "com.example.save.app-main-65:/layout/fragment_loans.xml"
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/drawable_bg_header_gradient.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/drawable/bg_header_gradient.xml"
+    },
+    {
+        "merged": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-debug-64:/layout_dialog_payout_calendar.xml.flat",
+        "source": "/home/darlin-pafra/.gradle/daemon/8.13/com.example.save.app-main-66:/layout/dialog_payout_calendar.xml"
     }
 ]

@@ -1,5 +1,3 @@
-package com.example.save.data.local.entities;
-
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -16,25 +14,45 @@ public class MemberEntity {
     private String id;
 
     private String name;
+
     private String role;
+
     private boolean isActive;
+
     private String phone;
+
     private String email;
+
     private String password; // Stores OTP or hashed password
+
     private String payoutDate;
+
     private String payoutAmount;
+
     private boolean hasReceivedPayout;
+
     private double shortfallAmount;
+
     private boolean isFirstLogin; // Track if member must change password after first OTP login
+
     private double contributionTarget;
+
     private double contributionPaid;
+
     private int paymentStreak;
+
     private String nextPayoutDate;
+
     private String nextPaymentDueDate;
+
     private boolean isAutoPayEnabled; // New
+
     private int autoPayDay; // New: Day of month (1-31)
+
     private double autoPayAmount; // New
+
     private int creditScore; // New
+
     private String joinedDate;
 
     public MemberEntity() {

@@ -50,7 +50,7 @@ public final class AppDatabase_Impl extends AppDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(15) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(16) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `members` (`id` TEXT NOT NULL, `name` TEXT, `role` TEXT, `isActive` INTEGER NOT NULL, `phone` TEXT, `email` TEXT, `password` TEXT, `payoutDate` TEXT, `payoutAmount` TEXT, `hasReceivedPayout` INTEGER NOT NULL, `shortfallAmount` REAL NOT NULL, `isFirstLogin` INTEGER NOT NULL, `contributionTarget` REAL NOT NULL, `contributionPaid` REAL NOT NULL, `paymentStreak` INTEGER NOT NULL, `nextPayoutDate` TEXT, `nextPaymentDueDate` TEXT, `isAutoPayEnabled` INTEGER NOT NULL, `autoPayDay` INTEGER NOT NULL, `autoPayAmount` REAL NOT NULL, `creditScore` INTEGER NOT NULL, `joinedDate` TEXT, PRIMARY KEY(`id`))");
