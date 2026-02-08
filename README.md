@@ -1,4 +1,4 @@
-# Save Mobile Application - Android Frontend
+# Save Mobile Application - Android
 
 This repository contains the Android application code for **Save**, a mobile platform designed for managing financial contributions, loans, and payouts within a group.
 
