@@ -311,6 +311,7 @@ id btnSaveAutoPay
 id btnSaveLanguage
 id btnSavePaymentMethod
 id btnSaveRules
+id btnSaveServerUrl
 id btnSendMessage
 id btnSendReminders
 id btnServerSettings
@@ -424,7 +425,6 @@ id fragmentContainer
 id fragment_container
 id fragment_text
 id full_logo
-id googleSignInButton
 id greetingContainer
 id greetingName
 id groupName
@@ -842,7 +842,6 @@ string back
 string cancel
 string choose_an_option_below
 string close
-string com.google.firebase.crashlytics.mapping_file_id
 string confirm
 string confirm_password
 string confirm_payout
@@ -853,7 +852,6 @@ string create_account
 string create_member_account
 string create_task
 string data_management
-string default_web_client_id
 string dismiss
 string email
 string email_address
@@ -864,11 +862,7 @@ string financial_configuration
 string follow_for_more_on_our_social_media
 string forgot_password
 string full_name
-string gcm_defaultSenderId
 string google_api_key
-string google_app_id
-string google_crash_reporting_api_key
-string google_storage_bucket
 string group_name
 string having_trouble_contact_support
 string hello
@@ -898,7 +892,6 @@ string payout_schedule
 string phone
 string phone_number
 string phone_placeholder
-string project_id
 string receiver_member
 string recipient_name
 string require_2fa_for_payouts

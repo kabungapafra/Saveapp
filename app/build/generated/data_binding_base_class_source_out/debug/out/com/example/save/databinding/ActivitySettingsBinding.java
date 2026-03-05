@@ -77,6 +77,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final View btnRate;
 
   @NonNull
+  public final MaterialButton btnSaveServerUrl;
+
+  @NonNull
   public final View btnShare;
 
   @NonNull
@@ -117,6 +120,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
 
   @NonNull
   public final EditText etRetentionPercentage;
+
+  @NonNull
+  public final TextInputEditText etServerUrl;
 
   @NonNull
   public final TextView headerAdminConfig;
@@ -185,14 +191,15 @@ public final class ActivitySettingsBinding implements ViewBinding {
       @NonNull View btnDownloadData, @NonNull View btnGroupDetails, @NonNull View btnHelpSupport,
       @NonNull View btnLanguage, @NonNull MaterialButton btnLogout,
       @NonNull View btnNotificationMethod, @NonNull View btnPrivacyPolicy,
-      @NonNull LinearLayout btnProfileInfo, @NonNull View btnRate, @NonNull View btnShare,
-      @NonNull View btnTOS, @NonNull LinearLayout btnViewMembers,
-      @NonNull MaterialCardView cardAdminConfig, @NonNull MaterialCardView cardGroupDetails,
-      @NonNull MaterialCardView cardLoanConfig, @NonNull TextInputEditText etContributionAmount,
-      @NonNull TextInputEditText etLatePenalty, @NonNull TextInputEditText etLoanInterestRate,
-      @NonNull TextInputEditText etMaxLoanAmount, @NonNull EditText etMaxLoanDuration,
-      @NonNull TextInputEditText etPayoutAmount, @NonNull EditText etReservePercentage,
-      @NonNull EditText etRetentionPercentage, @NonNull TextView headerAdminConfig,
+      @NonNull LinearLayout btnProfileInfo, @NonNull View btnRate,
+      @NonNull MaterialButton btnSaveServerUrl, @NonNull View btnShare, @NonNull View btnTOS,
+      @NonNull LinearLayout btnViewMembers, @NonNull MaterialCardView cardAdminConfig,
+      @NonNull MaterialCardView cardGroupDetails, @NonNull MaterialCardView cardLoanConfig,
+      @NonNull TextInputEditText etContributionAmount, @NonNull TextInputEditText etLatePenalty,
+      @NonNull TextInputEditText etLoanInterestRate, @NonNull TextInputEditText etMaxLoanAmount,
+      @NonNull EditText etMaxLoanDuration, @NonNull TextInputEditText etPayoutAmount,
+      @NonNull EditText etReservePercentage, @NonNull EditText etRetentionPercentage,
+      @NonNull TextInputEditText etServerUrl, @NonNull TextView headerAdminConfig,
       @NonNull TextView headerGroupDetails, @NonNull TextView headerLoanConfig,
       @NonNull Spinner spinnerSlotsPerRound, @NonNull SwitchCompat switchAutoPay,
       @NonNull SwitchCompat switchBiometric, @NonNull MaterialSwitch switchEnforceEligibility,
@@ -219,6 +226,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
     this.btnPrivacyPolicy = btnPrivacyPolicy;
     this.btnProfileInfo = btnProfileInfo;
     this.btnRate = btnRate;
+    this.btnSaveServerUrl = btnSaveServerUrl;
     this.btnShare = btnShare;
     this.btnTOS = btnTOS;
     this.btnViewMembers = btnViewMembers;
@@ -233,6 +241,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
     this.etPayoutAmount = etPayoutAmount;
     this.etReservePercentage = etReservePercentage;
     this.etRetentionPercentage = etRetentionPercentage;
+    this.etServerUrl = etServerUrl;
     this.headerAdminConfig = headerAdminConfig;
     this.headerGroupDetails = headerGroupDetails;
     this.headerLoanConfig = headerLoanConfig;
@@ -378,6 +387,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnSaveServerUrl;
+      MaterialButton btnSaveServerUrl = ViewBindings.findChildViewById(rootView, id);
+      if (btnSaveServerUrl == null) {
+        break missingId;
+      }
+
       id = R.id.btnShare;
       View btnShare = ViewBindings.findChildViewById(rootView, id);
       if (btnShare == null) {
@@ -459,6 +474,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
       id = R.id.etRetentionPercentage;
       EditText etRetentionPercentage = ViewBindings.findChildViewById(rootView, id);
       if (etRetentionPercentage == null) {
+        break missingId;
+      }
+
+      id = R.id.etServerUrl;
+      TextInputEditText etServerUrl = ViewBindings.findChildViewById(rootView, id);
+      if (etServerUrl == null) {
         break missingId;
       }
 
@@ -585,15 +606,15 @@ public final class ActivitySettingsBinding implements ViewBinding {
       return new ActivitySettingsBinding((ConstraintLayout) rootView, backButton, btnAutoLock,
           btnChangePassword, btnClearCache, btnContactAdmin, btnCycleStartDate, btnDefaultPayment,
           btnDownloadData, btnGroupDetails, btnHelpSupport, btnLanguage, btnLogout,
-          btnNotificationMethod, btnPrivacyPolicy, btnProfileInfo, btnRate, btnShare, btnTOS,
-          btnViewMembers, cardAdminConfig, cardGroupDetails, cardLoanConfig, etContributionAmount,
-          etLatePenalty, etLoanInterestRate, etMaxLoanAmount, etMaxLoanDuration, etPayoutAmount,
-          etReservePercentage, etRetentionPercentage, headerAdminConfig, headerGroupDetails,
-          headerLoanConfig, spinnerSlotsPerRound, switchAutoPay, switchBiometric,
-          switchEnforceEligibility, switchGroupActivity, switchLoanUpdates, switchPaymentConfirm,
-          switchPaymentReminders, switchPayoutAlerts, switchPinForPayments, switchRandomQueue,
-          switchRequire2FA, switchRequireGuarantor, tvCycleStartDate, tvSettingsTitle, userEmail,
-          userName);
+          btnNotificationMethod, btnPrivacyPolicy, btnProfileInfo, btnRate, btnSaveServerUrl,
+          btnShare, btnTOS, btnViewMembers, cardAdminConfig, cardGroupDetails, cardLoanConfig,
+          etContributionAmount, etLatePenalty, etLoanInterestRate, etMaxLoanAmount,
+          etMaxLoanDuration, etPayoutAmount, etReservePercentage, etRetentionPercentage,
+          etServerUrl, headerAdminConfig, headerGroupDetails, headerLoanConfig,
+          spinnerSlotsPerRound, switchAutoPay, switchBiometric, switchEnforceEligibility,
+          switchGroupActivity, switchLoanUpdates, switchPaymentConfirm, switchPaymentReminders,
+          switchPayoutAlerts, switchPinForPayments, switchRandomQueue, switchRequire2FA,
+          switchRequireGuarantor, tvCycleStartDate, tvSettingsTitle, userEmail, userName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

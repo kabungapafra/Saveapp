@@ -1,8 +1,15 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.google.firebase.crashlytics)
 }
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+val googleApiKey = localProperties.getProperty("GOOGLE_API_KEY") ?: ""
 
 
 android {
@@ -18,6 +25,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        
+        // Inject secrets
+        resValue("string", "google_api_key", googleApiKey)
     }
 
     buildTypes {
@@ -80,14 +90,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-    // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.messaging)
-    implementation(libs.firebase.crashlytics)
-
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
     
     // Testing
     testImplementation(libs.junit)

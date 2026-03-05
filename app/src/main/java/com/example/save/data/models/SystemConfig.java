@@ -21,6 +21,9 @@ public class SystemConfig {
     @SerializedName("late_penalty_rate")
     private double latePenaltyRate;
 
+    @SerializedName("contribution_amount")
+    private double contributionAmount;
+
     public double getLoanInterestRate() {
         return loanInterestRate;
     }
@@ -67,5 +70,24 @@ public class SystemConfig {
 
     public void setLatePenaltyRate(double latePenaltyRate) {
         this.latePenaltyRate = latePenaltyRate;
+    }
+
+    public double getContributionAmount() {
+        return contributionAmount;
+    }
+
+    public void setContributionAmount(double contributionAmount) {
+        this.contributionAmount = contributionAmount;
+    }
+
+    @SerializedName("max_loan_duration")
+    private int maxLoanDuration;
+
+    public int getMaxLoanDuration() {
+        return maxLoanDuration;
+    }
+
+    public void setMaxLoanDuration(int maxLoanDuration) {
+        this.maxLoanDuration = maxLoanDuration;
     }
 }

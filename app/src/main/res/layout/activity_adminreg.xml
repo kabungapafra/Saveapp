@@ -238,45 +238,6 @@
                 android:textStyle="bold"
                 android:letterSpacing="0.1" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="24dp">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#EEEEEE" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Or sign in with"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginHorizontal="16dp"
-                    android:textSize="12sp"/>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#EEEEEE" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/googleSignInButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_google"
-                tools:ignore="SpeakableTextPresentCheck" />
 
         </LinearLayout>
 

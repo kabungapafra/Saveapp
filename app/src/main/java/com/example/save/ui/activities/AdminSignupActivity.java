@@ -86,7 +86,7 @@ public class AdminSignupActivity extends AppCompatActivity {
         String adminName = binding.adminNameInput.getText().toString().trim();
         String groupName = binding.companyInput.getText().toString().trim();
         String phoneInput = binding.phoneInput.getText().toString().trim();
-        String email = binding.emailInput.getText().toString().trim();
+        String email = binding.emailInput.getText().toString().trim().toLowerCase();
         String password = binding.passwordInput.getText().toString().trim(); // Trimmed
         String confirmPassword = binding.confirmPasswordInput.getText().toString().trim(); // Trimmed
 

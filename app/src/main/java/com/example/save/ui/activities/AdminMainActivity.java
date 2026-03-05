@@ -76,6 +76,9 @@ public class AdminMainActivity extends AppCompatActivity {
         // Load admin and group name FIRST (before other data)
         loadAdminData();
 
+        // Fetch latest system configuration from backend
+        viewModel.fetchSystemConfig(null);
+
         setupListeners();
         observeViewModel();
 

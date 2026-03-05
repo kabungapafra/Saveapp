@@ -1,3 +1,5 @@
+package com.example.save.data.local.entities;
+
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -17,6 +19,7 @@ public class MemberEntity {
 
     private String role;
 
+    @com.google.gson.annotations.SerializedName("is_active")
     private boolean isActive;
 
     private String phone;
@@ -25,34 +28,49 @@ public class MemberEntity {
 
     private String password; // Stores OTP or hashed password
 
+    @com.google.gson.annotations.SerializedName("payout_date")
     private String payoutDate;
 
+    @com.google.gson.annotations.SerializedName("payout_amount")
     private String payoutAmount;
 
+    @com.google.gson.annotations.SerializedName("has_received_payout")
     private boolean hasReceivedPayout;
 
+    @com.google.gson.annotations.SerializedName("shortfall_amount")
     private double shortfallAmount;
 
+    @com.google.gson.annotations.SerializedName("is_first_login")
     private boolean isFirstLogin; // Track if member must change password after first OTP login
 
+    @com.google.gson.annotations.SerializedName("contribution_target")
     private double contributionTarget;
 
+    @com.google.gson.annotations.SerializedName("contribution_paid")
     private double contributionPaid;
 
+    @com.google.gson.annotations.SerializedName("payment_streak")
     private int paymentStreak;
 
+    @com.google.gson.annotations.SerializedName("next_payout_date")
     private String nextPayoutDate;
 
+    @com.google.gson.annotations.SerializedName("next_payment_due_date")
     private String nextPaymentDueDate;
 
+    @com.google.gson.annotations.SerializedName("is_auto_pay_enabled")
     private boolean isAutoPayEnabled; // New
 
+    @com.google.gson.annotations.SerializedName("auto_pay_day")
     private int autoPayDay; // New: Day of month (1-31)
 
+    @com.google.gson.annotations.SerializedName("auto_pay_amount")
     private double autoPayAmount; // New
 
+    @com.google.gson.annotations.SerializedName("credit_score")
     private int creditScore; // New
 
+    @com.google.gson.annotations.SerializedName("created_at")
     private String joinedDate;
 
     public MemberEntity() {

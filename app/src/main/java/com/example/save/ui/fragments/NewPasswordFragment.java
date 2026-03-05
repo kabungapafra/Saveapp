@@ -134,7 +134,7 @@ public class NewPasswordFragment extends Fragment {
             return;
         }
 
-        userEmail = email;
+        userEmail = email.toLowerCase();
         binding.verifyButton.setEnabled(false);
         binding.verifyButton.setText("Sending...");
         binding.loadingIndicator.setVisibility(View.VISIBLE);
@@ -338,7 +338,7 @@ public class NewPasswordFragment extends Fragment {
 
         // Call backend API to resend reset OTP
         com.example.save.data.network.ForgotPasswordRequest request = new com.example.save.data.network.ForgotPasswordRequest(
-                userEmail);
+                userEmail.toLowerCase());
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(requireContext()).create(com.example.save.data.network.ApiService.class);

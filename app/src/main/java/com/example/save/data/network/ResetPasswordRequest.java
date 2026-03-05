@@ -11,6 +11,11 @@ public class ResetPasswordRequest {
         this.otp = otp;
     }
 
+    public ResetPasswordRequest(String email, String newPassword) {
+        this.email = email;
+        this.newPassword = newPassword;
+    }
+
     public String getEmail() {
         return email;
     }

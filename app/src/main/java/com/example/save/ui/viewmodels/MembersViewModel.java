@@ -56,8 +56,34 @@ public class MembersViewModel extends AndroidViewModel {
         repository.deleteMember(member, null);
     }
 
+    public void resetPassword(String email, String newPassword, MemberRepository.PasswordChangeCallback callback) {
+        repository.resetPassword(email, newPassword, callback);
+    }
+
+    @Deprecated
     public String resetPassword(Member member) {
-        return repository.resetPassword(member);
+        // Legacy method for admin panel: originally generated OTP and set it locally.
+        // For the backend, the user should be sent to the forgot-password flow.
+        String newOtp = com.example.save.utils.ValidationUtils.generateOTP();
+
+        if (member.getEmail() != null) {
+            com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                    .getClient(getApplication()).create(com.example.save.data.network.ApiService.class);
+            apiService.forgotPassword(new com.example.save.data.network.ForgotPasswordRequest(member.getEmail()))
+                    .enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+                        @Override
+                        public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                                retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                        }
+
+                        @Override
+                        public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
+                                Throwable t) {
+                        }
+                    });
+        }
+
+        return newOtp;
     }
 
     public void updateMember(int position, Member member) {
@@ -286,10 +312,6 @@ public class MembersViewModel extends AndroidViewModel {
         // Placeholder logic: 3x Savings (backend will have more complex rules)
         return member.getContributionPaid() * 3;
     }
-
-    // TODO: Add method to fetch loan eligibility from backend
-    // public void getLoanEligibilityFromBackend(String memberEmail,
-    // LoanEligibilityCallback callback)
 
     public LiveData<List<com.github.mikephil.charting.data.Entry>> getSavingsTrend() {
         return androidx.lifecycle.Transformations.map(repository.getGenericTransactions(), transactions -> {

@@ -11,17 +11,21 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    // Default base URL for development. On Android emulator, 10.0.2.2 points to the
-    // host machine.
-    // You can override this at runtime via the 'api_base_url' preference.
-    // MODIFIED: Default to local IP for physical device testing
-    private static final String DEFAULT_BASE_URL = "http://192.168.1.14:8000/api/";
+    // Production backend URL hosted on Render
+    private static final String DEFAULT_BASE_URL = "https://saveapp-backend.onrender.com/api/";
     private static Retrofit retrofit = null;
     private static String currentBaseUrl = null;
 
     public static Retrofit getClient(Context context) {
         android.content.SharedPreferences prefs = context.getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
         String baseUrl = prefs.getString("api_base_url", DEFAULT_BASE_URL);
+
+        // Auto-fix: overwrite any old development URLs with the production URL
+        if (baseUrl.contains("ngrok-free.app") || baseUrl.contains("192.168.1.44")
+                || baseUrl.contains("save-app-backend.onrender.com")) {
+            baseUrl = DEFAULT_BASE_URL;
+            prefs.edit().putString("api_base_url", baseUrl).apply();
+        }
 
         if (retrofit == null || !baseUrl.equals(currentBaseUrl)) {
             currentBaseUrl = baseUrl;
@@ -51,9 +55,9 @@ public class RetrofitClient {
                         }
                         return chain.proceed(original);
                     })
-                    .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                    .connectTimeout(90, java.util.concurrent.TimeUnit.SECONDS)
+                    .readTimeout(90, java.util.concurrent.TimeUnit.SECONDS)
+                    .writeTimeout(90, java.util.concurrent.TimeUnit.SECONDS)
                     .build();
 
             retrofit = new Retrofit.Builder()

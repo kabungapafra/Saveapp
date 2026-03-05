@@ -36,9 +36,6 @@ public final class ActivityAdminregBinding implements ViewBinding {
   public final FrameLayout fragmentContainer;
 
   @NonNull
-  public final ImageView googleSignInButton;
-
-  @NonNull
   public final EditText groupNameInput;
 
   @NonNull
@@ -64,17 +61,15 @@ public final class ActivityAdminregBinding implements ViewBinding {
 
   private ActivityAdminregBinding(@NonNull FrameLayout rootView, @NonNull View cardBg,
       @NonNull EditText emailInput, @NonNull TextView forgotPassword,
-      @NonNull FrameLayout fragmentContainer, @NonNull ImageView googleSignInButton,
-      @NonNull EditText groupNameInput, @NonNull TextView helloText, @NonNull Button loginButton,
-      @NonNull LinearLayout loginCard, @NonNull EditText passwordInput,
-      @NonNull ImageView passwordToggle, @NonNull TextView sideSignUpTab,
-      @NonNull LinearLayout sideTabContainer) {
+      @NonNull FrameLayout fragmentContainer, @NonNull EditText groupNameInput,
+      @NonNull TextView helloText, @NonNull Button loginButton, @NonNull LinearLayout loginCard,
+      @NonNull EditText passwordInput, @NonNull ImageView passwordToggle,
+      @NonNull TextView sideSignUpTab, @NonNull LinearLayout sideTabContainer) {
     this.rootView = rootView;
     this.cardBg = cardBg;
     this.emailInput = emailInput;
     this.forgotPassword = forgotPassword;
     this.fragmentContainer = fragmentContainer;
-    this.googleSignInButton = googleSignInButton;
     this.groupNameInput = groupNameInput;
     this.helloText = helloText;
     this.loginButton = loginButton;
@@ -136,12 +131,6 @@ public final class ActivityAdminregBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.googleSignInButton;
-      ImageView googleSignInButton = ViewBindings.findChildViewById(rootView, id);
-      if (googleSignInButton == null) {
-        break missingId;
-      }
-
       id = R.id.groupNameInput;
       EditText groupNameInput = ViewBindings.findChildViewById(rootView, id);
       if (groupNameInput == null) {
@@ -191,8 +180,8 @@ public final class ActivityAdminregBinding implements ViewBinding {
       }
 
       return new ActivityAdminregBinding((FrameLayout) rootView, cardBg, emailInput, forgotPassword,
-          fragmentContainer, googleSignInButton, groupNameInput, helloText, loginButton, loginCard,
-          passwordInput, passwordToggle, sideSignUpTab, sideTabContainer);
+          fragmentContainer, groupNameInput, helloText, loginButton, loginCard, passwordInput,
+          passwordToggle, sideSignUpTab, sideTabContainer);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.save.app-mergeDebugResources-62:/values-large-v4/values-large-v4.xml",
+            "outputFile": "com.example.save.app-mergeDebugResources-44:/values-large-v4/values-large-v4.xml",
             "map": [
                 {
-                    "source": "/home/darlin-pafra/.gradle/caches/8.13/transforms/10c546e488cd8d8e7853527e1ca8f2d3/transformed/appcompat-1.7.1/res/values-large-v4/values-large-v4.xml",
+                    "source": "/home/darlin-pafra/.gradle/caches/8.13/transforms/ea0f779295e7ebf637f262125d20220c/transformed/appcompat-1.7.1/res/values-large-v4/values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/home/darlin-pafra/.gradle/caches/8.13/transforms/6760cbb408bfacbae4d45ae871b7ceae/transformed/material-1.13.0/res/values-large-v4/values-large-v4.xml",
+                    "source": "/home/darlin-pafra/.gradle/caches/8.13/transforms/225c23b619207666511d578fb686be38/transformed/material-1.13.0/res/values-large-v4/values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

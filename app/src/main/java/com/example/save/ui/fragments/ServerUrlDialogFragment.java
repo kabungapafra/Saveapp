@@ -32,7 +32,7 @@ public class ServerUrlDialogFragment extends DialogFragment {
 
         // Load current URL
         SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
-        String currentUrl = prefs.getString("api_base_url", "http://10.0.2.2:8000/api/");
+        String currentUrl = prefs.getString("api_base_url", "https://saveapp-backend.onrender.com/api/");
         etServerUrl.setText(currentUrl);
 
         builder.setView(view)

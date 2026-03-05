@@ -1,3 +1,4 @@
+
 package com.example.save.ui.activities;
 
 import com.example.save.ui.activities.*;
@@ -24,6 +25,12 @@ import com.example.save.databinding.ActivitySettingsBinding;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import android.content.SharedPreferences;
 import com.example.save.utils.SessionManager;
+import com.example.save.data.network.RetrofitClient;
+import com.example.save.data.network.SystemConfigUpdate;
+import com.example.save.data.models.SystemConfig;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -47,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
         binding.userName.setText(session.getUserName() != null ? session.getUserName() : "User");
         binding.userEmail.setText(session.getUserEmail() != null ? session.getUserEmail() : "email@example.com");
 
-        if (!"admin".equalsIgnoreCase(role)) {
+        if (role == null || (!"admin".equalsIgnoreCase(role) && !"administrator".equalsIgnoreCase(role))) {
             binding.headerAdminConfig.setVisibility(View.GONE);
             binding.cardAdminConfig.setVisibility(View.GONE);
             binding.headerLoanConfig.setVisibility(View.GONE);
@@ -56,6 +63,14 @@ public class SettingsActivity extends AppCompatActivity {
             binding.cardGroupDetails.setVisibility(View.GONE);
         }
 
+        // Fetch system config from backend so settings are populated
+        viewModel.fetchSystemConfig((success, config, message) -> {
+            if (success && config != null) {
+                runOnUiThread(() -> loadAllSettings());
+            } else {
+                runOnUiThread(() -> loadAllSettings());
+            }
+        });
         loadAllSettings();
         setupListeners();
     }
@@ -81,6 +96,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Payment
         loadPaymentSettings();
+
+        // Developer
+        loadServerUrl();
     }
 
     private void loadContributionAmount() {
@@ -95,7 +113,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void loadLatePenalty() {
-        double latePenalty = Double.longBitsToDouble(prefs.getLong("late_penalty", Double.doubleToLongBits(5000.0)));
+        double latePenalty = Double
+                .longBitsToDouble(prefs.getLong("late_penalty_rate", Double.doubleToLongBits(5000.0)));
         binding.etLatePenalty.setText(String.format(java.util.Locale.US, "%.0f", latePenalty));
 
         binding.etLatePenalty.setOnFocusChangeListener((v, hasFocus) -> {
@@ -321,8 +340,33 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    private void loadServerUrl() {
+        String currentUrl = prefs.getString("api_base_url", "");
+        binding.etServerUrl.setText(currentUrl);
+        if (currentUrl.isEmpty()) {
+            binding.etServerUrl.setHint("Enter your server URL (e.g. https://save-app-backend.onrender.com/api/)");
+        }
+    }
+
+    private void saveServerUrl() {
+        String newUrl = binding.etServerUrl.getText() != null
+                ? binding.etServerUrl.getText().toString().trim()
+                : "";
+        if (TextUtils.isEmpty(newUrl)) {
+            Toast.makeText(this, "Please enter a server URL", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!newUrl.startsWith("http://") && !newUrl.startsWith("https://")) {
+            Toast.makeText(this, "URL must start with http:// or https://", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        RetrofitClient.updateBaseUrl(this, newUrl);
+        Toast.makeText(this, "Server URL saved! Restart the app or log in again.", Toast.LENGTH_LONG).show();
+    }
+
     private void setupListeners() {
         binding.backButton.setOnClickListener(v -> finish());
+        binding.btnSaveServerUrl.setOnClickListener(v -> saveServerUrl());
 
         binding.btnLogout.setOnClickListener(v -> {
             com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
@@ -382,6 +426,34 @@ public class SettingsActivity extends AppCompatActivity {
         binding.btnShare.setOnClickListener(v -> Toast.makeText(this, "Sharing...", Toast.LENGTH_SHORT).show());
     }
 
+    /**
+     * Pushes a settings update to the backend PUT /api/config so it's
+     * persisted server-side and visible on all devices.
+     *
+     * @param update A SystemConfigUpdate with only the fields that changed set.
+     */
+    private void saveConfigToBackend(SystemConfigUpdate update) {
+        com.example.save.data.network.ApiService api = RetrofitClient.getClient(this)
+                .create(com.example.save.data.network.ApiService.class);
+        api.updateSystemConfig(update).enqueue(new Callback<SystemConfig>() {
+            @Override
+            public void onResponse(Call<SystemConfig> call, Response<SystemConfig> response) {
+                if (!response.isSuccessful()) {
+                    // Non-blocking: local save already succeeded, just inform the admin
+                    runOnUiThread(() -> Toast.makeText(SettingsActivity.this,
+                            "Local save OK but server sync failed (check connection)",
+                            Toast.LENGTH_SHORT).show());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SystemConfig> call, Throwable t) {
+                runOnUiThread(() -> Toast.makeText(SettingsActivity.this,
+                        "Local save OK but server unreachable", Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
     private void saveContributionTarget() {
         String amountStr = binding.etContributionAmount.getText().toString().trim();
 
@@ -399,6 +471,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             viewModel.setContributionTarget(newTarget);
+            // Also persist to backend
+            saveConfigToBackend(new SystemConfigUpdate().setContributionAmount(newTarget));
             Toast.makeText(this, "Contribution target updated successfully", Toast.LENGTH_SHORT).show();
 
         } catch (NumberFormatException e) {
@@ -422,7 +496,9 @@ public class SettingsActivity extends AppCompatActivity {
                 return;
             }
 
-            prefs.edit().putLong("late_penalty", Double.doubleToRawLongBits(penalty)).apply();
+            prefs.edit().putLong("late_penalty_rate", Double.doubleToRawLongBits(penalty)).apply();
+            // Also persist to backend
+            saveConfigToBackend(new SystemConfigUpdate().setLatePenaltyRate(penalty));
             Toast.makeText(this, "Late penalty saved", Toast.LENGTH_SHORT).show();
 
         } catch (NumberFormatException e) {
@@ -447,6 +523,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             viewModel.setPayoutAmount(amount);
+            // Also persist to backend
+            saveConfigToBackend(new SystemConfigUpdate().setPayoutAmount(amount));
             Toast.makeText(this, "Payout amount saved", Toast.LENGTH_SHORT).show();
 
         } catch (NumberFormatException e) {
@@ -471,6 +549,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             viewModel.setRetentionPercentage(rate);
+            // Also persist to backend
+            saveConfigToBackend(new SystemConfigUpdate().setRetentionPercentage(rate));
             Toast.makeText(this, "Retention percentage saved", Toast.LENGTH_SHORT).show();
 
         } catch (NumberFormatException e) {
@@ -495,6 +575,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             prefs.edit().putLong("max_loan_amount", Double.doubleToRawLongBits(amount)).apply();
+            // Also persist to backend
+            saveConfigToBackend(new SystemConfigUpdate().setMaxLoanLimit(amount));
             Toast.makeText(this, "Maximum loan amount saved", Toast.LENGTH_SHORT).show();
 
         } catch (NumberFormatException e) {
@@ -519,6 +601,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             prefs.edit().putLong("loan_interest_rate", Double.doubleToRawLongBits(rate)).apply();
+            // Also persist to backend
+            saveConfigToBackend(new SystemConfigUpdate().setLoanInterestRate(rate));
             Toast.makeText(this, "Interest rate saved", Toast.LENGTH_SHORT).show();
 
         } catch (NumberFormatException e) {
@@ -543,6 +627,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             prefs.edit().putInt("max_loan_duration", duration).apply();
+            // Also persist to backend
+            saveConfigToBackend(new SystemConfigUpdate().setMaxLoanDuration(duration));
             Toast.makeText(this, "Maximum loan duration saved", Toast.LENGTH_SHORT).show();
 
         } catch (NumberFormatException e) {

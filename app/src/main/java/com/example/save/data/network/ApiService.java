@@ -35,15 +35,6 @@ public interface ApiService {
         Call<LoginResponse> login(@Body LoginRequest request);
 
         /**
-         * Authenticates a user using Firebase ID Token.
-         * 
-         * @param request Contains the Firebase ID Token.
-         * @return Call for LoginResponse.
-         */
-        @POST("auth/firebase-login")
-        Call<LoginResponse> firebaseLogin(@Body FirebaseLoginRequest request);
-
-        /**
          * Sends an OTP for admin registration.
          * 
          * @param request Contains the admin's email and phone.
@@ -161,6 +152,16 @@ public interface ApiService {
          */
         @retrofit2.http.DELETE("members/{id}")
         Call<ApiResponse> deleteMember(@Path("id") String id);
+
+        /**
+         * Resolves a member's shortfall. Admin only.
+         * 
+         * @param id      The unique ID of the member.
+         * @param request Shortfall resolution details (amount, payment method).
+         * @return Call for ApiResponse.
+         */
+        @POST("members/{id}/resolve-shortfall")
+        Call<ApiResponse> resolveShortfall(@Path("id") String id, @Body ShortfallResolutionRequest request);
 
         // Loans
         /**
@@ -304,6 +305,10 @@ public interface ApiService {
         // System Configuration
         @GET("config")
         Call<SystemConfig> getSystemConfig();
+
+        /** Update system configuration. Admin only. */
+        @PUT("config")
+        Call<SystemConfig> updateSystemConfig(@Body SystemConfigUpdate request);
 
         @POST("loans/check-eligibility")
         Call<LoanEligibilityResponse> checkLoanEligibility(@Body LoanEligibilityRequest request);

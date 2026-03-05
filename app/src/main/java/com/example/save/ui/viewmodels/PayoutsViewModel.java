@@ -32,7 +32,8 @@ public class PayoutsViewModel extends AndroidViewModel {
     }
 
     public double getBalanceShortfall() {
-        return repository.getBalanceShortfall();
+        // Balance check is handled on the backend
+        return 0;
     }
 
     public void sendPaymentReminders(java.util.List<com.example.save.data.models.Member> members,
@@ -50,12 +51,13 @@ public class PayoutsViewModel extends AndroidViewModel {
     }
 
     public void resolveShortfall(Member member) {
-        repository.resolveShortfall(member, new MemberRepository.ShortfallResolutionCallback() {
-            @Override
-            public void onResult(boolean success, String message) {
-                // Background update, UI will refresh via LiveData if needed
-            }
-        });
+        repository.resolveShortfall(member.getEmail(), member.getShortfallAmount(), "SYSTEM",
+                new MemberRepository.ApiResponseCallback() {
+                    @Override
+                    public void onResult(boolean success, String message) {
+                        // Background update, UI will refresh via LiveData if needed
+                    }
+                });
     }
 
     public double getPayoutAmount() {
