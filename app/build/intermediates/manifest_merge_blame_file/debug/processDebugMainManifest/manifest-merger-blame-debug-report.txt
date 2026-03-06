@@ -60,420 +60,421 @@
 34-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:14:9-48
 35        android:supportsRtl="true"
 35-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:15:9-35
-36        android:theme="@style/Theme.Save" >
-36-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:16:9-42
-37
-38        <!-- Splash Activity as Launcher (shows first) -->
-39        <activity
-39-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:20:9-28:20
-40            android:name="com.example.save.ui.activities.SplashActivity"
-40-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:21:13-73
-41            android:exported="true"
-41-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:22:13-36
-42            android:theme="@style/SplashTheme" >
-42-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:23:13-47
-43            <intent-filter>
-43-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:24:13-27:29
-44                <action android:name="android.intent.action.MAIN" />
-44-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:25:17-69
-44-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:25:25-66
-45
-46                <category android:name="android.intent.category.LAUNCHER" />
-46-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:26:17-77
-46-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:26:27-74
-47            </intent-filter>
-48        </activity>
-49
-50        <!-- Main Activity (shows after splash) -->
-51        <activity
-51-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:31:9-33:40
-52            android:name="com.example.save.ui.activities.OnboardingActivity"
-52-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:32:13-77
-53            android:exported="false" />
-53-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:33:13-37
-54        <activity
-54-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:35:9-37:40
-55            android:name="com.example.save.ui.activities.LoginActivity"
-55-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:36:13-72
-56            android:exported="false" />
-56-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:37:13-37
-57        <activity
-57-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:39:9-42:48
-58            android:name="com.example.save.ui.activities.AdminLoginActivity"
-58-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:40:13-77
-59            android:exported="false" />
-59-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:41:13-37
-60        <activity
-60-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:43:9-45:40
-61            android:name="com.example.save.ui.activities.MemberMainActivity"
-61-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:44:13-77
-62            android:exported="false" />
-62-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:45:13-37
-63        <activity
-63-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:46:9-48:40
-64            android:name="com.example.save.ui.activities.MemberRegistrationActivity"
-64-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:47:13-85
-65            android:exported="false" />
-65-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:48:13-37
-66        <activity
-66-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:49:9-51:40
-67            android:name="com.example.save.ui.activities.AdminSignupActivity"
-67-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:50:13-78
-68            android:exported="false" />
-68-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:51:13-37
-69        <activity
-69-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:53:9-55:40
-70            android:name="com.example.save.ui.activities.AdminMainActivity"
-70-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:54:13-76
-71            android:exported="false" />
-71-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:55:13-37
-72        <activity
-72-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:57:9-59:40
-73            android:name="com.example.save.ui.activities.ResetPasswordActivity"
-73-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:58:13-80
-74            android:exported="false" />
-74-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:59:13-37
-75        <activity
-75-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:61:9-64:93
-76            android:name="com.example.save.ui.activities.SettingsActivity"
-76-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:62:13-75
-77            android:exported="false"
-77-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:63:13-37
-78            android:parentActivityName="com.example.save.ui.activities.AdminMainActivity" />
-78-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:64:13-90
-79        <activity
-79-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:68:9-70:40
-80            android:name="com.example.save.ui.activities.ChangePasswordActivity"
-80-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:69:13-81
-81            android:exported="false" />
-81-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:70:13-37
-82        <activity
-82-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:72:9-75:49
-83            android:name="com.example.save.ui.activities.AdminSetupWizardActivity"
-83-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:73:13-83
-84            android:exported="false"
-84-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:74:13-37
-85            android:theme="@style/Theme.Save" />
-85-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:75:13-46
-86        <activity
-86-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:77:9-79:40
-87            android:name="com.example.save.ui.activities.HelpSupportActivity"
-87-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:78:13-78
-88            android:exported="false" />
-88-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:79:13-37
-89        <activity
-89-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:81:9-83:40
-90            android:name="com.example.save.ui.activities.TermsOfServiceActivity"
-90-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:82:13-81
-91            android:exported="false" />
-91-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:83:13-37
-92        <activity
-92-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:85:9-87:40
-93            android:name="com.example.save.ui.activities.PrivacyPolicyActivity"
-93-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:86:13-80
-94            android:exported="false" />
-94-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:87:13-37
-95        <activity
-95-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:89:9-91:40
-96            android:name="com.example.save.ui.activities.ContactAdminActivity"
-96-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:90:13-79
-97            android:exported="false" />
-97-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:91:13-37
-98        <activity
-98-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:93:9-95:40
-99            android:name="com.example.save.ui.activities.ProfileInfoActivity"
-99-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:94:13-78
-100            android:exported="false" />
-100-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:95:13-37
-101        <activity
-101-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:97:9-99:40
-102            android:name="com.example.save.ui.activities.LanguageSelectionActivity"
-102-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:98:13-84
-103            android:exported="false" />
-103-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:99:13-37
-104        <activity
-104-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:101:9-103:40
-105            android:name="com.example.save.ui.activities.PaymentMethodSelectionActivity"
-105-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:102:13-89
-106            android:exported="false" />
-106-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:103:13-37
-107
-108        <provider
-109            android:name="androidx.core.content.FileProvider"
-109-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:107:13-62
-110            android:authorities="com.example.save.provider"
-110-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:108:13-60
-111            android:exported="false"
-111-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:109:13-37
-112            android:grantUriPermissions="true" >
-112-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:110:13-47
-113            <meta-data
-113-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:111:13-113:54
-114                android:name="android.support.FILE_PROVIDER_PATHS"
-114-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:112:17-67
-115                android:resource="@xml/file_paths" />
-115-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:113:17-51
-116        </provider>
-117        <provider
-117-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:29:9-37:20
-118            android:name="androidx.startup.InitializationProvider"
-118-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:30:13-67
-119            android:authorities="com.example.save.androidx-startup"
-119-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:31:13-68
-120            android:exported="false" >
-120-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:32:13-37
-121            <meta-data
-121-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:34:13-36:52
-122                android:name="androidx.work.WorkManagerInitializer"
-122-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:35:17-68
-123                android:value="androidx.startup" />
-123-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:36:17-49
-124            <meta-data
-124-->[androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/f108acb763c18468d43921c24b63082c/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
-125                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-125-->[androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/f108acb763c18468d43921c24b63082c/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
-126                android:value="androidx.startup" />
-126-->[androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/f108acb763c18468d43921c24b63082c/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
-127            <meta-data
-127-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/565deae29baf57226fe20df3390dcef7/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
-128                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-128-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/565deae29baf57226fe20df3390dcef7/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
-129                android:value="androidx.startup" />
-129-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/565deae29baf57226fe20df3390dcef7/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
-130            <meta-data
-130-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
-131                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-131-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
-132                android:value="androidx.startup" />
-132-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
-133        </provider>
-134
-135        <service
-135-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:39:9-45:35
-136            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
-136-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:40:13-88
-137            android:directBootAware="false"
-137-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:41:13-44
-138            android:enabled="@bool/enable_system_alarm_service_default"
-138-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:42:13-72
-139            android:exported="false" />
-139-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:43:13-37
-140        <service
-140-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:46:9-52:35
-141            android:name="androidx.work.impl.background.systemjob.SystemJobService"
-141-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:47:13-84
-142            android:directBootAware="false"
-142-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:48:13-44
-143            android:enabled="@bool/enable_system_job_service_default"
-143-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:49:13-70
-144            android:exported="true"
-144-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:50:13-36
-145            android:permission="android.permission.BIND_JOB_SERVICE" />
-145-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:51:13-69
-146        <service
-146-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:53:9-59:35
-147            android:name="androidx.work.impl.foreground.SystemForegroundService"
-147-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:54:13-81
-148            android:directBootAware="false"
-148-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:55:13-44
-149            android:enabled="@bool/enable_system_foreground_service_default"
-149-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:56:13-77
-150            android:exported="false" />
-150-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:57:13-37
-151
-152        <receiver
-152-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:61:9-66:35
-153            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
-153-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:62:13-88
-154            android:directBootAware="false"
-154-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:63:13-44
-155            android:enabled="true"
-155-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:64:13-35
-156            android:exported="false" />
-156-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:65:13-37
-157        <receiver
-157-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:67:9-77:20
-158            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
-158-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:68:13-106
-159            android:directBootAware="false"
-159-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:69:13-44
-160            android:enabled="false"
-160-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:70:13-36
-161            android:exported="false" >
-161-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:71:13-37
-162            <intent-filter>
-162-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:73:13-76:29
-163                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-163-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:74:17-87
-163-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:74:25-84
-164                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-164-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:75:17-90
-164-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:75:25-87
-165            </intent-filter>
-166        </receiver>
-167        <receiver
-167-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:78:9-88:20
-168            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
-168-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:79:13-104
-169            android:directBootAware="false"
-169-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:80:13-44
-170            android:enabled="false"
-170-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:81:13-36
-171            android:exported="false" >
-171-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:82:13-37
-172            <intent-filter>
-172-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:84:13-87:29
-173                <action android:name="android.intent.action.BATTERY_OKAY" />
-173-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:85:17-77
-173-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:85:25-74
-174                <action android:name="android.intent.action.BATTERY_LOW" />
-174-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:86:17-76
-174-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:86:25-73
-175            </intent-filter>
-176        </receiver>
-177        <receiver
-177-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:89:9-99:20
-178            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
-178-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:90:13-104
-179            android:directBootAware="false"
-179-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:91:13-44
-180            android:enabled="false"
-180-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:92:13-36
-181            android:exported="false" >
-181-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:93:13-37
-182            <intent-filter>
-182-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:95:13-98:29
-183                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
-183-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:96:17-83
-183-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:96:25-80
-184                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
-184-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:97:17-82
-184-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:97:25-79
-185            </intent-filter>
-186        </receiver>
-187        <receiver
-187-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:100:9-109:20
-188            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
-188-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:101:13-103
-189            android:directBootAware="false"
-189-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:102:13-44
-190            android:enabled="false"
-190-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:103:13-36
-191            android:exported="false" >
-191-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:104:13-37
-192            <intent-filter>
-192-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:106:13-108:29
-193                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-193-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:107:17-79
-193-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:107:25-76
-194            </intent-filter>
-195        </receiver>
-196        <receiver
-196-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:110:9-121:20
-197            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
-197-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:111:13-88
-198            android:directBootAware="false"
-198-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:112:13-44
-199            android:enabled="false"
-199-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:113:13-36
-200            android:exported="false" >
-200-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:114:13-37
-201            <intent-filter>
-201-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:116:13-120:29
-202                <action android:name="android.intent.action.BOOT_COMPLETED" />
-202-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:117:17-79
-202-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:117:25-76
-203                <action android:name="android.intent.action.TIME_SET" />
-203-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:118:17-73
-203-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:118:25-70
-204                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-204-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:119:17-81
-204-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:119:25-78
-205            </intent-filter>
-206        </receiver>
-207        <receiver
-207-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:122:9-131:20
-208            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
-208-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:123:13-99
-209            android:directBootAware="false"
-209-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:124:13-44
-210            android:enabled="@bool/enable_system_alarm_service_default"
-210-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:125:13-72
-211            android:exported="false" >
-211-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:126:13-37
-212            <intent-filter>
-212-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:128:13-130:29
-213                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
-213-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:129:17-98
-213-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:129:25-95
-214            </intent-filter>
-215        </receiver>
-216        <receiver
-216-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:132:9-142:20
-217            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
-217-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:133:13-78
-218            android:directBootAware="false"
-218-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:134:13-44
-219            android:enabled="true"
-219-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:135:13-35
-220            android:exported="true"
-220-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:136:13-36
-221            android:permission="android.permission.DUMP" >
-221-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:137:13-57
-222            <intent-filter>
-222-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:139:13-141:29
-223                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
-223-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:140:17-88
-223-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:140:25-85
-224            </intent-filter>
-225        </receiver>
-226
-227        <service
-227-->[androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f968f687852574a9c263001dd923db8/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
-228            android:name="androidx.room.MultiInstanceInvalidationService"
-228-->[androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f968f687852574a9c263001dd923db8/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
-229            android:directBootAware="true"
-229-->[androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f968f687852574a9c263001dd923db8/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
-230            android:exported="false" />
-230-->[androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f968f687852574a9c263001dd923db8/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
-231
-232        <receiver
-232-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
-233            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-233-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
-234            android:directBootAware="false"
-234-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
-235            android:enabled="true"
-235-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
-236            android:exported="true"
-236-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
-237            android:permission="android.permission.DUMP" >
-237-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
-238            <intent-filter>
-238-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
-239                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-239-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
-239-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
-240            </intent-filter>
-241            <intent-filter>
-241-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
-242                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-242-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
-242-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
-243            </intent-filter>
-244            <intent-filter>
-244-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
-245                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-245-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
-245-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
-246            </intent-filter>
-247            <intent-filter>
-247-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
-248                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-248-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
-248-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
-249            </intent-filter>
-250        </receiver>
-251    </application>
-252
-253</manifest>
+36        android:testOnly="true"
+37        android:theme="@style/Theme.Save" >
+37-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:16:9-42
+38
+39        <!-- Splash Activity as Launcher (shows first) -->
+40        <activity
+40-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:20:9-28:20
+41            android:name="com.example.save.ui.activities.SplashActivity"
+41-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:21:13-73
+42            android:exported="true"
+42-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:22:13-36
+43            android:theme="@style/SplashTheme" >
+43-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:23:13-47
+44            <intent-filter>
+44-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:24:13-27:29
+45                <action android:name="android.intent.action.MAIN" />
+45-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:25:17-69
+45-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:25:25-66
+46
+47                <category android:name="android.intent.category.LAUNCHER" />
+47-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:26:17-77
+47-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:26:27-74
+48            </intent-filter>
+49        </activity>
+50
+51        <!-- Main Activity (shows after splash) -->
+52        <activity
+52-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:31:9-33:40
+53            android:name="com.example.save.ui.activities.OnboardingActivity"
+53-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:32:13-77
+54            android:exported="false" />
+54-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:33:13-37
+55        <activity
+55-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:35:9-37:40
+56            android:name="com.example.save.ui.activities.LoginActivity"
+56-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:36:13-72
+57            android:exported="false" />
+57-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:37:13-37
+58        <activity
+58-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:39:9-42:48
+59            android:name="com.example.save.ui.activities.AdminLoginActivity"
+59-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:40:13-77
+60            android:exported="false" />
+60-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:41:13-37
+61        <activity
+61-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:43:9-45:40
+62            android:name="com.example.save.ui.activities.MemberMainActivity"
+62-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:44:13-77
+63            android:exported="false" />
+63-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:45:13-37
+64        <activity
+64-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:46:9-48:40
+65            android:name="com.example.save.ui.activities.MemberRegistrationActivity"
+65-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:47:13-85
+66            android:exported="false" />
+66-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:48:13-37
+67        <activity
+67-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:49:9-51:40
+68            android:name="com.example.save.ui.activities.AdminSignupActivity"
+68-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:50:13-78
+69            android:exported="false" />
+69-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:51:13-37
+70        <activity
+70-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:53:9-55:40
+71            android:name="com.example.save.ui.activities.AdminMainActivity"
+71-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:54:13-76
+72            android:exported="false" />
+72-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:55:13-37
+73        <activity
+73-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:57:9-59:40
+74            android:name="com.example.save.ui.activities.ResetPasswordActivity"
+74-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:58:13-80
+75            android:exported="false" />
+75-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:59:13-37
+76        <activity
+76-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:61:9-64:93
+77            android:name="com.example.save.ui.activities.SettingsActivity"
+77-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:62:13-75
+78            android:exported="false"
+78-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:63:13-37
+79            android:parentActivityName="com.example.save.ui.activities.AdminMainActivity" />
+79-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:64:13-90
+80        <activity
+80-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:68:9-70:40
+81            android:name="com.example.save.ui.activities.ChangePasswordActivity"
+81-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:69:13-81
+82            android:exported="false" />
+82-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:70:13-37
+83        <activity
+83-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:72:9-75:49
+84            android:name="com.example.save.ui.activities.AdminSetupWizardActivity"
+84-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:73:13-83
+85            android:exported="false"
+85-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:74:13-37
+86            android:theme="@style/Theme.Save" />
+86-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:75:13-46
+87        <activity
+87-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:77:9-79:40
+88            android:name="com.example.save.ui.activities.HelpSupportActivity"
+88-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:78:13-78
+89            android:exported="false" />
+89-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:79:13-37
+90        <activity
+90-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:81:9-83:40
+91            android:name="com.example.save.ui.activities.TermsOfServiceActivity"
+91-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:82:13-81
+92            android:exported="false" />
+92-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:83:13-37
+93        <activity
+93-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:85:9-87:40
+94            android:name="com.example.save.ui.activities.PrivacyPolicyActivity"
+94-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:86:13-80
+95            android:exported="false" />
+95-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:87:13-37
+96        <activity
+96-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:89:9-91:40
+97            android:name="com.example.save.ui.activities.ContactAdminActivity"
+97-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:90:13-79
+98            android:exported="false" />
+98-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:91:13-37
+99        <activity
+99-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:93:9-95:40
+100            android:name="com.example.save.ui.activities.ProfileInfoActivity"
+100-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:94:13-78
+101            android:exported="false" />
+101-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:95:13-37
+102        <activity
+102-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:97:9-99:40
+103            android:name="com.example.save.ui.activities.LanguageSelectionActivity"
+103-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:98:13-84
+104            android:exported="false" />
+104-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:99:13-37
+105        <activity
+105-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:101:9-103:40
+106            android:name="com.example.save.ui.activities.PaymentMethodSelectionActivity"
+106-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:102:13-89
+107            android:exported="false" />
+107-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:103:13-37
+108
+109        <provider
+110            android:name="androidx.core.content.FileProvider"
+110-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:107:13-62
+111            android:authorities="com.example.save.provider"
+111-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:108:13-60
+112            android:exported="false"
+112-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:109:13-37
+113            android:grantUriPermissions="true" >
+113-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:110:13-47
+114            <meta-data
+114-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:111:13-113:54
+115                android:name="android.support.FILE_PROVIDER_PATHS"
+115-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:112:17-67
+116                android:resource="@xml/file_paths" />
+116-->/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/AndroidManifest.xml:113:17-51
+117        </provider>
+118        <provider
+118-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:29:9-37:20
+119            android:name="androidx.startup.InitializationProvider"
+119-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:30:13-67
+120            android:authorities="com.example.save.androidx-startup"
+120-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:31:13-68
+121            android:exported="false" >
+121-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:32:13-37
+122            <meta-data
+122-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:34:13-36:52
+123                android:name="androidx.work.WorkManagerInitializer"
+123-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:35:17-68
+124                android:value="androidx.startup" />
+124-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:36:17-49
+125            <meta-data
+125-->[androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/f108acb763c18468d43921c24b63082c/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+126                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+126-->[androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/f108acb763c18468d43921c24b63082c/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+127                android:value="androidx.startup" />
+127-->[androidx.emoji2:emoji2:1.3.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/f108acb763c18468d43921c24b63082c/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+128            <meta-data
+128-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/565deae29baf57226fe20df3390dcef7/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+129                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+129-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/565deae29baf57226fe20df3390dcef7/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+130                android:value="androidx.startup" />
+130-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/darlin-pafra/.gradle/caches/8.13/transforms/565deae29baf57226fe20df3390dcef7/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+131            <meta-data
+131-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+132                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+132-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+133                android:value="androidx.startup" />
+133-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+134        </provider>
+135
+136        <service
+136-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:39:9-45:35
+137            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+137-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:40:13-88
+138            android:directBootAware="false"
+138-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:41:13-44
+139            android:enabled="@bool/enable_system_alarm_service_default"
+139-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:42:13-72
+140            android:exported="false" />
+140-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:43:13-37
+141        <service
+141-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:46:9-52:35
+142            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+142-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:47:13-84
+143            android:directBootAware="false"
+143-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:48:13-44
+144            android:enabled="@bool/enable_system_job_service_default"
+144-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:49:13-70
+145            android:exported="true"
+145-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:50:13-36
+146            android:permission="android.permission.BIND_JOB_SERVICE" />
+146-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:51:13-69
+147        <service
+147-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:53:9-59:35
+148            android:name="androidx.work.impl.foreground.SystemForegroundService"
+148-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:54:13-81
+149            android:directBootAware="false"
+149-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:55:13-44
+150            android:enabled="@bool/enable_system_foreground_service_default"
+150-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:56:13-77
+151            android:exported="false" />
+151-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:57:13-37
+152
+153        <receiver
+153-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:61:9-66:35
+154            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+154-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:62:13-88
+155            android:directBootAware="false"
+155-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:63:13-44
+156            android:enabled="true"
+156-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:64:13-35
+157            android:exported="false" />
+157-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:65:13-37
+158        <receiver
+158-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:67:9-77:20
+159            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+159-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:68:13-106
+160            android:directBootAware="false"
+160-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:69:13-44
+161            android:enabled="false"
+161-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:70:13-36
+162            android:exported="false" >
+162-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:71:13-37
+163            <intent-filter>
+163-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:73:13-76:29
+164                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+164-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:74:17-87
+164-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:74:25-84
+165                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+165-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:75:17-90
+165-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:75:25-87
+166            </intent-filter>
+167        </receiver>
+168        <receiver
+168-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:78:9-88:20
+169            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+169-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:79:13-104
+170            android:directBootAware="false"
+170-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:80:13-44
+171            android:enabled="false"
+171-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:81:13-36
+172            android:exported="false" >
+172-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:82:13-37
+173            <intent-filter>
+173-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:84:13-87:29
+174                <action android:name="android.intent.action.BATTERY_OKAY" />
+174-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:85:17-77
+174-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:85:25-74
+175                <action android:name="android.intent.action.BATTERY_LOW" />
+175-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:86:17-76
+175-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:86:25-73
+176            </intent-filter>
+177        </receiver>
+178        <receiver
+178-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:89:9-99:20
+179            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+179-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:90:13-104
+180            android:directBootAware="false"
+180-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:91:13-44
+181            android:enabled="false"
+181-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:92:13-36
+182            android:exported="false" >
+182-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:93:13-37
+183            <intent-filter>
+183-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:95:13-98:29
+184                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+184-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:96:17-83
+184-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:96:25-80
+185                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+185-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:97:17-82
+185-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:97:25-79
+186            </intent-filter>
+187        </receiver>
+188        <receiver
+188-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:100:9-109:20
+189            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+189-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:101:13-103
+190            android:directBootAware="false"
+190-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:102:13-44
+191            android:enabled="false"
+191-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:103:13-36
+192            android:exported="false" >
+192-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:104:13-37
+193            <intent-filter>
+193-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:106:13-108:29
+194                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+194-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:107:17-79
+194-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:107:25-76
+195            </intent-filter>
+196        </receiver>
+197        <receiver
+197-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:110:9-121:20
+198            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+198-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:111:13-88
+199            android:directBootAware="false"
+199-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:112:13-44
+200            android:enabled="false"
+200-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:113:13-36
+201            android:exported="false" >
+201-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:114:13-37
+202            <intent-filter>
+202-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:116:13-120:29
+203                <action android:name="android.intent.action.BOOT_COMPLETED" />
+203-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:117:17-79
+203-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:117:25-76
+204                <action android:name="android.intent.action.TIME_SET" />
+204-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:118:17-73
+204-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:118:25-70
+205                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+205-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:119:17-81
+205-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:119:25-78
+206            </intent-filter>
+207        </receiver>
+208        <receiver
+208-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:122:9-131:20
+209            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+209-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:123:13-99
+210            android:directBootAware="false"
+210-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:124:13-44
+211            android:enabled="@bool/enable_system_alarm_service_default"
+211-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:125:13-72
+212            android:exported="false" >
+212-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:126:13-37
+213            <intent-filter>
+213-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:128:13-130:29
+214                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+214-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:129:17-98
+214-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:129:25-95
+215            </intent-filter>
+216        </receiver>
+217        <receiver
+217-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:132:9-142:20
+218            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+218-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:133:13-78
+219            android:directBootAware="false"
+219-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:134:13-44
+220            android:enabled="true"
+220-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:135:13-35
+221            android:exported="true"
+221-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:136:13-36
+222            android:permission="android.permission.DUMP" >
+222-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:137:13-57
+223            <intent-filter>
+223-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:139:13-141:29
+224                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+224-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:140:17-88
+224-->[androidx.work:work-runtime:2.9.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/5d114c86051a5e4a9ac26bf61126506a/transformed/work-runtime-2.9.1/AndroidManifest.xml:140:25-85
+225            </intent-filter>
+226        </receiver>
+227
+228        <service
+228-->[androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f968f687852574a9c263001dd923db8/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
+229            android:name="androidx.room.MultiInstanceInvalidationService"
+229-->[androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f968f687852574a9c263001dd923db8/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
+230            android:directBootAware="true"
+230-->[androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f968f687852574a9c263001dd923db8/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
+231            android:exported="false" />
+231-->[androidx.room:room-runtime:2.6.1] /home/darlin-pafra/.gradle/caches/8.13/transforms/7f968f687852574a9c263001dd923db8/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
+232
+233        <receiver
+233-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+234            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+234-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+235            android:directBootAware="false"
+235-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+236            android:enabled="true"
+236-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+237            android:exported="true"
+237-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+238            android:permission="android.permission.DUMP" >
+238-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+239            <intent-filter>
+239-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+240                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+240-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+240-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+241            </intent-filter>
+242            <intent-filter>
+242-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+243                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+243-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+243-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+244            </intent-filter>
+245            <intent-filter>
+245-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+246                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+246-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+246-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+247            </intent-filter>
+248            <intent-filter>
+248-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+249                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+249-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+249-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/darlin-pafra/.gradle/caches/8.13/transforms/5aef4bb6059a5c2f1b1bb4a51708a85f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+250            </intent-filter>
+251        </receiver>
+252    </application>
+253
+254</manifest>

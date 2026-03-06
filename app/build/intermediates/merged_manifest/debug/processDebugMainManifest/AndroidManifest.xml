@@ -33,6 +33,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@drawable/save_logo"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/Theme.Save" >
 
         <!-- Splash Activity as Launcher (shows first) -->
