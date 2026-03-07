@@ -26,9 +26,6 @@ public final class ActivityLoginBinding implements ViewBinding {
   public final Button adminButton;
 
   @NonNull
-  public final ImageView btnServerSettings;
-
-  @NonNull
   public final ImageView logoImage;
 
   @NonNull
@@ -44,12 +41,11 @@ public final class ActivityLoginBinding implements ViewBinding {
   public final TextView welcomeTitle;
 
   private ActivityLoginBinding(@NonNull ConstraintLayout rootView, @NonNull Button adminButton,
-      @NonNull ImageView btnServerSettings, @NonNull ImageView logoImage,
-      @NonNull Button memberButton, @NonNull LinearLayout socialLayout,
-      @NonNull TextView socialText, @NonNull TextView welcomeTitle) {
+      @NonNull ImageView logoImage, @NonNull Button memberButton,
+      @NonNull LinearLayout socialLayout, @NonNull TextView socialText,
+      @NonNull TextView welcomeTitle) {
     this.rootView = rootView;
     this.adminButton = adminButton;
-    this.btnServerSettings = btnServerSettings;
     this.logoImage = logoImage;
     this.memberButton = memberButton;
     this.socialLayout = socialLayout;
@@ -90,12 +86,6 @@ public final class ActivityLoginBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.btnServerSettings;
-      ImageView btnServerSettings = ViewBindings.findChildViewById(rootView, id);
-      if (btnServerSettings == null) {
-        break missingId;
-      }
-
       id = R.id.logoImage;
       ImageView logoImage = ViewBindings.findChildViewById(rootView, id);
       if (logoImage == null) {
@@ -126,8 +116,8 @@ public final class ActivityLoginBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityLoginBinding((ConstraintLayout) rootView, adminButton, btnServerSettings,
-          logoImage, memberButton, socialLayout, socialText, welcomeTitle);
+      return new ActivityLoginBinding((ConstraintLayout) rootView, adminButton, logoImage,
+          memberButton, socialLayout, socialText, welcomeTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

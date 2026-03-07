@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_xl">
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_large"
+            android:layout_height="@dimen/icon_size_large"
+            android:src="@drawable/ic_loan"
+            android:tint="@color/deep_blue"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loan Rules"
+            android:textSize="@dimen/text_size_xxl"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Configure loan policies for your group"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/text_secondary"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_xxl" />
+
+        <!-- Maximum Loan Amount -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Maximum Loan Amount (UGX)"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/deep_blue"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_medium"
+            app:startIconDrawable="@drawable/ic_loan"
+            app:startIconTint="@color/deep_blue"
+            app:prefixText="UGX "
+            android:layout_marginBottom="@dimen/spacing_normal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMaxLoanAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Interest Rate -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Interest Rate (%)"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/deep_blue"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_medium"
+            app:startIconDrawable="@drawable/ic_money"
+            app:startIconTint="@color/deep_blue"
+            app:suffixText="% per month"
+            android:layout_marginBottom="@dimen/spacing_normal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInterestRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="10"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Maximum Repayment Period -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Maximum Repayment Period"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/deep_blue"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_medium"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_medium"
+            app:startIconDrawable="@drawable/ic_schedule"
+            app:startIconTint="@color/deep_blue"
+            app:suffixText="months"
+            android:layout_marginBottom="@dimen/spacing_normal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etRepaymentPeriod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="12"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Require Guarantor -->
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchRequireGuarantor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Require Guarantor for Loans"
+            android:checked="true"
+            android:padding="@dimen/spacing_normal" />
+
+    </LinearLayout>
+
+</ScrollView>

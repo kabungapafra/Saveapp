@@ -15,6 +15,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -92,7 +93,9 @@ public class AdminMainActivity extends AppCompatActivity {
         // Setup Profile Icon to open Settings
         if (binding.profileIcon != null) {
             binding.profileIcon.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 startActivity(new Intent(AdminMainActivity.this, SettingsActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
             });
         }
 
@@ -290,8 +293,10 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private void setupListeners() {
         binding.profileIcon.setOnClickListener(v -> {
+            applyClickAnimation(v);
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
         });
 
         // Notification Icon Click
@@ -304,12 +309,14 @@ public class AdminMainActivity extends AppCompatActivity {
         // Main Card: My Savings Click
         if (binding.layoutMySavings != null) {
             binding.layoutMySavings.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 loadFragment(PaymentFragment.newInstance(adminNameStr));
             });
         }
 
         // Add Member card
         binding.addMemberCard.setOnClickListener(v -> {
+            applyClickAnimation(v);
             updateNav(binding.navMembers, binding.txtMembers, binding.imgMembers);
             // Replace the standard fragment with one that has the argument
             MembersFragment fragment = new MembersFragment();
@@ -318,12 +325,14 @@ public class AdminMainActivity extends AppCompatActivity {
             fragment.setArguments(args);
 
             getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                     .replace(R.id.fragment_container, fragment)
                     .commit();
         });
 
         // Execute Payout card
         binding.executePayoutCard.setOnClickListener(v -> {
+            applyClickAnimation(v);
             // Use existing fragment or toast for now
             // Assuming PayoutsFragment exists and is correct destination
             updateNav(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
@@ -333,12 +342,14 @@ public class AdminMainActivity extends AppCompatActivity {
         // My Savings card (Quick Action)
         if (binding.myPaymentCard != null) {
             binding.myPaymentCard.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 loadFragment(PaymentFragment.newInstance(adminNameStr));
             });
         }
 
         // View Loans card
         binding.viewLoansCard.setOnClickListener(v -> {
+            applyClickAnimation(v);
             // Ensure visual nav update if desired, or just load fragment
             updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans);
             // loadFragment(new LoansFragment()); // updateNav already loads it
@@ -347,6 +358,7 @@ public class AdminMainActivity extends AppCompatActivity {
         // View Details button
         if (binding.viewAllActivity != null) {
             binding.viewAllActivity.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 updateNav(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
             });
         }
@@ -354,6 +366,7 @@ public class AdminMainActivity extends AppCompatActivity {
         // Pending Approvals Card
         if (binding.cardPendingApprovals != null) {
             binding.cardPendingApprovals.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 loadFragment(new ApprovalsFragment());
             });
         }
@@ -361,6 +374,7 @@ public class AdminMainActivity extends AppCompatActivity {
         // Analytics Quick Action (New)
         if (binding.actionAnalytics != null) {
             binding.actionAnalytics.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 updateNav(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
             });
         }
@@ -431,6 +445,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
             if (fragment != null) {
                 getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                         .replace(R.id.fragment_container, fragment)
                         .commit();
             }
@@ -443,8 +458,13 @@ public class AdminMainActivity extends AppCompatActivity {
         if (binding.fragmentContainer != null)
             binding.fragmentContainer.setVisibility(View.VISIBLE);
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)
                 .commit();
+    }
+
+    private void applyClickAnimation(View v) {
+        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_press));
     }
 
     private void resetNavItem(LinearLayout layout, TextView text, ImageView image) {

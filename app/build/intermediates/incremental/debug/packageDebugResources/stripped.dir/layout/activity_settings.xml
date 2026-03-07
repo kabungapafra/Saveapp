@@ -144,35 +144,20 @@
                         android:gravity="center_vertical"
                         android:padding="16dp"
                         android:background="?attr/selectableItemBackground">
-
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_person"
                             app:tint="@color/deep_blue"
                             android:layout_marginEnd="16dp"/>
-                        
-                        <LinearLayout
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Profile Information"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Name, Phone, Photo"
-                                android:textSize="13sp"
-                                android:textColor="#808080"
-                                android:layout_marginTop="2dp" />
-                        </LinearLayout>
-
+                            android:text="Profile Information"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
@@ -191,41 +176,109 @@
                         android:gravity="center_vertical"
                         android:padding="16dp"
                         android:background="?attr/selectableItemBackground">
-
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_settings" 
+                            android:src="@drawable/ic_lock"
                             app:tint="@color/deep_blue"
                             android:layout_marginEnd="16dp"/>
-                            <!-- Using generic settings icon or lock if available -->
-                        
-                        <LinearLayout
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Change Password"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Security Settings"
-                                android:textSize="13sp"
-                                android:textColor="#808080"
-                                android:layout_marginTop="2dp" />
-                        </LinearLayout>
-
+                            android:text="Change Password"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
                             app:tint="#CCCCCC" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- Language Selection -->
+                    <LinearLayout
+                        android:id="@+id/btnLanguage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_info"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Language"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- Download Data -->
+                    <LinearLayout
+                        android:id="@+id/btnDownloadData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_file_download"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Download Your Data"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- Clear Cache -->
+                    <LinearLayout
+                        android:id="@+id/btnClearCache"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_refresh"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Clear Cache"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -263,40 +316,24 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:padding="16dp">
-                        
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_notifications"
                             app:tint="@color/deep_blue"
                             android:layout_marginEnd="16dp"/>
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Payment Reminders"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Get notified before due dates"
-                                android:textSize="13sp"
-                                android:textColor="#808080"
-                                android:layout_marginTop="2dp" />
-                        </LinearLayout>
-
+                            android:text="Payment Reminders"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
                         <com.google.android.material.materialswitch.MaterialSwitch
                             android:id="@+id/switchPaymentReminders"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
@@ -308,40 +345,113 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:padding="16dp">
-                        
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_info"
                             app:tint="@color/deep_blue"
                             android:layout_marginEnd="16dp"/>
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Loan Updates"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Status changes for your loans"
-                                android:textSize="13sp"
-                                android:textColor="#808080"
-                                android:layout_marginTop="2dp" />
-                        </LinearLayout>
-
+                            android:text="Loan Updates"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
                         <com.google.android.material.materialswitch.MaterialSwitch
                             android:id="@+id/switchLoanUpdates"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- Payout Alerts -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_send_money"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:checked="true" />
+                            android:layout_weight="1"
+                            android:text="Payout Alerts"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchPayoutAlerts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- Group Activity Alerts -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_people"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Group Activity"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_primary" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchGroupActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- Notification Method -->
+                    <LinearLayout
+                        android:id="@+id/btnNotificationMethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_notifications"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Notification Method"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -575,6 +685,82 @@
                             android:layout_height="wrap_content"
                             android:checked="true" />
                     </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Retention Percentage (%)"
+                        android:layout_margin="8dp"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etRetentionPercentage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Reserve Percentage (%)"
+                        android:layout_margin="8dp"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etReservePercentage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Random Queue"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_primary" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchRandomQueue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Require 2FA"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_primary" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchRequire2FA"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -696,6 +882,29 @@
                             android:layout_height="wrap_content"
                             android:checked="true" />
                     </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Max Duration (Months)"
+                        android:layout_margin="8dp"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etMaxLoanDuration"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="12" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="8dp" android:layout_marginEnd="8dp" />
+
+                    <!-- Require Guarantor -->
                  </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             
@@ -767,37 +976,28 @@
                     
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
 
-                     <!-- Clear Cache -->
+                    <!-- Group Details Page -->
                     <LinearLayout
-                        android:id="@+id/btnClearCache"
+                        android:id="@+id/btnGroupDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:padding="16dp"
                         android:background="?attr/selectableItemBackground">
-
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_file_download"
+                            android:src="@drawable/ic_info"
                             app:tint="@color/deep_blue"
                             android:layout_marginEnd="16dp"/>
-                        
-                        <LinearLayout
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Clear App Cache"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
-                        </LinearLayout>
-
+                            android:text="Group Information"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
@@ -809,12 +1009,288 @@
              </com.google.android.material.card.MaterialCardView>
 
 
-             <!-- DEVELOPER SETTINGS - Hidden from users, only configurable in code -->
+            <!-- SECURITY SECTION -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Security"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="8dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSecurity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#F0F0F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Biometric Login -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_lock"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Biometric Login"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Use Fingerprint or Face ID"
+                                android:textSize="13sp"
+                                android:textColor="#808080" />
+                        </LinearLayout>
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchBiometric"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- PIN for Payments -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_lock"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="PIN for Payments"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Always ask PIN for transactions"
+                                android:textSize="13sp"
+                                android:textColor="#808080" />
+                        </LinearLayout>
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchPinForPayments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- Auto Lock -->
+                    <LinearLayout
+                        android:id="@+id/btnAutoLock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_schedule"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Auto Lock Timeout"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- PAYMENT SECTION -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="8dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#F0F0F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Payment Confirmation -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_check_circle"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Payment Confirmation"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Notify on transaction receipt"
+                                android:textSize="13sp"
+                                android:textColor="#808080" />
+                        </LinearLayout>
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchPaymentConfirm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- Auto Pay -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_schedule"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Auto Pay"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Enable automatic contributions"
+                                android:textSize="13sp"
+                                android:textColor="#808080" />
+                        </LinearLayout>
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchAutoPay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <!-- Default Payment Method -->
+                    <LinearLayout
+                        android:id="@+id/btnDefaultPayment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_account_balance_wallet"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Default Payment Method"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+             <!-- DEVELOPER SETTINGS -->
              <LinearLayout
+                 android:id="@+id/sectionDeveloper"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
-                 android:orientation="vertical"
-                 android:visibility="gone">
+                 android:orientation="vertical">
 
              <TextView
                 android:layout_width="wrap_content"
@@ -891,8 +1367,213 @@
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+             </LinearLayout>
 
-            </LinearLayout>
+            <!-- SUPPORT & LEGAL SECTION -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Support &amp; Legal"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="8dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#F0F0F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/btnHelpSupport"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_info"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Help &amp; Support"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/btnContactAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_email"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Contact Administrator"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/btnTOS"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_info"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Terms of Service"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
+                    </LinearLayout>
+                    
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/btnPrivacyPolicy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_lock"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Privacy Policy"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/btnRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_star"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Rate App"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F8F8F8" android:layout_marginStart="56dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/btnShare"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_info"
+                            app:tint="@color/deep_blue"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Share App"
+                            android:textSize="16sp"
+                            android:textColor="@color/text_primary" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CCCCCC" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
              <!-- LOGOUT BUTTON -->
             <com.google.android.material.button.MaterialButton
@@ -909,64 +1590,10 @@
                 app:backgroundTint="#FFEBEE"
                 app:rippleColor="#EF5350"
                 app:elevation="0dp"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="40dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-     <!-- Hidden fields to prevent crashing code that references them if they are still part of config logic -->
-     <!-- We must include IDs that are referenced in SettingsActivity.java to avoid NullPointerExceptions or errors -->
-     <!-- Re-adding missing fields as HIDDEN or ensuring they are above if used -->
-     <!-- Checking SettingsActivity.java refs:
-          etPayoutAmount (not in my selection above? added below as hidden just in case or add to main layout)
-          etRetentionPercentage, spinnerSlotsPerRound, tvCycleStartDate, etReservePercentage, etMaxLoanDuration
-          switchRandomQueue, switchRequire2FA, switchPayoutAlerts, switchGroupActivity
-          switchBiometric, switchPinForPayments, switchPaymentConfirm, switchAutoPay
-          btn... many buttons
-      -->
-      
-      <!-- We should ideally Add ALL these to the UI properly or just keep them hidden to satisfy compilation/runtime 
-           But the user wants a redesign, so let's add the important ones back to the UI in the sections I made or new sections.
-           For brevity of this turn, I will add the missing critical ones as GONE so code doesn't crash, 
-           or better yet, organize them. 
-           Let's update the main layout to include them in the relevant cards.
-           Given constraints, I'll add a 'Advanced Config' section hidden or just invisible elements.
-      -->
-      
-      <LinearLayout
-         android:layout_width="0dp"
-         android:layout_height="0dp"
-         android:visibility="gone"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toTopOf="parent">
-         
-         <EditText android:id="@+id/etRetentionPercentage" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         <EditText android:id="@+id/etReservePercentage" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         <EditText android:id="@+id/etMaxLoanDuration" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         
-         <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchRandomQueue" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchRequire2FA" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchPayoutAlerts" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchGroupActivity" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         
-         <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchBiometric" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchPinForPayments" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchPaymentConfirm" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-         <androidx.appcompat.widget.SwitchCompat android:id="@+id/switchAutoPay" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-
-         <View android:id="@+id/btnLanguage" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnNotificationMethod" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnAutoLock" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnDefaultPayment" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnGroupDetails" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnContactAdmin" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnDownloadData" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnHelpSupport" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnTOS" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnPrivacyPolicy" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnRate" android:layout_width="0dp" android:layout_height="0dp"/>
-         <View android:id="@+id/btnShare" android:layout_width="0dp" android:layout_height="0dp"/>
-
-      </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import com.example.save.data.repository.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -54,13 +55,26 @@ public class SettingsActivity extends AppCompatActivity {
         binding.userName.setText(session.getUserName() != null ? session.getUserName() : "User");
         binding.userEmail.setText(session.getUserEmail() != null ? session.getUserEmail() : "email@example.com");
 
+        android.util.Log.d("SettingsActivity", "User role: " + role);
+
         if (role == null || (!"admin".equalsIgnoreCase(role) && !"administrator".equalsIgnoreCase(role))) {
+            android.util.Log.d("SettingsActivity", "Hiding admin settings based on role");
             binding.headerAdminConfig.setVisibility(View.GONE);
             binding.cardAdminConfig.setVisibility(View.GONE);
             binding.headerLoanConfig.setVisibility(View.GONE);
             binding.cardLoanConfig.setVisibility(View.GONE);
             binding.headerGroupDetails.setVisibility(View.GONE);
             binding.cardGroupDetails.setVisibility(View.GONE);
+            binding.sectionDeveloper.setVisibility(View.GONE);
+        } else {
+            android.util.Log.d("SettingsActivity", "Showing all settings for admin");
+            binding.headerAdminConfig.setVisibility(View.VISIBLE);
+            binding.cardAdminConfig.setVisibility(View.VISIBLE);
+            binding.headerLoanConfig.setVisibility(View.VISIBLE);
+            binding.cardLoanConfig.setVisibility(View.VISIBLE);
+            binding.headerGroupDetails.setVisibility(View.VISIBLE);
+            binding.cardGroupDetails.setVisibility(View.VISIBLE);
+            binding.sectionDeveloper.setVisibility(View.VISIBLE);
         }
 
         // Fetch system config from backend so settings are populated
@@ -365,7 +379,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        binding.backButton.setOnClickListener(v -> finish());
+        binding.backButton.setOnClickListener(v -> {
+            finish();
+            overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
+        });
         binding.btnSaveServerUrl.setOnClickListener(v -> saveServerUrl());
 
         binding.btnLogout.setOnClickListener(v -> {
@@ -379,9 +396,11 @@ public class SettingsActivity extends AppCompatActivity {
                 .makeText(this, "Feature coming soon", Toast.LENGTH_SHORT).show();
 
         binding.btnProfileInfo.setOnClickListener(v -> {
+            applyClickAnimation(v);
             startActivity(new Intent(this, ProfileInfoActivity.class));
         });
         binding.btnChangePassword.setOnClickListener(v -> {
+            applyClickAnimation(v);
             SessionManager session = new SessionManager(this);
             Intent intent = new Intent(this, ChangePasswordActivity.class);
             intent.putExtra("member_email", session.getUserEmail());
@@ -389,36 +408,47 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.btnLanguage.setOnClickListener(v -> {
+            applyClickAnimation(v);
             startActivity(new Intent(this, LanguageSelectionActivity.class));
         });
         binding.btnNotificationMethod.setOnClickListener(notImplementedListener);
         binding.btnAutoLock.setOnClickListener(notImplementedListener);
         binding.btnDefaultPayment.setOnClickListener(v -> {
+            applyClickAnimation(v);
             startActivity(new Intent(this, PaymentMethodSelectionActivity.class));
         });
         binding.btnGroupDetails.setOnClickListener(v -> {
+            applyClickAnimation(v);
             // Navigate to AdminMain and show Members/Group info
             Intent intent = new Intent(this, AdminMainActivity.class);
             intent.putExtra("NAVIGATE_TO", "MEMBERS");
             startActivity(intent);
         });
         binding.btnViewMembers.setOnClickListener(v -> {
+            applyClickAnimation(v);
             Intent intent = new Intent(this, AdminMainActivity.class);
             intent.putExtra("NAVIGATE_TO", "MEMBERS");
             startActivity(intent);
         });
         binding.btnContactAdmin.setOnClickListener(v -> {
+            applyClickAnimation(v);
             startActivity(new Intent(this, ContactAdminActivity.class));
         });
         binding.btnDownloadData.setOnClickListener(notImplementedListener);
-        binding.btnClearCache.setOnClickListener(v -> Toast.makeText(this, "Cache Cleared", Toast.LENGTH_SHORT).show());
+        binding.btnClearCache.setOnClickListener(v -> {
+            applyClickAnimation(v);
+            Toast.makeText(this, "Cache Cleared", Toast.LENGTH_SHORT).show();
+        });
         binding.btnHelpSupport.setOnClickListener(v -> {
+            applyClickAnimation(v);
             startActivity(new Intent(this, HelpSupportActivity.class));
         });
         binding.btnTOS.setOnClickListener(v -> {
+            applyClickAnimation(v);
             startActivity(new Intent(this, TermsOfServiceActivity.class));
         });
         binding.btnPrivacyPolicy.setOnClickListener(v -> {
+            applyClickAnimation(v);
             startActivity(new Intent(this, PrivacyPolicyActivity.class));
         });
         binding.btnRate
@@ -634,5 +664,9 @@ public class SettingsActivity extends AppCompatActivity {
         } catch (NumberFormatException e) {
             binding.etMaxLoanDuration.setError("Invalid duration");
         }
+    }
+
+    private void applyClickAnimation(View v) {
+        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_press));
     }
 }

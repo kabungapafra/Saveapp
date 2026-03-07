@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/offlineBanner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    app:cardBackgroundColor="@color/status_overdue"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="@dimen/card_elevation_primary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_normal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:src="@drawable/ic_warning"
+            android:tint="@android:color/white"
+            android:layout_marginEnd="@dimen/spacing_small" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Internet Connection"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvOfflineMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You're offline. Changes will sync when connected."
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_xs"
+                android:alpha="0.9" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRetryConnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retry"
+            android:textColor="@android:color/white"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:minWidth="0dp"
+            android:paddingHorizontal="@dimen/spacing_small" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

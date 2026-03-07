@@ -4098,7 +4098,6 @@ id btnSaveRules
 id btnSaveServerUrl
 id btnSendMessage
 id btnSendReminders
-id btnServerSettings
 id btnSetupAutoPay
 id btnShare
 id btnShareWhatsApp
@@ -4131,6 +4130,7 @@ id cardPayLoan
 id cardPayment
 id cardPendingApprovals
 id cardRequestLoan
+id cardSecurity
 id cardSummary
 id carryVelocity
 id cbDeferRemaining
@@ -4644,6 +4644,7 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id sectionDeveloper
 id select_dialog_listview
 id selected
 id selection_type

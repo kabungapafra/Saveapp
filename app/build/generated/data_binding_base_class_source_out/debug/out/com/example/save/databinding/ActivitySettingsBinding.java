@@ -4,14 +4,12 @@ package com.example.save.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
@@ -32,7 +30,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final ImageView backButton;
 
   @NonNull
-  public final View btnAutoLock;
+  public final LinearLayout btnAutoLock;
 
   @NonNull
   public final LinearLayout btnChangePassword;
@@ -41,49 +39,49 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final LinearLayout btnClearCache;
 
   @NonNull
-  public final View btnContactAdmin;
+  public final LinearLayout btnContactAdmin;
 
   @NonNull
   public final LinearLayout btnCycleStartDate;
 
   @NonNull
-  public final View btnDefaultPayment;
+  public final LinearLayout btnDefaultPayment;
 
   @NonNull
-  public final View btnDownloadData;
+  public final LinearLayout btnDownloadData;
 
   @NonNull
-  public final View btnGroupDetails;
+  public final LinearLayout btnGroupDetails;
 
   @NonNull
-  public final View btnHelpSupport;
+  public final LinearLayout btnHelpSupport;
 
   @NonNull
-  public final View btnLanguage;
+  public final LinearLayout btnLanguage;
 
   @NonNull
   public final MaterialButton btnLogout;
 
   @NonNull
-  public final View btnNotificationMethod;
+  public final LinearLayout btnNotificationMethod;
 
   @NonNull
-  public final View btnPrivacyPolicy;
+  public final LinearLayout btnPrivacyPolicy;
 
   @NonNull
   public final LinearLayout btnProfileInfo;
 
   @NonNull
-  public final View btnRate;
+  public final LinearLayout btnRate;
 
   @NonNull
   public final MaterialButton btnSaveServerUrl;
 
   @NonNull
-  public final View btnShare;
+  public final LinearLayout btnShare;
 
   @NonNull
-  public final View btnTOS;
+  public final LinearLayout btnTOS;
 
   @NonNull
   public final LinearLayout btnViewMembers;
@@ -98,6 +96,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final MaterialCardView cardLoanConfig;
 
   @NonNull
+  public final MaterialCardView cardPayment;
+
+  @NonNull
+  public final MaterialCardView cardSecurity;
+
+  @NonNull
   public final TextInputEditText etContributionAmount;
 
   @NonNull
@@ -110,16 +114,16 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final TextInputEditText etMaxLoanAmount;
 
   @NonNull
-  public final EditText etMaxLoanDuration;
+  public final TextInputEditText etMaxLoanDuration;
 
   @NonNull
   public final TextInputEditText etPayoutAmount;
 
   @NonNull
-  public final EditText etReservePercentage;
+  public final TextInputEditText etReservePercentage;
 
   @NonNull
-  public final EditText etRetentionPercentage;
+  public final TextInputEditText etRetentionPercentage;
 
   @NonNull
   public final TextInputEditText etServerUrl;
@@ -134,40 +138,43 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final TextView headerLoanConfig;
 
   @NonNull
+  public final LinearLayout sectionDeveloper;
+
+  @NonNull
   public final Spinner spinnerSlotsPerRound;
 
   @NonNull
-  public final SwitchCompat switchAutoPay;
+  public final MaterialSwitch switchAutoPay;
 
   @NonNull
-  public final SwitchCompat switchBiometric;
+  public final MaterialSwitch switchBiometric;
 
   @NonNull
   public final MaterialSwitch switchEnforceEligibility;
 
   @NonNull
-  public final SwitchCompat switchGroupActivity;
+  public final MaterialSwitch switchGroupActivity;
 
   @NonNull
   public final MaterialSwitch switchLoanUpdates;
 
   @NonNull
-  public final SwitchCompat switchPaymentConfirm;
+  public final MaterialSwitch switchPaymentConfirm;
 
   @NonNull
   public final MaterialSwitch switchPaymentReminders;
 
   @NonNull
-  public final SwitchCompat switchPayoutAlerts;
+  public final MaterialSwitch switchPayoutAlerts;
 
   @NonNull
-  public final SwitchCompat switchPinForPayments;
+  public final MaterialSwitch switchPinForPayments;
 
   @NonNull
-  public final SwitchCompat switchRandomQueue;
+  public final MaterialSwitch switchRandomQueue;
 
   @NonNull
-  public final SwitchCompat switchRequire2FA;
+  public final MaterialSwitch switchRequire2FA;
 
   @NonNull
   public final MaterialSwitch switchRequireGuarantor;
@@ -185,28 +192,31 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final TextView userName;
 
   private ActivitySettingsBinding(@NonNull ConstraintLayout rootView, @NonNull ImageView backButton,
-      @NonNull View btnAutoLock, @NonNull LinearLayout btnChangePassword,
-      @NonNull LinearLayout btnClearCache, @NonNull View btnContactAdmin,
-      @NonNull LinearLayout btnCycleStartDate, @NonNull View btnDefaultPayment,
-      @NonNull View btnDownloadData, @NonNull View btnGroupDetails, @NonNull View btnHelpSupport,
-      @NonNull View btnLanguage, @NonNull MaterialButton btnLogout,
-      @NonNull View btnNotificationMethod, @NonNull View btnPrivacyPolicy,
-      @NonNull LinearLayout btnProfileInfo, @NonNull View btnRate,
-      @NonNull MaterialButton btnSaveServerUrl, @NonNull View btnShare, @NonNull View btnTOS,
+      @NonNull LinearLayout btnAutoLock, @NonNull LinearLayout btnChangePassword,
+      @NonNull LinearLayout btnClearCache, @NonNull LinearLayout btnContactAdmin,
+      @NonNull LinearLayout btnCycleStartDate, @NonNull LinearLayout btnDefaultPayment,
+      @NonNull LinearLayout btnDownloadData, @NonNull LinearLayout btnGroupDetails,
+      @NonNull LinearLayout btnHelpSupport, @NonNull LinearLayout btnLanguage,
+      @NonNull MaterialButton btnLogout, @NonNull LinearLayout btnNotificationMethod,
+      @NonNull LinearLayout btnPrivacyPolicy, @NonNull LinearLayout btnProfileInfo,
+      @NonNull LinearLayout btnRate, @NonNull MaterialButton btnSaveServerUrl,
+      @NonNull LinearLayout btnShare, @NonNull LinearLayout btnTOS,
       @NonNull LinearLayout btnViewMembers, @NonNull MaterialCardView cardAdminConfig,
       @NonNull MaterialCardView cardGroupDetails, @NonNull MaterialCardView cardLoanConfig,
+      @NonNull MaterialCardView cardPayment, @NonNull MaterialCardView cardSecurity,
       @NonNull TextInputEditText etContributionAmount, @NonNull TextInputEditText etLatePenalty,
       @NonNull TextInputEditText etLoanInterestRate, @NonNull TextInputEditText etMaxLoanAmount,
-      @NonNull EditText etMaxLoanDuration, @NonNull TextInputEditText etPayoutAmount,
-      @NonNull EditText etReservePercentage, @NonNull EditText etRetentionPercentage,
-      @NonNull TextInputEditText etServerUrl, @NonNull TextView headerAdminConfig,
-      @NonNull TextView headerGroupDetails, @NonNull TextView headerLoanConfig,
-      @NonNull Spinner spinnerSlotsPerRound, @NonNull SwitchCompat switchAutoPay,
-      @NonNull SwitchCompat switchBiometric, @NonNull MaterialSwitch switchEnforceEligibility,
-      @NonNull SwitchCompat switchGroupActivity, @NonNull MaterialSwitch switchLoanUpdates,
-      @NonNull SwitchCompat switchPaymentConfirm, @NonNull MaterialSwitch switchPaymentReminders,
-      @NonNull SwitchCompat switchPayoutAlerts, @NonNull SwitchCompat switchPinForPayments,
-      @NonNull SwitchCompat switchRandomQueue, @NonNull SwitchCompat switchRequire2FA,
+      @NonNull TextInputEditText etMaxLoanDuration, @NonNull TextInputEditText etPayoutAmount,
+      @NonNull TextInputEditText etReservePercentage,
+      @NonNull TextInputEditText etRetentionPercentage, @NonNull TextInputEditText etServerUrl,
+      @NonNull TextView headerAdminConfig, @NonNull TextView headerGroupDetails,
+      @NonNull TextView headerLoanConfig, @NonNull LinearLayout sectionDeveloper,
+      @NonNull Spinner spinnerSlotsPerRound, @NonNull MaterialSwitch switchAutoPay,
+      @NonNull MaterialSwitch switchBiometric, @NonNull MaterialSwitch switchEnforceEligibility,
+      @NonNull MaterialSwitch switchGroupActivity, @NonNull MaterialSwitch switchLoanUpdates,
+      @NonNull MaterialSwitch switchPaymentConfirm, @NonNull MaterialSwitch switchPaymentReminders,
+      @NonNull MaterialSwitch switchPayoutAlerts, @NonNull MaterialSwitch switchPinForPayments,
+      @NonNull MaterialSwitch switchRandomQueue, @NonNull MaterialSwitch switchRequire2FA,
       @NonNull MaterialSwitch switchRequireGuarantor, @NonNull TextView tvCycleStartDate,
       @NonNull TextView tvSettingsTitle, @NonNull TextView userEmail, @NonNull TextView userName) {
     this.rootView = rootView;
@@ -233,6 +243,8 @@ public final class ActivitySettingsBinding implements ViewBinding {
     this.cardAdminConfig = cardAdminConfig;
     this.cardGroupDetails = cardGroupDetails;
     this.cardLoanConfig = cardLoanConfig;
+    this.cardPayment = cardPayment;
+    this.cardSecurity = cardSecurity;
     this.etContributionAmount = etContributionAmount;
     this.etLatePenalty = etLatePenalty;
     this.etLoanInterestRate = etLoanInterestRate;
@@ -245,6 +257,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
     this.headerAdminConfig = headerAdminConfig;
     this.headerGroupDetails = headerGroupDetails;
     this.headerLoanConfig = headerLoanConfig;
+    this.sectionDeveloper = sectionDeveloper;
     this.spinnerSlotsPerRound = spinnerSlotsPerRound;
     this.switchAutoPay = switchAutoPay;
     this.switchBiometric = switchBiometric;
@@ -298,7 +311,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.btnAutoLock;
-      View btnAutoLock = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnAutoLock = ViewBindings.findChildViewById(rootView, id);
       if (btnAutoLock == null) {
         break missingId;
       }
@@ -316,7 +329,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.btnContactAdmin;
-      View btnContactAdmin = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnContactAdmin = ViewBindings.findChildViewById(rootView, id);
       if (btnContactAdmin == null) {
         break missingId;
       }
@@ -328,31 +341,31 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.btnDefaultPayment;
-      View btnDefaultPayment = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnDefaultPayment = ViewBindings.findChildViewById(rootView, id);
       if (btnDefaultPayment == null) {
         break missingId;
       }
 
       id = R.id.btnDownloadData;
-      View btnDownloadData = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnDownloadData = ViewBindings.findChildViewById(rootView, id);
       if (btnDownloadData == null) {
         break missingId;
       }
 
       id = R.id.btnGroupDetails;
-      View btnGroupDetails = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnGroupDetails = ViewBindings.findChildViewById(rootView, id);
       if (btnGroupDetails == null) {
         break missingId;
       }
 
       id = R.id.btnHelpSupport;
-      View btnHelpSupport = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnHelpSupport = ViewBindings.findChildViewById(rootView, id);
       if (btnHelpSupport == null) {
         break missingId;
       }
 
       id = R.id.btnLanguage;
-      View btnLanguage = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnLanguage = ViewBindings.findChildViewById(rootView, id);
       if (btnLanguage == null) {
         break missingId;
       }
@@ -364,13 +377,13 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.btnNotificationMethod;
-      View btnNotificationMethod = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnNotificationMethod = ViewBindings.findChildViewById(rootView, id);
       if (btnNotificationMethod == null) {
         break missingId;
       }
 
       id = R.id.btnPrivacyPolicy;
-      View btnPrivacyPolicy = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnPrivacyPolicy = ViewBindings.findChildViewById(rootView, id);
       if (btnPrivacyPolicy == null) {
         break missingId;
       }
@@ -382,7 +395,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.btnRate;
-      View btnRate = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnRate = ViewBindings.findChildViewById(rootView, id);
       if (btnRate == null) {
         break missingId;
       }
@@ -394,13 +407,13 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.btnShare;
-      View btnShare = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnShare = ViewBindings.findChildViewById(rootView, id);
       if (btnShare == null) {
         break missingId;
       }
 
       id = R.id.btnTOS;
-      View btnTOS = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout btnTOS = ViewBindings.findChildViewById(rootView, id);
       if (btnTOS == null) {
         break missingId;
       }
@@ -429,6 +442,18 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.cardPayment;
+      MaterialCardView cardPayment = ViewBindings.findChildViewById(rootView, id);
+      if (cardPayment == null) {
+        break missingId;
+      }
+
+      id = R.id.cardSecurity;
+      MaterialCardView cardSecurity = ViewBindings.findChildViewById(rootView, id);
+      if (cardSecurity == null) {
+        break missingId;
+      }
+
       id = R.id.etContributionAmount;
       TextInputEditText etContributionAmount = ViewBindings.findChildViewById(rootView, id);
       if (etContributionAmount == null) {
@@ -454,7 +479,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.etMaxLoanDuration;
-      EditText etMaxLoanDuration = ViewBindings.findChildViewById(rootView, id);
+      TextInputEditText etMaxLoanDuration = ViewBindings.findChildViewById(rootView, id);
       if (etMaxLoanDuration == null) {
         break missingId;
       }
@@ -466,13 +491,13 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.etReservePercentage;
-      EditText etReservePercentage = ViewBindings.findChildViewById(rootView, id);
+      TextInputEditText etReservePercentage = ViewBindings.findChildViewById(rootView, id);
       if (etReservePercentage == null) {
         break missingId;
       }
 
       id = R.id.etRetentionPercentage;
-      EditText etRetentionPercentage = ViewBindings.findChildViewById(rootView, id);
+      TextInputEditText etRetentionPercentage = ViewBindings.findChildViewById(rootView, id);
       if (etRetentionPercentage == null) {
         break missingId;
       }
@@ -501,6 +526,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.sectionDeveloper;
+      LinearLayout sectionDeveloper = ViewBindings.findChildViewById(rootView, id);
+      if (sectionDeveloper == null) {
+        break missingId;
+      }
+
       id = R.id.spinnerSlotsPerRound;
       Spinner spinnerSlotsPerRound = ViewBindings.findChildViewById(rootView, id);
       if (spinnerSlotsPerRound == null) {
@@ -508,13 +539,13 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.switchAutoPay;
-      SwitchCompat switchAutoPay = ViewBindings.findChildViewById(rootView, id);
+      MaterialSwitch switchAutoPay = ViewBindings.findChildViewById(rootView, id);
       if (switchAutoPay == null) {
         break missingId;
       }
 
       id = R.id.switchBiometric;
-      SwitchCompat switchBiometric = ViewBindings.findChildViewById(rootView, id);
+      MaterialSwitch switchBiometric = ViewBindings.findChildViewById(rootView, id);
       if (switchBiometric == null) {
         break missingId;
       }
@@ -526,7 +557,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.switchGroupActivity;
-      SwitchCompat switchGroupActivity = ViewBindings.findChildViewById(rootView, id);
+      MaterialSwitch switchGroupActivity = ViewBindings.findChildViewById(rootView, id);
       if (switchGroupActivity == null) {
         break missingId;
       }
@@ -538,7 +569,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.switchPaymentConfirm;
-      SwitchCompat switchPaymentConfirm = ViewBindings.findChildViewById(rootView, id);
+      MaterialSwitch switchPaymentConfirm = ViewBindings.findChildViewById(rootView, id);
       if (switchPaymentConfirm == null) {
         break missingId;
       }
@@ -550,25 +581,25 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       id = R.id.switchPayoutAlerts;
-      SwitchCompat switchPayoutAlerts = ViewBindings.findChildViewById(rootView, id);
+      MaterialSwitch switchPayoutAlerts = ViewBindings.findChildViewById(rootView, id);
       if (switchPayoutAlerts == null) {
         break missingId;
       }
 
       id = R.id.switchPinForPayments;
-      SwitchCompat switchPinForPayments = ViewBindings.findChildViewById(rootView, id);
+      MaterialSwitch switchPinForPayments = ViewBindings.findChildViewById(rootView, id);
       if (switchPinForPayments == null) {
         break missingId;
       }
 
       id = R.id.switchRandomQueue;
-      SwitchCompat switchRandomQueue = ViewBindings.findChildViewById(rootView, id);
+      MaterialSwitch switchRandomQueue = ViewBindings.findChildViewById(rootView, id);
       if (switchRandomQueue == null) {
         break missingId;
       }
 
       id = R.id.switchRequire2FA;
-      SwitchCompat switchRequire2FA = ViewBindings.findChildViewById(rootView, id);
+      MaterialSwitch switchRequire2FA = ViewBindings.findChildViewById(rootView, id);
       if (switchRequire2FA == null) {
         break missingId;
       }
@@ -608,13 +639,14 @@ public final class ActivitySettingsBinding implements ViewBinding {
           btnDownloadData, btnGroupDetails, btnHelpSupport, btnLanguage, btnLogout,
           btnNotificationMethod, btnPrivacyPolicy, btnProfileInfo, btnRate, btnSaveServerUrl,
           btnShare, btnTOS, btnViewMembers, cardAdminConfig, cardGroupDetails, cardLoanConfig,
-          etContributionAmount, etLatePenalty, etLoanInterestRate, etMaxLoanAmount,
-          etMaxLoanDuration, etPayoutAmount, etReservePercentage, etRetentionPercentage,
-          etServerUrl, headerAdminConfig, headerGroupDetails, headerLoanConfig,
-          spinnerSlotsPerRound, switchAutoPay, switchBiometric, switchEnforceEligibility,
-          switchGroupActivity, switchLoanUpdates, switchPaymentConfirm, switchPaymentReminders,
-          switchPayoutAlerts, switchPinForPayments, switchRandomQueue, switchRequire2FA,
-          switchRequireGuarantor, tvCycleStartDate, tvSettingsTitle, userEmail, userName);
+          cardPayment, cardSecurity, etContributionAmount, etLatePenalty, etLoanInterestRate,
+          etMaxLoanAmount, etMaxLoanDuration, etPayoutAmount, etReservePercentage,
+          etRetentionPercentage, etServerUrl, headerAdminConfig, headerGroupDetails,
+          headerLoanConfig, sectionDeveloper, spinnerSlotsPerRound, switchAutoPay, switchBiometric,
+          switchEnforceEligibility, switchGroupActivity, switchLoanUpdates, switchPaymentConfirm,
+          switchPaymentReminders, switchPayoutAlerts, switchPinForPayments, switchRandomQueue,
+          switchRequire2FA, switchRequireGuarantor, tvCycleStartDate, tvSettingsTitle, userEmail,
+          userName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

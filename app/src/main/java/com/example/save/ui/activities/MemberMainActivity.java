@@ -12,6 +12,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -254,13 +255,16 @@ public class MemberMainActivity extends AppCompatActivity {
         // Clicking the greeting opens Settings (for logout)
         if (binding.greetingName != null) {
             binding.greetingName.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 startActivity(new Intent(MemberMainActivity.this, SettingsActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
             });
         }
 
         // Notification Icon Click
         if (binding.notificationIcon != null) {
             binding.notificationIcon.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 showNotifications();
             });
         }
@@ -268,6 +272,7 @@ public class MemberMainActivity extends AppCompatActivity {
         // My Take Card Click
         if (binding.myTakeCard != null) {
             binding.myTakeCard.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 // Show payout history or navigate to payouts
                 // For members, we can show a summary or navigate to stats
                 Toast.makeText(this, "Viewing Payout History", Toast.LENGTH_SHORT).show();
@@ -281,6 +286,7 @@ public class MemberMainActivity extends AppCompatActivity {
         // Pay Icon
         if (binding.actionPay != null) {
             binding.actionPay.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 String email = session.getUserEmail();
                 if (email != null) {
                     new Thread(() -> {
@@ -306,6 +312,7 @@ public class MemberMainActivity extends AppCompatActivity {
         // Loan Icon
         if (binding.actionLoan != null) {
             binding.actionLoan.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 resetAllNavItems();
                 hideHeader();
                 String email = session.getUserEmail();
@@ -318,6 +325,7 @@ public class MemberMainActivity extends AppCompatActivity {
         // Queue Icon
         if (binding.actionQueue != null) {
             binding.actionQueue.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 resetAllNavItems();
                 hideHeader();
                 loadFragment(QueueFragment.newInstance());
@@ -326,8 +334,11 @@ public class MemberMainActivity extends AppCompatActivity {
 
         // Profile Icon
         if (binding.actionProfile != null) {
-            binding.actionProfile.setOnClickListener(
-                    v -> startActivity(new Intent(MemberMainActivity.this, SettingsActivity.class)));
+            binding.actionProfile.setOnClickListener(v -> {
+                applyClickAnimation(v);
+                startActivity(new Intent(MemberMainActivity.this, SettingsActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
+            });
         }
     }
 
@@ -443,8 +454,13 @@ public class MemberMainActivity extends AppCompatActivity {
     private void loadFragment(androidx.fragment.app.Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)
                 .commit();
+    }
+
+    private void applyClickAnimation(View v) {
+        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_press));
     }
 
     private void loadDashboardData() {

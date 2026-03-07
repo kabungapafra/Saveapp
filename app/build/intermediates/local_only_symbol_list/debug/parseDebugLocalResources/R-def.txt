@@ -314,7 +314,6 @@ id btnSaveRules
 id btnSaveServerUrl
 id btnSendMessage
 id btnSendReminders
-id btnServerSettings
 id btnSetupAutoPay
 id btnShare
 id btnShareWhatsApp
@@ -343,6 +342,7 @@ id cardPayLoan
 id cardPayment
 id cardPendingApprovals
 id cardRequestLoan
+id cardSecurity
 id cardSummary
 id cbDeferRemaining
 id cbNotifyBeforeProcessing
@@ -554,6 +554,7 @@ id rvTransactions
 id rvUpcomingPayments
 id savingsBalance
 id searchCard
+id sectionDeveloper
 id sentToText
 id sheetContainer
 id shimmer_view
