@@ -1561,4 +1561,38 @@ public class MemberRepository {
     public interface RepaymentScheduleCallback {
         void onResult(boolean success, com.example.save.data.models.RepaymentScheduleResponse response, String message);
     }
+
+    public interface SummaryCallback {
+        void onResult(boolean success, com.example.save.data.network.DashboardSummaryResponse summary, String message);
+    }
+
+    public void getDashboardSummary(SummaryCallback callback) {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
+
+        apiService.getDashboardSummary()
+                .enqueue(new retrofit2.Callback<com.example.save.data.network.DashboardSummaryResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.example.save.data.network.DashboardSummaryResponse> call,
+                            retrofit2.Response<com.example.save.data.network.DashboardSummaryResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (callback != null) {
+                                callback.onResult(true, response.body(), "Summary loaded");
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onResult(false, null, "Failed to load summary");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.save.data.network.DashboardSummaryResponse> call,
+                            Throwable t) {
+                        if (callback != null) {
+                            callback.onResult(false, null, "Network error: " + t.getMessage());
+                        }
+                    }
+                });
+    }
 }

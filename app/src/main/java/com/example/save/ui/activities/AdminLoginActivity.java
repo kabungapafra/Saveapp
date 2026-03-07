@@ -105,6 +105,19 @@ public class AdminLoginActivity extends AppCompatActivity {
         binding.loginButton.setEnabled(false);
         binding.loginButton.setText("Signing in...");
 
+        // Cold Start Feedback: If request takes > 2.5s, update UI to show server is
+        // waking up
+        android.os.Handler feedbackHandler = new android.os.Handler();
+        Runnable feedbackRunnable = () -> {
+            if (!binding.loginButton.isEnabled()) {
+                binding.loginButton.setText("Waking up server...");
+                Toast.makeText(AdminLoginActivity.this,
+                        "Server is waking up from standby. This may take a moment...",
+                        Toast.LENGTH_LONG).show();
+            }
+        };
+        feedbackHandler.postDelayed(feedbackRunnable, 2500);
+
         // Directly call Backend Login (Native Email/Password)
         com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(email,
                 password);
@@ -118,6 +131,7 @@ public class AdminLoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
                     retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
+                feedbackHandler.removeCallbacks(feedbackRunnable);
                 binding.loginButton.setEnabled(true);
                 binding.loginButton.setText("Login");
 
@@ -169,6 +183,7 @@ public class AdminLoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
+                feedbackHandler.removeCallbacks(feedbackRunnable);
                 binding.loginButton.setEnabled(true);
                 binding.loginButton.setText("Login");
                 com.example.save.utils.ApiErrorHandler.handleError(AdminLoginActivity.this, t);

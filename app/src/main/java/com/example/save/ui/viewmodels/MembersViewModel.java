@@ -490,4 +490,8 @@ public class MembersViewModel extends AndroidViewModel {
     public void getRepaymentSchedule(double amount, int duration, MemberRepository.RepaymentScheduleCallback callback) {
         repository.getRepaymentSchedule(amount, duration, callback);
     }
+
+    public void getDashboardSummary(MemberRepository.SummaryCallback callback) {
+        repository.getDashboardSummary(callback);
+    }
 }

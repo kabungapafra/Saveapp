@@ -483,75 +483,53 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void loadDashboardData() {
-        // Load data from ViewModel
-        // Load data from ViewModel
-        if (binding.currentBalance != null && viewModel != null) {
-            viewModel.getGroupBalance().observe(this, balance -> {
-                if (balance != null) {
-                    String formattedBalance = java.text.NumberFormat
-                            .getCurrencyInstance(new java.util.Locale("en", "UG"))
-                            .format(balance);
-                    binding.currentBalance.setText(formattedBalance);
-                }
-            });
-        }
+        if (viewModel == null)
+            return;
 
-        if (binding.savingsBalance != null && viewModel != null) {
-            // Show Admin's personal savings - Run on background thread
-            new Thread(() -> {
-                try {
-                    String email = getIntent().getStringExtra("admin_email");
-                    if (email == null) {
-                        SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
-                        email = prefs.getString("admin_email", null);
-                    }
-
-                    com.example.save.data.models.Member admin;
-
-                    if (email != null) {
-                        admin = viewModel.getMemberByEmail(email);
-                    } else {
-                        // Use recovered or current name
-                        admin = viewModel.getMemberByNameSync(adminNameStr);
-                    }
-
-                    com.example.save.data.models.Member finalAdmin = admin;
+        viewModel.getDashboardSummary(new com.example.save.data.repository.MemberRepository.SummaryCallback() {
+            @Override
+            public void onResult(boolean success, com.example.save.data.network.DashboardSummaryResponse summary,
+                    String message) {
+                if (success && summary != null) {
                     runOnUiThread(() -> {
-                        if (finalAdmin != null) {
-                            double mySavings = finalAdmin.getContributionPaid();
-                            String formattedSavings = java.text.NumberFormat
-                                    .getCurrencyInstance(new java.util.Locale("en", "UG"))
-                                    .format(mySavings);
+                        // Update Balance
+                        String formattedBalance = java.text.NumberFormat
+                                .getCurrencyInstance(new java.util.Locale("en", "UG"))
+                                .format(summary.getTotalBalance());
+                        if (binding.currentBalance != null)
+                            binding.currentBalance.setText(formattedBalance);
+
+                        // Update Personal Savings
+                        String formattedSavings = java.text.NumberFormat
+                                .getCurrencyInstance(new java.util.Locale("en", "UG"))
+                                .format(summary.getPersonalSavings());
+                        if (binding.savingsBalance != null)
                             binding.savingsBalance.setText(formattedSavings);
-                        } else {
-                            binding.savingsBalance.setText("UGX 0");
+
+                        // Update Member Count
+                        if (binding.activeMembers != null)
+                            binding.activeMembers.setText(summary.getActiveMembers() + "/" + summary.getTotalMembers());
+
+                        // Update Approval Badge
+                        int pendingTotal = summary.getPendingApprovalsCount();
+                        if (binding.tvApprovalBadge != null) {
+                            if (pendingTotal > 0) {
+                                binding.tvApprovalBadge.setText(String.valueOf(pendingTotal));
+                                binding.tvApprovalBadge.setVisibility(View.VISIBLE);
+                            } else {
+                                binding.tvApprovalBadge.setVisibility(View.GONE);
+                            }
                         }
+
+                        // Sync Notification Badge (Legacy sync if needed)
+                        // Note: UnreadCount is still reactive via
+                        // observeViewModel/updateNotificationBadge
                     });
-                } catch (Exception e) {
-                    runOnUiThread(() -> binding.savingsBalance.setText("UGX 0"));
                 }
-            }).start();
-        }
-
-        updateMemberCount();
-        updateNotificationBadge();
-        updateApprovalBadge();
-
-        // Sync pending tasks to notifications
-        new Thread(() -> {
-            try {
-                if (viewModel != null) {
-                    int pendingPayments = viewModel.getPendingPaymentsCount();
-                    java.util.List<com.example.save.data.models.LoanRequest> pendingLoans = viewModel
-                            .getPendingLoanRequests();
-                    int pendingLoansCount = (pendingLoans != null) ? pendingLoans.size() : 0;
-
-                    runOnUiThread(() -> syncPendingTasksToNotifications(pendingPayments, pendingLoansCount));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }).start();
+        });
+
+        updateNotificationBadge();
     }
 
     private void updateNotificationBadge() {
@@ -573,26 +551,7 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void updateApprovalBadge() {
-        if (viewModel != null) {
-            viewModel.getPendingTransactions().observe(this, transactions -> {
-                int txCount = transactions != null ? transactions.size() : 0;
-                new Thread(() -> {
-                    int loanCount = viewModel.getPendingLoanRequests().size();
-                    int total = txCount + loanCount;
-
-                    runOnUiThread(() -> {
-                        if (binding.tvApprovalBadge != null) {
-                            if (total > 0) {
-                                binding.tvApprovalBadge.setText(String.valueOf(total));
-                                binding.tvApprovalBadge.setVisibility(View.VISIBLE);
-                            } else {
-                                binding.tvApprovalBadge.setVisibility(View.GONE);
-                            }
-                        }
-                    });
-                }).start();
-            });
-        }
+        // Handled by loadDashboardData summary call
     }
 
     private com.example.save.ui.viewmodels.NotificationsViewModel notificationsViewModel;
@@ -717,24 +676,7 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void updateMemberCount() {
-        // Run on background thread
-        new Thread(() -> {
-            try {
-                int activeMembersCount = viewModel.getActiveMemberCountSync();
-                int totalMembers = viewModel.getTotalMemberCountSync();
-                runOnUiThread(() -> {
-                    if (binding != null && binding.activeMembers != null) {
-                        binding.activeMembers.setText(activeMembersCount + "/" + totalMembers);
-                    }
-                });
-            } catch (Exception e) {
-                runOnUiThread(() -> {
-                    if (binding != null && binding.activeMembers != null) {
-                        binding.activeMembers.setText("0/0");
-                    }
-                });
-            }
-        }).start();
+        // Handled by loadDashboardData summary call
     }
 
     @Override

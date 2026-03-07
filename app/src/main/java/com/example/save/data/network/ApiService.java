@@ -284,6 +284,14 @@ public interface ApiService {
         Call<DashboardResponse> getDashboardData();
 
         /**
+         * Fetches a consolidated summary of dashboard data.
+         * 
+         * @return Call for DashboardSummaryResponse.
+         */
+        @GET("analytics/summary")
+        Call<DashboardSummaryResponse> getDashboardSummary();
+
+        /**
          * Fetches financial reports for a specified date range. Admin only.
          * 
          * @param startDate Start date (milliseconds).
