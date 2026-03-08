@@ -59,6 +59,8 @@ public class AdminMainActivity extends AppCompatActivity {
     private String groupNameStr;
     private MemberRepository memberRepository;
     private MembersViewModel viewModel; // Use ViewModel if possible, or just remove listener for now
+    private boolean isBalanceVisible = true;
+    private double totalBalanceValue = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class AdminMainActivity extends AppCompatActivity {
         viewModel.fetchSystemConfig(null);
 
         setupListeners();
+        setupBalanceToggle();
         observeViewModel();
 
         setupBottomNavigation();
@@ -89,6 +92,7 @@ public class AdminMainActivity extends AppCompatActivity {
         setupScheduleListeners();
         setupSparklineChart(); // New
         setupRecentActivity();
+        setupEntranceAnimations();
 
         // Setup Profile Icon to open Settings
         if (binding.profileIcon != null) {
@@ -151,6 +155,73 @@ public class AdminMainActivity extends AppCompatActivity {
         } else {
             // Exit app instead of going back to login
             finishAffinity();
+        }
+    }
+
+    private void setupEntranceAnimations() {
+        if (binding.balanceCard == null)
+            return;
+
+        // Initial state
+        binding.balanceCard.setAlpha(0f);
+        binding.balanceCard.setTranslationY(80f);
+
+        // Animate
+        binding.balanceCard.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(400)
+                .setStartDelay(200)
+                .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                .start();
+    }
+
+    private void setupBalanceToggle() {
+        if (binding.layoutToggleBalance != null) {
+            binding.layoutToggleBalance.setOnClickListener(v -> {
+                isBalanceVisible = !isBalanceVisible;
+                updateBalanceDisplay();
+            });
+        }
+    }
+
+    private void updateBalanceDisplay() {
+        if (binding.currentBalance == null)
+            return;
+
+        if (isBalanceVisible) {
+            String formattedBalance = java.text.NumberFormat
+                    .getCurrencyInstance(new java.util.Locale("en", "UG"))
+                    .format(totalBalanceValue);
+
+            // Remove currency symbol if formatted balance contains it
+            formattedBalance = formattedBalance.replace("UGX", "").replace("USh", "").trim();
+
+            // Split by decimal if present
+            if (formattedBalance.contains(".")) {
+                int index = formattedBalance.lastIndexOf(".");
+                binding.currentBalance.setText(formattedBalance.substring(0, index));
+                if (binding.decimalLabel != null) {
+                    binding.decimalLabel.setText(formattedBalance.substring(index));
+                }
+            } else {
+                binding.currentBalance.setText(formattedBalance);
+                if (binding.decimalLabel != null) {
+                    binding.decimalLabel.setText(".00");
+                }
+            }
+
+            if (binding.ivToggleBalance != null) {
+                binding.ivToggleBalance.setImageResource(R.drawable.ic_visibility);
+            }
+        } else {
+            binding.currentBalance.setText("••••••");
+            if (binding.decimalLabel != null) {
+                binding.decimalLabel.setText("");
+            }
+            if (binding.ivToggleBalance != null) {
+                binding.ivToggleBalance.setImageResource(R.drawable.ic_visibility_off);
+            }
         }
     }
 
@@ -492,12 +563,9 @@ public class AdminMainActivity extends AppCompatActivity {
                     String message) {
                 if (success && summary != null) {
                     runOnUiThread(() -> {
-                        // Update Balance
-                        String formattedBalance = java.text.NumberFormat
-                                .getCurrencyInstance(new java.util.Locale("en", "UG"))
-                                .format(summary.getTotalBalance());
-                        if (binding.currentBalance != null)
-                            binding.currentBalance.setText(formattedBalance);
+                        // Store balance for toggle
+                        totalBalanceValue = summary.getTotalBalance();
+                        updateBalanceDisplay();
 
                         // Update Personal Savings
                         String formattedSavings = java.text.NumberFormat
@@ -506,9 +574,11 @@ public class AdminMainActivity extends AppCompatActivity {
                         if (binding.savingsBalance != null)
                             binding.savingsBalance.setText(formattedSavings);
 
-                        // Update Member Count
-                        if (binding.activeMembers != null)
-                            binding.activeMembers.setText(summary.getActiveMembers() + "/" + summary.getTotalMembers());
+                        // Update Member Count (Show Active Members)
+                        if (binding.activeMembers != null) {
+                            int activeCount = summary.getActiveMembers();
+                            binding.activeMembers.setText(String.valueOf(activeCount));
+                        }
 
                         // Update Approval Badge
                         int pendingTotal = summary.getPendingApprovalsCount();

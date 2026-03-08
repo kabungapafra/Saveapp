@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer Ring -->
+    <item>
+        <shape android:shape="oval">
+            <stroke android:width="2dp" android:color="#88FFFFFF" />
+            <size android:width="30dp" android:height="30dp" />
+        </shape>
+    </item>
+    <!-- Inner Dot -->
+    <item android:top="11dp" android:bottom="11dp" android:left="11dp" android:right="11dp">
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+</layer-list>

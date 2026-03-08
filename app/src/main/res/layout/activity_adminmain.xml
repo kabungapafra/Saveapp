@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="25dp"
-            android:paddingBottom="140dp">
+            android:paddingBottom="50dp">
 
             <!-- Header Section -->
 
@@ -164,94 +164,64 @@
                 style="@style/Widget.App.CardView.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="8dp"
                 app:cardPreventCornerOverlap="false">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/bg_card_premium_blue">
 
                     <!-- Right Background Image Overlay -->
                     <ImageView
                         android:layout_width="180dp"
-                        android:layout_height="220dp"
+                        android:layout_height="190dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/lng"
                         android:alpha="0.5"
-                        android:importantForAccessibility="no" />
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/lng" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="24dp">
+                        android:paddingLeft="24dp" android:paddingTop="24dp" android:paddingRight="24dp" android:paddingBottom="4dp">
 
                         <!-- Top Row: Group Info & Menu -->
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="24dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="2 1 4 5  4 5 5 3  6"
-                                    android:textColor="#B3FFFFFF"
-                                    android:textSize="12sp"
-                                    android:letterSpacing="0.2"
-                                    android:fontFamily="sans-serif-medium"/>
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:layout_marginStart="8dp"
-                                    android:background="@drawable/bg_circle_white"
-                                    android:backgroundTint="@color/card_premium_icon_bg"
-                                    android:padding="3dp"
-                                    android:src="@drawable/ic_payments"
-                                    app:tint="@color/white" />
-                            </LinearLayout>
-
-                            <ImageView
-                                android:id="@+id/balanceMenuIcon"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_alignParentEnd="true"
-                                android:src="@drawable/ic_more_vert"
-                                app:tint="@color/white"
-                                android:alpha="0.7"/>
-                        </RelativeLayout>
 
                         <!-- Middle Row: Label & Chart -->
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp">
+                            android:layout_marginBottom="4dp">
 
                             <LinearLayout
+                                android:id="@+id/layoutToggleBalance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal"
-                                android:gravity="center_vertical">
+                                android:padding="4dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-medium"
                                     android:text="Group Balance"
                                     android:textColor="#CCFFFFFF"
-                                    android:textSize="14sp"
-                                    android:fontFamily="sans-serif-medium"/>
+                                    android:textSize="14sp" />
+
                                 <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
+                                    android:id="@+id/ivToggleBalance"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
                                     android:layout_marginStart="8dp"
                                     android:src="@drawable/ic_visibility"
                                     app:tint="#CCFFFFFF" />
@@ -262,58 +232,62 @@
                                 android:layout_width="80dp"
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
-                                android:visibility="visible" />
+                                android:visibility="gone" />
                         </RelativeLayout>
 
                         <!-- Balance Row -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:layout_marginBottom="12dp"
                             android:gravity="bottom"
-                            android:layout_marginBottom="24dp">
+                            android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/currencyLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"
+                                android:layout_marginBottom="2dp"
+                                android:fontFamily="sans-serif-bold"
                                 android:text="UGX"
                                 android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:fontFamily="sans-serif-bold"
-                                android:layout_marginBottom="6dp"
-                                android:layout_marginEnd="6dp"/>
+                                android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/currentBalance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1,500,000"
+                                android:fontFamily="sans-serif-black"
+                                android:text="0,00"
                                 android:textColor="@color/white"
-                                android:textSize="36sp"
-                                android:fontFamily="sans-serif-black" />
+                                android:textSize="32sp" />
 
                             <TextView
+                                android:id="@+id/decimalLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:fontFamily="sans-serif-bold"
                                 android:text=".00"
                                 android:textColor="#B3FFFFFF"
-                                android:textSize="18sp"
-                                android:fontFamily="sans-serif-bold"
-                                android:layout_marginBottom="6dp"/>
+                                android:textSize="16sp" />
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
+                            android:layout_marginBottom="16dp"
                             android:background="#22FFFFFF"
-                            android:layout_marginBottom="20dp"/>
+                            android:visibility="gone" />
 
                         <!-- Footer Stats -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <LinearLayout
                                 android:id="@+id/layoutMySavings"
@@ -321,20 +295,23 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginBottom="-2dp"
                                     android:text="My Contribution"
                                     android:textColor="#B3FFFFFF"
-                                    android:textSize="11sp"/>
+                                    android:textSize="11sp" />
+
                                 <TextView
                                     android:id="@+id/savingsBalance"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-bold"
                                     android:text="UGX 0"
                                     android:textColor="@color/white"
-                                    android:textSize="16sp"
-                                    android:fontFamily="sans-serif-bold"/>
+                                    android:textSize="16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -342,40 +319,30 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
                                 android:orientation="vertical">
+
                                 <TextView
                                     android:id="@+id/activeMembers"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="28 Members"
+                                    android:layout_marginBottom="-2dp"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="0"
                                     android:textColor="@color/white"
-                                    android:textSize="14sp"
-                                    android:fontFamily="sans-serif-bold"/>
+                                    android:textSize="18sp" />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Active Now"
+                                    android:letterSpacing="0.05"
+                                    android:text="ACTIVE NOW"
                                     android:textColor="#4CAF50"
-                                    android:textSize="10sp"
-                                    android:textStyle="bold"
-                                    android:textAllCaps="true"/>
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Large Action Arrow -->
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginTop="56dp"
-                        android:background="@drawable/bg_circle_white"
-                        android:backgroundTint="#22FFFFFF"
-                        android:padding="14dp"
-                        android:src="@drawable/ic_diagonal_arrow"
-                        app:tint="@color/white"
-                        android:elevation="0dp"
-                        android:alpha="0.8"/>
+                    <!-- Removed Action Arrow -->
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
@@ -674,86 +641,109 @@
                                 android:padding="4dp"/>
                         </LinearLayout>
 
-                        <!-- Data Row -->
-                        <LinearLayout
+                        <!-- Timeline Data Container -->
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:baselineAligned="false">
-                            
-                            <!-- Contributions -->
+                            android:layout_height="wrap_content">
+
+                            <!-- Vertical Connector Line -->
+                            <View
+                                android:layout_width="2dp"
+                                android:layout_height="100dp"
+                                android:layout_marginStart="14dp"
+                                android:layout_marginTop="15dp"
+                                android:background="#44FFFFFF" />
+
+                            <!-- Timeline Items -->
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:background="@drawable/bg_capsule_translucent"
-                                android:padding="16dp"
-                                android:layout_marginEnd="8dp">
+                                android:orientation="vertical">
 
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_payments"
-                                    app:tint="#FFFFFF"
-                                    android:alpha="0.9"/>
-                                
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <!-- Node 1: Contribution -->
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Contributions"
-                                    android:textColor="#CCFFFFFF"
-                                    android:textSize="11sp"
-                                    android:layout_marginTop="12dp"/>
-                                
-                                <TextView
-                                    android:id="@+id/tvContributionDate"
-                                    android:layout_width="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginBottom="24dp">
+
+                                    <View
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:background="@drawable/bg_timeline_node_active" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:orientation="vertical"
+                                        android:background="@drawable/bg_capsule_translucent"
+                                        android:padding="12dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="CONTRIBUTION DATE"
+                                            android:textColor="#CCFFFFFF"
+                                            android:textSize="10sp"
+                                            android:textStyle="bold"
+                                            android:letterSpacing="0.1" />
+
+                                        <TextView
+                                            android:id="@+id/tvContributionDate"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Set Date"
+                                            android:textColor="#FFFFFF"
+                                            android:textSize="18sp"
+                                            android:fontFamily="sans-serif-bold"
+                                            android:layout_marginTop="2dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <!-- Node 2: Payout -->
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Set Date"
-                                    android:textColor="#FFFFFF"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold"
-                                    android:layout_marginTop="4dp"/>
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical">
+
+                                    <View
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:background="@drawable/bg_timeline_node_upcoming" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:orientation="vertical"
+                                        android:background="@drawable/bg_capsule_translucent"
+                                        android:padding="12dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="NEXT PAYOUT"
+                                            android:textColor="#CCFFFFFF"
+                                            android:textSize="10sp"
+                                            android:textStyle="bold"
+                                            android:letterSpacing="0.1" />
+
+                                        <TextView
+                                            android:id="@+id/tvPayoutDate"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Set Date"
+                                            android:textColor="#FFFFFF"
+                                            android:textSize="18sp"
+                                            android:fontFamily="sans-serif-bold"
+                                            android:layout_marginTop="2dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
                             </LinearLayout>
-
-                            <!-- Payouts -->
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:background="@drawable/bg_capsule_translucent"
-                                android:padding="16dp"
-                                android:layout_marginStart="8dp">
-
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_send_money"
-                                    app:tint="#FFFFFF"
-                                    android:alpha="0.9"/>
-                                
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Next Payout"
-                                    android:textColor="#CCFFFFFF"
-                                    android:textSize="11sp"
-                                    android:layout_marginTop="12dp"/>
-                                
-                                <TextView
-                                    android:id="@+id/tvPayoutDate"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Set Date"
-                                    android:textColor="#FFFFFF"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold"
-                                    android:layout_marginTop="4dp"/>
-                            </LinearLayout>
-
-                        </LinearLayout>
+                        </RelativeLayout>
                     </LinearLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

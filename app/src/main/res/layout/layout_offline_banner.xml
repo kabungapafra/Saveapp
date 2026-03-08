@@ -20,8 +20,8 @@
             android:layout_width="@dimen/icon_size_small"
             android:layout_height="@dimen/icon_size_small"
             android:src="@drawable/ic_warning"
-            android:tint="@android:color/white"
-            android:layout_marginEnd="@dimen/spacing_small" />
+            android:layout_marginEnd="@dimen/spacing_small"
+            app:tint="@android:color/white" />
 
         <LinearLayout
             android:layout_width="0dp"
