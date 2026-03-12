@@ -1,42 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/splash_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3E469B">
+    android:background="@color/white">
 
-    <!-- Container for the logo animation -->
-    <RelativeLayout
-        android:id="@+id/logo_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+    <!-- Animated Gradient Background (top-left blue tint) -->
+    <View
+        android:id="@+id/gradient_top"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_gravity="top|start"
+        android:background="@drawable/bg_splash_top_blob"
+        android:alpha="0.7" />
 
-        <!-- Just the S letter -->
-        <ImageView
-            android:id="@+id/letter_s"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/letter_s"
-            android:visibility="invisible" />
+    <!-- Animated Gradient Background (bottom warm peach) -->
+    <View
+        android:id="@+id/gradient_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_splash_bottom_blob"
+        android:alpha="0.6" />
 
-        <!-- Full Save logo -->
+    <!-- Center Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingHorizontal="40dp">
+
+        <!-- Logo -->
         <ImageView
             android:id="@+id/full_logo"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/white"
+            android:layout_width="220dp"
+            android:layout_height="110dp"
+            android:src="@drawable/save_logo"
+            android:scaleType="fitCenter"
             android:visibility="invisible" />
-            
-        <!-- Shimmer View -->
+
+        <!-- Spacer -->
         <View
-            android:id="@+id/shimmer_view"
-            android:layout_width="50dp"
-            android:layout_height="100dp"
-            android:background="#50FFFFFF"
-            android:rotation="20"
-            android:visibility="invisible" />
-            
-    </RelativeLayout>
-</RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <!-- INITIALIZING row -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="INITIALIZING"
+                android:textColor="#334155"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextView
+                android:id="@+id/tvProgressPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="0%"
+                android:textColor="@color/dashboard_accent_blue"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <!-- Gradient Progress Bar Track -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/bg_progress_track">
+
+            <View
+                android:id="@+id/progressBar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_progress_fill" />
+        </FrameLayout>
+
+        <!-- Tagline -->
+        <TextView
+            android:id="@+id/tvTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Secure your digital assets with ease."
+            android:textColor="@color/dashboard_text_secondary"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:alpha="0" />
+    </LinearLayout>
+
+    <!-- Shimmer view (overlay) -->
+    <View
+        android:id="@+id/shimmer_view"
+        android:layout_width="50dp"
+        android:layout_height="110dp"
+        android:layout_gravity="center"
+        android:background="#50FFFFFF"
+        android:rotation="20"
+        android:visibility="invisible" />
+
+    <!-- Footer -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:alpha="0"
+        android:id="@+id/footerLayout">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_lock"
+            app:tint="#94A3B8"
+            android:layout_marginEnd="6dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="END-TO-END ENCRYPTED"
+            android:textColor="#94A3B8"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
+    </LinearLayout>
+
+</FrameLayout>

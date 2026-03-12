@@ -89,28 +89,23 @@ public class AdminMainActivity extends AppCompatActivity {
         setupBottomNavigation();
         loadDashboardData();
         updateScheduleUI();
-        setupScheduleListeners();
-        setupSparklineChart(); // New
-        setupRecentActivity();
+        // setupScheduleListeners(); - method removed due to refined UI
+        setupGrowthChart(); // Updated to BarChart
+        // setupRecentActivity(); - removed in refined dashboard
         setupEntranceAnimations();
 
-        // Setup Profile Icon to open Settings
-        if (binding.profileIcon != null) {
-            binding.profileIcon.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                startActivity(new Intent(AdminMainActivity.this, SettingsActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
-            });
-        }
+        // Profile Icon was replaced by a search icon in the refined dashboard.
+        // If settings navigation is needed, it can be assigned to a different view.
 
         // Handle External Navigation
         if (getIntent().hasExtra("NAVIGATE_TO")) {
             String target = getIntent().getStringExtra("NAVIGATE_TO");
             if ("MEMBERS".equals(target)) {
-                // Post to message queue to allow UI to settle? Or just run immediate
-                binding.navMembers.post(() -> updateNav(binding.navMembers, binding.txtMembers, binding.imgMembers));
+                binding.bgMembers.post(
+                        () -> updateNav(binding.bgMembers, binding.txtMembers, binding.imgMembers, binding.bgMembers));
             } else if ("LOANS".equals(target)) {
-                binding.navLoans.post(() -> updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans));
+                binding.bgLoans
+                        .post(() -> updateNav(binding.bgLoans, binding.txtLoans, binding.imgLoans, binding.bgLoans));
             }
         }
 
@@ -128,7 +123,7 @@ public class AdminMainActivity extends AppCompatActivity {
                     binding.navContainer.setVisibility(View.VISIBLE);
                 }
                 // Reset nav to Home visually
-                updateNav(binding.navHome, binding.txtHome, binding.imgHome);
+                updateNav(binding.bgHome, binding.txtHome, binding.imgHome, binding.bgHome);
             }
         });
     }
@@ -151,7 +146,7 @@ public class AdminMainActivity extends AppCompatActivity {
             }
 
             // Reset nav selection to Home
-            updateNav(binding.navHome, binding.txtHome, binding.imgHome);
+            updateNav(binding.bgHome, binding.txtHome, binding.imgHome, binding.bgHome);
         } else {
             // Exit app instead of going back to login
             finishAffinity();
@@ -159,15 +154,15 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void setupEntranceAnimations() {
-        if (binding.balanceCard == null)
+        if (binding.balanceContainer == null)
             return;
 
         // Initial state
-        binding.balanceCard.setAlpha(0f);
-        binding.balanceCard.setTranslationY(80f);
+        binding.balanceContainer.setAlpha(0f);
+        binding.balanceContainer.setTranslationY(80f);
 
         // Animate
-        binding.balanceCard.animate()
+        binding.balanceContainer.animate()
                 .alpha(1f)
                 .translationY(0f)
                 .setDuration(400)
@@ -177,50 +172,21 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void setupBalanceToggle() {
-        if (binding.layoutToggleBalance != null) {
-            binding.layoutToggleBalance.setOnClickListener(v -> {
-                isBalanceVisible = !isBalanceVisible;
-                updateBalanceDisplay();
-            });
-        }
+        // Feature removed or moved in refined dashboard
     }
 
     private void updateBalanceDisplay() {
-        if (binding.currentBalance == null)
-            return;
-
-        if (isBalanceVisible) {
+        // Feature removed or moved in refined dashboard
+        if (binding.currentBalance != null) {
             String formattedBalance = java.text.NumberFormat
                     .getCurrencyInstance(new java.util.Locale("en", "UG"))
                     .format(totalBalanceValue);
-
-            // Remove currency symbol if formatted balance contains it
             formattedBalance = formattedBalance.replace("UGX", "").replace("USh", "").trim();
-
-            // Split by decimal if present
             if (formattedBalance.contains(".")) {
                 int index = formattedBalance.lastIndexOf(".");
                 binding.currentBalance.setText(formattedBalance.substring(0, index));
-                if (binding.decimalLabel != null) {
-                    binding.decimalLabel.setText(formattedBalance.substring(index));
-                }
             } else {
                 binding.currentBalance.setText(formattedBalance);
-                if (binding.decimalLabel != null) {
-                    binding.decimalLabel.setText(".00");
-                }
-            }
-
-            if (binding.ivToggleBalance != null) {
-                binding.ivToggleBalance.setImageResource(R.drawable.ic_visibility);
-            }
-        } else {
-            binding.currentBalance.setText("••••••");
-            if (binding.decimalLabel != null) {
-                binding.decimalLabel.setText("");
-            }
-            if (binding.ivToggleBalance != null) {
-                binding.ivToggleBalance.setImageResource(R.drawable.ic_visibility_off);
             }
         }
     }
@@ -245,6 +211,8 @@ public class AdminMainActivity extends AppCompatActivity {
             groupNameStr = intent.getStringExtra("group_name");
         }
 
+        updateGreeting();
+
         // Handle Group ID
         String groupId = prefs.getString("group_id", null);
         if (groupId == null) {
@@ -254,13 +222,10 @@ public class AdminMainActivity extends AppCompatActivity {
             prefs.edit().putString("group_id", groupId).apply();
         }
 
-        // Set to UI
-        if (binding.adminName != null)
-            binding.adminName.setText(adminNameStr + "!");
-        if (binding.groupName != null)
-            binding.groupName.setText(groupNameStr);
-        if (binding.tvGroupId != null)
-            binding.tvGroupId.setText("ID: " + groupId);
+        // adminName view has been removed from the refined XML layout
+        // Note: groupName and tvGroupId views have been removed from the refined XML
+        // layout.
+        // We still load the data but don't bind it to those specific views.
         if ("Admin".equals(adminNameStr) || "Weekend Savers Club".equals(groupNameStr)) {
             // Try to get email from Intent OR SharedPreferences (Robust Fallback)
             String email = intent.getStringExtra("admin_email");
@@ -274,15 +239,13 @@ public class AdminMainActivity extends AppCompatActivity {
                     com.example.save.data.models.Member admin = viewModel.getMemberByEmail(finalEmail);
                     if (admin != null) {
                         String realName = admin.getName();
-                        runOnUiThread(() -> {
-                            binding.adminName.setText(realName + "!");
-                            adminNameStr = realName; // Update local variable for PaymentFragment usage
-                            // Save to prefs for next time
-                            prefs.edit().putString("admin_name", realName).apply();
+                        // Note: adminName view has been removed from the refined XML layout.
+                        adminNameStr = realName; // Update local variable for PaymentFragment usage
+                        // Save to prefs for next time
+                        prefs.edit().putString("admin_name", realName).apply();
 
-                            // Now that we have the real name, reload dashboard stats to be sure
-                            loadDashboardData();
-                        });
+                        // Now that we have the real name, reload dashboard stats to be sure
+                        runOnUiThread(() -> loadDashboardData());
                     }
                 }).start();
             } else {
@@ -296,7 +259,7 @@ public class AdminMainActivity extends AppCompatActivity {
                         String recoveredEmail = firstAdmin.getEmail();
 
                         runOnUiThread(() -> {
-                            binding.adminName.setText(recoveredName + "!");
+                            // Note: adminName view has been removed from the refined XML layout.
                             adminNameStr = recoveredName;
                             // Save recovered identity
                             prefs.edit()
@@ -317,39 +280,12 @@ public class AdminMainActivity extends AppCompatActivity {
                 }).start();
             }
         }
-
-        // Set to UI
-        if (binding.adminName != null)
-            binding.adminName.setText(adminNameStr + "!");
-        if (binding.groupName != null)
-            binding.groupName.setText(groupNameStr);
     }
-
-    // ...
+    // Note: adminName and groupName views have been removed from the refined XML
+    // layout.
 
     private void setupRecentActivity() {
-        if (binding.activityRecyclerView != null) {
-            binding.activityRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
-
-            // Initialize adapter with empty list
-            RecentActivityAdapter adapter = new RecentActivityAdapter(new ArrayList<>());
-            binding.activityRecyclerView.setAdapter(adapter);
-
-            // Observe recent transactions from ViewModel
-            viewModel.getRecentTransactions().observe(this, transactions -> {
-                if (transactions != null && !transactions.isEmpty()) {
-                    adapter.updateList(transactions);
-                    binding.activityRecyclerView.setVisibility(View.VISIBLE);
-                    binding.emptyStateLayout.getRoot().setVisibility(View.GONE);
-                } else {
-                    binding.activityRecyclerView.setVisibility(View.GONE);
-                    binding.emptyStateLayout.getRoot().setVisibility(View.VISIBLE);
-
-                    // Update text for empty state if needed
-                    // binding.emptyStateLayout.tvEmptyTitle.setText("No recent activity");
-                }
-            });
-        }
+        // Legacy recent activity list removed in refined dashboard
     }
 
     private void observeViewModel() {
@@ -363,155 +299,100 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        binding.profileIcon.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
-        });
-
-        // Notification Icon Click
-        if (binding.btnAdminNotifications != null) {
-            binding.btnAdminNotifications.setOnClickListener(v -> {
+        // Notifications
+        if (binding.btnNotifications != null) {
+            binding.btnNotifications.setOnClickListener(v -> {
+                applyClickAnimation(v);
                 showNotifications();
             });
         }
 
-        // Main Card: My Savings Click
-        if (binding.layoutMySavings != null) {
-            binding.layoutMySavings.setOnClickListener(v -> {
+        // Search Icon (Profile Icon in refined layout)
+        if (binding.profileIcon != null) {
+            binding.profileIcon.setOnClickListener(v -> {
                 applyClickAnimation(v);
-                loadFragment(PaymentFragment.newInstance(adminNameStr));
+                // Future search functionality or profile
+                Toast.makeText(this, "Search functionality coming soon", Toast.LENGTH_SHORT).show();
             });
         }
 
-        // Add Member card
-        binding.addMemberCard.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            updateNav(binding.navMembers, binding.txtMembers, binding.imgMembers);
-            // Replace the standard fragment with one that has the argument
-            MembersFragment fragment = new MembersFragment();
-            Bundle args = new Bundle();
-            args.putBoolean("SHOW_ADD_DIALOG", true);
-            fragment.setArguments(args);
-
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-        });
-
-        // Execute Payout card
-        binding.executePayoutCard.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            // Use existing fragment or toast for now
-            // Assuming PayoutsFragment exists and is correct destination
-            updateNav(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
-            // Toast.makeText(this, "Execute Payout", Toast.LENGTH_SHORT).show();
-        });
-
-        // My Savings card (Quick Action)
-        if (binding.myPaymentCard != null) {
-            binding.myPaymentCard.setOnClickListener(v -> {
+        // View All Targets
+        if (binding.viewAllTargets != null) {
+            binding.viewAllTargets.setOnClickListener(v -> {
                 applyClickAnimation(v);
-                loadFragment(PaymentFragment.newInstance(adminNameStr));
+                Toast.makeText(this, "Target management coming soon", Toast.LENGTH_SHORT).show();
             });
         }
 
-        // View Loans card
-        binding.viewLoansCard.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            // Ensure visual nav update if desired, or just load fragment
-            updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans);
-            // loadFragment(new LoansFragment()); // updateNav already loads it
-        });
-
-        // View Details button
-        if (binding.viewAllActivity != null) {
-            binding.viewAllActivity.setOnClickListener(v -> {
+        // View Loans
+        if (binding.viewAllLoans != null) {
+            binding.viewAllLoans.setOnClickListener(v -> {
                 applyClickAnimation(v);
-                updateNav(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
+                updateNav(binding.bgLoans, binding.txtLoans, binding.imgLoans, binding.bgLoans);
             });
         }
 
-        // Pending Approvals Card
-        if (binding.cardPendingApprovals != null) {
-            binding.cardPendingApprovals.setOnClickListener(v -> {
+        // FAB Action (Centered button in nav)
+        if (binding.fabAction != null) {
+            binding.fabAction.setOnClickListener(v -> {
                 applyClickAnimation(v);
-                loadFragment(new ApprovalsFragment());
+                // Show Quick Actions dialog or menu
+                showComposeAnnouncementDialog();
             });
         }
+    }
 
-        // Analytics Quick Action (New)
-        if (binding.actionAnalytics != null) {
-            binding.actionAnalytics.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                updateNav(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
-            });
-        }
+    private void toggleFabMenu() {
+        // Simplified for new design - just one action on FAB click
+        showComposeAnnouncementDialog();
     }
 
     private void setupBottomNavigation() {
-        binding.navHome.setOnClickListener(v -> updateNav(binding.navHome, binding.txtHome, binding.imgHome));
-
-        binding.navMembers.setOnClickListener(v -> {
-            updateNav(binding.navMembers, binding.txtMembers, binding.imgMembers);
-            Toast.makeText(this, "Members Management", Toast.LENGTH_SHORT).show();
-        });
-
-        binding.navPayouts.setOnClickListener(v -> {
-            updateNav(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
-            Toast.makeText(this, "Payout Management", Toast.LENGTH_SHORT).show();
-        });
-
-        binding.navLoans.setOnClickListener(v -> {
-            updateNav(binding.navLoans, binding.txtLoans, binding.imgLoans);
-            Toast.makeText(this, "Loans Management", Toast.LENGTH_SHORT).show();
-        });
-
-        binding.navAnalytics.setOnClickListener(v -> {
-            updateNav(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
-            Toast.makeText(this, "Analytics", Toast.LENGTH_SHORT).show();
-        });
+        binding.bgHome
+                .setOnClickListener(v -> updateNav(binding.bgHome, binding.txtHome, binding.imgHome, binding.bgHome));
+        binding.bgMembers.setOnClickListener(
+                v -> updateNav(binding.bgMembers, binding.txtMembers, binding.imgMembers, binding.bgMembers));
+        binding.bgLoans.setOnClickListener(
+                v -> updateNav(binding.bgLoans, binding.txtLoans, binding.imgLoans, binding.bgLoans));
+        binding.bgSettings.setOnClickListener(
+                v -> updateNav(binding.bgSettings, binding.txtSettings, binding.imgSettings, binding.bgSettings));
     }
 
-    private void updateNav(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage) {
+    private void updateNav(View selectedItem, TextView selectedText, ImageView selectedImage, View selectedBackground) {
         // 1. Reset all items to unselected state first
-        resetNavItem(binding.navHome, binding.txtHome, binding.imgHome);
-        resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
-        resetNavItem(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
-        resetNavItem(binding.navLoans, binding.txtLoans, binding.imgLoans);
-        resetNavItem(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
+        resetNavItem(binding.txtHome, binding.imgHome, binding.bgHome);
+        resetNavItem(binding.txtMembers, binding.imgMembers, binding.bgMembers);
+        resetNavItem(binding.txtLoans, binding.imgLoans, binding.bgLoans);
+        resetNavItem(binding.txtSettings, binding.imgSettings, binding.bgSettings);
 
         // 2. Set the clicked item to selected state
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) selectedLayout.getLayoutParams();
-        params.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        params.weight = 0;
-        selectedLayout.setLayoutParams(params);
+        int activeColor = Color.parseColor("#2563EB"); // Primary Blue
+        if (selectedText != null) {
+            selectedText.setTextColor(activeColor);
+        }
+        if (selectedImage != null) {
+            selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
+        }
 
-        // Dark Indigo Color for Active State
-        int activeColor = Color.parseColor("#0D47A1");
-        selectedLayout.setBackgroundResource(R.drawable.nav_item_pill_refined);
-        selectedText.setVisibility(View.VISIBLE);
-        selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
-        selectedText.setTextColor(activeColor);
+        // Show background for selected item
+        if (selectedBackground != null) {
+            selectedBackground.setBackgroundResource(R.drawable.bg_icon_circle_blue);
+        }
 
         // Fragment Switching Logic
-        if (selectedLayout == binding.navHome) {
+        if (selectedItem == binding.bgHome) {
             binding.mainContentScrollView.setVisibility(View.VISIBLE);
             binding.fragmentContainer.setVisibility(View.GONE);
-        } else {
+        } else if (selectedItem != binding.bgSettings) {
             binding.mainContentScrollView.setVisibility(View.GONE);
             binding.fragmentContainer.setVisibility(View.VISIBLE);
 
             Fragment fragment = null;
-            if (selectedLayout == binding.navMembers)
+            if (selectedItem == binding.bgMembers)
                 fragment = new MembersFragment();
-            else if (selectedLayout == binding.navPayouts)
-                fragment = new PayoutsFragment();
-            else if (selectedLayout == binding.navLoans)
-                fragment = new AdminLoansFragment(); // Use AdminLoansFragment!
-            else if (selectedLayout == binding.navAnalytics)
+            else if (selectedItem == binding.bgLoans)
+                fragment = new AdminLoansFragment();
+            else if (selectedItem == binding.bgSettings)
                 fragment = AnalyticsFragment.newInstance(true);
 
             if (fragment != null) {
@@ -538,19 +419,38 @@ public class AdminMainActivity extends AppCompatActivity {
         v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_press));
     }
 
-    private void resetNavItem(LinearLayout layout, TextView text, ImageView image) {
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        params.width = 0;
-        params.weight = 1;
-        layout.setLayoutParams(params);
+    private void resetNavItem(TextView text, ImageView image, View background) {
+        if (text != null) {
+            text.setTextColor(Color.parseColor("#94A3B8"));
+        }
+        if (image != null) {
+            image.setImageTintList(ColorStateList.valueOf(Color.parseColor("#94A3B8")));
+        }
+        if (background != null) {
+            background.setBackground(null);
+        }
+    }
 
-        layout.setBackground(null);
+    private void updateGreeting() {
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        String greeting;
 
-        // White Color for Inactive State
-        image.setImageTintList(ColorStateList.valueOf(Color.BLACK)); // Using Black/White as per theme? Actually
-                                                                     // previous was white.
-        // Let's use WHITE as per the design requirement (Dark bar, white icons)
-        image.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+        if (hour >= 0 && hour < 12) {
+            greeting = "Good Morning,";
+        } else if (hour >= 12 && hour < 17) {
+            greeting = "Good Afternoon,";
+        } else {
+            greeting = "Good Evening,";
+        }
+
+        if (binding.tvTopGreeting != null) {
+            binding.tvTopGreeting.setText(greeting);
+        }
+
+        if (binding.tvTopName != null) {
+            binding.tvTopName.setText(adminNameStr);
+        }
     }
 
     private void loadDashboardData() {
@@ -567,28 +467,20 @@ public class AdminMainActivity extends AppCompatActivity {
                         totalBalanceValue = summary.getTotalBalance();
                         updateBalanceDisplay();
 
-                        // Update Personal Savings
-                        String formattedSavings = java.text.NumberFormat
-                                .getCurrencyInstance(new java.util.Locale("en", "UG"))
-                                .format(summary.getPersonalSavings());
-                        if (binding.savingsBalance != null)
-                            binding.savingsBalance.setText(formattedSavings);
-
-                        // Update Member Count (Show Active Members)
-                        if (binding.activeMembers != null) {
-                            int activeCount = summary.getActiveMembers();
-                            binding.activeMembers.setText(String.valueOf(activeCount));
+                        // Update Monthly Contrib
+                        if (binding.monthlyContrib != null) {
+                            String formattedContrib = java.text.NumberFormat
+                                    .getCurrencyInstance(new java.util.Locale("en", "UG"))
+                                    .format(summary.getMonthlyContributions());
+                            binding.monthlyContrib.setText(formattedContrib);
                         }
 
-                        // Update Approval Badge
-                        int pendingTotal = summary.getPendingApprovalsCount();
-                        if (binding.tvApprovalBadge != null) {
-                            if (pendingTotal > 0) {
-                                binding.tvApprovalBadge.setText(String.valueOf(pendingTotal));
-                                binding.tvApprovalBadge.setVisibility(View.VISIBLE);
-                            } else {
-                                binding.tvApprovalBadge.setVisibility(View.GONE);
-                            }
+                        // Update Interest Earned
+                        if (binding.interestEarned != null) {
+                            String formattedInterest = java.text.NumberFormat
+                                    .getCurrencyInstance(new java.util.Locale("en", "UG"))
+                                    .format(summary.getInterestEarned());
+                            binding.interestEarned.setText(formattedInterest);
                         }
 
                         // Sync Notification Badge (Legacy sync if needed)
@@ -609,14 +501,8 @@ public class AdminMainActivity extends AppCompatActivity {
         }
 
         notificationsViewModel.getUnreadCount().observe(this, count -> {
-            if (binding.tvAdminNotificationBadge != null) {
-                if (count > 0) {
-                    binding.tvAdminNotificationBadge.setText(String.valueOf(count));
-                    binding.tvAdminNotificationBadge.setVisibility(View.VISIBLE);
-                } else {
-                    binding.tvAdminNotificationBadge.setVisibility(View.GONE);
-                }
-            }
+            // tvAdminNotificationBadge view has been removed from the refined XML layout.
+            // Pending loans count is now displayed in the 'Active Loans' section.
         });
     }
 
@@ -631,17 +517,10 @@ public class AdminMainActivity extends AppCompatActivity {
     // androidx.lifecycle.ViewModelProvider(this).get(com.example.save.ui.viewmodels.NotificationsViewModel.class);
 
     private void showNotifications() {
-        // Clear badge (UI only)
-        if (binding.tvAdminNotificationBadge != null) {
-            binding.tvAdminNotificationBadge.setVisibility(View.GONE);
-        }
+        // tvAdminNotificationBadge view has been removed from the refined XML layout.
 
         // 1. Reset all bottom nav items (deselect them)
-        resetNavItem(binding.navHome, binding.txtHome, binding.imgHome);
-        resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
-        resetNavItem(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
-        resetNavItem(binding.navLoans, binding.txtLoans, binding.imgLoans);
-        resetNavItem(binding.navAnalytics, binding.txtAnalytics, binding.imgAnalytics);
+        resetBottomNav();
 
         // 2. Hide Main Content, Show Fragment Container
         if (binding.mainContentScrollView != null)
@@ -757,24 +636,17 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void updateScheduleUI() {
-        if (binding.btnEditSchedule == null)
-            return;
-
+        // Note: btnEditSchedule view has been removed from the refined XML layout.
         // Load saved dates (Mock preference or variables)
         android.content.SharedPreferences prefs = getSharedPreferences("SaveAppPrefs", MODE_PRIVATE);
         String contribDate = prefs.getString("sched_contrib_date", "Not Set");
         String payoutDate = prefs.getString("sched_payout_date", "Not Set");
 
-        binding.tvContributionDate.setText(contribDate);
-        binding.tvPayoutDate.setText(payoutDate);
+        // Note: tvContributionDate and tvPayoutDate views have been removed from the
+        // refined XML layout.
     }
 
-    private void setupScheduleListeners() {
-        if (binding.btnEditSchedule == null)
-            return;
-
-        binding.btnEditSchedule.setOnClickListener(v -> showEditScheduleDialog());
-    }
+    // Note: btnEditSchedule view has been removed from the refined XML layout.
 
     private void showEditScheduleDialog() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
@@ -834,55 +706,80 @@ public class AdminMainActivity extends AppCompatActivity {
 
     // Month picker removed as per redesign
 
-    private void setupSparklineChart() {
-        if (binding.sparklineChart == null)
+    // Updated for Redesign
+    private void setupGrowthChart() {
+        if (binding.growthBarChart == null)
             return;
 
-        LineChart chart = binding.sparklineChart;
+        com.github.mikephil.charting.charts.BarChart chart = binding.growthBarChart;
 
-        // Disable interactions
-        chart.setTouchEnabled(false);
-        chart.setDragEnabled(false);
-        chart.setScaleEnabled(false);
-        chart.setPinchZoom(false);
+        // Disable various chart elements for cleaner look
         chart.getDescription().setEnabled(false);
         chart.getLegend().setEnabled(false);
+        chart.setTouchEnabled(false);
+        chart.setDrawGridBackground(false);
+        chart.setDrawBarShadow(false);
 
-        // Remove axis
-        chart.getAxisLeft().setEnabled(false);
+        // Styling Axes
+        com.github.mikephil.charting.components.XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(Color.parseColor("#94A3B8"));
+        xAxis.setTextSize(10f);
+
+        com.github.mikephil.charting.components.YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGridColor(Color.parseColor("#F1F5F9"));
+        leftAxis.setTextColor(Color.parseColor("#94A3B8"));
+        leftAxis.setTextSize(10f);
+        leftAxis.setAxisMinimum(0f);
+
         chart.getAxisRight().setEnabled(false);
-        chart.getXAxis().setEnabled(false);
 
-        // Mock Data for Sparkline (Trend)
-        List<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(0, 1000000));
-        entries.add(new Entry(1, 1200000));
-        entries.add(new Entry(2, 1150000));
-        entries.add(new Entry(3, 1350000));
-        entries.add(new Entry(4, 1400000));
-        entries.add(new Entry(5, 1500000)); // Current
+        // Mock Data for BarChart (Matching Mockup JAN-JUL)
+        ArrayList<com.github.mikephil.charting.data.BarEntry> entries = new ArrayList<>();
+        entries.add(new com.github.mikephil.charting.data.BarEntry(0, 4.5f)); // Jan
+        entries.add(new com.github.mikephil.charting.data.BarEntry(1, 6.2f)); // Feb
+        entries.add(new com.github.mikephil.charting.data.BarEntry(2, 5.1f)); // Mar
+        entries.add(new com.github.mikephil.charting.data.BarEntry(3, 8.4f)); // Apr
+        entries.add(new com.github.mikephil.charting.data.BarEntry(4, 7.8f)); // May
+        entries.add(new com.github.mikephil.charting.data.BarEntry(5, 11.2f)); // Jun
+        entries.add(new com.github.mikephil.charting.data.BarEntry(6, 13.5f)); // Jul
 
-        LineDataSet dataSet = new LineDataSet(entries, "Balance");
-        dataSet.setColor(Color.WHITE);
-        dataSet.setLineWidth(2f);
-        dataSet.setDrawCircles(false);
+        com.github.mikephil.charting.data.BarDataSet dataSet = new com.github.mikephil.charting.data.BarDataSet(entries,
+                "Growth");
+
+        // Custom colors for matching June (Blue) and July (Orange)
+        int[] colors = new int[7];
+        int lightBlue = Color.parseColor("#DBEAFE");
+        int primaryBlue = Color.parseColor("#2563EB");
+        int accentOrange = Color.parseColor("#FF8A00");
+
+        for (int i = 0; i < 5; i++)
+            colors[i] = lightBlue;
+        colors[5] = primaryBlue;
+        colors[6] = accentOrange;
+
+        dataSet.setColors(colors);
         dataSet.setDrawValues(false);
-        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        // Gradient fill
-        dataSet.setDrawFilled(true);
-        if (android.os.Build.VERSION.SDK_INT >= 18) {
-            // Just use white with transparency for now
-            dataSet.setFillColor(Color.WHITE);
-            dataSet.setFillAlpha(50);
-        }
+        com.github.mikephil.charting.data.BarData barData = new com.github.mikephil.charting.data.BarData(dataSet);
+        barData.setBarWidth(0.6f);
 
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-        chart.invalidate(); // Refresh
-
-        // Animate
-        chart.animateX(1000);
+        chart.setData(barData);
+        chart.setFitBars(true);
+        chart.animateY(1000);
+        chart.invalidate();
     }
 
+    private void resetBottomNav() {
+        if (binding.bgHome != null)
+            resetNavItem(binding.txtHome, binding.imgHome, binding.bgHome);
+        if (binding.bgMembers != null)
+            resetNavItem(binding.txtMembers, binding.imgMembers, binding.bgMembers);
+        if (binding.bgLoans != null)
+            resetNavItem(binding.txtLoans, binding.imgLoans, binding.bgLoans);
+        if (binding.bgSettings != null)
+            resetNavItem(binding.txtSettings, binding.imgSettings, binding.bgSettings);
+    }
 }

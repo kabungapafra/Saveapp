@@ -37,6 +37,10 @@
             android:exported="false" />
 
         <activity
+            android:name="com.example.save.ui.activities.MemberLoginActivity"
+            android:exported="false" />
+
+        <activity
             android:name="com.example.save.ui.activities.AdminLoginActivity"
             android:exported="false"
             tools:ignore="DuplicateActivity" />

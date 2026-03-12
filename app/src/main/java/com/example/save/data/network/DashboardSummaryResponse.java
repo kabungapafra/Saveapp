@@ -24,6 +24,12 @@ public class DashboardSummaryResponse {
     @SerializedName("admin_name")
     private String adminName;
 
+    @SerializedName("monthly_contributions")
+    private double monthlyContributions;
+
+    @SerializedName("interest_earned")
+    private double interestEarned;
+
     // Getters
     public int getTotalMembers() {
         return totalMembers;
@@ -53,6 +59,14 @@ public class DashboardSummaryResponse {
         return adminName;
     }
 
+    public double getMonthlyContributions() {
+        return monthlyContributions;
+    }
+
+    public double getInterestEarned() {
+        return interestEarned;
+    }
+
     // Setters
     public void setTotalMembers(int totalMembers) {
         this.totalMembers = totalMembers;
@@ -80,5 +94,13 @@ public class DashboardSummaryResponse {
 
     public void setAdminName(String adminName) {
         this.adminName = adminName;
+    }
+
+    public void setMonthlyContributions(double monthlyContributions) {
+        this.monthlyContributions = monthlyContributions;
+    }
+
+    public void setInterestEarned(double interestEarned) {
+        this.interestEarned = interestEarned;
     }
 }

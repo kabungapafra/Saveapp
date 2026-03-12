@@ -34,7 +34,14 @@ public class AdminLoginActivity extends AppCompatActivity {
         // Setup click listeners
         binding.loginButton.setOnClickListener(v -> handleLogin());
         binding.forgotPassword.setOnClickListener(v -> showForgotPasswordFragment());
+        binding.sideSignUpTab.setOnClickListener(this::onsingupClick);
+        binding.memberPortalLink.setOnClickListener(v -> navigateToMemberPortal());
         setupPasswordToggle();
+
+        // Animate Logo Image (Heartbeat)
+        android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,
+                R.anim.heartbeat);
+        binding.logoImage.startAnimation(heartbeat);
 
         viewModel = new androidx.lifecycle.ViewModelProvider(this)
                 .get(com.example.save.ui.viewmodels.MembersViewModel.class);
@@ -45,6 +52,13 @@ public class AdminLoginActivity extends AppCompatActivity {
         Intent intent = new Intent(AdminLoginActivity.this, AdminSignupActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void navigateToMemberPortal() {
+        Intent intent = new Intent(this, MemberLoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
     }
 
     /**
@@ -103,14 +117,14 @@ public class AdminLoginActivity extends AppCompatActivity {
         }
 
         binding.loginButton.setEnabled(false);
-        binding.loginButton.setText("Signing in...");
+        binding.loginButtonText.setText("Signing in...");
 
         // Cold Start Feedback: If request takes > 2.5s, update UI to show server is
         // waking up
         android.os.Handler feedbackHandler = new android.os.Handler();
         Runnable feedbackRunnable = () -> {
             if (!binding.loginButton.isEnabled()) {
-                binding.loginButton.setText("Waking up server...");
+                binding.loginButtonText.setText("Waking up server...");
                 Toast.makeText(AdminLoginActivity.this,
                         "Server is waking up from standby. This may take a moment...",
                         Toast.LENGTH_LONG).show();
@@ -133,7 +147,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                     retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
                 feedbackHandler.removeCallbacks(feedbackRunnable);
                 binding.loginButton.setEnabled(true);
-                binding.loginButton.setText("Login");
+                binding.loginButtonText.setText("Login");
 
                 if (response.isSuccessful() && response.body() != null) {
                     com.example.save.data.network.LoginResponse loginResponse = response.body();
@@ -185,7 +199,7 @@ public class AdminLoginActivity extends AppCompatActivity {
             public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
                 feedbackHandler.removeCallbacks(feedbackRunnable);
                 binding.loginButton.setEnabled(true);
-                binding.loginButton.setText("Login");
+                binding.loginButtonText.setText("Login");
                 com.example.save.utils.ApiErrorHandler.handleError(AdminLoginActivity.this, t);
             }
         });

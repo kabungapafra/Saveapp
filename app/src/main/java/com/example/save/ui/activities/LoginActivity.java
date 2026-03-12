@@ -8,7 +8,9 @@ import com.example.save.data.repository.*;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,12 +22,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Animate Logo Image (Heartbeat) - NOT the container
+        android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,
+                R.anim.heartbeat);
+        binding.logoImage.startAnimation(heartbeat);
     }
 
     /**
@@ -41,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
      * Handle Member button click from XML
      */
     public void onMemberClick(View view) {
-        Intent intent = new Intent(this, MemberRegistrationActivity.class);
+        Intent intent = new Intent(this, MemberLoginActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base Background Color -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#F8FAFC" />
+        </shape>
+    </item>
+
+    <!-- The exact Easy Saving Right-Side Gradient (Untouched) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:centerX="0.85"
+                android:centerY="0.45"
+                android:gradientRadius="700dp"
+                android:startColor="#CBE2F4"
+                android:centerColor="#EEF4F9"
+                android:endColor="#00FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- NEW: The Gradient up near the Logo -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:centerX="0.15"
+                android:centerY="0.10"
+                android:gradientRadius="500dp"
+                android:startColor="#D6E8F6"
+                android:centerColor="#EEF4F9"
+                android:endColor="#00FFFFFF" />
+        </shape>
+    </item>
+</layer-list>

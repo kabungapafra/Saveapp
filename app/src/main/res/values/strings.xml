@@ -92,4 +92,12 @@
     <string name="sign_in">Sign In!</string>
     <string name="follow_for_more_on_our_social_media">Follow for more on our social media</string>
     <string name="welcome_back">Welcome back,</string>
+    
+    <!-- Login Screen Redesign -->
+    <string name="login_tagline">The dynamic and inviting way to grow your wealth together.</string>
+    <string name="social_circles">Social Circles</string>
+    <string name="easy_saving">Easy Saving</string>
+    <string name="continue_as_admin">Continue as Admin</string>
+    <string name="continue_as_member">Continue as Member</string>
+    <string name="savers_footer">Join over 50,000+ savers today</string>
 </resources>
