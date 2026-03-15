@@ -728,7 +728,7 @@ public class MemberRepository {
     @Deprecated
     public void setContributionTarget(double target) {
         // NOTE: Contribution target is now a global setting managed by the backend.
-        // Use SettingsActivity or ViewModel to update SYSTEM_CONFIG instead.
+        // Use SettingsFragment or ViewModel to update SYSTEM_CONFIG instead.
         if (target > 0) {
             this.contributionTarget = target;
             executor.execute(() -> {

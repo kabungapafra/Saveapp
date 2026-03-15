@@ -37,35 +37,35 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_marginBottom="12dp"
                             android:src="@drawable/white" />
 
                         <TextView
                             android:id="@+id/tvTopGreeting"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
                             android:fontFamily="@font/manrope"
                             android:text="Good Morning,"
                             android:textColor="@color/white"
-                            android:textSize="22sp"
-                            android:textStyle="bold|italic" />
+                            android:textSize="18sp"
+                            android:textStyle="normal"
+                            android:letterSpacing="0.02" />
 
                         <TextView
                             android:id="@+id/tvTopName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope"
                             android:text="Admin"
-                            android:textColor="#E2E8F0"
-                            android:textSize="22sp"
-                            android:textStyle="bold|italic" />
+                            android:textColor="@color/white"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -509,6 +509,22 @@
         android:background="@color/dashboard_bg"
         android:visibility="gone" />
 
+    <!-- Background Dim Layer (Fades in over everything except FAB/Nav) -->
+    <View
+        android:id="@+id/quickActionsDim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B364748B"
+        android:visibility="gone" />
+
+    <!-- Quick Actions Overlay (Slide/Fade entrance) -->
+    <include
+        android:id="@+id/quickActionsLayout"
+        layout="@layout/dialog_quick_actions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <!-- Redesigned Bottom Navigation Bar with Centered FAB -->
     <!-- Floating Nav Bar Wrapper -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -668,7 +684,7 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_person"
+                        android:src="@drawable/ic_settings"
                         app:tint="#94A3B8" />
                 </FrameLayout>
 
@@ -676,7 +692,7 @@
                     android:id="@+id/txtSettings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ADMIN"
+                    android:text="ACCOUNT"
                     android:textColor="#94A3B8"
                     android:textSize="9sp"
                     android:textStyle="bold"

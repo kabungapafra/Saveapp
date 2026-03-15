@@ -106,26 +106,13 @@ public class AdminMainActivity extends AppCompatActivity {
             } else if ("LOANS".equals(target)) {
                 binding.bgLoans
                         .post(() -> updateNav(binding.bgLoans, binding.txtLoans, binding.imgLoans, binding.bgLoans));
+            } else if ("SETTINGS".equals(target)) {
+                binding.bgSettings
+                        .post(() -> updateNav(binding.bgSettings, binding.txtSettings, binding.imgSettings, binding.bgSettings));
             }
         }
 
-        // Fix for blank screen on swipe back
-        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                // We are back at the root
-                if (binding.fragmentContainer != null) {
-                    binding.fragmentContainer.setVisibility(View.GONE);
-                }
-                if (binding.mainContentScrollView != null) {
-                    binding.mainContentScrollView.setVisibility(View.VISIBLE);
-                }
-                if (binding.navContainer != null) {
-                    binding.navContainer.setVisibility(View.VISIBLE);
-                }
-                // Reset nav to Home visually
-                updateNav(binding.bgHome, binding.txtHome, binding.imgHome, binding.bgHome);
-            }
-        });
+
     }
 
     @SuppressLint("GestureBackNavigation")
@@ -298,6 +285,8 @@ public class AdminMainActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isMenuOpen = false;
+
     private void setupListeners() {
         // Notifications
         if (binding.btnNotifications != null) {
@@ -336,15 +325,60 @@ public class AdminMainActivity extends AppCompatActivity {
         if (binding.fabAction != null) {
             binding.fabAction.setOnClickListener(v -> {
                 applyClickAnimation(v);
-                // Show Quick Actions dialog or menu
-                showComposeAnnouncementDialog();
+                toggleQuickActions();
             });
         }
+
+        // Setup Quick Actions Overlay listeners
+        View overlay = binding.quickActionsLayout.getRoot();
+        overlay.findViewById(R.id.cardAddMember).setOnClickListener(v -> {
+            Toast.makeText(this, "Add Member clicked", Toast.LENGTH_SHORT).show();
+            toggleQuickActions();
+        });
+        overlay.findViewById(R.id.cardRecordContribution).setOnClickListener(v -> {
+            Toast.makeText(this, "Record Contribution clicked", Toast.LENGTH_SHORT).show();
+            toggleQuickActions();
+        });
+        overlay.findViewById(R.id.cardRequestLoan).setOnClickListener(v -> {
+            Toast.makeText(this, "Request Loan clicked", Toast.LENGTH_SHORT).show();
+            toggleQuickActions();
+        });
+        overlay.findViewById(R.id.cardNewSavings).setOnClickListener(v -> {
+            Toast.makeText(this, "New Savings Target clicked", Toast.LENGTH_SHORT).show();
+            toggleQuickActions();
+        });
+
+        binding.quickActionsDim.setOnClickListener(v -> toggleQuickActions());
     }
 
-    private void toggleFabMenu() {
-        // Simplified for new design - just one action on FAB click
-        showComposeAnnouncementDialog();
+    private void toggleQuickActions() {
+        isMenuOpen = !isMenuOpen;
+
+        // Find the icon inside FAB card
+        View fabIcon = ((ViewGroup) binding.fabAction).getChildAt(0);
+
+        if (isMenuOpen) {
+            // Open Menu
+            if (fabIcon != null)
+                fabIcon.animate().rotation(45).setDuration(200).start();
+            binding.quickActionsDim.setVisibility(View.VISIBLE);
+            binding.quickActionsDim.setAlpha(0f);
+            binding.quickActionsDim.animate().alpha(1f).setDuration(200).start();
+
+            binding.quickActionsLayout.getRoot().setVisibility(View.VISIBLE);
+            binding.quickActionsLayout.getRoot().setAlpha(0f);
+            binding.quickActionsLayout.getRoot().setTranslationY(100f);
+            binding.quickActionsLayout.getRoot().animate().alpha(1f).translationY(0).setDuration(300).start();
+        } else {
+            // Close Menu
+            if (fabIcon != null)
+                fabIcon.animate().rotation(0).setDuration(200).start();
+            binding.quickActionsDim.animate().alpha(0f).setDuration(200)
+                    .withEndAction(() -> binding.quickActionsDim.setVisibility(View.GONE)).start();
+
+            binding.quickActionsLayout.getRoot().animate().alpha(0f).translationY(100f).setDuration(300)
+                    .withEndAction(() -> binding.quickActionsLayout.getRoot().setVisibility(View.GONE)).start();
+        }
     }
 
     private void setupBottomNavigation() {
@@ -383,7 +417,7 @@ public class AdminMainActivity extends AppCompatActivity {
         if (selectedItem == binding.bgHome) {
             binding.mainContentScrollView.setVisibility(View.VISIBLE);
             binding.fragmentContainer.setVisibility(View.GONE);
-        } else if (selectedItem != binding.bgSettings) {
+        } else {
             binding.mainContentScrollView.setVisibility(View.GONE);
             binding.fragmentContainer.setVisibility(View.VISIBLE);
 
@@ -393,7 +427,7 @@ public class AdminMainActivity extends AppCompatActivity {
             else if (selectedItem == binding.bgLoans)
                 fragment = new AdminLoansFragment();
             else if (selectedItem == binding.bgSettings)
-                fragment = AnalyticsFragment.newInstance(true);
+                fragment = new SettingsFragment();
 
             if (fragment != null) {
                 getSupportFragmentManager().beginTransaction()

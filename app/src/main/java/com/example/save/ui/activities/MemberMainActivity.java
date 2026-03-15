@@ -69,9 +69,12 @@ public class MemberMainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // If a fragment is showing, go back to dashboard
-                if (binding != null && binding.fragmentContainer != null
+                // If there's a back stack, pop it (e.g., Privacy -> Account)
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else if (binding != null && binding.fragmentContainer != null
                         && binding.fragmentContainer.getVisibility() == android.view.View.VISIBLE) {
+                    // If a fragment is showing but stack is empty, go back to dashboard
                     switchToDashboard();
                 } else {
                     // Exit app instead of going back to login
@@ -256,8 +259,9 @@ public class MemberMainActivity extends AppCompatActivity {
         if (binding.greetingName != null) {
             binding.greetingName.setOnClickListener(v -> {
                 applyClickAnimation(v);
-                startActivity(new Intent(MemberMainActivity.this, SettingsActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
+                resetAllNavItems();
+                hideHeader();
+                loadFragment(new SettingsFragment());
             });
         }
 
@@ -336,8 +340,9 @@ public class MemberMainActivity extends AppCompatActivity {
         if (binding.actionProfile != null) {
             binding.actionProfile.setOnClickListener(v -> {
                 applyClickAnimation(v);
-                startActivity(new Intent(MemberMainActivity.this, SettingsActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
+                resetAllNavItems();
+                hideHeader();
+                loadFragment(new SettingsFragment());
             });
         }
     }
@@ -400,7 +405,7 @@ public class MemberMainActivity extends AppCompatActivity {
     private void setupBottomNavigation() {
         binding.navDashboard
                 .setOnClickListener(v -> {
-                    updateNav(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
+                    updateNav(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.navDashboard);
                     showHeader();
                 });
 
@@ -409,20 +414,27 @@ public class MemberMainActivity extends AppCompatActivity {
         });
 
         binding.navStats.setOnClickListener(v -> {
-            updateNav(binding.navStats, binding.txtStats, binding.imgStats);
+            updateNav(binding.navStats, binding.txtStats, binding.imgStats, binding.navStats);
             hideHeader();
             String email = getIntent().getStringExtra("member_email");
             if (email == null)
                 email = "email@example.com"; // Fallback
             loadFragment(AnalyticsFragment.newInstance(false, email));
         });
+
+        binding.navSettings.setOnClickListener(v -> {
+            updateNav(binding.navSettings, binding.txtSettings, binding.imgSettings, binding.navSettings);
+            hideHeader();
+            loadFragment(new SettingsFragment());
+        });
     }
 
-    private void updateNav(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage) {
+    private void updateNav(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage, View selectedItem) {
         // 1. Reset all items
         resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
         resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
         resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
+        resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
 
         // 2. Set active
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) selectedLayout.getLayoutParams();
@@ -449,6 +461,7 @@ public class MemberMainActivity extends AppCompatActivity {
         resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
         resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
         resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
+        resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
     }
 
     private void loadFragment(androidx.fragment.app.Fragment fragment) {

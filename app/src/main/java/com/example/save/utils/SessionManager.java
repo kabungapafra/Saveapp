@@ -37,6 +37,9 @@ public class SessionManager {
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email";
 
+    // Phone number
+    public static final String KEY_PHONE = "phone";
+
     // User Role
     public static final String KEY_ROLE = "role";
 
@@ -82,6 +85,10 @@ public class SessionManager {
      * Create login session
      */
     public void createLoginSession(String name, String email, String role, boolean isFirstLogin) {
+        createLoginSession(name, email, "", role, isFirstLogin);
+    }
+
+    public void createLoginSession(String name, String email, String phone, String role, boolean isFirstLogin) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -90,6 +97,9 @@ public class SessionManager {
 
         // Storing email in pref
         editor.putString(KEY_EMAIL, email);
+
+        // Storing phone
+        editor.putString(KEY_PHONE, phone);
 
         // Storing role
         editor.putString(KEY_ROLE, role);
@@ -124,6 +134,10 @@ public class SessionManager {
 
     public String getUserName() {
         return pref.getString(KEY_NAME, null);
+    }
+
+    public String getUserPhone() {
+        return pref.getString(KEY_PHONE, "");
     }
 
     /**

@@ -89,59 +89,62 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     // ViewHolder for ItemMemberSimple
     static class SimpleViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvRole, tvSavings;
-        View statusView;
+        private final ItemMemberSimpleBinding binding;
 
         SimpleViewHolder(ItemMemberSimpleBinding binding) {
             super(binding.getRoot());
-            tvName = binding.tvMemberName;
-            tvRole = binding.tvMemberRole;
-            tvSavings = binding.tvMemberSavings;
-            statusView = binding.statusIndicator;
+            this.binding = binding;
         }
 
         void bind(Member member) {
-            tvName.setText(member.getName());
-            tvRole.setText(member.getRole());
-            tvSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
+            binding.tvMemberName.setText(member.getName());
+            binding.tvMemberRole.setText(member.getRole());
+            binding.tvMemberSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
 
             // Subtle status color
             int color = member.isActive()
-                    ? android.graphics.Color.parseColor("#4CAF50")
-                    : android.graphics.Color.parseColor("#BDBDBD");
-            statusView.setBackgroundTintList(ColorStateList.valueOf(color));
+                    ? android.graphics.Color.parseColor("#10B981")
+                    : android.graphics.Color.parseColor("#94A3B8");
+            binding.statusIndicator.setBackgroundTintList(ColorStateList.valueOf(color));
         }
     }
 
     // ViewHolder for ItemMemberAdmin
     static class AdminViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvRole, tvSavings;
-        View statusView;
-        View btnMore;
+        private final ItemMemberAdminBinding binding;
 
         AdminViewHolder(ItemMemberAdminBinding binding) {
             super(binding.getRoot());
-            tvName = binding.tvMemberName;
-            tvRole = binding.tvMemberRole;
-            tvSavings = binding.tvMemberSavings;
-            statusView = binding.statusIndicator;
-            btnMore = binding.btnMoreActions;
+            this.binding = binding;
         }
 
         void bind(Member member, int position, OnMemberClickListener listener) {
-            tvName.setText(member.getName());
-            tvRole.setText(member.getRole());
-            tvSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
+            binding.tvMemberName.setText(member.getName());
+            binding.tvMemberContributed.setText(String.format("$%,.2f", member.getContributionPaid()));
 
-            // Modern status color
-            int color = member.isActive()
-                    ? android.graphics.Color.parseColor("#4CAF50")
-                    : android.graphics.Color.parseColor("#BDBDBD");
-            statusView.setBackgroundTintList(ColorStateList.valueOf(color));
+            // Reliability based on credit score (0-100)
+            binding.tvMemberReliability.setText(member.getCreditScore() + ".0%");
+
+            // Random or calculated rank for demo
+            int rank = (position % 5) + 1;
+            binding.tvMemberRank.setText("#" + rank + (rank == 1 ? " Top" : ""));
+            binding.tvMemberRank.setTextColor(rank == 1 ? android.graphics.Color.parseColor("#FF8A00")
+                    : android.graphics.Color.parseColor("#94A3B8"));
+
+            // Status Badge
+            if (member.isActive()) {
+                binding.tvStatusBadge.setText("ACTIVE");
+                binding.tvStatusBadge.setBackgroundResource(com.example.save.R.drawable.bg_status_active);
+                binding.tvStatusBadge.setTextColor(android.graphics.Color.parseColor("#10B981"));
+            } else {
+                binding.tvStatusBadge.setText("INACTIVE");
+                binding.tvStatusBadge.setBackgroundResource(com.example.save.R.drawable.bg_status_inactive_badge);
+                binding.tvStatusBadge.setTextColor(android.graphics.Color.parseColor("#64748B"));
+            }
 
             if (listener != null) {
                 itemView.setOnClickListener(v -> listener.onMemberClick(member));
-                btnMore.setOnClickListener(v -> listener.onMoreActionsClick(v, member, position));
+                binding.btnMoreActions.setOnClickListener(v -> listener.onMoreActionsClick(v, member, position));
             }
         }
     }

@@ -214,7 +214,7 @@ public class OtpFragment extends Fragment {
                             // Save session
                             com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
                                     requireContext());
-                            session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
+                            session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), phone,
                                     loginResponse.getRole(), loginResponse.isFirstLogin());
 
                             if (loginResponse.getToken() != null) {
