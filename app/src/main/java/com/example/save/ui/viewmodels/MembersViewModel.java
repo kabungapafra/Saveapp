@@ -48,8 +48,12 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getPendingPaymentsCount();
     }
 
-    public void addMember(Member member, MemberRepository.MemberAddCallback callback) {
+    public void addMember(Member member, MemberRepository.MemberRegistrationCallback callback) {
         repository.addMember(member, callback);
+    }
+
+    public void sendInvite(Member member, MemberRepository.MemberAddCallback callback) {
+        repository.sendMemberInvite(member, callback);
     }
 
     public void removeMember(Member member) {

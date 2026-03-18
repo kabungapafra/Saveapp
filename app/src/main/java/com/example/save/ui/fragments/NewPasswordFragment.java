@@ -101,6 +101,12 @@ public class NewPasswordFragment extends Fragment {
                 resendOtpCode();
             }
         });
+
+        binding.signInLink.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     // ========== STEP 1: EMAIL INPUT ==========
@@ -109,19 +115,18 @@ public class NewPasswordFragment extends Fragment {
         currentStep = 1;
 
         // Update title and subtitle
-        binding.emailTitle.setText("Forgot Password");
-        binding.otpSubtitle.setText("Enter your email address to receive a password reset code");
+        binding.emailTitle.setText(R.string.forgot_password_heading);
+        binding.otpSubtitle.setText(R.string.forgot_password_subtitle);
 
         // Show email views
-        binding.emailInputLayout.setVisibility(View.VISIBLE);
+        binding.emailStepContainer.setVisibility(View.VISIBLE);
+        binding.signinContainer.setVisibility(View.VISIBLE);
 
         // Hide OTP views
-        binding.sentToText.setVisibility(View.GONE);
-        binding.otpInputContainer.setVisibility(View.GONE);
-        binding.resendContainer.setVisibility(View.GONE);
+        binding.otpStepContainer.setVisibility(View.GONE);
 
         // Set button text
-        binding.verifyButton.setText("Send Code");
+        binding.verifyButton.setText(R.string.send_reset_link);
         binding.errorMessage.setVisibility(View.GONE);
     }
 
@@ -187,20 +192,18 @@ public class NewPasswordFragment extends Fragment {
         currentStep = 2;
 
         // Update title and subtitle
-        binding.emailTitle.setText("Verify OTP");
-        binding.otpSubtitle.setText("Enter the 6-digit code sent to");
+        binding.emailTitle.setText(R.string.verify_your_email);
+        binding.otpSubtitle.setText(R.string.otp_mockup_subtitle);
 
-        // Hide email input
-        binding.emailInputLayout.setVisibility(View.GONE);
+        // Hide email input and sign-in link
+        binding.emailStepContainer.setVisibility(View.GONE);
+        binding.signinContainer.setVisibility(View.GONE);
 
         // Show OTP views
-        binding.sentToText.setVisibility(View.VISIBLE);
-        binding.sentToText.setText(userEmail);
-        binding.otpInputContainer.setVisibility(View.VISIBLE);
-        binding.resendContainer.setVisibility(View.VISIBLE);
+        binding.otpStepContainer.setVisibility(View.VISIBLE);
 
         // Set button text
-        binding.verifyButton.setText("Verify OTP");
+        binding.verifyButton.setText(R.string.verify_and_continue);
         binding.errorMessage.setVisibility(View.GONE);
 
         // Setup OTP auto-focus

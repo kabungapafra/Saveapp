@@ -331,20 +331,33 @@ public class AdminMainActivity extends AppCompatActivity {
 
         // Setup Quick Actions Overlay listeners
         View overlay = binding.quickActionsLayout.getRoot();
+        overlay.findViewById(R.id.btnClose).setOnClickListener(v -> toggleQuickActions());
+        
         overlay.findViewById(R.id.cardAddMember).setOnClickListener(v -> {
-            Toast.makeText(this, "Add Member clicked", Toast.LENGTH_SHORT).show();
             toggleQuickActions();
+            // Open MembersFragment with the "SHOW_ADD_DIALOG" flag true
+            Bundle args = new Bundle();
+            args.putBoolean("SHOW_ADD_DIALOG", true);
+            MembersFragment fragment = new MembersFragment();
+            fragment.setArguments(args);
+            loadFragment(fragment);
+            // Sync nav UI for consistency
+            updateNav(binding.bgMembers, binding.txtMembers, binding.imgMembers, binding.bgMembers);
         });
-        overlay.findViewById(R.id.cardRecordContribution).setOnClickListener(v -> {
-            Toast.makeText(this, "Record Contribution clicked", Toast.LENGTH_SHORT).show();
+        overlay.findViewById(R.id.cardAnalysis).setOnClickListener(v -> {
+            loadFragment(new FinancialReportsFragment());
             toggleQuickActions();
         });
         overlay.findViewById(R.id.cardRequestLoan).setOnClickListener(v -> {
             Toast.makeText(this, "Request Loan clicked", Toast.LENGTH_SHORT).show();
             toggleQuickActions();
         });
-        overlay.findViewById(R.id.cardNewSavings).setOnClickListener(v -> {
-            Toast.makeText(this, "New Savings Target clicked", Toast.LENGTH_SHORT).show();
+        overlay.findViewById(R.id.cardRecordContribution).setOnClickListener(v -> {
+            loadFragment(new MakeContributionFragment());
+            toggleQuickActions();
+        });
+        overlay.findViewById(R.id.cardPaymentQueue).setOnClickListener(v -> {
+            Toast.makeText(this, "Payment Queue clicked", Toast.LENGTH_SHORT).show();
             toggleQuickActions();
         });
 
@@ -367,8 +380,15 @@ public class AdminMainActivity extends AppCompatActivity {
 
             binding.quickActionsLayout.getRoot().setVisibility(View.VISIBLE);
             binding.quickActionsLayout.getRoot().setAlpha(0f);
-            binding.quickActionsLayout.getRoot().setTranslationY(100f);
-            binding.quickActionsLayout.getRoot().animate().alpha(1f).translationY(0).setDuration(300).start();
+            binding.quickActionsLayout.getRoot().setScaleX(0.9f);
+            binding.quickActionsLayout.getRoot().setScaleY(0.9f);
+            binding.quickActionsLayout.getRoot().animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(300)
+                    .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                    .start();
         } else {
             // Close Menu
             if (fabIcon != null)
@@ -376,8 +396,14 @@ public class AdminMainActivity extends AppCompatActivity {
             binding.quickActionsDim.animate().alpha(0f).setDuration(200)
                     .withEndAction(() -> binding.quickActionsDim.setVisibility(View.GONE)).start();
 
-            binding.quickActionsLayout.getRoot().animate().alpha(0f).translationY(100f).setDuration(300)
-                    .withEndAction(() -> binding.quickActionsLayout.getRoot().setVisibility(View.GONE)).start();
+            binding.quickActionsLayout.getRoot().animate()
+                    .alpha(0f)
+                    .scaleX(0.9f)
+                    .scaleY(0.9f)
+                    .setDuration(300)
+                    .setInterpolator(new android.view.animation.AccelerateInterpolator())
+                    .withEndAction(() -> binding.quickActionsLayout.getRoot().setVisibility(View.GONE))
+                    .start();
         }
     }
 

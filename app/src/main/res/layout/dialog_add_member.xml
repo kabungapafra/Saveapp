@@ -1,239 +1,428 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="24dp"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="24dp"
-    app:cardElevation="12dp">
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- Top Navigation Bar -->
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:paddingHorizontal="20dp">
+
+        <ImageView
+            android:id="@+id/btnCloseDialog"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/blue_50_circle"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/brand_blue" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/manrope_bold"
+            android:text="@string/add_new_member"
+            android:textColor="@color/text_slate_900"
+            android:textSize="18sp" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="24dp">
 
-            <!-- Header -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-black"
-                        android:text="New Member"
-                        android:textColor="@color/project_primary"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Create a new account"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/btnCloseDialog"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentEnd="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_close"
-                    app:tint="@color/text_secondary" />
-            </RelativeLayout>
-
-
-            <!-- Name Input -->
+            <!-- Full Name Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-bold"
-                android:text="Full Name"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <EditText
-                android:id="@+id/etMemberName"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_input_modern"
-                android:fontFamily="sans-serif-medium"
-                android:hint="e.g. John Doe"
-                android:inputType="textPersonName"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/text_hint"
+                android:fontFamily="@font/manrope_bold"
+                android:letterSpacing="0.01"
+                android:text="@string/full_name"
+                android:textColor="@color/text_slate_900"
                 android:textSize="14sp" />
 
-            <!-- Phone Input -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-bold"
-                android:text="Phone Number"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nameInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_input_modern"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:boxBackgroundColor="@color/slate_50"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusTopStart="14dp"
+                app:boxStrokeColor="@color/slate_200"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="1.5dp"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_person"
+                app:startIconTint="@color/text_slate_400">
 
-                <EditText
-                    android:id="@+id/etMemberPhone"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMemberName"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:fontFamily="sans-serif-medium"
-                    android:hint="0770000000"
-                    android:inputType="phone"
-                    android:maxLength="10"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/text_hint"
+                    android:layout_height="56dp"
+                    android:fontFamily="@font/manrope_medium"
+                    android:hint="@string/alexander_pierce_hint"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/text_slate_900"
+                    android:textColorHint="@color/text_slate_400"
                     android:textSize="14sp" />
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Email Input -->
+            <!-- Professional Email Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-bold"
-                android:text="Email Address"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <EditText
-                android:id="@+id/etMemberEmail"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_input_modern"
-                android:fontFamily="sans-serif-medium"
-                android:hint="e.g. john@example.com"
-                android:inputType="textEmailAddress"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/text_hint"
+                android:fontFamily="@font/manrope_bold"
+                android:letterSpacing="0.01"
+                android:text="@string/professional_email"
+                android:textColor="@color/text_slate_900"
                 android:textSize="14sp" />
 
-            <!-- Role Input -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-bold"
-                android:text="Role"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <FrameLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_input_modern">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:boxBackgroundColor="@color/slate_50"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusTopStart="14dp"
+                app:boxStrokeColor="@color/slate_200"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="1.5dp"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_email"
+                app:startIconTint="@color/text_slate_400">
 
-                <Spinner
-                    android:id="@+id/spinnerMemberRole"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMemberEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:spinnerMode="dropdown" />
-            </FrameLayout>
+                    android:layout_height="56dp"
+                    android:fontFamily="@font/manrope_medium"
+                    android:hint="@string/alex_email_hint"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/text_slate_900"
+                    android:textColorHint="@color/text_slate_400"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Auto-Generated OTP Input -->
+            <!-- Phone Number Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-bold"
-                android:text="Temporary Access Code"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:fontFamily="@font/manrope_bold"
+                android:letterSpacing="0.01"
+                android:text="@string/phone_number"
+                android:textColor="@color/text_slate_900"
+                android:textSize="14sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/etMemberOTP"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_input_modern_dashed"
-                    android:fontFamily="sans-serif-black"
-                    android:hint="Generating..."
-                    android:inputType="number"
-                    android:paddingHorizontal="16dp"
-                    android:textColor="@color/project_primary"
-                    android:textColorHint="@color/text_hint"
-                    android:textSize="18sp"
-                    android:letterSpacing="0.2"
-                    android:enabled="false"/>
-
-                <FrameLayout
-                    android:id="@+id/btnRegenerateOTP"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="12dp"
-                    android:background="@drawable/bg_button_secondary_square"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_refresh"
-                        app:tint="@color/project_primary" />
-                </FrameLayout>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:fontFamily="sans-serif"
-                android:text="This code will be auto-generated. Share it with the member."
-                android:textColor="@color/text_secondary"
-                android:textSize="11sp" />
-
-            <!-- Action Buttons -->
-            <Button
-                android:id="@+id/btnCreateMember"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="@drawable/gradient_button"
-                app:backgroundTint="@null"
-                android:fontFamily="sans-serif-bold"
-                android:stateListAnimator="@null"
-                android:text="CREATE ACCOUNT"
-                android:textColor="@color/white"
+                android:layout_marginBottom="24dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="86dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_input_add_member"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="🇺🇬 +256"
+                            android:textColor="@color/text_slate_900"
+                            android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/text_slate_400" />
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    app:boxBackgroundColor="@color/slate_50"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="@color/slate_200"
+                    app:boxStrokeWidth="1dp"
+                    app:boxStrokeWidthFocused="1.5dp"
+                    app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etMemberPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/manrope_medium"
+                            android:hint="700 000 000"
+                        android:inputType="phone"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:textColor="@color/text_slate_900"
+                        android:textColorHint="@color/text_slate_400"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Role Selection Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/manrope_bold"
+                android:letterSpacing="0.01"
+                android:text="@string/member_role"
+                android:textColor="@color/text_slate_900"
                 android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardRoleMember"
+                    android:layout_width="0dp"
+                    android:layout_height="145dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/brand_blue"
+                    app:strokeWidth="2dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/checkMember"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_check_circle"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/brand_blue" />
+
+                        <RelativeLayout
+                            android:id="@+id/iconContainerMember"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:layout_constraintBottom_toTopOf="@id/titleMember"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/blue_50_circle" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_person"
+                                app:tint="@color/brand_blue" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/titleMember"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="@string/member"
+                            android:textColor="@color/text_slate_900"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toTopOf="@id/descMember"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/iconContainerMember" />
+
+                        <TextView
+                            android:id="@+id/descMember"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/manrope_medium"
+                            android:gravity="center"
+                            android:lineSpacingExtra="2dp"
+                            android:text="@string/member_role_desc"
+                            android:textColor="@color/text_slate_400"
+                            android:textSize="10.5sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/titleMember" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardRoleAdmin"
+                    android:layout_width="0dp"
+                    android:layout_height="145dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/slate_50"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/slate_200"
+                    app:strokeWidth="1dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/checkAdmin"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_check_circle"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/brand_blue" />
+
+                        <RelativeLayout
+                            android:id="@+id/iconContainerAdmin"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            app:layout_constraintBottom_toTopOf="@id/titleAdmin"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/slate_50_circle" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_shield_auth"
+                                app:tint="@color/text_slate_400" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/titleAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="@string/admin"
+                            android:textColor="@color/text_slate_900"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toTopOf="@id/descAdmin"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/iconContainerAdmin" />
+
+                        <TextView
+                            android:id="@+id/descAdmin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/manrope_medium"
+                            android:gravity="center"
+                            android:lineSpacingExtra="2dp"
+                            android:text="@string/admin_role_desc"
+                            android:textColor="@color/text_slate_400"
+                            android:textSize="10.5sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/titleAdmin" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </ScrollView>
-</androidx.cardview.widget.CardView>
+
+    <!-- Bottom Action Area -->
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="28dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreateMember"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:fontFamily="@font/manrope_bold"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/continue_to_permissions"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            app:backgroundTint="@color/brand_blue"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="end"
+            app:iconPadding="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/manrope_medium"
+            android:gravity="center"
+            android:text="@string/member_will_receive_invite_link_via_sms"
+            android:textColor="@color/text_slate_400"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

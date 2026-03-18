@@ -6,38 +6,72 @@
     android:background="@android:color/transparent"
     android:padding="24dp">
 
-    <!-- Header Text -->
+    <!-- Header Section -->
+    <RelativeLayout
+        android:id="@+id/dialogHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgBrand"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/white" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnClose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:cardBackgroundColor="#33FFFFFF"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:rotation="45"
+                android:src="@drawable/ic_add_thin"
+                app:tint="@color/white" />
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
+
+    <!-- Title and Subtitle -->
     <TextView
         android:id="@+id/tvQuickActionsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/manrope"
         android:text="Quick Actions"
         android:textColor="@color/white"
         android:textSize="32sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/dialogHeader" />
 
     <TextView
         android:id="@+id/tvQuickActionsSub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/manrope"
         android:text="What would you like to do today?"
-        android:textColor="#E2E8F0"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#CBD5E1"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvQuickActionsTitle" />
 
-    <!-- Action Cards -->
+    <!-- Action Cards Container -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tvQuickActionsSub">
 
@@ -47,9 +81,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#E2E8F0"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp">
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -57,19 +92,18 @@
                 android:padding="16dp">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/iconAddMember"
+                    android:id="@+id/iconContainer1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    app:cardBackgroundColor="#DBEAFE"
-                    app:cardCornerRadius="8dp"
+                    app:cardBackgroundColor="#EFF6FF"
+                    app:cardCornerRadius="12dp"
                     app:cardElevation="0dp">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="10dp"
-                        android:src="@drawable/ic_person_add"
-                        app:tint="#2563EB" />
+                        android:src="@drawable/ic_add_member_blue" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -77,11 +111,11 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/iconAddMember"
+                    android:layout_toEndOf="@id/iconContainer1"
                     android:fontFamily="@font/manrope"
                     android:text="Add Member"
                     android:textColor="#0F172A"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -90,19 +124,20 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#94A3B8" />
+                    app:tint="#CBD5E1" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Record Contribution -->
+        <!-- Analysis -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardRecordContribution"
+            android:id="@+id/cardAnalysis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#E2E8F0"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp">
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -110,19 +145,18 @@
                 android:padding="16dp">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/iconRecordContribution"
+                    android:id="@+id/iconContainer2"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     app:cardBackgroundColor="#DCFCE7"
-                    app:cardCornerRadius="8dp"
+                    app:cardCornerRadius="12dp"
                     app:cardElevation="0dp">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="10dp"
-                        android:src="@drawable/ic_payments"
-                        app:tint="#10B981" />
+                        android:src="@drawable/ic_analysis_green" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -130,11 +164,11 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/iconRecordContribution"
+                    android:layout_toEndOf="@id/iconContainer2"
                     android:fontFamily="@font/manrope"
-                    android:text="Record Contribution"
+                    android:text="Analysis"
                     android:textColor="#0F172A"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -143,7 +177,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#94A3B8" />
+                    app:tint="#CBD5E1" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -153,9 +187,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#E2E8F0"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp">
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -163,19 +198,18 @@
                 android:padding="16dp">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/iconRequestLoan"
+                    android:id="@+id/iconContainer3"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     app:cardBackgroundColor="#FFEDD5"
-                    app:cardCornerRadius="8dp"
+                    app:cardCornerRadius="12dp"
                     app:cardElevation="0dp">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="10dp"
-                        android:src="@drawable/ic_loan"
-                        app:tint="#F97316" />
+                        android:src="@drawable/ic_request_loan_orange" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -183,11 +217,11 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/iconRequestLoan"
+                    android:layout_toEndOf="@id/iconContainer3"
                     android:fontFamily="@font/manrope"
                     android:text="Request Loan"
                     android:textColor="#0F172A"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -196,19 +230,20 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#94A3B8" />
+                    app:tint="#CBD5E1" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- New Savings Target -->
+        <!-- Make Contribution -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardNewSavings"
+            android:id="@+id/cardRecordContribution"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#E2E8F0"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp">
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -216,19 +251,18 @@
                 android:padding="16dp">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/iconNewSavings"
+                    android:id="@+id/iconContainer4"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     app:cardBackgroundColor="#F3E8FF"
-                    app:cardCornerRadius="8dp"
+                    app:cardCornerRadius="12dp"
                     app:cardElevation="0dp">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="10dp"
-                        android:src="@drawable/ic_stats"
-                        app:tint="#A855F7" />
+                        android:src="@drawable/ic_contribution_purple" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -236,11 +270,11 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/iconNewSavings"
+                    android:layout_toEndOf="@id/iconContainer4"
                     android:fontFamily="@font/manrope"
-                    android:text="New Savings Target"
+                    android:text="Make Contribution"
                     android:textColor="#0F172A"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -249,7 +283,60 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#94A3B8" />
+                    app:tint="#CBD5E1" />
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Payment Queue -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPaymentQueue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/iconContainer5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:cardBackgroundColor="#DBEAFE"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_queue_blue" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/iconContainer5"
+                    android:fontFamily="@font/manrope"
+                    android:text="Payment Queue"
+                    android:textColor="#0F172A"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_right"
+                    app:tint="#CBD5E1" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
@@ -268,13 +355,14 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_info"
+            android:src="@drawable/ic_help_outline"
             app:tint="#CBD5E1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/manrope"
             android:text="Need help with something else?"
             android:textColor="#CBD5E1"
             android:textSize="14sp" />

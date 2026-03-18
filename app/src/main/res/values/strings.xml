@@ -100,4 +100,74 @@
     <string name="continue_as_admin">Continue as Admin</string>
     <string name="continue_as_member">Continue as Member</string>
     <string name="savers_footer">Join over 50,000+ savers today</string>
+
+    <!-- Forgot Password Screen -->
+    <string name="forgot_password_heading">Forgot Password?</string>
+    <string name="forgot_password_subtitle">Enter the email address associated with your account and we\'ll send you a link to reset your password.</string>
+    <string name="email_address_label">Email Address</string>
+    <string name="send_reset_link">Send Reset Link</string>
+    <string name="remember_password_question">Remember your password? </string>
+    <string name="sign_in_link">Sign in</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="contact_support">Contact Support</string>
+
+    <!-- OTP Mockup Specific -->
+    <string name="verify_your_email">Verify Your Email</string>
+    <string name="otp_mockup_subtitle">Please enter the 6-digit code sent to your email address to reset your password.</string>
+    <string name="verify_and_continue">Verify &amp; Continue</string>
+    <string name="resend_code_link">Resend Code</string>
+    <string name="didnt_receive_code_question">Didn\'t receive the code? </string>
+    <string name="secure_verification">Secure encrypted verification</string>
+
+    <!-- Reset Password Screen -->
+    <string name="create_new_password_heading">Create New Password</string>
+    <string name="reset_password_subtitle">Your new password must be different from previously used passwords to keep your account secure.</string>
+    <string name="new_password_label">New Password</string>
+    <string name="enter_new_password_hint">Enter your new password</string>
+    <string name="confirm_new_password_label">Confirm New Password</string>
+    <string name="repeat_new_password_hint">Repeat your new password</string>
+    <string name="password_requirements_title">PASSWORD REQUIREMENTS</string>
+    <string name="req_length">At least 8 characters long</string>
+    <string name="req_uppercase">Includes at least one uppercase letter</string>
+    <string name="req_number">Includes at least one number or symbol</string>
+    <string name="reset_password_button">Reset Password</string>
+    <string name="back_to_login">Back to Login</string>
+    <string name="help_center">Help Center</string>
+
+    <!-- Password Reset Success Screen -->
+    <string name="password_reset_success_title">Password Reset Successful!</string>
+    <string name="password_reset_success_desc">Your account security is our priority. Your password has been updated. You can now log in to your Save account with your new credentials.</string>
+    <string name="didnt_perform_action">Didn\'t perform this action? </string>
+    <string name="security_tip_title">Security Tip</string>
+    <string name="security_tip_desc">Enable Two-Factor Authentication for extra safety.</string>
+    <string name="copyright_text">© 2024 Save Financial Inc. All rights reserved.</string>
+    <string name="add_new_member">Add New Member</string>
+    <string name="professional_email">Professional Email</string>
+    <string name="alex_email_hint">alex@company.com</string>
+    <string name="member_role">Member Role</string>
+    <string name="member_role_desc">Standard access to workspace</string>
+    <string name="admin_role_desc">Full control and management</string>
+    <string name="invitation_otp">INVITATION OTP</string>
+    <string name="expires_in_24h">Expires in 24h</string>
+    <string name="copy">Copy</string>
+    <string name="continue_to_permissions">Continue to Permissions</string>
+    <string name="invitation_sent_notice">Invitation will be sent via email and SMS</string>
+    <string name="member_will_receive_invite_link_via_sms">Member will receive an invitation link via SMS</string>
+    <string name="alexander_pierce_hint">e.g. Alexander Pierce</string>
+
+    <!-- Member Credentials and Success -->
+    <string name="share_login_details">Share Login Details</string>
+    <string name="share_credentials_desc">Share these credentials with the new member so they can access their account securely.</string>
+    <string name="member_success_description_format">%1$s is now a part of your savings group. You can now start collaborating on your goals.</string>
+    <string name="new_member_label">NEW MEMBER</string>
+    <string name="member_email_label">MEMBER EMAIL</string>
+    <string name="this_code_will_expire_in_24_hours">This code will expire in 24 hours for security.</string>
+    <string name="send_email_btn">Send Email</string>
+    <string name="share_details_btn">Share Details</string>
+    <string name="done_btn">Done</string>
+    <string name="member_added_successfully">Member Added Successfully!</string>
+    <string name="group_contributor">Group Contributor</string>
+    <string name="view_group_members">View Group Members</string>
+    <string name="return_to_dashboard">Return to Dashboard</string>
 </resources>

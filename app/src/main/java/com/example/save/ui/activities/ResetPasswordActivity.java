@@ -82,19 +82,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        binding.backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         binding.actionButton.setOnClickListener(v -> changePassword());
+        binding.backToLoginContainer.setOnClickListener(v -> finish());
     }
 
     private void showPasswordStep() {
-        // Show password views
-        binding.passwordTitle.setVisibility(View.VISIBLE);
-        binding.passwordSubtitle.setVisibility(View.VISIBLE);
-        binding.newPasswordInputLayout.setVisibility(View.VISIBLE);
-        binding.confirmPasswordInputLayout.setVisibility(View.VISIBLE);
-
-        // Set button text
-        binding.actionButton.setText("Change Password");
+        // Update button text from strings
+        binding.actionButton.setText(R.string.reset_password_button);
         binding.errorMessage.setVisibility(View.GONE);
 
         // Clear password fields
@@ -119,7 +113,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
 
         binding.actionButton.setEnabled(false);
-        binding.actionButton.setText("Changing...");
+        binding.actionButton.setText("Resetting...");
         binding.loadingIndicator.setVisibility(View.VISIBLE);
 
         // Call backend API (ViewModel) to update password
@@ -137,13 +131,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
                             Toast.makeText(ResetPasswordActivity.this, "Password reset successfully!",
                                     Toast.LENGTH_SHORT).show();
 
-                            // Navigate back to the login page
-                            Class<?> targetActivity = AdminLoginActivity.class; // Default to admin login
-                            if ("MemberRegistrationActivity".equals(sourceActivity)) {
-                                targetActivity = MemberRegistrationActivity.class;
-                            }
-
-                            Intent intent = new Intent(ResetPasswordActivity.this, targetActivity);
+                            // Navigate to the Success Activity
+                            Intent intent = new Intent(ResetPasswordActivity.this, PasswordResetSuccessActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();

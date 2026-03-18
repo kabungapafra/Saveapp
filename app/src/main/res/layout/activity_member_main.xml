@@ -832,12 +832,12 @@
     <!-- Bottom Navigation -->
     <androidx.cardview.widget.CardView
         android:id="@+id/navContainer"
-        android:layout_width="320dp"
-        android:layout_height="56dp"
+        android:layout_width="340dp"
+        android:layout_height="64dp"
         android:layout_margin="16dp"
-        app:cardBackgroundColor="#0D47A1"
-        app:cardCornerRadius="28dp"
-        app:cardElevation="12dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -853,30 +853,28 @@
 
             <LinearLayout
                 android:id="@+id/nav_dashboard"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:background="@drawable/nav_item_pill_refined"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/img_dashboard"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_home"
-                    app:tint="@color/project_primary" />
+                    app:tint="#94A3B8" />
 
                 <TextView
                     android:id="@+id/txt_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Dashboard"
-                    android:textColor="@color/project_primary"
-                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="HOME"
+                    android:textColor="#94A3B8"
+                    android:textSize="11sp"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -894,45 +892,48 @@
                     android:id="@+id/img_members"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_people"
-                    app:tint="@color/white" />
+                    android:src="@drawable/ic_bank_filled"
+                    app:tint="#94A3B8" />
 
                 <TextView
                     android:id="@+id/txt_members"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Members"
-                    android:textColor="@color/project_primary"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:fontFamily="sans-serif-bold"
+                    android:text="LOANS"
+                    android:textColor="#94A3B8"
+                    android:textSize="11sp"
+                    android:visibility="visible" />
             </LinearLayout>
 
-            <!-- Stats -->
+            <!-- Stats (REPORTS) -->
             <LinearLayout
                 android:id="@+id/nav_stats"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <ImageView
                     android:id="@+id/img_stats"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_analytics"
-                    app:tint="@color/white" />
+                    android:src="@drawable/ic_stats"
+                    app:tint="#3B82F6" />
 
                 <TextView
                     android:id="@+id/txt_stats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Analysis"
-                    android:textColor="@color/project_primary"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:fontFamily="sans-serif-bold"
+                    android:text="REPORTS"
+                    android:textColor="#3B82F6"
+                    android:textSize="11sp"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <!-- Settings -->
@@ -948,18 +949,19 @@
                     android:id="@+id/img_settings"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_settings"
-                    app:tint="@color/white" />
+                    android:src="@drawable/ic_person"
+                    app:tint="#94A3B8" />
 
                 <TextView
                     android:id="@+id/txt_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Account"
-                    android:textColor="@color/project_primary"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:fontFamily="sans-serif-bold"
+                    android:text="PROFILE"
+                    android:textColor="#94A3B8"
+                    android:textSize="11sp"
+                    android:visibility="visible" />
             </LinearLayout>
 
         </LinearLayout>

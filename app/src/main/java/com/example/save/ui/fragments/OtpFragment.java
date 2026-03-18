@@ -149,7 +149,7 @@ public class OtpFragment extends Fragment {
     private void startResendTimer() {
         binding.resendOtp.setEnabled(false);
         binding.resendOtp.setTextColor(
-                androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.darker_gray));
+                androidx.core.content.ContextCompat.getColor(requireContext(), R.color.text_slate_400));
         binding.timerText.setVisibility(View.VISIBLE);
 
         countDownTimer = new CountDownTimer(30000, 1000) {
@@ -162,7 +162,7 @@ public class OtpFragment extends Fragment {
             @Override
             public void onFinish() {
                 binding.resendOtp.setEnabled(true);
-                binding.resendOtp.setTextColor(getResources().getColor(R.color.deep_blue));
+                binding.resendOtp.setTextColor(getResources().getColor(R.color.brand_blue));
                 binding.timerText.setVisibility(View.GONE);
             }
         }.start();
@@ -206,7 +206,7 @@ public class OtpFragment extends Fragment {
                             retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
                         binding.loadingIndicator.setVisibility(View.GONE);
                         binding.verifyButton.setEnabled(true);
-                        binding.verifyButton.setText("Verify OTP");
+                        binding.verifyButton.setText(R.string.verify_and_continue);
 
                         if (response.isSuccessful() && response.body() != null) {
                             com.example.save.data.network.LoginResponse loginResponse = response.body();
@@ -254,7 +254,7 @@ public class OtpFragment extends Fragment {
                             Throwable t) {
                         binding.loadingIndicator.setVisibility(View.GONE);
                         binding.verifyButton.setEnabled(true);
-                        binding.verifyButton.setText("Verify OTP");
+                        binding.verifyButton.setText(R.string.verify_and_continue);
                         com.example.save.utils.ApiErrorHandler.handleError(requireContext(), t);
                         binding.errorMessage.setText("Network error. Please try again.");
                         binding.errorMessage.setVisibility(View.VISIBLE);

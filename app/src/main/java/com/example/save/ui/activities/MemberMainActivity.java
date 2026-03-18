@@ -104,7 +104,11 @@ public class MemberMainActivity extends AppCompatActivity {
             samplePayments.add(new PaymentItem("Dec Contribution", "UGX 50,000/mo", "2 days left", "Contribution"));
             samplePayments.add(new PaymentItem("Loan Repay", "UGX 200,000", "5 days left", "Loan"));
 
-            upcomingPaymentAdapter = new UpcomingPaymentAdapter(samplePayments);
+            upcomingPaymentAdapter = new UpcomingPaymentAdapter(samplePayments, item -> {
+                resetAllNavItems();
+                hideHeader();
+                loadFragment(new MakeContributionFragment());
+            });
             binding.rvUpcomingPayments.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this,
                     androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
             binding.rvUpcomingPayments.setAdapter(upcomingPaymentAdapter);
@@ -299,9 +303,9 @@ public class MemberMainActivity extends AppCompatActivity {
                             resetAllNavItems();
                             hideHeader();
                             if (member != null) {
-                                loadFragment(PaymentFragment.newInstance(member.getName()));
+                                loadFragment(new MakeContributionFragment());
                             } else {
-                                loadFragment(PaymentFragment.newInstance("Member"));
+                                loadFragment(new MakeContributionFragment());
                             }
                         });
                     }).start();

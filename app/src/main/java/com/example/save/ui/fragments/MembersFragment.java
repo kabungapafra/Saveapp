@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -244,43 +247,45 @@ public class MembersFragment extends Fragment {
         DialogAddMemberBinding dialogBinding = DialogAddMemberBinding.inflate(LayoutInflater.from(getContext()));
         builder.setView(dialogBinding.getRoot());
 
-        // Create role spinner
-        String[] roles = { "Member", "Secretary", "Treasurer", "Administrator" };
-        ArrayAdapter<String> roleAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_dropdown_item, roles);
-        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        final String[] selectedRole = {"Member"};
+        updateRoleUI(dialogBinding, true); // Initialize with Member selected
 
-        if (dialogBinding.spinnerMemberRole != null) {
-            dialogBinding.spinnerMemberRole.setAdapter(roleAdapter);
-        }
-
-        // Auto-generate OTP immediately
-        String initialOtp = com.example.save.utils.ValidationUtils.generateOTP();
-        dialogBinding.etMemberOTP.setText(initialOtp);
-
-        dialogBinding.btnRegenerateOTP.setOnClickListener(v -> {
-            String newOtp = com.example.save.utils.ValidationUtils.generateOTP();
-            dialogBinding.etMemberOTP.setText(newOtp);
-            v.animate().rotationBy(360).setDuration(400).start();
+        // Role Selection Logic
+        dialogBinding.cardRoleMember.setOnClickListener(v -> {
+            selectedRole[0] = "Member";
+            updateRoleUI(dialogBinding, true);
         });
+
+        dialogBinding.cardRoleAdmin.setOnClickListener(v -> {
+            selectedRole[0] = "Administrator";
+            updateRoleUI(dialogBinding, false);
+        });
+
 
         AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
+        
+        // Ensure dialog takes proper width
+        int width = (int)(getResources().getDisplayMetrics().widthPixels * 0.95);
+        dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         dialogBinding.btnCloseDialog.setOnClickListener(v -> dialog.dismiss());
 
         dialogBinding.btnCreateMember.setOnClickListener(v -> {
             String name = dialogBinding.etMemberName.getText().toString().trim();
-            String phone = dialogBinding.etMemberPhone.getText().toString().trim();
-            String email = dialogBinding.etMemberEmail.getText().toString().trim();
-
-            String role = "Member";
-            if (dialogBinding.spinnerMemberRole != null && dialogBinding.spinnerMemberRole.getSelectedItem() != null) {
-                role = dialogBinding.spinnerMemberRole.getSelectedItem().toString();
+            String phoneInput = dialogBinding.etMemberPhone.getText().toString().trim();
+            // Prepend +256 if it's just the local number; use a final var for lambda capture
+            final String phone;
+            if (phoneInput.length() == 9 && phoneInput.startsWith("7")) {
+                phone = "+256 " + phoneInput;
+            } else if (phoneInput.length() == 10 && phoneInput.startsWith("0")) {
+                phone = "+256 " + phoneInput.substring(1);
+            } else {
+                phone = phoneInput;
             }
-
-            String otp = dialogBinding.etMemberOTP.getText().toString().trim();
+            String email = dialogBinding.etMemberEmail.getText().toString().trim();
+            String role = selectedRole[0];
 
             if (!com.example.save.utils.ValidationUtils.isNotEmpty(name)) {
                 com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberName, "Name is required");
@@ -293,126 +298,175 @@ public class MembersFragment extends Fragment {
             }
 
             if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
-                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPhone,
-                        "Invalid phone number format");
+                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPhone, "Invalid phone number");
                 return;
             }
 
             Member newMember = new Member(name, role, true, phone, email);
             newMember.setId(java.util.UUID.randomUUID().toString());
-            newMember.setPassword(otp);
+            // Password will be assigned by backend
             newMember.setFirstLogin(true);
 
             dialogBinding.btnCreateMember.setEnabled(false);
             dialogBinding.btnCreateMember.setText("Creating...");
 
-            viewModel.addMember(newMember, (success, message) -> {
-                if (dialog.isShowing()) {
-                    dialogBinding.btnCreateMember.setEnabled(true);
-                    dialogBinding.btnCreateMember.setText("CREATE ACCOUNT");
-                }
+            viewModel.addMember(newMember, (boolean success, String message, String generatedOtp) -> {
+                if (getActivity() == null || getContext() == null) return;
+                getActivity().runOnUiThread(() -> {
+                    if (dialog.isShowing()) {
+                        dialogBinding.btnCreateMember.setEnabled(true);
+                        dialogBinding.btnCreateMember.setText("CONTINUE TO PERMISSIONS");
+                    }
 
-                if (success) {
-                    dialog.dismiss();
-                    showSuccessAnimation(name, otp);
-                } else {
-                    Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_SHORT).show();
-                }
+                    if (success) {
+                        dialog.dismiss();
+                        showSuccessAnimation(name, generatedOtp, email, phone);
+                    } else {
+                        Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
         });
     }
 
-    private void showSuccessAnimation(String name, String otp) {
+    private void updateRoleUI(DialogAddMemberBinding binding, boolean isMemberSelected) {
+        Context context = binding.getRoot().getContext();
+        int brandBlue = ContextCompat.getColor(context, R.color.brand_blue);
+        int slate200 = ContextCompat.getColor(context, R.color.slate_200);
+        int slate50 = ContextCompat.getColor(context, R.color.slate_50);
+
+        float density = context.getResources().getDisplayMetrics().density;
+
+        // Member Card
+        binding.cardRoleMember.setStrokeColor(isMemberSelected ? brandBlue : slate200);
+        binding.cardRoleMember.setStrokeWidth(isMemberSelected ? (int)(2 * density) : (int)(1 * density));
+        binding.cardRoleMember.setCardBackgroundColor(isMemberSelected ? android.graphics.Color.WHITE : slate50);
+        binding.checkMember.setVisibility(isMemberSelected ? View.VISIBLE : View.GONE);
+        
+        // Admin Card
+        binding.cardRoleAdmin.setStrokeColor(!isMemberSelected ? brandBlue : slate200);
+        binding.cardRoleAdmin.setStrokeWidth(!isMemberSelected ? (int)(2 * density) : (int)(1 * density));
+        binding.cardRoleAdmin.setCardBackgroundColor(!isMemberSelected ? android.graphics.Color.WHITE : slate50);
+        binding.checkAdmin.setVisibility(!isMemberSelected ? View.VISIBLE : View.GONE);
+    }
+
+    private void showSuccessAnimation(String name, String otp, String email, String phone) {
         if (successAnimation != null && animationOverlay != null) {
             animationOverlay.setVisibility(View.VISIBLE);
             successAnimation.setProgress(0f);
             successAnimation.playAnimation();
 
-            successAnimation.addAnimatorListener(new android.animation.Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(android.animation.Animator animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(android.animation.Animator animation) {
-                    if (animationOverlay != null) {
-                        animationOverlay.postDelayed(() -> {
-                            if (animationOverlay != null) {
-                                animationOverlay.setVisibility(View.GONE);
-                                showOTPDialog(name, otp);
-                            }
-                        }, 500);
-                    }
-                    successAnimation.removeAllAnimatorListeners();
-                }
-
-                @Override
-                public void onAnimationCancel(android.animation.Animator animation) {
-                    if (animationOverlay != null)
-                        animationOverlay.setVisibility(View.GONE);
-                    successAnimation.removeAllAnimatorListeners();
-                }
-
-                @Override
-                public void onAnimationRepeat(android.animation.Animator animation) {
-                }
-            });
+            // After animation ends (or short delay), show the credentials
+            new android.os.Handler().postDelayed(() -> {
+                animationOverlay.setVisibility(View.GONE);
+                showOTPDialog(name, otp, email, phone);
+            }, 2500);
         } else {
-            showOTPDialog(name, otp);
+            showOTPDialog(name, otp, email, phone);
         }
     }
 
-    private void showOTPDialog(String memberName, String otp) {
+    private void showOTPDialog(String memberName, String otp, String email, String phone) {
         if (getContext() == null)
             return;
         android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs",
                 Context.MODE_PRIVATE);
         String groupName = prefs.getString("group_name", "Your Group");
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        com.example.save.databinding.DialogMemberCredentialsBinding credBinding = com.example.save.databinding.DialogMemberCredentialsBinding
+                .inflate(LayoutInflater.from(getContext()));
+        builder.setView(credBinding.getRoot());
+
+        credBinding.tvCredGroupName.setText(groupName);
+        credBinding.tvCredMemberName.setText(memberName);
+        credBinding.tvCredPhone.setText(phone);
+        credBinding.tvCredEmail.setText(email);
+        credBinding.tvCredOTP.setText(otp);
+
+        // Optional: Update with database values once loaded to ensure sync
         viewModel.getMemberByNameLive(memberName).observe(getViewLifecycleOwner(), member -> {
-            if (member == null)
-                return;
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            com.example.save.databinding.DialogMemberCredentialsBinding credBinding = com.example.save.databinding.DialogMemberCredentialsBinding
-                    .inflate(LayoutInflater.from(getContext()));
-            builder.setView(credBinding.getRoot());
-
-            credBinding.tvCredGroupName.setText(groupName);
-            credBinding.tvCredMemberName.setText(member.getName());
-            credBinding.tvCredPhone.setText(member.getPhone());
-            credBinding.tvCredEmail.setText(member.getEmail());
-            credBinding.tvCredOTP.setText(otp);
-
-            AlertDialog dialog = builder.create();
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-            String credentialsMessage = String.format(
-                    "🎉 *Welcome to %s!*\n\nYour login credentials:\n\n👤 *Name:* %s\n📱 *Phone:* %s\n📧 *Email:* %s\n🔐 *Code:* %s\n\nDownload the app to get started! 🚀",
-                    groupName, member.getName(), member.getPhone(), member.getEmail(), otp);
-
-            credBinding.btnCopyCredentials.setOnClickListener(v -> {
-                ClipboardManager clipboard = (ClipboardManager) requireContext()
-                        .getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setPrimaryClip(ClipData.newPlainText("Member Credentials", credentialsMessage));
-                Toast.makeText(getContext(), "Credentials copied!", Toast.LENGTH_SHORT).show();
-            });
-
-            credBinding.btnShareWhatsApp.setOnClickListener(v -> {
-                try {
-                    android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    intent.setPackage("com.whatsapp");
-                    intent.putExtra(android.content.Intent.EXTRA_TEXT, credentialsMessage);
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Toast.makeText(getContext(), "WhatsApp not installed", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            credBinding.btnCloseCredentials.setOnClickListener(v -> dialog.dismiss());
-            dialog.show();
+            if (member != null) {
+                credBinding.tvCredMemberName.setText(member.getName());
+                credBinding.tvCredEmail.setText(member.getEmail());
+            }
         });
+
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        // Set Dialog Size to 95% width
+        dialog.show();
+        android.util.DisplayMetrics displayMetrics = new android.util.DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = (int) (displayMetrics.widthPixels * 0.95);
+        dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        String credentialsMessage = String.format(
+                "🎉 *Welcome to %s!*\n\nYour login credentials:\n\n👤 *Name:* %s\n📱 *Phone:* %s\n📧 *Email:* %s\n🔐 *Code:* %s\n\nDownload the app to get started! 🚀",
+                groupName, memberName, phone, email, otp);
+
+        // Format OTP with spaces for visual match: "8 8 2  1 4 9"
+        StringBuilder formattedOtp = new StringBuilder();
+        for (int i = 0; i < otp.length(); i++) {
+            formattedOtp.append(otp.charAt(i));
+            if (i == 2)
+                formattedOtp.append("  ");
+            else if (i < otp.length() - 1)
+                formattedOtp.append(" ");
+        }
+        credBinding.tvCredOTP.setText(formattedOtp.toString());
+
+        credBinding.btnCopyEmail.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) requireContext()
+                    .getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setPrimaryClip(ClipData.newPlainText("Member Email", email));
+            Toast.makeText(getContext(), "Email copied!", Toast.LENGTH_SHORT).show();
+        });
+
+        credBinding.btnSendEmail.setOnClickListener(v -> {
+            credBinding.btnSendEmail.setEnabled(false);
+            credBinding.btnSendEmail.setText("Sending...");
+
+            // Get member by email if possible to get the correct ID
+            Member member = viewModel.getMemberByEmail(email);
+            if (member == null) {
+                // Fallback: create a dummy member with ID if name/email match
+                member = new Member(memberName, "Member", true, phone, email);
+                // The ID is crucial, so we try to find it from the list if the direct lookup fails
+            }
+
+            viewModel.sendInvite(member, (success, message) -> {
+                if (getActivity() == null)
+                    return;
+                getActivity().runOnUiThread(() -> {
+                    credBinding.btnSendEmail.setEnabled(true);
+                    credBinding.btnSendEmail.setText("Send Email");
+                    if (success) {
+                        Toast.makeText(getContext(), "Invitation email sent successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+        });
+
+        credBinding.btnShareDetails.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, credentialsMessage);
+            startActivity(Intent.createChooser(intent, "Share via"));
+        });
+
+        credBinding.btnDone.setOnClickListener(v -> {
+            dialog.dismiss();
+            getParentFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                    .replace(((ViewGroup) getView().getParent()).getId(), MemberSuccessFragment.newInstance(memberName))
+                    .addToBackStack(null)
+                    .commit();
+        });
+        credBinding.btnCloseCredentials.setOnClickListener(v -> dialog.dismiss());
     }
 
     private void showProfileDialog(Member member) {
@@ -463,7 +517,7 @@ public class MembersFragment extends Fragment {
     private void showResetPasswordConfirmation(Member member) {
         new MaterialAlertDialogBuilder(getContext()).setTitle("Reset Password")
                 .setMessage("Reset for " + member.getName() + "?")
-                .setPositiveButton("Reset", (d, w) -> showOTPDialog(member.getName(), viewModel.resetPassword(member)))
+                .setPositiveButton("Reset", (d, w) -> showOTPDialog(member.getName(), viewModel.resetPassword(member), member.getEmail(), member.getPhone()))
                 .setNegativeButton("Cancel", null).show();
     }
 

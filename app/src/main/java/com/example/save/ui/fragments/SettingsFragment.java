@@ -79,7 +79,13 @@ public class SettingsFragment extends Fragment {
 
         binding.cardGeneral.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "General Account settings", Toast.LENGTH_SHORT).show();
+            if (getParentFragmentManager() != null) {
+                getParentFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                        .replace(R.id.fragment_container, new GroupSettingsFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
     }
 

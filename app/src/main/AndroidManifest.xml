@@ -62,6 +62,10 @@
             android:name="com.example.save.ui.activities.ResetPasswordActivity"
             android:exported="false" />
 
+        <activity
+            android:name="com.example.save.ui.activities.PasswordResetSuccessActivity"
+            android:exported="false" />
+
 
 
 

@@ -18,9 +18,19 @@ import java.util.List;
 public class UpcomingPaymentAdapter extends RecyclerView.Adapter<UpcomingPaymentAdapter.ViewHolder> {
 
     private List<PaymentItem> payments = new ArrayList<>();
+    private OnPaymentClickListener listener;
 
-    public UpcomingPaymentAdapter(List<PaymentItem> payments) {
+    public interface OnPaymentClickListener {
+        void onPaymentClick(PaymentItem item);
+    }
+
+    public UpcomingPaymentAdapter(List<PaymentItem> payments, OnPaymentClickListener listener) {
         this.payments = payments;
+        this.listener = listener;
+    }
+
+    public void setOnPaymentClickListener(OnPaymentClickListener listener) {
+        this.listener = listener;
     }
 
     public void updateList(List<PaymentItem> newPayments) {
@@ -75,6 +85,12 @@ public class UpcomingPaymentAdapter extends RecyclerView.Adapter<UpcomingPayment
 
         holder.tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(pillColor));
         holder.tvStatus.setTextColor(textColor);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onPaymentClick(payment);
+            }
+        });
     }
 
     @Override

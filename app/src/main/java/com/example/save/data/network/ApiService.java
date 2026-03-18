@@ -126,13 +126,13 @@ public interface ApiService {
         Call<MemberEntity> getMember(@Path("id") String id);
 
         /**
-         * Registers a new member in the system.
-         * 
-         * @param request Contains member details and registration OTP.
+         * Creates a new member directly (admin only, no OTP pre-registration required).
+         *
+         * @param request Contains member details and initial OTP/password.
          * @return Call for ApiResponse.
          */
-        @POST("members")
-        Call<ApiResponse> createMember(@Body MemberRegistrationRequest request);
+        @POST("members/admin-create")
+        Call<MemberRegistrationResponse> createMember(@Body MemberRegistrationRequest request);
 
         /**
          * Updates an existing member's profile information.
@@ -162,6 +162,15 @@ public interface ApiService {
          */
         @POST("members/{id}/resolve-shortfall")
         Call<ApiResponse> resolveShortfall(@Path("id") String id, @Body ShortfallResolutionRequest request);
+
+        /**
+         * Resends an invitation email to a member.
+         * 
+         * @param id The unique ID of the member.
+         * @return Call for ApiResponse.
+         */
+        @POST("members/{id}/send-invite")
+        Call<ApiResponse> sendMemberInvite(@Path("id") String id);
 
         // Loans
         /**
