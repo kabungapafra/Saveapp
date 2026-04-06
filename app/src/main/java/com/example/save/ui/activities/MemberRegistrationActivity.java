@@ -78,6 +78,18 @@ public class MemberRegistrationActivity extends AppCompatActivity {
         String email = binding.emailInput.getText().toString().trim().toLowerCase();
         String password = binding.passwordInput.getText().toString().trim();
 
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            // Immediately navigate to MemberMainActivity
+            Intent intent = new Intent(MemberRegistrationActivity.this, MemberMainActivity.class);
+            intent.putExtra("member_email", email.isEmpty() ? "member@design.com" : email);
+            intent.putExtra("member_name", "Design Member");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
+            return;
+        }
+
         // Validate inputs using ValidationUtils
         if (!com.example.save.utils.ValidationUtils.isNotEmpty(groupName)) {
             com.example.save.utils.ValidationUtils.showError(binding.groupNameInput, "Group name is required");
@@ -125,7 +137,7 @@ public class MemberRegistrationActivity extends AppCompatActivity {
                     }
 
                     // Save session with JWT token
-                    com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                    com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(
                             getApplicationContext());
                     session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
                             loginResponse.getRole(), loginResponse.isFirstLogin());

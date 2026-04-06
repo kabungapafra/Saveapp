@@ -1,0 +1,201 @@
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:generateDebugResources
+> Task :app:mergeDebugResources
+> Task :app:packageDebugResources
+> Task :app:processDebugNavigationResources
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:mergeDebugShaders UP-TO-DATE
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :app:parseDebugLocalResources
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:dataBindingGenBaseClassesDebug UP-TO-DATE
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:mergeExtDexDebug UP-TO-DATE
+> Task :app:mergeLibDexDebug UP-TO-DATE
+> Task :app:mergeDebugJniLibFolders UP-TO-DATE
+> Task :app:mergeDebugNativeLibs NO-SOURCE
+> Task :app:stripDebugDebugSymbols NO-SOURCE
+> Task :app:validateSigningDebug UP-TO-DATE
+> Task :app:writeDebugAppMetadata UP-TO-DATE
+> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+> Task :app:processDebugResources
+
+> Task :app:compileDebugJavaWithJavac
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:87: error: cannot find symbol
+        binding.sentToText.setText(email);
+               ^
+  symbol:   variable sentToText
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:147: error: cannot find symbol
+        binding.timerText.setVisibility(View.VISIBLE);
+               ^
+  symbol:   variable timerText
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:153: error: cannot find symbol
+                binding.timerText.setText(String.format("(0:%02d)", seconds));
+                       ^
+  symbol:   variable timerText
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:160: error: cannot find symbol
+                binding.timerText.setVisibility(View.GONE);
+                       ^
+  symbol:   variable timerText
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:177: error: cannot find symbol
+            binding.errorMessage.setText("Please enter complete 6-digit OTP");
+                   ^
+  symbol:   variable errorMessage
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:178: error: cannot find symbol
+            binding.errorMessage.setVisibility(View.VISIBLE);
+                   ^
+  symbol:   variable errorMessage
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:183: error: cannot find symbol
+        binding.errorMessage.setVisibility(View.GONE);
+               ^
+  symbol:   variable errorMessage
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:186: error: cannot find symbol
+        binding.loadingIndicator.setVisibility(View.VISIBLE);
+               ^
+  symbol:   variable loadingIndicator
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:201: error: cannot find symbol
+                        binding.loadingIndicator.setVisibility(View.GONE);
+                               ^
+  symbol:   variable loadingIndicator
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:245: error: cannot find symbol
+                            binding.errorMessage.setText("OTP verification failed. Please try again.");
+                                   ^
+  symbol:   variable errorMessage
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:246: error: cannot find symbol
+                            binding.errorMessage.setVisibility(View.VISIBLE);
+                                   ^
+  symbol:   variable errorMessage
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:254: error: cannot find symbol
+                        binding.loadingIndicator.setVisibility(View.GONE);
+                               ^
+  symbol:   variable loadingIndicator
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:258: error: cannot find symbol
+                        binding.errorMessage.setText("Network error. Please try again.");
+                               ^
+  symbol:   variable errorMessage
+  location: variable binding of type FragmentOtpBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:259: error: cannot find symbol
+                        binding.errorMessage.setVisibility(View.VISIBLE);
+                               ^
+  symbol:   variable errorMessage
+  location: variable binding of type FragmentOtpBinding
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+14 errors
+
+> Task :app:compileDebugJavaWithJavac FAILED
+
+[Incubating] Problems report is available at: file:///home/darlin-pafra/AndroidStudioProjects/Save/Front-end/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+> Compilation failed; see the compiler output below.
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:87: error: cannot find symbol
+          binding.sentToText.setText(email);
+                 ^
+    symbol:   variable sentToText
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:147: error: cannot find symbol
+          binding.timerText.setVisibility(View.VISIBLE);
+                 ^
+    symbol:   variable timerText
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:153: error: cannot find symbol
+                  binding.timerText.setText(String.format("(0:%02d)", seconds));
+                         ^
+    symbol:   variable timerText
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:160: error: cannot find symbol
+                  binding.timerText.setVisibility(View.GONE);
+                         ^
+    symbol:   variable timerText
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:177: error: cannot find symbol
+              binding.errorMessage.setText("Please enter complete 6-digit OTP");
+                     ^
+    symbol:   variable errorMessage
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:178: error: cannot find symbol
+              binding.errorMessage.setVisibility(View.VISIBLE);
+                     ^
+    symbol:   variable errorMessage
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:183: error: cannot find symbol
+          binding.errorMessage.setVisibility(View.GONE);
+                 ^
+    symbol:   variable errorMessage
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:186: error: cannot find symbol
+          binding.loadingIndicator.setVisibility(View.VISIBLE);
+                 ^
+    symbol:   variable loadingIndicator
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:201: error: cannot find symbol
+                          binding.loadingIndicator.setVisibility(View.GONE);
+                                 ^
+    symbol:   variable loadingIndicator
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:245: error: cannot find symbol
+                              binding.errorMessage.setText("OTP verification failed. Please try again.");
+                                     ^
+    symbol:   variable errorMessage
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:246: error: cannot find symbol
+                              binding.errorMessage.setVisibility(View.VISIBLE);
+                                     ^
+    symbol:   variable errorMessage
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:254: error: cannot find symbol
+                          binding.loadingIndicator.setVisibility(View.GONE);
+                                 ^
+    symbol:   variable loadingIndicator
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:258: error: cannot find symbol
+                          binding.errorMessage.setText("Network error. Please try again.");
+                                 ^
+    symbol:   variable errorMessage
+    location: variable binding of type FragmentOtpBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/OtpFragment.java:259: error: cannot find symbol
+                          binding.errorMessage.setVisibility(View.VISIBLE);
+                                 ^
+    symbol:   variable errorMessage
+    location: variable binding of type FragmentOtpBinding
+  Note: Some input files use or override a deprecated API.
+  Note: Recompile with -Xlint:deprecation for details.
+  14 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 5s
+30 actionable tasks: 8 executed, 22 up-to-date

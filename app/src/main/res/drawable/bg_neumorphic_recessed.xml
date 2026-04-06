@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer fill to match page BG (optional but for safety) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/neumorphic_bg" />
+        </shape>
+    </item>
+
+    <!-- Dark Inset Shadow (Top Left offset) -->
+    <item
+        android:bottom="0dp"
+        android:left="0dp"
+        android:right="6dp"
+        android:top="0dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="135"
+                android:centerX="0.2"
+                android:centerY="0.2"
+                android:endColor="@color/neumorphic_bg"
+                android:startColor="@color/neumorphic_shadow_dark"
+                android:type="radial"
+                android:gradientRadius="180dp" />
+        </shape>
+    </item>
+
+    <!-- Light Inset Shadow (Bottom Right offset) -->
+    <item
+        android:bottom="6dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="315"
+                android:centerX="0.8"
+                android:centerY="0.8"
+                android:endColor="@color/neumorphic_bg"
+                android:startColor="@color/neumorphic_shadow_light"
+                android:type="radial"
+                android:gradientRadius="180dp" />
+        </shape>
+    </item>
+
+    <!-- Subtle blue border -->
+    <item>
+        <shape android:shape="oval">
+            <stroke
+                android:width="1dp"
+                android:color="@color/neumorphic_ring_border"
+                android:alpha="0.2" />
+        </shape>
+    </item>
+</layer-list>

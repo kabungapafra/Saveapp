@@ -261,7 +261,7 @@ public class PayoutsFragment extends Fragment {
                         .setTitle("Large Payout Warning")
                         .setMessage("This amount is above 2M UGX. Please confirm you want to proceed.")
                         .setPositiveButton("Process Payout", (d, w) -> {
-                            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                            com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(
                                     getContext());
                             String adminEmail = session.getUserEmail();
                             executePayout(recipient, amount, defer, adminEmail);
@@ -270,7 +270,7 @@ public class PayoutsFragment extends Fragment {
                         .setNegativeButton("Cancel", null)
                         .show();
             } else {
-                com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(getContext());
+                com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getContext());
                 String adminEmail = session.getUserEmail();
                 executePayout(recipient, amount, defer, adminEmail);
                 dialog.dismiss();

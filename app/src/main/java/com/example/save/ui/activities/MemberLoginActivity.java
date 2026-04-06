@@ -28,8 +28,18 @@ public class MemberLoginActivity extends AppCompatActivity {
 
     private void setupListeners() {
         binding.loginButton.setOnClickListener(v -> {
-            // Future: Implement Login logic
-            finish();
+            if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+                Intent intent = new Intent(this, MemberMainActivity.class);
+                intent.putExtra("member_name", "Design Member");
+                intent.putExtra("member_email", "member@design.com");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            } else {
+                // Future: Implement Login logic
+                finish();
+            }
         });
 
         binding.googleButton.setOnClickListener(v -> {

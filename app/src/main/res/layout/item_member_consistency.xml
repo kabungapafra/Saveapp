@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/rowContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="16dp">
+
+            <!-- Avatar Wrapper with Overlapping Rank Badge -->
+            <RelativeLayout
+                android:layout_width="64dp"
+                android:layout_height="64dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_profile_placeholder"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.MediumComponent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/rankBadge"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    app:cardBackgroundColor="@color/v_blue"
+                    app:cardCornerRadius="11dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+                    <TextView
+                        android:id="@+id/tvRank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+
+            <!-- Text + Chart Block -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tvMemberName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Sarah Namubiru"
+                        android:textColor="@color/v_text_dark"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvPercentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="100%"
+                        android:textColor="@color/v_blue"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <!-- 6-Segment Chart -->
+                <LinearLayout
+                    android:id="@+id/segmentChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <View android:id="@+id/m1" android:layout_width="0dp" android:layout_height="5dp" android:layout_weight="1" android:layout_marginEnd="4dp" android:background="@drawable/rounded_progress_bar" android:backgroundTint="@color/v_blue" />
+                    <View android:id="@+id/m2" android:layout_width="0dp" android:layout_height="5dp" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:background="@drawable/rounded_progress_bar" android:backgroundTint="@color/v_blue" />
+                    <View android:id="@+id/m3" android:layout_width="0dp" android:layout_height="5dp" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:background="@drawable/rounded_progress_bar" android:backgroundTint="@color/v_blue" />
+                    <View android:id="@+id/m4" android:layout_width="0dp" android:layout_height="5dp" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:background="@drawable/rounded_progress_bar" android:backgroundTint="@color/v_blue" />
+                    <View android:id="@+id/m5" android:layout_width="0dp" android:layout_height="5dp" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:background="@drawable/rounded_progress_bar" android:backgroundTint="@color/v_blue" />
+                    <View android:id="@+id/m6" android:layout_width="0dp" android:layout_height="5dp" android:layout_weight="1" android:layout_marginStart="4dp" android:background="@drawable/rounded_progress_bar" android:backgroundTint="@color/v_blue" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_medium"
+                        android:text="JUL"
+                        android:textColor="@color/v_text_muted"
+                        android:textSize="9sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/manrope_medium"
+                        android:text="DEC"
+                        android:textColor="@color/v_text_muted"
+                        android:textSize="9sp" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/slate_200" />
+
+    </LinearLayout>
+</layout>

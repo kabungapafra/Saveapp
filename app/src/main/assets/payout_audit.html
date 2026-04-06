@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=390, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Payout Performance Audit</title>
+  <style>
+    :root {
+      --blue: #2563EB;
+      --blue-dark: #1E3DAA;
+      --blue-deep: #1A3080;
+      --red: #EF4444;
+      --red-dark: #DC2626;
+      --green: #10B981;
+      --green-badge: #DCFCE7;
+      --green-text: #16A34A;
+      --text-dark: #0F172A;
+      --text-mid: #374151;
+      --text-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --card-bg: #FFFFFF;
+      --page-bg: #F2F4F8;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --radius-card: 16px;
+      --radius-pill: 99px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, 'SF Pro Display', BlinkMacSystemFont, sans-serif; }
+    body { background: var(--page-bg); width: 100%; max-width: 390px; margin: 0 auto; overflow-x: hidden; position: relative; }
+    
+    /* Animations */
+    @keyframes slideUpFade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes barGrowBlue { from { height: 0; } to { height: 100%; } }
+    @keyframes barGrowRed { from { height: 0; } to { height: 28%; } }
+    @keyframes slideRightFade { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+
+    .anim-fade { animation: slideUpFade 300ms ease-out both; }
+    .delay-0 { animation-delay: 0ms; }
+    .delay-1 { animation-delay: 80ms; }
+    .delay-2 { animation-delay: 160ms; }
+    .delay-3 { animation-delay: 240ms; }
+    .delay-4 { animation-delay: 320ms; }
+
+    /* SECTION 1 - TOP NAV */
+    .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 16px 8px; background: var(--page-bg); }
+    .logo-group { display: flex; gap: 6px; align-items: center; }
+    .logo-icon { width: 22px; height: 22px; background: var(--blue); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+    .logo-text { font-size: 18px; font-weight: 700; color: var(--blue); }
+    .right-icons { display: flex; gap: 12px; align-items: center; }
+    .avatar { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--blue); background: #cbd5e1; }
+
+    /* SECTION 2 - TITLE BLOCK */
+    .title-block { padding: 8px 16px 20px; background: var(--page-bg); }
+    .page-title { font-size: 26px; font-weight: 800; color: var(--text-dark); line-height: 1.2; margin-bottom: 6px; }
+    .page-sub { font-size: 13px; font-weight: 400; color: var(--text-muted); line-height: 1.5; }
+
+    /* SECTION 3 - DONUT CARD */
+    .card { background: var(--card-bg); border-radius: var(--radius-card); box-shadow: var(--shadow-sm); margin: 0 16px 16px; }
+    .card-px { padding: 20px; }
+    .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase; text-align: center; }
+    
+    .donut-container { position: relative; width: 180px; height: 180px; margin: 0 auto; }
+    .donut-chart { transform: rotate(-90deg); }
+    .donut-bg { fill: none; stroke: var(--border); stroke-width: 14; }
+    /* Blue arc stroke-dasharray is length 426, starts offset -113 to put it starting at 12 o'clock */
+    .donut-blue { fill: none; stroke: var(--blue); stroke-width: 14; stroke-linecap: round; stroke-dasharray: 426 452; stroke-dashoffset: 452; transition: stroke-dashoffset 1.2s ease-out; }
+    /* Red arc stroke-dasharray is length 26, starts offset -539 */
+    .donut-red { fill: none; stroke: var(--red); stroke-width: 14; stroke-linecap: round; stroke-dasharray: 26 452; stroke-dashoffset: 452; transition: stroke-dashoffset 1.2s ease-out 400ms; }
+    .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .donut-val { font-size: 28px; font-weight: 800; color: var(--blue); line-height: 1; }
+    .donut-tag { font-size: 8px; font-weight: 700; letter-spacing: 0.1em; color: var(--green-text); margin-top: 4px; }
+    
+    .stats-row { display: flex; justify-content: center; gap: 40px; margin-top: 16px; text-align: center; }
+    .stat-val { font-size: 20px; font-weight: 700; line-height: 1; margin-bottom: 3px; }
+    .stat-val.blue { color: var(--blue); }
+    .stat-val.red { color: var(--red); }
+    .stat-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-muted); }
+
+    /* SECTION 4 - CYCLE DISTRIBUTION */
+    .card-dist { padding: 18px; }
+    .dist-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .dist-title { font-size: 15px; font-weight: 700; color: var(--text-dark); }
+    .badge-30 { background: #F1F5F9; border-radius: 6px; padding: 4px 10px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: var(--text-muted); }
+    
+    .chart-container { height: 120px; display: flex; align-items: flex-end; gap: 6px; border-bottom: 1px solid var(--border); }
+    .bar { position: relative; border-radius: 6px 6px 0 0; display: flex; justify-content: center; align-items: flex-end; }
+    .bar-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: #FFF; text-align: center; }
+    .bar-blue { background: var(--blue); width: 65%; height: 0; animation: barGrowBlue 700ms ease-out forwards; }
+    .bar-blue .bar-lbl { padding-bottom: 8px; }
+    .bar-red { background: var(--red); width: 20%; height: 0; animation: barGrowRed 700ms ease-out 150ms forwards; }
+    .bar-red .bar-lbl { padding-bottom: 6px; }
+
+    .legend { display: flex; gap: 24px; margin-top: 12px; }
+    .legend-item { display: flex; gap: 8px; align-items: center; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot.blue { background: var(--blue); }
+    .dot.red { background: var(--red); }
+    .lgnd-txt { font-size: 12px; font-weight: 600; color: var(--text-dark); }
+    .lgnd-sub { font-size: 12px; font-weight: 400; color: var(--text-muted); }
+
+    /* SECTION 5 - LAST 3 CYCLES */
+    .sec-label-out { padding: 0 16px; margin-bottom: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-muted); }
+    .card-cycles { padding: 0; overflow: hidden; }
+    .c-row { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid var(--border); }
+    .c-row:last-child { border-bottom: none; }
+    .c-icon { width: 40px; height: 40px; border-radius: 50%; background: #EEF2FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .c-info { flex: 1; }
+    .c-title { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+    .c-meta { font-size: 11px; font-weight: 400; color: var(--text-muted); margin-top: 3px; }
+    .c-val-box { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .c-ugx { font-size: 10px; font-weight: 600; color: var(--text-muted); }
+    .c-amt { font-size: 16px; font-weight: 800; color: var(--blue); line-height: 1; }
+    .c-pct-box { display: flex; gap: 4px; align-items: baseline; }
+    .c-pct { font-size: 11px; font-weight: 700; color: var(--green-text); }
+    .c-pct-lbl { font-size: 10px; font-weight: 700; color: var(--green-text); }
+
+    /* SECTION 6 - LOGS TABLE */
+    .card-logs { padding: 16px; }
+    .logs-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .logs-title { font-size: 18px; font-weight: 800; color: var(--text-dark); line-height: 1.2; display: block; }
+    .logs-btns { display: flex; gap: 8px; }
+    .btn { height: 34px; padding: 0 12px; border-radius: 8px; font-size: 12px; font-weight: 600; display: inline-flex; justify-content: center; align-items: center; text-align: center; cursor: pointer; border: none; }
+    .btn-csv { background: #F1F5F9; border: 1px solid var(--border); color: var(--text-mid); }
+    .btn-csv:hover { background: #E2E8F0; }
+    .btn-fltr { background: var(--blue); color: #FFF; line-height: 1.2; box-shadow: 0 4px 10px rgba(37,99,235,0.35); }
+    .btn-fltr:hover { filter: brightness(1.1); box-shadow: 0 6px 12px rgba(37,99,235,0.45); }
+
+    .t-head { display: flex; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .th { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-muted); }
+    .th-1 { flex: 1.5; }
+    .th-2 { flex: 1; text-align: center; }
+    .th-3 { flex: 1; text-align: right; }
+
+    .tr { display: flex; align-items: center; padding: 13px 0; gap: 12px; border-bottom: 1px solid var(--border); opacity: 0; }
+    .td-ava { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #FFF; flex-shrink: 0; }
+    .td-recip { flex: 1.5; font-size: 13px; font-weight: 600; color: var(--text-dark); line-height: 1.2; }
+    .td-amt { flex: 1; text-align: center; font-size: 14px; font-weight: 700; color: var(--text-dark); }
+    .td-date { flex: 1; text-align: right; display: flex; flex-direction: column; }
+    .d-date { font-size: 11px; font-weight: 400; color: var(--text-dark); }
+    .d-time { font-size: 11px; font-weight: 400; color: var(--text-muted); }
+
+    .view-all { display: block; text-align: center; margin-top: 16px; padding: 8px 0; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--blue); text-decoration: none; }
+    .view-all:hover { color: var(--blue-dark); }
+
+    /* SECTION 7 - BTM NAV */
+    .b-nav { position: sticky; bottom: 0; z-index: 100; background: #FFF; border-top: 1px solid var(--border); padding: 10px 0 26px 0; display: flex; justify-content: space-around; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; position: relative; }
+    .n-icon { width: 22px; height: 22px; stroke: var(--text-muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .n-lbl { font-size: 10px; font-weight: 500; color: var(--text-muted); }
+    .nav-item.active .n-icon { stroke: var(--blue); }
+    .nav-item.active .n-lbl { color: var(--blue); font-weight: 700; }
+    .n-ind { width: 16px; height: 2px; background: var(--blue); border-radius: 99px; position: absolute; bottom: -6px; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <header class="top-nav">
+    <div class="logo-group">
+      <img src="save_logo.png" style="height: 32px; width: auto; margin-top: 14px;" alt="Save Logo" />
+    </div>
+    <div class="right-icons">
+    </div>
+  </header>
+
+  <!-- TITLE BLOCK -->
+  <div class="title-block anim-fade delay-0">
+    <h1 class="page-title">Payout Performance<br>Audit</h1>
+    <p class="page-sub">System-wide monitoring of automated group savings distributions.</p>
+  </div>
+
+  <!-- DONUT CARD -->
+  <div class="card card-px anim-fade delay-1">
+    <div class="section-label">SUCCESS RATE</div>
+    <div class="donut-container">
+      <svg class="donut-chart" width="180" height="180" viewBox="0 0 180 180">
+        <circle class="donut-bg" cx="90" cy="90" r="72" />
+        <!-- Blue arc: length 426, offset -113 -->
+        <circle id="dBlue" class="donut-blue" cx="90" cy="90" r="72" />
+        <!-- Red arc: length 26, offset -539 -->
+        <circle id="dRed" class="donut-red" cx="90" cy="90" r="72" />
+      </svg>
+      <div class="donut-center">
+        <div class="donut-val"><span id="cPct">0.0</span>%</div>
+        <div class="donut-tag">SURPASSING GOAL</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div>
+        <div class="stat-val blue" id="cTot">0</div>
+        <div class="stat-lbl">TOTAL</div>
+      </div>
+      <div>
+        <div class="stat-val red" id="cFail">0</div>
+        <div class="stat-lbl">FAILED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CYCLE DIST CARD -->
+  <div class="card card-dist anim-fade delay-2">
+    <div class="dist-header">
+      <div class="dist-title">Cycle Distribution</div>
+      <div class="badge-30">LAST 30 DAYS</div>
+    </div>
+    <div class="chart-container">
+      <div class="bar bar-blue">
+        <div class="bar-lbl">SUCCESSFUL</div>
+      </div>
+      <div class="bar bar-red">
+        <div class="bar-lbl">FAILED</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="dot blue"></div>
+        <div>
+          <span class="lgnd-txt">1,168 Successful</span> <span class="lgnd-sub">Payouts</span>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="dot red"></div>
+        <div>
+          <span class="lgnd-txt">72 Failed</span> <span class="lgnd-sub">Attempts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAST 3 CYCLES -->
+  <div class="sec-label-out anim-fade delay-3">LAST 3 CYCLES</div>
+  <div class="card card-cycles anim-fade delay-3">
+    <!-- Row 1 -->
+    <div class="c-row">
+      <div class="c-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+      </div>
+      <div class="c-info">
+        <div class="c-title">Monthly Group Alpha</div>
+        <div class="c-meta">Oct 24, 2023 • 45 Recipients</div>
+      </div>
+      <div class="c-val-box">
+        <div class="c-ugx">UGX</div>
+        <div class="c-amt">12,400,000</div>
+        <div class="c-pct-box">
+          <span class="c-pct">100%</span><span class="c-pct-lbl">SUCCESS</span>
+        </div>
+      </div>
+    </div>
+    <!-- Row 2 -->
+    <div class="c-row">
+      <div class="c-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+      </div>
+      <div class="c-info">
+        <div class="c-title">Weekly Savings - Mbale</div>
+        <div class="c-meta">Oct 23, 2023 • 12 Recipients</div>
+      </div>
+      <div class="c-val-box">
+        <div class="c-ugx">UGX</div>
+        <div class="c-amt">4,200,000</div>
+        <div class="c-pct-box">
+          <span class="c-pct">92%</span><span class="c-pct-lbl">SUCCESS</span>
+        </div>
+      </div>
+    </div>
+    <!-- Row 3 -->
+    <div class="c-row">
+      <div class="c-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+      </div>
+      <div class="c-info">
+        <div class="c-title">Teachers Union Fund</div>
+        <div class="c-meta">Oct 22, 2023 • 88 Recipients</div>
+      </div>
+      <div class="c-val-box">
+        <div class="c-ugx">UGX</div>
+        <div class="c-amt">28,500,000</div>
+        <div class="c-pct-box">
+          <span class="c-pct">100%</span><span class="c-pct-lbl">SUCCESS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGS TABLE -->
+  <div class="card card-logs anim-fade delay-4">
+    <div class="logs-hdr">
+      <div class="logs-title">Auto-Payout<br>Logs</div>
+      <div class="logs-btns">
+        <button class="btn btn-csv">Export CSV</button>
+        <button class="btn btn-fltr">Filter<br>Logs</button>
+      </div>
+    </div>
+    
+    <div class="t-head">
+      <div class="th th-1">RECIPIENT</div>
+      <div class="th th-2">AMOUNT (UGX)</div>
+      <div class="th th-3">DATE &amp; TIME</div>
+    </div>
+
+    <!-- Rows -->
+    <div class="tr" style="animation: slideRightFade 300ms ease-out 400ms forwards;">
+      <div class="td-ava" style="background:#6366F1;">JO</div>
+      <div class="td-recip">John<br>Okello</div>
+      <div class="td-amt">450,000</div>
+      <div class="td-date"><span class="d-date">Oct 24,</span><span class="d-date"></span><span class="d-time">09:12 AM</span></div>
+    </div>
+    <div class="tr" style="animation: slideRightFade 300ms ease-out 480ms forwards;">
+      <div class="td-ava" style="background:#10B981;">SN</div>
+      <div class="td-recip">Sarah<br>Namubiru</div>
+      <div class="td-amt">1,200,000</div>
+      <div class="td-date"><span class="d-date">Oct 24,</span><span class="d-date"></span><span class="d-time">09:12 AM</span></div>
+    </div>
+    <div class="tr" style="animation: slideRightFade 300ms ease-out 560ms forwards;">
+      <div class="td-ava" style="background:#F59E0B;">DM</div>
+      <div class="td-recip">David<br>Mukasa</div>
+      <div class="td-amt">300,000</div>
+      <div class="td-date"><span class="d-date">Oct 24,</span><span class="d-date"></span><span class="d-time">09:11 AM</span></div>
+    </div>
+    <div class="tr" style="animation: slideRightFade 300ms ease-out 640ms forwards;">
+      <div class="td-ava" style="background:#8B5CF6;">AA</div>
+      <div class="td-recip">Alice<br>Atwine</div>
+      <div class="td-amt">850,000</div>
+      <div class="td-date"><span class="d-date">Oct 23,</span><span class="d-date"></span><span class="d-time">05:45 PM</span></div>
+    </div>
+    <div class="tr" style="animation: slideRightFade 300ms ease-out 720ms forwards; border-bottom: none;">
+      <div class="td-ava" style="background:#EC4899;">PM</div>
+      <div class="td-recip">Peter<br>Mulema</div>
+      <div class="td-amt">2,100,000</div>
+      <div class="td-date"><span class="d-date">Oct 23,</span><span class="d-date"></span><span class="d-time">05:45 PM</span></div>
+    </div>
+    <div style="border-bottom: 1px solid var(--border);"></div>
+
+    <a href="#" class="view-all">VIEW ALL HISTORY</a>
+  </div>
+
+  <!-- BTM NAV -->
+  <nav class="b-nav">
+    <a href="#" class="nav-item">
+      <svg class="n-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+      <span class="n-lbl">Summary</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg class="n-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span class="n-lbl">Groups</span>
+    </a>
+    <a href="#" class="nav-item active">
+      <svg class="n-icon" viewBox="0 0 24 24"><line x1="22" y1="12" x2="2" y2="12"/><path d="M16 6l6 6-6 6"/></svg>
+      <span class="n-lbl">Growth</span>
+      <div class="n-ind"></div>
+    </a>
+    <a href="#" class="nav-item">
+      <svg class="n-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span class="n-lbl">Settings</span>
+    </a>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Donut Animations (Values computed exactly for Figma spec)
+      setTimeout(() => {
+        document.getElementById('dBlue').style.strokeDashoffset = -113; // Blue 94.2% -> exactly 426
+        document.getElementById('dRed').style.strokeDashoffset = -539;  // Red 5.8%   -> exactly 26
+      }, 50);
+
+      // Percentage and counter
+      const animateVal = (elId, target, dur, delay, isDec) => {
+        setTimeout(() => {
+          const el = document.getElementById(elId);
+          let start = null;
+          const step = (ts) => {
+            if(!start) start = ts;
+            const progress = Math.min((ts - start)/dur, 1);
+            const ease = 1 - Math.pow(1 - progress, 3);
+            const current = ease * target;
+            el.textContent = isDec ? current.toFixed(1) : Math.floor(current).toLocaleString();
+            if(progress < 1) requestAnimationFrame(step);
+            else el.textContent = isDec ? target.toFixed(1) : target.toLocaleString();
+          };
+          requestAnimationFrame(step);
+        }, delay);
+      };
+
+      animateVal('cPct', 94.2, 1200, 0, true);
+      animateVal('cTot', 1240, 1000, 200, false);
+      animateVal('cFail', 72, 800, 200, false);
+    });
+  </script>
+</body>
+</html>

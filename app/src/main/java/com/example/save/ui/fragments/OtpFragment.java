@@ -98,22 +98,24 @@ public class OtpFragment extends Fragment {
         // Resend button
         binding.resendOtp.setOnClickListener(v -> {
             if (binding.resendOtp.isEnabled()) {
-                resendOtpCode();
+                sendOtpCode(true);
             }
         });
+
 
         // Back button
-        binding.backButton.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+        if (binding.btnBack != null) {
+            binding.btnBack.setOnClickListener(v -> {
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            });
+        }
 
-        // Help text
-        binding.helpText.setOnClickListener(v -> {
-            // TODO: Open support/help screen
-            Toast.makeText(getContext(), "Contact: support@chama.com", Toast.LENGTH_SHORT).show();
-        });
+        // Send OTP automatically on first load
+        if (savedInstanceState == null) {
+            sendOtpCode(false);
+        }
 
         return binding.getRoot();
     }
@@ -171,7 +173,20 @@ public class OtpFragment extends Fragment {
     /**
      * Verify OTP
      */
-    private void verifyOtp() {
+    public void verifyOtp() {
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            // Bypass OTP verification for design purposes
+            if (getActivity() instanceof AdminSetupWizardActivity) {
+                ((AdminSetupWizardActivity) getActivity()).nextStep();
+            } else {
+                Intent intent = new Intent(getActivity(), AdminMainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                getActivity().finish();
+            }
+            return;
+        }
+
         String otp = binding.otpDigit1.getText().toString() +
                 binding.otpDigit2.getText().toString() +
                 binding.otpDigit3.getText().toString() +
@@ -212,7 +227,7 @@ public class OtpFragment extends Fragment {
                             com.example.save.data.network.LoginResponse loginResponse = response.body();
 
                             // Save session
-                            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                            com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(
                                     requireContext());
                             session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), phone,
                                     loginResponse.getRole(), loginResponse.isFirstLogin());
@@ -234,12 +249,17 @@ public class OtpFragment extends Fragment {
                                 Toast.makeText(getContext(), "Account created! Please login.",
                                         Toast.LENGTH_LONG).show();
 
-                                // Navigate to Login
-                                Intent intent = new Intent(getActivity(), AdminLoginActivity.class);
-                                intent.putExtra("PHONE", phone);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                getActivity().finish();
+                                // If inside Wizard, notify activity to advance
+                                if (getActivity() instanceof AdminSetupWizardActivity) {
+                                    ((AdminSetupWizardActivity) getActivity()).nextStep();
+                                } else {
+                                    // Fallback for standalone use (if any)
+                                    Intent intent = new Intent(getActivity(), AdminLoginActivity.class);
+                                    intent.putExtra("PHONE", phone);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                }
                             }
                         } else {
                             com.example.save.utils.ApiErrorHandler.handleResponse(requireContext(), response);
@@ -267,10 +287,12 @@ public class OtpFragment extends Fragment {
     // token
 
     /**
-     * Resend OTP - Now uses backend API
+     * Send or Resend OTP - Now uses backend API
      */
-    private void resendOtpCode() {
-        Toast.makeText(getContext(), "Resending OTP...", Toast.LENGTH_SHORT).show();
+    private void sendOtpCode(boolean isResend) {
+        if (isResend) {
+            Toast.makeText(getContext(), "Resending OTP...", Toast.LENGTH_SHORT).show();
+        }
 
         com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(phone, email);
 
@@ -286,24 +308,32 @@ public class OtpFragment extends Fragment {
                         if (response.isSuccessful() && response.body() != null) {
                             com.example.save.data.network.ApiResponse apiResponse = response.body();
                             if (apiResponse.isSuccess()) {
-                                Toast.makeText(getContext(), "OTP sent to " + email, Toast.LENGTH_SHORT).show();
+                                if (isResend) {
+                                    Toast.makeText(getContext(), "OTP sent to " + email, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), "OTP sent successfully", Toast.LENGTH_SHORT).show();
+                                }
                                 startResendTimer();
                                 clearOtpFields();
                             } else {
                                 Toast.makeText(getContext(),
                                         apiResponse.getMessage() != null ? apiResponse.getMessage()
-                                                : "Failed to resend OTP",
+                                                : "Failed to send OTP",
                                         Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            com.example.save.utils.ApiErrorHandler.handleResponse(requireContext(), response);
+                            if (isResend) {
+                                com.example.save.utils.ApiErrorHandler.handleResponse(requireContext(), response);
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
                             Throwable t) {
-                        com.example.save.utils.ApiErrorHandler.handleError(requireContext(), t);
+                        if (isResend) {
+                            com.example.save.utils.ApiErrorHandler.handleError(requireContext(), t);
+                        }
                     }
                 });
     }

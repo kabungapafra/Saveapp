@@ -56,7 +56,7 @@ public class ProfileInfoFragment extends Fragment {
     private void loadProfileInfo() {
         if (getContext() == null) return;
         
-        SessionManager session = new SessionManager(getContext());
+        SessionManager session = SessionManager.getInstance(getContext());
         String userEmail = session.getUserEmail();
 
         if (userEmail == null) {

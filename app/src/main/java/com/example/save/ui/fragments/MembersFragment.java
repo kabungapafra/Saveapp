@@ -40,11 +40,21 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import android.os.Handler;
+import android.os.Looper;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.example.save.ui.viewmodels.LoansViewModel;
+import com.example.save.data.models.Loan;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class MembersFragment extends Fragment {
 
     private FragmentMembersBinding binding;
     private MembersViewModel viewModel;
+    private LoansViewModel loansViewModel;
     private MemberAdapter adapter;
     private TechnicalInsightsAdapter insightsAdapter;
     private List<Member> currentMembersList = new ArrayList<>();
@@ -62,12 +72,14 @@ public class MembersFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         binding = FragmentMembersBinding.inflate(inflater, container, false);
 
-        // Initialize ViewModel
+        // Initialize ViewModels
         viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
+        loansViewModel = new ViewModelProvider(requireActivity()).get(LoansViewModel.class);
 
         setupRecyclerView();
         observeViewModel();
         setupSearchView();
+        setupTabs();
         setupTabs();
 
         // Sync data with backend
@@ -83,6 +95,7 @@ public class MembersFragment extends Fragment {
 
         // Setup Swipe Refresh
         binding.swipeRefreshUtils.setOnRefreshListener(() -> {
+            loadMembers();
             loadMembers();
         });
 
@@ -528,6 +541,12 @@ public class MembersFragment extends Fragment {
                     viewModel.removeMember(member);
                     Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
                 }).setNegativeButton("Cancel", null).show();
+    }
+
+    private String formatCurrencyCompact(double amount) {
+        if (amount >= 1000000) return String.format(Locale.getDefault(), "UGX %.1fM", amount / 1000000);
+        if (amount >= 1000) return String.format(Locale.getDefault(), "UGX %.1fK", amount / 1000);
+        return String.format(Locale.getDefault(), "UGX %.0f", amount);
     }
 
     @Override

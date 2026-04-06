@@ -134,8 +134,12 @@ public class SplashActivity extends AppCompatActivity {
         if (isFirstTime) {
             startActivity(new Intent(this, OnboardingActivity.class));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } else if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            // In Design Mode, we always go to LoginActivity to allow selecting role
+            startActivity(new Intent(this, LoginActivity.class));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         } else {
-            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
+            com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(this);
             session.logoutUser();
         }
         finish();

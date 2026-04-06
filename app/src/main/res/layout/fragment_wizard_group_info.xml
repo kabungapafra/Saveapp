@@ -1,126 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8FAFC"
     android:fillViewport="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_xl">
+        android:padding="24dp">
 
-        <ImageView
-            android:layout_width="@dimen/icon_size_large"
-            android:layout_height="@dimen/icon_size_large"
-            android:src="@drawable/ic_people"
-            android:tint="@color/deep_blue"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/spacing_normal" />
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#0F172A" />
 
+        <!-- Progress Indicator Row -->
         <TextView
+            android:id="@+id/tvSectionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Your Group"
-            android:textSize="@dimen/text_size_xxl"
+            android:layout_marginTop="8dp"
+            android:text="GROUP SETUP"
+            android:textColor="#3B82F6"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/spacing_small" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnBack" />
 
         <TextView
+            android:id="@+id/tvStepIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Let's set up your savings group"
-            android:textSize="@dimen/text_size_normal"
-            android:textColor="@color/text_secondary"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/spacing_xxl" />
+            android:text="Step 1 of 3"
+            android:textColor="#94A3B8"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvSectionLabel"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Group Name -->
-        <com.google.android.material.textfield.TextInputLayout
+        <ProgressBar
+            android:id="@+id/pbStepProgress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="12dp"
+            android:progress="33"
+            android:progressDrawable="@drawable/bg_wizard_progress"
+            app:layout_constraintTop_toBottomOf="@id/tvSectionLabel" />
+
+        <!-- Title & Subtitle -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Save together"
+            android:textColor="#0F172A"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pbStepProgress" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Group Name"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/deep_blue"
-            app:boxCornerRadiusTopStart="@dimen/corner_radius_medium"
-            app:boxCornerRadiusTopEnd="@dimen/corner_radius_medium"
-            app:boxCornerRadiusBottomStart="@dimen/corner_radius_medium"
-            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_medium"
-            app:startIconDrawable="@drawable/ic_people"
-            app:startIconTint="@color/deep_blue"
-            android:layout_marginBottom="@dimen/spacing_normal">
+            android:layout_marginTop="8dp"
+            android:text="Define the core details of your saving circle."
+            android:textColor="#64748B"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etGroupName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Group Description -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Group Description (Optional)"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/deep_blue"
-            app:boxCornerRadiusTopStart="@dimen/corner_radius_medium"
-            app:boxCornerRadiusTopEnd="@dimen/corner_radius_medium"
-            app:boxCornerRadiusBottomStart="@dimen/corner_radius_medium"
-            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_medium"
-            app:startIconDrawable="@drawable/ic_info"
-            app:startIconTint="@color/deep_blue"
-            app:counterEnabled="true"
-            app:counterMaxLength="200"
-            android:layout_marginBottom="@dimen/spacing_normal">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etGroupDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine|textCapSentences"
-                android:minLines="3"
-                android:maxLength="200"
-                android:gravity="top|start" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Info Card -->
+        <!-- Main Form Card -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/mainCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/light_purple_bg"
-            app:cardCornerRadius="@dimen/corner_radius_medium"
-            app:cardElevation="0dp">
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
+            app:layout_constraintVertical_bias="0">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/spacing_normal"
-                android:gravity="center_vertical">
+                android:orientation="vertical"
+                android:padding="24dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info"
-                    android:tint="@color/deep_blue"
-                    android:layout_marginEnd="@dimen/spacing_small" />
-
-                <TextView
-                    android:layout_width="0dp"
+                <!-- Basic Info Section Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Choose a name that represents your group's purpose and makes it easy for members to identify."
-                    android:textSize="@dimen/text_size_xs"
-                    android:textColor="@color/text_secondary"
-                    android:lineSpacingExtra="2dp" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_info"
+                        app:tint="#3B82F6" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="BASIC INFO"
+                        android:textColor="#3B82F6"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Group Name Field -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Group Name"
+                    android:textColor="#1E293B"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etGroupName"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_wizard_input_solid"
+                    android:hint="e.g. Summer Trip 2024"
+                    android:inputType="textCapWords"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="#1E293B"
+                    android:textColorHint="#94A3B8"
+                    android:textSize="16sp" />
+
+                <!-- Currency Field -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Currency"
+                    android:textColor="#1E293B"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_wizard_input_solid">
+
+                    <TextView
+                        android:id="@+id/tvCurrencyText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="UGX - Uganda Shillings"
+                        android:textColor="#1E293B"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="#94A3B8" />
+
+                    <Spinner
+                        android:id="@+id/spinnerCurrency"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:spinnerMode="dropdown"
+                        android:visibility="invisible" />
+                </FrameLayout>
+
+                <!-- Financial Goal Section Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_money"
+                        app:tint="#3B82F6" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="FINANCIAL GOAL"
+                        android:textColor="#3B82F6"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Monthly Contribution Field -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Monthly Contribution"
+                    android:textColor="#1E293B"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    app:hintEnabled="false"
+                    app:prefixText="UGX "
+                    app:prefixTextColor="#94A3B8">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etMonthlyContribution"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_wizard_input_solid"
+                        android:hint="0.00"
+                        android:inputType="numberDecimal"
+                        android:paddingHorizontal="16dp"
+                        android:textColor="#1E293B"
+                        android:textColorHint="#94A3B8"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Goal Hint -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@drawable/ic_help_outline"
+                        app:tint="#94A3B8" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Total goal will be calculated based on member count."
+                        android:textColor="#94A3B8"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
-
-</ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

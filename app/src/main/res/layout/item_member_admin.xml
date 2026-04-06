@@ -16,8 +16,8 @@
         <!-- Profile Picture Container -->
         <FrameLayout
             android:id="@+id/profileContainer"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -25,15 +25,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_circle_white"
-                android:backgroundTint="#F8FAFC" />
+                android:backgroundTint="#F1F5F9" />
 
             <ImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@drawable/save_logo"
-                app:tint="#10B981" />
+                android:src="@drawable/ic_person"
+                app:tint="#64748B" />
         </FrameLayout>
 
         <!-- Name -->
@@ -41,11 +41,11 @@
             android:id="@+id/tvMemberName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="14dp"
             android:fontFamily="@font/manrope_bold"
             android:text="Alex Johnson"
-            android:textColor="#0F172A"
-            android:textSize="18sp"
+            android:textColor="#1E293B"
+            android:textSize="17sp"
             app:layout_constraintEnd_toStartOf="@id/tvStatusBadge"
             app:layout_constraintStart_toEndOf="@id/profileContainer"
             app:layout_constraintTop_toTopOf="parent" />
@@ -116,7 +116,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:text="$12,450.00"
                     android:textColor="#2563EB"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Reliability -->
@@ -140,8 +140,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="98.4%"
-                    android:textColor="#0F172A"
-                    android:textSize="13sp" />
+                    android:textColor="#1E293B"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Rank -->

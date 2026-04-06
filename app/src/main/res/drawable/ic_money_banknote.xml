@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Banknote outline -->
+    <path
+        android:fillColor="@color/neumorphic_orange"
+        android:pathData="M4,6h16c1.1,0 2,0.9 2,2v8c0,1.1 -0.9,2 -2,2h-16c-1.1,0 -2,-0.9 -2,-2v-8C2,6.9 2.9,6 4,6z M20,8h-16v8h16V8z" />
+    <!-- Coin symbol in circle -->
+    <path
+        android:fillColor="@color/neumorphic_orange"
+        android:pathData="M12,12m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+    <!-- Coin internal detail -->
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M12,10.5v3 M10.5,12h3" />
+</vector>

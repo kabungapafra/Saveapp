@@ -61,7 +61,7 @@ public class MakeContributionFragment extends Fragment {
         MaterialButton btnConfirm = view.findViewById(R.id.btnConfirm);
 
         MembersViewModel viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
-        SessionManager session = new SessionManager(requireContext());
+        SessionManager session = SessionManager.getInstance(requireContext());
         String email = session.getUserEmail();
         
         setupAmountInput();

@@ -97,22 +97,16 @@ public class AdminLoginActivity extends AppCompatActivity {
         String email = binding.emailInput.getText().toString().trim().toLowerCase();
         String password = binding.passwordInput.getText().toString().trim();
 
-        // Client-side validation
-        if (groupName.isEmpty()) {
-            binding.groupNameInput.setError("Group name is required");
-            binding.groupNameInput.requestFocus();
-            return;
-        }
-
-        if (!com.example.save.utils.ValidationUtils.isValidEmail(email)) {
-            binding.emailInput.setError("Valid email address is required");
-            binding.emailInput.requestFocus();
-            return;
-        }
-
-        if (password.isEmpty()) {
-            binding.passwordInput.setError("Password is required");
-            binding.passwordInput.requestFocus();
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            // Immediately navigate to AdminMainActivity
+            Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
+            intent.putExtra("admin_email", email.isEmpty() ? "admin@design.com" : email);
+            intent.putExtra("admin_name", "Design Admin");
+            intent.putExtra("group_name", groupName.isEmpty() ? "Design Group" : groupName);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
             return;
         }
 
@@ -125,9 +119,9 @@ public class AdminLoginActivity extends AppCompatActivity {
         Runnable feedbackRunnable = () -> {
             if (!binding.loginButton.isEnabled()) {
                 binding.loginButtonText.setText("Waking up server...");
-                Toast.makeText(AdminLoginActivity.this,
+                android.widget.Toast.makeText(AdminLoginActivity.this,
                         "Server is waking up from standby. This may take a moment...",
-                        Toast.LENGTH_LONG).show();
+                        android.widget.Toast.LENGTH_LONG).show();
             }
         };
         feedbackHandler.postDelayed(feedbackRunnable, 2500);
@@ -135,7 +129,8 @@ public class AdminLoginActivity extends AppCompatActivity {
         // Directly call Backend Login (Native Email/Password)
         com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(email,
                 password);
-        loginRequest.setGroupName(groupName);
+        final String finalGroupName = groupName;
+        loginRequest.setGroupName(finalGroupName);
         loginRequest.setLoginType("admin");
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
@@ -161,7 +156,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                     }
 
                     // Save session with JWT token
-                    com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                    com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(
                             getApplicationContext());
                     session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
                             loginResponse.getRole(), false);
@@ -174,7 +169,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                     android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
                     prefs.edit()
                             .putString("admin_name", loginResponse.getName())
-                            .putString("group_name", groupName)
+                            .putString("group_name", finalGroupName)
                             .putString("admin_email", loginResponse.getEmail())
                             .apply();
 
@@ -184,7 +179,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
                     intent.putExtra("admin_email", loginResponse.getEmail());
                     intent.putExtra("admin_name", loginResponse.getName());
-                    intent.putExtra("group_name", groupName);
+                    intent.putExtra("group_name", finalGroupName);
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

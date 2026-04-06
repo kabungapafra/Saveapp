@@ -115,7 +115,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
                         if (success) {
                             // Update local session status
-                            com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
+                            com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(
                                     getApplicationContext());
                             session.setFirstLoginStatus(false);
 

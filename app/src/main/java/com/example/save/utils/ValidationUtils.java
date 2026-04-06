@@ -35,30 +35,42 @@ public class ValidationUtils {
         if (TextUtils.isEmpty(phone)) {
             return false;
         }
-        // Remove spaces and check if it's 9 or 10 digits
-        String cleanPhone = normalizePhone(phone);
-        return cleanPhone.matches("^[7][0-9]{8}$"); // Uganda format starting with 7
+        // Normalize first, then check full E.164 Uganda format
+        String normalized = normalizePhone(phone);
+        return normalized.matches("^\\+256[7][0-9]{8}$");
     }
 
     /**
-     * Normalizes phone number by removing spaces and leading zero
-     * 
+     * Normalizes a Uganda phone number to full E.164 format: +256XXXXXXXXX
+     * Accepts: +2567XXXXXXXX, 07XXXXXXXX, 7XXXXXXXX, +256 7XX XXX XXX, etc.
+     *
      * @param phone Phone number to normalize
-     * @return Normalized phone number (e.g. 772123456)
+     * @return Normalized phone number in +256XXXXXXXXX format, or original if unrecognized
      */
     public static String normalizePhone(String phone) {
-        if (phone == null)
-            return "";
-        String clean = phone.replaceAll("\\s+", "");
-        if (clean.startsWith("+256")) {
-            clean = clean.substring(4);
+        if (phone == null) return "";
+
+        // Strip all spaces, dashes, parentheses
+        String clean = phone.replaceAll("[\\s\\-()]", "");
+
+        // Already full E.164 Uganda
+        if (clean.matches("^\\+2567[0-9]{8}$")) {
+            return clean;
         }
-        if (clean.startsWith("256")) {
-            clean = clean.substring(3);
+        // International without +
+        if (clean.matches("^2567[0-9]{8}$")) {
+            return "+" + clean;
         }
-        if (clean.startsWith("0")) {
-            clean = clean.substring(1);
+        // Local with leading 0 (e.g. 0772123456)
+        if (clean.matches("^07[0-9]{8}$")) {
+            return "+256" + clean.substring(1);
         }
+        // Local without 0 (e.g. 772123456)
+        if (clean.matches("^7[0-9]{8}$")) {
+            return "+256" + clean;
+        }
+
+        // Unrecognized — return as-is so validation catches it
         return clean;
     }
 

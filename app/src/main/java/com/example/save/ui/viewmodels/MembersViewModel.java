@@ -483,6 +483,10 @@ public class MembersViewModel extends AndroidViewModel {
     }
 
     // System Config & Logic
+    public void updateSystemConfig(com.example.save.data.network.SystemConfigUpdate update, MemberRepository.ConfigCallback callback) {
+        repository.updateSystemConfig(update, callback);
+    }
+
     public void fetchSystemConfig(MemberRepository.ConfigCallback callback) {
         repository.fetchSystemConfig(callback);
     }

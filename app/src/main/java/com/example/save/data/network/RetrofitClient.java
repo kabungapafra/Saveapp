@@ -13,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
     // Production backend URL hosted on Render
     private static final String DEFAULT_BASE_URL = "https://saveapp-backend.onrender.com/api/";
+    private static final boolean USE_MOCK_DATA = true; // Set to false to use actual backend
     private static Retrofit retrofit = null;
     private static String currentBaseUrl = null;
 
@@ -37,13 +38,11 @@ public class RetrofitClient {
                 logging.setLevel(HttpLoggingInterceptor.Level.NONE);
             }
 
-            SessionManager sessionManager = new SessionManager(context);
-
-            OkHttpClient client = new OkHttpClient.Builder()
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
                     .addInterceptor(logging)
                     .addInterceptor(chain -> {
                         Request original = chain.request();
-                        String token = sessionManager.getJwtToken();
+                        String token = SessionManager.getInstance(context).getJwtToken();
 
                         if (token != null && !token.isEmpty()) {
                             Request request = original.newBuilder()
@@ -57,8 +56,13 @@ public class RetrofitClient {
                     })
                     .connectTimeout(90, java.util.concurrent.TimeUnit.SECONDS)
                     .readTimeout(90, java.util.concurrent.TimeUnit.SECONDS)
-                    .writeTimeout(90, java.util.concurrent.TimeUnit.SECONDS)
-                    .build();
+                    .writeTimeout(90, java.util.concurrent.TimeUnit.SECONDS);
+
+            if (USE_MOCK_DATA) {
+                clientBuilder.addInterceptor(new MockDataInterceptor());
+            }
+
+            OkHttpClient client = clientBuilder.build();
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)

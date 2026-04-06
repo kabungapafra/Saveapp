@@ -35,24 +35,25 @@ public class AdminSignupActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Handle back press with OnBackPressedDispatcher
+        // Handle back press
+        binding.btnBack.setOnClickListener(v -> finish());
+        
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // If fragment is visible, show signup form again
-                if (binding.fragmentContainer != null && binding.fragmentContainer.getVisibility() == View.VISIBLE) {
+                // If fragment is visible (OTP), show signup form again
+                if (binding.fragmentContainer.getVisibility() == View.VISIBLE) {
                     binding.loginCard.setVisibility(View.VISIBLE);
-                    binding.sideTabContainer.setVisibility(View.VISIBLE);
                     binding.fragmentContainer.setVisibility(View.GONE);
                     getSupportFragmentManager().popBackStack();
                 } else {
-                    // Let the system handle back press (exit activity)
                     setEnabled(false);
                     getOnBackPressedDispatcher().onBackPressed();
                 }
             }
         });
 
-        // Signup button click
+        // Signup button click (Next)
         binding.signupButton.setOnClickListener(v -> sendOtp());
 
         // Already have account - navigate to login
@@ -65,112 +66,65 @@ public class AdminSignupActivity extends AppCompatActivity {
         setupPasswordToggles();
     }
 
-    /**
-     * Handle login tab click from XML (if you have a login tab in signup screen)
-     */
-    public void onloginClick(View view) {
-        Intent intent = new Intent(this, AdminLoginActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        finish();
-    }
-
-    /**
-     * Validate inputs and send OTP to admin
-     */
-    /**
-     * Validate inputs and send OTP to admin
-     */
     private void sendOtp() {
         // Get input values
         String adminName = binding.adminNameInput.getText().toString().trim();
-        String groupName = binding.companyInput.getText().toString().trim();
         String phoneInput = binding.phoneInput.getText().toString().trim();
         String email = binding.emailInput.getText().toString().trim().toLowerCase();
-        String password = binding.passwordInput.getText().toString().trim(); // Trimmed
-        String confirmPassword = binding.confirmPasswordInput.getText().toString().trim(); // Trimmed
+        String password = binding.passwordInput.getText().toString().trim();
+        String confirmPassword = binding.confirmPasswordInput.getText().toString().trim();
 
-        // Normalize phone number (Remove leading zero if any)
+        // Normalize phone number
         String phone = com.example.save.utils.ValidationUtils.normalizePhone(phoneInput);
 
-        // Validate inputs using ValidationUtils
-        if (!com.example.save.utils.ValidationUtils.isNotEmpty(adminName)) {
-            com.example.save.utils.ValidationUtils.showError(binding.adminNameInput, "Admin Name is required");
-            return;
-        }
-
-        if (!com.example.save.utils.ValidationUtils.isNotEmpty(groupName)) {
-            com.example.save.utils.ValidationUtils.showError(binding.companyInput, "Group name is required");
+        // Validate inputs
+        if (adminName.isEmpty()) {
+            binding.adminNameInput.setError("Full Name is required");
             return;
         }
 
         if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
-            com.example.save.utils.ValidationUtils.showError(binding.phoneInput, "Invalid phone number format");
+            binding.phoneInput.setError("Invalid phone number format");
             return;
         }
 
         if (!com.example.save.utils.ValidationUtils.isValidEmail(email)) {
-            com.example.save.utils.ValidationUtils.showError(binding.emailInput, "Invalid email format");
+            binding.emailInput.setError("Invalid email format");
             return;
         }
 
         if (!com.example.save.utils.ValidationUtils.isValidPassword(password)) {
-            com.example.save.utils.ValidationUtils.showError(binding.passwordInput,
-                    "Password must be at least 8 characters");
+            binding.passwordInput.setError("Password must be at least 8 characters");
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            com.example.save.utils.ValidationUtils.showError(binding.confirmPasswordInput, "Passwords do not match");
+            binding.confirmPasswordInput.setError("Passwords do not match");
             return;
         }
 
-        // Disable button while sending OTP
+        // Disable button while transitioning
         binding.signupButton.setEnabled(false);
-        binding.signupButton.setText("Sending OTP...");
+        binding.signupButton.setText("Continuing...");
 
-        // Call backend API to send OTP
-        com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(phone, email);
-
-        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
-                .getClient(this).create(com.example.save.data.network.ApiService.class);
-
-        apiService.sendAdminOtp(request).enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
-            @Override
-            public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
-                    retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
-                binding.signupButton.setEnabled(true);
-                binding.signupButton.setText(getString(R.string.create_account));
-
-                if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(AdminSignupActivity.this, "OTP sent to " + email, Toast.LENGTH_SHORT).show();
-                    // Navigate to OTP fragment
-                    navigateToOtpFragment(adminName, groupName, phone, email, password);
-                } else {
-                    com.example.save.utils.ApiErrorHandler.handleResponse(AdminSignupActivity.this, response);
-                }
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
-                binding.signupButton.setEnabled(true);
-                binding.signupButton.setText(getString(R.string.create_account));
-                com.example.save.utils.ApiErrorHandler.handleError(AdminSignupActivity.this, t);
-            }
-        });
+        // Navigate directly to Group Setup Wizard instead of sending OTP immediately
+        Intent intent = new Intent(AdminSignupActivity.this, AdminSetupWizardActivity.class);
+        intent.putExtra("ADMIN_NAME", adminName);
+        intent.putExtra("PHONE", phone);
+        intent.putExtra("EMAIL", email);
+        intent.putExtra("PASSWORD", password);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        finish();
     }
 
-    /**
-     * Navigate to OTP fragment
-     */
     private void navigateToOtpFragment(String adminName, String groupName, String phone, String email,
             String password) {
-        // Hide signup form and side tabs, show fragment container
+        // Hide signup form, show fragment container
         binding.loginCard.setVisibility(View.GONE);
-        binding.sideTabContainer.setVisibility(View.GONE);
         binding.fragmentContainer.setVisibility(View.VISIBLE);
 
-        // Create OTP fragment with admin data - USE THE CORRECT METHOD
+        // Create OTP fragment with admin data
         OtpFragment otp = OtpFragment.newInstanceForRegistration(adminName, groupName, phone, email, password);
 
         // Replace current view with OTP fragment
@@ -179,6 +133,7 @@ public class AdminSignupActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
     private void setupPasswordToggles() {
         binding.passwordToggle.setOnClickListener(v -> togglePassword(binding.passwordInput, binding.passwordToggle));

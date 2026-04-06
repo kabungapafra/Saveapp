@@ -69,7 +69,7 @@ public class AdminLoansFragment extends Fragment {
         adapter = new LoanBorrowerAdapter(new LoanBorrowerAdapter.OnLoanActionListener() {
             @Override
             public void onApprove(LoanRequest request) {
-                com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(getContext());
+                com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getContext());
                 String adminEmail = session.getUserEmail();
                 viewModel.initiateLoanApproval(request.getId(), adminEmail, (success, message) -> {
                     if (isVisible()) {

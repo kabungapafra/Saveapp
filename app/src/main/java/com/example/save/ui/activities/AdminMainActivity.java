@@ -112,30 +112,27 @@ public class AdminMainActivity extends AppCompatActivity {
             }
         }
 
-
+        // Set Portfolio Dashboard as default fragment for Admin
+        // This ensures the new high-fidelity view is shown first
+        loadFragment(AnalyticsFragment.newInstance(true, false));
+        updateNav(binding.bgHome, binding.txtHome, binding.imgHome, binding.bgHome);
     }
 
     @SuppressLint("GestureBackNavigation")
     @Override
     public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
+        } else if (currentFragment instanceof AnalyticsFragment && binding.fragmentContainer.getVisibility() == View.VISIBLE) {
+            // If it's the home dashboard, exit app or handle safely
+            finishAffinity();
         } else if (binding.fragmentContainer != null && binding.fragmentContainer.getVisibility() == View.VISIBLE) {
             binding.fragmentContainer.setVisibility(View.GONE);
             binding.mainContentScrollView.setVisibility(View.VISIBLE);
             binding.navContainer.setVisibility(View.VISIBLE); // Restore nav
-
-            // Use beginTransaction().commit() to ensure state is committed
-            // We can remove the fragment to cleanup resources, or just hide the container
-            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-            if (currentFragment != null) {
-                getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-            }
-
-            // Reset nav selection to Home
             updateNav(binding.bgHome, binding.txtHome, binding.imgHome, binding.bgHome);
         } else {
-            // Exit app instead of going back to login
             finishAffinity();
         }
     }
@@ -345,11 +342,11 @@ public class AdminMainActivity extends AppCompatActivity {
             updateNav(binding.bgMembers, binding.txtMembers, binding.imgMembers, binding.bgMembers);
         });
         overlay.findViewById(R.id.cardAnalysis).setOnClickListener(v -> {
-            loadFragment(new FinancialReportsFragment());
             toggleQuickActions();
+            loadFragment(AnalyticsFragment.newInstance(true));
         });
         overlay.findViewById(R.id.cardRequestLoan).setOnClickListener(v -> {
-            Toast.makeText(this, "Request Loan clicked", Toast.LENGTH_SHORT).show();
+            loadFragment(new LoanApplicationFragment());
             toggleQuickActions();
         });
         overlay.findViewById(R.id.cardRecordContribution).setOnClickListener(v -> {

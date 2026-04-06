@@ -84,7 +84,7 @@ public class LoanPaymentFragment extends Fragment {
     }
 
     private void loadMemberData() {
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
         String email = session.getUserEmail();
 
         if (email != null) {

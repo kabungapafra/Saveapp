@@ -83,11 +83,22 @@ public class SystemConfig {
     @SerializedName("max_loan_duration")
     private int maxLoanDuration;
 
+    @SerializedName("currency")
+    private String currency;
+
     public int getMaxLoanDuration() {
         return maxLoanDuration;
     }
 
     public void setMaxLoanDuration(int maxLoanDuration) {
         this.maxLoanDuration = maxLoanDuration;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

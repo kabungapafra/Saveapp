@@ -15,6 +15,7 @@ import com.example.save.data.local.entities.MemberEntity;
 import com.example.save.data.local.entities.TransactionEntity;
 import com.example.save.data.models.Member;
 import com.example.save.utils.ValidationUtils;
+import com.example.save.utils.NotificationHelper;
 import com.example.save.data.network.ApiResponse;
 import com.example.save.data.network.ShortfallResolutionRequest;
 import com.example.save.data.network.SystemConfigUpdate;
@@ -39,7 +40,7 @@ public class MemberRepository {
     private double contributionTarget;
     private double payoutAmount;
     private double retentionPercentage;
-    private final com.example.save.utils.NotificationHelper notificationHelper;
+    private final NotificationHelper notificationHelper;
 
     // Loan Configuration - These are now read-only defaults, actual values come
     // from backend
@@ -57,7 +58,7 @@ public class MemberRepository {
         approvalDao = database.approvalDao();
         executor = Executors.newSingleThreadExecutor();
         prefs = context.getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
-        notificationHelper = new com.example.save.utils.NotificationHelper(context);
+        notificationHelper = new NotificationHelper(context);
 
         contributionTarget = 1000000; // Default: 1M UGX
         payoutAmount = Double.longBitsToDouble(prefs.getLong("payout_amount", Double.doubleToLongBits(500000.0)));
@@ -110,6 +111,13 @@ public class MemberRepository {
      * Fetches the latest list and updates the local database.
      */
     public void refreshMembers(MemberAddCallback callback) {
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            if (callback != null) {
+                new android.os.Handler(android.os.Looper.getMainLooper())
+                        .post(() -> callback.onResult(true, "Design Mode: Synced mock members"));
+            }
+            return;
+        }
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(appContext)
                 .create(com.example.save.data.network.ApiService.class);
@@ -244,6 +252,13 @@ public class MemberRepository {
     }
 
     public void addMember(Member member, MemberRegistrationCallback callback) {
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            if (callback != null) {
+                new android.os.Handler(android.os.Looper.getMainLooper())
+                        .post(() -> callback.onResult(true, "Design Mode: Member created", "1234"));
+            }
+            return;
+        }
         if (member != null) {
             // Normalize phone before saving
             member.setPhone(com.example.save.utils.ValidationUtils.normalizePhone(member.getPhone()));
@@ -590,6 +605,13 @@ public class MemberRepository {
      * @param callback       Callback to handle the response.
      */
     public void executePayout(Member member, double amount, boolean deferRemaining, PayoutCallback callback) {
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            if (callback != null) {
+                new android.os.Handler(android.os.Looper.getMainLooper())
+                        .post(() -> callback.onResult(true, "Design Mode: Payout executed"));
+            }
+            return;
+        }
         if (member == null) {
             if (callback != null)
                 callback.onResult(false, "Member not found");
@@ -689,6 +711,13 @@ public class MemberRepository {
      */
     public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod,
             PaymentCallback callback) {
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            if (callback != null) {
+                new android.os.Handler(android.os.Looper.getMainLooper())
+                        .post(() -> callback.onResult(true, "Design Mode: Payment processed"));
+            }
+            return;
+        }
         if (member == null) {
             if (callback != null)
                 callback.onResult(false, "Member not found");
@@ -1488,8 +1517,76 @@ public class MemberRepository {
     }
 
     // --- System Configuration & Logic ---
+    /**
+     * Updates the system configuration on the backend.
+     * 
+     * @param update   The configuration updates to apply.
+     * @param callback Callback to handle the response.
+     */
+    public void updateSystemConfig(com.example.save.data.network.SystemConfigUpdate update, ConfigCallback callback) {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
 
+        apiService.updateSystemConfig(update).enqueue(new retrofit2.Callback<com.example.save.data.models.SystemConfig>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.models.SystemConfig> call,
+                    retrofit2.Response<com.example.save.data.models.SystemConfig> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    com.example.save.data.models.SystemConfig newConfig = response.body();
+                    // Update local cached values
+                    contributionTarget = newConfig.getContributionAmount();
+                    payoutAmount = newConfig.getPayoutAmount();
+                    retentionPercentage = newConfig.getRetentionPercentage();
+                    maxLoanAmount = newConfig.getMaxLoanLimit();
+                    loanInterestRate = newConfig.getLoanInterestRate();
+                    maxLoanDuration = newConfig.getMaxLoanDuration();
+
+                    // Save to SharedPreferences for persistence
+                    prefs.edit()
+                            .putLong("payout_amount", Double.doubleToLongBits(payoutAmount))
+                            .putLong("retention_percentage", Double.doubleToLongBits(retentionPercentage))
+                            .putLong("max_loan_amount", Double.doubleToLongBits(maxLoanAmount))
+                            .putLong("loan_interest_rate", Double.doubleToLongBits(loanInterestRate))
+                            .putInt("max_loan_duration", maxLoanDuration)
+                            .putString("currency", newConfig.getCurrency())
+                            .apply();
+
+                    if (callback != null) {
+                        callback.onResult(true, newConfig, "Configuration updated successfully");
+                    }
+                } else {
+                    com.example.save.utils.ApiErrorHandler.handleResponse(appContext, response);
+                    if (callback != null)
+                        callback.onResult(false, null, "Failed to update configuration");
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.models.SystemConfig> call, Throwable t) {
+                com.example.save.utils.ApiErrorHandler.handleError(appContext, t);
+                if (callback != null)
+                    callback.onResult(false, null, "Network error");
+            }
+        });
+    }
+
+    public interface ConfigCallback {
+        void onResult(boolean success, com.example.save.data.models.SystemConfig config, String message);
+    }
     public void fetchSystemConfig(ConfigCallback callback) {
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            if (callback != null) {
+                com.example.save.data.models.SystemConfig mockConfig = new com.example.save.data.models.SystemConfig();
+                mockConfig.setContributionAmount(100000);
+                mockConfig.setPayoutAmount(500000);
+                mockConfig.setMaxLoanLimit(1000000);
+                mockConfig.setLoanInterestRate(10.0);
+                mockConfig.setMaxLoanDuration(12);
+                new android.os.Handler(android.os.Looper.getMainLooper())
+                        .post(() -> callback.onResult(true, mockConfig, "Design Mode: Config loaded"));
+            }
+            return;
+        }
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(appContext).create(com.example.save.data.network.ApiService.class);
 
@@ -1537,10 +1634,6 @@ public class MemberRepository {
                 }
             }
         });
-    }
-
-    public interface ConfigCallback {
-        void onResult(boolean success, com.example.save.data.models.SystemConfig config, String message);
     }
 
     public void checkLoanEligibility(double amount, int duration, EligibilityCallback callback) {

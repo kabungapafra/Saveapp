@@ -79,8 +79,8 @@
     <string name="members_next_in_days">12 Members • Next in 5 days</string>
     
     <!-- Onboarding Strings -->
-    <string name="onboarding_title_1">Save Together, Grow Together</string>
-    <string name="onboarding_subtitle_1">Join or create savings circles with friends, \nfamily, or colleagues. Pool money monthly and \nreceive payouts when it\'s your turn.</string>
+    <string name="onboarding_title_1">The Power of Circles</string>
+    <string name="onboarding_subtitle_1">Experience the strength of saving together.\nJoin a circle of friends to reach your\nfinancial goals faster.</string>
     
     <string name="onboarding_title_2">Simple 3-Step Process</string>
     <string name="onboarding_subtitle_2">1. Contribute - Pay via Mobile Money automatically\n2. Pool Together - Track group progress in real-time\n3. Receive Payouts - Get your lump sum on schedule</string>
@@ -170,4 +170,6 @@
     <string name="group_contributor">Group Contributor</string>
     <string name="view_group_members">View Group Members</string>
     <string name="return_to_dashboard">Return to Dashboard</string>
+    <string name="bank_grade_security">Bank-Grade Security</string>
+    <string name="security_description">Your savings are fully protected with 256-bit encryption and multi-factor authentication. Verified and safe.</string>
 </resources>

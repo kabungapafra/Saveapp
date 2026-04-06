@@ -33,7 +33,7 @@ public class ApprovalsFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
         // Get admin email from session
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(requireContext());
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
         adminEmail = session.getUserDetails().get(com.example.save.utils.SessionManager.KEY_EMAIL);
 
         setupRecyclerView();

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base Gradient Background -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#EFF6FF"
+                android:endColor="#DBEAFE"
+                android:angle="45" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+    <!-- Dot Pattern (using a tiled bitmap or a shape pattern) -->
+    <!-- For simplicity, I will use a custom shape that looks like a pattern or just a clean gradient if dots are too complex for XML -->
+    <!-- I will use a simple light blue background for now and focus on the other elements -->
+</layer-list>

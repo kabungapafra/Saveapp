@@ -33,7 +33,15 @@ public class SystemConfigUpdate {
     @SerializedName("max_loan_duration")
     private Integer maxLoanDuration;
 
+    @SerializedName("currency")
+    private String currency;
+
     // --- Builder-style setters (return this for chaining) ---
+
+    public SystemConfigUpdate setCurrency(String v) {
+        this.currency = v;
+        return this;
+    }
 
     public SystemConfigUpdate setMaxLoanDuration(Integer v) {
         this.maxLoanDuration = v;
@@ -106,5 +114,9 @@ public class SystemConfigUpdate {
 
     public Integer getMaxLoanDuration() {
         return maxLoanDuration;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 }

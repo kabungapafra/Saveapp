@@ -7,6 +7,7 @@ import com.example.save.data.models.*;
 import com.example.save.ui.viewmodels.MembersViewModel; // Added import
 import com.example.save.utils.NotificationHelper;
 import com.example.save.utils.PermissionUtils;
+import com.example.save.utils.SessionManager;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -49,7 +50,7 @@ public class MemberMainActivity extends AppCompatActivity {
         PermissionUtils.requestNotificationPermission(this);
 
         // Security Check: If it's the first login, force password change redirect
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
+        SessionManager session = SessionManager.getInstance(this);
         if (session.isFirstLogin()) {
             Intent intent = new Intent(this, ChangePasswordActivity.class);
             intent.putExtra("member_email", session.getUserEmail());
@@ -204,8 +205,7 @@ public class MemberMainActivity extends AppCompatActivity {
     // Updated loadRecentTransactions to cache data
     private void loadRecentTransactions() {
         // ... (partially existing code)
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
-                getApplicationContext());
+        SessionManager session = SessionManager.getInstance(getApplicationContext());
         String email = session.getUserEmail();
 
         if (email != null && viewModel != null) {
@@ -258,7 +258,7 @@ public class MemberMainActivity extends AppCompatActivity {
     }
 
     private void setupHeaderInteractions() {
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(this);
+        SessionManager session = SessionManager.getInstance(this);
         // Clicking the greeting opens Settings (for logout)
         if (binding.greetingName != null) {
             binding.greetingName.setOnClickListener(v -> {
@@ -420,9 +420,9 @@ public class MemberMainActivity extends AppCompatActivity {
         binding.navStats.setOnClickListener(v -> {
             updateNav(binding.navStats, binding.txtStats, binding.imgStats, binding.navStats);
             hideHeader();
-            String email = getIntent().getStringExtra("member_email");
-            if (email == null)
-                email = "email@example.com"; // Fallback
+            String email = SessionManager.getInstance(MemberMainActivity.this).getUserEmail();
+            if (email == null) email = getIntent().getStringExtra("member_email");
+            if (email == null) email = "email@example.com";
             loadFragment(AnalyticsFragment.newInstance(false, email));
         });
 
@@ -482,8 +482,7 @@ public class MemberMainActivity extends AppCompatActivity {
 
     private void loadDashboardData() {
         // Get member email from SessionManager
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
-                getApplicationContext());
+        SessionManager session = SessionManager.getInstance(getApplicationContext());
         String email = session.getUserEmail();
 
         // Fetch member data using LiveData instead of manual thread
@@ -562,8 +561,7 @@ public class MemberMainActivity extends AppCompatActivity {
     }
 
     private void updateExtraStats() {
-        com.example.save.utils.SessionManager session = new com.example.save.utils.SessionManager(
-                getApplicationContext());
+        SessionManager session = SessionManager.getInstance(getApplicationContext());
         String email = session.getUserEmail();
 
         if (viewModel == null)

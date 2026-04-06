@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,8 @@ public class WizardRulesFragment extends Fragment {
     }
 
     public boolean validateAndSave() {
+        if (etMaxLoanAmount == null || etInterestRate == null || etRepaymentPeriod == null) return false;
+
         String maxAmountStr = etMaxLoanAmount.getText().toString().trim();
         String interestStr = etInterestRate.getText().toString().trim();
         String periodStr = etRepaymentPeriod.getText().toString().trim();
@@ -45,17 +48,21 @@ public class WizardRulesFragment extends Fragment {
             return false;
         }
 
-        double maxAmount = Double.parseDouble(maxAmountStr);
-        double interest = interestStr.isEmpty() ? 10.0 : Double.parseDouble(interestStr);
-        int period = periodStr.isEmpty() ? 12 : Integer.parseInt(periodStr);
-        boolean requireGuarantor = switchRequireGuarantor.isChecked();
+        try {
+            double maxAmount = Double.parseDouble(maxAmountStr);
+            double interest = interestStr.isEmpty() ? 0.0 : Double.parseDouble(interestStr);
+            int period = periodStr.isEmpty() ? 1 : Integer.parseInt(periodStr);
+            boolean requireGuarantor = switchRequireGuarantor != null && switchRequireGuarantor.isChecked();
 
-        // Save data to activity
-        if (getActivity() instanceof AdminSetupWizardActivity) {
-            AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
-            activity.setLoanRules(maxAmount, interest, period, requireGuarantor);
+            // Save data to activity
+            if (getActivity() instanceof AdminSetupWizardActivity) {
+                AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
+                activity.setLoanRules(maxAmount, interest, period, requireGuarantor);
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            Toast.makeText(getContext(), "Please enter valid numbers", Toast.LENGTH_SHORT).show();
+            return false;
         }
-
-        return true;
     }
 }

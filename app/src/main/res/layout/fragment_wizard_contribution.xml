@@ -1,133 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/spacing_xl">
-
-        <ImageView
-            android:layout_width="@dimen/icon_size_large"
-            android:layout_height="@dimen/icon_size_large"
-            android:src="@drawable/ic_money"
-            android:tint="@color/deep_blue"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/spacing_normal" />
+        android:padding="24dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contribution Settings"
-            android:textSize="@dimen/text_size_xxl"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/spacing_small" />
+            android:text="Contribute"
+            android:textColor="@color/black"
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set up how members will contribute"
-            android:textSize="@dimen/text_size_normal"
-            android:textColor="@color/text_secondary"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/spacing_xxl" />
+            android:layout_marginTop="8dp"
+            android:text="Set the timing and penalties for your members."
+            android:textColor="#757575"
+            android:textSize="18sp" />
 
-        <!-- Contribution Amount -->
-        <com.google.android.material.textfield.TextInputLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contribution Amount (UGX)"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/deep_blue"
-            app:boxCornerRadiusTopStart="@dimen/corner_radius_medium"
-            app:boxCornerRadiusTopEnd="@dimen/corner_radius_medium"
-            app:boxCornerRadiusBottomStart="@dimen/corner_radius_medium"
-            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_medium"
-            app:startIconDrawable="@drawable/ic_money"
-            app:startIconTint="@color/deep_blue"
-            app:prefixText="UGX "
-            android:layout_marginBottom="@dimen/spacing_normal">
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etContributionAmount"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:orientation="vertical"
+                android:padding="24dp">
 
-        <!-- Contribution Frequency -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contribution Frequency"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:layout_marginBottom="@dimen/spacing_small" />
+                <!-- CONTRIBUTION SECTION -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupFrequency"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:singleSelection="true"
-            android:layout_marginBottom="@dimen/spacing_normal">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_schedule"
+                        app:tint="#1D7CF2" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipWeekly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Weekly"
-                android:checked="true"
-                style="@style/Widget.Material3.Chip.Filter" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="TIMING"
+                        android:textColor="#1D7CF2"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipBiweekly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bi-weekly"
-                style="@style/Widget.Material3.Chip.Filter" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Frequency"
+                    android:textColor="#424242"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipMonthly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Monthly"
-                style="@style/Widget.Material3.Chip.Filter" />
-        </com.google.android.material.chip.ChipGroup>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_wizard_input_solid">
 
-        <!-- Late Payment Penalty -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Late Payment Penalty (%)"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/deep_blue"
-            app:boxCornerRadiusTopStart="@dimen/corner_radius_medium"
-            app:boxCornerRadiusTopEnd="@dimen/corner_radius_medium"
-            app:boxCornerRadiusBottomStart="@dimen/corner_radius_medium"
-            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_medium"
-            app:startIconDrawable="@drawable/ic_warning"
-            app:startIconTint="@color/status_overdue"
-            app:suffixText="%"
-            app:helperText="Percentage charged for late contributions"
-            android:layout_marginBottom="@dimen/spacing_normal">
+                    <Spinner
+                        android:id="@+id/spinnerFrequency"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:paddingHorizontal="16dp"
+                        android:spinnerMode="dropdown" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etLatePenalty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="5"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="#9E9E9E" />
+                </RelativeLayout>
+
+                <!-- PENALTY SECTION -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_warning"
+                        app:tint="#1D7CF2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="LATE PENALTY"
+                        android:textColor="#1D7CF2"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Late Penalty (%)"
+                    android:textColor="#424242"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    app:hintEnabled="false"
+                    app:suffixText="%"
+                    app:suffixTextColor="#9E9E9E">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etLatePenalty"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_wizard_input_solid"
+                        android:hint="5"
+                        android:inputType="numberDecimal"
+                        android:paddingHorizontal="16dp"
+                        android:text="5"
+                        android:textColor="@color/black"
+                        android:textColorHint="#9E9E9E"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_help_outline"
+                        app:tint="#9E9E9E" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Penalties help ensure members contribute on time."
+                        android:textColor="#9E9E9E"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="100dp">
+
+        <!-- Custom Header Section -->
+        <View
+            android:id="@+id/headerBg"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnBackCircle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="#0F172A" />
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/logoBox"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/save_logo"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Title & Subtitle -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:text="Finalize Rules"
+            android:textColor="#0F172A"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logoBox" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Set the final parameters for your savings group."
+            android:textColor="#64748B"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <!-- Breadcrumbs -->
+        <TextView
+            android:id="@+id/tvStepLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="STEP 3 OF 3"
+            android:textColor="#0F172A"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tvSubtitle"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
+
+        <TextView
+            android:id="@+id/tvCompleteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="100% Complete"
+            android:textColor="#3B82F6"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tvStepLabel"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/pbStepProgress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="12dp"
+            android:progress="100"
+            android:progressDrawable="@drawable/bg_wizard_progress"
+            app:layout_constraintEnd_toEndOf="@id/tvCompleteText"
+            app:layout_constraintStart_toStartOf="@id/tvStepLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvStepLabel" />
+
+        <!-- Rules Header Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/successCard"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="32dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="@id/pbStepProgress"
+            app:layout_constraintStart_toStartOf="@id/pbStepProgress"
+            app:layout_constraintTop_toBottomOf="@id/pbStepProgress">
+            
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_pattern_success">
+
+                <ImageView
+                    android:id="@+id/ivShield"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_shield_check" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ivShield"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:text="Rules define your group’s success"
+                    android:textColor="#3B82F6"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Form Fields -->
+        <TextView
+            android:id="@+id/lblPayoutFreq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Payout Frequency"
+            android:textColor="#1E293B"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/successCard"
+            app:layout_constraintTop_toBottomOf="@id/successCard" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPayoutFrequency"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            app:hintEnabled="false"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:layout_constraintEnd_toEndOf="@id/successCard"
+            app:layout_constraintStart_toStartOf="@id/lblPayoutFreq"
+            app:layout_constraintTop_toBottomOf="@id/lblPayoutFreq">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvPayoutFrequency"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_wizard_input_solid"
+                android:inputType="none"
+                android:paddingHorizontal="16dp"
+                android:text="Every 1 Week"
+                android:textColor="#0F172A"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lblLateFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Late Fee Amount"
+            android:textColor="#1E293B"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tilPayoutFrequency"
+            app:layout_constraintTop_toBottomOf="@id/tilPayoutFrequency" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilLateFee"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@id/tilPayoutFrequency"
+            app:layout_constraintStart_toStartOf="@id/lblLateFee"
+            app:layout_constraintTop_toBottomOf="@id/lblLateFee"
+            app:prefixText="UGX "
+            app:prefixTextColor="#94A3B8">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLateFee"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_wizard_input_solid"
+                android:hint="0.00"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="16dp"
+                android:textColor="#0F172A"
+                android:textColorHint="#94A3B8"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvLateFeeHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Charged to members who miss the deadline."
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tilLateFee"
+            app:layout_constraintTop_toBottomOf="@id/tilLateFee" />
+
+        <TextView
+            android:id="@+id/lblInterest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Loan Interest Rate"
+            android:textColor="#1E293B"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tvLateFeeHint"
+            app:layout_constraintTop_toBottomOf="@id/tvLateFeeHint" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilInterest"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@id/tilLateFee"
+            app:layout_constraintStart_toStartOf="@id/lblInterest"
+            app:layout_constraintTop_toBottomOf="@id/lblInterest"
+            app:suffixText="%"
+            app:suffixTextColor="#94A3B8">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInterestRate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_wizard_input_solid"
+                android:hint="5.0"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="16dp"
+                android:textColor="#0F172A"
+                android:textColorHint="#94A3B8"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvInterestHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Optional interest for internal member loans."
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tilInterest"
+            app:layout_constraintTop_toBottomOf="@id/tilInterest" />
+
+        <TextView
+            android:id="@+id/lblRepayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Max Repayment Period"
+            android:textColor="#1E293B"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tvInterestHint"
+            app:layout_constraintTop_toBottomOf="@id/tvInterestHint" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilRepayment"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@id/tilInterest"
+            app:layout_constraintStart_toStartOf="@id/lblRepayment"
+            app:layout_constraintTop_toBottomOf="@id/lblRepayment"
+            app:suffixText="Weeks"
+            app:suffixTextColor="#94A3B8">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etRepaymentPeriod"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_wizard_input_solid"
+                android:hint="4"
+                android:inputType="number"
+                android:paddingHorizontal="16dp"
+                android:textColor="#0F172A"
+                android:textColorHint="#94A3B8"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvRepaymentHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Maximum time allowed for loan repayment."
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tilRepayment"
+            app:layout_constraintTop_toBottomOf="@id/tilRepayment" />
+
+        <!-- Reminders Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/remindersCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            app:cardBackgroundColor="#F8F9FA"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="@id/tilInterest"
+            app:layout_constraintStart_toStartOf="@id/tvInterestHint"
+            app:layout_constraintTop_toBottomOf="@id/tvRepaymentHint">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/ivBell"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_notifications"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#3B82F6" />
+
+                <TextView
+                    android:id="@+id/tvRemindersLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Auto-Reminders"
+                    android:textColor="#0F172A"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/ivBell"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Notify 2 days before due date"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tvRemindersLabel"
+                    app:layout_constraintTop_toBottomOf="@id/tvRemindersLabel" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchReminders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:thumbTint="#3B82F6"
+                    app:trackTint="#DBEAFE" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Get OTP Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLaunch"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="32dp"
+            android:text="Get OTP"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="#3B82F6"
+            app:cornerRadius="16dp"
+            app:icon="@null"
+            app:layout_constraintEnd_toEndOf="@id/remindersCard"
+            app:layout_constraintStart_toStartOf="@id/remindersCard"
+            app:layout_constraintTop_toBottomOf="@id/remindersCard" />
+
+        <!-- Footer -->
+        <TextView
+            android:id="@+id/tvFooter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="By launching, you agree to the Save App\nTerms of Service"
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnLaunch" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

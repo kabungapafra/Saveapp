@@ -46,9 +46,22 @@ public class SessionManager {
     // First Login Flag
     private static final String KEY_IS_FIRST_LOGIN = "is_first_login";
 
-    // Constructor
-    public SessionManager(Context context) {
-        this._context = context.getApplicationContext();
+    // Singleton instance
+    private static SessionManager instance;
+
+    /**
+     * Get Singleton instance of SessionManager.
+     */
+    public static synchronized SessionManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new SessionManager(context.getApplicationContext());
+        }
+        return instance;
+    }
+
+    // Private constructor for Singleton
+    private SessionManager(Context context) {
+        this._context = context;
         try {
             // MasterKey will generate or retrieve an AES256-GCM key stored in the Android
             // keystore.
@@ -166,6 +179,9 @@ public class SessionManager {
      **/
     // Get Login State
     public boolean isLoggedIn() {
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            return true;
+        }
         return pref.getBoolean(IS_LOGIN, false);
     }
 

@@ -1,9 +1,19 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
+    android:width="20dp"
+    android:height="20dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
+    <!-- Chart arrow line -->
     <path
-        android:fillColor="#10B981"
-        android:pathData="M16,6l2.29,2.29l-4.88,4.88l-4,-4L2,16.59L3.41,18l6,-6l4,4l6.3,-6.29L22,12V6z" />
+        android:fillAlpha="0"
+        android:pathData="M3,17l6,-6l4,4l8,-8"
+        android:strokeAlpha="1"
+        android:strokeColor="@color/neumorphic_orange"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <!-- Arrow head -->
+    <path
+        android:fillColor="@color/neumorphic_orange"
+        android:pathData="M21,7v5.2V7H15.8" />
 </vector>

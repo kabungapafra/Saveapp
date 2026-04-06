@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Financial Rules"
+            android:textColor="#0F172A"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/titleUnderline"
+            android:layout_width="60dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:background="#1D4ED8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Define how payouts are distributed and loans are managed within your group."
+            android:textColor="#64748B"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleUnderline" />
+
+        <!-- PAYOUT SECTION -->
+        <TextView
+            android:id="@+id/tvPayoutSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="PAYOUT SETTINGS"
+            android:textColor="#1D4ED8"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPayoutAmount"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Payout Amount per Member"
+            app:boxBackgroundColor="#F8FAFC"
+            app:boxStrokeColor="#E2E8F0"
+            app:hintTextColor="#64748B"
+            app:layout_constraintTop_toBottomOf="@id/tvPayoutSection"
+            app:prefixText="UGX "
+            app:prefixTextColor="#64748B">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPayoutAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="#1E293B"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilRetention"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Retention Percentage"
+            app:boxBackgroundColor="#F8FAFC"
+            app:boxStrokeColor="#E2E8F0"
+            app:hintTextColor="#64748B"
+            app:layout_constraintTop_toBottomOf="@id/tilPayoutAmount"
+            app:suffixText="%"
+            app:suffixTextColor="#64748B">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etRetention"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="5"
+                android:textColor="#1E293B"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- LENDING SECTION -->
+        <TextView
+            android:id="@+id/tvLendingSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="LOAN POLICIES"
+            android:textColor="#1D4ED8"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilRetention" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilMaxLoanAmount"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Maximum Loan Amount"
+            app:boxBackgroundColor="#F8FAFC"
+            app:boxStrokeColor="#E2E8F0"
+            app:hintTextColor="#64748B"
+            app:layout_constraintTop_toBottomOf="@id/tvLendingSection"
+            app:prefixText="UGX "
+            app:prefixTextColor="#64748B">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMaxLoanAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="#1E293B"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilInterestRate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Interest Rate"
+            app:boxBackgroundColor="#F8FAFC"
+            app:boxStrokeColor="#E2E8F0"
+            app:hintTextColor="#64748B"
+            app:layout_constraintTop_toBottomOf="@id/tilMaxLoanAmount"
+            app:suffixText="%"
+            app:suffixTextColor="#64748B">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInterestRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="10"
+                android:textColor="#1E293B"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilRepaymentPeriod"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Repayment Period"
+            app:boxBackgroundColor="#F8FAFC"
+            app:boxStrokeColor="#E2E8F0"
+            app:hintTextColor="#64748B"
+            app:layout_constraintTop_toBottomOf="@id/tilInterestRate"
+            app:suffixText="Months"
+            app:suffixTextColor="#64748B">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etRepaymentPeriod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="12"
+                android:textColor="#1E293B"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchRequireGuarantor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:checked="true"
+            android:padding="8dp"
+            android:text="Require Guarantor for Loans"
+            android:textColor="#1E293B"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tilRepaymentPeriod" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Guarantors provide security and reduce group risk."
+            android:textColor="#64748B"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/switchRequireGuarantor"
+            app:layout_constraintTop_toBottomOf="@id/switchRequireGuarantor" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/switchRequireGuarantor" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

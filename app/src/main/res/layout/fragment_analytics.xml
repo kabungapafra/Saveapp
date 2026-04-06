@@ -1,591 +1,1193 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:layout_height="match_parent">
 
-    <!-- Header With Rich Gradient Background -->
-    <View
-        android:id="@+id/headerBg"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:background="@drawable/bg_splash_gradient"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="#F0F2F7">
 
-    <!-- Header Content -->
-    <LinearLayout
-        android:id="@+id/headerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="24dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_circle_white"
-            android:backgroundTint="#20FFFFFF"
-            android:elevation="0dp"
-            android:padding="12dp"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="@color/white" />
-
-        <TextView
-            android:id="@+id/tvAnalyticsTitle"
-            android:layout_width="0dp"
+        <!-- TOP HEADER -->
+        <RelativeLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-bold"
-            android:gravity="center"
-            android:text="Financial Analysis"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/btnExport"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_circle_white"
-            android:backgroundTint="#20FFFFFF"
-            android:elevation="0dp"
-            android:padding="12dp"
-            android:src="@drawable/ic_file_download"
-            app:tint="@color/white" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_circle_white"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="#1E293B" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Financial Analysis"
+                android:textColor="#0F172A"
+                android:textSize="18sp" />
 
+            <ImageView
+                android:id="@+id/btnNotifications"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_circle_white"
+                android:padding="10dp"
+                android:src="@drawable/ic_notifications"
+                app:tint="#1E293B" />
+        </RelativeLayout>
+
+        <!-- SCROLLABLE CONTENT -->
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerLayout">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="100dp">
+                android:paddingBottom="32dp">
 
-                <!-- Unified Matrix Block -->
-                <androidx.cardview.widget.CardView
+                <!-- ===== HERO CARD: TOTAL PORTFOLIO LIQUIDITY ===== -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    app:cardBackgroundColor="@android:color/transparent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
                     app:cardCornerRadius="24dp"
-                    app:cardElevation="12dp"
-                    app:cardMaxElevation="12dp"
-                    app:cardPreventCornerOverlap="false"
-                    app:cardUseCompatPadding="false">
+                    app:cardElevation="6dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:background="@drawable/bg_card_premium_blue"
+                        android:orientation="vertical"
+                        android:padding="24dp">
 
-                        <!-- Row 1 -->
+                        <!-- Label + subtitle -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-                            <!-- Metric 1: Savings -->
-                            <RelativeLayout
+                            <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_height="120dp"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@drawable/bg_gradient_card_1">
-                                
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/ic_card_wave_pattern"
-                                    android:scaleType="centerCrop"
-                                    android:alpha="0.15"
-                                    app:tint="@color/white"/>
+                                android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:padding="16dp"
-                                    android:gravity="center">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:alpha="0.75"
+                                    android:fontFamily="@font/manrope_medium"
+                                    android:text="TOTAL PORTFOLIO LIQUIDITY"
+                                    android:textColor="@color/white"
+                                    android:textSize="11sp"
+                                    android:letterSpacing="0.08" />
 
-                                    <ImageView
-                                        android:id="@+id/imgMetric1"
-                                        android:layout_width="28dp"
-                                        android:layout_height="28dp"
-                                        android:src="@drawable/ic_money"
-                                        app:tint="@color/white" 
-                                        android:layout_marginBottom="8dp"/>
+                                <TextView
+                                    android:id="@+id/tvTotalLiquidity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:text="UGX 45,200,000"
+                                    android:textColor="@color/white"
+                                    android:textSize="30sp" />
 
-                                    <TextView
-                                        android:id="@+id/tvMetric1Value"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-bold"
-                                        android:textColor="@color/white"
-                                        android:textSize="18sp"
-                                        tools:text="2.5M" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:alpha="0.75"
+                                    android:fontFamily="@font/manrope_medium"
+                                    android:text="78% with projections keeping on target for\nFY25 goals"
+                                    android:textColor="@color/white"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
 
-                                    <TextView
-                                        android:id="@+id/tvMetric1Label"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-medium"
-                                        android:text="Savings"
-                                        android:textColor="#DDFFFFFF"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-                            </RelativeLayout>
-
-                            <!-- Divider Vertical -->
-                            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#20FFFFFF"/>
-
-                            <!-- Metric 2: Loans -->
-                            <RelativeLayout
-                                android:layout_width="0dp"
-                                android:layout_height="120dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/bg_gradient_card_2">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/ic_card_wave_pattern"
-                                    android:scaleType="centerCrop"
-                                    android:alpha="0.15"
-                                    app:tint="@color/white"/>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:padding="16dp"
-                                    android:gravity="center">
-
-                                    <ImageView
-                                        android:id="@+id/imgMetric2"
-                                        android:layout_width="28dp"
-                                        android:layout_height="28dp"
-                                        android:src="@drawable/ic_loan"
-                                        app:tint="@color/white" 
-                                        android:layout_marginBottom="8dp"/>
-
-                                    <TextView
-                                        android:id="@+id/tvMetric2Value"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-bold"
-                                        android:textColor="@color/white"
-                                        android:textSize="18sp"
-                                        tools:text="15" />
-
-                                    <TextView
-                                        android:id="@+id/tvMetric2Label"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-medium"
-                                        android:text="Active Loans"
-                                        android:textColor="#DDFFFFFF"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-                            </RelativeLayout>
+                            <!-- Progress Ring -->
+                            <com.google.android.material.progressindicator.CircularProgressIndicator
+                                android:id="@+id/progressLiquidity"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:progress="78"
+                                app:indicatorColor="#4ADE80"
+                                app:indicatorSize="56dp"
+                                app:trackColor="#33FFFFFF"
+                                app:trackThickness="5dp" />
                         </LinearLayout>
 
-                        <!-- Divider Horizontal -->
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#20FFFFFF"/>
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginVertical="20dp"
+                            android:background="#33FFFFFF" />
 
-                        <!-- Row 2 -->
+                        <!-- Export Buttons -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
-                            <!-- Metric 3: Revenue -->
-                            <RelativeLayout
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnExportPdf"
                                 android:layout_width="0dp"
-                                android:layout_height="120dp"
+                                android:layout_height="48dp"
+                                android:layout_marginEnd="8dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/bg_gradient_card_3">
-                                
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/ic_card_wave_pattern"
-                                    android:scaleType="centerCrop"
-                                    android:alpha="0.15"
-                                    app:tint="@color/white"/>
+                                android:backgroundTint="@color/white"
+                                android:fontFamily="@font/manrope_bold"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:text="Export PDF"
+                                android:textAllCaps="false"
+                                android:textColor="#2563EB"
+                                android:textSize="13sp"
+                                app:cornerRadius="24dp"
+                                app:icon="@drawable/ic_pdf_export"
+                                app:iconSize="18dp"
+                                app:iconTint="#2563EB" />
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:padding="16dp"
-                                    android:gravity="center">
-
-                                    <ImageView
-                                        android:id="@+id/imgMetric3"
-                                        android:layout_width="28dp"
-                                        android:layout_height="28dp"
-                                        android:src="@drawable/ic_analytics"
-                                        app:tint="@color/white" 
-                                        android:layout_marginBottom="8dp"/>
-
-                                    <TextView
-                                        android:id="@+id/tvMetric3Value"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-bold"
-                                        android:textColor="@color/white"
-                                        android:textSize="18sp"
-                                        tools:text="450k" />
-
-                                    <TextView
-                                        android:id="@+id/tvMetric3Label"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-medium"
-                                        android:text="Revenue"
-                                        android:textColor="#DDFFFFFF"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-                            </RelativeLayout>
-
-                             <!-- Divider Vertical -->
-                            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#20FFFFFF"/>
-
-                            <!-- Metric 4: Members -->
-                            <RelativeLayout
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnExcelReport"
                                 android:layout_width="0dp"
-                                android:layout_height="120dp"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="8dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/bg_gradient_card_4">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/ic_card_wave_pattern"
-                                    android:scaleType="centerCrop"
-                                    android:alpha="0.15"
-                                    app:tint="@color/white"/>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:padding="16dp"
-                                    android:gravity="center">
-
-                                    <ImageView
-                                        android:id="@+id/imgMetric4"
-                                        android:layout_width="28dp"
-                                        android:layout_height="28dp"
-                                        android:src="@drawable/ic_people"
-                                        app:tint="@color/white" 
-                                        android:layout_marginBottom="8dp"/>
-
-                                    <TextView
-                                        android:id="@+id/tvMetric4Value"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-bold"
-                                        android:textColor="@color/white"
-                                        android:textSize="18sp"
-                                        tools:text="42" />
-
-                                    <TextView
-                                        android:id="@+id/tvMetric4Label"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-medium"
-                                        android:text="Members"
-                                        android:textColor="#DDFFFFFF"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-                            </RelativeLayout>
+                                android:backgroundTint="#F97316"
+                                android:fontFamily="@font/manrope_bold"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:text="Excel Report"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"
+                                app:cornerRadius="24dp"
+                                app:icon="@drawable/ic_excel_export"
+                                app:iconSize="18dp"
+                                app:iconTint="@color/white" />
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <!-- Chart Section -->
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- ===== METRIC ROW: GROSS CONTRIBUTIONS ===== -->
+
+                <!-- ===== METRIC ROW 1: GROSS CONTRIBUTIONS ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
-                    android:layout_marginBottom="16dp"
-                    android:fontFamily="sans-serif-bold"
-                    android:text="Loan Performance"
-                    android:textColor="#37474F"
-                    android:textSize="18sp" />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="8dp">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
                         android:orientation="vertical"
-                        android:padding="24dp">
+                        android:padding="20dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:layout_marginBottom="24dp">
-                            
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_circle_white"
+                                android:backgroundTint="#DBEAFE">
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_people"
+                                    app:tint="#2563EB" />
+                            </FrameLayout>
+
                             <TextView
-                                android:id="@+id/tvChartTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="GROSS CONTRIBUTIONS"
+                                android:textColor="#94A3B8"
+                                android:textSize="11sp"
+                                android:letterSpacing="0.05" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvGrossContributions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="UGX 38.4M"
+                            android:textColor="#0F172A"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="3.2% growth from last quarter"
+                            android:textColor="#10B981"
+                            android:textSize="11sp" />
+
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/progressGross"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:progress="85"
+                            app:indicatorColor="#2563EB"
+                            app:trackColor="#DBEAFE"
+                            app:trackCornerRadius="4dp"
+                            app:trackThickness="8dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== METRIC ROW 2: INTEREST EARNED ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_circle_white"
+                                android:backgroundTint="#D1FAE5">
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_trending_up"
+                                    app:tint="#10B981" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="INTEREST EARNED"
+                                android:textColor="#94A3B8"
+                                android:textSize="11sp"
+                                android:letterSpacing="0.05" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvInterestEarned"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="UGX 6.8M"
+                                android:textColor="#0F172A"
+                                android:textSize="24sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:background="@drawable/bg_badge_success"
+                                android:backgroundTint="#D1FAE5"
+                                android:fontFamily="@font/manrope_bold"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="2dp"
+                                android:text="+12.5%"
+                                android:textColor="#10B981"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="11.2% YoY interest accumulation"
+                            android:textColor="#10B981"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== METRIC ROW 3: CURRENT LIQUIDITY ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:padding="20dp">
+
+                        <!-- THE ORANGE BOARD ON THE LEFT (Pill-shaped) -->
+                        <View
+                            android:id="@+id/orangeBoard"
+                            android:layout_width="4dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_pill_orange"
+                            android:backgroundTint="#F59E0B" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/orangeBoard"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <FrameLayout
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:background="@drawable/bg_circle_white"
+                                    android:backgroundTint="#FEF3C7">
+                                    <ImageView
+                                        android:layout_width="16dp"
+                                        android:layout_height="16dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_trending_up"
+                                        app:tint="#F59E0B" />
+                                </FrameLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="12dp"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:text="CURRENT LIQUIDITY"
+                                    android:textColor="#94A3B8"
+                                    android:textSize="11sp"
+                                    android:letterSpacing="0.05" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvCurrentLiquidity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="UGX 12.2M"
+                                android:textColor="#1B2B48"
+                                android:textSize="24sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Available for immediate disbursement"
+                                android:textColor="#CBD5E1"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== GROUP HEALTH INDEX ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <!-- Header Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:fontFamily="sans-serif-bold"
-                                android:text="Portfolio Status"
-                                android:textColor="#263238"
-                                android:textSize="16sp" />
-                                
-                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_info"
-                                app:tint="#B0BEC5"/>
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:text="Group Health Index"
+                                    android:textColor="#0F172A"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/manrope_medium"
+                                    android:text="Stability &amp; Compliance Score"
+                                    android:textColor="#94A3B8"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvHealthScore"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:text="94%"
+                                    android:textColor="#10B981"
+                                    android:textSize="28sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_badge_success"
+                                    android:backgroundTint="#D1FAE5"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="3dp"
+                                    android:text="EXCELLENT"
+                                    android:textColor="#10B981"
+                                    android:textSize="9sp"
+                                    android:letterSpacing="0.1" />
+                            </LinearLayout>
                         </LinearLayout>
 
-                        <com.github.mikephil.charting.charts.PieChart
-                            android:id="@+id/pieChart"
+                        <!-- Divider -->
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="220dp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                            android:layout_height="1dp"
+                            android:layout_marginVertical="16dp"
+                            android:background="#F1F5F9" />
 
-                <!-- Savings Trend Chart -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:fontFamily="sans-serif-bold"
-                    android:text="Savings Growth"
-                    android:textColor="#37474F"
-                    android:textSize="18sp" />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="24dp">
-                        
-                         <TextView
+                        <!-- Contribution Consistency Row -->
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Net Accumulated Savings"
-                            android:textColor="#90A4AE"
-                            android:textSize="14sp" 
-                            android:layout_marginBottom="20dp"/>
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                        <com.github.mikephil.charting.charts.LineChart
-                            android:id="@+id/lineChart"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Contribution Consistency"
+                                android:textColor="#475569"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvConsistencyPct"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="68%"
+                                android:textColor="#2563EB"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/progressConsistency"
                             android:layout_width="match_parent"
-                            android:layout_height="220dp" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="14dp"
+                            android:progress="68"
+                            app:indicatorColor="#60A5FA"
+                            app:trackColor="#EFF6FF"
+                            app:trackCornerRadius="4dp"
+                            app:trackThickness="8dp" />
+
+                        <!-- Risk Mitigation Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Risk Mitigation Level"
+                                android:textColor="#475569"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvRiskPct"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="82%"
+                                android:textColor="#F59E0B"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/progressRisk"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="14dp"
+                            android:progress="82"
+                            app:indicatorColor="#F59E0B"
+                            app:trackColor="#FFFBEB"
+                            app:trackCornerRadius="4dp"
+                            app:trackThickness="8dp" />
+
+                        <!-- Reserve Ratio Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Reserve Ratio"
+                                android:textColor="#475569"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvReservePct"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="91%"
+                                android:textColor="#10B981"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/progressReserve"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="14dp"
+                            android:progress="91"
+                            app:indicatorColor="#10B981"
+                            app:trackColor="#ECFDF5"
+                            app:trackCornerRadius="4dp"
+                            app:trackThickness="8dp" />
+
+                        <!-- Analysis Text -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#F8FAFC"
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="Analysis: The group maintains high financial integrity with minimal default risk. Contributions are solidly in the top 5th percentile of similar-size portfolios."
+                            android:textColor="#475569"
+                            android:textSize="12sp"
+                            android:padding="12dp"
+                            android:lineSpacingMultiplier="1.4" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <!-- Loan Health Section (Redesigned) -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:fontFamily="sans-serif-bold"
-                    android:text="Portfolio Health"
-                    android:textColor="#37474F"
-                    android:textSize="18sp" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardLoanHealth"
+                <!-- ===== STRATEGIC INSIGHTS (FORECAST CHART) ===== -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="8dp">
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
                         android:orientation="vertical"
-                        android:padding="24dp">
+                        android:padding="20dp">
 
-                        <!-- Healthy -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Strategic Insights"
+                            android:textColor="#0F172A"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="QUARTERLY FORECAST (Q4 2023)"
+                            android:textColor="#94A3B8"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.08" />
+
+                        <!-- Forecast Bar Chart -->
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/forecastChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="140dp"
+                            android:layout_marginTop="16dp" />
+
+                        <!-- Labels -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_marginBottom="16dp">
-                            
-                            <View
-                                android:layout_width="8dp"
-                                android:layout_height="8dp"
-                                android:background="@drawable/bg_circle_white"
-                                android:backgroundTint="#4CAF50"
-                                android:layout_marginEnd="12dp"/>
-                                
+                            android:layout_marginTop="4dp">
+
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Healthy Loans"
-                                android:fontFamily="sans-serif"
-                                android:textColor="#546E7A"
-                                android:textSize="14sp"/>
-                                
-                            <TextView
-                                android:id="@+id/tvHealthyLoansCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-bold"
-                                android:textColor="#4CAF50"
-                                android:textSize="16sp"
-                                tools:text="12" />
-                        </LinearLayout>
-                        
-                        <ProgressBar
-                            android:layout_width="match_parent"
-                            android:layout_height="6dp"
-                            android:progress="100"
-                            android:progressTint="#CFD8DC"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                            android:layout_marginBottom="24dp"/>
+                                android:gravity="center"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Current"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp" />
 
-
-                        <!-- At Risk -->
-                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_marginBottom="16dp">
-                            
-                            <View
-                                android:layout_width="8dp"
-                                android:layout_height="8dp"
-                                android:background="@drawable/bg_circle_white"
-                                android:backgroundTint="#FBC02D"
-                                android:layout_marginEnd="12dp"/>
-                                
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="At Risk (Due &lt; 7 days)"
-                                android:fontFamily="sans-serif"
-                                android:textColor="#546E7A"
-                                android:textSize="14sp"/>
-                                
+                                android:gravity="center"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Month 1"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp" />
+
                             <TextView
-                                android:id="@+id/tvAtRiskLoansCount"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-bold"
-                                android:textColor="#FBC02D"
-                                android:textSize="16sp"
-                                tools:text="2" />
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Month 2"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Month 3"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Forecast"
+                                android:textColor="#2563EB"
+                                android:textSize="10sp" />
                         </LinearLayout>
-                        
-                        <!-- Overdue -->
-                         <LinearLayout
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginVertical="16dp"
+                            android:background="#F1F5F9" />
+
+                        <!-- Growth Accelerator Insight -->
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
-                            
-                            <View
-                                android:layout_width="8dp"
-                                android:layout_height="8dp"
-                                android:background="@drawable/bg_circle_white"
-                                android:backgroundTint="#EF5350"
-                                android:layout_marginEnd="12dp"/>
-                                
-                            <TextView
+                            android:gravity="top"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_trending_up"
+                                app:tint="#F59E0B" />
+
+                            <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Overdue"
-                                android:fontFamily="sans-serif"
-                                android:textColor="#546E7A"
-                                android:textSize="14sp"/>
-                                
-                            <TextView
-                                android:id="@+id/tvOverdueLoansCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-bold"
-                                android:textColor="#EF5350"
-                                android:textSize="16sp"
-                                tools:text="1" />
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:text="Growth Accelerator"
+                                    android:textColor="#0F172A"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="@font/manrope_medium"
+                                    android:text="Expected portfolio valuation of UGX 55.8M by Dec '24 based on current capacity."
+                                    android:textColor="#64748B"
+                                    android:textSize="12sp"
+                                    android:lineSpacingMultiplier="1.2" />
+                            </LinearLayout>
                         </LinearLayout>
 
+                        <!-- Yield Optimization Insight -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:gravity="top"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_check_circle"
+                                app:tint="#2563EB" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:text="Yield Optimization"
+                                    android:textColor="#0F172A"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="@font/manrope_medium"
+                                    android:text="Diversifying 15% of reserves into lower-risk treasury bonds could improve yield by 2.1%."
+                                    android:textColor="#64748B"
+                                    android:textSize="12sp"
+                                    android:lineSpacingMultiplier="1.2" />
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <!-- Recent Activity Section -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:fontFamily="sans-serif-bold"
-                    android:text="Recent Transactions"
-                    android:textColor="#37474F"
-                    android:textSize="18sp" />
-
-                <androidx.cardview.widget.CardView
+                <!-- ===== MEMBER PERFORMANCE SUMMARY ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMemberPerformance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="6dp"
-                    app:cardMaxElevation="8dp">
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerRecentActivity"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        android:overScrollMode="never" 
-                        android:paddingVertical="8dp"/>
-                </androidx.cardview.widget.CardView>
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <!-- Header Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Member Performance Summary"
+                                android:textColor="#0F172A"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/btnViewAllMembers"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:fontFamily="@font/manrope_bold"
+                                android:padding="4dp"
+                                android:text="View All"
+                                android:textColor="#2563EB"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- Column Headers -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="ENTITY"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.08" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/manrope_medium"
+                                android:gravity="center"
+                                android:text="EFFICIENCY RATE"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.06" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/manrope_medium"
+                                android:gravity="end"
+                                android:text="AMT (M)"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#F1F5F9" />
+
+                        <!-- Member Performance RecyclerView -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvMemberPerformance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== PAYOUT PERFORMANCE CARD ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPayoutPerformance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#E2E8F0"
+                    app:strokeWidth="1.5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
+                        android:orientation="horizontal"
+                        android:padding="20dp"
+                        android:gravity="center_vertical">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="18dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#F8FAFC"
+                            app:strokeColor="#CBD5E1"
+                            app:strokeWidth="1dp">
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_history"
+                                app:tint="#2563EB" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="18dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Payout Performance"
+                                android:textColor="#0F172A"
+                                android:textSize="17sp"
+                                android:letterSpacing="-0.01"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Audit and track automated disbursements"
+                                android:textColor="#64748B"
+                                android:textSize="12sp"
+                                android:lineSpacingMultiplier="1.2" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/bg_circle_white"
+                            android:backgroundTint="#EFF6FF">
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="#2563EB" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== TRANSACTIONAL LEDGER ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="24dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <!-- Header Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:text="Transactional Ledger"
+                                    android:textColor="#0F172A"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/manrope_medium"
+                                    android:text="Real-time smart and active top-log entry"
+                                    android:textColor="#94A3B8"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+
+                            <!-- Filter + Fullfill buttons -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnFilter"
+                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="34dp"
+                                    android:layout_marginEnd="6dp"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:insetTop="0dp"
+                                    android:insetBottom="0dp"
+                                    android:text="Filter"
+                                    android:textAllCaps="false"
+                                    android:textColor="#475569"
+                                    android:textSize="12sp"
+                                    app:cornerRadius="8dp"
+                                    app:icon="@drawable/ic_filter"
+                                    app:iconSize="14dp"
+                                    app:iconTint="#475569"
+                                    app:strokeColor="#E2E8F0" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnFullLog"
+                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="34dp"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:insetTop="0dp"
+                                    android:insetBottom="0dp"
+                                    android:text="Full log"
+                                    android:textAllCaps="false"
+                                    android:textColor="#475569"
+                                    android:textSize="12sp"
+                                    app:cornerRadius="8dp"
+                                    app:icon="@drawable/ic_history"
+                                    app:iconSize="14dp"
+                                    app:iconTint="#475569"
+                                    app:strokeColor="#E2E8F0" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Column Headers -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="TRANSACTION ENTITY"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.06" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/manrope_medium"
+                                android:gravity="center"
+                                android:text="CLASSIFICATION"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.04" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/manrope_medium"
+                                android:gravity="end"
+                                android:text="AMNT"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#F1F5F9" />
+
+                        <!-- Transactions RecyclerView -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvTransactionalLedger"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -46,12 +46,13 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -67,6 +68,7 @@ dependencies {
     
     // Room Database
     implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-common:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
 
     // AndroidX Security - EncryptedSharedPreferences for secure local storage

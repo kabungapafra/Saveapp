@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- BROAD SOFT SHADOW (Outer spread) -->
+    <item
+        android:bottom="0dp"
+        android:left="10dp"
+        android:right="0dp"
+        android:top="10dp">
+        <shape android:shape="oval">
+            <solid android:color="#21A3B1C6" /> <!-- 13% alpha deep spread -->
+        </shape>
+    </item>
+
+    <!-- CORE DARK SHADOW -->
+    <item
+        android:bottom="0dp"
+        android:left="6dp"
+        android:right="0dp"
+        android:top="6dp">
+        <shape android:shape="oval">
+            <solid android:color="#8DA3B1C6" /> <!-- 55% alpha main shadow -->
+        </shape>
+    </item>
+
+    <!-- CORE LIGHT SHADOW -->
+    <item
+        android:bottom="6dp"
+        android:left="0dp"
+        android:right="6dp"
+        android:top="0dp">
+        <shape android:shape="oval">
+            <solid android:color="#B3FFFFFF" /> <!-- 70% alpha main light -->
+        </shape>
+    </item>
+
+    <!-- MAIN BACKGROUND -->
+    <item
+        android:bottom="4dp"
+        android:left="4dp"
+        android:right="4dp"
+        android:top="4dp">
+        <shape android:shape="oval">
+            <solid android:color="#ECEEF2" />
+        </shape>
+    </item>
+</layer-list>

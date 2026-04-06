@@ -33,7 +33,7 @@ public class ProfileInfoActivity extends AppCompatActivity {
     }
 
     private void loadProfileInfo() {
-        SessionManager session = new SessionManager(this);
+        SessionManager session = SessionManager.getInstance(this);
         String userEmail = session.getUserEmail();
 
         if (userEmail == null) {

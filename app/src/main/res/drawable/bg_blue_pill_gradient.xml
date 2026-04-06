@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Blue Glow Layer -->
+    <item
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="12dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="28dp" />
+            <solid android:color="@color/blue_glow_color" />
+        </shape>
+    </item>
+
+    <!-- Main Gradient Button Layer -->
+    <item
+        android:bottom="8dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="28dp" />
+            <gradient
+                android:angle="135"
+                android:endColor="@color/blue_gradient_end"
+                android:startColor="@color/blue_gradient_start"
+                android:type="linear" />
+        </shape>
+    </item>
+</layer-list>

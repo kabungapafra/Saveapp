@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/neumorphic_bg"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:paddingTop="24dp">
+
+    <!-- HEADER: Center 'Loans' -->
+    <TextView
+        android:id="@+id/header_loans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/manrope_bold"
+        android:text="Loans"
+        android:textColor="#1A1D2E"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- HERO GRID: Final Pixel-Perfect Centered Spacing Logic -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/grid_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/header_loans">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vertical_center_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <!-- Card 1: CREDIT (Column 1 Row 1) -->
+        <FrameLayout
+            android:id="@+id/card_1"
+            android:layout_width="155dp"
+            android:layout_height="175dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_neumorphic_card_raised"
+            app:layout_constraintEnd_toStartOf="@id/vertical_center_guideline"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="@drawable/bg_neumorphic_icon_inset"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_money_banknote" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.12"
+                    android:text="CREDIT"
+                    android:textColor="#6B7280"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- Card 2: TRUST (Column 2 Row 1 - Offset 65dp) -->
+        <FrameLayout
+            android:id="@+id/card_2"
+            android:layout_width="155dp"
+            android:layout_height="175dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/bg_neumorphic_card_raised"
+            app:layout_constraintStart_toEndOf="@id/vertical_center_guideline"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="@drawable/bg_neumorphic_icon_inset"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_handshake_blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.12"
+                    android:text="TRUST"
+                    android:textColor="#6B7280"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- Card 3: SUPPORT (Column 1 Row 2 - 12dp gap) -->
+        <FrameLayout
+            android:id="@+id/card_3"
+            android:layout_width="155dp"
+            android:layout_height="175dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_neumorphic_card_raised"
+            app:layout_constraintEnd_toStartOf="@id/vertical_center_guideline"
+            app:layout_constraintTop_toBottomOf="@id/card_1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="@drawable/bg_neumorphic_icon_inset"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_hand_holding_heart" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.12"
+                    android:text="SUPPORT"
+                    android:textColor="#6B7280"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- Card 4: GROWTH (Column 2 Row 2 - 12dp gap) -->
+        <FrameLayout
+            android:id="@+id/card_4"
+            android:layout_width="155dp"
+            android:layout_height="175dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_neumorphic_card_raised"
+            app:layout_constraintStart_toEndOf="@id/vertical_center_guideline"
+            app:layout_constraintTop_toBottomOf="@id/card_2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="@drawable/bg_neumorphic_icon_inset"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_trending_up" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.12"
+                    android:text="GROWTH"
+                    android:textColor="#6B7280"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- TEXT SECTION -->
+    <LinearLayout
+        android:id="@+id/text_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="28dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/grid_container">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_bold"
+            android:gravity="center"
+            android:text="Fair Group Loans"
+            android:textColor="#1A1D2E"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/manrope_medium"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.65"
+            android:text="Access community-backed credit with low interest rates. Empowering every member of your group."
+            android:textColor="#6B7280"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

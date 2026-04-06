@@ -3,86 +3,104 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:background="@color/white">
 
-    <!-- Progress Indicator -->
-    <LinearLayout
-        android:id="@+id/progressLayout"
+    <!-- Custom Toolbar -->
+    <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/spacing_normal"
-        android:background="@android:color/white"
+        android:layout_height="56dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <View
-            android:id="@+id/progressStep1"
-            android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:layout_weight="1"
-            android:background="@color/deep_blue"
-            android:layout_marginEnd="@dimen/spacing_xs" />
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/black" />
+    </RelativeLayout>
 
-        <View
-            android:id="@+id/progressStep2"
-            android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:layout_weight="1"
-            android:background="@color/divider_color"
-            android:layout_marginEnd="@dimen/spacing_xs" />
+    <!-- Progress Section (Hidded - Moving to fragments for high-fidelity) -->
+    <LinearLayout
+        android:id="@+id/progressSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <View
-            android:id="@+id/progressStep3"
-            android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:layout_weight="1"
-            android:background="@color/divider_color"
-            android:layout_marginEnd="@dimen/spacing_xs" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
 
-        <View
-            android:id="@+id/progressStep4"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvSectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GROUP SETUP"
+                android:textColor="#1D7CF2"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvStepCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Step 1 of 5"
+                android:textColor="#9E9E9E"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/wizardProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:layout_weight="1"
-            android:background="@color/divider_color" />
+            android:max="100"
+            android:progress="20"
+            android:progressDrawable="@drawable/bg_wizard_progress" />
     </LinearLayout>
 
-    <!-- Fragment Container -->
     <FrameLayout
         android:id="@+id/wizardFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/progressLayout"
-        app:layout_constraintBottom_toTopOf="@id/navigationLayout" />
+        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintTop_toBottomOf="@id/progressSection" />
 
-    <!-- Navigation Buttons -->
+    <!-- Footer -->
     <LinearLayout
-        android:id="@+id/navigationLayout"
+        android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/spacing_normal"
-        android:background="@android:color/white"
-        android:elevation="4dp"
+        android:background="#F8F9FA"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnBack"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Back"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_marginEnd="@dimen/spacing_small"
-            app:strokeColor="@color/deep_blue" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Next"
-            android:backgroundTint="@color/deep_blue" />
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Continue"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="#3B82F6"
+            app:cornerRadius="16dp"
+            app:elevation="0dp"
+            app:icon="@null" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
