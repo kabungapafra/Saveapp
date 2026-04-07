@@ -1,6 +1,5 @@
 package com.example.save.ui.activities;
 
-import com.example.save.ui.activities.*;
 import com.example.save.ui.fragments.*;
 import com.example.save.ui.adapters.*;
 import com.example.save.data.models.*;
@@ -17,36 +16,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.core.widget.NestedScrollView;
-import android.widget.FrameLayout;
 import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import java.util.Calendar;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 // Chart Imports
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.google.android.material.datepicker.MaterialDatePicker;
 
 import com.example.save.R;
 import com.example.save.databinding.ActivityAdminmainBinding;
-import com.example.save.databinding.ItemActivityBinding;
-import com.example.save.databinding.ItemCalendarDateBinding;
 import com.example.save.data.repository.MemberRepository;
 import com.example.save.ui.viewmodels.MembersViewModel;
 
@@ -56,11 +40,14 @@ public class AdminMainActivity extends AppCompatActivity {
 
     // Data
     private String adminNameStr;
-    private String groupNameStr;
     private MemberRepository memberRepository;
     private MembersViewModel viewModel; // Use ViewModel if possible, or just remove listener for now
-    private boolean isBalanceVisible = true;
+    private final boolean isBalanceVisible = true;
     private double totalBalanceValue = 0.0;
+
+    public AdminMainActivity(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +108,7 @@ public class AdminMainActivity extends AppCompatActivity {
     @SuppressLint("GestureBackNavigation")
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
@@ -184,7 +172,7 @@ public class AdminMainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
         // Default to "Admin" if not found
         adminNameStr = prefs.getString("admin_name", "Admin");
-        groupNameStr = prefs.getString("group_name", "Weekend Savers Club");
+        String groupNameStr = prefs.getString("group_name", "Weekend Savers Club");
 
         // Overwrite with Intent extra if present
         Intent intent = getIntent();
@@ -838,5 +826,17 @@ public class AdminMainActivity extends AppCompatActivity {
             resetNavItem(binding.txtLoans, binding.imgLoans, binding.bgLoans);
         if (binding.bgSettings != null)
             resetNavItem(binding.txtSettings, binding.imgSettings, binding.bgSettings);
+    }
+
+    public boolean isBalanceVisible() {
+        return isBalanceVisible;
+    }
+
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
+
+    public void setMemberRepository(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 }

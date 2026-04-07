@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation("androidx.asynclayoutinflater:asynclayoutinflater:1.0.0")
     implementation(libs.recyclerview)
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)

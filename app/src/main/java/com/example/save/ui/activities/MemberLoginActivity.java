@@ -34,7 +34,7 @@ public class MemberLoginActivity extends AppCompatActivity {
                 intent.putExtra("member_email", "member@design.com");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
             } else {
                 // Future: Implement Login logic
@@ -53,7 +53,7 @@ public class MemberLoginActivity extends AppCompatActivity {
         binding.adminPortalLink.setOnClickListener(v -> {
             Intent intent = new Intent(this, AdminLoginActivity.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();
         });
     }

@@ -51,7 +51,7 @@ public class AdminLoginActivity extends AppCompatActivity {
     public void onsingupClick(View view) {
         Intent intent = new Intent(AdminLoginActivity.this, AdminSignupActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     private void navigateToMemberPortal() {
@@ -105,7 +105,7 @@ public class AdminLoginActivity extends AppCompatActivity {
             intent.putExtra("group_name", groupName.isEmpty() ? "Design Group" : groupName);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();
             return;
         }
@@ -183,7 +183,7 @@ public class AdminLoginActivity extends AppCompatActivity {
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     finish();
                 } else {
                     com.example.save.utils.ApiErrorHandler.handleResponse(AdminLoginActivity.this, response);
