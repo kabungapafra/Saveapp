@@ -132,7 +132,13 @@ public class SettingsFragment extends Fragment {
 
         binding.rowLiveChat.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "Connecting to Live Support...", Toast.LENGTH_SHORT).show();
+            if (getParentFragmentManager() != null) {
+                getParentFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                        .replace(R.id.fragment_container, ConnectingAgentFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
 
         binding.rowCallSupport.setOnClickListener(v -> {

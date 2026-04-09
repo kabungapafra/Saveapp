@@ -45,9 +45,7 @@ public class AdminMainActivity extends AppCompatActivity {
     private final boolean isBalanceVisible = true;
     private double totalBalanceValue = 0.0;
 
-    public AdminMainActivity(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -342,7 +340,7 @@ public class AdminMainActivity extends AppCompatActivity {
             toggleQuickActions();
         });
         overlay.findViewById(R.id.cardPaymentQueue).setOnClickListener(v -> {
-            Toast.makeText(this, "Payment Queue clicked", Toast.LENGTH_SHORT).show();
+            loadFragment(new QueueFragment());
             toggleQuickActions();
         });
 

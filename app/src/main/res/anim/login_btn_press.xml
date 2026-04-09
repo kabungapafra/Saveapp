@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ultra-smooth login button press: tiny scale-down then spring back, nearly imperceptible -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/decelerate_quint"
+    android:ordering="together">
+
+    <!-- Barely-visible scale squeeze -->
+    <scale
+        android:duration="90"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="0.97"
+        android:toYScale="0.97" />
+
+    <!-- Subtle alpha dip -->
+    <alpha
+        android:duration="90"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.88" />
+</set>

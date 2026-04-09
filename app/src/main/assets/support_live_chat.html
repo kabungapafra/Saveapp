@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Support Live Chat</title>
+<style>
+:root {
+  --blue: #2563EB;
+  --blue-dark: #1E3DAA;
+  --blue-bubble: #2D5BE3;
+  --gray-bubble: #E8E9ED;
+  --text-dark: #0F172A;
+  --text-mid: #374151;
+  --text-muted: #9CA3AF;
+  --text-white: #FFFFFF;
+  --border: #E5E7EB;
+  --card-bg: #FFFFFF;
+  --page-bg: #F0F2F7;
+  --input-bg: #ECEEF3;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+  --radius-bubble: 18px;
+  --radius-card: 16px;
+  --radius-pill: 99px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, 'SF Pro Display', BlinkMacSystemFont, sans-serif;
+  background-color: var(--page-bg);
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  max-width: 390px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ════════════════════════════════════════
+   [B] SECTION 1 — CHAT HEADER BAR
+   ════════════════════════════════════════ */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 390px;
+  height: 71px;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px 12px;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  display: flex;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: -4px;
+}
+
+.avatar-container {
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  background-color: #E0F2FE;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.avatar svg {
+  width: 40px;
+  height: 40px;
+  margin-top: 4px;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  background: #22C55E;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  animation: pulseStatus 2s ease-in-out infinite;
+}
+
+@keyframes pulseStatus {
+  0%   { transform: scale(1); opacity: 1; }
+  50%  { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.header-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.header-status {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: 0.1em;
+}
+
+.info-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
+  margin-right: -4px;
+}
+
+/* ════════════════════════════════════════
+   [C] SECTION 2 — CHAT MESSAGE AREA
+   ════════════════════════════════════════ */
+.chat-area {
+  position: fixed;
+  top: 71px;
+  bottom: 87px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 390px;
+  overflow-y: scroll;
+  padding: 16px 16px 8px;
+  background: var(--page-bg);
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+}
+
+/* DATE SEPARATOR */
+.date-separator {
+  margin: 12px auto 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.date-pill {
+  background: #FFFFFF;
+  border-radius: var(--radius-pill);
+  padding: 5px 18px;
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+/* BUBBLE SYSTEM */
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.message-wrapper.agent { align-items: flex-start; }
+.message-wrapper.user { align-items: flex-end; }
+
+.bubble-row {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.bubble-row.agent { justify-content: flex-start; }
+.bubble-row.user { justify-content: flex-end; }
+
+.agent-small-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #E0F2FE;
+  border-radius: 50%;
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.agent-small-avatar svg {
+  width: 28px;
+  height: 28px;
+  margin-top: 4px;
+}
+
+.bubble {
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  max-width: 78%;
+  width: fit-content;
+  word-wrap: break-word;
+}
+
+.agent .bubble {
+  background: var(--gray-bubble);
+  color: var(--text-dark);
+  border-radius: 18px 18px 18px 4px; /* Bottom-left sharp */
+}
+
+.user .bubble {
+  background: var(--blue-bubble);
+  color: #FFFFFF;
+  border-radius: 18px 18px 4px 18px; /* Bottom-right sharp */
+}
+
+.timestamp {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+
+.agent .timestamp { margin-left: 40px; }
+
+.user .timestamp-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.read-receipt { display: flex; align-items: center; }
+
+/* ATTACHMENT CARD (Msg 5) */
+.attachment-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  max-width: 82%;
+  margin-left: 0;
+  margin-bottom: 20px;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.card-inner {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+
+.card-icon-box {
+  width: 48px;
+  height: 48px;
+  background: #FEE2E2;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.card-text-block { display: flex; flex-direction: column; }
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.card-subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.card-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0 0;
+  width: 100%;
+}
+
+.card-btn {
+  width: 100%;
+  height: 40px;
+  background: #F1F5F9;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--blue);
+  text-align: center;
+  border-radius: 0 0 16px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.card-btn:hover { background: #E2E8F0; }
+
+/* TYPING INDICATOR */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 16px;
+  background: var(--gray-bubble);
+  border-radius: 18px 18px 18px 4px;
+  width: fit-content;
+  height: 48px; 
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  background: #9CA3AF;
+  border-radius: 50%;
+  animation: typingBounce 600ms infinite cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.typing-dot:nth-child(2) { animation-delay: 200ms; }
+.typing-dot:nth-child(3) { animation-delay: 400ms; }
+
+@keyframes typingBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ════════════════════════════════════════
+   [E] SECTION 3 — CHAT INPUT BAR
+   ════════════════════════════════════════ */
+.input-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 390px;
+  height: 87px;
+  background: #FFFFFF;
+  border-top: 1px solid var(--border);
+  padding: 12px 16px 28px 16px;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.plus-btn {
+  width: 40px;
+  height: 40px;
+  background: var(--text-dark);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.text-input {
+  flex: 1;
+  background: var(--input-bg);
+  border-radius: var(--radius-pill);
+  height: 46px;
+  padding: 0 18px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: var(--text-dark);
+}
+
+.text-input::placeholder { color: var(--text-muted); }
+
+.send-btn {
+  width: 46px;
+  height: 46px;
+  background: var(--blue);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.15s ease-out;
+}
+
+.send-btn:active { transform: scale(0.9); }
+
+/* ════════════════════════════════════════
+   [G] ANIMATIONS
+   ════════════════════════════════════════ */
+.animate-in { animation: slideFadeIn 300ms ease-out both; }
+.delay-1 { animation-delay: 0ms; }
+.delay-2 { animation-delay: 150ms; }
+.delay-3 { animation-delay: 300ms; }
+.delay-4 { animation-delay: 450ms; }
+.delay-5 { animation-delay: 600ms; }
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bubble-pop { animation: bubblePop 200ms ease-out forwards; transform-origin: bottom right; }
+.agent .bubble-pop { transform-origin: bottom left; }
+
+@keyframes bubblePop {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text-dark);
+  color: #FFFFFF;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 200;
+  white-space: nowrap;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <button class="back-btn" onclick="handleBack()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-dark)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 18l-6-6 6-6"/>
+    </svg>
+  </button>
+  
+  <div class="avatar-container">
+    <div class="avatar" id="avatarMale">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="45" r="18" fill="#8D5524"/>
+        <path d="M35 35 a18 18 0 0 1 30 0" fill="#2E2E2E"/> 
+        <path d="M30 80 Q50 60 70 80 L70 100 L30 100 Z" fill="#0D9488"/>
+        <path d="M25 45 A25 25 0 0 1 75 45" fill="none" stroke="#222" stroke-width="3"/>
+        <circle cx="25" cy="45" r="6" fill="#222"/>
+        <circle cx="75" cy="45" r="6" fill="#222"/>
+        <path d="M75 45 Q75 55 65 55" fill="none" stroke="#222" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="status-dot"></div>
+  </div>
+
+  <div class="header-info">
+    <div class="header-name">Support</div>
+    <div class="header-status">ACTIVE</div>
+  </div>
+
+  <button class="info-btn">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="16" x2="12" y2="12"/>
+      <line x1="12" y1="8" x2="12.01" y2="8"/>
+    </svg>
+  </button>
+</div>
+
+<!-- CHAT AREA -->
+<div class="chat-area" id="chatArea">
+  <div class="date-separator">
+    <div class="date-pill">TODAY</div>
+  </div>
+
+  <!-- MSG 1 -->
+  <div class="message-wrapper agent animate-in delay-1">
+    <div class="bubble-row agent">
+      <div class="agent-small-avatar">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="45" r="18" fill="#8D5524"/>
+          <path d="M35 35 a18 18 0 0 1 30 0" fill="#2E2E2E"/> 
+          <path d="M30 80 Q50 60 70 80 L70 100 L30 100 Z" fill="#0D9488"/>
+          <path d="M25 45 A25 25 0 0 1 75 45" fill="none" stroke="#222" stroke-width="3"/>
+          <circle cx="25" cy="45" r="6" fill="#222"/>
+          <circle cx="75" cy="45" r="6" fill="#222"/>
+          <path d="M75 45 Q75 55 65 55" fill="none" stroke="#222" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="bubble">
+        Hi there! Welcome to the ‘Save’ Help Center. My name is Elena. How can I assist you with your group vault today?
+      </div>
+    </div>
+    <div class="timestamp">10:42 AM</div>
+  </div>
+
+  <!-- MSG 2 -->
+  <div class="message-wrapper user animate-in delay-2">
+    <div class="bubble-row user">
+      <div class="bubble">
+        Hello Elena, I'm trying to understand how the growth interest is calculated for my ‘Education’ vault.
+      </div>
+    </div>
+    <div class="timestamp-row">
+      <span class="timestamp">10:44 AM</span>
+      <span class="read-receipt">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 6 9 15 6 12"></polyline>
+          <polyline points="23 6 16 15 13 12"></polyline>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <!-- MSG 3 -->
+  <div class="message-wrapper agent animate-in delay-3">
+    <div class="bubble-row agent">
+      <div class="agent-small-avatar">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="45" r="18" fill="#8D5524"/>
+          <path d="M35 35 a18 18 0 0 1 30 0" fill="#2E2E2E"/> 
+          <path d="M30 80 Q50 60 70 80 L70 100 L30 100 Z" fill="#0D9488"/>
+          <path d="M25 45 A25 25 0 0 1 75 45" fill="none" stroke="#222" stroke-width="3"/>
+          <circle cx="25" cy="45" r="6" fill="#222"/>
+          <circle cx="75" cy="45" r="6" fill="#222"/>
+          <path d="M75 45 Q75 55 65 55" fill="none" stroke="#222" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="bubble">
+        That's a great question! For the ‘Education’ category, we apply a daily compound interest rate of 4.2% APY. Would you like me to share a breakdown of your recent earnings?
+      </div>
+    </div>
+    <div class="timestamp">10:45 AM</div>
+  </div>
+
+  <!-- MSG 4 -->
+  <div class="message-wrapper user animate-in delay-4">
+    <div class="bubble-row user">
+      <div class="bubble">
+        Yes, please! That would be very helpful.
+      </div>
+    </div>
+    <div class="timestamp-row">
+      <span class="timestamp">10:45 AM</span>
+      <span class="read-receipt">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 6 9 15 6 12"></polyline>
+          <polyline points="23 6 16 15 13 12"></polyline>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <!-- MSG 5 Attachment Card -->
+  <div class="attachment-card animate-in delay-5">
+    <div class="card-inner">
+      <div class="card-icon-box">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+          <polyline points="17 6 23 6 23 12"></polyline>
+        </svg>
+      </div>
+      <div class="card-text-block">
+        <div class="card-title">Vault Statement Prepared</div>
+        <div class="card-subtitle">Jan 2024 - Education Vault</div>
+      </div>
+    </div>
+    <div class="card-divider"></div>
+    <button class="card-btn" onclick="handlePdfClick()">View PDF Summary</button>
+  </div>
+
+  <div id="dynamicMessages"></div>
+</div>
+
+<!-- INPUT BAR -->
+<div class="input-bar">
+  <button class="plus-btn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  </button>
+  <input type="text" class="text-input" id="messageInput" placeholder="Type your message..." />
+  <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" style="transform: rotate(-15deg); margin-left: -2px;">
+      <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+    </svg>
+  </button>
+</div>
+
+<div class="toast" id="toast">Opening PDF summary...</div>
+
+<!-- SCRIPTS -->
+<script>
+  const chatArea = document.getElementById('chatArea');
+  const messageInput = document.getElementById('messageInput');
+  const dynamicMessages = document.getElementById('dynamicMessages');
+  const toast = document.getElementById('toast');
+
+  function scrollToBottom() {
+    chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
+  }
+
+  // Scroll after initial animations
+  window.addEventListener('load', () => {
+    scrollToBottom();
+    setTimeout(scrollToBottom, 650);
+  });
+
+  messageInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  });
+
+  function handleBack() {
+    if (window.AndroidBridge && window.AndroidBridge.navigateBack) {
+      window.AndroidBridge.navigateBack();
+    } else {
+      console.log('navigate back');
+      showToast('Navigate back');
+    }
+  }
+
+  function handlePdfClick() {
+    showToast('Opening PDF summary...');
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    // Fades in/out automatically over 2s
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  function formatAmPm(date) {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return hours + ':' + minutes + ' ' + ampm;
+  }
+
+  const doubleTickSvg = `
+    <span class="read-receipt">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="16 6 9 15 6 12"></polyline>
+        <polyline points="23 6 16 15 13 12"></polyline>
+      </svg>
+    </span>
+  `;
+
+  const agentAvatarSvg = `
+    <div class="agent-small-avatar">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="45" r="18" fill="#8D5524"/>
+        <path d="M35 35 a18 18 0 0 1 30 0" fill="#2E2E2E"/> 
+        <path d="M30 80 Q50 60 70 80 L70 100 L30 100 Z" fill="#0D9488"/>
+        <path d="M25 45 A25 25 0 0 1 75 45" fill="none" stroke="#222" stroke-width="3"/>
+        <circle cx="25" cy="45" r="6" fill="#222"/>
+        <circle cx="75" cy="45" r="6" fill="#222"/>
+        <path d="M75 45 Q75 55 65 55" fill="none" stroke="#222" stroke-width="2"/>
+      </svg>
+    </div>
+  `;
+
+  function sendMessage() {
+    const text = messageInput.value.trim();
+    if (!text) return;
+
+    const timeString = formatAmPm(new Date());
+
+    // 1. ADD USER MESSAGE
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message-wrapper user';
+    userMsg.style.opacity = 1;
+    userMsg.style.transform = 'translateY(0)';
+    userMsg.innerHTML = `
+      <div class="bubble-row user">
+        <div class="bubble bubble-pop">
+          ${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
+        </div>
+      </div>
+      <div class="timestamp-row">
+        <span class="timestamp">${timeString}</span>
+        ${doubleTickSvg}
+      </div>
+    `;
+    
+    dynamicMessages.appendChild(userMsg);
+    messageInput.value = '';
+    scrollToBottom();
+
+    // 2. DELAY 1.2S -> TYPING INDICATOR
+    setTimeout(() => {
+      const typingWrapper = document.createElement('div');
+      typingWrapper.className = 'message-wrapper agent';
+      typingWrapper.style.opacity = 1;
+      typingWrapper.style.transform = 'translateY(0)';
+      typingWrapper.innerHTML = `
+        <div class="bubble-row agent">
+          ${agentAvatarSvg}
+          <div class="typing-indicator bubble-pop">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      `;
+      
+      dynamicMessages.appendChild(typingWrapper);
+      scrollToBottom();
+
+      // 3. DELAY 2S MORE -> AGENT AUTO-REPLY
+      setTimeout(() => {
+        dynamicMessages.removeChild(typingWrapper);
+
+        const replyTime = formatAmPm(new Date());
+        const replyMsg = document.createElement('div');
+        replyMsg.className = 'message-wrapper agent';
+        replyMsg.style.opacity = 1;
+        replyMsg.style.transform = 'translateY(0)';
+        replyMsg.innerHTML = `
+          <div class="bubble-row agent">
+            ${agentAvatarSvg}
+            <div class="bubble bubble-pop">
+              Thanks for your message! Our team will review and get back to you shortly.
+            </div>
+          </div>
+          <div class="timestamp">${replyTime}</div>
+        `;
+        
+        dynamicMessages.appendChild(replyMsg);
+        scrollToBottom();
+
+      }, 2000);
+    }, 1200);
+  }
+</script>
+</body>
+</html>

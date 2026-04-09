@@ -28,18 +28,31 @@ public class MemberLoginActivity extends AppCompatActivity {
 
     private void setupListeners() {
         binding.loginButton.setOnClickListener(v -> {
-            if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-                Intent intent = new Intent(this, MemberMainActivity.class);
-                intent.putExtra("member_name", "Design Member");
-                intent.putExtra("member_email", "member@design.com");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
-            } else {
-                // Future: Implement Login logic
-                finish();
-            }
+            // Smooth press dip
+            android.view.animation.Animation press = android.view.animation.AnimationUtils
+                    .loadAnimation(this, R.anim.login_btn_press);
+            press.setAnimationListener(new android.view.animation.Animation.AnimationListener() {
+                @Override public void onAnimationStart(android.view.animation.Animation a) {}
+                @Override public void onAnimationRepeat(android.view.animation.Animation a) {}
+                @Override public void onAnimationEnd(android.view.animation.Animation a) {
+                    android.view.animation.Animation release = android.view.animation.AnimationUtils
+                            .loadAnimation(MemberLoginActivity.this, R.anim.login_btn_release);
+                    v.startAnimation(release);
+                    if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+                        Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
+                        intent.putExtra("member_name", "Design Member");
+                        intent.putExtra("member_email", "member@design.com");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
+                        finish();
+                    } else {
+                        // TODO: implement real member login
+                        finish();
+                    }
+                }
+            });
+            v.startAnimation(press);
         });
 
         binding.googleButton.setOnClickListener(v -> {

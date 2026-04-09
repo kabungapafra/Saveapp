@@ -32,7 +32,20 @@ public class AdminLoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Setup click listeners
-        binding.loginButton.setOnClickListener(v -> handleLogin());
+        binding.loginButton.setOnClickListener(v -> {
+            // Subtle press animation then handle login
+            android.view.animation.Animation press = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.login_btn_press);
+            press.setAnimationListener(new android.view.animation.Animation.AnimationListener() {
+                @Override public void onAnimationStart(android.view.animation.Animation a) {}
+                @Override public void onAnimationRepeat(android.view.animation.Animation a) {}
+                @Override public void onAnimationEnd(android.view.animation.Animation a) {
+                    android.view.animation.Animation release = android.view.animation.AnimationUtils.loadAnimation(AdminLoginActivity.this, R.anim.login_btn_release);
+                    v.startAnimation(release);
+                    handleLogin();
+                }
+            });
+            v.startAnimation(press);
+        });
         binding.forgotPassword.setOnClickListener(v -> showForgotPasswordFragment());
         binding.sideSignUpTab.setOnClickListener(this::onsingupClick);
         binding.memberPortalLink.setOnClickListener(v -> navigateToMemberPortal());
@@ -105,7 +118,7 @@ public class AdminLoginActivity extends AppCompatActivity {
             intent.putExtra("group_name", groupName.isEmpty() ? "Design Group" : groupName);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
             finish();
             return;
         }
@@ -183,7 +196,7 @@ public class AdminLoginActivity extends AppCompatActivity {
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
                     finish();
                 } else {
                     com.example.save.utils.ApiErrorHandler.handleResponse(AdminLoginActivity.this, response);
