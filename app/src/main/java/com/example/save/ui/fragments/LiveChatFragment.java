@@ -28,7 +28,7 @@ public class LiveChatFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_live_chat, container, false);
         webView = view.findViewById(R.id.webView);
         setupWebView();
@@ -44,7 +44,7 @@ public class LiveChatFragment extends Fragment {
         webSettings.setUseWideViewPort(true);
 
         webView.addJavascriptInterface(new WebAppInterface(), "AndroidBridge");
-        
+
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
 
@@ -61,14 +61,14 @@ public class LiveChatFragment extends Fragment {
             }
         }
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
             View nav = getActivity().findViewById(R.id.navContainer);
             if (nav != null) nav.setVisibility(View.GONE);
-            
+
             View fab = getActivity().findViewById(R.id.fabAction);
             if (fab != null) fab.setVisibility(View.GONE);
         }
@@ -80,7 +80,7 @@ public class LiveChatFragment extends Fragment {
         if (getActivity() != null) {
             View nav = getActivity().findViewById(R.id.navContainer);
             if (nav != null) nav.setVisibility(View.VISIBLE);
-            
+
             View fab = getActivity().findViewById(R.id.fabAction);
             if (fab != null) fab.setVisibility(View.VISIBLE);
         }

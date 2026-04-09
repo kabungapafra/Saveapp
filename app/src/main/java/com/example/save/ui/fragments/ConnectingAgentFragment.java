@@ -47,7 +47,7 @@ public class ConnectingAgentFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_connecting_agent, container, false);
         initViews(view);
         setupRichText();
@@ -76,8 +76,9 @@ public class ConnectingAgentFragment extends Fragment {
 
     private void setupAnimations() {
         // 1. Entrance Animations
-        // We'll use simple translate/alpha animations via view.animate() or ObjectAnimator
-        
+        // We'll use simple translate/alpha animations via view.animate() or
+        // ObjectAnimator
+
         // 2. Slow Rotate Outer Ring (12s linear)
         ObjectAnimator rotateAnim = ObjectAnimator.ofFloat(outerRing, "rotation", 0f, 360f);
         rotateAnim.setDuration(12000);
@@ -89,12 +90,12 @@ public class ConnectingAgentFragment extends Fragment {
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(midRing, "scaleX", 1f, 1.25f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(midRing, "scaleY", 1f, 1.25f);
         ObjectAnimator alpha = ObjectAnimator.ofFloat(midRing, "alpha", 1f, 0f);
-        
+
         AnimatorSet pulseSet = new AnimatorSet();
         pulseSet.playTogether(scaleX, scaleY, alpha);
         pulseSet.setDuration(2000);
         pulseSet.setInterpolator(new DecelerateInterpolator());
-        
+
         // Loop pulse
         pulseSet.addListener(new android.animation.AnimatorListenerAdapter() {
             @Override
@@ -122,13 +123,14 @@ public class ConnectingAgentFragment extends Fragment {
     }
 
     private void navigateToLiveChat() {
-        if (!isAdded() || getActivity() == null) return;
-        
+        if (!isAdded() || getActivity() == null)
+            return;
+
         isNavigatingToLiveChat = true;
-        
+
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow, 
-                                     R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow)
+                .setCustomAnimations(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow,
+                        R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow)
                 .replace(R.id.fragment_container, LiveChatFragment.newInstance())
                 .commit();
     }
@@ -193,7 +195,7 @@ public class ConnectingAgentFragment extends Fragment {
                 ObjectAnimator shake = ObjectAnimator.ofFloat(v, "translationX", 0, -10, 10, -10, 10, 0);
                 shake.setDuration(300);
                 shake.start();
-                
+
                 // Navigate back after shake
                 v.postDelayed(() -> {
                     if (isAdded()) {
@@ -209,7 +211,8 @@ public class ConnectingAgentFragment extends Fragment {
                 case MotionEvent.ACTION_DOWN:
                     v.setScaleX(0.99f);
                     v.setScaleY(0.99f);
-                    v.setBackgroundResource(R.drawable.bg_cancel_button); // We could use a selector here, but doing it in code for precision
+                    v.setBackgroundResource(R.drawable.bg_cancel_button); // We could use a selector here, but doing it
+                                                                          // in code for precision
                     v.setAlpha(0.8f);
                     break;
                 case MotionEvent.ACTION_UP:
@@ -229,7 +232,7 @@ public class ConnectingAgentFragment extends Fragment {
         if (getActivity() != null) {
             View nav = getActivity().findViewById(R.id.navContainer);
             if (nav != null) nav.setVisibility(View.GONE);
-            
+
             View fab = getActivity().findViewById(R.id.fabAction);
             if (fab != null) fab.setVisibility(View.GONE);
         }
@@ -242,7 +245,7 @@ public class ConnectingAgentFragment extends Fragment {
         if (getActivity() != null && !isNavigatingToLiveChat) {
             View nav = getActivity().findViewById(R.id.navContainer);
             if (nav != null) nav.setVisibility(View.VISIBLE);
-            
+
             View fab = getActivity().findViewById(R.id.fabAction);
             if (fab != null) fab.setVisibility(View.VISIBLE);
         }
