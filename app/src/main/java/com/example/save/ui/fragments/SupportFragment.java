@@ -45,16 +45,27 @@ public class SupportFragment extends Fragment {
         View.OnClickListener cardListener = v -> {
             applyClickAnimation(v);
             String message = "";
-            if (v.getId() == R.id.cardHelpCenter) message = "Help Center";
-            else if (v.getId() == R.id.cardContactUs) message = "Contact Us";
-            else if (v.getId() == R.id.cardReportProblem) message = "Report a Problem";
-            else if (v.getId() == R.id.cardFAQ) message = "Frequently Asked Questions";
+            if (v.getId() == R.id.cardHelpCenter) {
+                message = "Help Center";
+            } else if (v.getId() == R.id.cardReportProblem) {
+                if (getParentFragmentManager() != null) {
+                    getParentFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                        .replace(R.id.fragment_container, CreateTicketFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+                }
+                return;
+            } else if (v.getId() == R.id.cardFAQ) {
+                message = "Frequently Asked Questions";
+            }
             
-            Toast.makeText(getContext(), message + " details coming soon", Toast.LENGTH_SHORT).show();
+            if (!message.isEmpty()) {
+                Toast.makeText(getContext(), message + " details coming soon", Toast.LENGTH_SHORT).show();
+            }
         };
 
         binding.cardHelpCenter.setOnClickListener(cardListener);
-        binding.cardContactUs.setOnClickListener(cardListener);
         binding.cardReportProblem.setOnClickListener(cardListener);
         binding.cardFAQ.setOnClickListener(cardListener);
 

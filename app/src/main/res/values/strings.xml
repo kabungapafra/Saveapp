@@ -173,4 +173,5 @@
     <string name="bank_grade_security">Bank-Grade Security</string>
     <string name="security_description">Your savings are fully protected with 256-bit encryption and multi-factor authentication. Verified and safe.</string>
     <string name="ugx_142_580">UGX 142,580</string>
+    <string name="let_us_know_if_something_is_wrong_create_a_ticket">Let us know if something is wrong create a ticket</string>
 </resources>
