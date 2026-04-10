@@ -53,6 +53,10 @@ public class AdminMainActivity extends AppCompatActivity {
         // Correct layout name
         binding = ActivityAdminmainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        // Swap window background from dark login-matching color to real dashboard color.
+        // This eliminates the white flash: the window starts as dark blue (matching login)
+        // and switches immediately after content is inflated — no flicker visible.
+        getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
 
         // Initialize ViewModel
         viewModel = new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
@@ -116,10 +120,20 @@ public class AdminMainActivity extends AppCompatActivity {
         } else if (binding.fragmentContainer != null && binding.fragmentContainer.getVisibility() == View.VISIBLE) {
             binding.fragmentContainer.setVisibility(View.GONE);
             binding.mainContentScrollView.setVisibility(View.VISIBLE);
-            binding.navContainer.setVisibility(View.VISIBLE); // Restore nav
+            setBottomNavVisible(true); // Self-healing restoration
             updateNav(binding.bgHome, binding.txtHome, binding.imgHome, binding.bgHome);
         } else {
             finishAffinity();
+        }
+    }
+
+    public void setBottomNavVisible(boolean visible) {
+        if (binding != null && binding.bottomNavWrapper != null) {
+            binding.bottomNavWrapper.setVisibility(visible ? View.VISIBLE : View.GONE);
+            if (visible) {
+                if (binding.navContainer != null) binding.navContainer.setVisibility(View.VISIBLE);
+                if (binding.fabAction != null) binding.fabAction.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -426,6 +440,7 @@ public class AdminMainActivity extends AppCompatActivity {
         if (selectedItem == binding.bgHome) {
             binding.mainContentScrollView.setVisibility(View.VISIBLE);
             binding.fragmentContainer.setVisibility(View.GONE);
+            setBottomNavVisible(true); // Ensure nav is visible on home
         } else {
             binding.mainContentScrollView.setVisibility(View.GONE);
             binding.fragmentContainer.setVisibility(View.VISIBLE);

@@ -25,6 +25,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
+import com.example.save.ui.activities.AdminMainActivity;
+import com.example.save.ui.activities.MemberMainActivity;
 
 public class ConnectingAgentFragment extends Fragment {
 
@@ -230,11 +232,12 @@ public class ConnectingAgentFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            View nav = getActivity().findViewById(R.id.navContainer);
-            if (nav != null) nav.setVisibility(View.GONE);
-
-            View fab = getActivity().findViewById(R.id.fabAction);
-            if (fab != null) fab.setVisibility(View.GONE);
+            if (getActivity() instanceof AdminMainActivity) {
+                ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
+            } else if (getActivity() instanceof MemberMainActivity) {
+                ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
+                ((MemberMainActivity) getActivity()).setHeaderVisible(false);
+            }
         }
     }
 
@@ -243,11 +246,12 @@ public class ConnectingAgentFragment extends Fragment {
         super.onDestroyView();
         animationHandler.removeCallbacksAndMessages(null);
         if (getActivity() != null && !isNavigatingToLiveChat) {
-            View nav = getActivity().findViewById(R.id.navContainer);
-            if (nav != null) nav.setVisibility(View.VISIBLE);
-
-            View fab = getActivity().findViewById(R.id.fabAction);
-            if (fab != null) fab.setVisibility(View.VISIBLE);
+            if (getActivity() instanceof AdminMainActivity) {
+                ((AdminMainActivity) getActivity()).setBottomNavVisible(true);
+            } else if (getActivity() instanceof MemberMainActivity) {
+                ((MemberMainActivity) getActivity()).setBottomNavVisible(true);
+                ((MemberMainActivity) getActivity()).setHeaderVisible(true);
+            }
         }
     }
 }

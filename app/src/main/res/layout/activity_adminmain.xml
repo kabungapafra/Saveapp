@@ -141,7 +141,7 @@
                             android:id="@+id/currentBalance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="UGX 142,580"
+                            android:text="@string/ugx_142_580"
                             android:textColor="@color/white"
                             android:textSize="36sp"
                             android:textStyle="bold" />
@@ -501,12 +501,12 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+
     <!-- Fragment Container (Overlays Main for Nav) -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dashboard_bg"
         android:visibility="gone" />
 
     <!-- Background Dim Layer (Fades in over everything except FAB/Nav) -->
@@ -528,6 +528,7 @@
     <!-- Redesigned Bottom Navigation Bar with Centered FAB -->
     <!-- Floating Nav Bar Wrapper -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomNavWrapper"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_gravity="bottom"

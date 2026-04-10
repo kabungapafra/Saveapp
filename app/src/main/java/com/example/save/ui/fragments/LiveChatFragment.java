@@ -16,10 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
+import com.example.save.ui.activities.AdminMainActivity;
+import com.example.save.ui.activities.MemberMainActivity;
 
 public class LiveChatFragment extends Fragment {
 
     private WebView webView;
+    private boolean isNavigatingToFeedback = false;
 
     public static LiveChatFragment newInstance() {
         return new LiveChatFragment();
@@ -60,29 +63,44 @@ public class LiveChatFragment extends Fragment {
                 });
             }
         }
+
+        @JavascriptInterface
+        public void openFeedback() {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    isNavigatingToFeedback = true; // Prevent nav bar restoration
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                            .replace(R.id.fragment_container, ChatFeedbackFragment.newInstance())
+                            .commit();
+                });
+            }
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            View nav = getActivity().findViewById(R.id.navContainer);
-            if (nav != null) nav.setVisibility(View.GONE);
-
-            View fab = getActivity().findViewById(R.id.fabAction);
-            if (fab != null) fab.setVisibility(View.GONE);
+            if (getActivity() instanceof AdminMainActivity) {
+                ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
+            } else if (getActivity() instanceof MemberMainActivity) {
+                ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
+                ((MemberMainActivity) getActivity()).setHeaderVisible(false);
+            }
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (getActivity() != null) {
-            View nav = getActivity().findViewById(R.id.navContainer);
-            if (nav != null) nav.setVisibility(View.VISIBLE);
-
-            View fab = getActivity().findViewById(R.id.fabAction);
-            if (fab != null) fab.setVisibility(View.VISIBLE);
+        if (getActivity() != null && !isNavigatingToFeedback) {
+            if (getActivity() instanceof AdminMainActivity) {
+                ((AdminMainActivity) getActivity()).setBottomNavVisible(true);
+            } else if (getActivity() instanceof MemberMainActivity) {
+                ((MemberMainActivity) getActivity()).setBottomNavVisible(true);
+                ((MemberMainActivity) getActivity()).setHeaderVisible(true);
+            }
         }
         if (webView != null) {
             webView.destroy();

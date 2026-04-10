@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#FFD600"
+        android:pathData="M24,24m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0" />
+    <!-- Larger Star Eye Left -->
+    <path
+        android:fillColor="#FF8A00"
+        android:pathData="M16,14l2,4l4.5,0.5l-3.5,3.5l1,4.5l-4,-2l-4,2l1,-4.5l-3.5,-3.5l4.5,-0.5z" />
+    <!-- Larger Star Eye Right -->
+    <path
+        android:fillColor="#FF8A00"
+        android:pathData="M32,14l2,4l4.5,0.5l-3.5,3.5l1,4.5l-4,-2l-4,2l1,-4.5l-3.5,-3.5l4.5,-0.5z" />
+    <!-- Big Open Smile -->
+    <path
+        android:fillColor="#374151"
+        android:pathData="M14,30 Q24,42 34,30 Z" />
+</vector>

@@ -90,6 +90,19 @@ public class MemberMainActivity extends AppCompatActivity {
     private androidx.core.util.Pair<Long, Long> currentDateRange = null;
     private java.util.List<Transaction> allCachedTransactions = new java.util.ArrayList<>();
 
+    public void setBottomNavVisible(boolean visible) {
+        if (binding != null && binding.navContainer != null) {
+            binding.navContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    public void setHeaderVisible(boolean visible) {
+        if (binding != null) {
+            if (binding.header != null) binding.header.setVisibility(visible ? View.VISIBLE : View.GONE);
+            if (binding.headerGradientView != null) binding.headerGradientView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+    }
+
     private void initializeViews() {
         // Initialize RecyclerView
         recipientAdapter = new RecipientSmallAdapter();
@@ -371,6 +384,10 @@ public class MemberMainActivity extends AppCompatActivity {
             binding.mainScrollView.setVisibility(View.VISIBLE);
         if (binding.fragmentContainer != null)
             binding.fragmentContainer.setVisibility(View.GONE);
+            
+        // Self-Healing: Force restoration of bars when returning to dashboard
+        setBottomNavVisible(true);
+        setHeaderVisible(true);
     }
 
     private void showNotifications() {

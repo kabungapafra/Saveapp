@@ -10,8 +10,9 @@
 
     <!-- Dashboard specific theme for smooth transitions -->
     <style name="Theme.Save.Dashboard" parent="Theme.Save">
-        <item name="android:windowBackground">@color/dashboard_bg</item>
+        <item name="android:windowBackground">@drawable/bg_geometric_pattern</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowDisablePreview">false</item>
     </style>
 </resources>
