@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=390, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Actions Hub</title>
+    <style>
+        :root {
+            --page-bg: #F8FAFC;
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --blue: #1D4ED8;
+            --icon-blue: #2563EB;
+            --brown: #78350F;
+            --peach-bg: #FFEDD5;
+            --grey-icon-bg: #F1F5F9;
+            --grey-text: #475569;
+            --card-radius: 28px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Slightly darker shadow */
+            --gradient-growth: linear-gradient(135deg, #E0E7FF 0%, #EDE9FE 100%); /* Deeper colors */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+            background: var(--page-bg);
+            color: var(--text-dark);
+            width: 390px;
+            margin: 0 auto;
+            padding: 24px;
+            padding-top: 64px; /* Balanced top padding */
+            overflow-x: hidden;
+            padding-bottom: 120px;
+        }
+
+        /* [1] GROWTH CARD (NOW AT TOP) */
+        .growth-card {
+            background: var(--gradient-growth);
+            border-radius: 32px;
+            padding: 28px;
+            margin-bottom: 44px; /* Generous gap below hero */
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.08); /* More grounded shadow */
+        }
+        .growth-card::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            width: 140px;
+            height: 140px;
+            background: rgba(255,255,255,0.6); /* Increased from 0.4 to 0.6 */
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .pill {
+            display: inline-block;
+            background: #FFFFFF;
+            border-radius: 99px;
+            padding: 6px 14px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--blue);
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .growth-card h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1E3A8A;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .growth-card p {
+            font-size: 14px;
+            color: #1D4ED8;
+            line-height: 1.6;
+            max-width: 90%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* [2] HEADER */
+        .header {
+            margin-bottom: 32px;
+        }
+        .header h1 {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* [3] ACTION CARDS */
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .action-card {
+            background: #FFFFFF;
+            border-radius: var(--card-radius);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .action-card:active { transform: scale(0.98); background: #F8FAFC; }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 20px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .bg-blue { background: var(--icon-blue); }
+        .bg-brown { background: #92400E; }
+        .bg-grey-soft { background: #F1F5F9; }
+
+        .action-info {
+            flex-grow: 1;
+        }
+        .action-info h2 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .action-info p {
+            font_size: 13px;
+            color: var(--text-muted);
+        }
+
+        .chevron {
+            color: #CBD5E1;
+            margin-left: 8px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- [1] Growth Hero Section -->
+    <div class="growth-card">
+        <div class="pill">GROWTH STATUS</div>
+        <h1>Your vault is growing 12% faster this month.</h1>
+        <p>Join the "Education Goal" pool to maximize your collective interest earnings.</p>
+    </div>
+
+    <!-- [2] Header -->
+    <div class="header">
+        <h1>Actions</h1>
+        <p>Securely manage your funds and financial growth.</p>
+    </div>
+
+    <!-- [3] Horizontal Action Cards -->
+    <div class="action-list">
+        <!-- Make Payment -->
+        <div class="action-card" onclick="Android.navigateToPayment()">
+            <div class="icon-box bg-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="16" r="2"></circle><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <div class="action-info">
+                <h2>Make Payment</h2>
+                <p>Contribute to your pool</p>
+            </div>
+            <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+
+        <!-- Request Loan -->
+        <div class="action-card" onclick="Android.navigateToLoanRequest()">
+            <div class="icon-box bg-brown">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L3 10h18L12 2z"></path></svg>
+            </div>
+            <div class="action-info">
+                <h2>Request Loan</h2>
+                <p>Access community credit</p>
+            </div>
+            <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+
+        <!-- Repay Loan -->
+        <div class="action-card" onclick="Android.navigateToLoanRepayment()">
+            <div class="icon-box bg-grey-soft">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"></path></svg>
+            </div>
+            <div class="action-info">
+                <h2>Repay Loan</h2>
+                <p>Settle outstanding balances</p>
+            </div>
+            <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -134,6 +134,14 @@ public class AnalyticsFragment extends Fragment {
                     .commit();
             });
         }
+
+        binding.cardLiquiditySummary.setOnClickListener(v -> {
+            getParentFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.fragment_container, LiquidityDashboardFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+        });
     }
 
     private void navigateToMemberSummary() {

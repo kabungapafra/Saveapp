@@ -66,6 +66,13 @@ public class MemberMainActivity extends AppCompatActivity {
         setupHeaderInteractions();
         loadDashboardData();
 
+        // Automated Safety Switch: Restore dashboard whenever fragment stack is empty
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                switchToDashboard();
+            }
+        });
+
         // Modern back press handling
         getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
             @Override
@@ -396,10 +403,7 @@ public class MemberMainActivity extends AppCompatActivity {
             binding.notificationBadge.setVisibility(View.GONE);
         }
 
-        // 1. Reset all bottom nav items (deselect them)
-        resetAllNavItems();
-
-        // 2. Hide Main Content, Show Fragment Container
+        // 1. Hide Main Content, Show Fragment Container
         if (binding.mainScrollView != null)
             binding.mainScrollView.setVisibility(View.GONE);
         if (binding.fragmentContainer != null)
@@ -408,38 +412,47 @@ public class MemberMainActivity extends AppCompatActivity {
         // Hide Header explicitly
         hideHeader();
 
-        // 3. Load Notifications Fragment
+        // 2. Load Notifications Fragment
         loadFragment(new NotificationsFragment());
     }
 
     private void showMembersSection() {
-        // 1. Reset all bottom nav items (deselect them)
-        resetAllNavItems();
-
-        // 2. Hide Main Header & Content, Show Fragment Container
+        // 1. Hide Main Header & Content, Show Fragment Container
         hideHeader();
 
-        // 3. Load Members Fragment
+        if (binding.mainScrollView != null)
+            binding.mainScrollView.setVisibility(View.GONE);
+        if (binding.fragmentContainer != null)
+            binding.fragmentContainer.setVisibility(View.VISIBLE);
+
+        // 2. Load Members Fragment
         loadFragment(new MemberViewFragment());
     }
 
     private void setupBottomNavigation() {
-        binding.navDashboard
-                .setOnClickListener(v -> {
-                    updateNav(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.navDashboard);
-                    showHeader();
-                });
+        binding.navDashboard.setOnClickListener(v -> {
+            updateNav(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.navDashboard);
+            showHeader();
+        });
 
         binding.navMembers.setOnClickListener(v -> {
+            updateNav(binding.navMembers, binding.txtMembers, binding.imgMembers, binding.navMembers);
             showMembersSection();
+        });
+
+        binding.navNotifications.setOnClickListener(v -> {
+            updateNav(binding.navNotifications, binding.txtNotifications, binding.imgNotifications, binding.navNotifications);
+            showNotifications();
         });
 
         binding.navStats.setOnClickListener(v -> {
             updateNav(binding.navStats, binding.txtStats, binding.imgStats, binding.navStats);
             hideHeader();
             String email = SessionManager.getInstance(MemberMainActivity.this).getUserEmail();
-            if (email == null) email = getIntent().getStringExtra("member_email");
-            if (email == null) email = "email@example.com";
+            if (email == null)
+                email = getIntent().getStringExtra("member_email");
+            if (email == null)
+                email = "email@example.com";
             loadFragment(AnalyticsFragment.newInstance(false, email));
         });
 
@@ -450,10 +463,12 @@ public class MemberMainActivity extends AppCompatActivity {
         });
     }
 
-    private void updateNav(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage, View selectedItem) {
+    private void updateNav(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage,
+            View selectedItem) {
         // 1. Reset all items
         resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
         resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
+        resetNavItem(binding.navNotifications, binding.txtNotifications, binding.imgNotifications);
         resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
         resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
 
@@ -470,6 +485,11 @@ public class MemberMainActivity extends AppCompatActivity {
         selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
         selectedText.setTextColor(activeColor);
 
+        // Hide notification dot if notifications tab is selected
+        if (selectedLayout == binding.navNotifications && binding.dotNotifications != null) {
+            binding.dotNotifications.setVisibility(View.GONE);
+        }
+
         // 3. Header & Content Visibility
         if (selectedLayout == binding.navDashboard) {
             showHeader();
@@ -481,6 +501,7 @@ public class MemberMainActivity extends AppCompatActivity {
     private void resetAllNavItems() {
         resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
         resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
+        resetNavItem(binding.navNotifications, binding.txtNotifications, binding.imgNotifications);
         resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
         resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
     }

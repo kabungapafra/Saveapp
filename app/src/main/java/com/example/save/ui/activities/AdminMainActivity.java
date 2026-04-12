@@ -105,6 +105,17 @@ public class AdminMainActivity extends AppCompatActivity {
         // This ensures the new high-fidelity view is shown first
         loadFragment(AnalyticsFragment.newInstance(true, false));
         updateNav(binding.bgHome, binding.txtHome, binding.imgHome, binding.bgHome);
+
+        // Automated Safety Switch: Restore dashboard whenever fragment stack is empty
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                // Restore home state
+                binding.mainContentScrollView.setVisibility(View.VISIBLE);
+                binding.fragmentContainer.setVisibility(View.GONE);
+                setBottomNavVisible(true);
+                updateNav(binding.bgHome, binding.txtHome, binding.imgHome, binding.bgHome);
+            }
+        });
     }
 
     @SuppressLint("GestureBackNavigation")
@@ -125,6 +136,44 @@ public class AdminMainActivity extends AppCompatActivity {
         } else {
             finishAffinity();
         }
+    }
+
+    private void addAdminAsMember() {
+        if (memberRepository == null) {
+            memberRepository = MemberRepository.getInstance(this);
+        }
+
+        // Use the identity loaded in loadAdminData()
+        SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
+        String email = prefs.getString("admin_email", "admin@example.com");
+
+        // Check if already registered to avoid duplicates
+        new Thread(() -> {
+            com.example.save.data.models.Member existing = viewModel.getMemberByEmail(email);
+            if (existing != null) {
+                return;
+            }
+
+            // Create Member object
+            com.example.save.data.models.Member adminMember = new com.example.save.data.models.Member(
+                adminNameStr,
+                "Administrator", // Assign Admin role in member list
+                true,
+                "0700000000", // Default phone, user can update in profile
+                email
+            );
+
+            // Register
+            memberRepository.addMember(adminMember, (success, message, otp) -> {
+                runOnUiThread(() -> {
+                    if (success) {
+                        loadDashboardData(); // Refresh UI
+                    } else {
+                        Toast.makeText(this, "Registration failed: " + message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+        }).start();
     }
 
     public void setBottomNavVisible(boolean visible) {
@@ -345,16 +394,17 @@ public class AdminMainActivity extends AppCompatActivity {
             toggleQuickActions();
             loadFragment(AnalyticsFragment.newInstance(true));
         });
-        overlay.findViewById(R.id.cardRequestLoan).setOnClickListener(v -> {
-            loadFragment(new LoanApplicationFragment());
-            toggleQuickActions();
-        });
-        overlay.findViewById(R.id.cardRecordContribution).setOnClickListener(v -> {
-            loadFragment(new MakeContributionFragment());
+        overlay.findViewById(R.id.cardMakePolls).setOnClickListener(v -> {
+            loadFragment(PollsFragment.newInstance());
             toggleQuickActions();
         });
         overlay.findViewById(R.id.cardPaymentQueue).setOnClickListener(v -> {
             loadFragment(new QueueFragment());
+            toggleQuickActions();
+        });
+        overlay.findViewById(R.id.cardMyStash).setOnClickListener(v -> {
+            addAdminAsMember(); // Still ensures registration
+            loadFragment(StashFragment.newInstance());
             toggleQuickActions();
         });
 
@@ -462,7 +512,7 @@ public class AdminMainActivity extends AppCompatActivity {
         }
     }
 
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         if (binding.mainContentScrollView != null)
             binding.mainContentScrollView.setVisibility(View.GONE);
         if (binding.fragmentContainer != null)

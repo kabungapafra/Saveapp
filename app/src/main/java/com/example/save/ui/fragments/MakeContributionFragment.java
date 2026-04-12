@@ -28,6 +28,10 @@ import java.util.Locale;
 
 public class MakeContributionFragment extends Fragment {
 
+    public static MakeContributionFragment newInstance() {
+        return new MakeContributionFragment();
+    }
+
     private EditText etAmount;
     private View btnAirtel, btnMTN;
     private View airtelCheck, mtnCheck;

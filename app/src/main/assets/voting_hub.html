@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=390, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Voting Hub</title>
+    <style>
+        :root {
+            --blue:           #2563EB;
+            --blue-icon-bg:   #EEF2FF;
+            --brown:          #7B3A10;
+            --brown-icon-bg:  #FBDDD0;
+            --text-dark:      #0F172A;
+            --text-muted:     #6B7280;
+            --card-bg:        #FFFFFF;
+            --page-bg:        #F8F9FB;
+            --milestone-bg:   #F1F4F9;
+            --shadow-sm:      0 2px 12px rgba(0,0,0,0.05);
+            --radius-card:    24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--page-bg);
+            color: var(--text-dark);
+            width: 390px;
+            margin: 0 auto;
+            position: relative;
+            user-select: none;
+            overflow-x: hidden;
+            padding-bottom: 100px; /* Safe area for bottom navigation bar clearance */
+        }
+
+        /* [B] HEADER */
+        .header {
+            padding: 72px 24px 24px;   /* Increased top padding for back arrow clearance */
+            opacity: 0;
+            transform: translateY(16px);
+            animation: staggerEntrance 300ms ease-out forwards;
+        }
+        .title {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            letter-spacing: -0.8px;
+        }
+        .subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* [C] CARD 1 — CREATE NEW POLL */
+        .card-large {
+            background: var(--card-bg);
+            border-radius: var(--radius-card);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            margin: 0 20px 16px;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: staggerEntrance 300ms ease-out 80ms forwards;
+        }
+        .btn-plus {
+            width: 64px;
+            height: 64px;
+            background: var(--blue);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+            margin-bottom: 24px;
+        }
+        .card-large h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        .card-large p { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; }
+        .cta-link {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* [D] SPLIT CARDS ROW */
+        .split-row {
+            display: flex;
+            gap: 12px;
+            margin: 0 20px 16px;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: staggerEntrance 300ms ease-out 160ms forwards;
+        }
+        .split-card {
+            flex: 1;
+            background: var(--card-bg);
+            border-radius: var(--radius-card);
+            padding: 24px 20px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden; /* Clips the accent bar correctly */
+        }
+        
+        .split-card.accented {
+            padding-left: 32px; /* Increased padding from thick bar */
+        }
+
+        /* FINAL CORRECTED THICK ACCENT BAR */
+        .card-accent-strip {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 7px; /* 7px thick as shown in crop */
+            height: 100%;
+            background: var(--brown);
+            border-radius: 0 2px 2px 0; /* Match slight rounding on inner edge */
+        }
+
+        .icon-box {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .bg-blue-soft { background: var(--blue-icon-bg); }
+        .bg-brown-soft { background: var(--brown-icon-bg); }
+
+        .split-card h3 { font-size: 18px; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+        .split-card p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+        .dot-indicator {
+            position: absolute;
+            top: 55%;
+            right: 18px;
+            width: 10px;
+            height: 10px;
+            background: #D48D61;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            animation: dotWave 1.8s infinite;
+        }
+
+        /* [E] MILESTONE CARD */
+        .card-milestone {
+            background: var(--milestone-bg);
+            border-radius: var(--radius-card);
+            padding: 30px 24px;
+            margin: 0 20px 24px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: staggerEntrance 300ms ease-out 240ms forwards;
+        }
+        .pill-white {
+            display: inline-flex;
+            background: #FFFFFF;
+            border-radius: 99px;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--blue);
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .card-milestone h2 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+        .card-milestone p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+        
+        .prog-track {
+            height: 8px;
+            background: #E2E8F0;
+            border-radius: 99px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .prog-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--blue);
+            transition: width 1s ease-out 600ms;
+        }
+        .prog-labels { display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; color: var(--text-muted); }
+        .label-blue { color: var(--blue); }
+
+        .img-megaphone {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 160px;
+            height: auto;
+            color: rgba(0,0,0,0.045);
+            pointer-events: none;
+            z-index: 0;
+            transform: rotate(-10deg);
+        }
+
+        @keyframes staggerEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes dotWave {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.6); opacity: 0.6; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1 class="title">Voting Hub</h1>
+        <p class="subtitle">Shape your group's future by participating in active polls and governance.</p>
+    </div>
+
+    <div class="card-large">
+        <div class="btn-plus">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </div>
+        <h2>Create New Poll</h2>
+        <p>Propose a new group decision or savings goal for members to deliberate on.</p>
+        <div class="cta-link">
+            START NOW <span>→</span>
+        </div>
+    </div>
+
+    <div class="split-row">
+        <div class="split-card">
+            <div class="icon-box bg-blue-soft">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--blue)"><rect x="3" y="11" width="4" height="10" rx="1"></rect><rect x="10" y="5" width="4" height="16" rx="1"></rect><rect x="17" y="5" width="4" height="16" rx="1"></rect></svg>
+            </div>
+            <h3>Active Standings</h3>
+            <p>View real-time tallies and current leaderboards.</p>
+        </div>
+        
+        <div class="split-card accented">
+            <!-- RESTORED: FULL HEIGHT 7PX ACCENT BAR -->
+            <div class="card-accent-strip"></div>
+            
+            <div class="dot-indicator"></div>
+            <div class="icon-box bg-brown-soft">
+                <!-- FINAL CORRECTED 2x2 GRID ICON -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--brown)">
+                    <rect x="4" y="4" width="7" height="7" rx="1.5"></rect>
+                    <rect x="13" y="4" width="7" height="7" rx="1.5"></rect>
+                    <rect x="4" y="13" width="7" height="7" rx="1.5"></rect>
+                    <rect x="13" y="13" width="7" height="7" rx="1.5"></rect>
+                </svg>
+            </div>
+            <h3>Cast Your Vote</h3>
+            <p>3 pending items require your immediate review.</p>
+        </div>
+    </div>
+
+    <div class="card-milestone">
+        <svg class="img-megaphone" viewBox="0 0 64 64" fill="currentColor">
+            <rect x="12" y="24" width="16" height="16" rx="4"/>
+            <path d="M28 24l16-6v28l-16-6v-16z"/>
+            <rect x="48" y="14" width="8" height="6" rx="1" transform="rotate(-30 48 14)"/>
+            <rect x="52" y="28" width="10" height="8" rx="1"/>
+            <rect x="48" y="44" width="8" height="6" rx="1" transform="rotate(30 48 44)"/>
+        </svg>
+
+        <div class="milestone-inner" style="position: relative; z-index: 1;">
+            <div class="pill-white">NEXT MILESTONE</div>
+            <h2>Community Fund Vote</h2>
+            <p>Decide where the surplus interest from Q3 should be allocated.</p>
+            <div class="prog-track">
+                <div class="prog-fill" id="fill"></div>
+            </div>
+            <div class="prog-labels">
+                <span>75% PARTICIPATION</span>
+                <span class="label-blue">2 DAYS LEFT</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = () => {
+            setTimeout(() => { document.getElementById('fill').style.width = '75%'; }, 100);
+        };
+    </script>
+</body>
+</html>
