@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FAFC">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Top Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="#FFFFFF"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:id="@+id/btnClose"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_close"
+                    app:tint="#0F172A" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:text="Cast Your Vote"
+                    android:textColor="#0F172A"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/btnInfo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_info"
+                    app:tint="#0F172A" />
+            </LinearLayout>
+
+            <!-- Header Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="32dp"
+                android:paddingBottom="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_pill_light_blue"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.05"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:text="CURRENT ELECTION"
+                    android:textColor="#2563EB"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Active Ballot"
+                    android:textColor="#0F172A"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="Nomination for Group Admin"
+                    android:textColor="#64748B"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Nominees Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/manrope_bold"
+                        android:letterSpacing="0.08"
+                        android:text="NOMINEES"
+                        android:textColor="#475569"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:text="1 Vote Allowed"
+                        android:textColor="#92400E"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Jordan Davis -->
+                <LinearLayout
+                    android:id="@+id/cardJordan"
+                    android:layout_width="match_parent"
+                    android:layout_height="84dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_neumorphic_card_raised"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+
+                    <FrameLayout
+                        android:layout_width="52dp"
+                        android:layout_height="52dp">
+                        <RelativeLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_avatar_purple">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="JD"
+                                android:textColor="#FFFFFF"
+                                android:textSize="18sp" />
+                        </RelativeLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Jordan Davis"
+                            android:textColor="#0F172A"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="@jordan_trustee"
+                            android:textColor="#64748B"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/radioJordan"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:src="@drawable/bg_circle_outline_gray" />
+                </LinearLayout>
+
+                <!-- Alex Martinez -->
+                <LinearLayout
+                    android:id="@+id/cardAlex"
+                    android:layout_width="match_parent"
+                    android:layout_height="84dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/bg_neumorphic_card_raised"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+
+                    <FrameLayout
+                        android:layout_width="52dp"
+                        android:layout_height="52dp">
+                        <RelativeLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_avatar_blue">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="AM"
+                                android:textColor="#FFFFFF"
+                                android:textSize="18sp" />
+                        </RelativeLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Alex Martinez"
+                            android:textColor="#0F172A"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="@alex_m_votes"
+                            android:textColor="#64748B"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/radioAlex"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:src="@drawable/bg_circle_outline_gray" />
+                </LinearLayout>
+
+                <!-- Abstain Option -->
+                <LinearLayout
+                    android:id="@+id/cardAbstain"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:background="@drawable/bg_rounded_gray"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_block_abstain" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Abstain"
+                        android:textColor="#475569"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/radioAbstain"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:src="@drawable/bg_circle_outline_gray" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Submit Button Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingBottom="24dp">
+
+                <LinearLayout
+                    android:id="@+id/btnSubmitVote"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/bg_loan_submit_btn"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Submit My Vote"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_check_circle"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"
+                    android:text="Your vote is encrypted and stored securely in the Digital Vault.\nThis action cannot be undone."
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

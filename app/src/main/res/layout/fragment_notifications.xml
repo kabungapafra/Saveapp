@@ -87,20 +87,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerNotifications" />
 
-    <!-- Admin FAB -->
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fabComposeAnnouncement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:backgroundTint="#3B82F6"
-        android:fontFamily="@font/manrope_bold"
-        android:text="New Announcement"
-        android:textColor="#FFFFFF"
-        android:visibility="gone"
-        app:icon="@drawable/ic_add"
-        app:iconTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

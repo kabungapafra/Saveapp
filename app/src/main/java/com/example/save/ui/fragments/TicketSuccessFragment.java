@@ -60,13 +60,11 @@ public class TicketSuccessFragment extends Fragment {
 
     private void closeAndReturn() {
         if (getActivity() != null) {
-            if (getActivity() instanceof MemberMainActivity) {
-                // Return to dashboard
-                // We could also pop until SupportFragment but returning home is typical for success flows
-                // Pop all fragments to return to dashboard
-                getParentFragmentManager().popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            } else if (getActivity() instanceof AdminMainActivity) {
-                getParentFragmentManager().popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            // Jump back to the start of the support flow
+            boolean popped = getParentFragmentManager().popBackStackImmediate("SupportRoot", 0);
+            if (!popped) {
+                // Fallback if tag not found (safety)
+                getParentFragmentManager().popBackStack();
             }
         }
     }

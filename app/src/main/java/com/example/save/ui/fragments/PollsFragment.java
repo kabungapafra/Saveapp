@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.save.R;
 import com.example.save.databinding.FragmentPollsBinding;
+import android.webkit.JavascriptInterface;
 
 public class PollsFragment extends Fragment {
 
@@ -49,7 +51,53 @@ public class PollsFragment extends Fragment {
         settings.setSupportZoom(false);
 
         binding.webView.setWebViewClient(new android.webkit.WebViewClient());
+        binding.webView.addJavascriptInterface(new WebAppInterface(), "Android");
         binding.webView.loadUrl("file:///android_asset/voting_hub.html");
+    }
+
+    private class WebAppInterface {
+        @JavascriptInterface
+        public void onCreatePollClicked() {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (getParentFragmentManager() != null) {
+                        getParentFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                                .replace(R.id.fragment_container, CreatePollFragment.newInstance())
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
+            }
+        }
+        @JavascriptInterface
+        public void onCastVoteClicked() {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (getParentFragmentManager() != null) {
+                        getParentFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                                .replace(R.id.fragment_container, CastVoteFragment.newInstance())
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
+            }
+        }
+        @JavascriptInterface
+        public void onActiveStandingsClicked() {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (getParentFragmentManager() != null) {
+                        getParentFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                                .replace(R.id.fragment_container, ActiveStandingsFragment.newInstance())
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
+            }
+        }
     }
 
     @Override

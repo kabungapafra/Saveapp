@@ -64,18 +64,6 @@ public class NotificationsFragment extends Fragment {
         // high-fidelity mock data from the design image.
         loadMockData();
 
-        // Check if Admin
-        boolean isAdmin = false;
-        if (getArguments() != null) {
-            isAdmin = getArguments().getBoolean("IS_ADMIN", false);
-        }
-
-        View fab = view.findViewById(R.id.fabComposeAnnouncement);
-        if (isAdmin) {
-            fab.setVisibility(View.VISIBLE);
-            fab.setOnClickListener(v -> showComposeAnnouncementDialog());
-        }
-
         return view;
     }
 
@@ -129,31 +117,6 @@ public class NotificationsFragment extends Fragment {
         return fragment;
     }
 
-    private void showComposeAnnouncementDialog() {
-        View view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_compose_announcement, null);
-        com.google.android.material.textfield.TextInputEditText etTitle = view.findViewById(R.id.etTitle);
-        com.google.android.material.textfield.TextInputEditText etMessage = view.findViewById(R.id.etMessage);
-
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Send Announcement")
-                .setView(view)
-                .setPositiveButton("Send", (dialog, which) -> {
-                    String title = etTitle.getText().toString().trim();
-                    String message = etMessage.getText().toString().trim();
-
-                    if (!title.isEmpty() && !message.isEmpty()) {
-                        viewModel.createAnnouncement(title, message);
-                        android.widget.Toast
-                                .makeText(getContext(), "Announcement Sent!", android.widget.Toast.LENGTH_SHORT).show();
-                    } else {
-                        android.widget.Toast
-                                .makeText(getContext(), "Title and message required", android.widget.Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
-    }
 
     private void observeViewModel() {
         viewModel.getNotifications().observe(getViewLifecycleOwner(), notifications -> {

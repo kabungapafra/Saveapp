@@ -1,14 +1,5 @@
 package com.example.save.ui.activities;
 
-import com.example.save.ui.activities.*;
-import com.example.save.ui.fragments.*;
-import com.example.save.ui.adapters.*;
-import com.example.save.data.models.*;
-import com.example.save.ui.viewmodels.MembersViewModel; // Added import
-import com.example.save.utils.NotificationHelper;
-import com.example.save.utils.PermissionUtils;
-import com.example.save.utils.SessionManager;
-
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,24 +9,30 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Button;
-import android.content.Intent; // Added import
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.save.R;
 import com.example.save.databinding.ActivityMemberMainBinding;
+import com.example.save.ui.fragments.DashboardFragment;
+import com.example.save.ui.fragments.AnalyticsFragment;
+import com.example.save.ui.fragments.SettingsFragment;
+import com.example.save.ui.fragments.SupportFragment;
+import com.example.save.ui.fragments.NotificationsFragment;
+import com.example.save.ui.fragments.MemberViewFragment;
+import com.example.save.ui.viewmodels.MembersViewModel;
+import com.example.save.utils.NotificationHelper;
+import com.example.save.utils.PermissionUtils;
+import com.example.save.utils.SessionManager;
 
 public class MemberMainActivity extends AppCompatActivity {
 
     private ActivityMemberMainBinding binding;
-    private RecipientSmallAdapter recipientAdapter;
-    private UpcomingPaymentAdapter upcomingPaymentAdapter;
-    private TransactionAdapter transactionAdapter;
-
-    // Data
     private MembersViewModel viewModel;
+
+    private long lastBackPressTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,427 +49,142 @@ public class MemberMainActivity extends AppCompatActivity {
         // Security Check: If it's the first login, force password change redirect
         SessionManager session = SessionManager.getInstance(this);
         if (session.isFirstLogin()) {
-            Intent intent = new Intent(this, ChangePasswordActivity.class);
+            android.content.Intent intent = new android.content.Intent(this, ChangePasswordActivity.class);
             intent.putExtra("member_email", session.getUserEmail());
             intent.putExtra("is_first_login", true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
             return;
         }
 
-        initializeViews();
         setupBottomNavigation();
-        setupHeaderInteractions();
-        loadDashboardData();
+        
+        // Initial setup - default to Dashboard
+        if (savedInstanceState == null) {
+            loadFragment(new DashboardFragment(), false); // Don't add first fragment to backstack
+            updateNavHighlight(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
+        }
 
-        // Automated Safety Switch: Restore dashboard whenever fragment stack is empty
+        // Synchronize Bottom Nav highlighting with Back Stack
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                switchToDashboard();
-            }
+            syncNavUI();
         });
 
-        // Modern back press handling
+        // Handle Back Press
         getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // If there's a back stack, pop it (e.g., Privacy -> Account)
                 if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     getSupportFragmentManager().popBackStack();
-                } else if (binding != null && binding.fragmentContainer != null
-                        && binding.fragmentContainer.getVisibility() == android.view.View.VISIBLE) {
-                    // If a fragment is showing but stack is empty, go back to dashboard
-                    switchToDashboard();
                 } else {
-                    // Exit app instead of going back to login
-                    finishAffinity();
+                    // Logic to handle exit or returning to dashboard
+                    Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    if (!(current instanceof DashboardFragment)) {
+                        switchToDashboard();
+                    } else {
+                        // Double tap to exit logic
+                        if (System.currentTimeMillis() - lastBackPressTime < 2000) {
+                            finishAffinity();
+                        } else {
+                            Toast.makeText(MemberMainActivity.this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+                            lastBackPressTime = System.currentTimeMillis();
+                        }
+                    }
                 }
             }
         });
-    }
-
-    // Filter State
-    private String currentFilterType = "All";
-    private androidx.core.util.Pair<Long, Long> currentDateRange = null;
-    private java.util.List<Transaction> allCachedTransactions = new java.util.ArrayList<>();
-
-    public void setBottomNavVisible(boolean visible) {
-        if (binding != null && binding.navContainer != null) {
-            binding.navContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
-        }
-    }
-
-    public void setHeaderVisible(boolean visible) {
-        if (binding != null) {
-            if (binding.header != null) binding.header.setVisibility(visible ? View.VISIBLE : View.GONE);
-            if (binding.headerGradientView != null) binding.headerGradientView.setVisibility(visible ? View.VISIBLE : View.GONE);
-        }
-    }
-
-    private void initializeViews() {
-        // Initialize RecyclerView
-        recipientAdapter = new RecipientSmallAdapter();
-        if (binding.rvMonthRecipients != null) {
-            binding.rvMonthRecipients.setAdapter(recipientAdapter);
-            binding.rvMonthRecipients.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this,
-                    androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
-        }
-
-        // Initialize Upcoming Payments
-        if (binding.rvUpcomingPayments != null) {
-            java.util.List<PaymentItem> samplePayments = new java.util.ArrayList<>();
-            samplePayments.add(new PaymentItem("Dec Contribution", "UGX 50,000/mo", "2 days left", "Contribution"));
-            samplePayments.add(new PaymentItem("Loan Repay", "UGX 200,000", "5 days left", "Loan"));
-
-            upcomingPaymentAdapter = new UpcomingPaymentAdapter(samplePayments, item -> {
-                resetAllNavItems();
-                hideHeader();
-                loadFragment(new MakeContributionFragment());
-            });
-            binding.rvUpcomingPayments.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this,
-                    androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
-            binding.rvUpcomingPayments.setAdapter(upcomingPaymentAdapter);
-        }
-
-        // Initialize Recent Transactions
-        if (binding.rvRecentTransactions != null) {
-            transactionAdapter = new TransactionAdapter(new java.util.ArrayList<>());
-            binding.rvRecentTransactions.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
-            binding.rvRecentTransactions.setAdapter(transactionAdapter);
-        }
-
-        if (binding.btnViewAllMembers != null) {
-            binding.btnViewAllMembers.setOnClickListener(v -> showMembersSection());
-        }
-
-        setupFilters();
-    }
-
-    private void setupFilters() {
-        if (binding.chipGroupFilters != null) {
-            binding.chipGroupFilters.setOnCheckedChangeListener((group, checkedId) -> {
-                if (checkedId == R.id.chipContributions) {
-                    currentFilterType = "Contributions";
-                } else if (checkedId == R.id.chipLoans) {
-                    currentFilterType = "Loans";
-                } else if (checkedId == R.id.chipPayouts) {
-                    currentFilterType = "Payouts";
-                } else {
-                    currentFilterType = "All";
-                }
-                applyFilters();
-            });
-        }
-
-        if (binding.btnDateFilter != null) {
-            binding.btnDateFilter.setOnClickListener(v -> {
-                com.google.android.material.datepicker.MaterialDatePicker<androidx.core.util.Pair<Long, Long>> picker = com.google.android.material.datepicker.MaterialDatePicker.Builder
-                        .dateRangePicker()
-                        .setTitleText("Select Date Range")
-                        .build();
-
-                picker.addOnPositiveButtonClickListener(selection -> {
-                    currentDateRange = selection;
-                    binding.btnDateFilter.setText("Range Selected");
-                    applyFilters();
-                });
-
-                picker.show(getSupportFragmentManager(), "date_filter");
-            });
-        }
-    }
-
-    private void applyFilters() {
-        java.util.List<Transaction> filteredList = new java.util.ArrayList<>();
-
-        for (Transaction t : allCachedTransactions) {
-            boolean matchesType = true;
-            boolean matchesDate = true;
-
-            // Type Filter
-            if (currentFilterType.equals("Contributions") && !t.getType().toLowerCase().contains("contribution"))
-                matchesType = false;
-            if (currentFilterType.equals("Loans") && !t.getType().toLowerCase().contains("loan"))
-                matchesType = false;
-            if (currentFilterType.equals("Payouts") && !t.getType().toLowerCase().contains("payout"))
-                matchesType = false;
-
-            // Date Filter (Mock logic as Transaction model string date parsing is complex
-            // without original date object)
-            // Ideally we filter against the original Entity list, but for now we filter
-            // what we have or accept limitation
-            // For this implementation, we will skip date filtering on the UI model if
-            // parsing is too hard,
-            // OR we assume applyFilters re-processes the source entities.
-            // Let's rely on cached UI transactions for simplicity, noting date limitations.
-
-            if (matchesType) {
-                filteredList.add(t);
-            }
-        }
-
-        if (filteredList.isEmpty()) {
-            binding.rvRecentTransactions.setVisibility(View.GONE);
-            binding.emptyStateLayout.getRoot().setVisibility(View.VISIBLE);
-        } else {
-            binding.rvRecentTransactions.setVisibility(View.VISIBLE);
-            binding.emptyStateLayout.getRoot().setVisibility(View.GONE);
-            transactionAdapter.updateTransactions(filteredList);
-        }
-    }
-
-    // Updated loadRecentTransactions to cache data
-    private void loadRecentTransactions() {
-        // ... (partially existing code)
-        SessionManager session = SessionManager.getInstance(getApplicationContext());
-        String email = session.getUserEmail();
-
-        if (email != null && viewModel != null) {
-            viewModel.getMemberByEmailLive(email).observe(this, member -> {
-                if (member != null) {
-                    final String memberName = member.getName();
-                    viewModel.getMemberTransactionsWithApproval(memberName).observe(this, transactionItems -> {
-                        if (transactionItems != null && binding != null && transactionAdapter != null) {
-                            allCachedTransactions.clear(); // Clear cache
-
-                            for (com.example.save.data.models.TransactionWithApproval item : transactionItems) {
-                                com.example.save.data.local.entities.TransactionEntity entity = item.transaction;
-
-                                int iconRes = R.drawable.ic_money;
-                                int color = 0xFF4CAF50; // Green
-                                String description = entity.getDescription();
-
-                                if (!entity.isPositive()) {
-                                    color = 0xFFF44336; // Red
-                                    iconRes = R.drawable.ic_loan;
-                                }
-
-                                // Pending Status Logic
-                                if ("PENDING_APPROVAL".equals(entity.getStatus())) {
-                                    // Fetch admin count synchronously or assume passed/observed elsewhere?
-                                    // For now, let's just show "Pending Approval" or try to show stats if possible.
-                                    // Ideally, we'd need total admin count here.
-                                    // But we can just show "Pending (x Approvals)" which acts as progress.
-                                    description += " (Pending: " + item.approvalCount + " Approvals)";
-                                    color = 0xFFFF9800; // Orange for pending
-                                }
-
-                                allCachedTransactions.add(new Transaction(
-                                        description,
-                                        new java.text.SimpleDateFormat("MMM dd, hh:mm a",
-                                                java.util.Locale.getDefault()).format(entity.getDate()),
-                                        entity.getAmount(),
-                                        entity.isPositive(),
-                                        iconRes,
-                                        color));
-                            }
-
-                            // Apply initial filters
-                            applyFilters();
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    private void setupHeaderInteractions() {
-        SessionManager session = SessionManager.getInstance(this);
-        // Clicking the greeting opens Settings (for logout)
-        if (binding.greetingName != null) {
-            binding.greetingName.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                resetAllNavItems();
-                hideHeader();
-                loadFragment(new SettingsFragment());
-            });
-        }
-
-        // Notification Icon Click
-        if (binding.notificationIcon != null) {
-            binding.notificationIcon.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                showNotifications();
-            });
-        }
-
-        // My Take Card Click
-        if (binding.myTakeCard != null) {
-            binding.myTakeCard.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                // Show payout history or navigate to payouts
-                // For members, we can show a summary or navigate to stats
-                Toast.makeText(this, "Viewing Payout History", Toast.LENGTH_SHORT).show();
-                // Optionally open a dialog or fragment
-                // loadFragment(new PayoutsFragment()); // If members should see it
-            });
-        }
-
-        // --- QUICK ACTION ICONS ---
-
-        // Pay Icon
-        if (binding.actionPay != null) {
-            binding.actionPay.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                String email = session.getUserEmail();
-                if (email != null) {
-                    new Thread(() -> {
-                        com.example.save.data.models.Member member = viewModel.getMemberByEmail(email);
-                        runOnUiThread(() -> {
-                            resetAllNavItems();
-                            hideHeader();
-                            if (member != null) {
-                                loadFragment(new MakeContributionFragment());
-                            } else {
-                                loadFragment(new MakeContributionFragment());
-                            }
-                        });
-                    }).start();
-                } else {
-                    resetAllNavItems();
-                    hideHeader();
-                    loadFragment(PaymentFragment.newInstance("Member"));
-                }
-            });
-        }
-
-        // Loan Icon
-        if (binding.actionLoan != null) {
-            binding.actionLoan.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                resetAllNavItems();
-                hideHeader();
-                String email = session.getUserEmail();
-                if (email == null)
-                    email = "email@example.com";
-                loadFragment(LoansFragment.newInstance(email));
-            });
-        }
-
-        // Queue Icon
-        if (binding.actionQueue != null) {
-            binding.actionQueue.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                resetAllNavItems();
-                hideHeader();
-                loadFragment(QueueFragment.newInstance());
-            });
-        }
-
-        // Profile Icon
-        if (binding.actionProfile != null) {
-            binding.actionProfile.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                resetAllNavItems();
-                hideHeader();
-                loadFragment(new SettingsFragment());
-            });
-        }
-    }
-
-    private void hideHeader() {
-        if (binding.headerGradientView != null)
-            binding.headerGradientView.setVisibility(View.GONE);
-        if (binding.header != null)
-            binding.header.setVisibility(View.GONE);
-        if (binding.mainScrollView != null)
-            binding.mainScrollView.setVisibility(View.GONE);
-        if (binding.fragmentContainer != null)
-            binding.fragmentContainer.setVisibility(View.VISIBLE);
-    }
-
-    private void showHeader() {
-        if (binding.headerGradientView != null)
-            binding.headerGradientView.setVisibility(View.VISIBLE);
-        if (binding.header != null)
-            binding.header.setVisibility(View.VISIBLE);
-        if (binding.mainScrollView != null)
-            binding.mainScrollView.setVisibility(View.VISIBLE);
-        if (binding.fragmentContainer != null)
-            binding.fragmentContainer.setVisibility(View.GONE);
-            
-        // Self-Healing: Force restoration of bars when returning to dashboard
-        setBottomNavVisible(true);
-        setHeaderVisible(true);
-    }
-
-    private void showNotifications() {
-        // Clear badge (UI only, logic should be in VM or synced)
-        if (binding.notificationBadge != null) {
-            binding.notificationBadge.setVisibility(View.GONE);
-        }
-
-        // 1. Hide Main Content, Show Fragment Container
-        if (binding.mainScrollView != null)
-            binding.mainScrollView.setVisibility(View.GONE);
-        if (binding.fragmentContainer != null)
-            binding.fragmentContainer.setVisibility(View.VISIBLE);
-
-        // Hide Header explicitly
-        hideHeader();
-
-        // 2. Load Notifications Fragment
-        loadFragment(new NotificationsFragment());
-    }
-
-    private void showMembersSection() {
-        // 1. Hide Main Header & Content, Show Fragment Container
-        hideHeader();
-
-        if (binding.mainScrollView != null)
-            binding.mainScrollView.setVisibility(View.GONE);
-        if (binding.fragmentContainer != null)
-            binding.fragmentContainer.setVisibility(View.VISIBLE);
-
-        // 2. Load Members Fragment
-        loadFragment(new MemberViewFragment());
     }
 
     private void setupBottomNavigation() {
         binding.navDashboard.setOnClickListener(v -> {
-            updateNav(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.navDashboard);
-            showHeader();
+            switchToDashboard();
         });
 
         binding.navMembers.setOnClickListener(v -> {
-            updateNav(binding.navMembers, binding.txtMembers, binding.imgMembers, binding.navMembers);
+            updateNavHighlight(binding.navMembers, binding.txtMembers, binding.imgMembers);
             showMembersSection();
         });
 
         binding.navNotifications.setOnClickListener(v -> {
-            updateNav(binding.navNotifications, binding.txtNotifications, binding.imgNotifications, binding.navNotifications);
+            updateNavHighlight(binding.navNotifications, binding.txtNotifications, binding.imgNotifications);
             showNotifications();
         });
 
         binding.navStats.setOnClickListener(v -> {
-            updateNav(binding.navStats, binding.txtStats, binding.imgStats, binding.navStats);
-            hideHeader();
-            String email = SessionManager.getInstance(MemberMainActivity.this).getUserEmail();
-            if (email == null)
-                email = getIntent().getStringExtra("member_email");
-            if (email == null)
-                email = "email@example.com";
-            loadFragment(AnalyticsFragment.newInstance(false, email));
+            updateNavHighlight(binding.navStats, binding.txtStats, binding.imgStats);
+            String email = SessionManager.getInstance(this).getUserEmail();
+            loadFragment(AnalyticsFragment.newInstance(false, email != null ? email : "email@example.com"), true);
         });
 
         binding.navSettings.setOnClickListener(v -> {
-            updateNav(binding.navSettings, binding.txtSettings, binding.imgSettings, binding.navSettings);
-            hideHeader();
-            loadFragment(new SettingsFragment());
+            updateNavHighlight(binding.navSettings, binding.txtSettings, binding.imgSettings);
+            loadFragment(new SettingsFragment(), true);
         });
     }
 
-    private void updateNav(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage,
-            View selectedItem) {
-        // 1. Reset all items
-        resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
-        resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
-        resetNavItem(binding.navNotifications, binding.txtNotifications, binding.imgNotifications);
-        resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
-        resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
+    public void switchToDashboard() {
+        // Clear back stack to return to root
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        loadFragment(new DashboardFragment(), false);
+        updateNavHighlight(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
+    }
 
-        // 2. Set active
+    public void showNotifications() {
+        loadFragment(new NotificationsFragment(), true);
+    }
+
+    public void showMembersSection() {
+        loadFragment(new MemberViewFragment(), true);
+    }
+
+    public void loadFragment(Fragment fragment) {
+        loadFragment(fragment, true);
+    }
+
+    public void loadFragment(Fragment fragment, boolean addToBackStack) {
+        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.fragment_container, fragment);
+        
+        if (addToBackStack) {
+            transaction.addToBackStack(null);
+        }
+        
+        transaction.commit();
+    }
+
+    private void syncNavUI() {
+        Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (frag instanceof DashboardFragment) {
+            updateNavHighlight(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
+            setBottomNavVisible(true);
+        } else if (frag instanceof MemberViewFragment) {
+            updateNavHighlight(binding.navMembers, binding.txtMembers, binding.imgMembers);
+            setBottomNavVisible(true);
+        } else if (frag instanceof NotificationsFragment) {
+            updateNavHighlight(binding.navNotifications, binding.txtNotifications, binding.imgNotifications);
+            setBottomNavVisible(true);
+        } else if (frag instanceof AnalyticsFragment) {
+            updateNavHighlight(binding.navStats, binding.txtStats, binding.imgStats);
+            setBottomNavVisible(true);
+        } else if (frag instanceof SettingsFragment) {
+            updateNavHighlight(binding.navSettings, binding.txtSettings, binding.imgSettings);
+            setBottomNavVisible(true);
+        } else if (frag instanceof SupportFragment) {
+            // Support Hub is a normal screen — keep nav visible, highlight Settings tab
+            updateNavHighlight(binding.navSettings, binding.txtSettings, binding.imgSettings);
+            setBottomNavVisible(true);
+        } else {
+            // Immersive chat flow: ConnectingAgent, LiveChat, ChatFeedback, TicketSuccess
+            setBottomNavVisible(false);
+        }
+    }
+
+    private void updateNavHighlight(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage) {
+        resetAllNavItems();
+
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) selectedLayout.getLayoutParams();
         params.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         params.weight = 0;
@@ -485,16 +197,8 @@ public class MemberMainActivity extends AppCompatActivity {
         selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
         selectedText.setTextColor(activeColor);
 
-        // Hide notification dot if notifications tab is selected
         if (selectedLayout == binding.navNotifications && binding.dotNotifications != null) {
             binding.dotNotifications.setVisibility(View.GONE);
-        }
-
-        // 3. Header & Content Visibility
-        if (selectedLayout == binding.navDashboard) {
-            showHeader();
-        } else {
-            hideHeader();
         }
     }
 
@@ -506,204 +210,24 @@ public class MemberMainActivity extends AppCompatActivity {
         resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
     }
 
-    private void loadFragment(androidx.fragment.app.Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.fragment_container, fragment)
-                .commit();
-    }
-
-    private void applyClickAnimation(View v) {
-        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_press));
-    }
-
-    private void loadDashboardData() {
-        // Get member email from SessionManager
-        SessionManager session = SessionManager.getInstance(getApplicationContext());
-        String email = session.getUserEmail();
-
-        // Fetch member data using LiveData instead of manual thread
-        if (email != null && viewModel != null) {
-            viewModel.getMemberByEmailLive(email).observe(this, member -> {
-                if (member != null && binding != null && binding.greetingName != null) {
-                    // Extract first name for cleaner display
-                    String fullName = member.getName();
-                    String firstName = fullName.split(" ")[0];
-                    binding.greetingName.setText(firstName + "!");
-
-                    // Update My Take Section from Admin Schedule Preferences
-                    android.content.SharedPreferences adminPrefs = getSharedPreferences("SaveAppPrefs", MODE_PRIVATE);
-                    String schedContribDate = adminPrefs.getString("sched_contrib_date",
-                            member.getNextPaymentDueDate());
-                    String schedPayoutDate = adminPrefs.getString("sched_payout_date", member.getNextPayoutDate());
-
-                    if (binding.tvMyTakePayoutDate != null) {
-                        binding.tvMyTakePayoutDate.setText(schedPayoutDate);
-                    }
-                    if (binding.tvMyTakeDueDate != null) {
-                        binding.tvMyTakeDueDate.setText(schedContribDate);
-                    }
-                }
-            });
-        }
-
-        if (binding.txtBalance != null && viewModel != null) {
-            viewModel.getGroupBalance().observe(this, balance -> {
-                if (balance != null) {
-                    String formattedBalance = java.text.NumberFormat
-                            .getCurrencyInstance(new java.util.Locale("en", "UG"))
-                            .format(balance);
-                    binding.txtBalance.setText(formattedBalance);
-                }
-            });
-        }
-
-        if (binding.savingsBalance != null && viewModel != null && email != null) {
-            viewModel.getMemberByEmailLive(email).observe(this, member -> {
-                if (binding != null && binding.savingsBalance != null) {
-                    if (member != null) {
-                        double mySavings = member.getContributionPaid();
-                        String formatted = java.text.NumberFormat
-                                .getCurrencyInstance(new java.util.Locale("en", "UG")).format(mySavings);
-                        binding.savingsBalance.setText(formatted);
-
-                        // Update Progress
-                        double target = member.getContributionTarget();
-                        if (target > 0) {
-                            int progress = (int) ((mySavings / target) * 100);
-                            binding.metricsProgress.setProgress(progress);
-                        } else {
-                            binding.metricsProgress.setProgress(0);
-                        }
-
-                    } else {
-                        // Member not found, show zero as actual value
-                        String formatted = java.text.NumberFormat
-                                .getCurrencyInstance(new java.util.Locale("en", "UG")).format(0.0);
-                        binding.savingsBalance.setText(formatted);
-                        binding.metricsProgress.setProgress(0);
-                    }
-                }
-            });
-        } else if (binding.savingsBalance != null) {
-            // No email provided, show zero as actual value
-            String formatted = java.text.NumberFormat
-                    .getCurrencyInstance(new java.util.Locale("en", "UG")).format(0.0);
-            binding.savingsBalance.setText(formatted);
-            binding.metricsProgress.setProgress(0);
-        }
-
-        updateExtraStats();
-        loadRecentTransactions();
-    }
-
-    private void updateExtraStats() {
-        SessionManager session = SessionManager.getInstance(getApplicationContext());
-        String email = session.getUserEmail();
-
-        if (viewModel == null)
-            return;
-
-        // Fetch recipients using LiveData
-        int slots = getSharedPreferences("ChamaPrefs", MODE_PRIVATE).getInt("slots_per_round", 5);
-
-        if (binding.tvRecipientsLabel != null) {
-            binding.tvRecipientsLabel.setText(slots > 1 ? "Current Batch Recipients" : "Next Recipient");
-        }
-
-        android.content.SharedPreferences adminPrefs = getSharedPreferences("SaveAppPrefs", MODE_PRIVATE);
-        String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
-
-        viewModel.getMonthlyRecipientsLive(slots).observe(this, recipients -> {
-            if (binding != null && recipientAdapter != null) {
-                recipientAdapter.updateList(recipients, schedPayoutDate);
-            }
-        });
-
-        viewModel.getPendingPaymentsCountLive().observe(this, pendingCount -> {
-            if (binding != null && binding.tvPendingCount != null) {
-                binding.tvPendingCount.setText(String.valueOf(pendingCount));
-
-                // Update Notification Badge with pending count
-                if (binding.notificationBadge != null) {
-                    if (pendingCount > 0) {
-                        binding.notificationBadge.setText(String.valueOf(pendingCount));
-                        binding.notificationBadge.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.notificationBadge.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
-
-        if (email != null) {
-            viewModel.getMemberByEmailLive(email).observe(this, currentMember -> {
-                if (currentMember != null && binding != null) {
-                    if (binding.tvPaymentStreak != null) {
-                        binding.tvPaymentStreak.setText(String.valueOf(currentMember.getPaymentStreak()));
-                    }
-                    if (binding.tvCreditScore != null) {
-                        binding.tvCreditScore.setText(String.valueOf(currentMember.getCreditScore()));
-                    }
-
-                    // Update Upcoming Payments based on real data
-                    updateUpcomingPayments(currentMember);
-                }
-            });
-        }
-    }
-
-    private void updateUpcomingPayments(com.example.save.data.models.Member member) {
-        if (binding.rvUpcomingPayments == null || upcomingPaymentAdapter == null)
-            return;
-
-        java.util.List<PaymentItem> payments = new java.util.ArrayList<>();
-
-        // Check Monthly Contribution
-        if (member.getContributionPaid() < member.getContributionTarget()) {
-            double remaining = member.getContributionTarget() - member.getContributionPaid();
-            String amountStr = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "UG"))
-                    .format(remaining);
-
-            android.content.SharedPreferences adminPrefs = getSharedPreferences("SaveAppPrefs", MODE_PRIVATE);
-            String schedContribDate = adminPrefs.getString("sched_contrib_date", "Active Cycle");
-
-            payments.add(new PaymentItem(
-                    "Monthly Contribution",
-                    amountStr + " remaining",
-                    "Due: " + schedContribDate,
-                    "Contribution"));
-        }
-
-        if (payments.isEmpty()) {
-            payments.add(new PaymentItem(
-                    "All Paid Up",
-                    "You are current",
-                    "Relax",
-                    "Status"));
-        }
-
-        upcomingPaymentAdapter.updateList(payments);
-    }
-
-    public void switchToDashboard() {
-        if (binding != null && binding.navDashboard != null) {
-            binding.navDashboard.performClick();
-        }
-    }
-
     private void resetNavItem(LinearLayout layout, TextView text, ImageView image) {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
         params.width = 0;
         params.weight = 1;
         layout.setLayoutParams(params);
-
         layout.setBackground(null);
         text.setVisibility(View.GONE);
-
-        // White Color for Inactive State
         image.setImageTintList(ColorStateList.valueOf(Color.WHITE));
     }
 
+    public void setBottomNavVisible(boolean visible) {
+        if (binding != null && binding.navContainer != null) {
+            binding.navContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    public void setHeaderVisible(boolean visible) {
+        // Compatibility stub: Each fragment now manages its own header.
+        // This method is kept to fix compilation in existing fragments.
+    }
 }

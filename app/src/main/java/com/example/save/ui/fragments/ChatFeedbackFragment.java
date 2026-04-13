@@ -76,7 +76,12 @@ public class ChatFeedbackFragment extends Fragment {
         btnSubmit.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
             if (getActivity() != null) {
-                getActivity().onBackPressed();
+                // Jump back to the start of the support flow
+                boolean popped = getParentFragmentManager().popBackStackImmediate("SupportRoot", 0);
+                if (!popped) {
+                    // Fallback if tag not found
+                    getActivity().onBackPressed();
+                }
             }
         });
     }
@@ -114,6 +119,16 @@ public class ChatFeedbackFragment extends Fragment {
                 ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
                 ((MemberMainActivity) getActivity()).setHeaderVisible(false);
             }
+
+            // Immersive Zero-Bar Mode
+            View decorView = getActivity().getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 

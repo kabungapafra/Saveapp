@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA">
+
+    <!-- Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Top Header: Logo + Bell -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="#FFFFFF"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp">
+
+                <ImageView
+                    android:id="@+id/imgAppLogo"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:background="@drawable/bg_logo_squircle"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_save_logo" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Save"
+                    android:textColor="#2563EB"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/btnBell"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/bg_circle_white_shadow"
+                    android:padding="9dp"
+                    android:src="@drawable/ic_bell_premium"
+                    app:tint="#475569" />
+
+            </LinearLayout>
+
+            <!-- Page Title Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Create Poll"
+                    android:textColor="#0F172A"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif"
+                    android:text="Nominate members for official group roles to begin a community vote."
+                    android:textColor="#64748B"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- SELECT ROLE Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:paddingTop="20dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.08"
+                    android:text="SELECT ROLE"
+                    android:textColor="#94A3B8"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <!-- Row 1: Main Role Cards (horizontal scroll) -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:paddingHorizontal="16dp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- Admin Card (Selected) -->
+                        <FrameLayout
+                            android:id="@+id/cardAdmin"
+                            android:layout_width="130dp"
+                            android:layout_height="100dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/bg_role_card_selected"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:padding="14dp">
+
+                                <RelativeLayout
+                                    android:layout_width="38dp"
+                                    android:layout_height="38dp"
+                                    android:background="@drawable/bg_circle_blue">
+
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_centerInParent="true"
+                                        android:src="@drawable/ic_admin_panel_settings"
+                                        app:tint="#FFFFFF" />
+                                </RelativeLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:text="Admin"
+                                    android:textColor="#0F172A"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif"
+                                    android:text="Core governance"
+                                    android:textColor="#94A3B8"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+
+                            <!-- Selected checkmark badge -->
+                            <RelativeLayout
+                                android:id="@+id/badgeAdminSelected"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="top|end"
+                                android:layout_margin="8dp"
+                                android:background="@drawable/bg_circle_blue"
+                                android:visibility="visible">
+
+                                <ImageView
+                                    android:layout_width="13dp"
+                                    android:layout_height="13dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_check"
+                                    app:tint="#FFFFFF" />
+                            </RelativeLayout>
+
+                        </FrameLayout>
+
+                        <!-- Treasurer Card (Unselected) -->
+                        <FrameLayout
+                            android:id="@+id/cardTreasurer"
+                            android:layout_width="130dp"
+                            android:layout_height="100dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/bg_role_card_unselected"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:padding="14dp">
+
+                                <RelativeLayout
+                                    android:layout_width="38dp"
+                                    android:layout_height="38dp"
+                                    android:background="@drawable/bg_icon_circle_gray_light">
+
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_centerInParent="true"
+                                        android:src="@drawable/ic_account_balance_wallet"
+                                        app:tint="#64748B" />
+                                </RelativeLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:fontFamily="@font/manrope_bold"
+                                    android:text="Treasurer"
+                                    android:textColor="#0F172A"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif"
+                                    android:text="Financial oversight"
+                                    android:textColor="#94A3B8"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/badgeTreasurerSelected"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="top|end"
+                                android:layout_margin="8dp"
+                                android:background="@drawable/bg_circle_blue"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="13dp"
+                                    android:layout_height="13dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_check"
+                                    app:tint="#FFFFFF" />
+                            </RelativeLayout>
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <!-- Row 2: Chip pills (Secretary, Moderator, + Custom) -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chipSecretary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="34dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/bg_pill_white_border"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:paddingHorizontal="16dp"
+                            android:text="Secretary"
+                            android:textColor="#475569"
+                            android:textSize="13sp"
+                            android:clickable="true"
+                            android:focusable="true" />
+
+                        <TextView
+                            android:id="@+id/chipModerator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="34dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/bg_pill_white_border"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:paddingHorizontal="16dp"
+                            android:text="Moderator"
+                            android:textColor="#475569"
+                            android:textSize="13sp"
+                            android:clickable="true"
+                            android:focusable="true" />
+
+                        <TextView
+                            android:id="@+id/chipCustom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="34dp"
+                            android:background="@drawable/bg_pill_white_border"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:paddingHorizontal="16dp"
+                            android:text="+ Custom"
+                            android:textColor="#475569"
+                            android:textSize="13sp"
+                            android:clickable="true"
+                            android:focusable="true" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <!-- NOMINATE MEMBERS Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:paddingTop="20dp"
+                android:paddingBottom="8dp">
+
+                <!-- Header row: NOMINATE MEMBERS + X selected -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/manrope_bold"
+                        android:letterSpacing="0.08"
+                        android:text="NOMINATE MEMBERS"
+                        android:textColor="#94A3B8"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvSelectedCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="2 selected"
+                        android:textColor="#2563EB"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Search Bar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_rounded_search"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="14dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_search"
+                        app:tint="#94A3B8" />
+
+                    <EditText
+                        android:id="@+id/etSearchMembers"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="sans-serif"
+                        android:hint="Search members by name or tag..."
+                        android:textColor="#0F172A"
+                        android:textColorHint="#94A3B8"
+                        android:textSize="14sp"
+                        android:inputType="text"
+                        android:maxLines="1" />
+                </LinearLayout>
+
+                <!-- Member List -->
+
+                <!-- Jordan Davis — Selected -->
+                <LinearLayout
+                    android:id="@+id/rowJordan"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_white_rounded_16"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="14dp">
+
+                    <!-- Avatar with check -->
+                    <FrameLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp">
+                        <RelativeLayout
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_avatar_purple">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="JD"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/checkJordan"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="bottom|end"
+                            android:background="@drawable/bg_circle_blue"
+                            android:visibility="visible">
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_check"
+                                app:tint="#FFFFFF" />
+                        </RelativeLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Jordan Davis"
+                            android:textColor="#0F172A"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="@jordy_dev"
+                            android:textColor="#94A3B8"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/btnJordan"
+                        android:layout_width="80dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_btn_member_selected"
+                        android:fontFamily="@font/manrope_bold"
+                        android:gravity="center"
+                        android:text="Selected"
+                        android:textColor="#2563EB"
+                        android:textSize="12sp"
+                        android:clickable="true"
+                        android:focusable="true" />
+                </LinearLayout>
+
+                <!-- Alex Martinez — Selected -->
+                <LinearLayout
+                    android:id="@+id/rowAlex"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_white_rounded_16"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="14dp">
+
+                    <FrameLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp">
+                        <RelativeLayout
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_avatar_blue">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="AM"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/checkAlex"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="bottom|end"
+                            android:background="@drawable/bg_circle_blue"
+                            android:visibility="visible">
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_check"
+                                app:tint="#FFFFFF" />
+                        </RelativeLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Alex Martinez"
+                            android:textColor="#0F172A"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="@alex_m"
+                            android:textColor="#94A3B8"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/btnAlex"
+                        android:layout_width="80dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_btn_member_selected"
+                        android:fontFamily="@font/manrope_bold"
+                        android:gravity="center"
+                        android:text="Selected"
+                        android:textColor="#2563EB"
+                        android:textSize="12sp"
+                        android:clickable="true"
+                        android:focusable="true" />
+                </LinearLayout>
+
+                <!-- Sarah Chen — Not selected -->
+                <LinearLayout
+                    android:id="@+id/rowSarah"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_white_rounded_16"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="14dp">
+
+                    <FrameLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp">
+                        <RelativeLayout
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_badge_peach">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="SC"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/checkSarah"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="bottom|end"
+                            android:background="@drawable/bg_circle_blue"
+                            android:visibility="gone">
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_check"
+                                app:tint="#FFFFFF" />
+                        </RelativeLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Sarah Chen"
+                            android:textColor="#0F172A"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="@schen_88"
+                            android:textColor="#94A3B8"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/btnSarah"
+                        android:layout_width="80dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_btn_member_unselected"
+                        android:fontFamily="@font/manrope_bold"
+                        android:gravity="center"
+                        android:text="Select"
+                        android:textColor="#475569"
+                        android:textSize="12sp"
+                        android:clickable="true"
+                        android:focusable="true" />
+                </LinearLayout>
+
+                <!-- Marcus King — Not selected -->
+                <LinearLayout
+                    android:id="@+id/rowMarcus"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_white_rounded_16"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="14dp">
+
+                    <FrameLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp">
+                        <RelativeLayout
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_badge_lavender">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="MK"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/checkMarcus"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="bottom|end"
+                            android:background="@drawable/bg_circle_blue"
+                            android:visibility="gone">
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_check"
+                                app:tint="#FFFFFF" />
+                        </RelativeLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Marcus King"
+                            android:textColor="#0F172A"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="@mking_official"
+                            android:textColor="#94A3B8"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/btnMarcus"
+                        android:layout_width="80dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_btn_member_unselected"
+                        android:fontFamily="@font/manrope_bold"
+                        android:gravity="center"
+                        android:text="Select"
+                        android:textColor="#475569"
+                        android:textSize="12sp"
+                        android:clickable="true"
+                        android:focusable="true" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Launch Button + Disclaimer -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
+
+                <LinearLayout
+                    android:id="@+id/btnLaunch"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:background="@drawable/bg_loan_submit_btn"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_rocket_launch"
+                        app:tint="#FFFFFF" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Launch Nomination Poll"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="By launching, all group members will be notified to cast their votes. This poll will remain open for 48 hours."
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

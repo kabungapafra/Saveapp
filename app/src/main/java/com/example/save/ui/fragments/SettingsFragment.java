@@ -125,7 +125,7 @@ public class SettingsFragment extends Fragment {
                 getParentFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                         .replace(R.id.fragment_container, new SupportFragment())
-                        .addToBackStack(null)
+                        .addToBackStack("SettingsRoot")
                         .commit();
             }
         });
@@ -136,7 +136,7 @@ public class SettingsFragment extends Fragment {
                 getParentFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                         .replace(R.id.fragment_container, ConnectingAgentFragment.newInstance())
-                        .addToBackStack(null)
+                        .addToBackStack("SupportRoot")
                         .commit();
             }
         });
@@ -174,6 +174,22 @@ public class SettingsFragment extends Fragment {
     private void applyClickAnimation(View v) {
         if (getContext() != null) {
             v.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_press));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Directly restore the nav bar — guaranteed to work regardless of syncNavUI timing
+        if (getActivity() != null) {
+            // Member: bottom pill nav
+            View navContainer = getActivity().findViewById(R.id.navContainer);
+            if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
+            // Admin: bottom nav wrapper + FAB
+            View bottomNavWrapper = getActivity().findViewById(R.id.bottomNavWrapper);
+            if (bottomNavWrapper != null) bottomNavWrapper.setVisibility(View.VISIBLE);
+            View fabAction = getActivity().findViewById(R.id.fabAction);
+            if (fabAction != null) fabAction.setVisibility(View.VISIBLE);
         }
     }
 

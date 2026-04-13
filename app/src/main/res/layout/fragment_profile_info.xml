@@ -4,291 +4,338 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_primary"
+    android:background="@color/background_secondary"
     android:clickable="true"
     android:focusable="true">
 
-    <androidx.cardview.widget.CardView
+    <!-- Hidden Back Button to satisfy ViewBinding in ProfileInfoFragment.java -->
+    <View
         android:id="@+id/btnBack"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="4dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="#2563EB" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="100dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingBottom="100dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
             android:paddingTop="32dp">
 
-            <!-- Triple Ring Profile Image -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="150dp"
-                android:layout_height="150dp">
-
-                <!-- Faint Outer Ring -->
-                <View
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:background="@drawable/bg_profile_outer_ring"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <!-- Blue Inner Stroke Ring -->
-                <View
-                    android:layout_width="134dp"
-                    android:layout_height="134dp"
-                    android:background="@drawable/bg_profile_stroke"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <!-- Circular Photo Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    app:cardCornerRadius="60dp"
-                    app:cardElevation="4dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imgProfile"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_person" />
-                </androidx.cardview.widget.CardView>
-
-                <!-- Camera Action Button (RESTORED) -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btnChangePhoto"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    app:cardBackgroundColor="#2563EB"
-                    app:cardCornerRadius="18dp"
-                    app:cardElevation="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_camera"
-                        app:tint="@color/white" />
-                </androidx.cardview.widget.CardView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <!-- Headers -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Personal Information"
-                android:textColor="#0F172A"
+                android:textColor="@color/text_primary"
                 android:textSize="26sp"
-                android:textStyle="bold" />
+                android:lineSpacingExtra="2dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:fontFamily="@font/manrope_medium"
-                android:text="View your account details"
-                android:textColor="#64748B"
-                android:textSize="15sp" />
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/manrope"
+                android:text="Manage your identity and digital credentials."
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:lineSpacingExtra="2dp" />
 
-            <!-- Form Fields (Read-Only) -->
+            <!-- Profile Avatar Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="120dp"
+                    android:layout_height="120dp">
+
+                    <View
+                        android:layout_width="116dp"
+                        android:layout_height="116dp"
+                        android:background="@drawable/bg_avatar_primary_border"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- Inner white padding -->
+                    <View
+                        android:layout_width="114dp"
+                        android:layout_height="114dp"
+                        android:background="@drawable/bg_circle_white_border"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="50dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/imgProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_person" />
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Edit Pencil Icon -->
+                    <RelativeLayout
+                        android:id="@+id/btnChangePhoto"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_pencil_circle_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_pencil"
+                            app:tint="@color/white" />
+                    </RelativeLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Client IDs -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.08"
+                    android:text="MEMBER ID"
+                    android:textColor="@color/project_primary"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/manrope_medium"
+                    android:text="#SV-9902-LX"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <!-- Inputs -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:orientation="vertical">
 
-                <!-- Full Name -->
+                <!-- FULL NAME -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="Full Name"
-                    android:textColor="#475569"
-                    android:textSize="14sp" />
+                    android:letterSpacing="0.1"
+                    android:text="FULL NAME"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
 
-                <LinearLayout
+                <EditText
+                    android:id="@+id/etFullName"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_bold"
+                    android:hint="Full Name"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
                     android:layout_marginBottom="24dp"
-                    android:background="@drawable/bg_pill_input"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="20dp">
+                    android:background="@color/divider_color" />
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_person"
-                        app:tint="#94A3B8" />
-
-                    <EditText
-                        android:id="@+id/etFullName"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="14dp"
-                        android:background="@android:color/transparent"
-                        android:fontFamily="@font/manrope_bold"
-                        android:hint="Full Name"
-                        android:inputType="textPersonName"
-                        android:textColor="#1E293B"
-                        android:textSize="16sp"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:cursorVisible="false" />
-                </LinearLayout>
-
-                <!-- Email Address -->
+                <!-- EMAIL ADDRESS -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="Email Address"
-                    android:textColor="#475569"
-                    android:textSize="14sp" />
+                    android:letterSpacing="0.1"
+                    android:text="EMAIL ADDRESS"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
 
-                <LinearLayout
+                <EditText
+                    android:id="@+id/etEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_medium"
+                    android:hint="Email Address"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
                     android:layout_marginBottom="24dp"
-                    android:background="@drawable/bg_pill_input"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="20dp">
+                    android:background="@color/divider_color" />
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_email"
-                        app:tint="#94A3B8" />
-
-                    <EditText
-                        android:id="@+id/etEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="14dp"
-                        android:background="@android:color/transparent"
-                        android:fontFamily="@font/manrope_bold"
-                        android:hint="Email Address"
-                        android:inputType="textEmailAddress"
-                        android:textColor="#1E293B"
-                        android:textSize="16sp"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:cursorVisible="false" />
-                </LinearLayout>
-
-                <!-- Phone Number -->
+                <!-- PHONE NUMBER -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="Phone Number"
-                    android:textColor="#475569"
-                    android:textSize="14sp" />
+                    android:letterSpacing="0.1"
+                    android:text="PHONE NUMBER"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_medium"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@color/divider_color" />
+
+                <!-- COUNTRY / JURISDICTION -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.1"
+                    android:text="COUNTRY"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="40dp"
-                    android:background="@drawable/bg_pill_input"
+                    android:layout_height="48dp"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="20dp">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_phone"
-                        app:tint="#94A3B8" />
+                    android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/etPhone"
-                        android:layout_width="match_parent"
+                        android:id="@+id/etCountry"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="14dp"
-                        android:background="@android:color/transparent"
-                        android:fontFamily="@font/manrope_bold"
-                        android:hint="Phone Number"
-                        android:inputType="phone"
-                        android:textColor="#1E293B"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="@font/manrope_medium"
+                        android:text="United States"
+                        android:textColor="@color/text_primary"
                         android:textSize="16sp"
                         android:focusable="false"
                         android:clickable="false"
                         android:cursorVisible="false" />
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_drop_down"
+                        app:tint="@color/text_secondary" />
+                    
                 </LinearLayout>
 
-                <!-- Security Info Card -->
-                <androidx.cardview.widget.CardView
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@color/divider_color" />
+
+            </LinearLayout>
+
+            <!-- SAVE PROFILE Button -->
+            <TextView
+                android:id="@+id/btnSaveProfile"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_btn_primary"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="Save Profile"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <!-- Security & Privacy Info Box -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/bg_security_box_primary"
+                android:paddingStart="24dp"
+                android:paddingEnd="20dp"
+                android:paddingVertical="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_shield_auth"
+                        app:tint="@color/project_primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Security &amp; Encryption"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:cardBackgroundColor="#F1F5F9"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="20dp">
-
-                        <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_shield_auth"
-                            app:tint="#2563EB" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="14dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Your personal data is encrypted and secure. We never share your sensitive information with third parties without your explicit consent."
-                            android:textColor="#64748B"
-                            android:textSize="13sp"
-                            android:lineSpacingExtra="2dp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    android:fontFamily="@font/manrope"
+                    android:lineSpacingExtra="3dp"
+                    android:text="Your identity is protected by end-to-end encryption. Data resides securely within the platform protocols."
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

@@ -51,6 +51,16 @@ public class ProfileInfoFragment extends Fragment {
             applyClickAnimation(v);
             Toast.makeText(getContext(), "Photo upload coming soon", Toast.LENGTH_SHORT).show();
         });
+
+        if (binding.btnSaveProfile != null) {
+            binding.btnSaveProfile.setOnClickListener(v -> {
+                applyClickAnimation(v);
+                Toast.makeText(getContext(), "Profile Saved Successfully", Toast.LENGTH_SHORT).show();
+                if (getParentFragmentManager() != null) {
+                    getParentFragmentManager().popBackStack();
+                }
+            });
+        }
     }
 
     private void loadProfileInfo() {

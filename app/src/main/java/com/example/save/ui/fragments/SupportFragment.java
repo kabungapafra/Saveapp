@@ -22,11 +22,45 @@ public class SupportFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSupportBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Restore nav bar — Support Hub is a normal screen with nav visible
+        if (getActivity() != null) {
+            View navContainer = getActivity().findViewById(R.id.navContainer);
+            if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
+            View bottomNavWrapper = getActivity().findViewById(R.id.bottomNavWrapper);
+            if (bottomNavWrapper != null) bottomNavWrapper.setVisibility(View.VISIBLE);
+            View fabAction = getActivity().findViewById(R.id.fabAction);
+            if (fabAction != null) fabAction.setVisibility(View.VISIBLE);
+        }
 
         setupListeners();
         applyEntranceAnimations();
+    }
 
-        return binding.getRoot();
+    @Override
+    public void onResume() {
+        super.onResume();
+        showNavBar();
+        // Post-delayed safety net: fires after syncNavUI in case of race conditions
+        if (getView() != null) {
+            getView().postDelayed(this::showNavBar, 100);
+        }
+    }
+
+    private void showNavBar() {
+        if (getActivity() == null) return;
+        View navContainer = getActivity().findViewById(R.id.navContainer);
+        if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
+        View bottomNavWrapper = getActivity().findViewById(R.id.bottomNavWrapper);
+        if (bottomNavWrapper != null) bottomNavWrapper.setVisibility(View.VISIBLE);
+        View fabAction = getActivity().findViewById(R.id.fabAction);
+        if (fabAction != null) fabAction.setVisibility(View.VISIBLE);
     }
 
     private void setupListeners() {
@@ -52,14 +86,14 @@ public class SupportFragment extends Fragment {
                     getParentFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                         .replace(R.id.fragment_container, CreateTicketFragment.newInstance())
-                        .addToBackStack(null)
+                        .addToBackStack("SupportRoot")
                         .commit();
                 }
                 return;
             } else if (v.getId() == R.id.cardFAQ) {
                 message = "Frequently Asked Questions";
             }
-            
+
             if (!message.isEmpty()) {
                 Toast.makeText(getContext(), message + " details coming soon", Toast.LENGTH_SHORT).show();
             }

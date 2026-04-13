@@ -238,6 +238,26 @@ public class ConnectingAgentFragment extends Fragment {
                 ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
                 ((MemberMainActivity) getActivity()).setHeaderVisible(false);
             }
+
+            // Immersive Zero-Bar Mode
+            View decorView = getActivity().getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getActivity() != null) {
+            // Restore System UI
+            View decorView = getActivity().getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
     }
 
@@ -245,13 +265,7 @@ public class ConnectingAgentFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         animationHandler.removeCallbacksAndMessages(null);
-        if (getActivity() != null && !isNavigatingToLiveChat) {
-            if (getActivity() instanceof AdminMainActivity) {
-                ((AdminMainActivity) getActivity()).setBottomNavVisible(true);
-            } else if (getActivity() instanceof MemberMainActivity) {
-                ((MemberMainActivity) getActivity()).setBottomNavVisible(true);
-                ((MemberMainActivity) getActivity()).setHeaderVisible(true);
-            }
-        }
+        // Do NOT restore nav here — syncNavUI in the activity handles that
+        // when the user returns to a main tab via back navigation
     }
 }

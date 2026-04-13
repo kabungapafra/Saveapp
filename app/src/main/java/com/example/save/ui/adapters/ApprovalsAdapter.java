@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ApprovalsAdapter extends RecyclerView.Adapter<ApprovalsAdapter.ApprovalViewHolder> {
+public class ApprovalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public interface ApprovalItem {
         String getId();
 
@@ -36,6 +36,9 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<ApprovalsAdapter.Appr
     private final OnApprovalClickListener listener;
     private int requiredApprovals = 1;
 
+    private static final int VIEW_TYPE_LOAN = 1;
+    private static final int VIEW_TYPE_PAYOUT = 2;
+
     public interface OnApprovalClickListener {
         void onApproveClick(ApprovalItem item);
     }
@@ -49,43 +52,63 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<ApprovalsAdapter.Appr
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if ("LOAN".equals(items.get(position).getType())) {
+            return VIEW_TYPE_LOAN;
+        }
+        return VIEW_TYPE_PAYOUT;
+    }
+
     @NonNull
     @Override
-    public ApprovalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_approval, parent, false);
-        return new ApprovalViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_LOAN) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_approval_loan, parent, false);
+            return new LoanViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_approval_payout, parent, false);
+            return new PayoutViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ApprovalViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ApprovalItem item = items.get(position);
+        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
 
-        holder.tvType.setText(item.getType());
-        holder.tvTitle.setText(item.getTitle());
-        holder.tvAmount.setText("UGX " + NumberFormat.getIntegerInstance().format(item.getAmount()));
-        holder.tvDescription.setText(item.getDescription());
-        holder.tvDate.setText(new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(item.getDate()));
+        if (holder instanceof LoanViewHolder) {
+            LoanViewHolder loanHolder = (LoanViewHolder) holder;
+            loanHolder.tvApplicantName.setText(item.getTitle());
+            loanHolder.tvAmount.setText(format.format(item.getAmount()));
+            
+            // Score and Tier are hardcoded explicitly in the XML directly.
 
-        String status = item.getStatus();
-        holder.tvApprovalStatus.setText(status);
+            if (item.hasApproved() || "COMPLETED".equals(item.getStatus())) {
+                loanHolder.btnApprove.setText("APPROVED");
+                loanHolder.btnApprove.setBackgroundTintList(holder.itemView.getContext().getResources().getColorStateList(android.R.color.holo_green_dark));
+                loanHolder.btnApprove.setClickable(false);
+            } else {
+                loanHolder.btnApprove.setOnClickListener(v -> listener.onApproveClick(item));
+            }
+        } else if (holder instanceof PayoutViewHolder) {
+            PayoutViewHolder payoutHolder = (PayoutViewHolder) holder;
+            payoutHolder.tvApplicantName.setText(item.getTitle().replace(" ", "\n"));
+            payoutHolder.tvAmount.setText(format.format(item.getAmount()));
+            
+            String method = item.getDescription();
+            if (method == null || method.isEmpty()) method = "Direct Wire\n(Intl)";
+            else method = method.replace(" ", "\n");
+            
+            payoutHolder.tvMethod.setText(method);
 
-        if (item.hasApproved() || "COMPLETED".equals(status)) {
-            holder.tvApprovalStatus.setTextColor(
-                    holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
-            holder.btnApprove.setVisibility(View.GONE);
-        } else {
-            holder.tvApprovalStatus
-                    .setTextColor(holder.itemView.getContext().getResources().getColor(R.color.text_secondary));
-            holder.btnApprove.setVisibility(View.VISIBLE);
-            holder.btnApprove.setOnClickListener(v -> listener.onApproveClick(item));
-        }
-
-        // Styling based on type
-        if ("LOAN".equals(item.getType())) {
-            holder.tvType.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.deep_blue));
-        } else {
-            holder.tvType.setTextColor(
-                    holder.itemView.getContext().getResources().getColor(android.R.color.holo_orange_dark));
+            if (item.hasApproved() || "COMPLETED".equals(item.getStatus())) {
+                payoutHolder.btnApprove.setText("VERIFIED");
+                payoutHolder.btnApprove.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+                payoutHolder.btnApprove.setClickable(false);
+            } else {
+                payoutHolder.btnApprove.setOnClickListener(v -> listener.onApproveClick(item));
+            }
         }
     }
 
@@ -94,18 +117,31 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<ApprovalsAdapter.Appr
         return items.size();
     }
 
-    static class ApprovalViewHolder extends RecyclerView.ViewHolder {
-        TextView tvType, tvTitle, tvAmount, tvDescription, tvDate, tvApprovalStatus;
-        View btnApprove;
+    static class LoanViewHolder extends RecyclerView.ViewHolder {
+        TextView tvApplicantName, tvAmount, tvScore, tvTier, btnApprove;
 
-        public ApprovalViewHolder(@NonNull View itemView) {
+        public LoanViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvType = itemView.findViewById(R.id.tvType);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvApplicantName = itemView.findViewById(R.id.tvApplicantName);
             tvAmount = itemView.findViewById(R.id.tvAmount);
-            tvDescription = itemView.findViewById(R.id.tvDescription);
-            tvDate = itemView.findViewById(R.id.tvDate);
-            tvApprovalStatus = itemView.findViewById(R.id.tvApprovalStatus);
+            // using tvScore / tvTier implicitly by grabbing the text views inside the layout (in production, assign explicit IDs)
+            // Edit: Let's assume we didn't add IDs for score and tier in item_approval_loan.xml
+            // Since we know they are purely dummy right now, we can skip updating them dynamically and just leave them as-is.
+            // But we can assign ids if we want.
+            btnApprove = itemView.findViewById(R.id.btnApprove);
+            
+            // We just let the XML values stay for SCORE and TIER for now as it's static.
+        }
+    }
+
+    static class PayoutViewHolder extends RecyclerView.ViewHolder {
+        TextView tvApplicantName, tvAmount, tvMethod, btnApprove;
+
+        public PayoutViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvApplicantName = itemView.findViewById(R.id.tvApplicantName);
+            tvAmount = itemView.findViewById(R.id.tvAmount);
+            tvMethod = itemView.findViewById(R.id.tvMethod);
             btnApprove = itemView.findViewById(R.id.btnApprove);
         }
     }

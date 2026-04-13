@@ -226,7 +226,7 @@
         <p class="subtitle">Shape your group's future by participating in active polls and governance.</p>
     </div>
 
-    <div class="card-large">
+    <div class="card-large" onclick="if(window.Android) window.Android.onCreatePollClicked();" style="cursor: pointer;">
         <div class="btn-plus">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </div>
@@ -238,7 +238,7 @@
     </div>
 
     <div class="split-row">
-        <div class="split-card">
+        <div class="split-card" onclick="if(window.Android) window.Android.onActiveStandingsClicked();" style="cursor: pointer;">
             <div class="icon-box bg-blue-soft">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--blue)"><rect x="3" y="11" width="4" height="10" rx="1"></rect><rect x="10" y="5" width="4" height="16" rx="1"></rect><rect x="17" y="5" width="4" height="16" rx="1"></rect></svg>
             </div>
@@ -246,7 +246,7 @@
             <p>View real-time tallies and current leaderboards.</p>
         </div>
         
-        <div class="split-card accented">
+        <div class="split-card accented" onclick="if(window.Android) window.Android.onCastVoteClicked();" style="cursor: pointer;">
             <!-- RESTORED: FULL HEIGHT 7PX ACCENT BAR -->
             <div class="card-accent-strip"></div>
             

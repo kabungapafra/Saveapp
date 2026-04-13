@@ -21,65 +21,17 @@ import java.util.List;
 public class ApprovalsFragment extends Fragment {
 
     private FragmentApprovalsBinding binding;
-    private MembersViewModel viewModel;
-    private ApprovalsAdapter adapter;
-    private String adminEmail;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         binding = FragmentApprovalsBinding.inflate(inflater, container, false);
-        viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
-        // Get admin email from session
-        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
-        adminEmail = session.getUserDetails().get(com.example.save.utils.SessionManager.KEY_EMAIL);
-
-        setupRecyclerView();
-        observeData();
-
-        binding.btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
+        // UI-only static implementation based on design request
+        // Any button interactions can be mocked here.
 
         return binding.getRoot();
     }
-
-    private void setupRecyclerView() {
-        binding.rvApprovals.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ApprovalsAdapter(item -> {
-            if ("LOAN".equals(item.getType())) {
-                approveLoan(item.getId());
-            } else {
-                approvePayout(item.getId());
-            }
-        });
-        binding.rvApprovals.setAdapter(adapter);
-    }
-
-    private void observeData() {
-        subscribeToApprovals();
-    }
-
-    private void subscribeToApprovals() {
-        viewModel.getCombinedApprovals(adminEmail).observe(getViewLifecycleOwner(), list -> {
-            if (binding != null) {
-                adapter.updateList(list);
-                binding.emptyState.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
-            }
-        });
-    }
-
-    private void approveLoan(String id) {
-        viewModel.approveLoan(id, adminEmail, (success, message) -> {
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-            // No need to call refreshList(), LiveData will update automatically!
-        });
-    }
-
-    private void approvePayout(String id) {
-        viewModel.approveTransaction(id, adminEmail, (success, message) -> {
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-            // No need to call refreshList(), LiveData will update automatically!
-        });
-    }
 }
+
+
