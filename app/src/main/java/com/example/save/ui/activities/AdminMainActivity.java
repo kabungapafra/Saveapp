@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +40,6 @@ public class AdminMainActivity extends AppCompatActivity {
     private ActivityAdminmainBinding binding;
     private MembersViewModel viewModel;
     private long lastBackPressTime = 0;
-    private boolean isMenuOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +55,11 @@ public class AdminMainActivity extends AppCompatActivity {
         PermissionUtils.requestNotificationPermission(this);
 
         setupBottomNavigation();
-        setupQuickActions();
         
         // Initial setup - default to Dashboard
         if (savedInstanceState == null) {
             loadFragment(new AdminDashboardFragment(), false);
-            updateNavUI(binding.bgHome, binding.txtHome, binding.imgHome);
+            updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
         }
 
         // Sync Nav UI on back stack changes
@@ -94,10 +93,11 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void setupBottomNavigation() {
-        binding.bgHome.setOnClickListener(v -> switchToDashboard());
-        binding.bgMembers.setOnClickListener(v -> loadFragment(new MembersFragment(), true));
-        binding.bgLoans.setOnClickListener(v -> loadFragment(new AdminLoansFragment(), true));
-        binding.bgSettings.setOnClickListener(v -> loadFragment(new SettingsFragment(), true));
+        binding.navDashboard.setOnClickListener(v -> switchToDashboard());
+        binding.navMembers.setOnClickListener(v -> loadFragment(new MembersFragment(), true));
+        binding.navLoans.setOnClickListener(v -> loadFragment(new AdminLoansFragment(), true));
+        binding.navSettings.setOnClickListener(v -> loadFragment(new SettingsFragment(), true));
+        binding.navAction.setOnClickListener(v -> showQuickActions());
     }
 
     public void switchToDashboard() {
@@ -125,20 +125,20 @@ public class AdminMainActivity extends AppCompatActivity {
     private void syncNavUI() {
         Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (frag instanceof AdminDashboardFragment) {
-            updateNavUI(binding.bgHome, binding.txtHome, binding.imgHome);
+            updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
             setBottomNavVisible(true);
         } else if (frag instanceof MembersFragment) {
-            updateNavUI(binding.bgMembers, binding.txtMembers, binding.imgMembers);
+            updateNavUI(binding.navMembers, binding.txtMembers, binding.imgMembers);
             setBottomNavVisible(true);
         } else if (frag instanceof AdminLoansFragment) {
-            updateNavUI(binding.bgLoans, binding.txtLoans, binding.imgLoans);
+            updateNavUI(binding.navLoans, binding.txtLoans, binding.imgLoans);
             setBottomNavVisible(true);
         } else if (frag instanceof SettingsFragment) {
-            updateNavUI(binding.bgSettings, binding.txtSettings, binding.imgSettings);
+            updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings);
             setBottomNavVisible(true);
         } else if (frag instanceof com.example.save.ui.fragments.SupportFragment) {
             // Support Hub is a normal screen — show nav, highlight Settings
-            updateNavUI(binding.bgSettings, binding.txtSettings, binding.imgSettings);
+            updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings);
             setBottomNavVisible(true);
         } else {
             // Immersive chat flow only: ConnectingAgent, LiveChat, ChatFeedback, TicketSuccess
@@ -146,87 +146,68 @@ public class AdminMainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateNavUI(View container, TextView text, ImageView image) {
+    private void updateNavUI(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage) {
         resetAllNavItems();
-        int activeColor = Color.parseColor("#2563EB");
-        if (text != null) {
-            text.setVisibility(View.VISIBLE);
-            text.setTextColor(activeColor);
+        int activeColor = Color.parseColor("#2563EB"); // Active Blue
+        if (selectedText != null) {
+            selectedText.setTextColor(activeColor);
         }
-        if (image != null) image.setImageTintList(ColorStateList.valueOf(activeColor));
-        if (container != null) container.setBackgroundResource(R.drawable.bg_icon_circle_blue);
+        if (selectedImage != null) selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
     }
 
     private void resetAllNavItems() {
-        resetNavItem(binding.bgHome, binding.txtHome, binding.imgHome);
-        resetNavItem(binding.bgMembers, binding.txtMembers, binding.imgMembers);
-        resetNavItem(binding.bgLoans, binding.txtLoans, binding.imgLoans);
-        resetNavItem(binding.bgSettings, binding.txtSettings, binding.imgSettings);
+        resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
+        resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
+        resetNavItem(binding.navLoans, binding.txtLoans, binding.imgLoans);
+        resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
     }
 
-    private void resetNavItem(View container, TextView text, ImageView image) {
+    private void resetNavItem(LinearLayout layout, TextView text, ImageView image) {
+        int inactiveColor = Color.parseColor("#9E9E9E"); // Muted Gray
         if (text != null) {
-            text.setVisibility(View.GONE);
-            text.setTextColor(Color.parseColor("#94A3B8"));
+            text.setTextColor(inactiveColor);
         }
-        if (image != null) image.setImageTintList(ColorStateList.valueOf(Color.parseColor("#94A3B8")));
-        if (container != null) container.setBackground(null);
+        if (image != null) image.setImageTintList(ColorStateList.valueOf(inactiveColor));
     }
 
-    private void setupQuickActions() {
-        binding.fabAction.setOnClickListener(v -> toggleQuickActions());
-        binding.quickActionsDim.setOnClickListener(v -> toggleQuickActions());
+    private void showQuickActions() {
+        com.google.android.material.bottomsheet.BottomSheetDialog dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
+        View view = getLayoutInflater().inflate(R.layout.dialog_quick_actions, null);
+        dialog.setContentView(view);
         
-        View overlay = binding.quickActionsLayout.getRoot();
-        overlay.findViewById(R.id.btnClose).setOnClickListener(v -> toggleQuickActions());
-        overlay.findViewById(R.id.cardAddMember).setOnClickListener(v -> {
-            toggleQuickActions();
+        // Setup listeners for actions in the dialog
+        view.findViewById(R.id.btnClose).setOnClickListener(v -> dialog.dismiss());
+        
+        view.findViewById(R.id.cardAddMember).setOnClickListener(v -> {
+            dialog.dismiss();
             Bundle args = new Bundle();
             args.putBoolean("SHOW_ADD_DIALOG", true);
             MembersFragment fragment = new MembersFragment();
             fragment.setArguments(args);
             loadFragment(fragment, true);
         });
-        overlay.findViewById(R.id.cardAnalysis).setOnClickListener(v -> {
-            toggleQuickActions();
+        view.findViewById(R.id.cardAnalysis).setOnClickListener(v -> {
+            dialog.dismiss();
             loadFragment(AnalyticsFragment.newInstance(true), true);
         });
-        overlay.findViewById(R.id.cardMakePolls).setOnClickListener(v -> {
-            toggleQuickActions();
+        view.findViewById(R.id.cardMakePolls).setOnClickListener(v -> {
+            dialog.dismiss();
             loadFragment(PollsFragment.newInstance(), true);
         });
-        overlay.findViewById(R.id.cardPaymentQueue).setOnClickListener(v -> {
-            toggleQuickActions();
+        view.findViewById(R.id.cardPaymentQueue).setOnClickListener(v -> {
+            dialog.dismiss();
             loadFragment(new QueueFragment(), true);
         });
-        overlay.findViewById(R.id.cardMyStash).setOnClickListener(v -> {
-            toggleQuickActions();
+        view.findViewById(R.id.cardMyStash).setOnClickListener(v -> {
+            dialog.dismiss();
             loadFragment(StashFragment.newInstance(), true);
         });
-        overlay.findViewById(R.id.cardApprovals).setOnClickListener(v -> {
-            toggleQuickActions();
+        view.findViewById(R.id.cardApprovals).setOnClickListener(v -> {
+            dialog.dismiss();
             loadFragment(new ApprovalsFragment(), true);
         });
-    }
-
-    private void toggleQuickActions() {
-        isMenuOpen = !isMenuOpen;
-        View fabIcon = ((ViewGroup) binding.fabAction).getChildAt(0);
-        if (isMenuOpen) {
-            if (fabIcon != null) fabIcon.animate().rotation(45).setDuration(200).start();
-            binding.quickActionsDim.setVisibility(View.VISIBLE);
-            binding.quickActionsDim.setAlpha(0f);
-            binding.quickActionsDim.animate().alpha(1f).setDuration(200).start();
-            binding.quickActionsLayout.getRoot().setVisibility(View.VISIBLE);
-            binding.quickActionsLayout.getRoot().setAlpha(0f);
-            binding.quickActionsLayout.getRoot().setScaleX(0.9f);
-            binding.quickActionsLayout.getRoot().setScaleY(0.9f);
-            binding.quickActionsLayout.getRoot().animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(300).start();
-        } else {
-            if (fabIcon != null) fabIcon.animate().rotation(0).setDuration(200).start();
-            binding.quickActionsDim.animate().alpha(0f).setDuration(200).withEndAction(() -> binding.quickActionsDim.setVisibility(View.GONE)).start();
-            binding.quickActionsLayout.getRoot().animate().alpha(0f).scaleX(0.9f).scaleY(0.9f).setDuration(300).withEndAction(() -> binding.quickActionsLayout.getRoot().setVisibility(View.GONE)).start();
-        }
+        
+        dialog.show();
     }
 
     private void handleIntentExtras(Intent intent) {
@@ -240,11 +221,11 @@ public class AdminMainActivity extends AppCompatActivity {
 
     public void setBottomNavVisible(boolean visible) {
         if (binding != null) {
-            if (binding.bottomNavWrapper != null) {
-                binding.bottomNavWrapper.setVisibility(visible ? View.VISIBLE : View.GONE);
+            if (binding.navContainer != null) {
+                binding.navContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
             }
-            if (binding.fabAction != null) {
-                binding.fabAction.setVisibility(visible ? View.VISIBLE : View.GONE);
+            if (binding.navAction != null) {
+                binding.navAction.setVisibility(visible ? View.VISIBLE : View.GONE);
             }
         }
     }

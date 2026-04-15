@@ -264,10 +264,10 @@ public class AdminDashboardFragment extends Fragment {
         super.onResume();
         // Restore nav bar directly when returning to Admin dashboard
         if (getActivity() != null) {
-            View bottomNavWrapper = getActivity().findViewById(R.id.bottomNavWrapper);
-            if (bottomNavWrapper != null) bottomNavWrapper.setVisibility(View.VISIBLE);
-            View fabAction = getActivity().findViewById(R.id.fabAction);
-            if (fabAction != null) fabAction.setVisibility(View.VISIBLE);
+            View navContainer = getActivity().findViewById(R.id.navContainer);
+            if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
+            View navAction = getActivity().findViewById(R.id.navAction);
+            if (navAction != null) navAction.setVisibility(View.VISIBLE);
         }
     }
 

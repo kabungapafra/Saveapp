@@ -182,14 +182,10 @@ public class SettingsFragment extends Fragment {
         super.onResume();
         // Directly restore the nav bar — guaranteed to work regardless of syncNavUI timing
         if (getActivity() != null) {
-            // Member: bottom pill nav
             View navContainer = getActivity().findViewById(R.id.navContainer);
             if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
-            // Admin: bottom nav wrapper + FAB
-            View bottomNavWrapper = getActivity().findViewById(R.id.bottomNavWrapper);
-            if (bottomNavWrapper != null) bottomNavWrapper.setVisibility(View.VISIBLE);
-            View fabAction = getActivity().findViewById(R.id.fabAction);
-            if (fabAction != null) fabAction.setVisibility(View.VISIBLE);
+            View navAction = getActivity().findViewById(R.id.navAction);
+            if (navAction != null) navAction.setVisibility(View.VISIBLE);
         }
     }
 

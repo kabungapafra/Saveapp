@@ -106,9 +106,8 @@ public class MemberMainActivity extends AppCompatActivity {
             showMembersSection();
         });
 
-        binding.navNotifications.setOnClickListener(v -> {
-            updateNavHighlight(binding.navNotifications, binding.txtNotifications, binding.imgNotifications);
-            showNotifications();
+        binding.navAction.setOnClickListener(v -> {
+            showQuickActions();
         });
 
         binding.navStats.setOnClickListener(v -> {
@@ -138,6 +137,48 @@ public class MemberMainActivity extends AppCompatActivity {
         loadFragment(new MemberViewFragment(), true);
     }
 
+    private void showQuickActions() {
+        com.google.android.material.bottomsheet.BottomSheetDialog dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
+        View view = getLayoutInflater().inflate(R.layout.dialog_quick_actions, null);
+        dialog.setContentView(view);
+        
+        // Setup listeners for actions in the dialog
+        view.findViewById(R.id.btnClose).setOnClickListener(v -> dialog.dismiss());
+        
+        view.findViewById(R.id.cardMyStash).setOnClickListener(v -> {
+            dialog.dismiss();
+            loadFragment(new com.example.save.ui.fragments.StashFragment(), true);
+        });
+
+        view.findViewById(R.id.cardAddMember).setOnClickListener(v -> {
+            dialog.dismiss();
+            loadFragment(new com.example.save.ui.fragments.WizardAddMembersInfoFragment(), true);
+        });
+
+        view.findViewById(R.id.cardMakePolls).setOnClickListener(v -> {
+            dialog.dismiss();
+            loadFragment(new com.example.save.ui.fragments.CreatePollFragment(), true);
+        });
+
+        view.findViewById(R.id.cardPaymentQueue).setOnClickListener(v -> {
+            dialog.dismiss();
+            loadFragment(new com.example.save.ui.fragments.QueueFragment(), true);
+        });
+
+        view.findViewById(R.id.cardAnalysis).setOnClickListener(v -> {
+            dialog.dismiss();
+            String email = SessionManager.getInstance(this).getUserEmail();
+            loadFragment(com.example.save.ui.fragments.AnalyticsFragment.newInstance(false, email != null ? email : "email@example.com"), true);
+        });
+
+        view.findViewById(R.id.cardApprovals).setOnClickListener(v -> {
+            dialog.dismiss();
+            loadFragment(new com.example.save.ui.fragments.ApprovalsFragment(), true);
+        });
+        
+        dialog.show();
+    }
+
     public void loadFragment(Fragment fragment) {
         loadFragment(fragment, true);
     }
@@ -164,7 +205,8 @@ public class MemberMainActivity extends AppCompatActivity {
             updateNavHighlight(binding.navMembers, binding.txtMembers, binding.imgMembers);
             setBottomNavVisible(true);
         } else if (frag instanceof NotificationsFragment) {
-            updateNavHighlight(binding.navNotifications, binding.txtNotifications, binding.imgNotifications);
+            // Notifications are now a secondary screen, but we still highlight Dashboard/Home
+            updateNavHighlight(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
             setBottomNavVisible(true);
         } else if (frag instanceof AnalyticsFragment) {
             updateNavHighlight(binding.navStats, binding.txtStats, binding.imgStats);
@@ -173,7 +215,7 @@ public class MemberMainActivity extends AppCompatActivity {
             updateNavHighlight(binding.navSettings, binding.txtSettings, binding.imgSettings);
             setBottomNavVisible(true);
         } else if (frag instanceof SupportFragment) {
-            // Support Hub is a normal screen — keep nav visible, highlight Settings tab
+            // Support Hub is a normal screen — keep nav visible, highlight Profile tab
             updateNavHighlight(binding.navSettings, binding.txtSettings, binding.imgSettings);
             setBottomNavVisible(true);
         } else {
@@ -185,39 +227,22 @@ public class MemberMainActivity extends AppCompatActivity {
     private void updateNavHighlight(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage) {
         resetAllNavItems();
 
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) selectedLayout.getLayoutParams();
-        params.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        params.weight = 0;
-        selectedLayout.setLayoutParams(params);
-
-        selectedLayout.setBackgroundResource(R.drawable.nav_item_pill_refined);
-        selectedText.setVisibility(View.VISIBLE);
-
-        int activeColor = Color.parseColor("#0D47A1");
+        int activeColor = Color.parseColor("#2563EB"); // Active Blue
         selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
         selectedText.setTextColor(activeColor);
-
-        if (selectedLayout == binding.navNotifications && binding.dotNotifications != null) {
-            binding.dotNotifications.setVisibility(View.GONE);
-        }
     }
 
     private void resetAllNavItems() {
         resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
         resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
-        resetNavItem(binding.navNotifications, binding.txtNotifications, binding.imgNotifications);
         resetNavItem(binding.navStats, binding.txtStats, binding.imgStats);
         resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
     }
 
     private void resetNavItem(LinearLayout layout, TextView text, ImageView image) {
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        params.width = 0;
-        params.weight = 1;
-        layout.setLayoutParams(params);
-        layout.setBackground(null);
-        text.setVisibility(View.GONE);
-        image.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+        int inactiveColor = Color.parseColor("#9E9E9E"); // Muted Gray
+        image.setImageTintList(ColorStateList.valueOf(inactiveColor));
+        text.setTextColor(inactiveColor);
     }
 
     public void setBottomNavVisible(boolean visible) {

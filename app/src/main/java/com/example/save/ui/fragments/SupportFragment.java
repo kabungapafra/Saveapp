@@ -33,10 +33,8 @@ public class SupportFragment extends Fragment {
         if (getActivity() != null) {
             View navContainer = getActivity().findViewById(R.id.navContainer);
             if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
-            View bottomNavWrapper = getActivity().findViewById(R.id.bottomNavWrapper);
-            if (bottomNavWrapper != null) bottomNavWrapper.setVisibility(View.VISIBLE);
-            View fabAction = getActivity().findViewById(R.id.fabAction);
-            if (fabAction != null) fabAction.setVisibility(View.VISIBLE);
+            View navAction = getActivity().findViewById(R.id.navAction);
+            if (navAction != null) navAction.setVisibility(View.VISIBLE);
         }
 
         setupListeners();
@@ -57,10 +55,8 @@ public class SupportFragment extends Fragment {
         if (getActivity() == null) return;
         View navContainer = getActivity().findViewById(R.id.navContainer);
         if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
-        View bottomNavWrapper = getActivity().findViewById(R.id.bottomNavWrapper);
-        if (bottomNavWrapper != null) bottomNavWrapper.setVisibility(View.VISIBLE);
-        View fabAction = getActivity().findViewById(R.id.fabAction);
-        if (fabAction != null) fabAction.setVisibility(View.VISIBLE);
+        View navAction = getActivity().findViewById(R.id.navAction);
+        if (navAction != null) navAction.setVisibility(View.VISIBLE);
     }
 
     private void setupListeners() {
