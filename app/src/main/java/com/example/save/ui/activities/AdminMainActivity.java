@@ -40,6 +40,7 @@ public class AdminMainActivity extends AppCompatActivity {
     private ActivityAdminmainBinding binding;
     private MembersViewModel viewModel;
     private boolean isQuickActionsOpen = false;
+    private android.animation.ObjectAnimator ringAnimator;
     private long lastBackPressTime = 0;
 
     @Override
@@ -61,6 +62,12 @@ public class AdminMainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             loadFragment(new AdminDashboardFragment(), false);
             updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
+            
+            // Premium Entry Animation for Nav Bar
+            binding.navContainer.setTranslationY(200f);
+            binding.navAction.setTranslationY(200f);
+            binding.navContainer.animate().translationY(0f).setDuration(800).setInterpolator(new android.view.animation.OvershootInterpolator(1.2f)).start();
+            binding.navAction.animate().translationY(0f).setDuration(800).setInterpolator(new android.view.animation.OvershootInterpolator(1.2f)).start();
         }
 
         // Sync Nav UI on back stack changes
@@ -155,7 +162,24 @@ public class AdminMainActivity extends AppCompatActivity {
         if (selectedText != null) {
             selectedText.setTextColor(activeColor);
         }
-        if (selectedImage != null) selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
+        if (selectedImage != null) {
+            selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
+
+            // Premium Spring-Loaded "Floating Pop" Animation
+            selectedImage.animate()
+                .translationY(-12f)
+                .scaleX(1.3f)
+                .scaleY(1.3f)
+                .rotation(15f)
+                .setDuration(400)
+                .setInterpolator(new android.view.animation.OvershootInterpolator(2.0f))
+                .withEndAction(() -> {
+                    selectedImage.animate()
+                        .rotation(0f)
+                        .setDuration(200)
+                        .start();
+                }).start();
+        }
     }
 
     private void resetAllNavItems() {
@@ -170,7 +194,19 @@ public class AdminMainActivity extends AppCompatActivity {
         if (text != null) {
             text.setTextColor(inactiveColor);
         }
-        if (image != null) image.setImageTintList(ColorStateList.valueOf(inactiveColor));
+        if (image != null) {
+            image.setImageTintList(ColorStateList.valueOf(inactiveColor));
+            
+            // Reset translation, scale and rotation with a smooth snap back
+            image.animate()
+                .translationY(0f)
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .rotation(0f)
+                .setDuration(300)
+                .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                .start();
+        }
     }
 
     private void showQuickActions() {
@@ -187,6 +223,29 @@ public class AdminMainActivity extends AppCompatActivity {
         overlay.setVisibility(View.VISIBLE);
         overlay.setAlpha(0f);
         overlay.animate().alpha(1f).setDuration(300).start();
+
+        // Animate FAB ring rotation
+        View ring = findViewById(R.id.navActionDashedRing);
+        ringAnimator = android.animation.ObjectAnimator.ofFloat(ring, "rotation", 0f, 360f);
+        ringAnimator.setDuration(3000);
+        ringAnimator.setRepeatCount(android.animation.ObjectAnimator.INFINITE);
+        ringAnimator.setInterpolator(new android.view.animation.LinearInterpolator());
+        ringAnimator.start();
+
+        // Staggered Cascade Animation for cards
+        android.view.ViewGroup container = findViewById(R.id.cardContainer);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            android.view.View child = container.getChildAt(i);
+            child.setAlpha(0f);
+            child.setTranslationY(50f);
+            child.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(400)
+                .setStartDelay(100 + (i * 100))
+                .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                .start();
+        }
 
         // Setup listeners if not already done (or just once)
         findViewById(R.id.btnCloseOverlay).setOnClickListener(v -> closeQuickActions());
@@ -224,6 +283,16 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private void closeQuickActions() {
         isQuickActionsOpen = false;
+
+        // Stop ring animation
+        if (ringAnimator != null) {
+            ringAnimator.cancel();
+            findViewById(R.id.navActionDashedRing).animate().rotation(0f).setDuration(300).start();
+        }
+
+        // Rotate X back to Plus
+        findViewById(R.id.navActionPlusIcon).animate().rotation(0f).setDuration(300).start();
+
         View overlay = findViewById(R.id.quickActionsOverlay);
         overlay.animate().alpha(0f).setDuration(300).withEndAction(() -> {
             overlay.setVisibility(View.GONE);

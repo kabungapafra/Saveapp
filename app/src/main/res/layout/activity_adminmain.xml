@@ -183,6 +183,7 @@
             android:layout_width="84dp"
             android:layout_height="84dp"
             android:layout_gravity="center"
+            android:id="@+id/navActionDashedRing"
             android:background="@drawable/bg_nav_center_dashed_ring_white" />
 
         <!-- Teal FAB (52dp) -->
@@ -199,6 +200,7 @@
             android:layout_height="24dp"
             android:layout_gravity="center"
             android:elevation="3dp"
+            android:id="@+id/navActionPlusIcon"
             android:src="@drawable/ic_add"
             app:tint="#FFFFFF" />
 
