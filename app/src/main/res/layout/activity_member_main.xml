@@ -158,6 +158,13 @@
         </LinearLayout>
     </com.example.save.ui.views.CutoutNavView>
 
+    <!-- Quick Actions Overlay (Integrated) -->
+    <include
+        layout="@layout/layout_quick_actions_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="15dp" />
+
     <!-- FAB: elevation 16dp > nav bar 12dp, always on top -->
     <FrameLayout
         android:id="@+id/navAction"

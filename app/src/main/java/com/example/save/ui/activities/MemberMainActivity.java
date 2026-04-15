@@ -31,6 +31,7 @@ public class MemberMainActivity extends AppCompatActivity {
 
     private ActivityMemberMainBinding binding;
     private MembersViewModel viewModel;
+    private boolean isQuickActionsOpen = false;
 
     private long lastBackPressTime = 0;
 
@@ -75,7 +76,9 @@ public class MemberMainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                if (isQuickActionsOpen) {
+                    closeQuickActions();
+                } else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     getSupportFragmentManager().popBackStack();
                 } else {
                     // Logic to handle exit or returning to dashboard
@@ -138,45 +141,62 @@ public class MemberMainActivity extends AppCompatActivity {
     }
 
     private void showQuickActions() {
-        com.google.android.material.bottomsheet.BottomSheetDialog dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
-        View view = getLayoutInflater().inflate(R.layout.dialog_quick_actions, null);
-        dialog.setContentView(view);
-        
-        // Setup listeners for actions in the dialog
-        view.findViewById(R.id.btnClose).setOnClickListener(v -> dialog.dismiss());
-        
-        view.findViewById(R.id.cardMyStash).setOnClickListener(v -> {
-            dialog.dismiss();
+        if (isQuickActionsOpen) {
+            closeQuickActions();
+        } else {
+            openQuickActions();
+        }
+    }
+
+    private void openQuickActions() {
+        isQuickActionsOpen = true;
+        View overlay = findViewById(R.id.quickActionsOverlay);
+        overlay.setVisibility(View.VISIBLE);
+        overlay.setAlpha(0f);
+        overlay.animate().alpha(1f).setDuration(300).start();
+
+        // Setup listeners if not already done (or just once)
+        findViewById(R.id.btnCloseOverlay).setOnClickListener(v -> closeQuickActions());
+        findViewById(R.id.quickActionsDim).setOnClickListener(v -> closeQuickActions());
+
+        findViewById(R.id.cardMyStashOverlay).setOnClickListener(v -> {
+            closeQuickActions();
             loadFragment(new com.example.save.ui.fragments.StashFragment(), true);
         });
 
-        view.findViewById(R.id.cardAddMember).setOnClickListener(v -> {
-            dialog.dismiss();
+        findViewById(R.id.cardAddMemberOverlay).setOnClickListener(v -> {
+            closeQuickActions();
             loadFragment(new com.example.save.ui.fragments.WizardAddMembersInfoFragment(), true);
         });
 
-        view.findViewById(R.id.cardMakePolls).setOnClickListener(v -> {
-            dialog.dismiss();
+        findViewById(R.id.cardMakePollsOverlay).setOnClickListener(v -> {
+            closeQuickActions();
             loadFragment(new com.example.save.ui.fragments.CreatePollFragment(), true);
         });
 
-        view.findViewById(R.id.cardPaymentQueue).setOnClickListener(v -> {
-            dialog.dismiss();
+        findViewById(R.id.cardPaymentQueueOverlay).setOnClickListener(v -> {
+            closeQuickActions();
             loadFragment(new com.example.save.ui.fragments.QueueFragment(), true);
         });
 
-        view.findViewById(R.id.cardAnalysis).setOnClickListener(v -> {
-            dialog.dismiss();
+        findViewById(R.id.cardAnalysisOverlay).setOnClickListener(v -> {
+            closeQuickActions();
             String email = SessionManager.getInstance(this).getUserEmail();
             loadFragment(com.example.save.ui.fragments.AnalyticsFragment.newInstance(false, email != null ? email : "email@example.com"), true);
         });
 
-        view.findViewById(R.id.cardApprovals).setOnClickListener(v -> {
-            dialog.dismiss();
+        findViewById(R.id.cardApprovalsOverlay).setOnClickListener(v -> {
+            closeQuickActions();
             loadFragment(new com.example.save.ui.fragments.ApprovalsFragment(), true);
         });
-        
-        dialog.show();
+    }
+
+    private void closeQuickActions() {
+        isQuickActionsOpen = false;
+        View overlay = findViewById(R.id.quickActionsOverlay);
+        overlay.animate().alpha(0f).setDuration(300).withEndAction(() -> {
+            overlay.setVisibility(View.GONE);
+        }).start();
     }
 
     public void loadFragment(Fragment fragment) {
