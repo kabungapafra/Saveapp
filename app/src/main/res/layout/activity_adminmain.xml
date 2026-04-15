@@ -17,15 +17,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- Floating White Nav Bar (FrameLayout — no CardView clipping) -->
-    <FrameLayout
+    <!-- Floating White Nav Bar with Java Cutout for Transparency -->
+    <com.example.save.ui.views.CutoutNavView
         android:id="@+id/navContainer"
         android:layout_width="0dp"
         android:layout_height="72dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/bg_nav_bar_white"
-        android:elevation="12dp"
+        android:elevation="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -156,7 +156,7 @@
             </LinearLayout>
 
         </LinearLayout>
-    </FrameLayout>
+    </com.example.save.ui.views.CutoutNavView>
 
     <!-- FAB: elevation 16dp > nav bar 12dp, always on top -->
     <FrameLayout
