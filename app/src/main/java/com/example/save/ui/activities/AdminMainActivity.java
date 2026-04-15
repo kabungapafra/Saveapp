@@ -148,7 +148,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private void updateNavUI(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage) {
         resetAllNavItems();
-        int activeColor = Color.parseColor("#2563EB"); // Active Blue
+        int activeColor = Color.parseColor("#FFFFFF"); // Active White
         if (selectedText != null) {
             selectedText.setTextColor(activeColor);
         }
@@ -163,7 +163,7 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void resetNavItem(LinearLayout layout, TextView text, ImageView image) {
-        int inactiveColor = Color.parseColor("#9E9E9E"); // Muted Gray
+        int inactiveColor = Color.parseColor("#B3FFFFFF"); // Muted White
         if (text != null) {
             text.setTextColor(inactiveColor);
         }

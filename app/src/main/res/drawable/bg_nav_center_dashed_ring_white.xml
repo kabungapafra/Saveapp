@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Transparent Background Plate -->
+    <item android:gravity="center" android:width="72dp" android:height="72dp">
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+
+    <!-- Dashed White Ring Outline -->
+    <item android:gravity="center" android:width="72dp" android:height="72dp">
+        <shape android:shape="oval">
+            <stroke
+                android:width="2dp"
+                android:color="#215DA1"
+                android:dashWidth="5dp"
+                android:dashGap="4dp" />
+        </shape>
+    </item>
+</layer-list>
