@@ -41,6 +41,11 @@
             android:exported="false" />
 
         <activity
+            android:name="com.example.save.ui.activities.MemberInvitationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SaveApp.NoActionBar" />
+
+        <activity
             android:name="com.example.save.ui.activities.AdminLoginActivity"
             android:exported="false"
             tools:ignore="DuplicateActivity" />
@@ -119,6 +124,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
     </application>
 

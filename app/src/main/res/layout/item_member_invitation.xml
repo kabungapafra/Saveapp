@@ -72,7 +72,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnDelete"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#2563EB" />
+            app:tint="#215DA1" />
 
         <ImageView
             android:id="@+id/btnDelete"

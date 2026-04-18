@@ -70,6 +70,9 @@ public class MemberEntity {
     @com.google.gson.annotations.SerializedName("credit_score")
     private int creditScore; // New
 
+    @com.google.gson.annotations.SerializedName("loan_balance")
+    private double loanBalance; // New
+
     @com.google.gson.annotations.SerializedName("created_at")
     private String joinedDate;
 
@@ -264,5 +267,13 @@ public class MemberEntity {
 
     public void setJoinedDate(String joinedDate) {
         this.joinedDate = joinedDate;
+    }
+
+    public double getLoanBalance() {
+        return loanBalance;
+    }
+
+    public void setLoanBalance(double loanBalance) {
+        this.loanBalance = loanBalance;
     }
 }

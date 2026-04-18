@@ -11,11 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -236,7 +233,7 @@ public class ConnectingAgentFragment extends Fragment {
                 ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
             } else if (getActivity() instanceof MemberMainActivity) {
                 ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
-                ((MemberMainActivity) getActivity()).setHeaderVisible(false);
+                ((MemberMainActivity) getActivity()).setHeaderVisible();
             }
 
             // Immersive Zero-Bar Mode

@@ -222,7 +222,7 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app_compat:backgroundTint="#1D7CF2"
+            app_compat:backgroundTint="#215DA1"
             app_compat:cornerRadius="18dp"
             app_compat:icon="@drawable/ic_people"
             app_compat:iconGravity="textStart"

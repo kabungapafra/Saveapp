@@ -31,7 +31,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_loan"
-                app:tint="#3B82F6" />
+                app:tint="#215DA1" />
         </FrameLayout>
 
         <!-- Title -->
@@ -105,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:backgroundTint="#3B82F6"
+                android:backgroundTint="#215DA1"
                 android:fontFamily="@font/manrope_bold"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"

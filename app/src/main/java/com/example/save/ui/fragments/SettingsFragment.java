@@ -28,9 +28,19 @@ public class SettingsFragment extends Fragment {
         setupStats();
         setupGridListeners();
         setupPreferences();
+        applyRoleBasedVisibility();
         startEntranceAnimations();
 
         return binding.getRoot();
+    }
+
+    private void applyRoleBasedVisibility() {
+        if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
+            // Hide Admin-specific items for Members
+            binding.cardAutomation.setVisibility(View.GONE);
+            binding.cardGeneral.setVisibility(View.GONE);
+            binding.badgeAdmin.setVisibility(View.GONE);
+        }
     }
 
     private void loadUserData() {
@@ -58,11 +68,6 @@ public class SettingsFragment extends Fragment {
             if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
-        });
-
-        binding.btnNotification.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            Toast.makeText(getContext(), "Notifications", Toast.LENGTH_SHORT).show();
         });
 
         binding.btnEditProfile.setOnClickListener(v -> {

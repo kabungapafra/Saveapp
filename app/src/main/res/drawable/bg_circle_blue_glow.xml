@@ -3,14 +3,14 @@
     <!-- Glow Layer -->
     <item>
         <shape android:shape="oval">
-            <solid android:color="#4D2563EB" /> <!-- 30% alpha blue -->
+            <solid android:color="#4D215DA1" /> <!-- 30% alpha blue -->
             <padding android:bottom="4dp" android:left="4dp" android:right="4dp" android:top="4dp" />
         </shape>
     </item>
     <!-- Main Circle -->
     <item>
         <shape android:shape="oval">
-            <solid android:color="#2563EB" /> <!-- Blue 600 -->
+            <solid android:color="#215DA1" /> <!-- Blue 600 -->
         </shape>
     </item>
 </layer-list>

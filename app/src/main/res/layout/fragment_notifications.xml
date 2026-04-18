@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope_bold"
             android:text="Mark all read"
-            android:textColor="#3B82F6"
+            android:textColor="#215DA1"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

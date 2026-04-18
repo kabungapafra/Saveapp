@@ -38,7 +38,7 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/white" />
+                    android:src="@drawable/save_logo" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btnCloseOverlay"
@@ -88,14 +88,18 @@
                 android:layout_marginTop="32dp"
                 android:orientation="vertical">
 
-                <!-- Admin & Member share mostly same cards, logic will handle visibility if needed -->
-                <!-- My Stash -->
-                <include layout="@layout/item_quick_action_stash" />
-                <include layout="@layout/item_quick_action_add_member" />
-                <include layout="@layout/item_quick_action_polls" />
-                <include layout="@layout/item_quick_action_payment_queue" />
-                <include layout="@layout/item_quick_action_analysis" />
-                <include layout="@layout/item_quick_action_approvals" />
+                <!-- My Stash (Pay) -->
+                <include android:id="@+id/cardMyStashOverlay" layout="@layout/item_quick_action_stash" />
+                <!-- Add Member -->
+                <include android:id="@+id/cardAddMemberOverlay" layout="@layout/item_quick_action_add_member" />
+                <!-- Polls -->
+                <include android:id="@+id/cardMakePollsOverlay" layout="@layout/item_quick_action_polls" />
+                <!-- Payment Queue -->
+                <include android:id="@+id/cardPaymentQueueOverlay" layout="@layout/item_quick_action_payment_queue" />
+                <!-- Analysis -->
+                <include android:id="@+id/cardAnalysisOverlay" layout="@layout/item_quick_action_analysis" />
+                <!-- Approvals -->
+                <include android:id="@+id/cardApprovalsOverlay" layout="@layout/item_quick_action_approvals" />
 
             </LinearLayout>
 

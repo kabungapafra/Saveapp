@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
@@ -81,7 +80,7 @@ public class LiquidityDashboardFragment extends Fragment {
         if (getActivity() instanceof MemberMainActivity) {
             MemberMainActivity activity = (MemberMainActivity) getActivity();
             activity.setBottomNavVisible(visible);
-            activity.setHeaderVisible(visible);
+            activity.setHeaderVisible();
         } else if (getActivity() instanceof AdminMainActivity) {
             AdminMainActivity activity = (AdminMainActivity) getActivity();
             activity.setBottomNavVisible(visible);

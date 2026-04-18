@@ -72,7 +72,7 @@
                             android:layout_alignParentBottom="true"
                             android:alpha="0.1"
                             android:src="@drawable/ic_account_balance_wallet"
-                            app:tint="#2563EB" />
+                            app:tint="#215DA1" />
 
                         <ImageView
                             android:layout_width="24dp"
@@ -82,7 +82,7 @@
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             android:src="@drawable/ic_money"
-                            app:tint="#2563EB" />
+                            app:tint="#215DA1" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -124,7 +124,7 @@
                             android:layout_alignParentBottom="true"
                             android:alpha="0.1"
                             android:src="@drawable/ic_shield"
-                            app:tint="#2563EB" />
+                            app:tint="#215DA1" />
 
                         <ImageView
                             android:layout_width="24dp"
@@ -134,7 +134,7 @@
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             android:src="@drawable/ic_check_circle"
-                            app:tint="#2563EB" />
+                            app:tint="#215DA1" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -226,7 +226,7 @@
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="$450,000.00"
-                        android:textColor="#2563EB"
+                        android:textColor="#215DA1"
                         android:textSize="17sp" />
 
                     <View
@@ -289,7 +289,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Sovereign Elite"
-                                android:textColor="#2563EB"
+                                android:textColor="#215DA1"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -362,7 +362,7 @@
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="$1,200,000.00"
-                        android:textColor="#2563EB"
+                        android:textColor="#215DA1"
                         android:textSize="17sp" />
 
                     <View
@@ -425,7 +425,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Legacy Private"
-                                android:textColor="#2563EB"
+                                android:textColor="#215DA1"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -568,7 +568,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/manrope_bold"
                             android:text="$12,450.00"
-                            android:textColor="#2563EB"
+                            android:textColor="#215DA1"
                             android:textSize="12sp" />
 
                         <TextView
@@ -589,7 +589,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="VERIFY"
-                            android:textColor="#2563EB"
+                            android:textColor="#215DA1"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -623,7 +623,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/manrope_bold"
                             android:text="$8,900.00"
-                            android:textColor="#2563EB"
+                            android:textColor="#215DA1"
                             android:textSize="12sp" />
 
                         <TextView
@@ -644,7 +644,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="VERIFY"
-                            android:textColor="#2563EB"
+                            android:textColor="#215DA1"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -678,7 +678,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/manrope_bold"
                             android:text="$52,100.00"
-                            android:textColor="#2563EB"
+                            android:textColor="#215DA1"
                             android:textSize="12sp" />
 
                         <TextView
@@ -699,7 +699,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="VERIFY"
-                            android:textColor="#2563EB"
+                            android:textColor="#215DA1"
                             android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base Solid Blue -->
+    <item>
+        <shape>
+            <solid android:color="@color/h_blue_600" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+
+    <!-- Decorative Circle (Top Right) -->
+    <item
+        android:height="130dp"
+        android:width="130dp"
+        android:gravity="top|end"
+        android:top="-50dp"
+        android:right="-60dp">
+        <shape>
+            <solid android:color="#12FFFFFF" /> <!-- Approx 7% white opacity -->
+            <corners android:radius="65dp" />
+        </shape>
+    </item>
+</layer-list>

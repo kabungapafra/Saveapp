@@ -56,9 +56,34 @@ public class AdminLoginActivity extends AppCompatActivity {
                 R.anim.heartbeat);
         binding.logoImage.startAnimation(heartbeat);
 
+        startCascadingAnimations();
+
         viewModel = new androidx.lifecycle.ViewModelProvider(this)
                 .get(com.example.save.ui.viewmodels.MembersViewModel.class);
+    }
 
+    private void startCascadingAnimations() {
+        android.view.animation.Animation slideUp = android.view.animation.AnimationUtils.loadAnimation(this,
+                R.anim.slide_up_fade);
+
+        // Logo and Header
+        binding.logoContainer.startAnimation(slideUp);
+        
+        slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
+        slideUp.setStartOffset(150);
+        binding.titleText.startAnimation(slideUp);
+        binding.subtitleText.startAnimation(slideUp);
+
+        // Form Card
+        slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
+        slideUp.setStartOffset(300);
+        binding.loginCard.startAnimation(slideUp);
+
+        // Links
+        slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
+        slideUp.setStartOffset(450);
+        binding.sideSignUpTab.startAnimation(slideUp);
+        binding.memberPortalLink.startAnimation(slideUp);
     }
 
     public void onsingupClick(View view) {

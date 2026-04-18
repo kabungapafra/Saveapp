@@ -83,7 +83,7 @@ public class TicketSuccessFragment extends Fragment {
                 ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
             } else if (getActivity() instanceof MemberMainActivity) {
                 ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
-                ((MemberMainActivity) getActivity()).setHeaderVisible(false);
+                ((MemberMainActivity) getActivity()).setHeaderVisible();
             }
 
             // Immersive Zero-Bar Mode

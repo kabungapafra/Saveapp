@@ -46,6 +46,7 @@ public class Member {
         this.contributionTarget = 1000000; // Default target 1M
         this.contributionPaid = 0;
         this.paymentStreak = 0;
+        this.loanBalance = 0;
     }
 
     public String getName() {
@@ -247,5 +248,15 @@ public class Member {
 
     public void setAutoPayDay(int autoPayDay) {
         this.autoPayDay = autoPayDay;
+    }
+
+    private double loanBalance;
+
+    public double getLoanBalance() {
+        return loanBalance;
+    }
+
+    public void setLoanBalance(double loanBalance) {
+        this.loanBalance = loanBalance;
     }
 }

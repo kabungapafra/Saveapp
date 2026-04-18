@@ -116,7 +116,7 @@
                 android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_shield"
-                app:tint="#2563EB" />
+                app:tint="#215DA1" />
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,13 +33,13 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_arrow_left"
-                        app:tint="#1A3CCC" />
+                        app:tint="#215DA1" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:text="Support"
-                        android:textColor="#1A3CCC"
+                        android:textColor="#215DA1"
                         android:textSize="17sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -110,7 +110,7 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_stopwatch"
-                            app:tint="#1A3CCC" />
+                            app:tint="#215DA1" />
                     </com.google.android.material.card.MaterialCardView>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="We usually respond within 24 hours. Your security and peace of mind are our priority."
-                            android:textColor="#3B82F6"
+                            android:textColor="#215DA1"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -155,7 +155,7 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#1A3CCC"
+                app:strokeColor="#215DA1"
                 app:strokeWidth="1.5dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -167,14 +167,14 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:src="@drawable/ic_help_question"
-                        app:tint="#1A3CCC" />
+                        app:tint="#215DA1" />
                     <TextView
                         android:id="@+id/textGeneral"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="General Inquiry"
-                        android:textColor="#1A3CCC"
+                        android:textColor="#215DA1"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -391,7 +391,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="#1A3CCC"
+                app:cardBackgroundColor="#215DA1"
                 app:cardCornerRadius="28dp"
                 app:cardElevation="4dp"
                 app:strokeWidth="0dp">

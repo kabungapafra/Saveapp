@@ -41,6 +41,23 @@ public class AdminDashboardFragment extends Fragment {
     private NotificationsViewModel notificationsViewModel;
     private String adminNameStr;
     private double totalBalanceValue = 0.0;
+    private boolean isAdmin = true;
+
+    public static AdminDashboardFragment newInstance(boolean isAdmin) {
+        AdminDashboardFragment fragment = new AdminDashboardFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("IS_ADMIN", isAdmin);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            isAdmin = getArguments().getBoolean("IS_ADMIN", true);
+        }
+    }
 
     @Nullable
     @Override
@@ -63,6 +80,13 @@ public class AdminDashboardFragment extends Fragment {
         updateScheduleUI();
         setupEntranceAnimations();
         observeViewModel();
+
+        // Hide admin-only actions if member
+        if (!isAdmin) {
+            binding.btnEditSchedule.setVisibility(View.GONE);
+            binding.btnMarkPaid1.setVisibility(View.GONE);
+            binding.btnMarkPaid2.setVisibility(View.GONE);
+        }
     }
 
     private void setupListeners() {
@@ -70,6 +94,8 @@ public class AdminDashboardFragment extends Fragment {
             applyClickAnimation(v);
             if (getActivity() instanceof AdminMainActivity) {
                 ((AdminMainActivity) getActivity()).showNotifications();
+            } else if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
+                ((com.example.save.ui.activities.MemberMainActivity) getActivity()).showNotifications();
             }
         });
 
@@ -88,6 +114,8 @@ public class AdminDashboardFragment extends Fragment {
             if (getActivity() instanceof AdminMainActivity) {
                 // Future: Add Loans navigation if fragment exists
                 Toast.makeText(getContext(), "Navigating to Loans", Toast.LENGTH_SHORT).show();
+            } else if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
+                ((com.example.save.ui.activities.MemberMainActivity) getActivity()).loadFragment(new LoansFragment());
             }
         });
 
@@ -148,7 +176,29 @@ public class AdminDashboardFragment extends Fragment {
 
     private void loadAdminData() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
-        adminNameStr = prefs.getString("admin_name", "Admin");
+        if (isAdmin) {
+            adminNameStr = prefs.getString("admin_name", "Admin");
+        } else {
+            // Load Member Name from Session
+            adminNameStr = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserEmail();
+            if (adminNameStr != null && adminNameStr.contains("@")) {
+                adminNameStr = adminNameStr.split("@")[0]; // Fallback if name not found
+                adminNameStr = adminNameStr.substring(0, 1).toUpperCase() + adminNameStr.substring(1);
+            } else {
+                adminNameStr = "Member";
+            }
+            
+            // Try to get real name from ViewModel
+            String email = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserEmail();
+            if (email != null) {
+                viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
+                    if (member != null) {
+                        adminNameStr = member.getName().split(" ")[0];
+                        updateGreeting();
+                    }
+                });
+            }
+        }
         updateGreeting();
     }
 
@@ -166,21 +216,41 @@ public class AdminDashboardFragment extends Fragment {
     }
 
     private void loadDashboardData() {
-        viewModel.getDashboardSummary(new MemberRepository.SummaryCallback() {
-            @Override
-            public void onResult(boolean success, DashboardSummaryResponse summary, String message) {
-                if (success && summary != null && isAdded()) {
-                    requireActivity().runOnUiThread(() -> {
-                        totalBalanceValue = summary.getTotalBalance();
-                        updateBalanceDisplay();
+        if (isAdmin) {
+            viewModel.getDashboardSummary(new MemberRepository.SummaryCallback() {
+                @Override
+                public void onResult(boolean success, DashboardSummaryResponse summary, String message) {
+                    if (success && summary != null && isAdded()) {
+                        requireActivity().runOnUiThread(() -> {
+                            totalBalanceValue = summary.getTotalBalance();
+                            updateBalanceDisplay();
 
-                        NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
-                        binding.monthlyContrib.setText(ugFormat.format(summary.getMonthlyContributions()).replace("UGX", "UGX "));
-                        binding.interestEarned.setText(ugFormat.format(summary.getInterestEarned()).replace("UGX", "UGX "));
-                    });
+                            NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+                            binding.monthlyContrib.setText(ugFormat.format(summary.getMonthlyContributions()).replace("UGX", "UGX "));
+                            binding.interestEarned.setText(ugFormat.format(summary.getInterestEarned()).replace("UGX", "UGX "));
+                        });
+                    }
                 }
+            });
+        } else {
+            // LOAD MEMBER SPECIFIC DATA
+            binding.tvBalanceLabel.setText("My Total Savings");
+            String email = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserEmail();
+            if (email != null) {
+                viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
+                    if (member != null) {
+                        totalBalanceValue = member.getContributionPaid();
+                        updateBalanceDisplay();
+                        
+                        NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+                        binding.monthlyContrib.setText(ugFormat.format(member.getContributionTarget()).replace("UGX", "UGX "));
+                        binding.interestEarned.setText(ugFormat.format(member.getLoanBalance()).replace("UGX", "UGX "));
+                        binding.tvInterestLabel.setText("Active Loans");
+                        binding.tvMonthlyLabel.setText("Savings Target");
+                    }
+                });
             }
-        });
+        }
     }
 
     private void updateBalanceDisplay() {

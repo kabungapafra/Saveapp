@@ -1,129 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/spacing_xl"
-    android:background="@android:color/white">
+    android:background="#F8FAFC">
 
-    <ImageView
-        android:id="@+id/imgWelcome"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_people"
-        android:tint="@color/deep_blue"
-        android:layout_marginTop="@dimen/spacing_xxxl"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <!-- Header Gradient -->
+    <View
+        android:id="@+id/gradientHeader"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:background="#0D3B82F6"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Welcome to Save!"
-        android:textSize="@dimen/text_size_xxxl"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/spacing_xl"
-        app:layout_constraintTop_toBottomOf="@id/imgWelcome"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Your community savings and loans platform. Save together, grow together, and achieve your financial goals as a group."
-        android:textSize="@dimen/text_size_normal"
-        android:textColor="@color/text_secondary"
-        android:gravity="center"
-        android:lineSpacingExtra="4dp"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:paddingHorizontal="@dimen/spacing_normal"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Feature Highlights -->
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/spacing_xxl"
-        app:layout_constraintTop_toBottomOf="@id/tvDescription"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="140dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="@dimen/spacing_normal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="28dp"
+            android:paddingTop="56dp">
 
-            <ImageView
-                android:layout_width="@dimen/icon_size_small"
-                android:layout_height="@dimen/icon_size_small"
-                android:src="@drawable/ic_account_balance_wallet"
-                android:tint="@color/status_approved"
-                android:layout_marginEnd="@dimen/spacing_normal" />
+            <!-- Logo Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="10dp"
+                app:strokeWidth="0dp">
 
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/save_logo"
+                    android:scaleType="fitCenter" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Invitation Badge -->
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Track group savings and contributions"
-                android:textSize="@dimen/text_size_normal"
-                android:textColor="@color/text_primary" />
-        </LinearLayout>
+                android:layout_marginTop="32dp"
+                android:background="@drawable/bg_pill_tab_selected"
+                android:backgroundTint="#FFEDD5"
+                android:fontFamily="@font/manrope_bold"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
+                android:text="MEMBER INVITATION"
+                android:textColor="#C2410C"
+                android:textSize="11sp"
+                android:letterSpacing="0.05" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="@dimen/spacing_normal">
-
-            <ImageView
-                android:layout_width="@dimen/icon_size_small"
-                android:layout_height="@dimen/icon_size_small"
-                android:src="@drawable/ic_loan"
-                android:tint="@color/status_approved"
-                android:layout_marginEnd="@dimen/spacing_normal" />
-
+            <!-- Title -->
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Apply for and manage loans"
-                android:textSize="@dimen/text_size_normal"
-                android:textColor="@color/text_primary" />
-        </LinearLayout>
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="Welcome to the\nCircle."
+                android:textColor="#0F172A"
+                android:textSize="38sp"
+                android:lineSpacingExtra="-4dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="@dimen/icon_size_small"
-                android:layout_height="@dimen/icon_size_small"
-                android:src="@drawable/ic_analytics"
-                android:tint="@color/status_approved"
-                android:layout_marginEnd="@dimen/spacing_normal" />
-
+            <!-- Subtitle -->
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="View detailed analytics and insights"
-                android:textSize="@dimen/text_size_normal"
-                android:textColor="@color/text_primary" />
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/manrope_medium"
+                android:gravity="center"
+                android:text="You've been hand-invited to join a trusted ecosystem of collaborative savers."
+                android:textColor="#475569"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4dp" />
+
+            <!-- Feature Cards Container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:orientation="vertical">
+
+                <!-- Community Trust Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <FrameLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_icon_squircle"
+                            android:backgroundTint="#E9F2FB">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_people"
+                                app:tint="#215DA1" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Community Trust"
+                                android:textColor="#0F172A"
+                                android:textSize="16sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Join an exclusive group where every member is verified by the circle."
+                                android:textColor="#475569"
+                                android:textSize="13sp"
+                                android:lineSpacingExtra="2dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Collaborative Growth Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <FrameLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_icon_squircle"
+                            android:backgroundTint="#FFF7ED">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_trending_up"
+                                app:tint="#EA580C" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Collaborative Growth"
+                                android:textColor="#0F172A"
+                                android:textSize="16sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/manrope_medium"
+                                android:text="Build collective wealth through scheduled and transparent group funds."
+                                android:textColor="#475569"
+                                android:textSize="13sp"
+                                android:lineSpacingExtra="2dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
-
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

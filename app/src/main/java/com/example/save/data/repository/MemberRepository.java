@@ -1138,7 +1138,9 @@ public class MemberRepository {
         member.setAutoPayEnabled(entity.isAutoPayEnabled());
         member.setAutoPayAmount(entity.getAutoPayAmount());
         member.setAutoPayDay(entity.getAutoPayDay());
+        member.setCreditScore(entity.getCreditScore());
         member.setJoinedDate(entity.getJoinedDate());
+        member.setLoanBalance(entity.getLoanBalance());
         return member;
     }
 
@@ -1160,7 +1162,9 @@ public class MemberRepository {
         entity.setAutoPayEnabled(member.isAutoPayEnabled());
         entity.setAutoPayAmount(member.getAutoPayAmount());
         entity.setAutoPayDay(member.getAutoPayDay());
+        entity.setCreditScore(member.getCreditScore());
         entity.setJoinedDate(member.getJoinedDate());
+        entity.setLoanBalance(member.getLoanBalance());
         return entity;
     }
 
@@ -1183,7 +1187,9 @@ public class MemberRepository {
         entity.setAutoPayEnabled(model.isAutoPayEnabled());
         entity.setAutoPayAmount(model.getAutoPayAmount());
         entity.setAutoPayDay(model.getAutoPayDay());
+        entity.setCreditScore(model.getCreditScore());
         entity.setJoinedDate(model.getJoinedDate());
+        entity.setLoanBalance(model.getLoanBalance());
         // Password is not copied from model to entity (managed separately)
     }
 

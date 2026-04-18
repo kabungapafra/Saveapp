@@ -86,7 +86,7 @@ public class LiveChatFragment extends Fragment {
                 ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
             } else if (getActivity() instanceof MemberMainActivity) {
                 ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
-                ((MemberMainActivity) getActivity()).setHeaderVisible(false);
+                ((MemberMainActivity) getActivity()).setHeaderVisible();
             }
 
             // Immersive Zero-Bar Mode
@@ -119,7 +119,7 @@ public class LiveChatFragment extends Fragment {
                 ((AdminMainActivity) getActivity()).setBottomNavVisible(true);
             } else if (getActivity() instanceof MemberMainActivity) {
                 ((MemberMainActivity) getActivity()).setBottomNavVisible(true);
-                ((MemberMainActivity) getActivity()).setHeaderVisible(true);
+                ((MemberMainActivity) getActivity()).setHeaderVisible();
             }
         }
         if (webView != null) {

@@ -226,7 +226,7 @@
         <p class="subtitle">Shape your group's future by participating in active polls and governance.</p>
     </div>
 
-    <div class="card-large" onclick="if(window.Android) window.Android.onCreatePollClicked();" style="cursor: pointer;">
+    <div id="cardCreatePoll" class="card-large" onclick="if(window.Android) window.Android.onCreatePollClicked();" style="cursor: pointer;">
         <div class="btn-plus">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </div>
@@ -292,6 +292,13 @@
         window.onload = () => {
             setTimeout(() => { document.getElementById('fill').style.width = '75%'; }, 100);
         };
+
+        function setRole(role) {
+            if (role === 'member') {
+                const card = document.getElementById('cardCreatePoll');
+                if (card) card.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>

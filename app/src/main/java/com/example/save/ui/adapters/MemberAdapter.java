@@ -75,6 +75,11 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Member member = list.get(position);
+        
+        // Add entrance animation
+        android.view.animation.Animation animation = android.view.animation.AnimationUtils.loadAnimation(holder.itemView.getContext(), com.example.save.R.anim.slide_up_fade);
+        holder.itemView.startAnimation(animation);
+
         if (holder instanceof AdminViewHolder) {
             ((AdminViewHolder) holder).bind(member, position, listener);
         } else if (holder instanceof SimpleViewHolder) {

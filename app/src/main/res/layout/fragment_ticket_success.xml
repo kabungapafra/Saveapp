@@ -20,7 +20,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_arrow_left"
-            app:tint="#1A3CCC" />
+            app:tint="#215DA1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                     android:layout_height="64dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_success_checkmark"
-                    app:tint="#2563EB" />
+                    app:tint="#215DA1" />
 
                 <!-- Decorative Dots (Simulated) -->
                 <View
@@ -156,7 +156,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:text="#TK-94021"
-                                android:textColor="#1A3CCC"
+                                android:textColor="#215DA1"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -247,7 +247,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginTop="48dp"
-                app:cardBackgroundColor="#1A3CCC"
+                app:cardBackgroundColor="#215DA1"
                 app:cardCornerRadius="32dp"
                 app:cardElevation="8dp"
                 app:strokeWidth="0dp">
@@ -267,7 +267,7 @@
                             android:paddingHorizontal="24dp"
                             android:paddingVertical="8dp"
                             android:text="TRANSACTION SECURELY PROCESSED"
-                            android:textColor="#1A3CCC"
+                            android:textColor="#215DA1"
                             android:textSize="10sp"
                             android:textStyle="bold"
                             android:letterSpacing="0.05" />
@@ -281,7 +281,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="View Ticket Status"
-                android:textColor="#1A3CCC"
+                android:textColor="#215DA1"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 

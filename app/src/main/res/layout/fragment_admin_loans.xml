@@ -66,7 +66,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="#2563EB"
+                        app:cardBackgroundColor="#215DA1"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="2dp"
                         app:strokeWidth="0dp">
@@ -81,7 +81,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Total Active Loans"
-                                android:textColor="#BFDBFE"
+                                android:textColor="#E9F2FB"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
 
@@ -270,7 +270,7 @@
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
                                 android:layout_gravity="center_vertical"
-                                android:background="#2563EB" />
+                                android:background="#215DA1" />
 
                             <TextView
                                 android:layout_width="wrap_content"

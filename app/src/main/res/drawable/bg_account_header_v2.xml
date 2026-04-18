@@ -2,11 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <gradient
-                android:angle="0"
-                android:startColor="#1976D2"
-                android:endColor="#0D47A1"
-                android:type="linear" />
+            <solid android:color="#215DA1" />
         </shape>
     </item>
     <!-- Decorative Circle 1 (Top Right) -->

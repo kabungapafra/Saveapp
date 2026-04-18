@@ -167,12 +167,12 @@
                                 android:insetBottom="0dp"
                                 android:text="Export PDF"
                                 android:textAllCaps="false"
-                                android:textColor="#2563EB"
+                                android:textColor="#215DA1"
                                 android:textSize="13sp"
                                 app:cornerRadius="24dp"
                                 app:icon="@drawable/ic_pdf_export"
                                 app:iconSize="18dp"
-                                app:iconTint="#2563EB" />
+                                app:iconTint="#215DA1" />
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btnExcelReport"
@@ -225,13 +225,13 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:background="@drawable/bg_circle_white"
-                                android:backgroundTint="#DBEAFE">
+                                android:backgroundTint="#E9F2FB">
                                 <ImageView
                                     android:layout_width="16dp"
                                     android:layout_height="16dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_people"
-                                    app:tint="#2563EB" />
+                                    app:tint="#215DA1" />
                             </FrameLayout>
 
                             <TextView
@@ -270,8 +270,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:progress="85"
-                            app:indicatorColor="#2563EB"
-                            app:trackColor="#DBEAFE"
+                            app:indicatorColor="#215DA1"
+                            app:trackColor="#E9F2FB"
                             app:trackCornerRadius="4dp"
                             app:trackThickness="8dp" />
                     </LinearLayout>
@@ -557,7 +557,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="68%"
-                                android:textColor="#2563EB"
+                                android:textColor="#215DA1"
                                 android:textSize="13sp" />
                         </LinearLayout>
 
@@ -569,7 +569,7 @@
                             android:layout_marginBottom="14dp"
                             android:progress="68"
                             app:indicatorColor="#60A5FA"
-                            app:trackColor="#EFF6FF"
+                            app:trackColor="#E9F2FB"
                             app:trackCornerRadius="4dp"
                             app:trackThickness="8dp" />
 
@@ -759,7 +759,7 @@
                                 android:gravity="center"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Forecast"
-                                android:textColor="#2563EB"
+                                android:textColor="#215DA1"
                                 android:textSize="10sp" />
                         </LinearLayout>
 
@@ -825,7 +825,7 @@
                                 android:layout_marginTop="2dp"
                                 android:layout_marginEnd="12dp"
                                 android:src="@drawable/ic_check_circle"
-                                app:tint="#2563EB" />
+                                app:tint="#215DA1" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -897,7 +897,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:padding="4dp"
                                 android:text="View All"
-                                android:textColor="#2563EB"
+                                android:textColor="#215DA1"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -992,7 +992,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_history"
-                                app:tint="#2563EB" />
+                                app:tint="#215DA1" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout
@@ -1027,13 +1027,13 @@
                             android:layout_height="36dp"
                             android:layout_marginStart="12dp"
                             android:background="@drawable/bg_circle_white"
-                            android:backgroundTint="#EFF6FF">
+                            android:backgroundTint="#E9F2FB">
                             <ImageView
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="#2563EB" />
+                                app:tint="#215DA1" />
                         </FrameLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

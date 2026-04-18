@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/manrope_bold"
             android:text="$0.00"
-            android:textColor="#2563EB"
+            android:textColor="#215DA1"
             android:textSize="12sp" />
 
         <TextView
@@ -55,7 +55,7 @@
             android:gravity="center"
             android:letterSpacing="0.05"
             android:text="VERIFY"
-            android:textColor="#2563EB"
+            android:textColor="#215DA1"
             android:textSize="8sp" />
     </LinearLayout>
 

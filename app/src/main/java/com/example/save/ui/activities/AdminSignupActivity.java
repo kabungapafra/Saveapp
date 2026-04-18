@@ -64,6 +64,24 @@ public class AdminSignupActivity extends AppCompatActivity {
         });
 
         setupPasswordToggles();
+        startCascadingAnimations();
+    }
+
+    private void startCascadingAnimations() {
+        android.view.animation.Animation slideUp = android.view.animation.AnimationUtils.loadAnimation(this,
+                R.anim.slide_up_fade);
+
+        // Entire Form Card (Cascading from top)
+        binding.loginCard.startAnimation(slideUp);
+
+        // Individual Focus on Action Elements
+        slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
+        slideUp.setStartOffset(300);
+        binding.signupButton.startAnimation(slideUp);
+        
+        slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
+        slideUp.setStartOffset(500);
+        binding.alreadyHaveAccount.startAnimation(slideUp);
     }
 
     private void sendOtp() {

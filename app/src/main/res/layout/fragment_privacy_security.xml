@@ -111,7 +111,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
                 android:text="AUTHENTICATION"
-                android:textColor="#2563EB"
+                android:textColor="#215DA1"
                 android:textSize="12sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -145,14 +145,14 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_squircle_white"
-                            android:backgroundTint="#EFF6FF">
+                            android:backgroundTint="#E9F2FB">
 
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_refresh"
-                                app:tint="#2563EB" />
+                                app:tint="#215DA1" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -204,14 +204,14 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_squircle_white"
-                            android:backgroundTint="#EFF6FF">
+                            android:backgroundTint="#E9F2FB">
 
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_shield_auth"
-                                app:tint="#2563EB" />
+                                app:tint="#215DA1" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -243,8 +243,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="#2563EB"
-                            app:trackTint="#DBEAFE" />
+                            app:thumbTint="#215DA1"
+                            app:trackTint="#E9F2FB" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -257,7 +257,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
                 android:text="ACCESS CONTROL"
-                android:textColor="#2563EB"
+                android:textColor="#215DA1"
                 android:textSize="12sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -291,14 +291,14 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_squircle_white"
-                            android:backgroundTint="#EFF6FF">
+                            android:backgroundTint="#E9F2FB">
 
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_devices_connected"
-                                app:tint="#2563EB" />
+                                app:tint="#215DA1" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -350,14 +350,14 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_squircle_white"
-                            android:backgroundTint="#EFF6FF">
+                            android:backgroundTint="#E9F2FB">
 
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_fingerprint_auth"
-                                app:tint="#2563EB" />
+                                app:tint="#215DA1" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -389,8 +389,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="#2563EB"
-                            app:trackTint="#DBEAFE" />
+                            app:thumbTint="#215DA1"
+                            app:trackTint="#E9F2FB" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -403,7 +403,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
                 android:text="PRIVACY &amp; DATA"
-                android:textColor="#2563EB"
+                android:textColor="#215DA1"
                 android:textSize="12sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -431,14 +431,14 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_squircle_white"
-                        android:backgroundTint="#EFF6FF">
+                        android:backgroundTint="#E9F2FB">
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_visibility_off"
-                            app:tint="#2563EB" />
+                            app:tint="#215DA1" />
                     </FrameLayout>
 
                     <LinearLayout

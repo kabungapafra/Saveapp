@@ -2,14 +2,10 @@ package com.example.save.ui.fragments;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -117,7 +113,7 @@ public class ChatFeedbackFragment extends Fragment {
                 ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
             } else if (getActivity() instanceof MemberMainActivity) {
                 ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
-                ((MemberMainActivity) getActivity()).setHeaderVisible(false);
+                ((MemberMainActivity) getActivity()).setHeaderVisible();
             }
 
             // Immersive Zero-Bar Mode
@@ -137,7 +133,7 @@ public class ChatFeedbackFragment extends Fragment {
         super.onPause();
         if (getActivity() != null) {
             if (getActivity() instanceof MemberMainActivity) {
-                ((MemberMainActivity) getActivity()).setHeaderVisible(true);
+                ((MemberMainActivity) getActivity()).setHeaderVisible();
             }
             // Restore system bars (Status Bar & System Nav)
             View decorView = getActivity().getWindow().getDecorView();

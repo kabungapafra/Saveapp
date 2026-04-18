@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
 import com.example.save.ui.activities.AdminMainActivity;
+import com.example.save.ui.activities.MemberMainActivity;
 
 public class StashFragment extends Fragment {
 
@@ -35,7 +36,7 @@ public class StashFragment extends Fragment {
         setupWebView();
 
         view.findViewById(R.id.btnBack).setOnClickListener(v -> {
-            if (getActivity() instanceof AdminMainActivity) {
+            if (getActivity() instanceof AdminMainActivity || getActivity() instanceof MemberMainActivity) {
                 getActivity().onBackPressed();
             }
         });
@@ -84,6 +85,8 @@ public class StashFragment extends Fragment {
             new Handler(Looper.getMainLooper()).post(() -> {
                 if (getActivity() instanceof AdminMainActivity) {
                     ((AdminMainActivity) getActivity()).loadFragment(fragment);
+                } else if (getActivity() instanceof MemberMainActivity) {
+                    ((MemberMainActivity) getActivity()).loadFragment(fragment, true);
                 }
             });
         }
@@ -94,6 +97,8 @@ public class StashFragment extends Fragment {
         super.onResume();
         if (getActivity() instanceof AdminMainActivity) {
             ((AdminMainActivity) getActivity()).setBottomNavVisible(true);
+        } else if (getActivity() instanceof MemberMainActivity) {
+            // Member side visibility handling if needed
         }
     }
 }

@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="$4,250.00"
-                        android:textColor="#1A6EE0"
+                        android:textColor="#215DA1"
                         android:textSize="26sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -163,7 +163,7 @@
                     android:background="@drawable/bg_segmented_active"
                     android:gravity="center"
                     android:text="Pending"
-                    android:textColor="#1A6EE0"
+                    android:textColor="#215DA1"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -396,7 +396,7 @@
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
                             android:text="PENDING APPROVAL"
-                            android:textColor="#1976D2"
+                            android:textColor="#215DA1"
                             android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>

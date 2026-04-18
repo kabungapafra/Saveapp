@@ -30,29 +30,16 @@ public class GroupSettingsFragment extends Fragment {
     }
 
     private void setupButtons() {
-        binding.btnBack.setOnClickListener(v -> {
+        // No Back or Save buttons as per immersive redesign
+        
+        binding.btnInviteOthers.setOnClickListener(v -> {
             applyClickAnimation(v);
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
+            Toast.makeText(getContext(), "Invite link copied to clipboard", Toast.LENGTH_SHORT).show();
         });
 
-        binding.btnSave.setOnClickListener(v -> {
+        binding.btnLeaveGroup.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "Settings saved successfully", Toast.LENGTH_SHORT).show();
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
-
-        binding.btnChangePassword.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            Toast.makeText(getContext(), "Change Password screen coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        binding.btnDeleteGroup.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            Toast.makeText(getContext(), "Delete Group functionality restricted", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Confirm leave group in the next step", Toast.LENGTH_LONG).show();
         });
     }
 
@@ -82,9 +69,18 @@ public class GroupSettingsFragment extends Fragment {
             Toast.makeText(getContext(), "Loan Requests " + state, Toast.LENGTH_SHORT).show();
         });
 
-        binding.switchInviteOthers.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
+            prefs.edit().putBoolean("group_dark_mode", isChecked).apply();
             String state = isChecked ? "enabled" : "disabled";
-            Toast.makeText(getContext(), "Invite Others " + state, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Dark Mode " + state, Toast.LENGTH_SHORT).show();
+        });
+
+        binding.switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
+            prefs.edit().putBoolean("group_push_notifications", isChecked).apply();
+            String state = isChecked ? "enabled" : "disabled";
+            Toast.makeText(getContext(), "Push Notifications " + state, Toast.LENGTH_SHORT).show();
         });
     }
 

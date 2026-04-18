@@ -103,7 +103,36 @@ public class MembersFragment extends Fragment {
         successAnimation = binding.successAnimation;
         animationOverlay = binding.animationOverlay;
 
+        startEntryAnimations();
+
         return binding.getRoot();
+    }
+
+    private void startEntryAnimations() {
+        android.view.animation.Animation slideUp = android.view.animation.AnimationUtils.loadAnimation(getContext(), R.anim.slide_up_fade);
+        android.view.animation.Animation slideDown = android.view.animation.AnimationUtils.loadAnimation(getContext(), R.anim.fragment_enter); // Using existing fragment_enter for slide down feel
+
+        // 1. Header slides down
+        binding.headerLayout.startAnimation(slideDown);
+
+        // 2. Search card slides up after delay
+        slideUp.setStartOffset(200);
+        binding.searchCard.startAnimation(slideUp);
+
+        // 3. Tabs slide up after more delay
+        android.view.animation.Animation tabsSlide = android.view.animation.AnimationUtils.loadAnimation(getContext(), R.anim.slide_up_fade);
+        tabsSlide.setStartOffset(400);
+        // Find the LinearLayout containing tabs (line 138 in fragment_members.xml)
+        // It's the child after searchCard. Since it has no ID, we'll animate its parent's child or just add an ID.
+        // Wait, line 138 has no ID. I'll animate membersRecyclerView instead or find the view.
+        // Actually, I'll just animate searchCard and membersRecyclerView.
+        
+        // 4. RecyclerView Layout Animation
+        android.view.animation.Animation itemAnim = android.view.animation.AnimationUtils.loadAnimation(getContext(), R.anim.slide_up_fade);
+        android.view.animation.LayoutAnimationController controller = new android.view.animation.LayoutAnimationController(itemAnim);
+        controller.setDelay(0.15f);
+        controller.setOrder(android.view.animation.LayoutAnimationController.ORDER_NORMAL);
+        binding.membersRecyclerView.setLayoutAnimation(controller);
     }
 
     private void setupTabs() {

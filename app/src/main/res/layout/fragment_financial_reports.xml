@@ -21,7 +21,7 @@
             android:id="@+id/btnBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:cardBackgroundColor="#EFF6FF"
+            app:cardBackgroundColor="#E9F2FB"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp">
             <ImageView
@@ -45,7 +45,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:cardBackgroundColor="#EFF6FF"
+            app:cardBackgroundColor="#E9F2FB"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp">
             <ImageView
@@ -212,7 +212,7 @@
                             android:background="@drawable/bg_icon_container_blue"
                             android:padding="12dp"
                             android:src="@drawable/ic_wallet_mockup"
-                            app:tint="#3B82F6" />
+                            app:tint="#215DA1" />
                     </com.google.android.material.card.MaterialCardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -297,7 +297,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_marginBottom="16dp"
-                            app:cardBackgroundColor="#EFF6FF"
+                            app:cardBackgroundColor="#E9F2FB"
                             app:cardCornerRadius="12dp"
                             app:cardElevation="0dp">
                         <ImageView
@@ -306,7 +306,7 @@
                             android:background="@drawable/bg_icon_container_blue"
                             android:padding="8dp"
                             android:src="@drawable/ic_handshake_mockup"
-                            app:tint="#3B82F6" />
+                            app:tint="#215DA1" />
                         </com.google.android.material.card.MaterialCardView>
                         <TextView
                             android:layout_width="wrap_content"
@@ -357,10 +357,10 @@
                     android:layout_centerVertical="true"
                     android:fontFamily="sans-serif-medium"
                     android:text="View Details"
-                    android:textColor="#3B82F6"
+                    android:textColor="#215DA1"
                     android:textSize="14sp"
                     app:drawableEndCompat="@drawable/ic_chevron_right"
-                    app:drawableTint="#3B82F6" />
+                    app:drawableTint="#215DA1" />
             </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView
@@ -390,7 +390,7 @@
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JAN" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="FEB" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAR" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="APR" android:textColor="#3B82F6" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="APR" android:textColor="#215DA1" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAY" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JUN" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
                 </LinearLayout>
@@ -473,7 +473,7 @@
                                 android:layout_height="8dp"
                                 android:layout_centerVertical="true"
                                 android:background="@drawable/white_circle"
-                                android:backgroundTint="#3B82F6" />
+                                android:backgroundTint="#215DA1" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

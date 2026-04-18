@@ -27,7 +27,7 @@ import java.util.concurrent.Executors;
 @Database(entities = { MemberEntity.class, LoanEntity.class,
                 TransactionEntity.class,
                 com.example.save.data.local.entities.NotificationEntity.class,
-                com.example.save.data.local.entities.ApprovalEntity.class }, version = 16, exportSchema = false)
+                com.example.save.data.local.entities.ApprovalEntity.class }, version = 17, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
 

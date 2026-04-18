@@ -107,7 +107,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/bg_circle_white"
-                    android:backgroundTint="#F5F7FF" />
+                    android:backgroundTint="#E9F2FB" />
 
                 <ImageView
                     android:layout_width="24dp"

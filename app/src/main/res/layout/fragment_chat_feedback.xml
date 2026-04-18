@@ -181,7 +181,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:text="GREAT"
-                                android:textColor="#1A3CCC"
+                                android:textColor="#215DA1"
                                 android:textSize="10sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -243,7 +243,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:layout_marginTop="24dp"
-                        android:backgroundTint="#1A3CCC"
+                        android:backgroundTint="#215DA1"
                         android:fontFamily="sans-serif"
                         android:text="Submit &amp; Close"
                         android:textAllCaps="false"

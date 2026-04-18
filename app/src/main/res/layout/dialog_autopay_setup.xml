@@ -21,14 +21,14 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_icon_circle"
-            android:backgroundTint="#E3F2FD">
+            android:backgroundTint="#E9F2FB">
             
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_schedule"
-                app:tint="#1976D2" />
+                app:tint="#215DA1" />
         </FrameLayout>
 
         <TextView
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Day 1"
-                    android:textColor="#1976D2"
+                    android:textColor="#215DA1"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -109,8 +109,8 @@
                 android:valueFrom="1.0"
                 android:valueTo="28.0"
                 android:value="1.0" 
-                app:thumbColor="#1976D2"
-                app:trackColorActive="#1976D2"
+                app:thumbColor="#215DA1"
+                app:trackColorActive="#215DA1"
                 app:trackColorInactive="#E0E0E0"/>
                 
         </LinearLayout>

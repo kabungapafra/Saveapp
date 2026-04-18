@@ -34,8 +34,8 @@ public class DashboardFragment extends Fragment {
     private FragmentDashboardBinding binding;
     private MembersViewModel viewModel;
     private RecipientSmallAdapter recipientAdapter;
-    private UpcomingPaymentAdapter upcomingPaymentAdapter;
     private TransactionAdapter transactionAdapter;
+    private com.example.save.ui.adapters.DashboardMemberAdapter memberAdapter;
 
     private String currentFilterType = "All";
     private List<Transaction> allCachedTransactions = new ArrayList<>();
@@ -65,16 +65,13 @@ public class DashboardFragment extends Fragment {
         binding.rvMonthRecipients.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext(),
                 androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
 
-        upcomingPaymentAdapter = new UpcomingPaymentAdapter(new ArrayList<>(), item -> {
-            ((MemberMainActivity) requireActivity()).loadFragment(new MakeContributionFragment());
-        });
-        binding.rvUpcomingPayments.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext(),
-                androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
-        binding.rvUpcomingPayments.setAdapter(upcomingPaymentAdapter);
+        memberAdapter = new com.example.save.ui.adapters.DashboardMemberAdapter(requireContext());
+        binding.rvDashboardMembers.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+        binding.rvDashboardMembers.setAdapter(memberAdapter);
 
         transactionAdapter = new TransactionAdapter(new ArrayList<>());
-        binding.rvRecentTransactions.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
-        binding.rvRecentTransactions.setAdapter(transactionAdapter);
+        binding.rvDashboardTransactions.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+        binding.rvDashboardTransactions.setAdapter(transactionAdapter);
 
         binding.btnViewAllMembers.setOnClickListener(v -> {
             applyClickAnimation(v);
@@ -83,33 +80,8 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupFilters() {
-        binding.chipGroupFilters.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.chipContributions) {
-                currentFilterType = "Contributions";
-            } else if (checkedId == R.id.chipLoans) {
-                currentFilterType = "Loans";
-            } else if (checkedId == R.id.chipPayouts) {
-                currentFilterType = "Payouts";
-            } else {
-                currentFilterType = "All";
-            }
-            applyFilters();
-        });
-
-        binding.btnDateFilter.setOnClickListener(v -> {
-            com.google.android.material.datepicker.MaterialDatePicker<androidx.core.util.Pair<Long, Long>> picker = com.google.android.material.datepicker.MaterialDatePicker.Builder
-                    .dateRangePicker()
-                    .setTitleText("Select Date Range")
-                    .build();
-
-            picker.addOnPositiveButtonClickListener(selection -> {
-                binding.btnDateFilter.setText("Range Selected");
-                // In a real app, you'd filter by date here
-                applyFilters();
-            });
-
-            picker.show(getParentFragmentManager(), "date_filter_dashboard");
-        });
+        // Filter UI removed in high-fidelity redesign. 
+        // Logic preserved for future optional restoration or deep-link filtering.
     }
 
     private void applyFilters() {
@@ -127,49 +99,31 @@ public class DashboardFragment extends Fragment {
         }
 
         if (filteredList.isEmpty()) {
-            binding.rvRecentTransactions.setVisibility(View.GONE);
+            binding.rvDashboardTransactions.setVisibility(View.GONE);
         } else {
-            binding.rvRecentTransactions.setVisibility(View.VISIBLE);
+            binding.rvDashboardTransactions.setVisibility(View.VISIBLE);
             transactionAdapter.updateTransactions(filteredList);
         }
     }
 
     private void setupHeaderInteractions() {
-        binding.greetingName.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            ((MemberMainActivity) requireActivity()).loadFragment(new SettingsFragment());
-        });
+        if (binding.ivUserAvatarTop != null) {
+            binding.ivUserAvatarTop.setOnClickListener(v -> {
+                applyClickAnimation(v);
+                ((MemberMainActivity) requireActivity()).loadFragment(new SettingsFragment());
+            });
+        }
 
-        binding.notificationIcon.setOnClickListener(v -> {
+        binding.btnNotifications.setOnClickListener(v -> {
             applyClickAnimation(v);
             ((MemberMainActivity) requireActivity()).showNotifications();
         });
 
-        binding.actionPay.setOnClickListener(v -> {
+        binding.btnPayNowBottom.setOnClickListener(v -> {
             applyClickAnimation(v);
             ((MemberMainActivity) requireActivity()).loadFragment(new MakeContributionFragment());
         });
 
-        binding.actionLoan.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            String email = SessionManager.getInstance(requireContext()).getUserEmail();
-            ((MemberMainActivity) requireActivity()).loadFragment(LoansFragment.newInstance(email != null ? email : "email@example.com"));
-        });
-
-        binding.actionQueue.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            ((MemberMainActivity) requireActivity()).loadFragment(QueueFragment.newInstance());
-        });
-
-        binding.actionProfile.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            ((MemberMainActivity) requireActivity()).loadFragment(new SettingsFragment());
-        });
-        
-        binding.myTakeCard.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            Toast.makeText(getContext(), "Viewing Payout History", Toast.LENGTH_SHORT).show();
-        });
     }
 
     private void loadDashboardData() {
@@ -179,16 +133,7 @@ public class DashboardFragment extends Fragment {
         if (email != null) {
             viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
-                    String firstName = member.getName().split(" ")[0];
-                    binding.greetingName.setText(firstName + "!");
-
-                    Context context = requireContext();
-                    android.content.SharedPreferences adminPrefs = context.getSharedPreferences("SaveAppPrefs", Context.MODE_PRIVATE);
-                    String schedContribDate = adminPrefs.getString("sched_contrib_date", member.getNextPaymentDueDate());
-                    String schedPayoutDate = adminPrefs.getString("sched_payout_date", member.getNextPayoutDate());
-
-                    binding.tvMyTakePayoutDate.setText(schedPayoutDate);
-                    binding.tvMyTakeDueDate.setText(schedContribDate);
+                    binding.tvCircleName.setText("Holiday Fund 2024"); // Design specified static text for mockup parity
                 }
             });
         }
@@ -196,7 +141,7 @@ public class DashboardFragment extends Fragment {
         viewModel.getGroupBalance().observe(getViewLifecycleOwner(), balance -> {
             if (balance != null) {
                 String formatted = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG")).format(balance);
-                binding.txtBalance.setText(formatted);
+                binding.tvBalanceAmount.setText(formatted);
             }
         });
 
@@ -204,12 +149,10 @@ public class DashboardFragment extends Fragment {
             viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
                     double mySavings = member.getContributionPaid();
-                    String formatted = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG")).format(mySavings);
-                    binding.savingsBalance.setText(formatted);
 
                     double target = member.getContributionTarget();
                     int progress = target > 0 ? (int) ((mySavings / target) * 100) : 0;
-                    binding.metricsProgress.setProgress(progress);
+                    binding.goalProgress.setProgress(progress);
                 }
             });
         }
@@ -222,7 +165,7 @@ public class DashboardFragment extends Fragment {
         if (getContext() == null) return;
         
         int slots = requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE).getInt("slots_per_round", 5);
-        binding.tvRecipientsLabel.setText(slots > 1 ? "Current Batch Recipients" : "Next Recipient");
+        // Label removed in high-fidelity redesign as it's integrated into the Active Circle card
 
         android.content.SharedPreferences adminPrefs = requireContext().getSharedPreferences("SaveAppPrefs", Context.MODE_PRIVATE);
         String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
@@ -233,12 +176,10 @@ public class DashboardFragment extends Fragment {
 
         viewModel.getPendingPaymentsCountLive().observe(getViewLifecycleOwner(), pendingCount -> {
             if (pendingCount != null) {
-                binding.tvPendingCount.setText(String.valueOf(pendingCount));
                 if (pendingCount > 0) {
-                    binding.notificationBadge.setText(String.valueOf(pendingCount));
-                    binding.notificationBadge.setVisibility(View.VISIBLE);
+                    binding.notificationIndicator.setVisibility(View.VISIBLE);
                 } else {
-                    binding.notificationBadge.setVisibility(View.GONE);
+                    binding.notificationIndicator.setVisibility(View.GONE);
                 }
             }
         });
@@ -247,24 +188,14 @@ public class DashboardFragment extends Fragment {
         if (email != null) {
             viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), currentMember -> {
                 if (currentMember != null) {
-                    binding.tvPaymentStreak.setText(String.valueOf(currentMember.getPaymentStreak()));
-                    binding.tvCreditScore.setText(String.valueOf(currentMember.getCreditScore()));
-                    updateUpcomingPayments(currentMember);
+                    // Update additional stats if components are added to UI
                 }
             });
         }
     }
 
     private void updateUpcomingPayments(com.example.save.data.models.Member member) {
-        List<PaymentItem> payments = new ArrayList<>();
-        if (member.getContributionPaid() < member.getContributionTarget()) {
-            double remaining = member.getContributionTarget() - member.getContributionPaid();
-            String amountStr = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG")).format(remaining);
-            String schedContribDate = requireContext().getSharedPreferences("SaveAppPrefs", Context.MODE_PRIVATE).getString("sched_contrib_date", "Active Cycle");
-            payments.add(new PaymentItem("Monthly Contribution", amountStr + " remaining", "Due: " + schedContribDate, "Contribution"));
-        }
-        if (payments.isEmpty()) payments.add(new PaymentItem("All Paid Up", "You are current", "Relax", "Status"));
-        upcomingPaymentAdapter.updateList(payments);
+        // UI for upcoming payments list removed in high-fidelity redesign
     }
 
     private void loadRecentTransactions() {
@@ -303,9 +234,7 @@ public class DashboardFragment extends Fragment {
         super.onResume();
         // Restore nav bar directly when returning to dashboard
         if (getActivity() != null) {
-            View navContainer = getActivity().findViewById(R.id.navContainer);
-            if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
-            View navAction = getActivity().findViewById(R.id.navAction);
+            View navAction = getActivity().findViewById(R.id.navContainer);
             if (navAction != null) navAction.setVisibility(View.VISIBLE);
         }
     }

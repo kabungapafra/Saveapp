@@ -4,54 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC"> <!-- Slate 50 background -->
+    android:background="#F8FAFC">
 
-    <!-- Top Navigation Bar -->
+    <!-- IMMERSIVE HEADER (NO NAVIGATION BAR) -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topBar"
+        android:id="@+id/headerContainer"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:paddingTop="24dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="48dp"
+        android:paddingBottom="16dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="24dp"
-            android:background="@drawable/bg_circle_white_shadow"
-            android:padding="14dp"
-            android:src="@drawable/ic_chevron_left"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="#64748B" />
-
         <TextView
+            android:id="@+id/badgeActiveCycle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/bg_pill_tab_selected"
+            android:backgroundTint="#E9F2FB"
             android:fontFamily="@font/manrope_bold"
-            android:text="Group Settings"
-            android:textColor="#0F172A"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:text="ACTIVE CYCLE"
+            android:textColor="#215DA1"
+            android:textSize="11sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/btnSave"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/bg_circle_blue_glow"
-            android:elevation="8dp"
-            android:padding="16dp"
-            android:src="@drawable/ic_check"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="#FFFFFF" />
+        <TextView
+            android:id="@+id/groupTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/manrope_bold"
+            android:text="Group Settings"
+            android:textColor="#090F1C"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/badgeActiveCycle" />
+
+        <TextView
+            android:id="@+id/groupStats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/manrope_medium"
+            android:text="Created October 2023  |  12 Members"
+            android:textColor="#64748B"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -60,63 +64,231 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:fillViewport="true"
-        android:paddingBottom="120dp"
+        android:paddingBottom="40dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBar">
+        app:layout_constraintTop_toBottomOf="@id/headerContainer">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp">
 
-            <!-- Title Header -->
+            <!-- FINANCIAL RULES SECTION -->
             <TextView
-                android:id="@+id/groupTitle"
+                android:id="@+id/labelFinancialRules"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/manrope_bold"
-                android:text="Elite Savers Alpha"
-                android:textColor="#0F172A"
-                android:textSize="26sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:letterSpacing="0.1"
+                android:text="FINANCIAL RULES"
+                android:textColor="#215DA1"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/groupStats"
-                android:layout_width="wrap_content"
+            <GridLayout
+                android:id="@+id/gridFinancialRules"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/manrope_medium"
-                android:text="Created October 2023 • 12 Members"
-                android:textColor="#94A3B8"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/groupTitle" />
+                android:layout_marginTop="12dp"
+                android:columnCount="2"
+                app:layout_constraintTop_toBottomOf="@id/labelFinancialRules">
 
-            <!-- SECTION: SCHEDULED ACTIONS -->
+                <!-- Contribution Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_wallet_safe_blue" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="CONTRIBUTION"
+                            android:textColor="#94A3B8"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="$500"
+                            android:textColor="#0F172A"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Frequency Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_calendar_month"
+                            app:tint="#215DA1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="FREQUENCY"
+                            android:textColor="#94A3B8"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Monthly"
+                            android:textColor="#0F172A"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Late Fee Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_clock_orange"
+                            app:tint="#215DA1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="LATE FEE"
+                            android:textColor="#94A3B8"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="$25"
+                            android:textColor="#0F172A"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Loan Interest Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_trending_up"
+                            app:tint="#215DA1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="LOAN INTEREST"
+                            android:textColor="#94A3B8"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="5%"
+                            android:textColor="#0F172A"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </GridLayout>
+
+            <!-- SCHEDULED ACTIONS SECTION -->
             <TextView
                 android:id="@+id/labelScheduledActions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.1"
                 android:text="SCHEDULED ACTIONS"
                 android:textColor="#94A3B8"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/groupStats" />
+                app:layout_constraintTop_toBottomOf="@id/gridFinancialRules" />
 
             <!-- Automatic Payouts Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardAutomaticPayouts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="16dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="24dp"
@@ -124,135 +296,69 @@
                 app:layout_constraintTop_toBottomOf="@id/labelScheduledActions"
                 app:strokeWidth="0dp">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp">
-
-                        <View
-                            android:id="@+id/bgIconPayouts"
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:background="@drawable/bg_icon_squircle"
-                            android:backgroundTint="#EFF6FF"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_refresh_premium"
-                            app:layout_constraintBottom_toBottomOf="@id/bgIconPayouts"
-                            app:layout_constraintEnd_toEndOf="@id/bgIconPayouts"
-                            app:layout_constraintStart_toStartOf="@id/bgIconPayouts"
-                            app:layout_constraintTop_toTopOf="@id/bgIconPayouts"
-                            app:tint="#3B82F6" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="@id/bgIconPayouts"
-                            app:layout_constraintEnd_toStartOf="@id/switchAutomaticPayouts"
-                            app:layout_constraintStart_toEndOf="@id/bgIconPayouts"
-                            app:layout_constraintTop_toTopOf="@id/bgIconPayouts">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Automatic Payouts"
-                                android:textColor="#1E293B"
-                                android:textSize="17sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_medium"
-                                android:text="Transfer funds to linked account"
-                                android:textColor="#94A3B8"
-                                android:textSize="13sp" />
-                        </LinearLayout>
-
-                        <com.google.android.material.materialswitch.MaterialSwitch
-                            android:id="@+id/switchAutomaticPayouts"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:thumbTint="@color/white"
-                            app:trackTint="#3B82F6" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:padding="16dp">
 
                     <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="16dp"
-                        android:background="#F1F5F9" />
+                        android:id="@+id/bgIconPayouts"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_icon_squircle"
+                        android:backgroundTint="#E9F2FB"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:paddingHorizontal="16dp">
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_automatic_payouts"
+                        app:layout_constraintBottom_toBottomOf="@id/bgIconPayouts"
+                        app:layout_constraintEnd_toEndOf="@id/bgIconPayouts"
+                        app:layout_constraintStart_toStartOf="@id/bgIconPayouts"
+                        app:layout_constraintTop_toTopOf="@id/bgIconPayouts"
+                        app:tint="#215DA1" />
 
-                        <ImageView
-                            android:id="@+id/iconCalendar"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_calendar_month"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:tint="#64748B" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/switchAutomaticPayouts"
+                        app:layout_constraintStart_toEndOf="@id/bgIconPayouts"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Payout Frequency"
-                            android:textColor="#64748B"
-                            android:textSize="15sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/iconCalendar"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Automatic Payouts"
+                            android:textColor="#1E293B"
+                            android:textSize="16sp" />
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="Frequency: Weekly"
+                            android:textColor="#215DA1"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Weekly"
-                                android:textColor="#3B82F6"
-                                android:textSize="15sp" />
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/ic_chevron_right"
-                                app:tint="#3B82F6" />
-                        </LinearLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchAutomaticPayouts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:thumbTint="@color/white"
+                        app:trackTint="#215DA1" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Scheduled Contributions Card -->
@@ -260,114 +366,76 @@
                 android:id="@+id/cardScheduledContributions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="2dp"
                 app:layout_constraintTop_toBottomOf="@id/cardAutomaticPayouts"
                 app:strokeWidth="0dp">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:padding="16dp">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp">
-
-                        <View
-                            android:id="@+id/bgIconContributions"
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:background="@drawable/bg_icon_squircle"
-                            android:backgroundTint="#EFF6FF"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_delta_premium"
-                            app:layout_constraintBottom_toBottomOf="@id/bgIconContributions"
-                            app:layout_constraintEnd_toEndOf="@id/bgIconContributions"
-                            app:layout_constraintStart_toStartOf="@id/bgIconContributions"
-                            app:layout_constraintTop_toTopOf="@id/bgIconContributions"
-                            app:tint="#3B82F6" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="@id/bgIconContributions"
-                            app:layout_constraintEnd_toStartOf="@id/switchScheduledContributions"
-                            app:layout_constraintStart_toEndOf="@id/bgIconContributions"
-                            app:layout_constraintTop_toTopOf="@id/bgIconContributions">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Scheduled Contributions"
-                                android:textColor="#1E293B"
-                                android:textSize="17sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_medium"
-                                android:text="Recurring deposits to your goals"
-                                android:textColor="#94A3B8"
-                                android:textSize="13sp" />
-                        </LinearLayout>
-
-                        <com.google.android.material.materialswitch.MaterialSwitch
-                            android:id="@+id/switchScheduledContributions"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                    <View
+                        android:id="@+id/bgIconContributions"
+                        android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_marginHorizontal="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:background="#F8FAFC"
-                        android:paddingHorizontal="16dp">
+                        android:background="@drawable/bg_icon_squircle"
+                        android:backgroundTint="#E9F2FB"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Next Scheduled"
-                            android:textColor="#94A3B8"
-                            android:textSize="14sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_calendar"
+                        app:layout_constraintBottom_toBottomOf="@id/bgIconContributions"
+                        app:layout_constraintEnd_toEndOf="@id/bgIconContributions"
+                        app:layout_constraintStart_toStartOf="@id/bgIconContributions"
+                        app:layout_constraintTop_toTopOf="@id/bgIconContributions"
+                        app:tint="#215DA1" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/switchScheduledContributions"
+                        app:layout_constraintStart_toEndOf="@id/bgIconContributions"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="Oct 24, 2023"
-                            android:textColor="#475569"
-                            android:textSize="14sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:text="Scheduled Contributions"
+                            android:textColor="#1E293B"
+                            android:textSize="16sp" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="Next: Oct 24, 2023"
+                            android:textColor="#215DA1"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchScheduledContributions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:thumbTint="@color/white"
+                        app:trackTint="#215DA1" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Smart Round-ups Card -->
@@ -375,8 +443,7 @@
                 android:id="@+id/cardSmartRoundups"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="2dp"
@@ -390,34 +457,33 @@
 
                     <View
                         android:id="@+id/bgIconRoundups"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:background="@drawable/bg_icon_squircle"
-                        android:backgroundTint="#EFF6FF"
+                        android:backgroundTint="#E9F2FB"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_add"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_stars"
                         app:layout_constraintBottom_toBottomOf="@id/bgIconRoundups"
                         app:layout_constraintEnd_toEndOf="@id/bgIconRoundups"
                         app:layout_constraintStart_toStartOf="@id/bgIconRoundups"
                         app:layout_constraintTop_toTopOf="@id/bgIconRoundups"
-                        app:tint="#3B82F6" />
+                        app:tint="#215DA1" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
                         android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="@id/bgIconRoundups"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/switchSmartRoundups"
                         app:layout_constraintStart_toEndOf="@id/bgIconRoundups"
-                        app:layout_constraintTop_toTopOf="@id/bgIconRoundups"
-                        tools:layout_editor_absoluteX="96dp">
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -425,292 +491,54 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="Smart Round-ups"
                             android:textColor="#1E293B"
-                            android:textSize="17sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
-                            android:text="Save spare change from purchases"
+                            android:text="Round up to the nearest $1.00"
                             android:textColor="#94A3B8"
-                            android:textSize="13sp" />
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchSmartRoundups"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
+                        android:checked="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:thumbTint="@color/white"
-                        app:trackTint="#3B82F6" />
-
+                        app:trackTint="#215DA1" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- SECTION: FINANCIAL RULES -->
-            <TextView
-                android:id="@+id/labelFinancialRules"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="40dp"
-                android:fontFamily="@font/manrope_bold"
-                android:letterSpacing="0.1"
-                android:text="FINANCIAL RULES"
-                android:textColor="#94A3B8"
-                android:textSize="13sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardSmartRoundups" />
-
-            <GridLayout
-                android:id="@+id/gridFinancialRules"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:columnCount="2"
-                app:layout_constraintTop_toBottomOf="@id/labelFinancialRules">
-
-                <!-- Contribution -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Contribution"
-                            android:textColor="#94A3B8"
-                            android:textSize="14sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:gravity="bottom"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="$"
-                                android:textColor="#3B82F6"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="500"
-                                android:textColor="#0F172A"
-                                android:textSize="24sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Frequency -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Frequency"
-                            android:textColor="#94A3B8"
-                            android:textSize="14sp" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Monthly"
-                                android:textColor="#0F172A"
-                                android:textSize="19sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_chevron_down"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:tint="#CBD5E1" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Late Fee -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Late Fee"
-                            android:textColor="#94A3B8"
-                            android:textSize="14sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:gravity="bottom"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="$"
-                                android:textColor="#94A3B8"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="25"
-                                android:textColor="#0F172A"
-                                android:textSize="24sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Loan Interest -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Loan Interest"
-                            android:textColor="#94A3B8"
-                            android:textSize="14sp" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="5"
-                                android:textColor="#0F172A"
-                                android:textSize="24sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="%"
-                                android:textColor="#94A3B8"
-                                android:textSize="18sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </GridLayout>
-
-            <!-- SECTION: AUTOMATION & GOVERNANCE -->
+            <!-- AUTOMATION & GOVERNANCE SECTION -->
             <TextView
                 android:id="@+id/labelAutomationGovernance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.1"
                 android:text="AUTOMATION &amp; GOVERNANCE"
                 android:textColor="#94A3B8"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gridFinancialRules" />
+                app:layout_constraintTop_toBottomOf="@id/cardSmartRoundups" />
 
+            <!-- Automation Card Container -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardAutomationGovernance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="#F1F5F9"
                 app:cardCornerRadius="24dp"
-                app:cardElevation="2dp"
+                app:cardElevation="0dp"
                 app:layout_constraintTop_toBottomOf="@id/labelAutomationGovernance"
                 app:strokeWidth="0dp">
 
@@ -719,58 +547,25 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <!-- Automated Cycle -->
+                    <!-- Automated Cycle Rotation Row -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="64dp"
                         android:paddingHorizontal="16dp">
 
-                        <View
-                            android:id="@+id/bgIconCycle"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="@drawable/bg_icon_squircle"
-                            android:backgroundTint="#EFF6FF"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="Automated Cycle Rotation"
+                            android:textColor="#1E293B"
+                            android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_refresh_premium"
-                            app:layout_constraintBottom_toBottomOf="@id/bgIconCycle"
-                            app:layout_constraintEnd_toEndOf="@id/bgIconCycle"
-                            app:layout_constraintStart_toStartOf="@id/bgIconCycle"
-                            app:layout_constraintTop_toTopOf="@id/bgIconCycle"
-                            app:tint="#3B82F6" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/switchAutomatedCycle"
-                            app:layout_constraintStart_toEndOf="@id/bgIconCycle"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Automated Cycle"
-                                android:textColor="#1E293B"
-                                android:textSize="16sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="ENABLE AUTO-PAYOUT SYSTEM"
-                                android:textColor="#94A3B8"
-                                android:textSize="10sp" />
-                        </LinearLayout>
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:drawableStartCompat="@drawable/ic_automated_cycle"
+                            android:drawablePadding="12dp"
+                            android:gravity="center_vertical" />
 
                         <com.google.android.material.materialswitch.MaterialSwitch
                             android:id="@+id/switchAutomatedCycle"
@@ -781,67 +576,28 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:thumbTint="@color/white"
-                            app:trackTint="#3B82F6" />
+                            app:trackTint="#215DA1" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="16dp"
-                        android:background="#F1F5F9" />
-
-                    <!-- Loan Requests -->
+                    <!-- Loan Request Permissions Row -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="64dp"
                         android:paddingHorizontal="16dp">
 
-                        <View
-                            android:id="@+id/bgIconLoans"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="@drawable/bg_icon_squircle"
-                            android:backgroundTint="#F0FDF4"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="Loan Request Permissions"
+                            android:textColor="#1E293B"
+                            android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_shield_check_premium"
-                            app:layout_constraintBottom_toBottomOf="@id/bgIconLoans"
-                            app:layout_constraintEnd_toEndOf="@id/bgIconLoans"
-                            app:layout_constraintStart_toStartOf="@id/bgIconLoans"
-                            app:layout_constraintTop_toTopOf="@id/bgIconLoans"
-                            app:tint="#22C55E" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/switchLoanRequests"
-                            app:layout_constraintStart_toEndOf="@id/bgIconLoans"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Loan Requests"
-                                android:textColor="#1E293B"
-                                android:textSize="16sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="MEMBERS CAN REQUEST LOANS"
-                                android:textColor="#94A3B8"
-                                android:textSize="10sp" />
-                        </LinearLayout>
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:drawableStartCompat="@drawable/ic_loan_requests"
+                            android:drawablePadding="12dp"
+                            android:gravity="center_vertical" />
 
                         <com.google.android.material.materialswitch.MaterialSwitch
                             android:id="@+id/switchLoanRequests"
@@ -852,313 +608,169 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:thumbTint="@color/white"
-                            app:trackTint="#3B82F6" />
+                            app:trackTint="#215DA1" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="16dp"
-                        android:background="#F1F5F9" />
-
-                    <!-- Invite Others -->
+                     <!-- Invite Others Row -->
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/btnInviteOthers"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/bg_pill_light_blue"
+                        android:backgroundTint="#E9F2FB"
+                        android:layout_margin="8dp"
                         android:paddingHorizontal="16dp">
 
-                        <View
-                            android:id="@+id/bgIconInvite"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="@drawable/bg_icon_squircle"
-                            android:backgroundTint="#F5F3FF"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_person_add_premium"
-                            app:layout_constraintBottom_toBottomOf="@id/bgIconInvite"
-                            app:layout_constraintEnd_toEndOf="@id/bgIconInvite"
-                            app:layout_constraintStart_toStartOf="@id/bgIconInvite"
-                            app:layout_constraintTop_toTopOf="@id/bgIconInvite"
-                            app:tint="#8B5CF6" />
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/switchInviteOthers"
-                            app:layout_constraintStart_toEndOf="@id/bgIconInvite"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Invite Others"
-                                android:textColor="#1E293B"
-                                android:textSize="16sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="MEMBERS CAN INVITE NEW USERS"
-                                android:textColor="#94A3B8"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-
-                        <com.google.android.material.materialswitch.MaterialSwitch
-                            android:id="@+id/switchInviteOthers"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="16dp"
-                        android:background="#F1F5F9" />
-
-                    <!-- Change Password -->
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/btnChangePassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:paddingHorizontal="16dp">
-
-                        <View
-                            android:id="@+id/bgIconPassword"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="@drawable/bg_icon_squircle"
-                            android:backgroundTint="#F0F9FF"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Invite Others to Group"
+                            android:textColor="#215DA1"
+                            android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:drawableStartCompat="@drawable/ic_invite_others"
+                            android:drawablePadding="12dp"
+                            android:gravity="center_vertical" />
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_lock_premium"
-                            app:layout_constraintBottom_toBottomOf="@id/bgIconPassword"
-                            app:layout_constraintEnd_toEndOf="@id/bgIconPassword"
-                            app:layout_constraintStart_toStartOf="@id/bgIconPassword"
-                            app:layout_constraintTop_toTopOf="@id/bgIconPassword"
-                            app:tint="#0369A1" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/chevronPassword"
-                            app:layout_constraintStart_toEndOf="@id/bgIconPassword"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Change Password"
-                                android:textColor="#1E293B"
-                                android:textSize="16sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="UPDATE YOUR SECURITY CREDENTIALS"
-                                android:textColor="#94A3B8"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/chevronPassword"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
                             android:src="@drawable/ic_chevron_right"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:tint="#CBD5E1" />
+                            app:tint="#215DA1" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Delete Group Button -->
-            <RelativeLayout
-                android:id="@+id/btnDeleteGroup"
+            <!-- APP PREFERENCES SECTION -->
+            <TextView
+                android:id="@+id/labelAppPreferences"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/manrope_bold"
+                android:letterSpacing="0.1"
+                android:text="APP PREFERENCES"
+                android:textColor="#94A3B8"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardAutomationGovernance" />
+
+            <!-- Preferences Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardPreferences"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="#F1F5F9"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:layout_constraintTop_toBottomOf="@id/labelAppPreferences"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingVertical="8dp">
+
+                    <!-- Dark Mode Row -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:paddingHorizontal="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="Dark Mode"
+                            android:textColor="#1E293B"
+                            android:textSize="15sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:drawableStartCompat="@drawable/ic_moon"
+                            app:drawableTint="#1E293B"
+                            android:drawablePadding="12dp"
+                            android:gravity="center_vertical" />
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchDarkMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:thumbTint="@color/white"
+                            app:trackTint="#D1D5DB" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Push Notifications Row -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:paddingHorizontal="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="Push Notifications"
+                            android:textColor="#1E293B"
+                            android:textSize="15sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:drawableStartCompat="@drawable/ic_bell_premium"
+                            android:drawablePadding="12dp"
+                            android:gravity="center_vertical" />
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchNotifications"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:thumbTint="@color/white"
+                            app:trackTint="#215DA1" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Leave Group Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLeaveGroup"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/bg_delete_btn_premium"
-                android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@id/cardAutomationGovernance">
-
-                <ImageView
-                    android:id="@+id/iconDelete"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_delete_premium"
-                    app:tint="#EF4444" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_toEndOf="@id/iconDelete"
-                    android:fontFamily="@font/manrope_bold"
-                    android:text="Delete Group"
-                    android:textColor="#EF4444"
-                    android:textSize="18sp" />
-
-            </RelativeLayout>
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Leave Group"
+                android:textAllCaps="false"
+                android:textColor="#DC2626"
+                android:textSize="16sp"
+                app:cornerRadius="32dp"
+                app:icon="@drawable/ic_logout_red"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"
+                app:iconTint="#DC2626"
+                app:layout_constraintTop_toBottomOf="@id/cardPreferences"
+                app:strokeColor="#FEE2E2"
+                app:backgroundTint="#FEF2F2"
+                app:strokeWidth="1dp"
+                tools:ignore="VisualLintButtonSize" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <!-- BOTTOM NAVIGATION BAR (MOCKUP) -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/bg_bottom_nav_white"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <!-- Home -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_home"
-                    app:tint="#94A3B8" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:text="HOME"
-                    android:textColor="#94A3B8"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <!-- Groups (Active) -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_people_group"
-                    app:tint="#3B82F6" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:text="GROUPS"
-                    android:textColor="#3B82F6"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <!-- Spacer for FAB -->
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1.2" />
-
-            <!-- Savings -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_account_balance_wallet"
-                    app:tint="#94A3B8" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:text="SAVINGS"
-                    android:textColor="#94A3B8"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <!-- Settings -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_settings"
-                    app:tint="#94A3B8" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:text="SETTINGS"
-                    android:textColor="#94A3B8"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Dynamic Floating Button -->
-        <FrameLayout
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginBottom="44dp"
-            android:background="@drawable/bg_fab_blue_glow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_add"
-                app:tint="#FFFFFF" />
-        </FrameLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

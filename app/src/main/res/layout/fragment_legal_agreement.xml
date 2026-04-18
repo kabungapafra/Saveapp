@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                app:cardBackgroundColor="#EFF6FF"
+                app:cardBackgroundColor="#E9F2FB"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
 
@@ -99,7 +99,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        app:cardBackgroundColor="#2563EB"
+                        app:cardBackgroundColor="#215DA1"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp">
                         <ImageView
@@ -152,7 +152,7 @@
                     android:background="@drawable/bg_tab_selected_legal"
                     android:gravity="center"
                     android:text="Terms of Service"
-                    android:textColor="#2563EB"
+                    android:textColor="#215DA1"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -186,7 +186,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1. ACCEPTANCE"
-                        android:textColor="#2563EB"
+                        android:textColor="#215DA1"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:letterSpacing="0.05" />
@@ -205,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:text="2. USER ELIGIBILITY"
-                        android:textColor="#2563EB"
+                        android:textColor="#215DA1"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:letterSpacing="0.05" />
@@ -224,7 +224,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:text="3. ACCOUNT SECURITY"
-                        android:textColor="#2563EB"
+                        android:textColor="#215DA1"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:letterSpacing="0.05" />
@@ -259,7 +259,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="View full agreement"
-                            android:textColor="#2563EB"
+                            android:textColor="#215DA1"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
@@ -268,7 +268,7 @@
                             android:layout_height="20dp"
                             android:layout_marginStart="8dp"
                             android:src="@drawable/ic_help_outline"
-                            app:tint="#2563EB" />
+                            app:tint="#215DA1" />
                     </LinearLayout>
 
                 </LinearLayout>

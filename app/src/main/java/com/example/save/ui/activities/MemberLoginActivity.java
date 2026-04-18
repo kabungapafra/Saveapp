@@ -22,8 +22,33 @@ public class MemberLoginActivity extends AppCompatActivity {
                 R.anim.heartbeat);
         binding.logoImage.startAnimation(heartbeat);
 
+        startCascadingAnimations();
         setupListeners();
         setupPasswordToggle();
+    }
+
+    private void startCascadingAnimations() {
+        android.view.animation.Animation slideUp = android.view.animation.AnimationUtils.loadAnimation(this,
+                R.anim.slide_up_fade);
+
+        // Logo and Title
+        binding.logoContainer.startAnimation(slideUp);
+        
+        slideUp.setStartOffset(150);
+        binding.titleText.startAnimation(slideUp);
+        binding.subtitleText.startAnimation(slideUp);
+
+        // The entire form container (wrapped in ScrollView's LinearLayout)
+        // Since the layout uses a nested LinearLayout as the first child of ScrollView, 
+        // I'll animate the major visible child.
+        slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
+        slideUp.setStartOffset(300);
+        
+        // Find the CardView which is the form card (line 66 in layout)
+        // I'll animate the parent of the buttons as well.
+        // For simplicity, I'll just animate the two main visual blocks after header.
+        binding.loginButton.startAnimation(slideUp);
+        binding.googleButton.startAnimation(slideUp);
     }
 
     private void setupListeners() {
@@ -39,7 +64,7 @@ public class MemberLoginActivity extends AppCompatActivity {
                             .loadAnimation(MemberLoginActivity.this, R.anim.login_btn_release);
                     v.startAnimation(release);
                     if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-                        Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
+                        Intent intent = new Intent(MemberLoginActivity.this, MemberInvitationActivity.class);
                         intent.putExtra("member_name", "Design Member");
                         intent.putExtra("member_email", "member@design.com");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

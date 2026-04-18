@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/bg_card_surface"
-                android:backgroundTint="#EFF6FF"
+                android:backgroundTint="#E9F2FB"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="20dp">
@@ -72,7 +72,7 @@
                     android:backgroundTint="#DAE8FF"
                     android:padding="12dp"
                     android:src="@drawable/ic_shield_auth"
-                    app:tint="#2563EB" />
+                    app:tint="#215DA1" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -120,7 +120,7 @@
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/manrope_bold"
                     android:text="2 Active"
-                    android:textColor="#3B82F6"
+                    android:textColor="#215DA1"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -311,8 +311,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:checked="true"
-                    app:thumbTint="#3B82F6"
-                    app:trackTint="#DBEAFE" />
+                    app:thumbTint="#215DA1"
+                    app:trackTint="#E9F2FB" />
             </RelativeLayout>
 
             <!-- Spending Limits -->

@@ -32,6 +32,32 @@ public class LoginActivity extends AppCompatActivity {
         android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,
                 R.anim.heartbeat);
         binding.logoImage.startAnimation(heartbeat);
+
+        startCascadingAnimations();
+    }
+
+    private void startCascadingAnimations() {
+        android.view.animation.Animation slideUp = android.view.animation.AnimationUtils.loadAnimation(this,
+                R.anim.slide_up_fade);
+
+        // Sequence: Logo -> Title -> Tagline -> Features -> Buttons
+        binding.logoContainer.startAnimation(slideUp);
+
+        // Title and Tagline (Delayed)
+        slideUp.setStartOffset(200);
+        binding.titleText.startAnimation(slideUp);
+        binding.taglineText.startAnimation(slideUp);
+
+        // Features (Delayed)
+        slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
+        slideUp.setStartOffset(400);
+        binding.featureCardsLayout.startAnimation(slideUp);
+
+        // Buttons (Delayed)
+        slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
+        slideUp.setStartOffset(600);
+        binding.memberButton.startAnimation(slideUp);
+        binding.adminButton.startAnimation(slideUp);
     }
 
     /**

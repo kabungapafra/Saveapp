@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp"
+    android:background="?attr/selectableItemBackground">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivMemberAvatar"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"
+        tools:background="#FBBF24"
+        tools:src="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/tvMemberInitials"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:fontFamily="@font/manrope_bold"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivMemberAvatar"
+        app:layout_constraintEnd_toEndOf="@id/ivMemberAvatar"
+        app:layout_constraintStart_toStartOf="@id/ivMemberAvatar"
+        app:layout_constraintTop_toTopOf="@id/ivMemberAvatar"
+        tools:text="JK" />
+
+    <LinearLayout
+        android:id="@+id/llMemberInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/llStatusBox"
+        app:layout_constraintStart_toEndOf="@id/ivMemberAvatar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvMemberName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_bold"
+            android:textColor="@color/h_slate_900"
+            android:textSize="13sp"
+            tools:text="James K." />
+
+        <TextView
+            android:id="@+id/tvMemberTurnInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_medium"
+            android:textColor="@color/h_slate_400"
+            android:textSize="11sp"
+            tools:text="Turn #1 · Received Sept 1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llStatusBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvMemberStatusPill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_bold"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:textSize="11sp"
+            tools:background="@drawable/bg_status_pills"
+            tools:text="Paid"
+            tools:textColor="@color/h_green_700" />
+
+        <TextView
+            android:id="@+id/tvMemberAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/manrope_medium"
+            android:text="UGX 200k"
+            android:textColor="@color/h_slate_400"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

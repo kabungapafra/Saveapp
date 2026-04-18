@@ -60,6 +60,7 @@
                     android:layout_marginEnd="24dp"
                     android:background="@drawable/bg_circle_white"
                     android:backgroundTint="#33FFFFFF"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -354,7 +355,7 @@
                                 android:layout_height="44dp"
                                 android:layout_marginBottom="14dp"
                                 android:background="@drawable/bg_icon_circle_blue"
-                                android:backgroundTint="#EFF6FF" />
+                                android:backgroundTint="#E9F2FB" />
 
                             <!-- Overlaying icon manually since drawable logic is simple -->
                             <ImageView
@@ -363,7 +364,7 @@
                                 android:layout_marginTop="-50dp"
                                 android:layout_marginStart="11dp"
                                 android:src="@drawable/ic_person"
-                                app:tint="#2563EB" />
+                                app:tint="#215DA1" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -577,10 +578,10 @@
                                 android:layout_width="38dp"
                                 android:layout_height="38dp"
                                 android:background="@drawable/bg_icon_circle_blue"
-                                android:backgroundTint="#EFF6FF"
+                                android:backgroundTint="#E9F2FB"
                                 android:padding="10dp"
                                 android:src="@drawable/ic_help_question"
-                                app:tint="#2563EB" />
+                                app:tint="#215DA1" />
 
                             <LinearLayout
                                 android:layout_width="0dp"

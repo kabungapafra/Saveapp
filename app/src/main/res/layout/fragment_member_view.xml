@@ -169,8 +169,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:progress="85"
-                            app:indicatorColor="#3B82F6"
-                            app:trackColor="#DBEAFE"
+                            app:indicatorColor="#215DA1"
+                            app:trackColor="#E9F2FB"
                             app:trackCornerRadius="4dp"
                             app:trackThickness="4dp" />
                     </LinearLayout>
@@ -371,7 +371,7 @@
                         android:layout_marginTop="8dp"
                         android:progress="68"
                         app:indicatorColor="#60A5FA"
-                        app:trackColor="#EFF6FF"
+                        app:trackColor="#E9F2FB"
                         app:trackCornerRadius="4dp"
                         app:trackThickness="6dp" />
 
@@ -487,7 +487,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_badge_success"
-                            android:backgroundTint="#E3F2FD"
+                            android:backgroundTint="#E9F2FB"
                             android:fontFamily="sans-serif-bold"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="4dp"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_geometric_pattern"
+    android:background="#F8F9FE"
     android:clipChildren="false"
     android:clipToPadding="false">
 
@@ -13,11 +13,10 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:clipToPadding="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- Floating White Nav Bar with Java Cutout for Transparency -->
+    <!-- Floating Blue Nav Bar with Cutout (Admin Style) -->
     <com.example.save.ui.views.CutoutNavView
         android:id="@+id/navContainer"
         android:layout_width="0dp"
@@ -35,65 +34,61 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:clipToPadding="false"
             android:orientation="horizontal">
 
-            <!-- Column 1: Home (Active) -->
+            <!-- Home -->
             <LinearLayout
                 android:id="@+id/nav_dashboard"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:background="?attr/selectableItemBackgroundBorderless">
                 <ImageView
                     android:id="@+id/img_dashboard"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_home"
                     app:tint="#FFFFFF" />
-
                 <TextView
                     android:id="@+id/txt_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="@font/manrope_bold"
                     android:text="Home"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
-            <!-- Column 2: Status -->
+            <!-- Members -->
             <LinearLayout
                 android:id="@+id/nav_members"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:background="?attr/selectableItemBackgroundBorderless">
                 <ImageView
                     android:id="@+id/img_members"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_analytics"
+                    android:src="@drawable/ic_people"
                     app:tint="#B3FFFFFF" />
-
                 <TextView
                     android:id="@+id/txt_members"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Status"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Members"
                     android:textColor="#B3FFFFFF"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
-            <!-- Column 3: Spacer for FAB -->
+            <!-- Action Spacer -->
             <View
                 android:id="@+id/nav_action_space"
                 android:layout_width="0dp"
@@ -101,71 +96,62 @@
                 android:layout_weight="1"
                 android:visibility="invisible" />
 
-            <!-- Column 4: Budget -->
+            <!-- Analysis -->
             <LinearLayout
-                android:id="@+id/nav_stats"
+                android:id="@+id/nav_analysis"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:background="?attr/selectableItemBackgroundBorderless">
                 <ImageView
-                    android:id="@+id/img_stats"
+                    android:id="@+id/img_analysis"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_wallet_green"
+                    android:src="@drawable/ic_analytics"
                     app:tint="#B3FFFFFF" />
-
                 <TextView
-                    android:id="@+id/txt_stats"
+                    android:id="@+id/txt_analysis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Budget"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Analysis"
                     android:textColor="#B3FFFFFF"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
-            <!-- Column 5: Profile -->
+            <!-- Settings -->
             <LinearLayout
                 android:id="@+id/nav_settings"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:background="?attr/selectableItemBackgroundBorderless">
                 <ImageView
                     android:id="@+id/img_settings"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_person"
+                    android:src="@drawable/ic_settings"
                     app:tint="#B3FFFFFF" />
-
                 <TextView
                     android:id="@+id/txt_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Profile"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Settings"
                     android:textColor="#B3FFFFFF"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
         </LinearLayout>
     </com.example.save.ui.views.CutoutNavView>
 
-    <!-- Quick Actions Overlay (Integrated) -->
-    <include
-        layout="@layout/layout_quick_actions_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="15dp" />
-
-    <!-- FAB: elevation 16dp > nav bar 12dp, always on top -->
+    <!-- Protruding White FAB (Admin Style) -->
     <FrameLayout
         android:id="@+id/navAction"
         android:layout_width="84dp"
@@ -178,32 +164,37 @@
         app:layout_constraintStart_toStartOf="@id/navContainer"
         app:layout_constraintTop_toTopOf="@id/navContainer">
 
-        <!-- Dashed Ring (84dp container, ring is 72dp inside) -->
         <View
+            android:id="@+id/navActionDashedRing"
             android:layout_width="84dp"
             android:layout_height="84dp"
             android:layout_gravity="center"
-            android:id="@+id/navActionDashedRing"
             android:background="@drawable/bg_nav_center_dashed_ring_white" />
 
-        <!-- Teal FAB (52dp) -->
         <View
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:layout_gravity="center"
-            android:background="@drawable/bg_nav_center_action_white"
+            android:background="@drawable/bg_nav_center_action_blue"
             android:elevation="2dp" />
 
-        <!-- White Plus Icon -->
         <ImageView
+            android:id="@+id/navActionPlusIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
             android:elevation="3dp"
-            android:id="@+id/navActionPlusIcon"
             android:src="@drawable/ic_add"
-            app:tint="#FFFFFF" />
-
+            app:tint="@color/white" />
     </FrameLayout>
+
+    <!-- Quick Actions Overlay -->
+    <include
+        android:id="@+id/quickActionsOverlay"
+        layout="@layout/layout_quick_actions_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="30dp"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -72,7 +72,7 @@
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="6dp"
                     android:text="CURRENT ELECTION"
-                    android:textColor="#2563EB"
+                    android:textColor="#215DA1"
                     android:textSize="10sp"
                     android:textStyle="bold" />
 
