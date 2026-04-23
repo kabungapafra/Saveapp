@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.example.save.R;
 import com.example.save.databinding.FragmentApprovalsBinding;
 import com.example.save.ui.adapters.ApprovalsAdapter;
 import com.example.save.ui.viewmodels.MembersViewModel;
@@ -27,10 +28,22 @@ public class ApprovalsFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         binding = FragmentApprovalsBinding.inflate(inflater, container, false);
 
-        // UI-only static implementation based on design request
-        // Any button interactions can be mocked here.
+        setupNavigation();
 
         return binding.getRoot();
+    }
+
+    private void setupNavigation() {
+        View.OnClickListener openPayoutDetail = v -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new PayoutConfirmationFragment())
+                    .addToBackStack(null)
+                    .commit();
+        };
+
+        binding.btnViewAlexander.setOnClickListener(openPayoutDetail);
+        binding.btnViewVictoria.setOnClickListener(openPayoutDetail);
+        binding.btnViewAris.setOnClickListener(openPayoutDetail);
     }
 }
 

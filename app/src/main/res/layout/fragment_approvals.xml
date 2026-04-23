@@ -23,21 +23,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="20dp">
+            android:paddingTop="36dp">
 
-            <!-- Metrics Cards (Vertical Stack) -->
+            <!-- Metric Cards (Horizontal Stack) -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_height="110dp"
+                android:orientation="horizontal"
                 android:paddingHorizontal="20dp"
-                android:paddingBottom="8dp">
+                android:paddingBottom="8dp"
+                android:layout_marginTop="16dp">
 
                 <!-- Loans Card -->
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="2dp">
@@ -45,7 +47,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="20dp">
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -54,7 +56,7 @@
                             android:letterSpacing="0.1"
                             android:text="PENDING LOANS"
                             android:textColor="#64748B"
-                            android:textSize="9sp" />
+                            android:textSize="8sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -63,33 +65,25 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="14"
                             android:textColor="#0F172A"
-                            android:textSize="36sp" />
+                            android:textSize="28sp" />
 
                         <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:alpha="0.1"
                             android:src="@drawable/ic_account_balance_wallet"
-                            app:tint="#215DA1" />
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:src="@drawable/ic_money"
                             app:tint="#215DA1" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!-- Payouts Card -->
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="2dp">
@@ -97,16 +91,16 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="20dp">
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:letterSpacing="0.1"
-                            android:text="PAYOUT VERIFICATIONS"
+                            android:text="PAYOUTS"
                             android:textColor="#64748B"
-                            android:textSize="9sp" />
+                            android:textSize="8sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -115,25 +109,15 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="23"
                             android:textColor="#0F172A"
-                            android:textSize="36sp" />
+                            android:textSize="28sp" />
 
                         <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:alpha="0.1"
                             android:src="@drawable/ic_shield"
-                            app:tint="#215DA1" />
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:src="@drawable/ic_check_circle"
                             app:tint="#215DA1" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
@@ -269,38 +253,28 @@
                                 android:textSize="12sp" />
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:letterSpacing="0.1"
-                                android:text="TIER"
-                                android:textColor="#94A3B8"
-                                android:textSize="8sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Sovereign Elite"
-                                android:textColor="#215DA1"
-                                android:textSize="12sp" />
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/btnRejectJulian"
+                            android:layout_width="80dp"
+                            android:layout_height="32dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/bg_btn_reject"
+                            android:fontFamily="@font/manrope_bold"
+                            android:gravity="center"
+                            android:letterSpacing="0.05"
+                            android:text="REJECT"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
 
                         <TextView
-                            android:layout_width="90dp"
+                            android:id="@+id/btnAcceptJulian"
+                            android:layout_width="80dp"
                             android:layout_height="32dp"
                             android:background="@drawable/bg_btn_primary"
                             android:fontFamily="@font/manrope_bold"
                             android:gravity="center"
                             android:letterSpacing="0.05"
-                            android:text="REVIEW"
+                            android:text="ACCEPT"
                             android:textColor="@color/white"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -405,38 +379,28 @@
                                 android:textSize="12sp" />
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:letterSpacing="0.1"
-                                android:text="TIER"
-                                android:textColor="#94A3B8"
-                                android:textSize="8sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="Legacy Private"
-                                android:textColor="#215DA1"
-                                android:textSize="12sp" />
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/btnRejectElena"
+                            android:layout_width="80dp"
+                            android:layout_height="32dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/bg_btn_reject"
+                            android:fontFamily="@font/manrope_bold"
+                            android:gravity="center"
+                            android:letterSpacing="0.05"
+                            android:text="REJECT"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
 
                         <TextView
-                            android:layout_width="90dp"
+                            android:id="@+id/btnAcceptElena"
+                            android:layout_width="80dp"
                             android:layout_height="32dp"
                             android:background="@drawable/bg_btn_primary"
                             android:fontFamily="@font/manrope_bold"
                             android:gravity="center"
                             android:letterSpacing="0.05"
-                            android:text="REVIEW"
+                            android:text="ACCEPT"
                             android:textColor="@color/white"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -499,37 +463,17 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.6"
+                            android:layout_weight="3.4"
                             android:fontFamily="@font/manrope_bold"
                             android:letterSpacing="0.1"
-                            android:text="MEMBER"
+                            android:text="RECIPIENT"
                             android:textColor="#64748B"
                             android:textSize="8sp" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/manrope_bold"
-                            android:letterSpacing="0.1"
-                            android:text="AMOUNT"
-                            android:textColor="#64748B"
-                            android:textSize="8sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/manrope_bold"
-                            android:letterSpacing="0.1"
-                            android:text="METHOD"
-                            android:textColor="#64748B"
-                            android:textSize="8sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
+                            android:layout_weight="1.0"
                             android:fontFamily="@font/manrope_bold"
                             android:gravity="end"
                             android:letterSpacing="0.1"
@@ -555,41 +499,24 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.6"
+                            android:layout_weight="3.4"
                             android:fontFamily="@font/manrope_bold"
                             android:lineSpacingExtra="2dp"
-                            android:text="Alexander\nSterling"
+                            android:text="Alexander Sterling"
                             android:textColor="#0F172A"
-                            android:textSize="12sp" />
+                            android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/btnViewAlexander"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="$12,450.00"
-                            android:textColor="#215DA1"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/manrope"
-                            android:text="Direct Wire\n(Intl)"
-                            android:textColor="#475569"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="34dp"
-                            android:layout_weight="0.8"
-                            android:background="@drawable/bg_outlined_button_blue"
+                            android:layout_height="36dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/bg_btn_primary"
                             android:fontFamily="@font/manrope_bold"
                             android:gravity="center"
                             android:letterSpacing="0.05"
-                            android:text="VERIFY"
-                            android:textColor="#215DA1"
+                            android:text="VIEW"
+                            android:textColor="@color/white"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -610,41 +537,24 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.6"
+                            android:layout_weight="3.4"
                             android:fontFamily="@font/manrope_bold"
                             android:lineSpacingExtra="2dp"
-                            android:text="Victoria\nWindward"
+                            android:text="Victoria Windward"
                             android:textColor="#0F172A"
-                            android:textSize="12sp" />
+                            android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/btnViewVictoria"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="$8,900.00"
-                            android:textColor="#215DA1"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/manrope"
-                            android:text="Vault\nSettlement"
-                            android:textColor="#475569"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="34dp"
-                            android:layout_weight="0.8"
-                            android:background="@drawable/bg_outlined_button_blue"
+                            android:layout_height="36dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/bg_btn_primary"
                             android:fontFamily="@font/manrope_bold"
                             android:gravity="center"
                             android:letterSpacing="0.05"
-                            android:text="VERIFY"
-                            android:textColor="#215DA1"
+                            android:text="VIEW"
+                            android:textColor="@color/white"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -665,41 +575,24 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.6"
+                            android:layout_weight="3.4"
                             android:fontFamily="@font/manrope_bold"
                             android:lineSpacingExtra="2dp"
-                            android:text="Dr. Aris\nThorne"
+                            android:text="Dr. Aris Thorne"
                             android:textColor="#0F172A"
-                            android:textSize="12sp" />
+                            android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/btnViewAris"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="$52,100.00"
-                            android:textColor="#215DA1"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/manrope"
-                            android:text="SWIFT\nPremium"
-                            android:textColor="#475569"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="34dp"
-                            android:layout_weight="0.8"
-                            android:background="@drawable/bg_outlined_button_blue"
+                            android:layout_height="36dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/bg_btn_primary"
                             android:fontFamily="@font/manrope_bold"
                             android:gravity="center"
                             android:letterSpacing="0.05"
-                            android:text="VERIFY"
-                            android:textColor="#215DA1"
+                            android:text="VIEW"
+                            android:textColor="@color/white"
                             android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>

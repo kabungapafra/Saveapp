@@ -14,12 +14,12 @@ val googleApiKey = localProperties.getProperty("GOOGLE_API_KEY") ?: ""
 
 android {
     namespace = "com.example.save"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.save"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 

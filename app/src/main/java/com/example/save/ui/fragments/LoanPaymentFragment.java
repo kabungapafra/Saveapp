@@ -24,12 +24,13 @@ public class LoanPaymentFragment extends Fragment {
     private MembersViewModel viewModel;
     private Member currentMember; // In real app, this would be the logged-in user
 
-    private EditText etAmount, etPhoneNumber;
-    private Button btnPayLoan, btnPayFull;
-    private View cardSummary;
-    private android.widget.TextView tvOriginalAmount, tvInterest, tvRepaidAmount, tvOutstandingBalance;
-    private LottieAnimationView successAnimation;
-    private View animationOverlay;
+    private android.widget.EditText etAmount, etPhoneNumber;
+    private android.widget.TextView btnMax, tvRemainingAmount, tvRepaidPercentBadge;
+    private android.widget.RadioButton radioAirtel, radioMTN;
+    private android.view.View cardAirtel, cardMTN;
+    private com.google.android.material.progressindicator.CircularProgressIndicator loanProgressRail;
+    private com.airbnb.lottie.LottieAnimationView successAnimation;
+    private android.view.View animationOverlay;
     private com.example.save.data.local.entities.LoanEntity activeLoan;
 
     public LoanPaymentFragment() {
@@ -63,19 +64,24 @@ public class LoanPaymentFragment extends Fragment {
     private void initializeViews(View view) {
         etAmount = view.findViewById(R.id.etAmount);
         etPhoneNumber = view.findViewById(R.id.etPhoneNumber);
-        btnPayLoan = view.findViewById(R.id.btnPayLoan);
-        btnPayFull = view.findViewById(R.id.btnPayFull);
+        btnMax = view.findViewById(R.id.btnMax);
+        tvRemainingAmount = view.findViewById(R.id.tvRemainingAmount);
+        tvRepaidPercentBadge = view.findViewById(R.id.tvRepaidPercentBadge);
+        loanProgressRail = view.findViewById(R.id.loanProgressRail);
 
-        cardSummary = view.findViewById(R.id.cardSummary);
-        tvOriginalAmount = view.findViewById(R.id.tvOriginalAmount);
-        tvInterest = view.findViewById(R.id.tvInterest);
-        tvRepaidAmount = view.findViewById(R.id.tvRepaidAmount);
-        tvOutstandingBalance = view.findViewById(R.id.tvOutstandingBalance);
+        cardAirtel = view.findViewById(R.id.cardAirtel);
+        cardMTN = view.findViewById(R.id.cardMTN);
+        radioAirtel = view.findViewById(R.id.radioAirtel);
+        radioMTN = view.findViewById(R.id.radioMTN);
 
         view.findViewById(R.id.btnBack).setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().getOnBackPressedDispatcher().onBackPressed();
             }
+        });
+
+        view.findViewById(R.id.btnHistory).setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Transaction History coming soon", Toast.LENGTH_SHORT).show();
         });
 
         // Initialize animation views
@@ -115,109 +121,105 @@ public class LoanPaymentFragment extends Fragment {
 
     private void updateLoanUI(com.example.save.data.local.entities.LoanEntity loan) {
         if (loan != null) {
-            cardSummary.setVisibility(View.VISIBLE);
-            btnPayFull.setVisibility(View.VISIBLE);
-
             java.text.NumberFormat nf = java.text.NumberFormat.getIntegerInstance();
 
-            tvOriginalAmount.setText("UGX " + nf.format(loan.getAmount()));
-            tvInterest.setText("UGX " + nf.format(loan.getInterest()));
-            tvRepaidAmount.setText("UGX " + nf.format(loan.getRepaidAmount()));
+            double totalToPay = loan.getAmount() + loan.getInterest();
+            double outstanding = totalToPay - loan.getRepaidAmount();
+            double progress = (loan.getRepaidAmount() / totalToPay) * 100;
 
-            double outstanding = (loan.getAmount() + loan.getInterest()) - loan.getRepaidAmount();
-            tvOutstandingBalance.setText("UGX " + nf.format(outstanding));
+            tvRemainingAmount.setText(nf.format(outstanding));
+            loanProgressRail.setProgress((int) progress);
+            tvRepaidPercentBadge.setText(String.format(java.util.Locale.US, "%.0f%% Repaid", progress));
 
-            if (outstanding <= 0) {
-                btnPayLoan.setEnabled(false);
-                btnPayLoan.setText("Loan Fully Repaid");
-                btnPayFull.setVisibility(View.GONE);
-            } else {
-                // Feature EARLY REPAYMENT: Show savings
-                // Assuming simple interest logic: Interest is saved if paid early?
-                // Or usually interest is fixed. Let's assume a rebate model for this feature
-                // request.
-                // If paid today, save X% of remaining interest?
-                // Let's just show a theoretical "Potential Savings" to satisfy the requirement
-                double potentialSavings = loan.getInterest() * 0.10; // 10% rebate if paid now
-                if (potentialSavings > 0) {
-                    // Ideally show this in a TextView. For now, we can append to the Interest label
-                    // or add a view
-                    tvInterest.setText("UGX " + nf.format(loan.getInterest()) + "\n(Save ~"
-                            + nf.format(potentialSavings) + " if paid today)");
-                }
-            }
-        } else {
-            cardSummary.setVisibility(View.GONE);
-            btnPayFull.setVisibility(View.GONE);
+            etAmount.setText(nf.format(outstanding));
         }
     }
 
     private void setupListeners() {
-        btnPayFull.setOnClickListener(v -> {
+        btnMax.setOnClickListener(v -> {
             if (activeLoan != null) {
                 double outstanding = (activeLoan.getAmount() + activeLoan.getInterest()) - activeLoan.getRepaidAmount();
                 etAmount.setText(String.format(java.util.Locale.US, "%.0f", outstanding));
             }
         });
 
-        btnPayLoan.setOnClickListener(v -> {
-            String phoneNumber = etPhoneNumber.getText().toString();
-            String amountStr = etAmount.getText().toString();
+        cardAirtel.setOnClickListener(v -> selectPaymentMethod(true));
+        cardMTN.setOnClickListener(v -> selectPaymentMethod(false));
+        radioAirtel.setOnClickListener(v -> selectPaymentMethod(true));
+        radioMTN.setOnClickListener(v -> selectPaymentMethod(false));
 
-            if (TextUtils.isEmpty(phoneNumber)) {
-                etPhoneNumber.setError("Enter phone number");
-                return;
-            }
+        View view = getView();
+        if (view != null) {
+            view.findViewById(R.id.btnPayLoan).setOnClickListener(v -> {
+                String amountStr = etAmount.getText().toString().replace(",", "");
+                String phoneNumber = etPhoneNumber.getText().toString();
 
-            if (TextUtils.isEmpty(amountStr)) {
-                etAmount.setError("Enter amount");
-                return;
-            }
+                if (TextUtils.isEmpty(amountStr)) {
+                    etAmount.setError("Enter amount");
+                    return;
+                }
 
-            double amount = Double.parseDouble(amountStr);
-            if (amount <= 0) {
-                etAmount.setError("Invalid amount");
-                return;
-            }
+                if (TextUtils.isEmpty(phoneNumber)) {
+                    etPhoneNumber.setError("Enter phone number");
+                    return;
+                }
 
-            if (currentMember != null && activeLoan != null) {
-                // Get loan ID for API call
-                String loanId = activeLoan.getId();
-                String paymentMethod = "Mobile Money"; // Default or get from settings
+                double amount = Double.parseDouble(amountStr);
+                if (amount <= 0) {
+                    etAmount.setError("Invalid amount");
+                    return;
+                }
 
-                // Perform payment via API - backend will update loan balance and log
-                // transaction
-                viewModel.repayLoan(loanId, amount, paymentMethod, phoneNumber,
-                        new com.example.save.data.repository.MemberRepository.LoanRepaymentCallback() {
-                            @Override
-                            public void onResult(boolean success, String message) {
-                                if (success) {
-                                    showSuccessAnimation();
+                if (currentMember != null && activeLoan != null) {
+                    String loanId = activeLoan.getId();
+                    String paymentMethod = radioAirtel.isChecked() ? "Airtel Money" : "MTN MoMo";
 
-                                    // Trigger Notification
-                                    com.example.save.utils.NotificationHelper notificationHelper = new com.example.save.utils.NotificationHelper(
-                                            getContext());
-                                    notificationHelper.showNotification(
-                                            "Loan Payment Processed",
-                                            "Payment of UGX " +
-                                                    java.text.NumberFormat.getIntegerInstance().format(amount) +
-                                                    " processed successfully",
-                                            com.example.save.utils.NotificationHelper.CHANNEL_ID_PAYMENTS);
-
-                                    etAmount.setText("");
-                                    // Reload loan data to show updated balance
-                                    loadActiveLoan();
-                                } else {
-                                    Toast.makeText(getContext(),
-                                            message != null ? message : "Failed to process payment",
-                                            Toast.LENGTH_SHORT).show();
+                    viewModel.repayLoan(loanId, amount, paymentMethod, phoneNumber,
+                            new com.example.save.data.repository.MemberRepository.LoanRepaymentCallback() {
+                                @Override
+                                public void onResult(boolean success, String message) {
+                                    if (success) {
+                                        showSuccessAnimation();
+                                        etAmount.setText("");
+                                        loadActiveLoan();
+                                    } else {
+                                        Toast.makeText(getContext(),
+                                                message != null ? message : "Failed to process payment",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
-            } else {
-                Toast.makeText(getContext(), "Loan information not available", Toast.LENGTH_SHORT).show();
-            }
-        });
+                            });
+                } else {
+                    Toast.makeText(getContext(), "Loan information not available", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void selectPaymentMethod(boolean isAirtel) {
+        radioAirtel.setChecked(isAirtel);
+        radioMTN.setChecked(!isAirtel);
+
+        if (isAirtel) {
+            cardAirtel.setBackgroundResource(R.drawable.bg_item_premium_white);
+            cardAirtel.setElevation(com.example.save.utils.UIUtils.dpToPx(getContext(), 4));
+            radioAirtel.setButtonTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#215DA1")));
+            etPhoneNumber.setHint("e.g. 0755123456");
+
+            cardMTN.setBackgroundResource(R.drawable.bg_payment_card_unselected);
+            cardMTN.setElevation(0f);
+            radioMTN.setButtonTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#CBD5E1")));
+        } else {
+            cardMTN.setBackgroundResource(R.drawable.bg_item_premium_white);
+            cardMTN.setElevation(com.example.save.utils.UIUtils.dpToPx(getContext(), 4));
+            radioMTN.setButtonTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#215DA1")));
+            etPhoneNumber.setHint("e.g. 0772123890");
+
+            cardAirtel.setBackgroundResource(R.drawable.bg_item_premium_white);
+            cardAirtel.setBackgroundResource(R.drawable.bg_payment_card_unselected);
+            cardAirtel.setElevation(0f);
+            radioAirtel.setButtonTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#CBD5E1")));
+        }
     }
 
     private void showSuccessAnimation() {

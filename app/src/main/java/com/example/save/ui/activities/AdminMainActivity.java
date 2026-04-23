@@ -100,6 +100,47 @@ public class AdminMainActivity extends AppCompatActivity {
 
         // Handle External Navigation
         handleIntentExtras(getIntent());
+
+        setupRefreshLayout();
+    }
+
+    private void setupRefreshLayout() {
+        binding.swipeRefreshLayout.setColorSchemeColors(Color.TRANSPARENT);
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.TRANSPARENT);
+        
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+            // Start spinning the dotted circle
+            startRingSpinning();
+            
+            // Simulate refresh logic
+            binding.swipeRefreshLayout.postDelayed(() -> {
+                binding.swipeRefreshLayout.setRefreshing(false);
+                stopRingSpinning();
+                Toast.makeText(this, "Dashboard updated", Toast.LENGTH_SHORT).show();
+            }, 2000);
+        });
+    }
+
+    private void startRingSpinning() {
+        if (ringAnimator != null && ringAnimator.isRunning()) return;
+        
+        View ring = findViewById(R.id.navActionDashedRing);
+        ringAnimator = android.animation.ObjectAnimator.ofFloat(ring, "rotation", 0f, 360f);
+        ringAnimator.setDuration(1000);
+        ringAnimator.setRepeatCount(android.animation.ObjectAnimator.INFINITE);
+        ringAnimator.setInterpolator(new android.view.animation.LinearInterpolator());
+        ringAnimator.start();
+    }
+
+    private void stopRingSpinning() {
+        if (ringAnimator != null && !isQuickActionsOpen) {
+            ringAnimator.cancel();
+            findViewById(R.id.navActionDashedRing).animate()
+                .rotation(0f)
+                .setDuration(500)
+                .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                .start();
+        }
     }
 
     private void setupBottomNavigation() {
