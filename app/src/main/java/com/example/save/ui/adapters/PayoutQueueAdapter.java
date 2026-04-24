@@ -17,13 +17,11 @@ import java.util.List;
  */
 public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.QueueViewHolder> {
     private List<Member> members;
-    private boolean isFullQueue;
     private double payoutAmount;
     private String basePayoutDate;
 
     public PayoutQueueAdapter(List<Member> members, boolean isFullQueue, double payoutAmount, String basePayoutDate) {
         this.members = members;
-        this.isFullQueue = isFullQueue;
         this.payoutAmount = payoutAmount;
         this.basePayoutDate = basePayoutDate;
     }

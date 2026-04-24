@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.save.R;
+import androidx.core.content.ContextCompat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             if (item.hasApproved() || "COMPLETED".equals(item.getStatus())) {
                 loanHolder.btnApprove.setText("APPROVED");
-                loanHolder.btnApprove.setBackgroundTintList(holder.itemView.getContext().getResources().getColorStateList(android.R.color.holo_green_dark));
+                loanHolder.btnApprove.setBackgroundTintList(ContextCompat.getColorStateList(holder.itemView.getContext(), android.R.color.holo_green_dark));
                 loanHolder.btnApprove.setClickable(false);
             } else {
                 loanHolder.btnApprove.setOnClickListener(v -> listener.onApproveClick(item));
@@ -104,7 +105,7 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             if (item.hasApproved() || "COMPLETED".equals(item.getStatus())) {
                 payoutHolder.btnApprove.setText("VERIFIED");
-                payoutHolder.btnApprove.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+                payoutHolder.btnApprove.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_green_dark));
                 payoutHolder.btnApprove.setClickable(false);
             } else {
                 payoutHolder.btnApprove.setOnClickListener(v -> listener.onApproveClick(item));

@@ -18,10 +18,8 @@ import java.util.List;
 public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMemberAdapter.ViewHolder> {
 
     private final List<MemberStatus> members;
-    private final Context context;
 
     public DashboardMemberAdapter(Context context) {
-        this.context = context;
         this.members = generateMockData();
     }
 

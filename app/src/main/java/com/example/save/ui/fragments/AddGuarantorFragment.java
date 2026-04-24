@@ -42,7 +42,6 @@ public class AddGuarantorFragment extends Fragment {
 
     private GuarantorSelectedAdapter selectedAdapter;
     private GuarantorRosterAdapter rosterAdapter;
-    private MembersViewModel membersViewModel;
 
     private List<Member> allMembers = new ArrayList<>();
     private Set<String> selectedMemberIds = new HashSet<>();
@@ -61,8 +60,8 @@ public class AddGuarantorFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
-        membersViewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
+
+        MembersViewModel membersViewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
         
         // Mocking the data for initial prototype states if needed
         membersViewModel.getMembers().observe(getViewLifecycleOwner(), members -> {

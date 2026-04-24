@@ -53,9 +53,6 @@ public class AnalyticsFragment extends Fragment {
     private MemberPerformanceAdapter performanceAdapter;
     private TransactionLedgerAdapter ledgerAdapter;
 
-    private boolean isAdmin = true;
-    private String memberEmail = null;
-
     public static AnalyticsFragment newInstance(boolean isAdmin) {
         return newInstance(isAdmin, true);
     }
@@ -86,8 +83,8 @@ public class AnalyticsFragment extends Fragment {
         binding = FragmentAnalyticsBinding.inflate(inflater, container, false);
 
         if (getArguments() != null) {
-            isAdmin = getArguments().getBoolean("is_admin", true);
-            memberEmail = getArguments().getString("member_email", null);
+            boolean isAdmin = getArguments().getBoolean("is_admin", true);
+            String memberEmail = getArguments().getString("member_email", null);
             boolean showBack = getArguments().getBoolean("show_back", true);
             binding.backButton.setVisibility(showBack ? View.VISIBLE : View.GONE);
         }

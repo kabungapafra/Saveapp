@@ -865,7 +865,7 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="2"
-                    tools:listitem="@layout/item_transaction_v2" />
+                    tools:listitem="@layout/item_transaction" />
             </com.google.android.material.card.MaterialCardView>
 
             <!-- 10 & 11. BUTTON ACTIONS -->

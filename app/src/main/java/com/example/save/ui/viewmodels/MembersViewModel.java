@@ -12,6 +12,7 @@ import com.example.save.data.repository.MemberRepository;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class MembersViewModel extends AndroidViewModel {
     private final MemberRepository repository;
 
@@ -64,6 +65,7 @@ public class MembersViewModel extends AndroidViewModel {
         repository.resetPassword(email, newPassword, callback);
     }
 
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
     public String resetPassword(Member member) {
         // Legacy method for admin panel: originally generated OTP and set it locally.

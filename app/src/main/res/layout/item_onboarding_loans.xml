@@ -11,7 +11,7 @@
         android:layout_width="220dp"
         android:layout_height="220dp"
         android:src="@drawable/ic_loan"
-        android:tint="@color/deep_blue"
+        app:tint="@color/deep_blue"
         android:layout_marginTop="@dimen/spacing_xxxl"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

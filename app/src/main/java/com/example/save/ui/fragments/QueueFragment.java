@@ -22,7 +22,6 @@ import java.util.List;
 public class QueueFragment extends Fragment {
 
     private FragmentQueueBinding binding;
-    private MembersViewModel viewModel;
     private com.example.save.ui.adapters.PayoutQueueAdapter adapter;
 
     public static QueueFragment newInstance() {
@@ -40,7 +39,7 @@ public class QueueFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new androidx.lifecycle.ViewModelProvider(requireActivity()).get(MembersViewModel.class);
+        MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
         setupRecyclerView();
         observeDetail();

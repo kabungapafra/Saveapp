@@ -22,7 +22,6 @@ import com.google.android.material.textfield.TextInputEditText;
 public class MemberRegistrationActivity extends AppCompatActivity {
 
     private ActivityMemberregBinding binding;
-    private com.example.save.ui.viewmodels.MembersViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class MemberRegistrationActivity extends AppCompatActivity {
         binding.forgotPassword.setOnClickListener(v -> showForgotPasswordFragment());
         setupPasswordToggle();
 
-        viewModel = new androidx.lifecycle.ViewModelProvider(this)
+        com.example.save.ui.viewmodels.MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(this)
                 .get(com.example.save.ui.viewmodels.MembersViewModel.class);
 
         // Handle back press

@@ -34,7 +34,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     // State
     private String userEmail = "";
-    private String sourceActivity = ""; // Track where user came from
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         // Get email and source activity from intent
         userEmail = getIntent().getStringExtra("email");
-        sourceActivity = getIntent().getStringExtra("sourceActivity");
+        // Track where user came from
+        String sourceActivity = getIntent().getStringExtra("sourceActivity");
         if (userEmail != null) {
             userEmail = userEmail.toLowerCase().trim();
         }

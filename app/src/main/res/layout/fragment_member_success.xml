@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app_compat="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -19,9 +18,9 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginTop="40dp"
-            app_compat:layout_constraintEnd_toEndOf="parent"
-            app_compat:layout_constraintStart_toStartOf="parent"
-            app_compat:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <!-- Decorative Blue Dot -->
             <ImageView
@@ -31,8 +30,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="60dp"
                 android:src="@drawable/ic_dot_blue"
-                app_compat:layout_constraintBottom_toBottomOf="parent"
-                app_compat:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <!-- Main Green Circle -->
             <View
@@ -40,23 +39,23 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:background="@drawable/bg_success_circle_green"
-                app_compat:layout_constraintBottom_toBottomOf="parent"
-                app_compat:layout_constraintEnd_toEndOf="parent"
-                app_compat:layout_constraintStart_toStartOf="parent"
-                app_compat:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- White Checkmark Circle -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/checkmarkCircle"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                app_compat:cardBackgroundColor="@color/white"
-                app_compat:cardCornerRadius="28dp"
-                app_compat:cardElevation="4dp"
-                app_compat:layout_constraintBottom_toBottomOf="@id/successCircle"
-                app_compat:layout_constraintEnd_toEndOf="@id/successCircle"
-                app_compat:layout_constraintStart_toStartOf="@id/successCircle"
-                app_compat:layout_constraintTop_toTopOf="@id/successCircle">
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/successCircle"
+                app:layout_constraintEnd_toEndOf="@id/successCircle"
+                app:layout_constraintStart_toStartOf="@id/successCircle"
+                app:layout_constraintTop_toTopOf="@id/successCircle">
 
                 <ImageView
                     android:id="@+id/ivCheckmark"
@@ -74,8 +73,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
                 android:src="@drawable/ic_dot_yellow"
-                app_compat:layout_constraintEnd_toEndOf="parent"
-                app_compat:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -90,9 +89,9 @@
             android:text="@string/member_added_successfully"
             android:textColor="#0F172A"
             android:textSize="28sp"
-            app_compat:layout_constraintEnd_toEndOf="parent"
-            app_compat:layout_constraintStart_toStartOf="parent"
-            app_compat:layout_constraintTop_toBottomOf="@id/successIconContainer" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/successIconContainer" />
 
         <TextView
             android:id="@+id/tvSuccessDesc"
@@ -105,9 +104,9 @@
             android:text="Sarah Jenkins is now a part of your savings group. You can now start collaborating on your goals."
             android:textColor="#64748B"
             android:textSize="16sp"
-            app_compat:layout_constraintEnd_toEndOf="parent"
-            app_compat:layout_constraintStart_toStartOf="parent"
-            app_compat:layout_constraintTop_toBottomOf="@id/tvSuccessTitle" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSuccessTitle" />
 
         <!-- Member Profile Card -->
         <com.google.android.material.card.MaterialCardView
@@ -115,12 +114,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            app_compat:cardBackgroundColor="#F8FAFC"
-            app_compat:cardCornerRadius="24dp"
-            app_compat:cardElevation="0dp"
-            app_compat:layout_constraintTop_toBottomOf="@id/tvSuccessDesc"
-            app_compat:strokeColor="#F1F5F9"
-            app_compat:strokeWidth="1dp">
+            app:cardBackgroundColor="#F8FAFC"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tvSuccessDesc"
+            app:strokeColor="#F1F5F9"
+            app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -131,9 +130,9 @@
                     android:id="@+id/avatarContainer"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    app_compat:layout_constraintBottom_toBottomOf="parent"
-                    app_compat:layout_constraintStart_toStartOf="parent"
-                    app_compat:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ivMemberAvatar"
@@ -141,8 +140,8 @@
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_person"
-                        app_compat:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                        app_compat:tint="#94A3B8" />
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                        app:tint="#94A3B8" />
 
                     <View
                         android:layout_width="14dp"
@@ -150,8 +149,8 @@
                         android:layout_marginEnd="2dp"
                         android:layout_marginBottom="2dp"
                         android:background="@drawable/circle_green_indicator"
-                        app_compat:layout_constraintBottom_toBottomOf="parent"
-                        app_compat:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
@@ -159,10 +158,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:orientation="vertical"
-                    app_compat:layout_constraintBottom_toBottomOf="parent"
-                    app_compat:layout_constraintEnd_toStartOf="@id/statusBadge"
-                    app_compat:layout_constraintStart_toEndOf="@id/avatarContainer"
-                    app_compat:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/statusBadge"
+                    app:layout_constraintStart_toEndOf="@id/avatarContainer"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/tvMemberNameDisplay"
@@ -188,13 +187,13 @@
                     android:id="@+id/statusBadge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app_compat:cardBackgroundColor="#DCFCE7"
-                    app_compat:cardCornerRadius="12dp"
-                    app_compat:cardElevation="0dp"
-                    app_compat:layout_constraintBottom_toBottomOf="parent"
-                    app_compat:layout_constraintEnd_toEndOf="parent"
-                    app_compat:layout_constraintTop_toTopOf="parent"
-                    app_compat:strokeWidth="0dp">
+                    app:cardBackgroundColor="#DCFCE7"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:strokeWidth="0dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -222,13 +221,13 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app_compat:backgroundTint="#215DA1"
-            app_compat:cornerRadius="18dp"
-            app_compat:icon="@drawable/ic_people"
-            app_compat:iconGravity="textStart"
-            app_compat:iconPadding="8dp"
-            app_compat:iconSize="20dp"
-            app_compat:layout_constraintTop_toBottomOf="@id/memberProfileCard" />
+            app:backgroundTint="#215DA1"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/ic_people"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="20dp"
+            app:layout_constraintTop_toBottomOf="@id/memberProfileCard" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReturnDashboard"
@@ -242,16 +241,16 @@
             android:textAllCaps="false"
             android:textColor="#0F172A"
             android:textSize="17sp"
-            app_compat:backgroundTint="#F1F5F9"
-            app_compat:cornerRadius="18dp"
-            app_compat:icon="@drawable/ic_menu_grid"
-            app_compat:iconGravity="textStart"
-            app_compat:iconPadding="8dp"
-            app_compat:iconSize="20dp"
-            app_compat:iconTint="#0F172A"
-            app_compat:layout_constraintBottom_toBottomOf="parent"
-            app_compat:layout_constraintTop_toBottomOf="@id/btnViewMembers"
-            app_compat:layout_constraintVertical_bias="1.0" />
+            app:backgroundTint="#F1F5F9"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/ic_menu_grid"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="20dp"
+            app:iconTint="#0F172A"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnViewMembers"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

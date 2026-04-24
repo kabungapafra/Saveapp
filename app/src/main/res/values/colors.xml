@@ -98,6 +98,7 @@
     <color name="neumorphic_text_dark">#0F172A</color>
     <color name="neumorphic_text_muted">#64748B</color>
     <color name="gray_500">#9E9E9E</color>
+    <color name="text_dark">#212121</color>
 
     <!-- High-Fidelity Design Tokens -->
     <color name="h_amber_bg">#FEF3C7</color>

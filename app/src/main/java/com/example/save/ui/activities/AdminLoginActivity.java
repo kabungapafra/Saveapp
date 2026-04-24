@@ -23,7 +23,6 @@ import com.google.android.material.textfield.TextInputEditText;
 public class AdminLoginActivity extends AppCompatActivity {
 
     private ActivityAdminregBinding binding;
-    private com.example.save.ui.viewmodels.MembersViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class AdminLoginActivity extends AppCompatActivity {
 
         startCascadingAnimations();
 
-        viewModel = new androidx.lifecycle.ViewModelProvider(this)
+        com.example.save.ui.viewmodels.MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(this)
                 .get(com.example.save.ui.viewmodels.MembersViewModel.class);
     }
 

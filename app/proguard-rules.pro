@@ -41,7 +41,8 @@
 # WorkManager
 -keep class * extends androidx.work.Worker
 -keep class * extends androidx.work.InputMerger
--keep class androidx.work.impl.WorkManagerInitializer
+-dontwarn androidx.work.impl.**
+-keep class androidx.work.impl.** { *; }
 
 # Firebase (if using)
 -keepattributes Signature

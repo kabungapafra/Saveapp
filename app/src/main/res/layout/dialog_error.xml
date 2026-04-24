@@ -11,7 +11,7 @@
         android:layout_width="@dimen/icon_size_large"
         android:layout_height="@dimen/icon_size_large"
         android:src="@drawable/ic_warning"
-        android:tint="@color/status_overdue"
+        app:tint="@color/status_overdue"
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/spacing_normal" />
 
@@ -54,7 +54,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_info"
-                android:tint="@color/status_overdue"
+                app:tint="@color/status_overdue"
                 android:layout_marginEnd="@dimen/spacing_small" />
 
             <TextView

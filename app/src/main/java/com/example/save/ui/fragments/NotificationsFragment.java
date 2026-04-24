@@ -25,7 +25,6 @@ public class NotificationsFragment extends Fragment {
 
     private NotificationsViewModel viewModel;
     private NotificationAdapter adapter;
-    private View emptyStateLayout;
 
     @Nullable
     @Override
@@ -34,8 +33,8 @@ public class NotificationsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
         viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
-        
-        emptyStateLayout = view.findViewById(R.id.emptyStateLayout);
+
+        View emptyStateLayout = view.findViewById(R.id.emptyStateLayout);
 
         RecyclerView rv = view.findViewById(R.id.notificationsRecyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));

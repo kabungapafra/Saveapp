@@ -15,11 +15,9 @@ public class OtpUtils {
      * TextWatcher to move focus to the next EditText when a digit is entered.
      */
     public static class OtpTextWatcher implements TextWatcher {
-        private final EditText currentView;
         private final EditText nextView;
 
         public OtpTextWatcher(EditText currentView, EditText nextView) {
-            this.currentView = currentView;
             this.nextView = nextView;
         }
 

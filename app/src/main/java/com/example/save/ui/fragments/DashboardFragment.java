@@ -1,13 +1,12 @@
 package com.example.save.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,13 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.save.R;
-import com.example.save.data.models.PaymentItem;
 import com.example.save.data.models.Transaction;
 import com.example.save.databinding.FragmentDashboardBinding;
 import com.example.save.ui.activities.MemberMainActivity;
 import com.example.save.ui.adapters.RecipientSmallAdapter;
 import com.example.save.ui.adapters.TransactionAdapter;
-import com.example.save.ui.adapters.UpcomingPaymentAdapter;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.utils.SessionManager;
 
@@ -35,10 +32,8 @@ public class DashboardFragment extends Fragment {
     private MembersViewModel viewModel;
     private RecipientSmallAdapter recipientAdapter;
     private TransactionAdapter transactionAdapter;
-    private com.example.save.ui.adapters.DashboardMemberAdapter memberAdapter;
 
-    private String currentFilterType = "All";
-    private List<Transaction> allCachedTransactions = new ArrayList<>();
+    private final List<Transaction> allCachedTransactions = new ArrayList<>();
 
     @Nullable
     @Override
@@ -65,7 +60,7 @@ public class DashboardFragment extends Fragment {
         binding.rvMonthRecipients.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext(),
                 androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
 
-        memberAdapter = new com.example.save.ui.adapters.DashboardMemberAdapter(requireContext());
+        com.example.save.ui.adapters.DashboardMemberAdapter memberAdapter = new com.example.save.ui.adapters.DashboardMemberAdapter(requireContext());
         binding.rvDashboardMembers.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
         binding.rvDashboardMembers.setAdapter(memberAdapter);
 
@@ -85,18 +80,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void applyFilters() {
-        List<Transaction> filteredList = new ArrayList<>();
-        for (Transaction t : allCachedTransactions) {
-            boolean matchesType = true;
-            if (currentFilterType.equals("Contributions") && !t.getType().toLowerCase().contains("contribution"))
-                matchesType = false;
-            if (currentFilterType.equals("Loans") && !t.getType().toLowerCase().contains("loan"))
-                matchesType = false;
-            if (currentFilterType.equals("Payouts") && !t.getType().toLowerCase().contains("payout"))
-                matchesType = false;
-
-            if (matchesType) filteredList.add(t);
-        }
+        List<Transaction> filteredList = new ArrayList<>(allCachedTransactions);
 
         if (filteredList.isEmpty()) {
             binding.rvDashboardTransactions.setVisibility(View.GONE);
@@ -107,12 +91,10 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupHeaderInteractions() {
-        if (binding.ivUserAvatarTop != null) {
-            binding.ivUserAvatarTop.setOnClickListener(v -> {
-                applyClickAnimation(v);
-                ((MemberMainActivity) requireActivity()).loadFragment(new SettingsFragment());
-            });
-        }
+        binding.ivUserAvatarTop.setOnClickListener(v -> {
+            applyClickAnimation(v);
+            ((MemberMainActivity) requireActivity()).loadFragment(new SettingsFragment());
+        });
 
         binding.btnNotifications.setOnClickListener(v -> {
             applyClickAnimation(v);
@@ -126,6 +108,7 @@ public class DashboardFragment extends Fragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void loadDashboardData() {
         SessionManager session = SessionManager.getInstance(requireContext().getApplicationContext());
         String email = session.getUserEmail();
@@ -187,15 +170,9 @@ public class DashboardFragment extends Fragment {
         String email = SessionManager.getInstance(requireContext()).getUserEmail();
         if (email != null) {
             viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), currentMember -> {
-                if (currentMember != null) {
-                    // Update additional stats if components are added to UI
-                }
+                // Update additional stats if components are added to UI
             });
         }
-    }
-
-    private void updateUpcomingPayments(com.example.save.data.models.Member member) {
-        // UI for upcoming payments list removed in high-fidelity redesign
     }
 
     private void loadRecentTransactions() {

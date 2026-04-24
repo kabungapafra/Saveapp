@@ -26,7 +26,6 @@ public class LoansFragment extends Fragment {
     private static final String ARG_MEMBER_EMAIL = "member_email";
 
     private FragmentLoansBinding binding;
-    private LoansViewModel loansViewModel;
     private MembersViewModel membersViewModel;
     private LoanHistoryAdapter historyAdapter;
     private String memberEmail;
@@ -60,7 +59,7 @@ public class LoansFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loansViewModel = new ViewModelProvider(this).get(LoansViewModel.class);
+        LoansViewModel loansViewModel = new ViewModelProvider(this).get(LoansViewModel.class);
         membersViewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
         setupRecyclerView();

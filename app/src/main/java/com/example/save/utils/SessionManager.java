@@ -23,7 +23,7 @@ public class SessionManager {
     private final Context _context;
 
     // Shared pref mode
-    private static final int PRIVATE_MODE = 0;
+
 
     // Sharedpref file name
     private static final String PREF_NAME = "ChamaPrefs";
@@ -84,12 +84,12 @@ public class SessionManager {
             // If encrypted storage fails (e.g. SecurityException due to corrupted keys),
             // wipe the XML file to recover.
             try {
-                this._context.getSharedPreferences(PREF_NAME, PRIVATE_MODE).edit().clear().apply();
+                this._context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit().clear().apply();
             } catch (Exception ex) {
                 // Ignore
             }
             // Fallback to regular SharedPreferences
-            this.pref = this._context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+            this.pref = this._context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         }
         this.editor = pref.edit();
     }
@@ -196,7 +196,7 @@ public class SessionManager {
             // fail.
             // Fallback: Use regular SharedPreferences to wipe the same file.
             try {
-                _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE).edit().clear().apply();
+                _context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit().clear().apply();
             } catch (Exception ex) {
                 // Last resort: If still failing, logging might be helpful but we must not crash
             }

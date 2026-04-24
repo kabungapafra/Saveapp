@@ -38,7 +38,6 @@ import com.example.save.utils.PermissionUtils;
 public class AdminMainActivity extends AppCompatActivity {
 
     private ActivityAdminmainBinding binding;
-    private MembersViewModel viewModel;
     private boolean isQuickActionsOpen = false;
     private android.animation.ObjectAnimator ringAnimator;
     private long lastBackPressTime = 0;
@@ -50,7 +49,7 @@ public class AdminMainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
 
-        viewModel = new ViewModelProvider(this).get(MembersViewModel.class);
+        MembersViewModel viewModel = new ViewModelProvider(this).get(MembersViewModel.class);
 
         // Initialize Helpers
         new NotificationHelper(this);

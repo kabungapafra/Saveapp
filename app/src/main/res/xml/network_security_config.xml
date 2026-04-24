@@ -5,5 +5,9 @@
             <certificates src="system" />
         </trust-anchors>
     </base-config>
-    <debug-config cleartextTrafficPermitted="true" />
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
 </network-security-config>

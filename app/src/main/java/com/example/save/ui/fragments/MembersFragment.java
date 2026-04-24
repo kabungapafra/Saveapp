@@ -54,7 +54,6 @@ public class MembersFragment extends Fragment {
 
     private FragmentMembersBinding binding;
     private MembersViewModel viewModel;
-    private LoansViewModel loansViewModel;
     private MemberAdapter adapter;
     private TechnicalInsightsAdapter insightsAdapter;
     private List<Member> currentMembersList = new ArrayList<>();
@@ -74,7 +73,7 @@ public class MembersFragment extends Fragment {
 
         // Initialize ViewModels
         viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
-        loansViewModel = new ViewModelProvider(requireActivity()).get(LoansViewModel.class);
+        LoansViewModel loansViewModel = new ViewModelProvider(requireActivity()).get(LoansViewModel.class);
 
         setupRecyclerView();
         observeViewModel();

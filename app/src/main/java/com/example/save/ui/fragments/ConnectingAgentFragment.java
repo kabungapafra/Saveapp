@@ -37,7 +37,6 @@ public class ConnectingAgentFragment extends Fragment {
     private int dotStateIndex = 0;
     private int ellipsisCount = 0;
     private Runnable connectTimeoutRunnable = this::navigateToLiveChat;
-    private boolean isNavigatingToLiveChat = false;
 
     public static ConnectingAgentFragment newInstance() {
         return new ConnectingAgentFragment();
@@ -125,7 +124,7 @@ public class ConnectingAgentFragment extends Fragment {
         if (!isAdded() || getActivity() == null)
             return;
 
-        isNavigatingToLiveChat = true;
+        boolean isNavigatingToLiveChat = true;
 
         requireActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow,

@@ -13,7 +13,6 @@ import java.util.List;
 public class SyncManager {
 
     private static SyncManager instance;
-    private final Context context;
     private final SharedPreferences prefs;
     private static final String PREF_NAME = "SyncQueue";
     private static final String KEY_PENDING_OPERATIONS = "pending_operations";
@@ -52,7 +51,7 @@ public class SyncManager {
     }
 
     private SyncManager(Context context) {
-        this.context = context.getApplicationContext();
+        Context context1 = context.getApplicationContext();
         this.prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 

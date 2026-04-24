@@ -426,7 +426,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="sans-serif"
-                            android:text="@jordy_dev"
+                            android:text="@string/jordy_dev"
                             android:textColor="#94A3B8"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -509,7 +509,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="sans-serif"
-                            android:text="@alex_m"
+                            android:text="@string/alex_m"
                             android:textColor="#94A3B8"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -592,7 +592,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="sans-serif"
-                            android:text="@schen_88"
+                            android:text="@string/schen_88"
                             android:textColor="#94A3B8"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -676,7 +676,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="sans-serif"
-                            android:text="@mking_official"
+                            android:text="@string/mking_official"
                             android:textColor="#94A3B8"
                             android:textSize="12sp" />
                     </LinearLayout>

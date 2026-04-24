@@ -174,4 +174,15 @@
     <string name="security_description">Your savings are fully protected with 256-bit encryption and multi-factor authentication. Verified and safe.</string>
     <string name="ugx_142_580">UGX 142,580</string>
     <string name="let_us_know_if_something_is_wrong_create_a_ticket">Let us know if something is wrong create a ticket</string>
+    <string name="cancel_amp_go_back"><![CDATA[Cancel & Go Back]]></string>
+    <string name="confirm_decline">Confirm Decline</string>
+    <string name="_0_500">0 / 500</string>
+
+    <!-- Voting and Polls -->
+    <string name="jordan_trustee">Jordan Davis - Trustee</string>
+    <string name="alex_m_votes">Alex Martinez - 42 Votes</string>
+    <string name="jordy_dev">\@jordy_dev</string>
+    <string name="alex_m">\@alex_m</string>
+    <string name="schen_88">\@schen_88</string>
+    <string name="mking_official">\@mking_official</string>
 </resources>

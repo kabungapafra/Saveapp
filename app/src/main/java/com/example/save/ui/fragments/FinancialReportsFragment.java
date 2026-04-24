@@ -37,7 +37,6 @@ public class FinancialReportsFragment extends Fragment {
 
     private FragmentFinancialReportsBinding binding;
     private MembersViewModel membersViewModel;
-    private LoansViewModel loansViewModel;
 
     @Nullable
     @Override
@@ -45,7 +44,7 @@ public class FinancialReportsFragment extends Fragment {
         binding = FragmentFinancialReportsBinding.inflate(inflater, container, false);
         
         membersViewModel = new ViewModelProvider(this).get(MembersViewModel.class);
-        loansViewModel = new ViewModelProvider(this).get(LoansViewModel.class);
+        LoansViewModel loansViewModel = new ViewModelProvider(this).get(LoansViewModel.class);
 
         setupListeners();
         setupCharts();

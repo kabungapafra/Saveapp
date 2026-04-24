@@ -16,7 +16,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private ActivityChangePasswordBinding binding;
     private com.example.save.ui.viewmodels.MembersViewModel viewModel;
     private String memberEmail;
-    private String memberName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         // Get member details from intent
         memberEmail = getIntent().getStringExtra("member_email");
-        memberName = getIntent().getStringExtra("member_name");
+        String memberName = getIntent().getStringExtra("member_name");
 
         if (memberEmail == null) {
             Toast.makeText(this, "Error: Member not found", Toast.LENGTH_SHORT).show();
