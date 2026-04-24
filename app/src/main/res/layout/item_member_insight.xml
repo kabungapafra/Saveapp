@@ -14,7 +14,7 @@
         android:layout_weight="1.2"
         android:fontFamily="@font/manrope_bold"
         android:text="Julia Vance"
-        android:textColor="#1E293B"
+        android:textColor="#0F172A"
         android:textSize="13sp" />
 
     <LinearLayout

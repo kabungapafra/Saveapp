@@ -336,7 +336,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Automatic Payouts"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="16sp" />
 
                         <TextView
@@ -413,7 +413,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Scheduled Contributions"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="16sp" />
 
                         <TextView
@@ -490,7 +490,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Smart Round-ups"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="16sp" />
 
                         <TextView
@@ -558,7 +558,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Automated Cycle Rotation"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -590,7 +590,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Loan Request Permissions"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -691,7 +691,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Dark Mode"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -723,7 +723,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Push Notifications"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

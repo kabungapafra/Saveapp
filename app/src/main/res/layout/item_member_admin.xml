@@ -44,7 +44,7 @@
             android:layout_marginStart="14dp"
             android:fontFamily="@font/manrope_bold"
             android:text="Alex Johnson"
-            android:textColor="#1E293B"
+            android:textColor="#0F172A"
             android:textSize="17sp"
             app:layout_constraintEnd_toStartOf="@id/actionLayout"
             app:layout_constraintStart_toEndOf="@id/profileContainer"
@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="98.4%"
-                    android:textColor="#1E293B"
+                    android:textColor="#0F172A"
                     android:textSize="12sp" />
             </LinearLayout>
 

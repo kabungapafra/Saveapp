@@ -116,7 +116,7 @@
                             android:imeOptions="actionSearch"
                             android:inputType="text"
                             android:paddingHorizontal="16dp"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textColorHint="#94A3B8"
                             android:textSize="14sp" />
 

@@ -88,7 +88,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Account Secure"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="18sp" />
 
                         <TextView
@@ -167,7 +167,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Change Password"
-                                android:textColor="#1E293B"
+                                android:textColor="#0F172A"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -226,7 +226,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Two-Factor Authentication"
-                                android:textColor="#1E293B"
+                                android:textColor="#0F172A"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -313,7 +313,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Manage Connected Devices"
-                                android:textColor="#1E293B"
+                                android:textColor="#0F172A"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -372,7 +372,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="FaceID / Fingerprint"
-                                android:textColor="#1E293B"
+                                android:textColor="#0F172A"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -453,7 +453,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Hide Balances"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="16sp" />
 
                         <TextView

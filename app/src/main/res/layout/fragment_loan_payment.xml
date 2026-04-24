@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text="450,000"
-                        android:textColor="#1E293B"
+                        android:textColor="#0F172A"
                         android:textSize="36sp" />
 
                     <TextView
@@ -162,7 +162,7 @@
                     android:hint="0"
                     android:inputType="numberDecimal"
                     android:text="150,000"
-                    android:textColor="#1E293B"
+                    android:textColor="#0F172A"
                     android:textSize="28sp"
                     app:layout_constraintEnd_toStartOf="@id/currencyGroup"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -232,7 +232,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:hint="e.g. 0755123456"
                     android:inputType="phone"
-                    android:textColor="#1E293B"
+                    android:textColor="#0F172A"
                     android:textSize="18sp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

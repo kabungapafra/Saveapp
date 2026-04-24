@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Secure Connection"
-                        android:textColor="#1E293B"
+                        android:textColor="#0F172A"
                         android:textSize="16sp" />
 
                     <TextView
@@ -170,7 +170,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Airtel Mobile Money"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="16sp" />
 
                         <TextView
@@ -231,7 +231,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="MTN Mobile Money"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="16sp" />
 
                         <TextView
@@ -302,7 +302,7 @@
                     android:layout_toEndOf="@id/iconAlerts"
                     android:fontFamily="@font/manrope_medium"
                     android:text="Transaction Alerts"
-                    android:textColor="#1E293B"
+                    android:textColor="#0F172A"
                     android:textSize="16sp" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -338,7 +338,7 @@
                     android:layout_toEndOf="@id/iconLimits"
                     android:fontFamily="@font/manrope_medium"
                     android:text="Spending Limits"
-                    android:textColor="#1E293B"
+                    android:textColor="#0F172A"
                     android:textSize="16sp" />
 
             </RelativeLayout>

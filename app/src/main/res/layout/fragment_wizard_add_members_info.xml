@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Admin Panel Setup"
-                    android:textColor="#1E293B"
+                    android:textColor="#0F172A"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Member Self-Reg"
-                    android:textColor="#1E293B"
+                    android:textColor="#0F172A"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -167,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Verification"
-                    android:textColor="#1E293B"
+                    android:textColor="#0F172A"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 

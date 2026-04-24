@@ -120,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Summary of Key Points"
-                            android:textColor="#1E293B"
+                            android:textColor="#0F172A"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 

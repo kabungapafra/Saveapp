@@ -56,7 +56,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="6dp"
-                android:text="MEMBER INVITATION"
+                android:text="@string/new_member"
                 android:textColor="#C2410C"
                 android:textSize="11sp"
                 android:letterSpacing="0.05" />
