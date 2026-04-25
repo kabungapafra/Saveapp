@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope"
                 android:text="Welcome Back"
-                android:textColor="#090F1C"
+                android:textColor="@color/v_text_dark"
                 android:textSize="32sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope"
                 android:text="Log in to your Save account"
-                android:textColor="#64748B"
+                android:textColor="@color/v_text_mid"
                 android:textSize="16sp"
                 android:layout_marginBottom="32dp" />
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="40dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#F8FAFC"
+                app:cardBackgroundColor="@color/v_page_bg"
                 android:layout_marginBottom="32dp">
 
                 <LinearLayout
@@ -82,7 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Group Name"
-                        android:textColor="#475569"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="14sp"
                         android:fontFamily="@font/manrope"
                         android:textStyle="bold"
@@ -102,7 +102,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             app:srcCompat="@drawable/ic_people"
-                            app:tint="#94A3B8" />
+                            app:tint="@color/v_text_muted" />
 
                         <EditText
                             android:id="@+id/groupNameInput"
@@ -112,8 +112,8 @@
                             android:background="@null"
                             android:hint="Enter your group name"
                             android:inputType="text"
-                            android:textColor="#0F172A"
-                            android:textColorHint="#94A3B8"
+                            android:textColor="@color/v_text_dark"
+                            android:textColorHint="@color/v_text_muted"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email Address"
-                        android:textColor="#475569"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="14sp"
                         android:fontFamily="@font/manrope"
                         android:textStyle="bold"
@@ -142,7 +142,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             app:srcCompat="@drawable/ic_email"
-                            app:tint="#94A3B8" />
+                            app:tint="@color/v_text_muted" />
 
                         <EditText
                             android:id="@+id/emailInput"
@@ -152,8 +152,8 @@
                             android:background="@null"
                             android:hint="name@example.com"
                             android:inputType="textEmailAddress"
-                            android:textColor="#0F172A"
-                            android:textColorHint="#94A3B8"
+                            android:textColor="@color/v_text_dark"
+                            android:textColorHint="@color/v_text_muted"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -167,7 +167,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Password"
-                            android:textColor="#475569"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="14sp"
                             android:fontFamily="@font/manrope"
                             android:textStyle="bold" />
@@ -198,7 +198,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             app:srcCompat="@drawable/ic_lock"
-                            app:tint="#94A3B8" />
+                            app:tint="@color/v_text_muted" />
 
                         <EditText
                             android:id="@+id/passwordInput"
@@ -209,8 +209,8 @@
                             android:background="@null"
                             android:hint="........"
                             android:inputType="textPassword"
-                            android:textColor="#0F172A"
-                            android:textColorHint="#94A3B8"
+                            android:textColor="@color/v_text_dark"
+                            android:textColorHint="@color/v_text_muted"
                             android:textSize="14sp" />
 
                         <ImageView
@@ -218,7 +218,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             app:srcCompat="@drawable/ic_visibility_off"
-                            app:tint="#94A3B8" />
+                            app:tint="@color/v_text_muted" />
                     </LinearLayout>
 
                     <!-- Remember Me -->
@@ -227,10 +227,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Remember me"
-                        android:textColor="#475569"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="14sp"
                         android:fontFamily="@font/manrope"
-                        android:buttonTint="#CBD5E1"
+                        android:buttonTint="@color/v_text_muted"
                         android:layout_marginBottom="24dp" />
 
                     <!-- Login Button -->
@@ -248,7 +248,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Login"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/white"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:fontFamily="@font/manrope"
@@ -258,7 +258,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             app:srcCompat="@drawable/ic_arrow_right"
-                            app:tint="#FFFFFF" />
+                            app:tint="@color/white" />
                     </LinearLayout>
 
                     <!-- Divider -->
@@ -281,7 +281,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:text="OR CONTINUE WITH"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="11sp"
                             android:fontFamily="@font/manrope"
                             android:textStyle="bold" />
@@ -312,7 +312,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Continue with Google"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:fontFamily="@font/manrope" />
@@ -331,7 +331,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Are you an Admin? "
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="15sp"
                     android:fontFamily="@font/manrope" />
 

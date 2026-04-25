@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:gravity="center"
                 android:text="Welcome to the\nCircle."
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="42sp"
                 android:lineSpacingExtra="-4dp" />
 
@@ -48,7 +48,7 @@
                 android:fontFamily="@font/manrope_medium"
                 android:gravity="center"
                 android:text="A secure space for collective growth and financial freedom."
-                android:textColor="#475569"
+                android:textColor="@color/v_text_mid"
                 android:textSize="18sp"
                 android:lineSpacingExtra="6dp" />
 
@@ -96,7 +96,7 @@
                             android:layout_marginTop="16dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Bank-grade\nsecurity"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 
                         <TextView
@@ -105,7 +105,7 @@
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Encrypted vaults for your peace of mind."
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp"
                             android:lineSpacingExtra="2dp" />
                     </LinearLayout>
@@ -146,7 +146,7 @@
                             android:layout_marginTop="16dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Collaborative\nsaving"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 
                         <TextView
@@ -155,7 +155,7 @@
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Achieve goals faster with your trusted circle."
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp"
                             android:lineSpacingExtra="2dp" />
                     </LinearLayout>
@@ -181,7 +181,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.1"
                 android:text="THE DIGITAL VAULT EXPERIENCE  •  V2.4.0"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="11sp" />
 
         </LinearLayout>

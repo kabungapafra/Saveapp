@@ -32,7 +32,7 @@
         android:top="3dp">
         <shape android:shape="rectangle">
             <corners android:radius="28dp" />
-            <solid android:color="#FFFFFF" />
+            <solid android:color="@color/white" />
         </shape>
     </item>
 </layer-list>

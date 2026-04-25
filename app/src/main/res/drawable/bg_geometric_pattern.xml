@@ -7,7 +7,7 @@
     <!-- Base Background Color: White -->
     <path
         android:pathData="M0,0h412v915h-412z"
-        android:fillColor="#FFFFFF"/>
+        android:fillColor="@color/white"/>
 
     <!-- Large Geometric Shape 1: Top Left - More Visible Gray -->
     <path
@@ -32,7 +32,7 @@
     <!-- Overlay Shape: Center Abstract - White Transparent Overlay -->
     <path
         android:pathData="M100,200 L350,350 L200,600 L50,450 Z"
-        android:fillColor="#FFFFFF"
+        android:fillColor="@color/white"
         android:fillAlpha="0.3"/>
 
 </vector>

@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Sunrise Cooperative"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="13sp" />
 
             <TextView
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_medium"
                 android:text="Oct 24 • REF# TXN1"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="11sp" />
         </LinearLayout>
 
@@ -72,5 +72,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="#F1F5F9" />
+        android:background="@color/v_page_bg" />
 </LinearLayout>

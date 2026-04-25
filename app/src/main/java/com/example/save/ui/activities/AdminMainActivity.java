@@ -47,6 +47,7 @@ public class AdminMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAdminmainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        com.example.save.utils.ThemeUtils.applyTheme(this);
         getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
 
         MembersViewModel viewModel = new ViewModelProvider(this).get(MembersViewModel.class);
@@ -250,7 +251,7 @@ public class AdminMainActivity extends AppCompatActivity {
         }
     }
 
-    private void showQuickActions() {
+    public void showQuickActions() {
         if (isQuickActionsOpen) {
             closeQuickActions();
         } else {
@@ -264,6 +265,12 @@ public class AdminMainActivity extends AppCompatActivity {
         overlay.setVisibility(View.VISIBLE);
         overlay.setAlpha(0f);
         overlay.animate().alpha(1f).setDuration(300).start();
+        
+        // Update Theme Label
+        TextView themeLabel = overlay.findViewById(R.id.tvThemeLabelOverlay);
+        if (themeLabel != null) {
+            themeLabel.setText(com.example.save.utils.ThemeUtils.isDarkMode(this) ? "Switch to Light Mode" : "Switch to Dark Mode");
+        }
 
         // Animate FAB ring rotation
         View ring = findViewById(R.id.navActionDashedRing);

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F5">
+    android:background="@color/v_page_bg">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                     android:layout_centerVertical="true"
                     android:padding="10dp"
                     android:src="@drawable/ic_arrow_left"
-                    app:tint="#0F172A" />
+                    app:tint="@color/v_text_dark" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/manrope_bold"
                     android:text="Member Profile"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -52,7 +52,7 @@
                     android:layout_centerVertical="true"
                     android:padding="10dp"
                     android:src="@drawable/ic_more_vert"
-                    app:tint="#0F172A" />
+                    app:tint="@color/v_text_dark" />
             </RelativeLayout>
 
             <!-- ── Profile Hero Card ── -->
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text="David Chen"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="20sp" />
 
                     <!-- Join date -->
@@ -144,7 +144,7 @@
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:src="@drawable/ic_calendar_month"
-                            app:tint="#64748B" />
+                            app:tint="@color/v_text_mid" />
 
                         <TextView
                             android:id="@+id/tvMemberRole"
@@ -153,7 +153,7 @@
                             android:layout_marginStart="4dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Member since January 2022"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -247,7 +247,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.08"
                         android:text="TOTAL CONTRIBUTED"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="11sp" />
 
                     <TextView
@@ -257,7 +257,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="$4,200.00"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="26sp" />
 
                     <TextView
@@ -294,7 +294,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.08"
                         android:text="SAVINGS BALANCE"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="11sp" />
 
                     <TextView
@@ -325,7 +325,7 @@
                             android:layout_marginStart="6dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Available for withdrawal"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -354,7 +354,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.08"
                         android:text="ACTIVE LOANS"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="11sp" />
 
                     <TextView
@@ -364,7 +364,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="1"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="26sp" />
 
                     <LinearLayout
@@ -385,7 +385,7 @@
                             android:layout_marginStart="6dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Next payment in 5 days"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -420,7 +420,7 @@
                             android:layout_centerVertical="true"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Active Loan Details"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp" />
 
                         <com.google.android.material.card.MaterialCardView
@@ -464,7 +464,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:letterSpacing="0.06"
                                 android:text="PRINCIPAL AMOUNT"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -474,7 +474,7 @@
                                 android:layout_marginTop="2dp"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="$2,000.00"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="20sp" />
                         </LinearLayout>
 
@@ -490,7 +490,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:letterSpacing="0.06"
                                 android:text="INTEREST RATE"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -528,7 +528,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Paid: $1,300.00"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
 
                         <TextView
@@ -537,7 +537,7 @@
                             android:layout_alignParentEnd="true"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Remaining: $700.00"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </RelativeLayout>
 
@@ -546,7 +546,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="14dp"
-                        app:cardBackgroundColor="#F8FAFC"
+                        app:cardBackgroundColor="@color/v_page_bg"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:strokeColor="#EAECF0"
@@ -587,7 +587,7 @@
                                     android:fontFamily="@font/manrope_bold"
                                     android:letterSpacing="0.06"
                                     android:text="NEXT DUE DATE"
-                                    android:textColor="#94A3B8"
+                                    android:textColor="@color/v_text_muted"
                                     android:textSize="10sp" />
 
                                 <TextView
@@ -595,7 +595,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Oct 15, 2023"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -646,7 +646,7 @@
                             android:layout_centerVertical="true"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Payment History"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -673,7 +673,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/manrope_bold"
                             android:text="DATE"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="11sp" />
 
                         <TextView
@@ -682,7 +682,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/manrope_bold"
                             android:text="TYPE"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="11sp" />
                     </LinearLayout>
 
@@ -691,7 +691,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginBottom="10dp"
-                        android:background="#F1F5F9" />
+                        android:background="@color/v_page_bg" />
 
                     <!-- RecyclerView for transactions -->
                     <androidx.recyclerview.widget.RecyclerView

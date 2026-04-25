@@ -19,7 +19,7 @@
             android:layout_weight="1.6"
             android:fontFamily="@font/manrope_bold"
             android:text="Member Name"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="12sp"
             android:lineSpacingExtra="2dp" />
 
@@ -40,7 +40,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/manrope"
             android:text="Vault\nSettlement"
-            android:textColor="#475569"
+            android:textColor="@color/v_text_mid"
             android:textSize="11sp" />
 
         <TextView
@@ -62,5 +62,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#F1F5F9" />
+        android:background="@color/v_page_bg" />
 </LinearLayout>

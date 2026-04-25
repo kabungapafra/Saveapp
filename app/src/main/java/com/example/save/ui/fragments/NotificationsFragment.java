@@ -52,6 +52,8 @@ public class NotificationsFragment extends Fragment {
             // Refresh mock data to show read state if needed
         });
 
+        view.findViewById(R.id.btnThemeToggle).setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext()));
+
         adapter.setOnNotificationClickListener(n -> {
             // Placeholder for detail navigation
             android.widget.Toast.makeText(getContext(), "Opening: " + n.getTitle(), android.widget.Toast.LENGTH_SHORT).show();

@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/circle_background"
                 android:gravity="center"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 tools:text="S"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="×"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
         </FrameLayout>
@@ -70,7 +70,7 @@
                 android:layout_height="28dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_person_add"
-                app:tint="#9CA3AF"/>
+                app:tint="@color/v_text_muted"/>
         </FrameLayout>
     </FrameLayout>
 
@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textColor="#1A1D2E"
+        android:textColor="@color/v_text_dark"
         android:textSize="12sp"
         android:textStyle="bold"
         tools:text="Sarah"/>

@@ -29,7 +29,7 @@
                 android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="#1A1D2E" />
+                app:tint="@color/v_text_dark" />
         </FrameLayout>
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope_bold"
             android:text="Security"
-            android:textColor="#1A1D2E"
+            android:textColor="@color/v_text_dark"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,7 +139,7 @@
             android:gravity="center"
             android:letterSpacing="-0.015"
             android:text="@string/bank_grade_security"
-            android:textColor="#1A1D2E"
+            android:textColor="@color/v_text_dark"
             android:textSize="28sp"
             android:textStyle="bold" />
 
@@ -152,7 +152,7 @@
             android:gravity="center"
             android:lineSpacingMultiplier="1.5"
             android:text="@string/security_description"
-            android:textColor="#6B7280"
+            android:textColor="@color/v_text_mid"
             android:textSize="15sp" />
     </LinearLayout>
 

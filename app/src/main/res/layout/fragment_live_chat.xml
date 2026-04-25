@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F7">
+    android:background="@color/v_page_bg">
 
     <WebView
         android:id="@+id/webView"

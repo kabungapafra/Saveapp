@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
 
         // Animate Logo Image (Heartbeat) - NOT the container
         android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1F5F9">
+    android:background="@color/v_page_bg">
 
     <!-- Header Section -->
     <LinearLayout
@@ -39,7 +39,7 @@
             android:fontFamily="sans-serif-bold"
             android:gravity="center"
             android:text="Financial Reports"
-            android:textColor="#111827"
+            android:textColor="@color/v_text_dark"
             android:textSize="18sp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -54,7 +54,7 @@
                 android:layout_height="match_parent"
                 android:padding="8dp"
                 android:src="@drawable/ic_more_vert"
-                app:tint="#64748B" />
+                app:tint="@color/v_text_mid" />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
@@ -105,7 +105,7 @@
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
                         android:text="Quarterly"
-                        android:textColor="#7C8CA5"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
                     <TextView
                         android:id="@+id/tabYearly"
@@ -115,7 +115,7 @@
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
                         android:text="Yearly"
-                        android:textColor="#7C8CA5"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:text="Total Group Savings"
-                        android:textColor="#7C8CA5"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -151,7 +151,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="sans-serif-bold"
                         android:text="$45,200.00"
-                        android:textColor="#111827"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="28sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvSavingsLabel" />
@@ -190,7 +190,7 @@
                         android:layout_marginStart="8dp"
                         android:fontFamily="sans-serif"
                         android:text="vs last month"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/savingsTrendLayout"
                         app:layout_constraintStart_toEndOf="@id/savingsTrendLayout"
@@ -257,7 +257,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
                             android:text="Interest Earned"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                         <TextView
                             android:id="@+id/tvInterestValue"
@@ -266,7 +266,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="sans-serif-bold"
                             android:text="$3,120.50"
-                            android:textColor="#111827"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="18sp" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -313,7 +313,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
                             android:text="Loans Disbursed"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                         <TextView
                             android:id="@+id/tvLoansValue"
@@ -322,7 +322,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="sans-serif-bold"
                             android:text="$12,800.00"
-                            android:textColor="#111827"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="18sp" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -347,7 +347,7 @@
                     android:layout_alignParentStart="true"
                     android:fontFamily="sans-serif-bold"
                     android:text="Contribution Trends"
-                    android:textColor="#111827"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="18sp" />
                 <TextView
                     android:id="@+id/btnViewDetails"
@@ -387,12 +387,12 @@
                     android:layout_marginBottom="16dp"
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JAN" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="FEB" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAR" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JAN" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="FEB" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAR" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="APR" android:textColor="#215DA1" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAY" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JUN" android:textColor="#94A3B8" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAY" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JUN" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -403,7 +403,7 @@
                 android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-bold"
                 android:text="Member Activity"
-                android:textColor="#111827"
+                android:textColor="@color/v_text_dark"
                 android:textSize="18sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -441,13 +441,13 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-bold"
                             android:text="124"
-                            android:textColor="#111827"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="20sp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="TOTAL"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="10sp"
                             android:fontFamily="sans-serif-medium"
                             android:letterSpacing="0.1" />
@@ -480,14 +480,14 @@
                                 android:layout_marginStart="8dp"
                                 android:layout_toEndOf="@id/dotActive"
                                 android:text="Active"
-                                android:textColor="#64748B" />
+                                android:textColor="@color/v_text_mid" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="sans-serif-bold"
                                 android:text="102"
-                                android:textColor="#111827" />
+                                android:textColor="@color/v_text_dark" />
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -507,14 +507,14 @@
                                 android:layout_marginStart="8dp"
                                 android:layout_toEndOf="@id/dotInactive"
                                 android:text="Inactive"
-                                android:textColor="#64748B" />
+                                android:textColor="@color/v_text_mid" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="sans-serif-bold"
                                 android:text="22"
-                                android:textColor="#111827" />
+                                android:textColor="@color/v_text_dark" />
                         </RelativeLayout>
 
                         <!-- Horizontal Ratio Bar -->
@@ -532,7 +532,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="0.18"
-                                android:background="#F8FAFC" />
+                                android:background="@color/v_page_bg" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -545,7 +545,7 @@
                 android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-bold"
                 android:text="Export Reports"
-                android:textColor="#111827"
+                android:textColor="@color/v_text_dark"
                 android:textSize="18sp" />
 
             <LinearLayout
@@ -578,7 +578,7 @@
                             android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-medium"
                             android:text="PDF Export"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -607,7 +607,7 @@
                             android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-medium"
                             android:text="Excel Export"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -636,7 +636,7 @@
                             android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-medium"
                             android:text="CSV Export"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

@@ -33,7 +33,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="#0F172A" />
+                app:tint="@color/v_text_dark" />
         </androidx.cardview.widget.CardView>
 
         <ImageView
@@ -55,7 +55,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:text="Finalize Rules"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginTop="8dp"
             android:text="Set the final parameters for your savings group."
-            android:textColor="#64748B"
+            android:textColor="@color/v_text_mid"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvTitle"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="STEP 3 OF 3"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tvSubtitle"
@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="Payout Frequency"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/successCard"
@@ -182,7 +182,7 @@
                 android:inputType="none"
                 android:paddingHorizontal="16dp"
                 android:text="Every 1 Week"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -192,7 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Late Fee Amount"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tilPayoutFrequency"
@@ -208,7 +208,7 @@
             app:layout_constraintStart_toStartOf="@id/lblLateFee"
             app:layout_constraintTop_toBottomOf="@id/lblLateFee"
             app:prefixText="UGX "
-            app:prefixTextColor="#94A3B8">
+            app:prefixTextColor="@color/v_text_muted">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etLateFee"
@@ -218,8 +218,8 @@
                 android:hint="0.00"
                 android:inputType="numberDecimal"
                 android:paddingHorizontal="16dp"
-                android:textColor="#0F172A"
-                android:textColorHint="#94A3B8"
+                android:textColor="@color/v_text_dark"
+                android:textColorHint="@color/v_text_muted"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -229,7 +229,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Charged to members who miss the deadline."
-            android:textColor="#94A3B8"
+            android:textColor="@color/v_text_muted"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/tilLateFee"
             app:layout_constraintTop_toBottomOf="@id/tilLateFee" />
@@ -240,7 +240,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Loan Interest Rate"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tvLateFeeHint"
@@ -256,7 +256,7 @@
             app:layout_constraintStart_toStartOf="@id/lblInterest"
             app:layout_constraintTop_toBottomOf="@id/lblInterest"
             app:suffixText="%"
-            app:suffixTextColor="#94A3B8">
+            app:suffixTextColor="@color/v_text_muted">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etInterestRate"
@@ -266,8 +266,8 @@
                 android:hint="5.0"
                 android:inputType="numberDecimal"
                 android:paddingHorizontal="16dp"
-                android:textColor="#0F172A"
-                android:textColorHint="#94A3B8"
+                android:textColor="@color/v_text_dark"
+                android:textColorHint="@color/v_text_muted"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -277,7 +277,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Optional interest for internal member loans."
-            android:textColor="#94A3B8"
+            android:textColor="@color/v_text_muted"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/tilInterest"
             app:layout_constraintTop_toBottomOf="@id/tilInterest" />
@@ -288,7 +288,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Max Repayment Period"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tvInterestHint"
@@ -304,7 +304,7 @@
             app:layout_constraintStart_toStartOf="@id/lblRepayment"
             app:layout_constraintTop_toBottomOf="@id/lblRepayment"
             app:suffixText="Weeks"
-            app:suffixTextColor="#94A3B8">
+            app:suffixTextColor="@color/v_text_muted">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etRepaymentPeriod"
@@ -314,8 +314,8 @@
                 android:hint="4"
                 android:inputType="number"
                 android:paddingHorizontal="16dp"
-                android:textColor="#0F172A"
-                android:textColorHint="#94A3B8"
+                android:textColor="@color/v_text_dark"
+                android:textColorHint="@color/v_text_muted"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -325,7 +325,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Maximum time allowed for loan repayment."
-            android:textColor="#94A3B8"
+            android:textColor="@color/v_text_muted"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/tilRepayment"
             app:layout_constraintTop_toBottomOf="@id/tilRepayment" />
@@ -336,7 +336,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            app:cardBackgroundColor="#F8F9FA"
+            app:cardBackgroundColor="@color/v_page_bg"
             app:cardCornerRadius="24dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="@id/tilInterest"
@@ -364,7 +364,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="Auto-Reminders"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/ivBell"
@@ -375,7 +375,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Notify 2 days before due date"
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="@id/tvRemindersLabel"
                     app:layout_constraintTop_toBottomOf="@id/tvRemindersLabel" />
@@ -419,7 +419,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="By launching, you agree to the Save App\nTerms of Service"
-            android:textColor="#94A3B8"
+            android:textColor="@color/v_text_muted"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

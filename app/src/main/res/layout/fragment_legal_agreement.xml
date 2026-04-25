@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <!-- Custom Header Area -->
     <RelativeLayout
@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="24dp"
             android:src="@drawable/ic_arrow_back"
-            app:tint="#0F172A" />
+            app:tint="@color/v_text_dark" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Legal Center"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Trust &amp; Transparency"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -78,7 +78,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="We believe in keeping your financial data secure. Please review our terms and privacy commitments."
-                android:textColor="#64748B"
+                android:textColor="@color/v_text_mid"
                 android:textSize="15sp" />
 
             <!-- Summary Card -->
@@ -120,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Summary of Key Points"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
@@ -130,7 +130,7 @@
                             android:layout_marginTop="6dp"
                             android:lineSpacingExtra="2dp"
                             android:text="By using Save, you agree to secure data encryption, account verification protocols, and responsible service usage as outlined in the sections below."
-                            android:textColor="#334155"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -163,7 +163,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Privacy Policy"
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -197,7 +197,7 @@
                         android:layout_marginTop="12dp"
                         android:lineSpacingExtra="4dp"
                         android:text="By creating a 'Save' account, you agree to these terms. Our service is designed to help you automate savings through secure bank integrations."
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="14sp" />
 
                     <TextView
@@ -216,7 +216,7 @@
                         android:layout_marginTop="12dp"
                         android:lineSpacingExtra="4dp"
                         android:text="You must be at least 18 years of age and a resident of a supported region to use our financial management tools."
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="14sp" />
 
                     <TextView
@@ -235,7 +235,7 @@
                         android:layout_marginTop="12dp"
                         android:lineSpacingExtra="4dp"
                         android:text="You are responsible for maintaining the confidentiality of your login credentials and for all activities that occur under your account."
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="14sp" />
 
                     <TextView
@@ -244,7 +244,7 @@
                         android:layout_marginTop="24dp"
                         android:lineSpacingExtra="4dp"
                         android:text="4. Limitations of Liability. To the maximum extent permitted by law, Save App shall not be liable for any indirect, incidental, special, consequential or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly."
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="13sp" />
 
                     <LinearLayout
@@ -280,7 +280,7 @@
                 android:layout_marginTop="48dp"
                 android:gravity="center"
                 android:text="Last updated: October 24, 2023. Version 2.4.1"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="12sp"
                 android:fontStyle="italic" />
 
@@ -323,8 +323,8 @@
                 android:layout_weight="1"
                 android:text="Decline"
                 android:textAllCaps="false"
-                android:textColor="#64748B"
-                android:backgroundTint="#F1F5F9"
+                android:textColor="@color/v_text_mid"
+                android:backgroundTint="@color/v_page_bg"
                 app:cornerRadius="16dp" />
 
             <View
@@ -339,8 +339,8 @@
                 android:layout_weight="1"
                 android:text="Print / Email PDF"
                 android:textAllCaps="false"
-                android:textColor="#64748B"
-                android:backgroundTint="#F1F5F9"
+                android:textColor="@color/v_text_mid"
+                android:backgroundTint="@color/v_page_bg"
                 app:cornerRadius="16dp" />
         </LinearLayout>
     </LinearLayout>

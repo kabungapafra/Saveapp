@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F5">
+    android:background="@color/v_page_bg">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_more_vert"
-                    app:tint="#94A3B8" />
+                    app:tint="@color/v_text_muted" />
             </RelativeLayout>
 
             <!-- App Icon Area -->
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="Create Support Ticket"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Our specialized team is here to assist you."
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -121,7 +121,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Fast Response Guarantee"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                         <TextView
@@ -142,7 +142,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="12dp"
                 android:text="Category"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -186,7 +186,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="#F8F9FA"
+                app:cardBackgroundColor="@color/v_page_bg"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:strokeColor="#E2E8F0"
@@ -201,14 +201,14 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:src="@drawable/ic_money"
-                        app:tint="#64748B" />
+                        app:tint="@color/v_text_mid" />
                     <TextView
                         android:id="@+id/textPayment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="Payment Issue"
-                        android:textColor="#334155"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="14sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -219,7 +219,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="#F8F9FA"
+                app:cardBackgroundColor="@color/v_page_bg"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:strokeColor="#E2E8F0"
@@ -234,14 +234,14 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:src="@drawable/ic_bank_filled"
-                        app:tint="#64748B" />
+                        app:tint="@color/v_text_mid" />
                     <TextView
                         android:id="@+id/textLoan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="Loan Question"
-                        android:textColor="#334155"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="14sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -252,7 +252,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#F8F9FA"
+                app:cardBackgroundColor="@color/v_page_bg"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:strokeColor="#E2E8F0"
@@ -267,14 +267,14 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:src="@drawable/ic_shield"
-                        app:tint="#64748B" />
+                        app:tint="@color/v_text_mid" />
                     <TextView
                         android:id="@+id/textSecurity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="Account Security"
-                        android:textColor="#334155"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="14sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -285,7 +285,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="Subject"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -303,8 +303,8 @@
                     android:background="@android:color/transparent"
                     android:hint="What can we help you with?"
                     android:paddingHorizontal="16dp"
-                    android:textColor="#0F172A"
-                    android:textColorHint="#94A3B8"
+                    android:textColor="@color/v_text_dark"
+                    android:textColorHint="@color/v_text_muted"
                     android:textSize="14sp" />
             </com.google.android.material.card.MaterialCardView>
 
@@ -313,7 +313,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="Message"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -332,8 +332,8 @@
                     android:gravity="top"
                     android:hint="Please describe your issue in detail..."
                     android:padding="16dp"
-                    android:textColor="#0F172A"
-                    android:textColorHint="#94A3B8"
+                    android:textColor="@color/v_text_dark"
+                    android:textColorHint="@color/v_text_muted"
                     android:textSize="14sp" />
             </com.google.android.material.card.MaterialCardView>
 
@@ -357,7 +357,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        app:cardBackgroundColor="#F1F5F9"
+                        app:cardBackgroundColor="@color/v_page_bg"
                         app:cardCornerRadius="22dp"
                         app:cardElevation="0dp">
                         <ImageView
@@ -365,14 +365,14 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_attachment"
-                            app:tint="#64748B" />
+                            app:tint="@color/v_text_mid" />
                     </com.google.android.material.card.MaterialCardView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Attach Files"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="15sp"
                         android:textStyle="bold" />
                     <TextView
@@ -380,7 +380,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="PNG, JPG, or PDF up to 10MB"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

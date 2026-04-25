@@ -67,9 +67,9 @@ public class SupportFragment extends Fragment {
             }
         });
 
-        binding.btnSearch.setOnClickListener(v -> {
+        binding.btnThemeToggle.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "Search functionality coming soon", Toast.LENGTH_SHORT).show();
+            com.example.save.utils.ThemeUtils.toggleTheme(requireContext());
         });
 
         View.OnClickListener cardListener = v -> {

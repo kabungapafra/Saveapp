@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_circle_white"
-                android:backgroundTint="#F1F5F9" />
+                android:backgroundTint="@color/v_page_bg" />
 
             <ImageView
                 android:id="@+id/imgProfile"
@@ -33,7 +33,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_person"
-                app:tint="#64748B" />
+                app:tint="@color/v_text_mid" />
         </FrameLayout>
 
         <!-- Name -->
@@ -44,7 +44,7 @@
             android:layout_marginStart="14dp"
             android:fontFamily="@font/manrope_bold"
             android:text="Alex Johnson"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="17sp"
             app:layout_constraintEnd_toStartOf="@id/actionLayout"
             app:layout_constraintStart_toEndOf="@id/profileContainer"
@@ -80,7 +80,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="6dp"
                 android:src="@drawable/ic_more_vert"
-                app:tint="#94A3B8" />
+                app:tint="@color/v_text_muted" />
         </LinearLayout>
 
         <!-- Stats Row -->
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="CONTRIBUTED"
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="10sp" />
 
                 <TextView
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="RELIABILITY"
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="10sp" />
 
                 <TextView
@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="98.4%"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -157,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="RANK"
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="10sp" />
 
                 <TextView

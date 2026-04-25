@@ -38,6 +38,7 @@ public class SplashActivity extends AppCompatActivity {
 
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
 
         // ── 1. Animate gradient blobs (breathing / floating effect) ──────────────
         animateGradientBlobs();

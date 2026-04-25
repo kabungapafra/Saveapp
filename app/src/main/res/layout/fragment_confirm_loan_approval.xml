@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="#FFFFFF"
+            android:background="@color/white"
             android:paddingHorizontal="8dp">
 
             <ImageView
@@ -26,7 +26,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="#0F172A" />
+                app:tint="@color/v_text_dark" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
                 android:layout_toEndOf="@id/btnBack"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Confirm Approval"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -77,7 +77,7 @@
                     android:layout_marginTop="16dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Final Review"
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="14sp" />
 
                 <!-- Loan Summary Header -->
@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Loan Summary"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
@@ -115,10 +115,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
-                    app:strokeColor="#F1F5F9"
+                    app:strokeColor="@color/v_page_bg"
                     app:strokeWidth="1dp">
 
                     <LinearLayout
@@ -136,7 +136,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Borrower"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="15sp" />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -144,7 +144,7 @@
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Marcus Wright"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
@@ -153,7 +153,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="16dp"
-                            android:background="#F1F5F9" />
+                            android:background="@color/v_page_bg" />
 
                         <!-- Row: Amount -->
                         <RelativeLayout
@@ -164,7 +164,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Amount"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="15sp" />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -181,7 +181,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="16dp"
-                            android:background="#F1F5F9" />
+                            android:background="@color/v_page_bg" />
 
                         <!-- Row: Interest Rate -->
                         <RelativeLayout
@@ -192,7 +192,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Interest Rate"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="15sp" />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -200,7 +200,7 @@
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="12% p.a."
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
@@ -209,7 +209,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="16dp"
-                            android:background="#F1F5F9" />
+                            android:background="@color/v_page_bg" />
 
                         <!-- Row: Duration -->
                         <RelativeLayout
@@ -220,7 +220,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Duration"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="15sp" />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -228,7 +228,7 @@
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="12 Months"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
@@ -241,10 +241,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
-                    app:strokeColor="#F1F5F9"
+                    app:strokeColor="@color/v_page_bg"
                     app:strokeWidth="1dp">
 
                     <LinearLayout
@@ -281,7 +281,7 @@
                                     android:layout_marginStart="10dp"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Irreversible Action"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -293,7 +293,7 @@
                                 android:fontFamily="sans-serif"
                                 android:lineSpacingExtra="4dp"
                                 android:text="Once approved, funds will be allocated immediately to Marcus Wright. This action cannot be undone or retracted from the system."
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="14sp" />
 
                             <!-- Confirmation Toggle -->
@@ -310,7 +310,7 @@
                                     android:layout_centerVertical="true"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="I understand and confirm"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="14sp" />
 
                                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -332,7 +332,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
+            android:background="@color/white"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
             android:paddingVertical="16dp">
@@ -352,7 +352,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="Confirm Approval"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -361,7 +361,7 @@
                     android:layout_height="18dp"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/ic_check"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/white" />
             </LinearLayout>
 
             <TextView
@@ -375,7 +375,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:gravity="center"
                 android:text="Go Back"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>

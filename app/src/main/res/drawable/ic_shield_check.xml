@@ -12,7 +12,7 @@
         android:fillAlpha="1"
         android:pathData="M7,12l3,3l7,-7"
         android:strokeAlpha="1"
-        android:strokeColor="#FFFFFF"
+        android:strokeColor="@color/white"
         android:strokeWidth="2.5"
         android:strokeLineCap="round"
         android:strokeLineJoin="round" />

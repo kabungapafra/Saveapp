@@ -106,6 +106,11 @@ public class DashboardFragment extends Fragment {
             ((MemberMainActivity) requireActivity()).loadFragment(new MakeContributionFragment());
         });
 
+        binding.btnThemeToggle.setOnClickListener(v -> {
+            applyClickAnimation(v);
+            com.example.save.utils.ThemeUtils.toggleTheme(requireContext());
+        });
+
     }
 
     @SuppressLint("SetTextI18n")

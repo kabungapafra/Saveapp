@@ -20,7 +20,7 @@
             android:src="@drawable/ic_arrow_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#0F172A" />
+            app:tint="@color/v_text_dark" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Verify Your Email"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Please enter the 6-digit code sent to your email address to verify your account."
-            android:textColor="#64748B"
+            android:textColor="@color/v_text_mid"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Didn't receive code?"
-                android:textColor="#64748B"
+                android:textColor="@color/v_text_mid"
                 android:textSize="14sp" />
 
             <TextView
@@ -158,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="(0:30)"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -168,7 +168,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Having trouble? Contact support"
-            android:textColor="#94A3B8"
+            android:textColor="@color/v_text_muted"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

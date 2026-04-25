@@ -139,6 +139,8 @@ public class AnalyticsFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
         });
+
+        binding.btnThemeToggle.setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext()));
     }
 
     private void navigateToMemberSummary() {

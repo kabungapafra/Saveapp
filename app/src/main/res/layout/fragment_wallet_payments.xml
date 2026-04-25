@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/manrope_bold"
                     android:text="Wallet &amp; Payments"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="24sp" />
             </LinearLayout>
 
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Secure Connection"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="16sp" />
 
                     <TextView
@@ -94,7 +94,7 @@
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/manrope_medium"
                         android:text="Your data is encrypted with 256-bit security."
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -111,7 +111,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:letterSpacing="0.05"
                     android:text="LINKED ACCOUNTS"
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="14sp" />
 
                 <TextView
@@ -145,7 +145,7 @@
                         android:layout_height="64dp"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#F1F5F9"
+                        app:strokeColor="@color/v_page_bg"
                         app:strokeWidth="1dp">
 
                         <ImageView
@@ -170,7 +170,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Airtel Mobile Money"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -179,7 +179,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Save App"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -206,7 +206,7 @@
                         android:layout_height="64dp"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#F1F5F9"
+                        app:strokeColor="@color/v_page_bg"
                         app:strokeWidth="1dp">
 
                         <ImageView
@@ -231,7 +231,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="MTN Mobile Money"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -240,7 +240,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Save App"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -251,7 +251,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:strokeColor="#E2E8F0"
@@ -264,7 +264,7 @@
                     android:lineSpacingExtra="4dp"
                     android:padding="20dp"
                     android:text="Your financial security is our priority. All transactions are protected with bank-grade encryption and real-time monitoring."
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="13sp" />
             </androidx.cardview.widget.CardView>
 
@@ -276,7 +276,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
                 android:text="ACCOUNT SETTINGS"
-                android:textColor="#64748B"
+                android:textColor="@color/v_text_mid"
                 android:textSize="14sp" />
 
             <!-- Transaction Alerts -->
@@ -292,7 +292,7 @@
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_notifications"
-                    app:tint="#64748B" />
+                    app:tint="@color/v_text_mid" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -302,7 +302,7 @@
                     android:layout_toEndOf="@id/iconAlerts"
                     android:fontFamily="@font/manrope_medium"
                     android:text="Transaction Alerts"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -328,7 +328,7 @@
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_account_balance_wallet"
-                    app:tint="#64748B" />
+                    app:tint="@color/v_text_mid" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -338,7 +338,7 @@
                     android:layout_toEndOf="@id/iconLimits"
                     android:fontFamily="@font/manrope_medium"
                     android:text="Spending Limits"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp" />
 
             </RelativeLayout>

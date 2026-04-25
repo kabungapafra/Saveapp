@@ -20,7 +20,7 @@
             android:src="@drawable/ic_arrow_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#0F172A" />
+            app:tint="@color/v_text_dark" />
 
         <!-- Logo Header -->
         <ImageView
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="How Members Will Be Added"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="As an admin, you have full control over how your community joins. We've simplified the process into three secure steps."
-            android:textColor="#64748B"
+            android:textColor="@color/v_text_mid"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Admin Panel Setup"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="As an admin, you can manually add members from your dashboard after setup."
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Member Self-Reg"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Share your unique group code or link for members to join."
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
@@ -167,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Verification"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="All members must verify their identity to ensure group security."
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>

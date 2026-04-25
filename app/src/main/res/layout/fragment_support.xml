@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F5">
+    android:background="@color/v_page_bg">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                     android:layout_centerVertical="true"
                     android:padding="10dp"
                     android:src="@drawable/ic_arrow_left"
-                    app:tint="#0F172A" />
+                    app:tint="@color/v_text_dark" />
 
                 <!-- Logo + Title (centered) -->
                 <LinearLayout
@@ -53,20 +53,20 @@
                         android:layout_marginStart="6dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Support"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="18sp" />
                 </LinearLayout>
 
-                <!-- Search Icon -->
+                <!-- Theme Toggle Icon -->
                 <ImageView
-                    android:id="@+id/btnSearch"
+                    android:id="@+id/btnThemeToggle"
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:padding="10dp"
-                    android:src="@drawable/ic_search"
-                    app:tint="#0F172A" />
+                    android:src="@drawable/ic_moon"
+                    app:tint="@color/v_text_dark" />
             </RelativeLayout>
 
             <!-- ── Hero Section ── -->
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="How can we help?"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="24sp" />
 
                 <TextView
@@ -110,7 +110,7 @@
                     android:fontFamily="@font/manrope_medium"
                     android:gravity="center"
                     android:text="We're here to support your saving journey"
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -122,7 +122,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.12"
                 android:text="GENERAL ASSISTANCE"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="11sp" />
 
             <!-- Help Center Row -->
@@ -174,7 +174,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Help Center"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 
                         <TextView
@@ -183,7 +183,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Browse articles and guides"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -208,7 +208,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.12"
                 android:text="ACCOUNT &amp; SECURITY"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="11sp" />
 
             <!-- Report a Problem Row -->
@@ -260,7 +260,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Report a Problem"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 
                         <TextView
@@ -269,7 +269,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="@string/let_us_know_if_something_is_wrong_create_a_ticket"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -335,7 +335,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Frequently Asked Questions"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 
                         <TextView
@@ -344,7 +344,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Common issues and solutions"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="13sp" />
                     </LinearLayout>
 

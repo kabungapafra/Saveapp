@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:text="Selected: MTN Mobile Money"
                         android:textSize="14sp"
-                        android:textColor="#757575"
+                        android:textColor="@color/v_text_muted"
                         android:layout_marginTop="12dp" />
 
                 </LinearLayout>

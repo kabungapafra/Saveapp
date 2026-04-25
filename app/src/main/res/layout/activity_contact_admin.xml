@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:text="Group Administrator"
                         android:textSize="12sp"
-                        android:textColor="#757575"
+                        android:textColor="@color/v_text_muted"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:text="Group:"
                         android:textSize="12sp"
-                        android:textColor="#757575"
+                        android:textColor="@color/v_text_muted"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
@@ -120,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:text="Email:"
                         android:textSize="12sp"
-                        android:textColor="#757575" />
+                        android:textColor="@color/v_text_muted" />
 
                     <TextView
                         android:id="@+id/tvAdminEmail"

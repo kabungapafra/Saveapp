@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Set the timing and penalties for your members."
-            android:textColor="#757575"
+            android:textColor="@color/v_text_muted"
             android:textSize="18sp" />
 
         <androidx.cardview.widget.CardView
@@ -95,7 +95,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_chevron_down"
-                        app:tint="#9E9E9E" />
+                        app:tint="@color/v_text_muted" />
                 </RelativeLayout>
 
                 <!-- PENALTY SECTION -->
@@ -137,7 +137,7 @@
                     android:layout_marginTop="8dp"
                     app:hintEnabled="false"
                     app:suffixText="%"
-                    app:suffixTextColor="#9E9E9E">
+                    app:suffixTextColor="@color/v_text_muted">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etLatePenalty"
@@ -149,7 +149,7 @@
                         android:paddingHorizontal="16dp"
                         android:text="5"
                         android:textColor="@color/black"
-                        android:textColorHint="#9E9E9E"
+                        android:textColorHint="@color/v_text_muted"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -164,14 +164,14 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_help_outline"
-                        app:tint="#9E9E9E" />
+                        app:tint="@color/v_text_muted" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="Penalties help ensure members contribute on time."
-                        android:textColor="#9E9E9E"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="12sp" />
                 </LinearLayout>
 

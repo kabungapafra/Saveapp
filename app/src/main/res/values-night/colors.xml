@@ -1,33 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Force light mode colors even in dark mode -->
-    <!-- This prevents the app from changing colors when phone is in dark mode -->
+    <!-- Dark Mode Colors -->
+    <color name="black">#F9FAFB</color>
+    <color name="white">#111827</color> <!-- Main surface background -->
+    <color name="card_surface">#111827</color>
     
-    <!-- Keep brand colors consistent -->
-    <color name="deep_blue">#3E469B</color>
+    <color name="deep_blue">#3B82F6</color> <!-- Desaturated blue for dark mode -->
+    <color name="splash_blue">#111827</color>
+    <color name="bottom_nav_color">#1F2937</color>
     
-    <!-- Force light backgrounds in dark mode -->
-    <color name="background_gray">#F5F5F5</color>
-    <color name="background_primary">#F5F5F5</color>
-    <color name="background_secondary">#FFFFFF</color>
+    <color name="background_gray">#030712</color>
+    <color name="background_primary">#030712</color>
+    <color name="background_secondary">#111827</color>
     
-    <!-- Force dark text in dark mode -->
-    <color name="text_primary">#1A1A1A</color>
-    <color name="text_secondary">#666666</color>
-    <color name="text_hint">#AAAAAA</color>
-    <color name="text_dark">#212121</color>
-    <color name="text_on_surface">#1A1A1A</color>
+    <color name="text_primary">#F9FAFB</color>
+    <color name="text_secondary">#9CA3AF</color>
+    <color name="text_hint">#4B5563</color>
+    <color name="text_on_surface">#F9FAFB</color>
+    <color name="text_dark">#F3F4F6</color>
     
-    <!-- Force light UI colors in dark mode -->
-    <color name="divider_color">#E0E0E0</color>
-    <color name="icon_tint_primary">#1A1A1A</color>
-    <color name="icon_tint_secondary">#666666</color>
+    <color name="divider_color">#374151</color>
+    <color name="icon_tint_primary">#F9FAFB</color>
+    <color name="icon_tint_secondary">#9CA3AF</color>
     
-    <!-- Force light status colors in dark mode -->
-    <color name="background_success_light">#E8F5E9</color>
-    <color name="background_error_light">#FFEBEE</color>
+    <color name="dashboard_bg">#030712</color>
+    <color name="dashboard_text_primary">#F9FAFB</color>
+    <color name="dashboard_text_secondary">#9CA3AF</color>
     
-    <!-- Keep black and white as they are -->
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="premium_bg">#111827</color>
+    <color name="premium_text_dark">#F9FAFB</color>
+    <color name="premium_text_gray">#9CA3AF</color>
+    <color name="premium_blue_light">#1F2937</color>
+
+    <!-- Slate/High Fidelity tokens -->
+    <color name="h_slate_50">#030712</color>
+    <color name="h_slate_100">#1F2937</color>
+    <color name="h_slate_400">#9CA3AF</color>
+    <color name="h_slate_600">#D1D5DB</color>
+    <color name="h_slate_900">#F9FAFB</color>
+    
+    <color name="h_blue_50">#1E293B</color>
+    <color name="h_blue_100">#1F2937</color>
+    <color name="h_blue_600">#1E293B</color>
+    <color name="dashboard_blue_header">#0F172A</color>
+    
+    <!-- Neumorphic Shadows for Dark Mode -->
+    <color name="neumorphic_bg">#030712</color>
+    <color name="neumorphic_card_bg">#111827</color>
+    <color name="neumorphic_shadow_light">#1E293B</color> <!-- Subtle highlight -->
+    <color name="neumorphic_shadow_dark">#000000</color> <!-- Deep shadow -->
+
+    <!-- Status colors -->
+    <color name="background_success_light">#064E3B</color>
+    <color name="background_error_light">#7F1D1D</color>
+    
+    <color name="v_page_bg">#030712</color>
+    <color name="v_text_dark">#F9FAFB</color>
+    <color name="v_text_mid">#E5E7EB</color>
+
+    <!-- Additional High-Fidelity Tokens for Dark Mode -->
+    <color name="h_amber_bg">#451A03</color>
+    <color name="h_amber_border">#92400E</color>
+    <color name="h_amber_text">#FDE68A</color>
+    <color name="h_amber_subtext">#FCD34D</color>
+    <color name="h_green_50">#064E3B</color>
+    <color name="h_green_100">#065F46</color>
+    <color name="h_green_600">#10B981</color>
+    <color name="h_green_700">#34D399</color>
+    <color name="h_red_500">#EF4444</color>
+    <color name="h_red_700">#F87171</color>
 </resources>

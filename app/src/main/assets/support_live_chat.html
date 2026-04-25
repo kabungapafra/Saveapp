@@ -23,6 +23,30 @@
   --radius-bubble: 18px;
   --radius-card: 16px;
   --radius-pill: 99px;
+  --header-bg: #FFFFFF;
+  --avatar-bg: #E0F2FE;
+  --btn-secondary-bg: #EAECEF;
+  --btn-secondary-text: #374151;
+}
+
+[data-theme="dark"] {
+  --blue: #3B82F6;
+  --blue-dark: #2563EB;
+  --blue-bubble: #2563EB;
+  --gray-bubble: #374151;
+  --text-dark: #F9FAFB;
+  --text-mid: #E5E7EB;
+  --text-muted: #9CA3AF;
+  --border: #374151;
+  --card-bg: #111827;
+  --page-bg: #030712;
+  --input-bg: #1F2937;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.6);
+  --header-bg: #111827;
+  --avatar-bg: #1E3A8A;
+  --btn-secondary-bg: #374151;
+  --btn-secondary-text: #E5E7EB;
 }
 
 * {
@@ -30,6 +54,7 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body {
@@ -56,11 +81,11 @@ body {
   margin: 0 auto;
   max-width: 390px;
   height: 71px;
-  background: #FFFFFF;
+  background: var(--header-bg);
   border-bottom: 1px solid var(--border);
   padding: 14px 16px 12px;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -86,7 +111,7 @@ body {
 .avatar {
   width: 44px;
   height: 44px;
-  background-color: #E0F2FE;
+  background-color: var(--avatar-bg);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -379,7 +404,7 @@ body {
   right: 0;
   margin: 0 auto;
   max-width: 390px;
-  background: #FFFFFF;
+  background: var(--header-bg);
   border-top: 1px solid var(--border);
   padding: 10px 16px 24px 16px;
   z-index: 100;
@@ -595,7 +620,7 @@ body {
 .end-heading {
   font-size: 22px;
   font-weight: 800;
-  color: #0F172A;
+  color: var(--text-dark);
   text-align: center;
   margin-bottom: 12px;
   line-height: 1.25;
@@ -611,7 +636,7 @@ body {
 /* Buttons row */
 .end-actions {
   width: 100%;
-  background: #FFFFFF;
+  background: var(--card-bg);
   padding: 0px 24px 32px;
   display: flex;
   flex-direction: column;
@@ -624,18 +649,18 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #FFFFFF;
+  background: var(--card-bg);
 }
 
 .btn-end-confirm {
   width: 100%;
   height: 52px;
-  background: #EAECEF;
+  background: var(--btn-secondary-bg);
   border: none;
   border-radius: 14px;
   font-size: 16px;
   font-weight: 600;
-  color: #374151;
+  color: var(--btn-secondary-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -693,6 +718,12 @@ body {
     <div class="header-name">Support</div>
     <div class="header-status">ACTIVE</div>
   </div>
+
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; padding:8px; margin-left:auto; display:flex; align-items:center; justify-content:center;">
+    <svg id="themeIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
 
   <button class="info-btn">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1030,6 +1061,32 @@ body {
 
       }, 2000);
     }, 1200);
+    // Theme management
+    const themeIcon = document.getElementById('themeIcon');
+
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+        if (theme === 'dark') {
+            themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+        } else {
+            themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+        }
+    }
+
+    initTheme();
   }
 </script>
 </body>

@@ -2,6 +2,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="card_surface">#FFFFFF</color>
     <color name="deep_blue">#215DA1</color>
     <color name="splash_blue">#215DA1</color>
     <color name="silvergray">#C0C0C0</color>

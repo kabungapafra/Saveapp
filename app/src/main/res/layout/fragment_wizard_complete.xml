@@ -35,7 +35,7 @@
             android:gravity="center"
             android:paddingHorizontal="16dp"
             android:text="Your group is ready to go. Review your settings below before finishing."
-            android:textColor="#757575"
+            android:textColor="@color/v_text_muted"
             android:textSize="18sp" />
 
         <androidx.cardview.widget.CardView
@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Group Name"
-                        android:textColor="#757575"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
 
                     <TextView
@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Contribution"
-                        android:textColor="#757575"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
 
                     <TextView
@@ -128,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Frequency"
-                        android:textColor="#757575"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
 
                     <TextView
@@ -153,7 +153,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Payout"
-                        android:textColor="#757575"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
 
                     <TextView
@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Retention"
-                        android:textColor="#757575"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
 
                     <TextView
@@ -200,7 +200,7 @@
             android:layout_marginTop="40dp"
             android:gravity="center"
             android:text="You can always adjust these settings later\nin the group administration panel."
-            android:textColor="#9E9E9E"
+            android:textColor="@color/v_text_muted"
             android:textSize="14sp" />
 
     </LinearLayout>

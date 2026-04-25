@@ -87,7 +87,7 @@
             android:fontFamily="sans-serif-black"
             android:gravity="center"
             android:text="@string/member_added_successfully"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +102,7 @@
             android:gravity="center"
             android:lineSpacingExtra="4dp"
             android:text="Sarah Jenkins is now a part of your savings group. You can now start collaborating on your goals."
-            android:textColor="#64748B"
+            android:textColor="@color/v_text_mid"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,11 +114,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            app:cardBackgroundColor="#F8FAFC"
+            app:cardBackgroundColor="@color/v_page_bg"
             app:cardCornerRadius="24dp"
             app:cardElevation="0dp"
             app:layout_constraintTop_toBottomOf="@id/tvSuccessDesc"
-            app:strokeColor="#F1F5F9"
+            app:strokeColor="@color/v_page_bg"
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -141,7 +141,7 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_person"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                        app:tint="#94A3B8" />
+                        app:tint="@color/v_text_muted" />
 
                     <View
                         android:layout_width="14dp"
@@ -169,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
                         android:text="Sarah Jenkins"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="18sp" />
 
                     <TextView
@@ -179,7 +179,7 @@
                         android:layout_marginTop="2dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/group_contributor"
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -239,15 +239,15 @@
             android:fontFamily="sans-serif-black"
             android:text="@string/return_to_dashboard"
             android:textAllCaps="false"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="17sp"
-            app:backgroundTint="#F1F5F9"
+            app:backgroundTint="@color/v_page_bg"
             app:cornerRadius="18dp"
             app:icon="@drawable/ic_menu_grid"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
             app:iconSize="20dp"
-            app:iconTint="#0F172A"
+            app:iconTint="@color/v_text_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnViewMembers"
             app:layout_constraintVertical_bias="1.0" />

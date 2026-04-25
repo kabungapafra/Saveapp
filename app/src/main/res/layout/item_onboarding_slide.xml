@@ -72,7 +72,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:text="Welcome to the\nCircle."
                 android:gravity="center"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="36sp"
                 android:lineSpacingExtra="-4dp" />
 
@@ -86,7 +86,7 @@
                 android:fontFamily="@font/manrope_medium"
                 android:text="You've been hand-invited to join a trusted ecosystem of collaborative savers."
                 android:gravity="center"
-                android:textColor="#475569"
+                android:textColor="@color/v_text_mid"
                 android:textSize="16sp"
                 android:lineSpacingExtra="4dp" />
 
@@ -145,7 +145,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Community Trust"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -155,7 +155,7 @@
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Join an exclusive group where every member is verified by the circle."
-                                android:textColor="#475569"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="13sp"
                                 android:lineSpacingExtra="2dp" />
                         </LinearLayout>
@@ -209,7 +209,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Collaborative Growth"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -219,7 +219,7 @@
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Build collective wealth through scheduled and transparent group funds."
-                                android:textColor="#475569"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="13sp"
                                 android:lineSpacingExtra="2dp" />
                         </LinearLayout>

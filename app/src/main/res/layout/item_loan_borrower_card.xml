@@ -117,7 +117,7 @@
                 android:layout_marginTop="12dp"
                 android:progress="45"
                 app:indicatorColor="#215DA1"
-                app:trackColor="#F1F5F9"
+                app:trackColor="@color/v_page_bg"
                 app:trackCornerRadius="4dp"
                 app:trackThickness="6dp" />
 
@@ -148,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#F1F5F9"
+                    android:backgroundTint="@color/v_page_bg"
                     android:fontFamily="@font/manrope"
                     android:text="View Details"
                     android:textAllCaps="false"

@@ -14,7 +14,7 @@
         android:layout_weight="1.2"
         android:fontFamily="@font/manrope_bold"
         android:text="Julia Vance"
-        android:textColor="#0F172A"
+        android:textColor="@color/v_text_dark"
         android:textSize="13sp" />
 
     <LinearLayout
@@ -69,7 +69,7 @@
         android:fontFamily="@font/manrope_medium"
         android:gravity="end"
         android:text="Oct 12"
-        android:textColor="#64748B"
+        android:textColor="@color/v_text_mid"
         android:textSize="12sp" />
 
 </LinearLayout>

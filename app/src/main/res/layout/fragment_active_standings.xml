@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="#FFFFFF"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="20dp">
@@ -39,7 +39,7 @@
                             android:layout_centerInParent="true"
                             android:fontFamily="@font/manrope_bold"
                             android:text="U"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/white"
                             android:textSize="14sp" />
                     </RelativeLayout>
                 </FrameLayout>
@@ -62,7 +62,7 @@
                     android:background="@drawable/bg_circle_white_shadow"
                     android:padding="9dp"
                     android:src="@drawable/ic_bell_premium"
-                    app:tint="#475569" />
+                    app:tint="@color/v_text_mid" />
             </LinearLayout>
 
             <LinearLayout
@@ -103,7 +103,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="14"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="36sp"
                             android:textStyle="bold" />
 
@@ -113,7 +113,7 @@
                             android:layout_marginEnd="8dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="h"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -122,7 +122,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="22"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="36sp"
                             android:textStyle="bold" />
 
@@ -131,7 +131,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="m"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -147,7 +147,7 @@
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:src="@drawable/ic_schedule"
-                            app:tint="#475569" />
+                            app:tint="@color/v_text_mid" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -155,7 +155,7 @@
                             android:layout_marginStart="6dp"
                             android:fontFamily="sans-serif"
                             android:text="Live Tracking Active"
-                            android:textColor="#475569"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -185,7 +185,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="84.2%"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/white"
                         android:textSize="32sp"
                         android:textStyle="bold" />
 
@@ -218,7 +218,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="View Voters"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/white"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -239,7 +239,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Live Standings"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -251,7 +251,7 @@
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="4dp"
                         android:text="Member Role Nomination"
-                        android:textColor="#475569"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="10sp" />
                 </LinearLayout>
 
@@ -286,7 +286,7 @@
                                     android:layout_centerInParent="true"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="SC"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/white"
                                     android:textSize="16sp" />
                             </RelativeLayout>
                             <TextView
@@ -298,7 +298,7 @@
                                 android:paddingHorizontal="6dp"
                                 android:paddingVertical="2dp"
                                 android:text="Leader"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/white"
                                 android:textSize="8sp"
                                 android:textStyle="bold" />
                         </FrameLayout>
@@ -314,7 +314,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Sarah Chen"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -322,7 +322,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Marketing Lead"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -336,7 +336,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="58"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -344,7 +344,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Votes"
-                                android:textColor="#475569"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="10sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -361,7 +361,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/manrope_bold"
                             android:text="41% share"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="10sp"
                             android:textStyle="bold" />
                         <TextView
@@ -369,7 +369,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Top Choice"
-                            android:textColor="#475569"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -408,7 +408,7 @@
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="MT"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </RelativeLayout>
 
@@ -423,7 +423,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Marcus Thorne"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -431,7 +431,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Operations Manager"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -445,7 +445,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="42"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -453,7 +453,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Votes"
-                                android:textColor="#475569"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="10sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -464,7 +464,7 @@
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="30% share"
-                        android:textColor="#475569"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
@@ -502,7 +502,7 @@
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="ER"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </RelativeLayout>
 
@@ -517,7 +517,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Elena Rodriguez"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -525,7 +525,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Lead Developer"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -539,7 +539,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="31"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -547,7 +547,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Votes"
-                                android:textColor="#475569"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="10sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -558,7 +558,7 @@
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="22% share"
-                        android:textColor="#475569"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
@@ -596,7 +596,7 @@
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="DK"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </RelativeLayout>
 
@@ -611,7 +611,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="David Kim"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -619,7 +619,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Product Designer"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -633,7 +633,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="11"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -641,7 +641,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="Votes"
-                                android:textColor="#475569"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="10sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -652,7 +652,7 @@
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="7% share"
-                        android:textColor="#475569"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
@@ -685,7 +685,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Recent Participation"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                         <TextView
@@ -718,7 +718,7 @@
                                     android:layout_centerInParent="true"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="U"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
                             </RelativeLayout>
                         </RelativeLayout>
@@ -739,7 +739,7 @@
                                     android:layout_centerInParent="true"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="A"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
                             </RelativeLayout>
                         </RelativeLayout>
@@ -760,7 +760,7 @@
                                     android:layout_centerInParent="true"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="S"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
                             </RelativeLayout>
                         </RelativeLayout>
@@ -795,7 +795,7 @@
                         android:fontFamily="sans-serif"
                         android:lineSpacingExtra="4dp"
                         android:text="Most active participation from the Development Team with 98% of members having cast their ballot."
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="13sp" />
                 </LinearLayout>
 

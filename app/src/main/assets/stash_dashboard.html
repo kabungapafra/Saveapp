@@ -16,8 +16,27 @@
             --grey-icon-bg: #F1F5F9;
             --grey-text: #475569;
             --card-radius: 28px;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Slightly darker shadow */
-            --gradient-growth: linear-gradient(135deg, #E0E7FF 0%, #EDE9FE 100%); /* Deeper colors */
+            --card-bg: #FFFFFF;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+            --gradient-growth: linear-gradient(135deg, #E0E7FF 0%, #EDE9FE 100%);
+            --growth-h1: #1E3A8A;
+            --growth-p: #1D4ED8;
+            --pill-bg: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            --page-bg: #030712;
+            --text-dark: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --blue: #3B82F6;
+            --icon-blue: #2563EB;
+            --card-bg: #111827;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --gradient-growth: linear-gradient(135deg, #1E3A8A 0%, #1E1B4B 100%);
+            --growth-h1: #F9FAFB;
+            --growth-p: #93C5FD;
+            --pill-bg: #1F2937;
+            --grey-icon-bg: #1F2937;
         }
 
         * {
@@ -25,6 +44,7 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
         }
 
         body {
@@ -63,7 +83,7 @@
 
         .pill {
             display: inline-block;
-            background: #FFFFFF;
+            background: var(--pill-bg);
             border-radius: 99px;
             padding: 6px 14px;
             font-size: 11px;
@@ -76,7 +96,7 @@
         .growth-card h1 {
             font-size: 26px;
             font-weight: 800;
-            color: #1E3A8A;
+            color: var(--growth-h1);
             line-height: 1.3;
             margin-bottom: 16px;
             position: relative;
@@ -84,7 +104,7 @@
         }
         .growth-card p {
             font-size: 14px;
-            color: #1D4ED8;
+            color: var(--growth-p);
             line-height: 1.6;
             max-width: 90%;
             position: relative;
@@ -94,6 +114,19 @@
         /* [2] HEADER */
         .header {
             margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
         }
         .header h1 {
             font-size: 34px;
@@ -114,7 +147,7 @@
             gap: 12px;
         }
         .action-card {
-            background: #FFFFFF;
+            background: var(--card-bg);
             border-radius: var(--card-radius);
             padding: 16px 20px;
             display: flex;
@@ -138,7 +171,7 @@
         }
         .bg-blue { background: var(--icon-blue); }
         .bg-brown { background: #92400E; }
-        .bg-grey-soft { background: #F1F5F9; }
+        .bg-grey-soft { background: var(--grey-icon-bg); }
 
         .action-info {
             flex-grow: 1;
@@ -171,8 +204,15 @@
 
     <!-- [2] Header -->
     <div class="header">
-        <h1>Actions</h1>
-        <p>Securely manage your funds and financial growth.</p>
+        <div>
+            <h1>Actions</h1>
+            <p>Securely manage your funds and financial growth.</p>
+        </div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+            <svg id="themeIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
     </div>
 
     <!-- [3] Horizontal Action Cards -->
@@ -214,5 +254,32 @@
         </div>
     </div>
 
+    <script>
+        const themeIcon = document.getElementById('themeIcon');
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+            } else {
+                themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+            }
+        }
+
+        initTheme();
+    </script>
 </body>
 </html>

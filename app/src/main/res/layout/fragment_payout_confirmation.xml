@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Payout Ready"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="28sp" />
 
             <TextView
@@ -45,7 +45,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="4dp"
                 android:text="It's your turn to collect from the 'Weekly Harvest' circle."
-                android:textColor="#64748B"
+                android:textColor="@color/v_text_mid"
                 android:textSize="14sp" />
 
             <!-- Payout Card -->
@@ -69,7 +69,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.05"
                         android:text="TOTAL PAYOUT AMOUNT"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="11sp" />
 
                     <LinearLayout
@@ -145,7 +145,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
                 android:text="DESTINATION ACCOUNT"
-                android:textColor="#64748B"
+                android:textColor="@color/v_text_mid"
                 android:textSize="11sp" />
 
             <androidx.cardview.widget.CardView
@@ -189,7 +189,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="MTN Mobile Money"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 
                         <TextView
@@ -198,7 +198,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope"
                             android:text="+256 772 · · · 890"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -219,7 +219,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                app:cardBackgroundColor="#F1F5F9"
+                app:cardBackgroundColor="@color/v_page_bg"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 
@@ -235,7 +235,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.05"
                         android:text="TRANSACTION BREAKDOWN"
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="10sp" />
 
                     <RelativeLayout
@@ -248,7 +248,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope"
                             android:text="Circle Contribution"
-                            android:textColor="#475569"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="13sp" />
 
                         <TextView
@@ -257,7 +257,7 @@
                             android:layout_alignParentEnd="true"
                             android:fontFamily="@font/manrope_bold"
                             android:text="1,250,000 UGX"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="13sp" />
                     </RelativeLayout>
 
@@ -271,7 +271,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope"
                             android:text="Processing Fee (0.5%)"
-                            android:textColor="#475569"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="13sp" />
 
                         <TextView
@@ -280,7 +280,7 @@
                             android:layout_alignParentEnd="true"
                             android:fontFamily="@font/manrope_bold"
                             android:text="- 6,250 UGX"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="13sp" />
                     </RelativeLayout>
 
@@ -300,7 +300,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Net Payout"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="14sp" />
 
                         <TextView
@@ -327,7 +327,7 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:src="@drawable/ic_shield_auth"
-                    app:tint="#94A3B8" />
+                    app:tint="@color/v_text_muted" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -336,7 +336,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:letterSpacing="0.05"
                     android:text="SECURED BY SAVE VAULT TECHNOLOGY"
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="9sp" />
             </LinearLayout>
 

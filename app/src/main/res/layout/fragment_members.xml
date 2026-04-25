@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F8FAFC"
+        android:background="@color/v_page_bg"
         tools:context=".ui.fragments.MembersFragment">
 
         <!-- Custom Header -->
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="Group Members"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="20sp" />
 
                 <TextView
@@ -54,6 +54,24 @@
                     android:textSize="11sp"
                     android:letterSpacing="0.05"/>
             </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/btnThemeToggle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toStartOf="@id/btnInvite"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_circle_white"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_moon"
+                    app:tint="#1E293B" />
+            </FrameLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnInvite"
@@ -110,14 +128,14 @@
                             android:background="@null"
                             android:drawableStart="@drawable/ic_search"
                             android:drawablePadding="12dp"
-                            android:drawableTint="#94A3B8"
+                            android:drawableTint="@color/v_text_muted"
                             android:fontFamily="@font/manrope_medium"
                             android:hint="Search by name, status, or score..."
                             android:imeOptions="actionSearch"
                             android:inputType="text"
                             android:paddingHorizontal="16dp"
-                            android:textColor="#0F172A"
-                            android:textColorHint="#94A3B8"
+                            android:textColor="@color/v_text_dark"
+                            android:textColorHint="@color/v_text_muted"
                             android:textSize="14sp" />
 
                         <ImageView
@@ -130,7 +148,7 @@
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:padding="10dp"
                             android:src="@drawable/ic_refresh"
-                            app:tint="#64748B" />
+                            app:tint="@color/v_text_mid" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -165,7 +183,7 @@
                         android:gravity="center"
                         android:fontFamily="@font/manrope_medium"
                         android:text="Active"
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="12sp" />
 
                     <TextView
@@ -176,7 +194,7 @@
                         android:gravity="center"
                         android:fontFamily="@font/manrope_medium"
                         android:text="Inactive"
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -257,7 +275,7 @@
                                 android:layout_weight="1.2"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="MEMBER"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -267,7 +285,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:gravity="center"
                                 android:text="RELIABILITY"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -277,7 +295,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:gravity="center"
                                 android:text="TIER"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -287,14 +305,14 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:gravity="end"
                                 android:text="LAST PAY"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#F1F5F9" />
+                            android:background="@color/v_page_bg" />
 
                         <!-- Placeholder for list items -->
                         <androidx.recyclerview.widget.RecyclerView

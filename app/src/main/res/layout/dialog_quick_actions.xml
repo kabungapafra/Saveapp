@@ -62,7 +62,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/manrope"
         android:text="What would you like to do today?"
-        android:textColor="#CBD5E1"
+        android:textColor="@color/v_text_muted"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvQuickActionsTitle" />
@@ -116,7 +116,7 @@
                     android:layout_toEndOf="@id/iconContainerMyStash"
                     android:fontFamily="@font/manrope"
                     android:text="My Stash"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -126,7 +126,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#CBD5E1" />
+                    app:tint="@color/v_text_muted" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -170,7 +170,7 @@
                     android:layout_toEndOf="@id/iconContainer1"
                     android:fontFamily="@font/manrope"
                     android:text="Add Member"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -180,7 +180,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#CBD5E1" />
+                    app:tint="@color/v_text_muted" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -224,7 +224,7 @@
                     android:layout_toEndOf="@id/iconContainer6"
                     android:fontFamily="@font/manrope"
                     android:text="Make Polls"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -234,7 +234,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#CBD5E1" />
+                    app:tint="@color/v_text_muted" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -278,7 +278,7 @@
                     android:layout_toEndOf="@id/iconContainer5"
                     android:fontFamily="@font/manrope"
                     android:text="Payment Queue"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -288,7 +288,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#CBD5E1" />
+                    app:tint="@color/v_text_muted" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -332,7 +332,7 @@
                     android:layout_toEndOf="@id/iconContainer2"
                     android:fontFamily="@font/manrope"
                     android:text="Analysis"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -342,7 +342,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#CBD5E1" />
+                    app:tint="@color/v_text_muted" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -386,7 +386,7 @@
                     android:layout_toEndOf="@id/iconContainerApprovals"
                     android:fontFamily="@font/manrope"
                     android:text="Approvals"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -396,7 +396,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="#CBD5E1" />
+                    app:tint="@color/v_text_muted" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -419,7 +419,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_help_outline"
-            app:tint="#CBD5E1" />
+            app:tint="@color/v_text_muted" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -427,7 +427,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/manrope"
             android:text="Need help with something else?"
-            android:textColor="#CBD5E1"
+            android:textColor="@color/v_text_muted"
             android:textSize="14sp" />
     </LinearLayout>
 

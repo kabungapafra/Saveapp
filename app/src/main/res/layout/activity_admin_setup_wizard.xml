@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:text="Step 1 of 5"
-                android:textColor="#9E9E9E"
+                android:textColor="@color/v_text_muted"
                 android:textSize="14sp" />
         </RelativeLayout>
 
@@ -81,7 +81,7 @@
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F8F9FA"
+        android:background="@color/v_page_bg"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="24dp"

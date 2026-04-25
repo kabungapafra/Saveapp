@@ -8,7 +8,7 @@
     app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
     android:id="@+id/cardRoot"
-    app:cardBackgroundColor="#FFFFFF"
+    app:cardBackgroundColor="@color/white"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground">
@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/circle_background"
                 android:gravity="center"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 tools:text="MT"
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Marcus Thorne"
-                android:textColor="#1A1D2E"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
@@ -91,7 +91,7 @@
                 android:background="@drawable/circle_background"
                 android:backgroundTint="#215DA1"
                 android:src="@drawable/ic_check"
-                app:tint="#FFFFFF"
+                app:tint="@color/white"
                 android:padding="6dp"
                 android:elevation="4dp"
                 android:visibility="gone"/>

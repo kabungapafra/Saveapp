@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F5">
+    android:background="@color/v_page_bg">
 
     <!-- Top Nav -->
     <RelativeLayout
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Support"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="17sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Ticket Submitted Successfully!"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:textAlignment="center" />
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="Our team has received your request. We'll get back to you within 24 hours."
-                android:textColor="#64748B"
+                android:textColor="@color/v_text_mid"
                 android:textSize="14sp"
                 android:textAlignment="center" />
 
@@ -147,7 +147,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="TICKET ID"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -171,14 +171,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="CATEGORY"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp"
                                 android:textStyle="bold" />
                             <com.google.android.material.card.MaterialCardView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                app:cardBackgroundColor="#F1F5F9"
+                                app:cardBackgroundColor="@color/v_page_bg"
                                 app:cardCornerRadius="16dp"
                                 app:cardElevation="0dp"
                                 app:strokeWidth="0dp">
@@ -189,7 +189,7 @@
                                     android:paddingHorizontal="16dp"
                                     android:paddingVertical="6dp"
                                     android:text="Payment Issue"
-                                    android:textColor="#334155"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="12sp" />
                             </com.google.android.material.card.MaterialCardView>
                         </LinearLayout>
@@ -199,7 +199,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginVertical="24dp"
-                        android:background="#F1F5F9" />
+                        android:background="@color/v_page_bg" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -227,14 +227,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Estimated Response"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Today by 5:00 PM"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F7"
+    android:background="@color/v_page_bg"
     android:id="@+id/mainContainer">
 
     <!-- Scrollable Content -->
@@ -165,7 +165,7 @@
                     android:fontFamily="sans-serif"
                     android:gravity="center"
                     android:text="Connecting you to an agent..."
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
@@ -179,7 +179,7 @@
                     android:gravity="center"
                     android:lineSpacingMultiplier="1.3"
                     android:paddingHorizontal="8dp"
-                    android:textColor="#6B7280"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -221,7 +221,7 @@
                         android:fontFamily="sans-serif"
                         android:letterSpacing="0.12"
                         android:text="SECURE CONNECTION"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="11sp"
                         android:textStyle="bold" />
 
@@ -232,7 +232,7 @@
                         android:fontFamily="sans-serif"
                         android:maxLines="1"
                         android:text="Your conversation is encrypted and"
-                        android:textColor="#6B7280"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -254,7 +254,7 @@
         android:id="@+id/cancelWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F0F2F7"
+        android:background="@color/v_page_bg"
         android:orientation="vertical"
         android:paddingStart="16dp"
         android:paddingTop="12dp"
@@ -274,7 +274,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_close"
-                app:tint="#0F172A" />
+                app:tint="@color/v_text_dark" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -282,7 +282,7 @@
                 android:layout_marginStart="10dp"
                 android:fontFamily="sans-serif"
                 android:text="Cancel Request"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>

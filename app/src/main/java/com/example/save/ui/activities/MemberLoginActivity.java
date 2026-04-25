@@ -16,6 +16,8 @@ public class MemberLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMemberLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
+        getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
 
         // Animate Logo Image (Heartbeat)
         android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,

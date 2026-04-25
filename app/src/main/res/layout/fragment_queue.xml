@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F5">
+    android:background="@color/v_page_bg">
 
     <!-- Top Navigation Bar -->
     <LinearLayout
@@ -68,7 +68,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@android:drawable/ic_menu_search"
-                    app:tint="#9CA3AF" />
+                    app:tint="@color/v_text_muted" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                     android:layout_marginStart="8dp"
                     android:background="@null"
                     android:hint="Search members or payments"
-                    android:textColorHint="#9CA3AF"
+                    android:textColorHint="@color/v_text_muted"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -103,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TOTAL PENDING"
-                        android:textColor="#9CA3AF"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="11sp"
                         android:textStyle="bold" />
 
@@ -132,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NEXT PAYOUT"
-                        android:textColor="#9CA3AF"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="11sp"
                         android:textStyle="bold" />
 
@@ -173,7 +173,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Scheduled"
-                    android:textColor="#9CA3AF"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -183,7 +183,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Completed"
-                    android:textColor="#9CA3AF"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -196,7 +196,7 @@
                 android:layout_marginBottom="12dp"
                 android:letterSpacing="0.05"
                 android:text="UPCOMING PAYMENTS"
-                android:textColor="#9CA3AF"
+                android:textColor="@color/v_text_muted"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -262,7 +262,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="Monthly Contribution"
-                            android:textColor="#9CA3AF"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -308,7 +308,7 @@
                         android:background="@drawable/bg_pill_blue_solid"
                         android:text="Mark as Paid"
                         android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/white"
                         app:backgroundTint="@null" />
                     <Button
                         android:layout_width="0dp"
@@ -371,7 +371,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="Emergency Fund"
-                            android:textColor="#9CA3AF"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="13sp" />
                     </LinearLayout>
                     <LinearLayout
@@ -414,7 +414,7 @@
                         android:background="@drawable/bg_pill_blue_solid"
                         android:text="Approve Payment"
                         android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/white"
                         app:backgroundTint="@null" />
                     <Button
                         android:layout_width="0dp"
@@ -477,7 +477,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="Savings Circle #4"
-                            android:textColor="#9CA3AF"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="13sp" />
                     </LinearLayout>
                     <LinearLayout
@@ -499,7 +499,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="DUE AUG 15"
-                            android:textColor="#9CA3AF"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -517,7 +517,7 @@
                         android:background="@drawable/bg_pill_blue_solid"
                         android:text="Mark as Paid"
                         android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/white"
                         app:backgroundTint="@null" />
                     <Button
                         android:layout_width="0dp"

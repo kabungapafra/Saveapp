@@ -101,7 +101,7 @@ public class AdminDashboardFragment extends Fragment {
 
         binding.profileIcon.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "Profile settings coming soon", Toast.LENGTH_SHORT).show();
+            com.example.save.utils.ThemeUtils.toggleTheme(requireContext());
         });
 
         binding.viewAllTargets.setOnClickListener(v -> {

@@ -25,6 +25,30 @@
             --shadow-md:      0 6px 20px rgba(0,0,0,0.08);
             --radius-card:    18px;
             --radius-pill:    99px;
+            --slider-bg:      #E2E5EA;
+            --result-bg:      #F8FAFF;
+            --result-border:  #DBEAFE;
+            --icon-bubble-bg: #F1F5F9;
+        }
+
+        [data-theme="dark"] {
+            --blue:           #3B82F6;
+            --blue-dark:      #2563EB;
+            --blue-hero:      linear-gradient(160deg, #1E3A8A 0%, #1E1B4B 100%);
+            --text-dark:      #F9FAFB;
+            --text-mid:       #E5E7EB;
+            --text-muted:     #9CA3AF;
+            --border:         #374151;
+            --card-bg:        #111827;
+            --page-bg:        #030712;
+            --shadow-sm:      0 2px 8px rgba(0,0,0,0.4);
+            --shadow-md:      0 6px 20px rgba(0,0,0,0.6);
+            --slider-bg:      #374151;
+            --result-bg:      #1F2937;
+            --result-border:  #374151;
+            --icon-bubble-bg: #374151;
+            --amber-light:    #78350F;
+            --amber-text:     #FBBF24;
         }
 
         * {
@@ -32,6 +56,7 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         body {
@@ -42,8 +67,26 @@
             margin: 0 auto;
             position: relative;
             user-select: none;
-            padding-top: 60px; /* Space for native back arrow */
+            padding-top: 20px; 
             padding-bottom: 20px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            z-index: 1000;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            color: var(--text-muted);
         }
 
         /* Removed [B] TOP NAV and [H] BOTTOM NAV as per request */
@@ -192,7 +235,7 @@
             -webkit-appearance: none;
             height: 5px;
             border-radius: 99px;
-            background: #E2E5EA;
+            background: var(--slider-bg);
             outline: none;
         }
         input[type="range"]::-webkit-slider-thumb {
@@ -220,8 +263,8 @@
         }
 
         .result-box {
-            background: #F8FAFF;
-            border: 1px solid #DBEAFE;
+            background: var(--result-bg);
+            border: 1px solid var(--result-border);
             border-radius: 12px;
             padding: 14px 16px;
             display: flex;
@@ -231,7 +274,7 @@
         .res-icon {
             width: 36px;
             height: 36px;
-            background: #EEF2FF;
+            background: var(--icon-bubble-bg);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -388,7 +431,7 @@
         .icon-bubble {
             width: 44px;
             height: 44px;
-            background: #F1F5F9;
+            background: var(--icon-bubble-bg);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -427,6 +470,11 @@
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
 
     <!-- [C] HERO CARD -->
     <div class="hero-card">
@@ -601,8 +649,8 @@
             // Custom Slider Backgrounds
             const crPct = cr + '%';
             const ldPct = ld + '%';
-            contributionInput.style.background = `linear-gradient(to right, var(--blue) ${crPct}, #E2E5EA ${crPct})`;
-            demandInput.style.background = `linear-gradient(to right, var(--amber) ${ldPct}, #E2E5EA ${ldPct})`;
+            contributionInput.style.background = `linear-gradient(to right, var(--blue) ${crPct}, var(--slider-bg) ${crPct})`;
+            demandInput.style.background = `linear-gradient(to right, var(--amber) ${ldPct}, var(--slider-bg) ${ldPct})`;
 
             // Formula: 2,000,000 + (contributionRate * 18,000) - (loanDemand * 5,000)
             const result = Math.max(0, 2000000 + (cr * 18000) - (ld * 5000));
@@ -638,6 +686,32 @@
                 }, index * 100);
             });
         };
+        // [K] THEME MANAGEMENT
+        const themeIcon = document.getElementById('themeIcon');
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+            } else {
+                themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+            }
+        }
+
+        initTheme();
     </script>
 </body>
 </html>

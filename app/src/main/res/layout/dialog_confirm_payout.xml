@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/cancel"
-                android:backgroundTint="#F5F5F5"
+                android:backgroundTint="@color/background_gray"
                 android:textColor="@color/black"
                 android:layout_marginEnd="@dimen/spacing_small"
                 style="?android:attr/borderlessButtonStyle"/>

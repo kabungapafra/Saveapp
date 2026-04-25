@@ -18,7 +18,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@drawable/bg_circle_white"
-            android:backgroundTint="#F1F5F9">
+            android:backgroundTint="@color/v_page_bg">
 
             <TextView
                 android:id="@+id/tvAvatarInitials"
@@ -27,7 +27,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:gravity="center"
                 android:text="SC"
-                android:textColor="#64748B"
+                android:textColor="@color/v_text_mid"
                 android:textSize="12sp" />
         </FrameLayout>
 
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Sunrise Cooperative"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="13sp" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_medium"
                 android:text="Top 1 Contributor"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="11sp" />
         </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:fontFamily="@font/manrope_bold"
             android:gravity="end"
             android:text="12.4"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

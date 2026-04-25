@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:gravity="center"
                 android:text="Transparency &amp; Trust"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="32sp" />
 
             <!-- Subtitle -->
@@ -47,7 +47,7 @@
                 android:fontFamily="@font/manrope_medium"
                 android:gravity="center"
                 android:text="We've built a system where every dollar is accounted for. Experience financial group saving with total peace of mind."
-                android:textColor="#475569"
+                android:textColor="@color/v_text_mid"
                 android:textSize="15sp"
                 android:lineSpacingExtra="4dp" />
 
@@ -109,14 +109,14 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="The Payout Cycle"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Automated &amp; predictable"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -160,14 +160,14 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Pool Contributions"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Everyone contributes a fixed amount into the secure vault at the start of the month."
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="13sp" />
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -216,14 +216,14 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Smart Validation"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Our system verifies all funds in real-time. No hidden ledger, no manual errors."
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="13sp" />
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -258,14 +258,14 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Rotating Payout"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="The total pool is automatically paid out to the scheduled member of the month."
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="13sp" />
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -323,7 +323,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="All funds are bank-grade encrypted and trackable 24/7 in your dashboard."
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -337,7 +337,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.1"
                 android:text="STEP 2 OF 3: SECURE FINANCE"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="11sp" />
 
         </LinearLayout>

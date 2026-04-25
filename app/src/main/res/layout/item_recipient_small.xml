@@ -26,7 +26,7 @@
             android:layout_height="56dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_circle_white"
-            android:backgroundTint="#FFFFFF"
+            android:backgroundTint="@color/white"
             android:elevation="2dp">
 
             <TextView

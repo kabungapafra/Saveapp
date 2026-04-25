@@ -40,6 +40,7 @@ public class MemberMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMemberMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        com.example.save.utils.ThemeUtils.applyTheme(this);
         getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
 
         new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
@@ -222,6 +223,12 @@ public class MemberMainActivity extends AppCompatActivity {
         overlayRoot.setVisibility(View.VISIBLE);
         overlayRoot.setAlpha(0f);
         overlayRoot.animate().alpha(1f).setDuration(400).start();
+
+        // Update Theme Label
+        TextView themeLabel = overlayRoot.findViewById(R.id.tvThemeLabelOverlay);
+        if (themeLabel != null) {
+            themeLabel.setText(com.example.save.utils.ThemeUtils.isDarkMode(this) ? "Switch to Light Mode" : "Switch to Dark Mode");
+        }
 
         // Animate FAB - Rotate Plus to X
         findViewById(R.id.navActionPlusIcon).animate().rotation(45f).setDuration(300).start();

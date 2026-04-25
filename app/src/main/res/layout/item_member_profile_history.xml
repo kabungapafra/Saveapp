@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:fontFamily="@font/manrope_medium"
-        android:textColor="#0F172A"
+        android:textColor="@color/v_text_dark"
         android:textSize="13sp"
         android:text="Oct 10, 2023" />
 
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope_medium"
-            android:textColor="#334155"
+            android:textColor="@color/v_text_dark"
             android:textSize="13sp"
             android:text="Monthly Contribution" />
     </LinearLayout>

@@ -20,7 +20,7 @@
             android:fontFamily="@font/manrope_bold"
             android:letterSpacing="0.1"
             android:text="APPLICANT"
-            android:textColor="#94A3B8"
+            android:textColor="@color/v_text_muted"
             android:textSize="9sp" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_marginTop="4dp"
             android:fontFamily="@font/manrope_bold"
             android:text="Applicant Name"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="15sp" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:fontFamily="@font/manrope_bold"
             android:letterSpacing="0.1"
             android:text="REQUESTED"
-            android:textColor="#94A3B8"
+            android:textColor="@color/v_text_muted"
             android:textSize="9sp" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_height="1dp"
             android:layout_below="@id/tvApplicantName"
             android:layout_marginTop="20dp"
-            android:background="#F1F5F9" />
+            android:background="@color/v_page_bg" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:letterSpacing="0.1"
                     android:text="SCORE"
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="8sp" />
 
                 <TextView
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="795"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -109,7 +109,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:letterSpacing="0.1"
                     android:text="TIER"
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="8sp" />
 
                 <TextView

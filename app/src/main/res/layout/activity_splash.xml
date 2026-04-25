@@ -58,7 +58,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:text="INITIALIZING"
-                android:textColor="#334155"
+                android:textColor="@color/v_text_dark"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.05"
@@ -127,14 +127,14 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:src="@drawable/ic_lock"
-            app:tint="#94A3B8"
+            app:tint="@color/v_text_muted"
             android:layout_marginEnd="6dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="END-TO-END ENCRYPTED"
-            android:textColor="#94A3B8"
+            android:textColor="@color/v_text_muted"
             android:textSize="10sp"
             android:textStyle="bold"
             android:letterSpacing="0.1" />

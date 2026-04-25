@@ -18,7 +18,7 @@
     <!-- White Checkmark -->
     <path
         android:fillColor="#00000000"
-        android:strokeColor="#FFFFFF"
+        android:strokeColor="@color/white"
         android:strokeWidth="3"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"

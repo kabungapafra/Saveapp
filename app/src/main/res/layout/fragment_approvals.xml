@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/v_page_bg"
     tools:context=".ui.fragments.ApprovalsFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -55,7 +55,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:letterSpacing="0.1"
                             android:text="PENDING LOANS"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="8sp" />
 
                         <TextView
@@ -64,7 +64,7 @@
                             android:layout_alignParentBottom="true"
                             android:fontFamily="@font/manrope_bold"
                             android:text="14"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="28sp" />
 
                         <ImageView
@@ -99,7 +99,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:letterSpacing="0.1"
                             android:text="PAYOUTS"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="8sp" />
 
                         <TextView
@@ -108,7 +108,7 @@
                             android:layout_alignParentBottom="true"
                             android:fontFamily="@font/manrope_bold"
                             android:text="23"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="28sp" />
 
                         <ImageView
@@ -136,7 +136,7 @@
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/manrope_bold"
                     android:text="Loan Requests"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="20sp" />
 
                 <TextView
@@ -177,7 +177,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.1"
                         android:text="APPLICANT"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="9sp" />
 
                     <TextView
@@ -188,7 +188,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Julian Vane-Tempest"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="15sp" />
 
                     <TextView
@@ -199,7 +199,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.1"
                         android:text="REQUESTED"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="9sp" />
 
                     <TextView
@@ -219,7 +219,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@id/tvApplicant1"
                         android:layout_marginTop="20dp"
-                        android:background="#F1F5F9" />
+                        android:background="@color/v_page_bg" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -241,7 +241,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:letterSpacing="0.1"
                                 android:text="SCORE"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="8sp" />
 
                             <TextView
@@ -249,7 +249,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="812"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -303,7 +303,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.1"
                         android:text="APPLICANT"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="9sp" />
 
                     <TextView
@@ -314,7 +314,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Elena Rothschild"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="15sp" />
 
                     <TextView
@@ -325,7 +325,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.1"
                         android:text="REQUESTED"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="9sp" />
 
                     <TextView
@@ -345,7 +345,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@id/tvApplicant2"
                         android:layout_marginTop="20dp"
-                        android:background="#F1F5F9" />
+                        android:background="@color/v_page_bg" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -367,7 +367,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:letterSpacing="0.1"
                                 android:text="SCORE"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="8sp" />
 
                             <TextView
@@ -375,7 +375,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="795"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -420,7 +420,7 @@
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/manrope_bold"
                     android:text="Payout Verifications"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="20sp" />
 
                 <TextView
@@ -431,7 +431,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:letterSpacing="0.05"
                     android:text="LIQUIDITY CONT..."
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="8sp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -467,7 +467,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:letterSpacing="0.1"
                             android:text="RECIPIENT"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="8sp" />
 
                         <TextView
@@ -478,14 +478,14 @@
                             android:gravity="end"
                             android:letterSpacing="0.1"
                             android:text="ACTION"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="8sp" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#F1F5F9" />
+                        android:background="@color/v_page_bg" />
 
                     <!-- Row 1 -->
                     <LinearLayout
@@ -503,7 +503,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:lineSpacingExtra="2dp"
                             android:text="Alexander Sterling"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 
                         <TextView
@@ -523,7 +523,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#F1F5F9" />
+                        android:background="@color/v_page_bg" />
 
                     <!-- Row 2 -->
                     <LinearLayout
@@ -541,7 +541,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:lineSpacingExtra="2dp"
                             android:text="Victoria Windward"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 
                         <TextView
@@ -561,7 +561,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#F1F5F9" />
+                        android:background="@color/v_page_bg" />
 
                     <!-- Row 3 -->
                     <LinearLayout
@@ -579,7 +579,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:lineSpacingExtra="2dp"
                             android:text="Dr. Aris Thorne"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 
                         <TextView
@@ -610,7 +610,7 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:src="@drawable/ic_shield_auth"
-                    app:tint="#94A3B8" />
+                    app:tint="@color/v_text_muted" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -619,7 +619,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:letterSpacing="0.05"
                     android:text="SECURED BY SAVE VAULT TECHNOLOGY"
-                    android:textColor="#94A3B8"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="9sp" />
             </LinearLayout>
         </LinearLayout>

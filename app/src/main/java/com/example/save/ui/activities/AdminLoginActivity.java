@@ -29,6 +29,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAdminregBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
 
         // Setup click listeners
         binding.loginButton.setOnClickListener(v -> {

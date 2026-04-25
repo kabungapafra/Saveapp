@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:text="Name"
                     android:textSize="12sp"
-                    android:textColor="#757575"
+                    android:textColor="@color/v_text_muted"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:text="Email"
                     android:textSize="12sp"
-                    android:textColor="#757575"
+                    android:textColor="@color/v_text_muted"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:text="Phone"
                     android:textSize="12sp"
-                    android:textColor="#757575"
+                    android:textColor="@color/v_text_muted"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:text="Role"
                     android:textSize="12sp"
-                    android:textColor="#757575"
+                    android:textColor="@color/v_text_muted"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
@@ -147,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:text="Group"
                     android:textSize="12sp"
-                    android:textColor="#757575"
+                    android:textColor="@color/v_text_muted"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
@@ -165,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:text="Member since: Recently"
                     android:textSize="14sp"
-                    android:textColor="#757575" />
+                    android:textColor="@color/v_text_muted" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

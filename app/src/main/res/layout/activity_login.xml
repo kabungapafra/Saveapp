@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope"
                     android:text="Welcome to Save"
-                    android:textColor="#090F1C"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="32sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp" />
@@ -75,7 +75,7 @@
                     android:gravity="center"
                     android:lineSpacingMultiplier="1.2"
                     android:text="Join a community of savers and social\ncircles with Save's premium financial\ntools."
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="15sp" />
 
                 <!-- Features Quick Look -->
@@ -132,7 +132,7 @@
                             android:layout_marginTop="20dp"
                             android:fontFamily="@font/manrope"
                             android:text="Social\nCircles"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
@@ -144,7 +144,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/manrope"
                             android:text="Connect &amp; Earn"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="12dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/socialTitleText" />
@@ -171,7 +171,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:srcCompat="@drawable/ic_arrow_right"
-                            app:tint="#64748B" />
+                            app:tint="@color/v_text_mid" />
 
                         <FrameLayout
                             android:id="@+id/iconContainerSaving"
@@ -196,7 +196,7 @@
                             android:layout_marginTop="20dp"
                             android:fontFamily="@font/manrope"
                             android:text="Easy Saving"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +208,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/manrope"
                             android:text="Smart Goals"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="12dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/savingTitleText" />
@@ -237,7 +237,7 @@
                         android:fontFamily="@font/manrope"
                         android:gravity="center"
                         android:text="Continue as Member"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -245,7 +245,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         app:srcCompat="@drawable/ic_arrow_right"
-                        app:tint="#FFFFFF" />
+                        app:tint="@color/white" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -269,7 +269,7 @@
                         android:fontFamily="@font/manrope"
                         android:gravity="center"
                         android:text="Continue as Admin"
-                        android:textColor="#64748B"
+                        android:textColor="@color/v_text_mid"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -277,7 +277,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         app:srcCompat="@drawable/ic_lock"
-                        app:tint="#94A3B8" />
+                        app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
                 <!-- Pagination Dots -->

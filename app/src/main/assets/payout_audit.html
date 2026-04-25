@@ -24,9 +24,54 @@
       --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
       --radius-card: 16px;
       --radius-pill: 99px;
+      --badge-30-bg: #F1F5F9;
+      --icon-bubble-bg: #EEF2FF;
+      --csv-btn-bg: #F1F5F9;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, 'SF Pro Display', BlinkMacSystemFont, sans-serif; }
+
+    [data-theme="dark"] {
+      --blue: #3B82F6;
+      --blue-dark: #2563EB;
+      --text-dark: #F9FAFB;
+      --text-mid: #E5E7EB;
+      --text-muted: #9CA3AF;
+      --border: #374151;
+      --card-bg: #111827;
+      --page-bg: #030712;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.6);
+      --badge-30-bg: #1F2937;
+      --icon-bubble-bg: #1F2937;
+      --csv-btn-bg: #1F2937;
+      --green-badge: #064E3B;
+      --green-text: #10B981;
+    }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: -apple-system, 'SF Pro Display', BlinkMacSystemFont, sans-serif; 
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
     body { background: var(--page-bg); width: 100%; max-width: 390px; margin: 0 auto; overflow-x: hidden; position: relative; }
+
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background: var(--card-bg);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-md);
+        z-index: 1000;
+        border: 1px solid var(--border);
+        cursor: pointer;
+        color: var(--text-muted);
+    }
     
     /* Animations */
     @keyframes slideUpFade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
@@ -80,7 +125,7 @@
     .card-dist { padding: 18px; }
     .dist-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .dist-title { font-size: 15px; font-weight: 700; color: var(--text-dark); }
-    .badge-30 { background: #F1F5F9; border-radius: 6px; padding: 4px 10px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: var(--text-muted); }
+    .badge-30 { background: var(--badge-30-bg); border-radius: 6px; padding: 4px 10px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: var(--text-muted); }
     
     .chart-container { height: 120px; display: flex; align-items: flex-end; gap: 6px; border-bottom: 1px solid var(--border); }
     .bar { position: relative; border-radius: 6px 6px 0 0; display: flex; justify-content: center; align-items: flex-end; }
@@ -103,7 +148,7 @@
     .card-cycles { padding: 0; overflow: hidden; }
     .c-row { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid var(--border); }
     .c-row:last-child { border-bottom: none; }
-    .c-icon { width: 40px; height: 40px; border-radius: 50%; background: #EEF2FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .c-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--icon-bubble-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .c-info { flex: 1; }
     .c-title { font-size: 14px; font-weight: 600; color: var(--text-dark); }
     .c-meta { font-size: 11px; font-weight: 400; color: var(--text-muted); margin-top: 3px; }
@@ -120,7 +165,7 @@
     .logs-title { font-size: 18px; font-weight: 800; color: var(--text-dark); line-height: 1.2; display: block; }
     .logs-btns { display: flex; gap: 8px; }
     .btn { height: 34px; padding: 0 12px; border-radius: 8px; font-size: 12px; font-weight: 600; display: inline-flex; justify-content: center; align-items: center; text-align: center; cursor: pointer; border: none; }
-    .btn-csv { background: #F1F5F9; border: 1px solid var(--border); color: var(--text-mid); }
+    .btn-csv { background: var(--csv-btn-bg); border: 1px solid var(--border); color: var(--text-mid); }
     .btn-csv:hover { background: #E2E8F0; }
     .btn-fltr { background: var(--blue); color: #FFF; line-height: 1.2; box-shadow: 0 4px 10px rgba(37,99,235,0.35); }
     .btn-fltr:hover { filter: brightness(1.1); box-shadow: 0 6px 12px rgba(37,99,235,0.45); }
@@ -153,6 +198,12 @@
   </style>
 </head>
 <body>
+
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+    <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
 
   <!-- TITLE BLOCK -->
   <div class="title-block anim-fade delay-0" style="margin-top: 16px;">
@@ -358,6 +409,33 @@
       animateVal('cTot', 1240, 1000, 200, false);
       animateVal('cFail', 72, 800, 200, false);
     });
+
+    // Theme management
+    const themeIcon = document.getElementById('themeIcon');
+
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+        if (theme === 'dark') {
+            themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+        } else {
+            themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+        }
+    }
+
+    initTheme();
   </script>
 </body>
 </html>

@@ -7,7 +7,7 @@
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="16dp"
     app:cardElevation="0dp"
-    app:strokeColor="#F1F5F9"
+    app:strokeColor="@color/v_page_bg"
     app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_bold"
                 android:text="sarah.j@example.com"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="14sp" />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="INVITED: OCT 12, 2023"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="10sp"
                 android:textAllCaps="true"/>
         </LinearLayout>

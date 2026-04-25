@@ -39,7 +39,7 @@
             android:layout_toEndOf="@id/iconContainerMyStash"
             android:fontFamily="@font/manrope"
             android:text="My Stash"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -49,6 +49,6 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_chevron_right"
-            app:tint="#CBD5E1" />
+            app:tint="@color/v_text_muted" />
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

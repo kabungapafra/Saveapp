@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F0F2F7">
+        android:background="@color/v_page_bg">
 
         <!-- TOP HEADER -->
         <RelativeLayout
@@ -38,19 +38,25 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Financial Analysis"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="18sp" />
 
-            <ImageView
-                android:id="@+id/btnNotifications"
+            <FrameLayout
+                android:id="@+id/btnThemeToggle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/bg_circle_white"
-                android:padding="10dp"
-                android:src="@drawable/ic_notifications"
-                app:tint="#1E293B" />
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_moon"
+                    app:tint="#1E293B" />
+            </FrameLayout>
         </RelativeLayout>
 
         <!-- SCROLLABLE CONTENT -->
@@ -240,7 +246,7 @@
                                 android:layout_marginStart="12dp"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="GROSS CONTRIBUTIONS"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="11sp"
                                 android:letterSpacing="0.05" />
                         </LinearLayout>
@@ -252,7 +258,7 @@
                             android:layout_marginTop="12dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="UGX 38.4M"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="24sp" />
 
                         <TextView
@@ -319,7 +325,7 @@
                                 android:layout_marginStart="12dp"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="INTEREST EARNED"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="11sp"
                                 android:letterSpacing="0.05" />
                         </LinearLayout>
@@ -337,7 +343,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="UGX 6.8M"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="24sp" />
 
                             <TextView
@@ -424,7 +430,7 @@
                                     android:layout_marginStart="12dp"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="CURRENT LIQUIDITY"
-                                    android:textColor="#94A3B8"
+                                    android:textColor="@color/v_text_muted"
                                     android:textSize="11sp"
                                     android:letterSpacing="0.05" />
                             </LinearLayout>
@@ -445,7 +451,7 @@
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Available for immediate disbursement"
-                                android:textColor="#CBD5E1"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="11sp" />
                         </LinearLayout>
                     </RelativeLayout>
@@ -486,7 +492,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Group Health Index"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="16sp" />
 
                                 <TextView
@@ -494,7 +500,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_medium"
                                     android:text="Stability &amp; Compliance Score"
-                                    android:textColor="#94A3B8"
+                                    android:textColor="@color/v_text_muted"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -533,7 +539,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="16dp"
-                            android:background="#F1F5F9" />
+                            android:background="@color/v_page_bg" />
 
                         <!-- Contribution Consistency Row -->
                         <LinearLayout
@@ -548,7 +554,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Contribution Consistency"
-                                android:textColor="#475569"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -586,7 +592,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Risk Mitigation Level"
-                                android:textColor="#475569"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -624,7 +630,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Reserve Ratio"
-                                android:textColor="#475569"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -653,10 +659,10 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="#F8FAFC"
+                            android:background="@color/v_page_bg"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Analysis: The group maintains high financial integrity with minimal default risk. Contributions are solidly in the top 5th percentile of similar-size portfolios."
-                            android:textColor="#475569"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="12sp"
                             android:padding="12dp"
                             android:lineSpacingMultiplier="1.4" />
@@ -685,7 +691,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Strategic Insights"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -694,7 +700,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="QUARTERLY FORECAST (Q4 2023)"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="10sp"
                             android:letterSpacing="0.08" />
 
@@ -719,7 +725,7 @@
                                 android:gravity="center"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Current"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -729,7 +735,7 @@
                                 android:gravity="center"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Month 1"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -739,7 +745,7 @@
                                 android:gravity="center"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Month 2"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -749,7 +755,7 @@
                                 android:gravity="center"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Month 3"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -768,7 +774,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="16dp"
-                            android:background="#F1F5F9" />
+                            android:background="@color/v_page_bg" />
 
                         <!-- Growth Accelerator Insight -->
                         <LinearLayout
@@ -796,7 +802,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Growth Accelerator"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="13sp" />
 
                                 <TextView
@@ -805,7 +811,7 @@
                                     android:layout_marginTop="2dp"
                                     android:fontFamily="@font/manrope_medium"
                                     android:text="Expected portfolio valuation of UGX 55.8M by Dec '24 based on current capacity."
-                                    android:textColor="#64748B"
+                                    android:textColor="@color/v_text_mid"
                                     android:textSize="12sp"
                                     android:lineSpacingMultiplier="1.2" />
                             </LinearLayout>
@@ -838,7 +844,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Yield Optimization"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="13sp" />
 
                                 <TextView
@@ -847,7 +853,7 @@
                                     android:layout_marginTop="2dp"
                                     android:fontFamily="@font/manrope_medium"
                                     android:text="Diversifying 15% of reserves into lower-risk treasury bonds could improve yield by 2.1%."
-                                    android:textColor="#64748B"
+                                    android:textColor="@color/v_text_mid"
                                     android:textSize="12sp"
                                     android:lineSpacingMultiplier="1.2" />
                             </LinearLayout>
@@ -886,7 +892,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Member Performance Summary"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="15sp" />
 
                             <TextView
@@ -914,7 +920,7 @@
                                 android:layout_weight="2"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="ENTITY"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp"
                                 android:letterSpacing="0.08" />
 
@@ -925,7 +931,7 @@
                                 android:fontFamily="@font/manrope_medium"
                                 android:gravity="center"
                                 android:text="EFFICIENCY RATE"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp"
                                 android:letterSpacing="0.06" />
 
@@ -936,7 +942,7 @@
                                 android:fontFamily="@font/manrope_medium"
                                 android:gravity="end"
                                 android:text="AMT (M)"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
                         </LinearLayout>
 
@@ -945,7 +951,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="10dp"
-                            android:background="#F1F5F9" />
+                            android:background="@color/v_page_bg" />
 
                         <!-- Member Performance RecyclerView -->
                         <androidx.recyclerview.widget.RecyclerView
@@ -974,7 +980,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
+                        android:background="@color/white"
                         android:orientation="horizontal"
                         android:padding="20dp"
                         android:gravity="center_vertical">
@@ -984,8 +990,8 @@
                             android:layout_height="56dp"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="0dp"
-                            app:cardBackgroundColor="#F8FAFC"
-                            app:strokeColor="#CBD5E1"
+                            app:cardBackgroundColor="@color/v_page_bg"
+                            app:strokeColor="@color/v_text_muted"
                             app:strokeWidth="1dp">
                             <ImageView
                                 android:layout_width="28dp"
@@ -1007,7 +1013,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Payout Performance"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="17sp"
                                 android:letterSpacing="-0.01"/>
 
@@ -1017,7 +1023,7 @@
                                 android:layout_marginTop="3dp"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Audit and track automated disbursements"
-                                android:textColor="#64748B"
+                                android:textColor="@color/v_text_mid"
                                 android:textSize="12sp"
                                 android:lineSpacingMultiplier="1.2" />
                         </LinearLayout>
@@ -1074,7 +1080,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Transactional Ledger"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="15sp" />
 
                                 <TextView
@@ -1082,7 +1088,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_medium"
                                     android:text="Real-time smart and active top-log entry"
-                                    android:textColor="#94A3B8"
+                                    android:textColor="@color/v_text_muted"
                                     android:textSize="11sp" />
                             </LinearLayout>
 
@@ -1104,12 +1110,12 @@
                                     android:insetBottom="0dp"
                                     android:text="Filter"
                                     android:textAllCaps="false"
-                                    android:textColor="#475569"
+                                    android:textColor="@color/v_text_mid"
                                     android:textSize="12sp"
                                     app:cornerRadius="8dp"
                                     app:icon="@drawable/ic_filter"
                                     app:iconSize="14dp"
-                                    app:iconTint="#475569"
+                                    app:iconTint="@color/v_text_mid"
                                     app:strokeColor="#E2E8F0" />
 
                                 <com.google.android.material.button.MaterialButton
@@ -1122,12 +1128,12 @@
                                     android:insetBottom="0dp"
                                     android:text="Full log"
                                     android:textAllCaps="false"
-                                    android:textColor="#475569"
+                                    android:textColor="@color/v_text_mid"
                                     android:textSize="12sp"
                                     app:cornerRadius="8dp"
                                     app:icon="@drawable/ic_history"
                                     app:iconSize="14dp"
-                                    app:iconTint="#475569"
+                                    app:iconTint="@color/v_text_mid"
                                     app:strokeColor="#E2E8F0" />
                             </LinearLayout>
                         </LinearLayout>
@@ -1145,7 +1151,7 @@
                                 android:layout_weight="2"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="TRANSACTION ENTITY"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp"
                                 android:letterSpacing="0.06" />
 
@@ -1156,7 +1162,7 @@
                                 android:fontFamily="@font/manrope_medium"
                                 android:gravity="center"
                                 android:text="CLASSIFICATION"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp"
                                 android:letterSpacing="0.04" />
 
@@ -1167,7 +1173,7 @@
                                 android:fontFamily="@font/manrope_medium"
                                 android:gravity="end"
                                 android:text="AMNT"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="10sp" />
                         </LinearLayout>
 
@@ -1176,7 +1182,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="10dp"
-                            android:background="#F1F5F9" />
+                            android:background="@color/v_page_bg" />
 
                         <!-- Transactions RecyclerView -->
                         <androidx.recyclerview.widget.RecyclerView

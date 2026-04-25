@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="Create Account"
-                android:textColor="#1A1A1A"
+                android:textColor="@color/text_primary"
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Start your journey with Save"
-                android:textColor="#757575"
+                android:textColor="@color/v_text_muted"
                 android:textSize="16sp" />
 
             <!-- Input Fields -->
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="Full Name"
-                    android:textColor="#1A1A1A"
+                    android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -111,7 +111,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="8dp"
                     android:text="Email Address"
-                    android:textColor="#1A1A1A"
+                    android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -133,7 +133,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="8dp"
                     android:text="Phone Number"
-                    android:textColor="#1A1A1A"
+                    android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -155,7 +155,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="8dp"
                     android:text="Password"
-                    android:textColor="#1A1A1A"
+                    android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -183,7 +183,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_visibility"
-                        app:tint="#9E9E9E" />
+                        app:tint="@color/v_text_muted" />
                 </RelativeLayout>
 
                 <TextView
@@ -192,7 +192,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="8dp"
                     android:text="Confirm Password"
-                    android:textColor="#1A1A1A"
+                    android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -220,7 +220,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_visibility"
-                        app:tint="#9E9E9E" />
+                        app:tint="@color/v_text_muted" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -250,7 +250,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Already have an account? "
-                    android:textColor="#757575"
+                    android:textColor="@color/v_text_muted"
                     android:textSize="14sp" />
 
                 <TextView

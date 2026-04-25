@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@color/white">
 
     <!-- ====================================================
          TOP BAR (Back | Logo | SAVE)
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Privacy &amp; Security"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="28sp" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/manrope_medium"
                 android:text="Control your account security and data preferences."
-                android:textColor="#64748B"
+                android:textColor="@color/v_text_mid"
                 android:textSize="14sp" />
 
             <!-- ACCOUNT STATUS CARD -->
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp">
@@ -88,7 +88,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Account Secure"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="18sp" />
 
                         <TextView
@@ -97,7 +97,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Last checked: Today at 09:41 AM"
-                            android:textColor="#64748B"
+                            android:textColor="@color/v_text_mid"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp">
@@ -167,7 +167,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Change Password"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -175,7 +175,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Updated 3 months ago"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -183,14 +183,14 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="#CBD5E1" />
+                            app:tint="@color/v_text_muted" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginHorizontal="16dp"
-                        android:background="#F1F5F9" />
+                        android:background="@color/v_page_bg" />
 
                     <!-- 2FA -->
                     <LinearLayout
@@ -226,7 +226,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Two-Factor Authentication"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -234,7 +234,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Secure your account with a code"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -264,7 +264,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp">
@@ -313,7 +313,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Manage Connected Devices"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -321,7 +321,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="3 devices currently active"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -329,14 +329,14 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="#CBD5E1" />
+                            app:tint="@color/v_text_muted" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginHorizontal="16dp"
-                        android:background="#F1F5F9" />
+                        android:background="@color/v_page_bg" />
 
                     <!-- Biometrics -->
                     <LinearLayout
@@ -372,7 +372,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="FaceID / Fingerprint"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -380,7 +380,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Unlock app with biometrics"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -410,7 +410,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp">
@@ -453,7 +453,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Hide Balances"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -461,7 +461,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Conceal amounts on main screen"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -469,7 +469,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_chevron_right"
-                        app:tint="#CBD5E1" />
+                        app:tint="@color/v_text_muted" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -483,7 +483,7 @@
                 android:text="Sign Out from All Devices"
                 android:textColor="#EF4444"
                 android:textSize="16sp"
-                app:backgroundTint="#F8FAFC"
+                app:backgroundTint="@color/v_page_bg"
                 app:cornerRadius="16dp"
                 app:icon="@drawable/ic_logout_red"
                 app:iconGravity="textStart"

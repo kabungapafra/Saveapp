@@ -39,6 +39,8 @@ public class PollsFragment extends Fragment {
             }
         });
 
+        binding.btnThemeToggle.setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext()));
+
         setupWebView();
     }
 

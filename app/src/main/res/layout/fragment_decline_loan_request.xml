@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="#FFFFFF"
+            android:background="@color/white"
             android:paddingHorizontal="8dp">
 
             <ImageView
@@ -26,7 +26,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="#0F172A" />
+                app:tint="@color/v_text_dark" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
                 android:layout_toEndOf="@id/btnBack"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Decline Request"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -62,7 +62,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:letterSpacing="0.05"
                     android:text="LOAN SUMMARY"
-                    android:textColor="#64748B"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -70,10 +70,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
-                    app:strokeColor="#F1F5F9"
+                    app:strokeColor="@color/v_page_bg"
                     app:strokeWidth="1dp">
 
                     <LinearLayout
@@ -109,7 +109,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Marcus Wright"
-                                android:textColor="#0F172A"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
 
@@ -130,7 +130,7 @@
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="sans-serif"
                                 android:text="Submitted June 12, 2024"
-                                android:textColor="#94A3B8"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -147,7 +147,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Reason for Decline"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -179,7 +179,7 @@
                         android:layout_marginBottom="12dp"
                         android:clickable="true"
                         android:focusable="true"
-                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
                         app:strokeColor="#2563EB"
@@ -201,7 +201,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Insufficient Savings Coverage"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="15sp"
                                     android:textStyle="bold" />
 
@@ -211,7 +211,7 @@
                                     android:layout_marginTop="4dp"
                                     android:fontFamily="sans-serif"
                                     android:text="Member does not meet the 3:1 savings ratio requirement."
-                                    android:textColor="#64748B"
+                                    android:textColor="@color/v_text_mid"
                                     android:textSize="13sp" />
                             </LinearLayout>
 
@@ -233,10 +233,10 @@
                         android:layout_marginBottom="12dp"
                         android:clickable="true"
                         android:focusable="true"
-                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#F1F5F9"
+                        app:strokeColor="@color/v_page_bg"
                         app:strokeWidth="1dp">
 
                         <RelativeLayout
@@ -255,7 +255,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Low Credit Score"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="15sp"
                                     android:textStyle="bold" />
 
@@ -265,7 +265,7 @@
                                     android:layout_marginTop="4dp"
                                     android:fontFamily="sans-serif"
                                     android:text="Internal credit rating below the minimum threshold."
-                                    android:textColor="#64748B"
+                                    android:textColor="@color/v_text_mid"
                                     android:textSize="13sp" />
                             </LinearLayout>
 
@@ -287,10 +287,10 @@
                         android:layout_marginBottom="12dp"
                         android:clickable="true"
                         android:focusable="true"
-                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#F1F5F9"
+                        app:strokeColor="@color/v_page_bg"
                         app:strokeWidth="1dp">
 
                         <RelativeLayout
@@ -309,7 +309,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Incomplete Documentation"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="15sp"
                                     android:textStyle="bold" />
 
@@ -319,7 +319,7 @@
                                     android:layout_marginTop="4dp"
                                     android:fontFamily="sans-serif"
                                     android:text="Missing guarantor signatures or income proof."
-                                    android:textColor="#64748B"
+                                    android:textColor="@color/v_text_mid"
                                     android:textSize="13sp" />
                             </LinearLayout>
 
@@ -341,10 +341,10 @@
                         android:layout_marginBottom="12dp"
                         android:clickable="true"
                         android:focusable="true"
-                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#F1F5F9"
+                        app:strokeColor="@color/v_page_bg"
                         app:strokeWidth="1dp">
 
                         <RelativeLayout
@@ -363,7 +363,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Maximum Group Risk Reached"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="15sp"
                                     android:textStyle="bold" />
 
@@ -373,7 +373,7 @@
                                     android:layout_marginTop="4dp"
                                     android:fontFamily="sans-serif"
                                     android:text="The group has exceeded its collective lending capacity."
-                                    android:textColor="#64748B"
+                                    android:textColor="@color/v_text_mid"
                                     android:textSize="13sp" />
                             </LinearLayout>
 
@@ -395,10 +395,10 @@
                         android:layout_marginBottom="12dp"
                         android:clickable="true"
                         android:focusable="true"
-                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#F1F5F9"
+                        app:strokeColor="@color/v_page_bg"
                         app:strokeWidth="1dp">
 
                         <LinearLayout
@@ -417,7 +417,7 @@
                                     android:layout_centerVertical="true"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Other"
-                                    android:textColor="#0F172A"
+                                    android:textColor="@color/v_text_dark"
                                     android:textSize="15sp"
                                     android:textStyle="bold" />
 
@@ -440,8 +440,8 @@
                                 android:gravity="top"
                                 android:hint="Please specify the custom reason for decline..."
                                 android:padding="12dp"
-                                android:textColor="#0F172A"
-                                android:textColorHint="#94A3B8"
+                                android:textColor="@color/v_text_dark"
+                                android:textColorHint="@color/v_text_muted"
                                 android:textSize="14sp"
                                 android:visibility="gone" />
                         </LinearLayout>
@@ -455,7 +455,7 @@
                     android:layout_marginTop="32dp"
                     android:fontFamily="@font/manrope_bold"
                     android:text="Feedback for Borrower"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -475,8 +475,8 @@
                         android:fontFamily="sans-serif"
                         android:gravity="top"
                         android:hint="Provide additional details or advice to help the borrower improve their next request..."
-                        android:textColor="#0F172A"
-                        android:textColorHint="#94A3B8"
+                        android:textColor="@color/v_text_dark"
+                        android:textColorHint="@color/v_text_muted"
                         android:textSize="14sp" />
 
                     <TextView
@@ -487,7 +487,7 @@
                         android:layout_alignParentBottom="true"
                         android:fontFamily="sans-serif"
                         android:text="@string/_0_500"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/v_text_muted"
                         android:textSize="11sp" />
                 </RelativeLayout>
 
@@ -498,7 +498,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
+            android:background="@color/white"
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp">
@@ -517,14 +517,14 @@
                     android:layout_height="18dp"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/ic_check"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="@string/confirm_decline"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -540,7 +540,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:gravity="center"
                 android:text="@string/cancel_amp_go_back"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <!-- IMMERSIVE HEADER (NO NAVIGATION BAR) -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +39,7 @@
             android:layout_marginTop="12dp"
             android:fontFamily="@font/manrope_bold"
             android:text="Group Settings"
-            android:textColor="#090F1C"
+            android:textColor="@color/v_text_dark"
             android:textSize="32sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/badgeActiveCycle" />
@@ -52,7 +52,7 @@
             android:layout_marginTop="4dp"
             android:fontFamily="@font/manrope_medium"
             android:text="Created October 2023  |  12 Members"
-            android:textColor="#64748B"
+            android:textColor="@color/v_text_mid"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/groupTitle" />
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="2dp"
                     app:strokeWidth="0dp">
@@ -125,7 +125,7 @@
                             android:layout_marginTop="24dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="CONTRIBUTION"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="10sp" />
 
                         <TextView
@@ -134,7 +134,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="$500"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="22sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="2dp"
                     app:strokeWidth="0dp">
@@ -168,7 +168,7 @@
                             android:layout_marginTop="24dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="FREQUENCY"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="10sp" />
 
                         <TextView
@@ -177,7 +177,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Monthly"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="22sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="2dp"
                     app:strokeWidth="0dp">
@@ -211,7 +211,7 @@
                             android:layout_marginTop="24dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="LATE FEE"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="10sp" />
 
                         <TextView
@@ -220,7 +220,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="$25"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="22sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -231,7 +231,7 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="2dp"
                     app:strokeWidth="0dp">
@@ -254,7 +254,7 @@
                             android:layout_marginTop="24dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="LOAN INTEREST"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="10sp" />
 
                         <TextView
@@ -263,7 +263,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="5%"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="22sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -279,7 +279,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.1"
                 android:text="SCHEDULED ACTIONS"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gridFinancialRules" />
@@ -290,7 +290,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="2dp"
                 app:layout_constraintTop_toBottomOf="@id/labelScheduledActions"
@@ -336,7 +336,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Automatic Payouts"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -367,7 +367,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="2dp"
                 app:layout_constraintTop_toBottomOf="@id/cardAutomaticPayouts"
@@ -413,7 +413,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Scheduled Contributions"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -444,7 +444,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="2dp"
                 app:layout_constraintTop_toBottomOf="@id/cardScheduledContributions"
@@ -490,7 +490,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Smart Round-ups"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -498,7 +498,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Round up to the nearest $1.00"
-                            android:textColor="#94A3B8"
+                            android:textColor="@color/v_text_muted"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -525,7 +525,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.1"
                 android:text="AUTOMATION &amp; GOVERNANCE"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardSmartRoundups" />
@@ -536,7 +536,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="#F1F5F9"
+                app:cardBackgroundColor="@color/v_page_bg"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
                 app:layout_constraintTop_toBottomOf="@id/labelAutomationGovernance"
@@ -558,7 +558,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Automated Cycle Rotation"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -590,7 +590,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Loan Request Permissions"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -657,7 +657,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.1"
                 android:text="APP PREFERENCES"
-                android:textColor="#94A3B8"
+                android:textColor="@color/v_text_muted"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardAutomationGovernance" />
@@ -668,7 +668,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="#F1F5F9"
+                app:cardBackgroundColor="@color/v_page_bg"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
                 app:layout_constraintTop_toBottomOf="@id/labelAppPreferences"
@@ -691,7 +691,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Dark Mode"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -723,7 +723,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Push Notifications"
-                            android:textColor="#0F172A"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

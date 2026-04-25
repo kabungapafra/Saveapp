@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Financial Rules"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Define how payouts are distributed and loans are managed within your group."
-            android:textColor="#64748B"
+            android:textColor="@color/v_text_mid"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,19 +65,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Payout Amount per Member"
-            app:boxBackgroundColor="#F8FAFC"
+            app:boxBackgroundColor="@color/v_page_bg"
             app:boxStrokeColor="#E2E8F0"
-            app:hintTextColor="#64748B"
+            app:hintTextColor="@color/v_text_mid"
             app:layout_constraintTop_toBottomOf="@id/tvPayoutSection"
             app:prefixText="UGX "
-            app:prefixTextColor="#64748B">
+            app:prefixTextColor="@color/v_text_mid">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPayoutAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,12 +88,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Retention Percentage"
-            app:boxBackgroundColor="#F8FAFC"
+            app:boxBackgroundColor="@color/v_page_bg"
             app:boxStrokeColor="#E2E8F0"
-            app:hintTextColor="#64748B"
+            app:hintTextColor="@color/v_text_mid"
             app:layout_constraintTop_toBottomOf="@id/tilPayoutAmount"
             app:suffixText="%"
-            app:suffixTextColor="#64748B">
+            app:suffixTextColor="@color/v_text_mid">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etRetention"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:text="5"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,19 +126,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Maximum Loan Amount"
-            app:boxBackgroundColor="#F8FAFC"
+            app:boxBackgroundColor="@color/v_page_bg"
             app:boxStrokeColor="#E2E8F0"
-            app:hintTextColor="#64748B"
+            app:hintTextColor="@color/v_text_mid"
             app:layout_constraintTop_toBottomOf="@id/tvLendingSection"
             app:prefixText="UGX "
-            app:prefixTextColor="#64748B">
+            app:prefixTextColor="@color/v_text_mid">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etMaxLoanAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,12 +149,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Interest Rate"
-            app:boxBackgroundColor="#F8FAFC"
+            app:boxBackgroundColor="@color/v_page_bg"
             app:boxStrokeColor="#E2E8F0"
-            app:hintTextColor="#64748B"
+            app:hintTextColor="@color/v_text_mid"
             app:layout_constraintTop_toBottomOf="@id/tilMaxLoanAmount"
             app:suffixText="%"
-            app:suffixTextColor="#64748B">
+            app:suffixTextColor="@color/v_text_mid">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etInterestRate"
@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:text="10"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -173,12 +173,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Repayment Period"
-            app:boxBackgroundColor="#F8FAFC"
+            app:boxBackgroundColor="@color/v_page_bg"
             app:boxStrokeColor="#E2E8F0"
-            app:hintTextColor="#64748B"
+            app:hintTextColor="@color/v_text_mid"
             app:layout_constraintTop_toBottomOf="@id/tilInterestRate"
             app:suffixText="Months"
-            app:suffixTextColor="#64748B">
+            app:suffixTextColor="@color/v_text_mid">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etRepaymentPeriod"
@@ -186,7 +186,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:text="12"
-                android:textColor="#0F172A"
+                android:textColor="@color/v_text_dark"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -198,7 +198,7 @@
             android:checked="true"
             android:padding="8dp"
             android:text="Require Guarantor for Loans"
-            android:textColor="#0F172A"
+            android:textColor="@color/v_text_dark"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/tilRepaymentPeriod" />
@@ -208,7 +208,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Guarantors provide security and reduce group risk."
-            android:textColor="#64748B"
+            android:textColor="@color/v_text_mid"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/switchRequireGuarantor"
