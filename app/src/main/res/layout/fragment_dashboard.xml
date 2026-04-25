@@ -34,6 +34,23 @@
 
                 <!-- Branding text removed as per user request -->
 
+                <!-- Theme toggle button — to the left of the bell -->
+                <FrameLayout
+                    android:id="@+id/btnThemeToggle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_toStartOf="@id/btnNotifications"
+                    android:layout_marginEnd="4dp"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_moon"
+                        app:tint="#215DA1" />
+                </FrameLayout>
+
                 <FrameLayout
                     android:id="@+id/btnNotifications"
                     android:layout_width="40dp"
@@ -58,6 +75,7 @@
                         android:backgroundTint="@color/h_red_500" />
                 </FrameLayout>
             </RelativeLayout>
+
 
             <!-- 2. GREETING BLOCK -->
             <LinearLayout
