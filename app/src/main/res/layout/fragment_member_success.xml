@@ -219,7 +219,7 @@
             android:fontFamily="sans-serif-black"
             android:text="@string/view_group_members"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textSize="17sp"
             app:backgroundTint="#215DA1"
             app:cornerRadius="18dp"

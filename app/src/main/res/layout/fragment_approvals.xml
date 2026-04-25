@@ -263,7 +263,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="REJECT"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="10sp" />
 
                         <TextView
@@ -275,7 +275,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="ACCEPT"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="10sp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -389,7 +389,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="REJECT"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="10sp" />
 
                         <TextView
@@ -401,7 +401,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="ACCEPT"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="10sp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -516,7 +516,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="VIEW"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -554,7 +554,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="VIEW"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -592,7 +592,7 @@
                             android:gravity="center"
                             android:letterSpacing="0.05"
                             android:text="VIEW"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>

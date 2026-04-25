@@ -158,7 +158,7 @@
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="JD"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="18sp" />
                         </RelativeLayout>
                     </FrameLayout>
@@ -220,7 +220,7 @@
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="AM"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="18sp" />
                         </RelativeLayout>
                     </FrameLayout>
@@ -317,7 +317,7 @@
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Submit My Vote"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -325,7 +325,7 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:src="@drawable/ic_check_circle"
-                        app:tint="@color/white" />
+                        app:tint="#FFFFFF" />
                 </LinearLayout>
 
                 <TextView

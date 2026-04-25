@@ -15,7 +15,7 @@
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/card_surface"
             android:elevation="4dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="16dp"
@@ -27,7 +27,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/bg_circle_white"
+                android:background="@drawable/bg_input_bg_circle"
                 android:padding="10dp"
                 android:src="@drawable/ic_arrow_back"
                 app:tint="#1E293B" />
@@ -47,14 +47,14 @@
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/bg_circle_white"
+                android:background="@drawable/bg_input_bg_circle"
                 android:padding="10dp">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_moon"
+                    android:src="@drawable/ic_theme_toggle"
                     app:tint="#1E293B" />
             </FrameLayout>
         </RelativeLayout>
@@ -110,7 +110,7 @@
                                     android:alpha="0.75"
                                     android:fontFamily="@font/manrope_medium"
                                     android:text="TOTAL PORTFOLIO LIQUIDITY"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="11sp"
                                     android:letterSpacing="0.08" />
 
@@ -121,7 +121,7 @@
                                     android:layout_marginTop="6dp"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="UGX 45,200,000"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="30sp" />
 
                                 <TextView
@@ -131,7 +131,7 @@
                                     android:alpha="0.75"
                                     android:fontFamily="@font/manrope_medium"
                                     android:text="78% with projections keeping on target for\nFY25 goals"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="11sp" />
                             </LinearLayout>
 
@@ -192,12 +192,12 @@
                                 android:insetBottom="0dp"
                                 android:text="Excel Report"
                                 android:textAllCaps="false"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="13sp"
                                 app:cornerRadius="24dp"
                                 app:icon="@drawable/ic_excel_export"
                                 app:iconSize="18dp"
-                                app:iconTint="@color/white" />
+                                app:iconTint="#FFFFFF" />
                         </LinearLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -217,7 +217,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/card_surface"
                         android:orientation="vertical"
                         android:padding="20dp">
 
@@ -230,7 +230,7 @@
                             <FrameLayout
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
-                                android:background="@drawable/bg_circle_white"
+                                android:background="@drawable/bg_input_bg_circle"
                                 android:backgroundTint="#E9F2FB">
                                 <ImageView
                                     android:layout_width="16dp"
@@ -296,7 +296,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/card_surface"
                         android:orientation="vertical"
                         android:padding="20dp">
 
@@ -309,7 +309,7 @@
                             <FrameLayout
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
-                                android:background="@drawable/bg_circle_white"
+                                android:background="@drawable/bg_input_bg_circle"
                                 android:backgroundTint="#D1FAE5">
                                 <ImageView
                                     android:layout_width="16dp"
@@ -385,7 +385,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/card_surface"
                         android:padding="20dp">
 
                         <!-- THE ORANGE BOARD ON THE LEFT (Pill-shaped) -->
@@ -414,7 +414,7 @@
                                 <FrameLayout
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:background="@drawable/bg_circle_white"
+                                    android:background="@drawable/bg_input_bg_circle"
                                     android:backgroundTint="#FEF3C7">
                                     <ImageView
                                         android:layout_width="16dp"
@@ -442,7 +442,7 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="UGX 12.2M"
-                                android:textColor="#1B2B48"
+                                android:textColor="@color/v_text_dark"
                                 android:textSize="24sp" />
 
                             <TextView
@@ -470,7 +470,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/card_surface"
                         android:orientation="vertical"
                         android:padding="20dp">
 
@@ -539,7 +539,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="16dp"
-                            android:background="@color/v_page_bg" />
+                            android:background="@color/v_input_bg" />
 
                         <!-- Contribution Consistency Row -->
                         <LinearLayout
@@ -659,7 +659,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/v_page_bg"
+                            android:background="@color/v_input_bg"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Analysis: The group maintains high financial integrity with minimal default risk. Contributions are solidly in the top 5th percentile of similar-size portfolios."
                             android:textColor="@color/v_text_mid"
@@ -682,7 +682,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/card_surface"
                         android:orientation="vertical"
                         android:padding="20dp">
 
@@ -774,7 +774,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="16dp"
-                            android:background="@color/v_page_bg" />
+                            android:background="@color/v_input_bg" />
 
                         <!-- Growth Accelerator Insight -->
                         <LinearLayout
@@ -875,7 +875,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/card_surface"
                         android:orientation="vertical"
                         android:padding="20dp">
 
@@ -951,7 +951,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="10dp"
-                            android:background="@color/v_page_bg" />
+                            android:background="@color/v_input_bg" />
 
                         <!-- Member Performance RecyclerView -->
                         <androidx.recyclerview.widget.RecyclerView
@@ -980,7 +980,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/card_surface"
                         android:orientation="horizontal"
                         android:padding="20dp"
                         android:gravity="center_vertical">
@@ -1058,7 +1058,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/card_surface"
                         android:orientation="vertical"
                         android:padding="20dp">
 
@@ -1182,7 +1182,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="10dp"
-                            android:background="@color/v_page_bg" />
+                            android:background="@color/v_input_bg" />
 
                         <!-- Transactions RecyclerView -->
                         <androidx.recyclerview.widget.RecyclerView

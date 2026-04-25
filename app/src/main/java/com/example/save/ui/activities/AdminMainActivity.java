@@ -47,7 +47,7 @@ public class AdminMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAdminmainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        com.example.save.utils.ThemeUtils.applyTheme(this);
+        com.example.save.utils.ThemeUtils.applyTheme(this, "admin");
         getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
 
         MembersViewModel viewModel = new ViewModelProvider(this).get(MembersViewModel.class);
@@ -269,7 +269,7 @@ public class AdminMainActivity extends AppCompatActivity {
         // Update Theme Label
         TextView themeLabel = overlay.findViewById(R.id.tvThemeLabelOverlay);
         if (themeLabel != null) {
-            themeLabel.setText(com.example.save.utils.ThemeUtils.isDarkMode(this) ? "Switch to Light Mode" : "Switch to Dark Mode");
+            themeLabel.setText(com.example.save.utils.ThemeUtils.isDarkMode(this, "admin") ? "Switch to Light Mode" : "Switch to Dark Mode");
         }
 
         // Animate FAB ring rotation
@@ -326,6 +326,11 @@ public class AdminMainActivity extends AppCompatActivity {
         findViewById(R.id.cardApprovalsOverlay).setOnClickListener(v -> {
             closeQuickActions();
             loadFragment(new ApprovalsFragment(), true);
+        });
+
+        findViewById(R.id.cardThemeOverlay).setOnClickListener(v -> {
+            closeQuickActions();
+            com.example.save.utils.ThemeUtils.toggleTheme(this, "admin");
         });
     }
 

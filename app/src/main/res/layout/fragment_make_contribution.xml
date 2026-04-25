@@ -352,13 +352,13 @@
                 android:textAllCaps="false"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-black"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 app:backgroundTint="#215DA1"
                 app:cornerRadius="20dp"
                 app:icon="@drawable/ic_arrow_right"
                 app:iconGravity="textEnd"
                 app:iconPadding="12dp"
-                app:iconTint="@color/white"
+                app:iconTint="#FFFFFF"
                 android:layout_marginBottom="24dp"
                 android:elevation="8dp" />
 

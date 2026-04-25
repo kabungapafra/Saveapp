@@ -237,7 +237,7 @@
                         android:fontFamily="@font/manrope"
                         android:gravity="center"
                         android:text="Continue as Member"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -245,7 +245,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         app:srcCompat="@drawable/ic_arrow_right"
-                        app:tint="@color/white" />
+                        app:tint="#FFFFFF" />
                 </LinearLayout>
 
                 <LinearLayout

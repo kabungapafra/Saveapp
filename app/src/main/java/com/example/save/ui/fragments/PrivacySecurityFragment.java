@@ -49,8 +49,9 @@ public class PrivacySecurityFragment extends Fragment {
 
         binding.btnSignOutAll.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "Signing out from all devices...", Toast.LENGTH_SHORT).show();
-            // Implement actual logout logic here
+            if (getContext() != null) {
+                com.example.save.utils.SessionManager.getInstance(getContext()).logoutUser();
+            }
         });
     }
 

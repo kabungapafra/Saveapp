@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/bg_card_surface"
-                android:backgroundTint="#E9F2FB"
+                android:backgroundTint="@color/v_input_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="20dp">
@@ -68,8 +68,8 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="@drawable/bg_circle_blue_light"
-                    android:backgroundTint="#DAE8FF"
+                    android:background="@drawable/bg_input_bg_circle"
+                    android:backgroundTint="@color/v_input_bg"
                     android:padding="12dp"
                     android:src="@drawable/ic_shield_auth"
                     app:tint="#215DA1" />
@@ -129,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp">
@@ -190,7 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp">
@@ -251,7 +251,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:strokeColor="#E2E8F0"
@@ -312,7 +312,7 @@
                     android:layout_centerVertical="true"
                     android:checked="true"
                     app:thumbTint="#215DA1"
-                    app:trackTint="#E9F2FB" />
+                    app:trackTint="@color/v_input_bg" />
             </RelativeLayout>
 
             <!-- Spending Limits -->

@@ -37,6 +37,7 @@
     <color name="card_blue_end">#1A4980</color>
     <color name="success">#4CAF50</color>
     <color name="dashboard_blue_header">#215DA1</color>
+    <color name="nav_ring_color">#215DA1</color>
     <color name="dashboard_bg">#F4F7FE</color>
     <color name="dashboard_text_primary">#090F1C</color>
     <color name="dashboard_text_secondary">#64748B</color>
@@ -82,6 +83,8 @@
     <color name="v_page_bg">#F2F4F8</color>
     <color name="v_text_dark">#0F172A</color>
     <color name="v_text_mid">#374151</color>
+    <color name="v_input_bg">#F8F9FB</color>
+    <color name="v_chip_bg">#FFFFFF</color>
     <color name="v_blue">#215DA1</color>
     <!-- Missing Colors for Build Fix -->
     <color name="brand_blue">#215DA1</color>

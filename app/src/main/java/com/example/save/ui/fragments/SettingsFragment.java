@@ -77,7 +77,7 @@ public class SettingsFragment extends Fragment {
 
         binding.btnThemeToggle.setOnClickListener(v -> {
             applyClickAnimation(v);
-            com.example.save.utils.ThemeUtils.toggleTheme(requireContext());
+            com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "member");
         });
     }
 
@@ -163,8 +163,9 @@ public class SettingsFragment extends Fragment {
 
         binding.btnSignOut.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "Signing out...", Toast.LENGTH_SHORT).show();
-            // Implement actual logout logic here
+            if (getContext() != null) {
+                com.example.save.utils.SessionManager.getInstance(getContext()).logoutUser();
+            }
         });
     }
 

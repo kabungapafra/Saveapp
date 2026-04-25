@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.viewpager2.widget.ViewPager2;
 import com.example.save.R;
 import com.example.save.databinding.ActivityMemberInvitationOnboardingBinding;
@@ -18,6 +19,8 @@ public class MemberInvitationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Always show onboarding in light mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
         binding = ActivityMemberInvitationOnboardingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

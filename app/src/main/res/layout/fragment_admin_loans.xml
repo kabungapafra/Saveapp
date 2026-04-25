@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/white">
+            android:background="@color/card_surface">
 
             <ImageView
                 android:id="@+id/backButton"
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
-                android:background="#EEEEEE" />
+                android:background="@color/divider_color" />
         </RelativeLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -93,7 +93,7 @@
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/manrope"
                                 android:text="$45,000"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="32sp"
                                 android:textStyle="bold" />
 
@@ -112,7 +112,7 @@
                                     android:layout_height="match_parent"
                                     android:padding="12dp"
                                     android:src="@drawable/ic_account_balance_wallet"
-                                    app:tint="@color/white" />
+                                    app:tint="#FFFFFF" />
                             </com.google.android.material.card.MaterialCardView>
                         </RelativeLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="6dp"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="@color/white"
+                            app:cardBackgroundColor="@color/card_surface"
                             app:cardCornerRadius="14dp"
                             app:cardElevation="1dp"
                             app:strokeWidth="0dp">
@@ -165,7 +165,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="@color/white"
+                            app:cardBackgroundColor="@color/card_surface"
                             app:cardCornerRadius="14dp"
                             app:cardElevation="1dp"
                             app:strokeWidth="0dp">
@@ -204,7 +204,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="16dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/card_surface"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp"
                     app:strokeWidth="0dp">
@@ -304,7 +304,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="16dp"
-                    app:cardBackgroundColor="@color/v_page_bg"
+                    app:cardBackgroundColor="@color/v_input_bg"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="0dp">
@@ -367,7 +367,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:backgroundTint="@color/v_page_bg"
+                            android:backgroundTint="@color/v_input_bg"
                             android:text="Active"
                             android:textAllCaps="false"
                             android:textColor="@color/dashboard_text_secondary"
@@ -380,7 +380,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:backgroundTint="@color/v_page_bg"
+                            android:backgroundTint="@color/v_input_bg"
                             android:text="Pending"
                             android:textAllCaps="false"
                             android:textColor="@color/dashboard_text_secondary"
@@ -392,7 +392,7 @@
                             style="@style/Widget.MaterialComponents.Button.TextButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/v_page_bg"
+                            android:backgroundTint="@color/v_input_bg"
                             android:text="Late"
                             android:textAllCaps="false"
                             android:textColor="@color/dashboard_text_secondary"

@@ -115,7 +115,7 @@
                             android:layout_height="14dp"
                             android:layout_centerInParent="true"
                             android:src="@drawable/ic_pencil"
-                            app:tint="@color/white" />
+                            app:tint="#FFFFFF" />
                     </RelativeLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -288,7 +288,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:gravity="center"
                 android:text="Save Profile"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="15sp"
                 android:clickable="true"
                 android:focusable="true"/>

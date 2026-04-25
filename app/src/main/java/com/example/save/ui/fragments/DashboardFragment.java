@@ -108,7 +108,7 @@ public class DashboardFragment extends Fragment {
 
         binding.btnThemeToggle.setOnClickListener(v -> {
             applyClickAnimation(v);
-            com.example.save.utils.ThemeUtils.toggleTheme(requireContext());
+            com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "member");
         });
 
     }

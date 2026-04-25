@@ -100,7 +100,7 @@
                             android:layout_below="@id/tvHeroLabel"
                             android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-bold"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="28sp"
                             tools:text="Jane Doe" />
 
@@ -121,7 +121,7 @@
                                 android:fontFamily="sans-serif-bold"
                                 android:paddingHorizontal="14dp"
                                 android:paddingVertical="6dp"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="16sp"
                                 tools:text="UGX 500,000" />
 

@@ -52,7 +52,7 @@ public class NotificationsFragment extends Fragment {
             // Refresh mock data to show read state if needed
         });
 
-        view.findViewById(R.id.btnThemeToggle).setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext()));
+        view.findViewById(R.id.btnThemeToggle).setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "member"));
 
         adapter.setOnNotificationClickListener(n -> {
             // Placeholder for detail navigation

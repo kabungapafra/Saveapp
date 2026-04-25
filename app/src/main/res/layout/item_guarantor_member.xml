@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/circle_background"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 tools:text="MT"
@@ -91,7 +91,7 @@
                 android:background="@drawable/circle_background"
                 android:backgroundTint="#215DA1"
                 android:src="@drawable/ic_check"
-                app:tint="@color/white"
+                app:tint="#FFFFFF"
                 android:padding="6dp"
                 android:elevation="4dp"
                 android:visibility="gone"/>

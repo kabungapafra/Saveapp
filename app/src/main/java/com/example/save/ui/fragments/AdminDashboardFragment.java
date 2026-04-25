@@ -101,7 +101,7 @@ public class AdminDashboardFragment extends Fragment {
 
         binding.profileIcon.setOnClickListener(v -> {
             applyClickAnimation(v);
-            com.example.save.utils.ThemeUtils.toggleTheme(requireContext());
+            com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "admin");
         });
 
         binding.viewAllTargets.setOnClickListener(v -> {

@@ -216,7 +216,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:text="➤  Send Message"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="15sp"
                         app:backgroundTint="#215DA1"
                         app:cornerRadius="12dp"

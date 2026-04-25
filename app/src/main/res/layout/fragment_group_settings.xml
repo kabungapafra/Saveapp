@@ -696,7 +696,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:drawableStartCompat="@drawable/ic_moon"
+                            app:drawableStartCompat="@drawable/ic_theme_toggle"
                             app:drawableTint="#1E293B"
                             android:drawablePadding="12dp"
                             android:gravity="center_vertical" />

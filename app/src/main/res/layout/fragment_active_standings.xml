@@ -39,7 +39,7 @@
                             android:layout_centerInParent="true"
                             android:fontFamily="@font/manrope_bold"
                             android:text="U"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="14sp" />
                     </RelativeLayout>
                 </FrameLayout>
@@ -185,7 +185,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="84.2%"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="32sp"
                         android:textStyle="bold" />
 
@@ -218,7 +218,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="View Voters"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -286,7 +286,7 @@
                                     android:layout_centerInParent="true"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="SC"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="16sp" />
                             </RelativeLayout>
                             <TextView
@@ -298,7 +298,7 @@
                                 android:paddingHorizontal="6dp"
                                 android:paddingVertical="2dp"
                                 android:text="Leader"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="8sp"
                                 android:textStyle="bold" />
                         </FrameLayout>
@@ -408,7 +408,7 @@
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="MT"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
                         </RelativeLayout>
 
@@ -502,7 +502,7 @@
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="ER"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
                         </RelativeLayout>
 
@@ -596,7 +596,7 @@
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="DK"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
                         </RelativeLayout>
 
@@ -718,7 +718,7 @@
                                     android:layout_centerInParent="true"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="U"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="12sp" />
                             </RelativeLayout>
                         </RelativeLayout>
@@ -739,7 +739,7 @@
                                     android:layout_centerInParent="true"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="A"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="12sp" />
                             </RelativeLayout>
                         </RelativeLayout>
@@ -760,7 +760,7 @@
                                     android:layout_centerInParent="true"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="S"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="12sp" />
                             </RelativeLayout>
                         </RelativeLayout>

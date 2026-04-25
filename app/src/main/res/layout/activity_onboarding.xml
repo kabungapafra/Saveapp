@@ -67,7 +67,7 @@
         android:fontFamily="@font/manrope_bold"
         android:text="Next"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="#FFFFFF"
         android:textSize="17sp"
         app:backgroundTint="@null"
         app:cornerRadius="28dp"

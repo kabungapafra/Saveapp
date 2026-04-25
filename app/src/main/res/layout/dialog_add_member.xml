@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/v_page_bg"
     android:orientation="vertical">
 
     <!-- Top Navigation Bar -->
@@ -56,7 +56,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.01"
                 android:text="@string/full_name"
-                android:textColor="@color/text_slate_900"
+                android:textColor="@color/v_text_dark"
                 android:textSize="14sp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -65,12 +65,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:boxBackgroundColor="@color/slate_50"
+                app:boxBackgroundColor="@color/v_input_bg"
                 app:boxCornerRadiusBottomEnd="14dp"
                 app:boxCornerRadiusBottomStart="14dp"
                 app:boxCornerRadiusTopEnd="14dp"
                 app:boxCornerRadiusTopStart="14dp"
-                app:boxStrokeColor="@color/slate_200"
+                app:boxStrokeColor="@color/v_input_bg"
                 app:boxStrokeWidth="1dp"
                 app:boxStrokeWidthFocused="1.5dp"
                 app:hintEnabled="false"
@@ -84,7 +84,7 @@
                     android:fontFamily="@font/manrope_medium"
                     android:hint="@string/alexander_pierce_hint"
                     android:inputType="textPersonName"
-                    android:textColor="@color/text_slate_900"
+                    android:textColor="@color/v_text_dark"
                     android:textColorHint="@color/text_slate_400"
                     android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -97,7 +97,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.01"
                 android:text="@string/professional_email"
-                android:textColor="@color/text_slate_900"
+                android:textColor="@color/v_text_dark"
                 android:textSize="14sp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -106,12 +106,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:boxBackgroundColor="@color/slate_50"
+                app:boxBackgroundColor="@color/v_input_bg"
                 app:boxCornerRadiusBottomEnd="14dp"
                 app:boxCornerRadiusBottomStart="14dp"
                 app:boxCornerRadiusTopEnd="14dp"
                 app:boxCornerRadiusTopStart="14dp"
-                app:boxStrokeColor="@color/slate_200"
+                app:boxStrokeColor="@color/v_input_bg"
                 app:boxStrokeWidth="1dp"
                 app:boxStrokeWidthFocused="1.5dp"
                 app:hintEnabled="false"
@@ -125,7 +125,7 @@
                     android:fontFamily="@font/manrope_medium"
                     android:hint="@string/alex_email_hint"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/text_slate_900"
+                    android:textColor="@color/v_text_dark"
                     android:textColorHint="@color/text_slate_400"
                     android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -138,7 +138,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.01"
                 android:text="@string/phone_number"
-                android:textColor="@color/text_slate_900"
+                android:textColor="@color/v_text_dark"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -150,7 +150,7 @@
                 <LinearLayout
                     android:layout_width="86dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_input_add_member"
+                    android:background="@drawable/bg_input_bg_pill"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp">
@@ -160,7 +160,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="🇺🇬 +256"
-                            android:textColor="@color/text_slate_900"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="14sp" />
 
                     <ImageView
@@ -177,12 +177,12 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    app:boxBackgroundColor="@color/slate_50"
+                    app:boxBackgroundColor="@color/v_input_bg"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusTopStart="14dp"
-                    app:boxStrokeColor="@color/slate_200"
+                    app:boxStrokeColor="@color/v_input_bg"
                     app:boxStrokeWidth="1dp"
                     app:boxStrokeWidthFocused="1.5dp"
                     app:hintEnabled="false">
@@ -196,7 +196,7 @@
                         android:inputType="phone"
                         android:paddingTop="0dp"
                         android:paddingBottom="0dp"
-                        android:textColor="@color/text_slate_900"
+                        android:textColor="@color/v_text_dark"
                         android:textColorHint="@color/text_slate_400"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -210,7 +210,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.01"
                 android:text="@string/member_role"
-                android:textColor="@color/text_slate_900"
+                android:textColor="@color/v_text_dark"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -225,7 +225,7 @@
                     android:layout_height="145dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/card_surface"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:strokeColor="@color/brand_blue"
@@ -258,7 +258,7 @@
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/blue_50_circle" />
+                                android:background="@drawable/bg_input_bg_circle" />
 
                             <ImageView
                                 android:layout_width="20dp"
@@ -275,7 +275,7 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="@string/member"
-                            android:textColor="@color/text_slate_900"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toTopOf="@id/descMember"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -305,10 +305,10 @@
                     android:layout_height="145dp"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    app:cardBackgroundColor="@color/slate_50"
+                    app:cardBackgroundColor="@color/v_input_bg"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
-                    app:strokeColor="@color/slate_200"
+                    app:strokeColor="@color/divider_color"
                     app:strokeWidth="1dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -339,7 +339,7 @@
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/slate_50_circle" />
+                                android:background="@drawable/bg_input_bg_circle" />
 
                             <ImageView
                                 android:layout_width="20dp"
@@ -356,7 +356,7 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="@string/admin"
-                            android:textColor="@color/text_slate_900"
+                            android:textColor="@color/v_text_dark"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toTopOf="@id/descAdmin"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -391,7 +391,7 @@
         android:id="@+id/bottomContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/v_page_bg"
         android:elevation="8dp"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"

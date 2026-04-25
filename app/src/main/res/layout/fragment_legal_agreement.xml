@@ -107,7 +107,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_verified_user"
-                            app:tint="@color/white" />
+                            app:tint="#FFFFFF" />
                     </androidx.cardview.widget.CardView>
 
                     <LinearLayout

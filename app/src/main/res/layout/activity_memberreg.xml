@@ -28,7 +28,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="64dp"
             android:text="Member!"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -187,7 +187,7 @@
                 android:background="@drawable/gradient_button"
                 app:backgroundTint="@null"
                 android:text="SIGN IN"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.1" />

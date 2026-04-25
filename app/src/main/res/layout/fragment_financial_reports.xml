@@ -95,7 +95,7 @@
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
                         android:text="Monthly"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="14sp" />
                     <TextView
                         android:id="@+id/tabQuarterly"

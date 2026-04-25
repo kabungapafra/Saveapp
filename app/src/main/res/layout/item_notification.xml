@@ -113,7 +113,7 @@
                 android:paddingHorizontal="20dp"
                 android:text="View Details"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="13sp"
                 app:cornerRadius="12dp" />
 

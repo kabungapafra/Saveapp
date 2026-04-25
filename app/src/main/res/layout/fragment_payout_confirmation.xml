@@ -366,7 +366,7 @@
             app:iconGravity="textEnd"
             app:iconPadding="12dp"
             app:iconSize="20dp"
-            app:iconTint="@color/white" />
+            app:iconTint="#FFFFFF" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

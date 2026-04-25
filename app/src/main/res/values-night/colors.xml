@@ -57,6 +57,12 @@
     <color name="v_page_bg">#030712</color>
     <color name="v_text_dark">#F9FAFB</color>
     <color name="v_text_mid">#E5E7EB</color>
+    <color name="v_text_muted">#6B7280</color>
+    <color name="v_input_bg">#111827</color>
+    <color name="v_chip_bg">#1F2937</color>
+    <color name="v_blue">#3B82F6</color>
+    <color name="card_blue_start">#1E293B</color>
+    <color name="card_blue_end">#0F172A</color>
 
     <!-- Additional High-Fidelity Tokens for Dark Mode -->
     <color name="h_amber_bg">#451A03</color>
@@ -69,4 +75,6 @@
     <color name="h_green_700">#34D399</color>
     <color name="h_red_500">#EF4444</color>
     <color name="h_red_700">#F87171</color>
+    <!-- Nav dashed ring is gray in dark mode -->
+    <color name="nav_ring_color">#94A3B8</color>
 </resources>

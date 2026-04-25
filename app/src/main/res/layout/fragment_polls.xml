@@ -34,7 +34,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/bg_circle_white"
             android:padding="10dp"
-            android:src="@drawable/ic_moon"
+            android:src="@drawable/ic_theme_toggle"
             app:tint="#1E293B" />
     </RelativeLayout>
 

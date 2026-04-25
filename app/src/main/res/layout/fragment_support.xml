@@ -65,7 +65,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:padding="10dp"
-                    android:src="@drawable/ic_moon"
+                    android:src="@drawable/ic_theme_toggle"
                     app:tint="@color/v_text_dark" />
             </RelativeLayout>
 
@@ -82,7 +82,7 @@
                     android:layout_width="140dp"
                     android:layout_height="140dp"
                     android:layout_marginBottom="20dp"
-                    app:cardBackgroundColor="#D6E8FB"
+                    app:cardBackgroundColor="@color/v_input_bg"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="0dp">
@@ -131,10 +131,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#E8ECF0"
+                app:strokeColor="@color/divider_color"
                 app:strokeWidth="1dp">
 
                 <RelativeLayout
@@ -147,7 +147,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerVertical="true"
-                        app:cardBackgroundColor="#EBF3FD"
+                        app:cardBackgroundColor="@color/v_input_bg"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:strokeWidth="0dp">
@@ -217,10 +217,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#E8ECF0"
+                app:strokeColor="@color/divider_color"
                 app:strokeWidth="1dp">
 
                 <RelativeLayout
@@ -233,7 +233,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerVertical="true"
-                        app:cardBackgroundColor="#EBF3FD"
+                        app:cardBackgroundColor="@color/v_input_bg"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:strokeWidth="0dp">
@@ -290,10 +290,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#E8ECF0"
+                app:strokeColor="@color/divider_color"
                 app:strokeWidth="1dp">
 
                 <RelativeLayout
@@ -308,7 +308,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerVertical="true"
-                        app:cardBackgroundColor="#EBF3FD"
+                        app:cardBackgroundColor="@color/v_input_bg"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:strokeWidth="0dp">
@@ -395,7 +395,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="New to Save?"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="18sp" />
 
                         <TextView
@@ -419,7 +419,7 @@
                             android:paddingHorizontal="18dp"
                             android:text="Watch Video"
                             android:textAllCaps="false"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="13sp"
                             app:cornerRadius="18dp"
                             app:strokeColor="@color/white"

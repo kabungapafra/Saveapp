@@ -418,7 +418,7 @@
             app:icon="@drawable/ic_lock"
             app:iconGravity="textStart"
             app:iconPadding="12dp"
-            app:iconTint="@color/white"
+            app:iconTint="#FFFFFF"
             android:elevation="8dp"
             android:stateListAnimator="@null" />
 

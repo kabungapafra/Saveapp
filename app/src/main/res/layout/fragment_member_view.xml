@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-bold"
             android:text="Team Members"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textSize="24sp" />
 
         <TextView
@@ -71,7 +71,7 @@
                         android:alpha="0.8"
                         android:fontFamily="sans-serif-medium"
                         android:text="Total Portfolio Liquidity"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="14sp" />
 
                     <TextView
@@ -81,7 +81,7 @@
                         android:layout_marginTop="8dp"
                         android:fontFamily="sans-serif-black"
                         android:text="UGX 45,200,000"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="28sp" />
 
                     <LinearLayout
@@ -102,7 +102,7 @@
                                 android:layout_height="wrap_content"
                                 android:alpha="0.7"
                                 android:text="Growth Forecast"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="12sp" />
 
                             <TextView

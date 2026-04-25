@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
-    <solid android:color="#C8D3EE"/>
+    <solid android:color="@color/v_input_bg"/>
 </shape>

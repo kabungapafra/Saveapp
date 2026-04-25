@@ -308,7 +308,7 @@
                         android:background="@drawable/bg_pill_blue_solid"
                         android:text="Mark as Paid"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         app:backgroundTint="@null" />
                     <Button
                         android:layout_width="0dp"
@@ -414,7 +414,7 @@
                         android:background="@drawable/bg_pill_blue_solid"
                         android:text="Approve Payment"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         app:backgroundTint="@null" />
                     <Button
                         android:layout_width="0dp"
@@ -517,7 +517,7 @@
                         android:background="@drawable/bg_pill_blue_solid"
                         android:text="Mark as Paid"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         app:backgroundTint="@null" />
                     <Button
                         android:layout_width="0dp"

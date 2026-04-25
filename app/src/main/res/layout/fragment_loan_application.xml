@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEF0F5"
+    android:background="@color/v_page_bg"
     android:clipToPadding="false"
     android:paddingBottom="32dp">
 
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/card_surface"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
             app:cardUseCompatPadding="false">
@@ -133,7 +133,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#F0F0F0"
+                    android:background="@color/divider_color"
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="14dp" />
 
@@ -163,7 +163,7 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:text="6 Months"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/v_blue"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -175,9 +175,9 @@
                     android:layout_marginTop="14dp"
                     android:max="11"
                     android:progress="5"
-                    android:progressTint="#215DA1"
+                    android:progressTint="@color/v_blue"
                     android:thumb="@drawable/bg_avatar_blue"
-                    android:thumbTint="#215DA1"
+                    android:thumbTint="@color/v_blue"
                     android:progressBackgroundTint="#E2E5EA"
                     android:splitTrack="false" />
 
@@ -211,7 +211,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#F0F0F0"
+                    android:background="@color/divider_color"
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="14dp" />
 
@@ -243,7 +243,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#F0F0F0"
+                    android:background="@color/divider_color"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="16dp" />
 
@@ -279,14 +279,14 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:src="@drawable/ic_person_add"
-                            app:tint="#215DA1"
+                            app:tint="@color/v_blue"
                             android:layout_marginEnd="4dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Add Guarantor"
-                            android:textColor="#215DA1"
+                            android:textColor="@color/v_blue"
                             android:textSize="13sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -324,7 +324,7 @@
                                 android:background="@drawable/bg_avatar_blue"
                                 android:gravity="center"
                                 android:text="JD"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="10sp"
                                 android:textStyle="bold"
                                 android:layout_marginEnd="8dp" />
@@ -367,7 +367,7 @@
                                 android:background="@drawable/bg_avatar_purple"
                                 android:gravity="center"
                                 android:text="MK"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="10sp"
                                 android:textStyle="bold"
                                 android:layout_marginEnd="8dp" />
@@ -448,14 +448,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Interest Rate (15%)"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvSummaryInterest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         tools:text="UGX 150,000" />
@@ -473,7 +473,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Processing Fee"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="14sp" />
 
                     <TextView
@@ -481,7 +481,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="UGX 25,000"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -521,7 +521,7 @@
                             android:id="@+id/tvSummaryTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="26sp"
                             android:textStyle="bold"
                             tools:text="UGX 1,175,000" />
@@ -548,7 +548,7 @@
                             android:id="@+id/tvSummaryMonthly"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="#FFFFFF"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="UGX 195,833" />
@@ -564,11 +564,11 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@android:color/transparent"
             android:background="@drawable/bg_loan_submit_btn"
+            app:backgroundTint="@null"
             android:text="Submit Loan Request  →"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
             android:stateListAnimator="@null"

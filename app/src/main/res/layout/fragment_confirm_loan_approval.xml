@@ -352,7 +352,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="Confirm Approval"
-                    android:textColor="@color/white"
+                    android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -361,7 +361,7 @@
                     android:layout_height="18dp"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/ic_check"
-                    app:tint="@color/white" />
+                    app:tint="#FFFFFF" />
             </LinearLayout>
 
             <TextView

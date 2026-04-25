@@ -45,7 +45,7 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/manrope_bold"
                         android:text="1"
-                        android:textColor="@color/white"
+                        android:textColor="#FFFFFF"
                         android:textSize="11sp" />
                 </com.google.android.material.card.MaterialCardView>
             </RelativeLayout>

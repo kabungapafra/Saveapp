@@ -67,7 +67,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_moon"
+                        android:src="@drawable/ic_theme_toggle"
                         app:tint="#FFFFFF" />
                 </FrameLayout>
 

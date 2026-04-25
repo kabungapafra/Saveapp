@@ -1,6 +1,9 @@
 package com.example.save.ui.fragments;
+import com.example.save.utils.ThemeUtils;
+import com.example.save.utils.SessionManager;
 
 import android.annotation.SuppressLint;
+import com.example.save.utils.ThemeUtils;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,10 +51,23 @@ public class LiveChatFragment extends Fragment {
 
         webView.addJavascriptInterface(new WebAppInterface(), "AndroidBridge");
 
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                applyTheme();
+            }
+        });
         webView.setWebChromeClient(new WebChromeClient());
-
         webView.loadUrl("file:///android_asset/support_live_chat.html");
+    }
+
+    private void applyTheme() {
+        if (getContext() == null || webView == null) return;
+        String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
+        boolean isDark = ThemeUtils.isDarkMode(getContext(), role);
+        String theme = isDark ? "dark" : "light";
+        webView.evaluateJavascript("document.documentElement.setAttribute('data-theme', '" + theme + "');", null);
     }
 
     private class WebAppInterface {

@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-bold"
             android:text="12"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textSize="22sp" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_marginTop="4dp"
             android:fontFamily="sans-serif-medium"
             android:text="Wed"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textSize="12sp" />
 
     </LinearLayout>

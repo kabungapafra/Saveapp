@@ -129,7 +129,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-black"
                                     android:text="0%"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="22sp" />
 
                                 <TextView
@@ -179,7 +179,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-black"
                                     android:text="UGX 0"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="14sp" />
                             </LinearLayout>
 
@@ -203,7 +203,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-black"
                                     android:text="1,000,000"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFFFFF"
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -584,7 +584,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_loan"
-                                app:tint="@color/white" />
+                                app:tint="#FFFFFF" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -592,7 +592,7 @@
                                 android:layout_marginStart="12dp"
                                 android:fontFamily="sans-serif-black"
                                 android:text="STASH LOAN"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="18sp"
                                 android:letterSpacing="0.05" />
                         </LinearLayout>
@@ -633,7 +633,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="8dp"
                                 android:text="REPAY LOAN"
-                                android:textColor="@color/white"
+                                android:textColor="#FFFFFF"
                                 android:textSize="13sp"
                                 android:fontFamily="sans-serif-black"
                                 app:strokeColor="@color/white"
@@ -679,7 +679,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Payment Successful!"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 

@@ -40,7 +40,7 @@ public class MemberMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMemberMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        com.example.save.utils.ThemeUtils.applyTheme(this);
+        com.example.save.utils.ThemeUtils.applyTheme(this, "member");
         getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
 
         new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
@@ -214,6 +214,15 @@ public class MemberMainActivity extends AppCompatActivity {
             if (actionAddMember != null) actionAddMember.setVisibility(View.GONE);
             if (actionAnalysis != null) actionAnalysis.setVisibility(View.GONE);
             if (actionApprovals != null) actionApprovals.setVisibility(View.GONE);
+
+            // 4. Theme Toggle
+            View actionTheme = overlay.findViewById(R.id.cardThemeOverlay);
+            if (actionTheme != null) {
+                actionTheme.setOnClickListener(v -> {
+                    hideQuickActions();
+                    com.example.save.utils.ThemeUtils.toggleTheme(this, "member");
+                });
+            }
         }
     }
 
@@ -227,7 +236,7 @@ public class MemberMainActivity extends AppCompatActivity {
         // Update Theme Label
         TextView themeLabel = overlayRoot.findViewById(R.id.tvThemeLabelOverlay);
         if (themeLabel != null) {
-            themeLabel.setText(com.example.save.utils.ThemeUtils.isDarkMode(this) ? "Switch to Light Mode" : "Switch to Dark Mode");
+            themeLabel.setText(com.example.save.utils.ThemeUtils.isDarkMode(this, "member") ? "Switch to Light Mode" : "Switch to Dark Mode");
         }
 
         // Animate FAB - Rotate Plus to X

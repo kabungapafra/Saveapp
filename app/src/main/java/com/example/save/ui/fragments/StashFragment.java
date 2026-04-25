@@ -41,7 +41,7 @@ public class StashFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.btnThemeToggle).setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext()));
+        view.findViewById(R.id.btnThemeToggle).setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "member"));
 
         return view;
     }
