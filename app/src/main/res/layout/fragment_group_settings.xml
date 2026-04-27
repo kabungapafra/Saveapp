@@ -26,7 +26,7 @@
             android:paddingHorizontal="12dp"
             android:paddingVertical="4dp"
             android:text="ACTIVE CYCLE"
-            android:textColor="#215DA1"
+            android:textColor="@color/brand_blue"
             android:textSize="11sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -84,7 +84,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.1"
                 android:text="FINANCIAL RULES"
-                android:textColor="#215DA1"
+                android:textColor="@color/brand_blue"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -160,7 +160,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_calendar_month"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -203,7 +203,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_clock_orange"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -246,7 +246,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_trending_up"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -319,7 +319,7 @@
                         app:layout_constraintEnd_toEndOf="@id/bgIconPayouts"
                         app:layout_constraintStart_toStartOf="@id/bgIconPayouts"
                         app:layout_constraintTop_toTopOf="@id/bgIconPayouts"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -344,7 +344,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Frequency: Weekly"
-                            android:textColor="#215DA1"
+                            android:textColor="@color/brand_blue"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -357,7 +357,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:thumbTint="@color/white"
-                        app:trackTint="#215DA1" />
+                        app:trackTint="@color/brand_blue" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -396,7 +396,7 @@
                         app:layout_constraintEnd_toEndOf="@id/bgIconContributions"
                         app:layout_constraintStart_toStartOf="@id/bgIconContributions"
                         app:layout_constraintTop_toTopOf="@id/bgIconContributions"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -421,7 +421,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Next: Oct 24, 2023"
-                            android:textColor="#215DA1"
+                            android:textColor="@color/brand_blue"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -434,7 +434,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:thumbTint="@color/white"
-                        app:trackTint="#215DA1" />
+                        app:trackTint="@color/brand_blue" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -473,7 +473,7 @@
                         app:layout_constraintEnd_toEndOf="@id/bgIconRoundups"
                         app:layout_constraintStart_toStartOf="@id/bgIconRoundups"
                         app:layout_constraintTop_toTopOf="@id/bgIconRoundups"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -511,7 +511,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:thumbTint="@color/white"
-                        app:trackTint="#215DA1" />
+                        app:trackTint="@color/brand_blue" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -576,7 +576,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:thumbTint="@color/white"
-                            app:trackTint="#215DA1" />
+                            app:trackTint="@color/brand_blue" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <!-- Loan Request Permissions Row -->
@@ -608,7 +608,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:thumbTint="@color/white"
-                            app:trackTint="#215DA1" />
+                            app:trackTint="@color/brand_blue" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                      <!-- Invite Others Row -->
@@ -626,7 +626,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="Invite Others to Group"
-                            android:textColor="#215DA1"
+                            android:textColor="@color/brand_blue"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -642,7 +642,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -741,7 +741,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:thumbTint="@color/white"
-                            app:trackTint="#215DA1" />
+                            app:trackTint="@color/brand_blue" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

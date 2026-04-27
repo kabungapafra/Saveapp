@@ -48,7 +48,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_theme_toggle"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -63,7 +63,7 @@
                         android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_notifications"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
                     <View
                         android:id="@+id/notificationIndicator"
                         android:layout_width="8dp"

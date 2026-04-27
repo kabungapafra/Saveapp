@@ -499,7 +499,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_schedule"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
                     </FrameLayout>
 
                     <LinearLayout

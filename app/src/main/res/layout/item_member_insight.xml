@@ -57,7 +57,7 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="2dp"
             android:text="VIP"
-            android:textColor="#215DA1"
+            android:textColor="@color/brand_blue"
             android:textSize="10sp" />
     </FrameLayout>
 

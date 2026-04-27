@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="$12,450.00"
-                    android:textColor="#215DA1"
+                    android:textColor="@color/brand_blue"
                     android:textSize="12sp" />
             </LinearLayout>
 

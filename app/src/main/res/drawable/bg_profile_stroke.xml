@@ -3,5 +3,5 @@
     android:shape="oval">
     <stroke
         android:width="2dp"
-        android:color="#215DA1" />
+        android:color="@color/brand_blue" />
 </shape>

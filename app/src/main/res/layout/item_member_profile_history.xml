@@ -39,7 +39,7 @@
                 android:layout_height="12dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_money"
-                app:tint="#215DA1" />
+                app:tint="@color/brand_blue" />
 
         </com.google.android.material.card.MaterialCardView>
 

@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="INVEST &amp; SAVE CLUB"
-                    android:textColor="#215DA1"
+                    android:textColor="@color/brand_blue"
                     android:textSize="11sp"
                     android:letterSpacing="0.05"/>
             </LinearLayout>
@@ -79,7 +79,7 @@
                 android:layout_height="44dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:backgroundTint="#215DA1"
+                android:backgroundTint="@color/brand_blue"
                 android:fontFamily="@font/manrope_bold"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
@@ -172,7 +172,7 @@
                         android:gravity="center"
                         android:fontFamily="@font/manrope_bold"
                         android:text="All Members (42)"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="12sp" />
 
                     <TextView
@@ -224,7 +224,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text="View 37 more members"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="14sp" />
 
                     <ImageView
@@ -232,7 +232,7 @@
                         android:layout_height="20dp"
                         android:layout_marginStart="4dp"
                         android:src="@drawable/ic_keyboard_arrow_down"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
                 </LinearLayout>
 
                 <!-- Technical Insights Section -->
@@ -243,7 +243,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:fontFamily="@font/manrope_bold"
                     android:text="TECHNICAL INSIGHTS"
-                    android:textColor="#215DA1"
+                    android:textColor="@color/brand_blue"
                     android:letterSpacing="0.1"
                     android:textSize="11sp" />
 

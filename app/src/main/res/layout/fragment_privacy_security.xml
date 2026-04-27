@@ -111,7 +111,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
                 android:text="AUTHENTICATION"
-                android:textColor="#215DA1"
+                android:textColor="@color/brand_blue"
                 android:textSize="12sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -152,7 +152,7 @@
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_refresh"
-                                app:tint="#215DA1" />
+                                app:tint="@color/brand_blue" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -211,7 +211,7 @@
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_shield_auth"
-                                app:tint="#215DA1" />
+                                app:tint="@color/brand_blue" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -243,7 +243,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="#215DA1"
+                            app:thumbTint="@color/brand_blue"
                             app:trackTint="#E9F2FB" />
                     </LinearLayout>
                 </LinearLayout>
@@ -257,7 +257,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
                 android:text="ACCESS CONTROL"
-                android:textColor="#215DA1"
+                android:textColor="@color/brand_blue"
                 android:textSize="12sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -298,7 +298,7 @@
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_devices_connected"
-                                app:tint="#215DA1" />
+                                app:tint="@color/brand_blue" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -357,7 +357,7 @@
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_fingerprint_auth"
-                                app:tint="#215DA1" />
+                                app:tint="@color/brand_blue" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -389,7 +389,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="#215DA1"
+                            app:thumbTint="@color/brand_blue"
                             app:trackTint="#E9F2FB" />
                     </LinearLayout>
                 </LinearLayout>
@@ -403,7 +403,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
                 android:text="PRIVACY &amp; DATA"
-                android:textColor="#215DA1"
+                android:textColor="@color/brand_blue"
                 android:textSize="12sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -438,7 +438,7 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_visibility_off"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
                     </FrameLayout>
 
                     <LinearLayout

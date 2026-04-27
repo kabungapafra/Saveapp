@@ -169,7 +169,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:progress="85"
-                            app:indicatorColor="#215DA1"
+                            app:indicatorColor="@color/brand_blue"
                             app:trackColor="#E9F2FB"
                             app:trackCornerRadius="4dp"
                             app:trackThickness="4dp" />

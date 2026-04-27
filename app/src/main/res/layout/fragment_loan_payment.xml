@@ -24,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#215DA1" />
+            app:tint="@color/brand_blue" />
 
         <ImageView
             android:id="@+id/logo"
@@ -46,7 +46,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#215DA1" />
+            app:tint="@color/brand_blue" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:indicatorColor="#215DA1"
+                    app:indicatorColor="@color/brand_blue"
                     app:indicatorSize="240dp"
                     app:trackColor="#E1EAFE"
                     app:trackThickness="16dp"
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text="UGX"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="15sp" />
 
                     <TextView
@@ -197,7 +197,7 @@
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
                         android:text="MAX"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="12sp" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -312,7 +312,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:buttonTint="#215DA1"
+                    android:buttonTint="@color/brand_blue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -413,7 +413,7 @@
             android:text="Pay Now"
             android:textAllCaps="false"
             android:textSize="18sp"
-            app:backgroundTint="#215DA1"
+            app:backgroundTint="@color/brand_blue"
             app:cornerRadius="16dp"
             app:icon="@drawable/ic_lock"
             app:iconGravity="textStart"

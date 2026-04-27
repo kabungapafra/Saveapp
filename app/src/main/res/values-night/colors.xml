@@ -8,6 +8,10 @@
     <color name="deep_blue">#3B82F6</color> <!-- Desaturated blue for dark mode -->
     <color name="splash_blue">#111827</color>
     <color name="bottom_nav_color">#1F2937</color>
+    <color name="project_primary">#3B82F6</color>
+    <color name="brand_blue">#3B82F6</color>
+    <color name="project_light">#60A5FA</color>
+    <color name="project_dark">#1D4ED8</color>
     
     <color name="background_gray">#030712</color>
     <color name="background_primary">#030712</color>
@@ -43,6 +47,8 @@
     <color name="h_blue_100">#1F2937</color>
     <color name="h_blue_600">#1E293B</color>
     <color name="dashboard_blue_header">#0F172A</color>
+    <color name="text_slate_900">#F9FAFB</color>
+    <color name="text_slate_400">#94A3B8</color>
     
     <!-- Neumorphic Shadows for Dark Mode -->
     <color name="neumorphic_bg">#030712</color>
@@ -63,6 +69,8 @@
     <color name="v_blue">#3B82F6</color>
     <color name="card_blue_start">#1E293B</color>
     <color name="card_blue_end">#0F172A</color>
+    <color name="v_status_bg_success">#064E3B</color>
+    <color name="v_text_success">#34D399</color>
 
     <!-- Additional High-Fidelity Tokens for Dark Mode -->
     <color name="h_amber_bg">#451A03</color>

@@ -41,7 +41,7 @@
                 android:layout_width="24dp"
                 android:layout_height="6dp"
                 android:background="@drawable/bg_pill_tab_selected"
-                android:backgroundTint="#215DA1"
+                android:backgroundTint="@color/brand_blue"
                 android:layout_marginHorizontal="4dp" />
             
             <View
@@ -73,7 +73,7 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:fontFamily="@font/manrope_bold"
-            app:backgroundTint="#215DA1"
+            app:backgroundTint="@color/brand_blue"
             app:cornerRadius="16dp"
             app:layout_constraintTop_toBottomOf="@id/pagerIndicators" />
 

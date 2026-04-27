@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@color/white"
+            android:background="@color/card_surface"
             android:paddingHorizontal="8dp">
 
             <ImageView
@@ -332,7 +332,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/v_page_bg"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
             android:paddingVertical="16dp">

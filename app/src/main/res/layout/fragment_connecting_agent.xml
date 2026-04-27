@@ -205,7 +205,8 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/ic_shield_blue" />
+                        android:src="@drawable/ic_shield_blue"
+                        app:tint="@color/v_blue" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -267,6 +268,7 @@
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:background="@drawable/bg_input_bg_pill"
+            android:backgroundTint="@color/v_input_bg"
             android:gravity="center"
             android:orientation="horizontal">
 

@@ -105,8 +105,8 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void setupRefreshLayout() {
-        binding.swipeRefreshLayout.setColorSchemeColors(Color.TRANSPARENT);
-        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.TRANSPARENT);
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.brand_blue);
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white);
         
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
             // Start spinning the dotted circle
@@ -328,10 +328,13 @@ public class AdminMainActivity extends AppCompatActivity {
             loadFragment(new ApprovalsFragment(), true);
         });
 
-        findViewById(R.id.cardThemeOverlay).setOnClickListener(v -> {
-            closeQuickActions();
-            com.example.save.utils.ThemeUtils.toggleTheme(this, "admin");
-        });
+        View themeAction = findViewById(R.id.cardThemeOverlay);
+        if (themeAction != null) {
+            themeAction.setOnClickListener(v -> {
+                closeQuickActions();
+                com.example.save.utils.ThemeUtils.toggleTheme(this, "admin");
+            });
+        }
     }
 
     private void closeQuickActions() {

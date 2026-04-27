@@ -5,7 +5,7 @@
     android:viewportHeight="24">
     <!-- Blue safe/wallet icon with lock detail -->
     <path
-        android:fillColor="#215DA1"
+        android:fillColor="@color/brand_blue"
         android:pathData="M19,5H5C3.89,5 3,5.89 3,7v10c0,1.11 0.89,2 2,2h14c1.11,0 2,-0.89 2,-2V7C21,5.89 20.11,5 19,5zM17,14c-1.1,0 -2,-0.9 -2,-2s0.9,-2 2,-2 2,0.9 2,2 -0.9,2 -2,2z" />
     <path
         android:fillColor="#ffffff"

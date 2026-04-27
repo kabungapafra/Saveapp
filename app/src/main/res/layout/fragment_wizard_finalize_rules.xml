@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:text="100% Complete"
-            android:textColor="#215DA1"
+            android:textColor="@color/brand_blue"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/tvStepLabel"
@@ -142,7 +142,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:text="Rules define your group’s success"
-                    android:textColor="#215DA1"
+                    android:textColor="@color/brand_blue"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -356,7 +356,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#215DA1" />
+                    app:tint="@color/brand_blue" />
 
                 <TextView
                     android:id="@+id/tvRemindersLabel"
@@ -388,7 +388,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:thumbTint="#215DA1"
+                    app:thumbTint="@color/brand_blue"
                     app:trackTint="#E9F2FB" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -404,7 +404,7 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="#215DA1"
+            app:backgroundTint="@color/brand_blue"
             app:cornerRadius="16dp"
             app:icon="@null"
             app:layout_constraintEnd_toEndOf="@id/remindersCard"

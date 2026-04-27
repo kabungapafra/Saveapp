@@ -53,14 +53,14 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_handshake_blue"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="PAYOUT"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -107,14 +107,14 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_account_balance_wallet"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="RETENTION"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>

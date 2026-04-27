@@ -87,7 +87,7 @@
                                 android:layout_height="22dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_shield_auth"
-                                app:tint="#215DA1" />
+                                app:tint="@color/brand_blue" />
                         </FrameLayout>
 
                         <TextView
@@ -170,7 +170,7 @@
                 android:layout_marginTop="48dp"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Already a member? Log in"
-                android:textColor="#215DA1"
+                android:textColor="@color/brand_blue"
                 android:textSize="15sp" />
 
             <!-- Version Footer -->

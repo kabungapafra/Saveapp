@@ -110,8 +110,8 @@ public class MemberMainActivity extends AppCompatActivity {
     }
 
     private void setupRefreshLayout() {
-        binding.swipeRefreshLayout.setColorSchemeColors(Color.TRANSPARENT);
-        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.TRANSPARENT);
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.brand_blue);
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white);
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
             startRingSpinning();

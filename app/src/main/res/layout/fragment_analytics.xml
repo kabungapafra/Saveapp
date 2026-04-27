@@ -30,7 +30,7 @@
                 android:background="@drawable/bg_input_bg_circle"
                 android:padding="10dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="#1E293B" />
+                app:tint="@color/v_text_dark" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_theme_toggle"
-                    app:tint="#1E293B" />
+                    app:tint="@color/v_text_dark" />
             </FrameLayout>
         </RelativeLayout>
 
@@ -79,7 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="16dp"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="6dp"
                     app:strokeWidth="0dp">
@@ -107,12 +108,12 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:alpha="0.75"
-                                    android:fontFamily="@font/manrope_medium"
-                                    android:text="TOTAL PORTFOLIO LIQUIDITY"
-                                    android:textColor="#FFFFFF"
-                                    android:textSize="11sp"
-                                    android:letterSpacing="0.08" />
+                                    android:text="TOTAL GROUP STASH"
+                                    android:textColor="@color/permanent_white"
+                                    android:textSize="12sp"
+                                    android:letterSpacing="0.08"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:alpha="0.8" />
 
                                 <TextView
                                     android:id="@+id/tvTotalLiquidity"
@@ -121,7 +122,7 @@
                                     android:layout_marginTop="6dp"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="UGX 45,200,000"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/permanent_white"
                                     android:textSize="30sp" />
 
                                 <TextView
@@ -131,7 +132,7 @@
                                     android:alpha="0.75"
                                     android:fontFamily="@font/manrope_medium"
                                     android:text="78% with projections keeping on target for\nFY25 goals"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/permanent_white"
                                     android:textSize="11sp" />
                             </LinearLayout>
 
@@ -141,9 +142,9 @@
                                 android:layout_width="56dp"
                                 android:layout_height="56dp"
                                 android:progress="78"
-                                app:indicatorColor="#4ADE80"
+                                app:indicatorColor="@color/h_green_600"
                                 app:indicatorSize="56dp"
-                                app:trackColor="#33FFFFFF"
+                                app:trackColor="@color/v_input_bg"
                                 app:trackThickness="5dp" />
                         </LinearLayout>
 
@@ -152,7 +153,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginVertical="20dp"
-                            android:background="#33FFFFFF" />
+                            android:background="@color/divider_color" />
 
                         <!-- Export Buttons -->
                         <LinearLayout
@@ -167,18 +168,18 @@
                                 android:layout_height="48dp"
                                 android:layout_marginEnd="8dp"
                                 android:layout_weight="1"
-                                android:backgroundTint="@color/white"
+                                android:backgroundTint="@color/v_input_bg"
                                 android:fontFamily="@font/manrope_bold"
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"
                                 android:text="Export PDF"
                                 android:textAllCaps="false"
-                                android:textColor="#215DA1"
+                                android:textColor="@color/v_blue"
                                 android:textSize="13sp"
                                 app:cornerRadius="24dp"
                                 app:icon="@drawable/ic_pdf_export"
                                 app:iconSize="18dp"
-                                app:iconTint="#215DA1" />
+                                app:iconTint="@color/v_blue" />
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btnExcelReport"
@@ -186,7 +187,7 @@
                                 android:layout_height="48dp"
                                 android:layout_marginStart="8dp"
                                 android:layout_weight="1"
-                                android:backgroundTint="#F97316"
+                                android:backgroundTint="@color/dashboard_accent_orange"
                                 android:fontFamily="@font/manrope_bold"
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"
@@ -231,13 +232,13 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:background="@drawable/bg_input_bg_circle"
-                                android:backgroundTint="#E9F2FB">
+                                android:backgroundTint="@color/v_input_bg">
                                 <ImageView
                                     android:layout_width="16dp"
                                     android:layout_height="16dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_people"
-                                    app:tint="#215DA1" />
+                                    app:tint="@color/v_blue" />
                             </FrameLayout>
 
                             <TextView
@@ -267,7 +268,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="3.2% growth from last quarter"
-                            android:textColor="#10B981"
+                            android:textColor="@color/h_green_600"
                             android:textSize="11sp" />
 
                         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -276,8 +277,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:progress="85"
-                            app:indicatorColor="#215DA1"
-                            app:trackColor="#E9F2FB"
+                            app:indicatorColor="@color/v_blue"
+                            app:trackColor="@color/v_input_bg"
                             app:trackCornerRadius="4dp"
                             app:trackThickness="8dp" />
                     </LinearLayout>
@@ -310,13 +311,13 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:background="@drawable/bg_input_bg_circle"
-                                android:backgroundTint="#D1FAE5">
+                                android:backgroundTint="@color/v_input_bg">
                                 <ImageView
                                     android:layout_width="16dp"
                                     android:layout_height="16dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_trending_up"
-                                    app:tint="#10B981" />
+                                    app:tint="@color/h_green_600" />
                             </FrameLayout>
 
                             <TextView
@@ -356,7 +357,7 @@
                                 android:paddingHorizontal="8dp"
                                 android:paddingVertical="2dp"
                                 android:text="+12.5%"
-                                android:textColor="#10B981"
+                                android:textColor="@color/h_green_600"
                                 android:textSize="11sp" />
                         </LinearLayout>
 
@@ -366,7 +367,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="11.2% YoY interest accumulation"
-                            android:textColor="#10B981"
+                            android:textColor="@color/h_green_600"
                             android:textSize="11sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -396,7 +397,7 @@
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
                             android:background="@drawable/bg_pill_orange"
-                            android:backgroundTint="#F59E0B" />
+                            android:backgroundTint="@color/dashboard_accent_orange" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -415,13 +416,13 @@
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
                                     android:background="@drawable/bg_input_bg_circle"
-                                    android:backgroundTint="#FEF3C7">
+                                    android:backgroundTint="@color/v_input_bg">
                                     <ImageView
                                         android:layout_width="16dp"
                                         android:layout_height="16dp"
                                         android:layout_gravity="center"
                                         android:src="@drawable/ic_trending_up"
-                                        app:tint="#F59E0B" />
+                                        app:tint="@color/dashboard_accent_orange" />
                                 </FrameLayout>
 
                                 <TextView
@@ -516,19 +517,19 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="94%"
-                                    android:textColor="#10B981"
+                                    android:textColor="@color/h_green_600"
                                     android:textSize="28sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/bg_badge_success"
-                                    android:backgroundTint="#D1FAE5"
+                                    android:backgroundTint="@color/h_green_100"
                                     android:fontFamily="@font/manrope_bold"
                                     android:paddingHorizontal="10dp"
                                     android:paddingVertical="3dp"
                                     android:text="EXCELLENT"
-                                    android:textColor="#10B981"
+                                    android:textColor="@color/h_green_600"
                                     android:textSize="9sp"
                                     android:letterSpacing="0.1" />
                             </LinearLayout>
@@ -563,7 +564,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="68%"
-                                android:textColor="#215DA1"
+                                android:textColor="@color/v_blue"
                                 android:textSize="13sp" />
                         </LinearLayout>
 
@@ -574,8 +575,8 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="14dp"
                             android:progress="68"
-                            app:indicatorColor="#60A5FA"
-                            app:trackColor="#E9F2FB"
+                            app:indicatorColor="@color/v_blue"
+                            app:trackColor="@color/v_input_bg"
                             app:trackCornerRadius="4dp"
                             app:trackThickness="8dp" />
 
@@ -601,7 +602,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="82%"
-                                android:textColor="#F59E0B"
+                                android:textColor="@color/dashboard_accent_orange"
                                 android:textSize="13sp" />
                         </LinearLayout>
 
@@ -612,8 +613,8 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="14dp"
                             android:progress="82"
-                            app:indicatorColor="#F59E0B"
-                            app:trackColor="#FFFBEB"
+                            app:indicatorColor="@color/dashboard_accent_orange"
+                            app:trackColor="@color/v_input_bg"
                             app:trackCornerRadius="4dp"
                             app:trackThickness="8dp" />
 
@@ -639,7 +640,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="91%"
-                                android:textColor="#10B981"
+                                android:textColor="@color/h_green_600"
                                 android:textSize="13sp" />
                         </LinearLayout>
 
@@ -650,8 +651,8 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="14dp"
                             android:progress="91"
-                            app:indicatorColor="#10B981"
-                            app:trackColor="#ECFDF5"
+                            app:indicatorColor="@color/dashboard_accent_green"
+                            app:trackColor="@color/v_input_bg"
                             app:trackCornerRadius="4dp"
                             app:trackThickness="8dp" />
 
@@ -659,7 +660,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/v_input_bg"
+                            android:background="@color/v_page_bg"
                             android:fontFamily="@font/manrope_medium"
                             android:text="Analysis: The group maintains high financial integrity with minimal default risk. Contributions are solidly in the top 5th percentile of similar-size portfolios."
                             android:textColor="@color/v_text_mid"
@@ -765,7 +766,7 @@
                                 android:gravity="center"
                                 android:fontFamily="@font/manrope_medium"
                                 android:text="Forecast"
-                                android:textColor="#215DA1"
+                                android:textColor="@color/v_blue"
                                 android:textSize="10sp" />
                         </LinearLayout>
 
@@ -789,7 +790,7 @@
                                 android:layout_marginTop="2dp"
                                 android:layout_marginEnd="12dp"
                                 android:src="@drawable/ic_trending_up"
-                                app:tint="#F59E0B" />
+                                app:tint="@color/dashboard_accent_orange" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -831,7 +832,7 @@
                                 android:layout_marginTop="2dp"
                                 android:layout_marginEnd="12dp"
                                 android:src="@drawable/ic_check_circle"
-                                app:tint="#215DA1" />
+                                app:tint="@color/brand_blue" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -903,7 +904,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:padding="4dp"
                                 android:text="View All"
-                                android:textColor="#215DA1"
+                                android:textColor="@color/v_blue"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -971,7 +972,7 @@
                     android:layout_marginTop="14dp"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="0dp"
-                    app:strokeColor="#E2E8F0"
+                    app:strokeColor="@color/divider_color"
                     app:strokeWidth="1.5dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -998,7 +999,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_history"
-                                app:tint="#215DA1" />
+                                app:tint="@color/v_blue" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout
@@ -1033,13 +1034,13 @@
                             android:layout_height="36dp"
                             android:layout_marginStart="12dp"
                             android:background="@drawable/bg_circle_white"
-                            android:backgroundTint="#E9F2FB">
+                            android:backgroundTint="@color/h_blue_50">
                             <ImageView
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="#215DA1" />
+                                app:tint="@color/v_blue" />
                         </FrameLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

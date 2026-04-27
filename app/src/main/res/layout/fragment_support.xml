@@ -92,7 +92,7 @@
                         android:layout_height="72dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_headset"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -157,7 +157,7 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_book"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
@@ -243,7 +243,7 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_warning"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
@@ -318,7 +318,7 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_faq"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
@@ -371,7 +371,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#215DA1">
+                    android:background="@color/brand_blue">
 
                     <!-- Ghost play triangle - right side decorative -->
                     <ImageView

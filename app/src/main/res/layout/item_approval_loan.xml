@@ -54,7 +54,7 @@
             android:layout_marginTop="2dp"
             android:fontFamily="@font/manrope_bold"
             android:text="$0.00"
-            android:textColor="#215DA1"
+            android:textColor="@color/brand_blue"
             android:textSize="17sp" />
 
         <View
@@ -117,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
                     android:text="Sovereign Elite"
-                    android:textColor="#215DA1"
+                    android:textColor="@color/brand_blue"
                     android:textSize="12sp" />
             </LinearLayout>
 

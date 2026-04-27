@@ -89,7 +89,7 @@
                 android:layout_height="28dp"
                 android:layout_gravity="center"
                 android:background="@drawable/circle_background"
-                android:backgroundTint="#215DA1"
+                android:backgroundTint="@color/brand_blue"
                 android:src="@drawable/ic_check"
                 app:tint="#FFFFFF"
                 android:padding="6dp"

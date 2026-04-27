@@ -3,7 +3,7 @@
     <!-- Shadow (simulated with a gray shape shifted slightly) -->
     <item android:top="1dp" android:bottom="-1dp">
         <shape android:shape="rectangle">
-            <solid android:color="#E0E0E0" />
+            <solid android:color="@android:color/transparent" />
             <corners android:radius="50dp" />
         </shape>
     </item>

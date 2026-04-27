@@ -116,7 +116,7 @@
                 android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_shield"
-                app:tint="#215DA1" />
+                app:tint="@color/brand_blue" />
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

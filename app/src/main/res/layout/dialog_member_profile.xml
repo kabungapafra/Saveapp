@@ -7,7 +7,7 @@
     android:layout_margin="24dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="8dp"
-    app:cardBackgroundColor="@android:color/white">
+    app:cardBackgroundColor="@color/card_surface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="John Doe"
-                android:textColor="@color/black"
+                android:textColor="@color/v_text_dark"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -60,11 +60,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/bg_role_badge"
-                android:backgroundTint="#E8EAF6"
+                android:backgroundTint="@color/v_input_bg"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
                 android:text="Member"
-                android:textColor="#3F51B5"
+                android:textColor="@color/v_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/rounded_bg_gray"
-            android:backgroundTint="@color/background_gray"
+            android:backgroundTint="@color/v_input_bg"
             android:padding="16dp">
 
             <!-- Member ID -->
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="MEM-2024-001"
-                    android:textColor="@color/black"
+                    android:textColor="@color/v_text_dark"
                     android:textSize="16sp"
                     android:fontFamily="sans-serif-medium" />
             </LinearLayout>
@@ -106,7 +106,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"
+                android:background="@color/divider_color"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Email -->
@@ -129,14 +129,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="john.doe@example.com"
-                    android:textColor="@color/black"
+                    android:textColor="@color/v_text_mid"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"
+                android:background="@color/divider_color"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Stats Row -->
@@ -164,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Jan 2024"
-                        android:textColor="@color/black"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -197,7 +197,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"
+                android:background="@color/divider_color"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"/>
 

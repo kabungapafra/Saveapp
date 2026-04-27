@@ -28,7 +28,7 @@
             android:layout_width="60dp"
             android:layout_height="4dp"
             android:layout_marginTop="8dp"
-            android:background="#215DA1"
+            android:background="@color/brand_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="PAYOUT SETTINGS"
-            android:textColor="#215DA1"
+            android:textColor="@color/brand_blue"
             android:textSize="12sp"
             android:textStyle="bold"
             android:letterSpacing="0.1"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="LOAN POLICIES"
-            android:textColor="#215DA1"
+            android:textColor="@color/brand_blue"
             android:textSize="12sp"
             android:textStyle="bold"
             android:letterSpacing="0.1"

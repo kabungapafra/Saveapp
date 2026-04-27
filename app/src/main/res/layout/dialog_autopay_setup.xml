@@ -28,7 +28,7 @@
                 android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_schedule"
-                app:tint="#215DA1" />
+                app:tint="@color/brand_blue" />
         </FrameLayout>
 
         <TextView
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Day 1"
-                    android:textColor="#215DA1"
+                    android:textColor="@color/brand_blue"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -109,8 +109,8 @@
                 android:valueFrom="1.0"
                 android:valueTo="28.0"
                 android:value="1.0" 
-                app:thumbColor="#215DA1"
-                app:trackColorActive="#215DA1"
+                app:thumbColor="@color/brand_blue"
+                app:trackColorActive="@color/brand_blue"
                 app:trackColorInactive="#E0E0E0"/>
                 
         </LinearLayout>

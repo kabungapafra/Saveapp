@@ -6,9 +6,9 @@
     android:viewportHeight="24">
     <!-- High-Fidelity Handshake Icon from Mockup -->
     <path
-        android:fillColor="#215DA1"
+        android:fillColor="@color/brand_blue"
         android:pathData="M22,12l-2.44,-2.44c-0.39,-0.39 -1.02,-0.39 -1.41,0l-3.65,3.65l-1.06,-1.06c-0.39,-0.39 -1.02,-0.39 -1.41,0l-1.06,1.06c-0.39,0.39 -0.39,1.02 0,1.41l2.47,2.47c0.39,0.39 1.02,0.39 1.41,0l5.87,-5.87c0.39,-0.39 0.39,-1.02 0,-1.41z" />
     <path
-        android:fillColor="#215DA1"
+        android:fillColor="@color/brand_blue"
         android:pathData="M2,12l2.44,-2.44c0.39,-0.39 1.02,-0.39 1.41,0l3.65,3.65l1.06,-1.06c0.39,-0.39 1.02,-0.39 1.41,0l1.06,1.06c0.39,0.39 0.39,1.02 0,1.41l-2.47,2.47c-0.39,0.39 -1.02,0.39 -1.41,0l-5.87,-5.87c-0.39,-0.39 -0.39,-1.02 0,-1.41z" />
 </vector>

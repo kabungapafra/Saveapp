@@ -101,6 +101,11 @@ public class AdminDashboardFragment extends Fragment {
 
         binding.profileIcon.setOnClickListener(v -> {
             applyClickAnimation(v);
+            MemberProfileDialogFragment.newInstance().show(getParentFragmentManager(), "profile_dialog");
+        });
+
+        binding.btnThemeToggle.setOnClickListener(v -> {
+            applyClickAnimation(v);
             com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "admin");
         });
 

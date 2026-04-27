@@ -14,7 +14,7 @@
     <FrameLayout
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@drawable/bg_icon_circle">
+        android:background="@drawable/bg_input_bg_circle">
 
         <ImageView
             android:id="@+id/ivTransactionIcon"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Monthly Savings"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="@color/v_text_dark"
             android:textSize="15sp"/>
 
         <TextView

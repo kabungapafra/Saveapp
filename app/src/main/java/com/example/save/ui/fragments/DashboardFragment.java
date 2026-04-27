@@ -93,7 +93,7 @@ public class DashboardFragment extends Fragment {
     private void setupHeaderInteractions() {
         binding.ivUserAvatarTop.setOnClickListener(v -> {
             applyClickAnimation(v);
-            ((MemberMainActivity) requireActivity()).loadFragment(new SettingsFragment());
+            MemberProfileDialogFragment.newInstance().show(getParentFragmentManager(), "profile_dialog");
         });
 
         binding.btnNotifications.setOnClickListener(v -> {

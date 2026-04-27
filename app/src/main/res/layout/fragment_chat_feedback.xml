@@ -181,7 +181,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:text="GREAT"
-                                android:textColor="#215DA1"
+                                android:textColor="@color/v_blue"
                                 android:textSize="10sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -257,7 +257,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="28dp"
-                        android:background="@color/v_page_bg" />
+                        android:background="@color/divider_color" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -387,7 +387,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_chevron_right"
-                        app:tint="#D1D5DB" />
+                        app:tint="@color/v_text_muted" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 

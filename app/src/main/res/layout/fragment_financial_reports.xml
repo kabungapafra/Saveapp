@@ -21,15 +21,16 @@
             android:id="@+id/btnBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:cardBackgroundColor="#E9F2FB"
+            app:cardBackgroundColor="@color/h_blue_50"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/back"
                 android:padding="10dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="#1E78F0" />
+                app:tint="@color/brand_blue" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
@@ -38,14 +39,14 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-bold"
             android:gravity="center"
-            android:text="Financial Reports"
+            android:text="@string/financial_reports"
             android:textColor="@color/v_text_dark"
             android:textSize="18sp" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:cardBackgroundColor="#E9F2FB"
+            app:cardBackgroundColor="@color/h_blue_50"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp">
             <ImageView
@@ -54,6 +55,7 @@
                 android:layout_height="match_parent"
                 android:padding="8dp"
                 android:src="@drawable/ic_more_vert"
+                android:contentDescription="@string/todo"
                 app:tint="@color/v_text_mid" />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
@@ -94,7 +96,7 @@
                         android:background="@drawable/bg_squircle_blue"
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
-                        android:text="Monthly"
+                        android:text="@string/monthly"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp" />
                     <TextView
@@ -104,7 +106,7 @@
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
-                        android:text="Quarterly"
+                        android:text="@string/quarterly"
                         android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
                     <TextView
@@ -114,7 +116,7 @@
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
-                        android:text="Yearly"
+                        android:text="@string/yearly"
                         android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -138,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
-                        android:text="Total Group Savings"
+                        android:text="@string/total_group_savings"
                         android:textColor="@color/v_text_muted"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:background="@drawable/bg_status_active_pill"
-                        android:backgroundTint="#ECFDF5"
+                        android:backgroundTint="@color/v_status_bg_success"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
@@ -170,17 +172,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvSavingsValue">
                         <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_marginEnd="4dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             android:src="@drawable/ic_trending_up"
-                            app:tint="#10B981" />
+                            android:contentDescription="@string/trending_up"
+                            app:tint="@color/dashboard_accent_orange" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-bold"
                             android:text="+12.5%"
-                            android:textColor="#10B981"
+                            android:textColor="@color/v_text_success"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -189,7 +191,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="sans-serif"
-                        android:text="vs last month"
+                        android:text="@string/vs_last_month"
                         android:textColor="@color/v_text_muted"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/savingsTrendLayout"
@@ -197,9 +199,9 @@
                         app:layout_constraintTop_toTopOf="@id/savingsTrendLayout" />
 
                     <com.google.android.material.card.MaterialCardView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        app:cardBackgroundColor="@android:color/transparent"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:cardBackgroundColor="@color/v_input_bg"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="0dp"
                         app:strokeWidth="0dp"
@@ -212,7 +214,8 @@
                             android:background="@drawable/bg_icon_container_blue"
                             android:padding="12dp"
                             android:src="@drawable/ic_wallet_mockup"
-                            app:tint="#215DA1" />
+                            android:contentDescription="@string/total_savings"
+                            app:tint="@color/brand_blue" />
                     </com.google.android.material.card.MaterialCardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -241,7 +244,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_marginBottom="16dp"
-                            app:cardBackgroundColor="#FFF7ED"
+                            app:cardBackgroundColor="@color/h_amber_bg"
                             app:cardCornerRadius="12dp"
                             app:cardElevation="0dp">
                         <ImageView
@@ -250,13 +253,14 @@
                             android:background="@drawable/bg_icon_container_orange"
                             android:padding="8dp"
                             android:src="@drawable/ic_money_mockup"
-                            app:tint="#F97316" />
+                            android:contentDescription="@string/interest_icon"
+                            app:tint="@color/dashboard_accent_orange" />
                         </com.google.android.material.card.MaterialCardView>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
-                            android:text="Interest Earned"
+                            android:text="@string/interest_earned"
                             android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                         <TextView
@@ -273,7 +277,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="+5.2%"
-                            android:textColor="#10B981"
+                            android:textColor="@color/h_green_600"
                             android:fontFamily="sans-serif-bold"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -306,13 +310,14 @@
                             android:background="@drawable/bg_icon_container_blue"
                             android:padding="8dp"
                             android:src="@drawable/ic_handshake_mockup"
-                            app:tint="#215DA1" />
+                            android:contentDescription="@string/loans_icon"
+                            app:tint="@color/brand_blue" />
                         </com.google.android.material.card.MaterialCardView>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
-                            android:text="Loans Disbursed"
+                            android:text="@string/loans_disbursed"
                             android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                         <TextView
@@ -329,7 +334,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="+8.1%"
-                            android:textColor="#10B981"
+                            android:textColor="@color/h_green_600"
                             android:fontFamily="sans-serif-bold"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -346,7 +351,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:fontFamily="sans-serif-bold"
-                    android:text="Contribution Trends"
+                    android:text="@string/contribution_trends"
                     android:textColor="@color/v_text_dark"
                     android:textSize="18sp" />
                 <TextView
@@ -356,11 +361,11 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:fontFamily="sans-serif-medium"
-                    android:text="View Details"
-                    android:textColor="#215DA1"
+                    android:text="@string/view_details"
+                    android:textColor="@color/brand_blue"
                     android:textSize="14sp"
                     app:drawableEndCompat="@drawable/ic_chevron_right"
-                    app:drawableTint="#215DA1" />
+                    app:drawableTint="@color/brand_blue" />
             </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView
@@ -387,12 +392,12 @@
                     android:layout_marginBottom="16dp"
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JAN" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="FEB" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAR" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="APR" android:textColor="#215DA1" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAY" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JUN" android:textColor="@color/v_text_muted" android:textSize="10sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JAN" android:textColor="@color/v_text_muted" android:textSize="11sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="FEB" android:textColor="@color/v_text_muted" android:textSize="11sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAR" android:textColor="@color/v_text_muted" android:textSize="11sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="APR" android:textColor="@color/brand_blue" android:textSize="11sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="MAY" android:textColor="@color/v_text_muted" android:textSize="11sp" android:fontFamily="sans-serif-bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="JUN" android:textColor="@color/v_text_muted" android:textSize="11sp" android:fontFamily="sans-serif-bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -402,7 +407,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-bold"
-                android:text="Member Activity"
+                android:text="@string/member_activity"
                 android:textColor="@color/v_text_dark"
                 android:textSize="18sp" />
 
@@ -446,9 +451,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="TOTAL"
+                            android:text="@string/total_caps"
                             android:textColor="@color/v_text_muted"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             android:fontFamily="sans-serif-medium"
                             android:letterSpacing="0.1" />
                     </LinearLayout>
@@ -473,13 +478,13 @@
                                 android:layout_height="8dp"
                                 android:layout_centerVertical="true"
                                 android:background="@drawable/white_circle"
-                                android:backgroundTint="#215DA1" />
+                                android:backgroundTint="@color/brand_blue" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:layout_toEndOf="@id/dotActive"
-                                android:text="Active"
+                                android:text="@string/active"
                                 android:textColor="@color/v_text_mid" />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -500,13 +505,13 @@
                                 android:layout_height="8dp"
                                 android:layout_centerVertical="true"
                                 android:background="@drawable/white_circle"
-                                android:backgroundTint="#F97316" />
+                                android:backgroundTint="@color/dashboard_accent_orange" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:layout_toEndOf="@id/dotInactive"
-                                android:text="Inactive"
+                                android:text="@string/inactive"
                                 android:textColor="@color/v_text_mid" />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -544,7 +549,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-bold"
-                android:text="Export Reports"
+                android:text="@string/export_reports"
                 android:textColor="@color/v_text_dark"
                 android:textSize="18sp" />
 
@@ -571,13 +576,14 @@
                         <ImageView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:src="@drawable/ic_pdf_mockup" />
+                            android:src="@drawable/ic_pdf_mockup"
+                            android:contentDescription="@string/pdf_icon" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="PDF Export"
+                            android:text="@string/pdf_export"
                             android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -600,13 +606,14 @@
                         <ImageView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:src="@drawable/ic_excel_mockup" />
+                            android:src="@drawable/ic_excel_mockup"
+                            android:contentDescription="@string/excel_icon" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Excel Export"
+                            android:text="@string/excel_export"
                             android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -629,13 +636,14 @@
                         <ImageView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:src="@drawable/ic_csv_mockup" />
+                            android:src="@drawable/ic_csv_mockup"
+                            android:contentDescription="@string/csv_icon" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="CSV Export"
+                            android:text="@string/csv_export"
                             android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>

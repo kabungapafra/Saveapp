@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:padding="11dp"
                 android:src="@drawable/ic_vault"
-                app:tint="#215DA1" />
+                app:tint="@color/brand_blue" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView

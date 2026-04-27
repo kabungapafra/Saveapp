@@ -2,6 +2,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="permanent_white">#FFFFFF</color>
+    <color name="permanent_black">#000000</color>
     <color name="card_surface">#FFFFFF</color>
     <color name="deep_blue">#215DA1</color>
     <color name="splash_blue">#215DA1</color>
@@ -86,6 +88,8 @@
     <color name="v_input_bg">#F8F9FB</color>
     <color name="v_chip_bg">#FFFFFF</color>
     <color name="v_blue">#215DA1</color>
+    <color name="v_status_bg_success">#DCFCE7</color>
+    <color name="v_text_success">#16A34A</color>
     <!-- Missing Colors for Build Fix -->
     <color name="brand_blue">#215DA1</color>
     <color name="neumorphic_blue">#215DA1</color>

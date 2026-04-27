@@ -23,7 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/v_page_bg"
                 android:orientation="vertical"
                 android:paddingHorizontal="20dp"
                 android:paddingTop="48dp"
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:background="@color/white"
+                android:background="@color/v_page_bg"
                 android:orientation="vertical"
                 android:paddingTop="20dp"
                 android:paddingBottom="16dp">
@@ -291,7 +291,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:background="@color/white"
+                android:background="@color/v_page_bg"
                 android:orientation="vertical"
                 android:paddingTop="20dp"
                 android:paddingBottom="8dp">
@@ -321,7 +321,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text="2 selected"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="13sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -439,7 +439,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:gravity="center"
                         android:text="Selected"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="12sp"
                         android:clickable="true"
                         android:focusable="true" />
@@ -522,7 +522,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:gravity="center"
                         android:text="Selected"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="12sp"
                         android:clickable="true"
                         android:focusable="true" />
@@ -702,7 +702,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:background="@color/white"
+                android:background="@color/v_page_bg"
                 android:orientation="vertical"
                 android:paddingHorizontal="20dp"
                 android:paddingTop="20dp"

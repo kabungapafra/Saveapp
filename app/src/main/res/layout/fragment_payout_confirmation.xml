@@ -86,7 +86,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
                             android:text="1,250,000"
-                            android:textColor="#215DA1"
+                            android:textColor="@color/brand_blue"
                             android:textSize="32sp" />
 
                         <TextView
@@ -96,7 +96,7 @@
                             android:layout_marginBottom="4dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="UGX"
-                            android:textColor="#215DA1"
+                            android:textColor="@color/brand_blue"
                             android:textSize="16sp" />
                     </LinearLayout>
 
@@ -133,7 +133,7 @@
                         android:layout_centerVertical="true"
                         android:alpha="0.05"
                         android:src="@drawable/ic_money_banknote"
-                        app:tint="#215DA1" />
+                        app:tint="@color/brand_blue" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -209,7 +209,7 @@
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/manrope_bold"
                         android:text="Change"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="13sp" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -288,7 +288,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="16dp"
-                        android:background="#E2E8F0" />
+                        android:background="@color/divider_color" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -309,7 +309,7 @@
                             android:layout_alignParentEnd="true"
                             android:fontFamily="@font/manrope_bold"
                             android:text="1,243,750 UGX"
-                            android:textColor="#215DA1"
+                            android:textColor="@color/brand_blue"
                             android:textSize="16sp" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -361,7 +361,7 @@
             android:textAllCaps="false"
             android:textSize="16sp"
             app:cornerRadius="30dp"
-            app:backgroundTint="#215DA1"
+            app:backgroundTint="@color/brand_blue"
             app:icon="@drawable/ic_chevron_right"
             app:iconGravity="textEnd"
             app:iconPadding="12dp"

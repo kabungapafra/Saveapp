@@ -74,7 +74,7 @@
                             android:layout_alignParentBottom="true"
                             android:alpha="0.1"
                             android:src="@drawable/ic_account_balance_wallet"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -118,7 +118,7 @@
                             android:layout_alignParentBottom="true"
                             android:alpha="0.1"
                             android:src="@drawable/ic_shield"
-                            app:tint="#215DA1" />
+                            app:tint="@color/brand_blue" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -145,13 +145,13 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/bg_pill_orange"
-                    android:backgroundTint="#FFEDD5"
+                    android:backgroundTint="@color/h_amber_bg"
                     android:fontFamily="@font/manrope_bold"
                     android:letterSpacing="0.05"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="4dp"
                     android:text="HIGH YIELD FOCUS"
-                    android:textColor="#C2410C"
+                    android:textColor="@color/h_amber_text"
                     android:textSize="8sp" />
             </RelativeLayout>
 
@@ -210,7 +210,7 @@
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="$450,000.00"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="17sp" />
 
                     <View
@@ -336,7 +336,7 @@
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/manrope_bold"
                         android:text="$1,200,000.00"
-                        android:textColor="#215DA1"
+                        android:textColor="@color/brand_blue"
                         android:textSize="17sp" />
 
                     <View
@@ -455,7 +455,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#FAFAFA"
+                        android:background="@color/v_page_bg"
                         android:orientation="horizontal"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp">
