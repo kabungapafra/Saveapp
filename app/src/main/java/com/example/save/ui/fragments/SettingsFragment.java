@@ -75,10 +75,6 @@ public class SettingsFragment extends Fragment {
             Toast.makeText(getContext(), "Edit Profile", Toast.LENGTH_SHORT).show();
         });
 
-        binding.btnThemeToggle.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "member");
-        });
     }
 
     private void setupStats() {

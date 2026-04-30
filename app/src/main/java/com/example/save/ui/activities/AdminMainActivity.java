@@ -41,6 +41,7 @@ public class AdminMainActivity extends AppCompatActivity {
     private boolean isQuickActionsOpen = false;
     private android.animation.ObjectAnimator ringAnimator;
     private long lastBackPressTime = 0;
+    private boolean shouldReopenQuickActions = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,11 @@ public class AdminMainActivity extends AppCompatActivity {
                 if (isQuickActionsOpen) {
                     closeQuickActions();
                 } else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                    getSupportFragmentManager().popBackStack();
+                    getSupportFragmentManager().popBackStackImmediate();
+                    if (shouldReopenQuickActions) {
+                        shouldReopenQuickActions = false;
+                        openQuickActions();
+                    }
                 } else {
                     Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                     if (!(current instanceof AdminDashboardFragment)) {
@@ -172,6 +177,7 @@ public class AdminMainActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container, fragment);
         if (addToBackStack) transaction.addToBackStack(null);
         transaction.commit();
+        getSupportFragmentManager().executePendingTransactions();
     }
 
     private void syncNavUI() {
@@ -266,12 +272,6 @@ public class AdminMainActivity extends AppCompatActivity {
         overlay.setAlpha(0f);
         overlay.animate().alpha(1f).setDuration(300).start();
         
-        // Update Theme Label
-        TextView themeLabel = overlay.findViewById(R.id.tvThemeLabelOverlay);
-        if (themeLabel != null) {
-            themeLabel.setText(com.example.save.utils.ThemeUtils.isDarkMode(this, "admin") ? "Switch to Light Mode" : "Switch to Dark Mode");
-        }
-
         // Animate FAB ring rotation
         View ring = findViewById(R.id.navActionDashedRing);
         ringAnimator = android.animation.ObjectAnimator.ofFloat(ring, "rotation", 0f, 360f);
@@ -300,7 +300,11 @@ public class AdminMainActivity extends AppCompatActivity {
         findViewById(R.id.quickActionsDim).setOnClickListener(v -> closeQuickActions());
 
         findViewById(R.id.cardAddMemberOverlay).setOnClickListener(v -> {
+            shouldReopenQuickActions = true;
             closeQuickActions();
+            // Clear existing sub-screens so we don't stack Quick Actions
+            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            
             Bundle args = new Bundle();
             args.putBoolean("SHOW_ADD_DIALOG", true);
             MembersFragment fragment = new MembersFragment();
@@ -308,33 +312,36 @@ public class AdminMainActivity extends AppCompatActivity {
             loadFragment(fragment, true);
         });
         findViewById(R.id.cardAnalysisOverlay).setOnClickListener(v -> {
+            shouldReopenQuickActions = true;
             closeQuickActions();
+            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             loadFragment(AnalyticsFragment.newInstance(true), true);
         });
         findViewById(R.id.cardMakePollsOverlay).setOnClickListener(v -> {
+            shouldReopenQuickActions = true;
             closeQuickActions();
+            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             loadFragment(PollsFragment.newInstance(), true);
         });
         findViewById(R.id.cardPaymentQueueOverlay).setOnClickListener(v -> {
+            shouldReopenQuickActions = true;
             closeQuickActions();
+            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             loadFragment(new QueueFragment(), true);
         });
         findViewById(R.id.cardMyStashOverlay).setOnClickListener(v -> {
+            shouldReopenQuickActions = true;
             closeQuickActions();
+            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             loadFragment(StashFragment.newInstance(), true);
         });
         findViewById(R.id.cardApprovalsOverlay).setOnClickListener(v -> {
+            shouldReopenQuickActions = true;
             closeQuickActions();
+            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             loadFragment(new ApprovalsFragment(), true);
         });
 
-        View themeAction = findViewById(R.id.cardThemeOverlay);
-        if (themeAction != null) {
-            themeAction.setOnClickListener(v -> {
-                closeQuickActions();
-                com.example.save.utils.ThemeUtils.toggleTheme(this, "admin");
-            });
-        }
     }
 
     private void closeQuickActions() {

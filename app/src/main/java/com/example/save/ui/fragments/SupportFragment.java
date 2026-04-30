@@ -67,10 +67,6 @@ public class SupportFragment extends Fragment {
             }
         });
 
-        binding.btnThemeToggle.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "member");
-        });
 
         View.OnClickListener cardListener = v -> {
             applyClickAnimation(v);

@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
@@ -47,7 +49,16 @@ public class LiquidityDashboardFragment extends Fragment {
         settings.setSupportZoom(false);
         settings.setBuiltInZoomControls(false);
 
-        binding.webView.setWebViewClient(new WebViewClient());
+        binding.webView.addJavascriptInterface(new WebAppInterface(), "Android");
+        binding.webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
+                boolean isDark = com.example.save.utils.ThemeUtils.isDarkMode(requireContext(), role);
+                String theme = isDark ? "dark" : "light";
+                view.evaluateJavascript("document.documentElement.setAttribute('data-theme','" + theme + "');", null);
+            }
+        });
         binding.webView.loadUrl("file:///android_asset/liquidity_dashboard.html");
     }
 
@@ -62,12 +73,15 @@ public class LiquidityDashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Show dashboard bars as requested
         setBarsVisible(true);
-        
-        // Ensure standard system UI visibility
         if (getActivity() != null) {
             getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        }
+        // Re-inject theme
+        if (binding != null && getContext() != null) {
+            String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
+            boolean isDark = com.example.save.utils.ThemeUtils.isDarkMode(getContext(), role);
+            binding.webView.evaluateJavascript("document.documentElement.setAttribute('data-theme','" + (isDark ? "dark" : "light") + "');", null);
         }
     }
 
@@ -84,6 +98,14 @@ public class LiquidityDashboardFragment extends Fragment {
         } else if (getActivity() instanceof AdminMainActivity) {
             AdminMainActivity activity = (AdminMainActivity) getActivity();
             activity.setBottomNavVisible(visible);
+        }
+    }
+
+    private class WebAppInterface {
+        @JavascriptInterface
+        public boolean isDarkMode() {
+            String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
+            return com.example.save.utils.ThemeUtils.isDarkMode(requireContext(), role);
         }
     }
 

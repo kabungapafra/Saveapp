@@ -39,7 +39,6 @@ public class PollsFragment extends Fragment {
             }
         });
 
-        binding.btnThemeToggle.setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "admin"));
 
         setupWebView();
     }
@@ -56,6 +55,10 @@ public class PollsFragment extends Fragment {
             @Override
             public void onPageFinished(android.webkit.WebView view, String url) {
                 super.onPageFinished(view, url);
+                // Apply Android theme
+                String role = (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) ? "admin" : "member";
+                boolean isDark = com.example.save.utils.ThemeUtils.isDarkMode(requireContext(), role);
+                view.evaluateJavascript("document.documentElement.setAttribute('data-theme','" + (isDark ? "dark" : "light") + "');", null);
                 // Pass role status to JS
                 if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
                     view.loadUrl("javascript:setRole('member')");
@@ -69,6 +72,12 @@ public class PollsFragment extends Fragment {
     }
 
     private class WebAppInterface {
+        @JavascriptInterface
+        public boolean isDarkMode() {
+            String role = (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) ? "admin" : "member";
+            return com.example.save.utils.ThemeUtils.isDarkMode(requireContext(), role);
+        }
+
         @JavascriptInterface
         public void onCreatePollClicked() {
             if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
@@ -117,6 +126,20 @@ public class PollsFragment extends Fragment {
                 });
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        injectTheme();
+    }
+
+    private void injectTheme() {
+        if (binding == null || getContext() == null) return;
+        String role = (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) ? "admin" : "member";
+        boolean isDark = com.example.save.utils.ThemeUtils.isDarkMode(getContext(), role);
+        String theme = isDark ? "dark" : "light";
+        binding.webView.evaluateJavascript("document.documentElement.setAttribute('data-theme','" + theme + "');", null);
     }
 
     @Override

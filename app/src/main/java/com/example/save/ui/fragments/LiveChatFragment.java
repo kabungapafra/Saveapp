@@ -1,9 +1,5 @@
 package com.example.save.ui.fragments;
-import com.example.save.utils.ThemeUtils;
-import com.example.save.utils.SessionManager;
-
 import android.annotation.SuppressLint;
-import com.example.save.utils.ThemeUtils;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +9,18 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.save.R;
 import com.example.save.ui.activities.AdminMainActivity;
 import com.example.save.ui.activities.MemberMainActivity;
+import com.example.save.utils.ThemeUtils;
 
 public class LiveChatFragment extends Fragment {
 
     private WebView webView;
-    private boolean isNavigatingToFeedback = false;
+    private boolean isNavigatingToNextScreen = false;
 
     public static LiveChatFragment newInstance() {
         return new LiveChatFragment();
@@ -49,7 +44,7 @@ public class LiveChatFragment extends Fragment {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
 
-        webView.addJavascriptInterface(new WebAppInterface(), "AndroidBridge");
+        webView.addJavascriptInterface(new WebAppInterface(), "Android");
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -70,7 +65,14 @@ public class LiveChatFragment extends Fragment {
         webView.evaluateJavascript("document.documentElement.setAttribute('data-theme', '" + theme + "');", null);
     }
 
-    private class WebAppInterface {
+    public class WebAppInterface {
+        @JavascriptInterface
+        public boolean isDarkMode() {
+            if (getContext() == null) return false;
+            String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
+            return ThemeUtils.isDarkMode(getContext(), role);
+        }
+
         @JavascriptInterface
         public void navigateBack() {
             if (getActivity() != null) {
@@ -84,11 +86,13 @@ public class LiveChatFragment extends Fragment {
         public void openFeedback() {
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
-                    isNavigatingToFeedback = true; // Prevent nav bar restoration
+                    if (!isAdded()) return;
+                    isNavigatingToNextScreen = true; // Prevent nav bar restoration during transition
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                            .setCustomAnimations(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow,
+                                               R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow)
                             .replace(R.id.fragment_container, ChatFeedbackFragment.newInstance())
-                            .commit();
+                            .commitAllowingStateLoss();
                 });
             }
         }
@@ -104,6 +108,7 @@ public class LiveChatFragment extends Fragment {
                 ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
                 ((MemberMainActivity) getActivity()).setHeaderVisible();
             }
+            applyTheme();
 
             // Immersive Zero-Bar Mode
             View decorView = getActivity().getWindow().getDecorView();
@@ -130,7 +135,7 @@ public class LiveChatFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (getActivity() != null && !isNavigatingToFeedback) {
+        if (getActivity() != null && !isNavigatingToNextScreen) {
             if (getActivity() instanceof AdminMainActivity) {
                 ((AdminMainActivity) getActivity()).setBottomNavVisible(true);
             } else if (getActivity() instanceof MemberMainActivity) {

@@ -69,12 +69,6 @@ public class GroupSettingsFragment extends Fragment {
             Toast.makeText(getContext(), "Loan Requests " + state, Toast.LENGTH_SHORT).show();
         });
 
-        binding.switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
-            prefs.edit().putBoolean("group_dark_mode", isChecked).apply();
-            String state = isChecked ? "enabled" : "disabled";
-            Toast.makeText(getContext(), "Dark Mode " + state, Toast.LENGTH_SHORT).show();
-        });
 
         binding.switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
             android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);

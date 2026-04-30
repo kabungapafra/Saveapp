@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp">
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -232,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/card_surface"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp">
                     <LinearLayout
@@ -289,7 +289,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/card_surface"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp">
                     <LinearLayout
@@ -372,7 +372,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
                 android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp">
                 <com.github.mikephil.charting.charts.LineChart
@@ -415,7 +415,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp">
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -565,7 +565,7 @@
                     android:layout_height="110dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="6dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/card_surface"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="1dp">
                     <LinearLayout
@@ -595,7 +595,7 @@
                     android:layout_height="110dp"
                     android:layout_weight="1"
                     android:layout_marginHorizontal="6dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/card_surface"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="1dp">
                     <LinearLayout
@@ -625,7 +625,7 @@
                     android:layout_height="110dp"
                     android:layout_weight="1"
                     android:layout_marginStart="6dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/card_surface"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="1dp">
                     <LinearLayout

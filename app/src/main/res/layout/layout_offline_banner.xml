@@ -21,7 +21,7 @@
             android:layout_height="@dimen/icon_size_small"
             android:src="@drawable/ic_warning"
             android:layout_marginEnd="@dimen/spacing_small"
-            app:tint="@android:color/white" />
+            app:tint="@color/white" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No Internet Connection"
-                android:textColor="@android:color/white"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="You're offline. Changes will sync when connected."
-                android:textColor="@android:color/white"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_size_xs"
                 android:alpha="0.9" />
         </LinearLayout>
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Retry"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             style="@style/Widget.Material3.Button.TextButton"
             android:minWidth="0dp"
             android:paddingHorizontal="@dimen/spacing_small" />

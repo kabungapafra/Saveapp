@@ -41,7 +41,6 @@ public class StashFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.btnThemeToggle).setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "member"));
 
         return view;
     }
@@ -68,6 +67,13 @@ public class StashFragment extends Fragment {
 
     // JS Bridge class
     public class WebAppInterface {
+        @android.webkit.JavascriptInterface
+        public boolean isDarkMode() {
+            String role = "member";
+            if (getActivity() instanceof AdminMainActivity) role = "admin";
+            return com.example.save.utils.ThemeUtils.isDarkMode(requireContext(), role);
+        }
+
         @android.webkit.JavascriptInterface
         public void navigateToPayment() {
             navigateTo(MakeContributionFragment.newInstance());
@@ -102,5 +108,15 @@ public class StashFragment extends Fragment {
         } else if (getActivity() instanceof MemberMainActivity) {
             // Member side visibility handling if needed
         }
+        // Re-inject theme in case user toggled from dashboard
+        injectTheme();
+    }
+
+    private void injectTheme() {
+        if (webView == null || getContext() == null) return;
+        String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
+        boolean isDark = com.example.save.utils.ThemeUtils.isDarkMode(getContext(), role);
+        String theme = isDark ? "dark" : "light";
+        webView.evaluateJavascript("document.documentElement.setAttribute('data-theme','" + theme + "');", null);
     }
 }

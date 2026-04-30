@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import com.example.save.ui.activities.AdminMainActivity;
+import com.example.save.ui.activities.MemberMainActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +24,15 @@ public class PayoutAuditFragment extends Fragment {
 
     public static PayoutAuditFragment newInstance() {
         return new PayoutAuditFragment();
+    }
+
+    private class WebAppInterface {
+        @JavascriptInterface
+        public boolean isDarkMode() {
+            if (getContext() == null) return false;
+            String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
+            return com.example.save.utils.ThemeUtils.isDarkMode(getContext(), role);
+        }
     }
 
     @Nullable
@@ -39,7 +52,32 @@ public class PayoutAuditFragment extends Fragment {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
 
+        webView.addJavascriptInterface(new WebAppInterface(), "Android");
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if (getContext() == null) return;
+                String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
+                boolean isDark = com.example.save.utils.ThemeUtils.isDarkMode(getContext(), role);
+                String theme = isDark ? "dark" : "light";
+                view.evaluateJavascript("document.documentElement.setAttribute('data-theme','" + theme + "');", null);
+            }
+        });
         // Load the highly optimized local HTML prototype
         webView.loadUrl("file:///android_asset/payout_audit.html");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        applyTheme();
+    }
+
+    private void applyTheme() {
+        if (getContext() == null || webView == null) return;
+        String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
+        boolean isDark = com.example.save.utils.ThemeUtils.isDarkMode(getContext(), role);
+        String theme = isDark ? "dark" : "light";
+        webView.evaluateJavascript("document.documentElement.setAttribute('data-theme', '" + theme + "');", null);
     }
 }

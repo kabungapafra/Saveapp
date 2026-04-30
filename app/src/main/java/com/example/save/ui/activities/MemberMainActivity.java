@@ -34,6 +34,7 @@ public class MemberMainActivity extends AppCompatActivity {
     private boolean isQuickActionsOpen = false;
     private android.animation.ObjectAnimator ringAnimator;
     private long lastBackPressTime = 0;
+    private boolean shouldReopenQuickActions = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,11 @@ public class MemberMainActivity extends AppCompatActivity {
                 if (isQuickActionsOpen) {
                     hideQuickActions();
                 } else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                    getSupportFragmentManager().popBackStack();
+                    getSupportFragmentManager().popBackStackImmediate();
+                    if (shouldReopenQuickActions) {
+                        shouldReopenQuickActions = false;
+                        showQuickActions();
+                    }
                 } else {
                     // Logic to handle exit or returning to dashboard
                     Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -179,11 +184,12 @@ public class MemberMainActivity extends AppCompatActivity {
             overlay.findViewById(R.id.btnCloseOverlay).setOnClickListener(v -> hideQuickActions());
             overlay.findViewById(R.id.quickActionsDim).setOnClickListener(v -> hideQuickActions());
             
-            // 1. My Stash
             View actionPay = overlay.findViewById(R.id.cardMyStashOverlay);
             if (actionPay != null) {
                 actionPay.setOnClickListener(v -> {
+                    shouldReopenQuickActions = true;
                     hideQuickActions();
+                    getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     loadFragment(StashFragment.newInstance(), true);
                 });
             }
@@ -192,7 +198,9 @@ public class MemberMainActivity extends AppCompatActivity {
             View actionPolls = overlay.findViewById(R.id.cardMakePollsOverlay);
             if (actionPolls != null) {
                 actionPolls.setOnClickListener(v -> {
+                    shouldReopenQuickActions = true;
                     hideQuickActions();
+                    getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     loadFragment(PollsFragment.newInstance(), true);
                 });
             }
@@ -201,7 +209,9 @@ public class MemberMainActivity extends AppCompatActivity {
             View actionQueue = overlay.findViewById(R.id.cardPaymentQueueOverlay);
             if (actionQueue != null) {
                 actionQueue.setOnClickListener(v -> {
+                    shouldReopenQuickActions = true;
                     hideQuickActions();
+                    getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     loadFragment(new QueueFragment(), true);
                 });
             }
@@ -215,14 +225,6 @@ public class MemberMainActivity extends AppCompatActivity {
             if (actionAnalysis != null) actionAnalysis.setVisibility(View.GONE);
             if (actionApprovals != null) actionApprovals.setVisibility(View.GONE);
 
-            // 4. Theme Toggle
-            View actionTheme = overlay.findViewById(R.id.cardThemeOverlay);
-            if (actionTheme != null) {
-                actionTheme.setOnClickListener(v -> {
-                    hideQuickActions();
-                    com.example.save.utils.ThemeUtils.toggleTheme(this, "member");
-                });
-            }
         }
     }
 
@@ -232,12 +234,6 @@ public class MemberMainActivity extends AppCompatActivity {
         overlayRoot.setVisibility(View.VISIBLE);
         overlayRoot.setAlpha(0f);
         overlayRoot.animate().alpha(1f).setDuration(400).start();
-
-        // Update Theme Label
-        TextView themeLabel = overlayRoot.findViewById(R.id.tvThemeLabelOverlay);
-        if (themeLabel != null) {
-            themeLabel.setText(com.example.save.utils.ThemeUtils.isDarkMode(this, "member") ? "Switch to Light Mode" : "Switch to Dark Mode");
-        }
 
         // Animate FAB - Rotate Plus to X
         findViewById(R.id.navActionPlusIcon).animate().rotation(45f).setDuration(300).start();
@@ -318,6 +314,7 @@ public class MemberMainActivity extends AppCompatActivity {
         }
         
         transaction.commit();
+        getSupportFragmentManager().executePendingTransactions();
     }
 
     private void syncNavUI() {
@@ -397,6 +394,7 @@ public class MemberMainActivity extends AppCompatActivity {
     public void setBottomNavVisible(boolean visible) {
         if (binding != null) {
             binding.navContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
+            binding.navAction.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
     }
 

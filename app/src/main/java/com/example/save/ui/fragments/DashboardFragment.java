@@ -91,10 +91,6 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupHeaderInteractions() {
-        binding.ivUserAvatarTop.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            MemberProfileDialogFragment.newInstance().show(getParentFragmentManager(), "profile_dialog");
-        });
 
         binding.btnNotifications.setOnClickListener(v -> {
             applyClickAnimation(v);
@@ -110,7 +106,6 @@ public class DashboardFragment extends Fragment {
             applyClickAnimation(v);
             com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "member");
         });
-
     }
 
     @SuppressLint("SetTextI18n")

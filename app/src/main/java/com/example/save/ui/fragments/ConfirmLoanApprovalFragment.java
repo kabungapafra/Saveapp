@@ -68,8 +68,13 @@ public class ConfirmLoanApprovalFragment extends Fragment {
         });
 
         btnConfirmApproval.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Loan Approved Successfully", Toast.LENGTH_SHORT).show();
-            // Implement actual approval logic here
+            if (getActivity() != null) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                        .replace(R.id.fragment_container, LoanApprovedSuccessFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
     }
 }

@@ -86,7 +86,6 @@ public class MembersFragment extends Fragment {
 
         binding.btnInvite.setOnClickListener(v -> showAddMemberDialog());
         binding.btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
-        binding.btnThemeToggle.setOnClickListener(v -> com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "admin"));
 
         // Check for auto-open argument
         if (getArguments() != null && getArguments().getBoolean("SHOW_ADD_DIALOG", false)) {
@@ -311,6 +310,14 @@ public class MembersFragment extends Fragment {
         // Ensure dialog takes proper width
         int width = (int)(getResources().getDisplayMetrics().widthPixels * 0.95);
         dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        dialog.setOnDismissListener(d -> {
+            if (getArguments() != null && getArguments().getBoolean("SHOW_ADD_DIALOG", false)) {
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            }
+        });
 
         dialogBinding.btnCloseDialog.setOnClickListener(v -> dialog.dismiss());
 
