@@ -53,8 +53,8 @@ public class MemberMainActivity extends AppCompatActivity {
         // Security Check: If it's the first login, force password change redirect
         SessionManager session = SessionManager.getInstance(this);
         if (session.isFirstLogin()) {
-            android.content.Intent intent = new android.content.Intent(this, ChangePasswordActivity.class);
-            intent.putExtra("member_email", session.getUserEmail());
+            android.content.Intent intent = new android.content.Intent(this, ResetPasswordActivity.class);
+            intent.putExtra("email", session.getUserEmail());
             intent.putExtra("is_first_login", true);
             intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

@@ -293,13 +293,13 @@ public class LoanApplicationFragment extends Fragment {
         }
 
         SessionManager session = SessionManager.getInstance(requireContext());
-        String userName = session.getUserName();
-        if (userName == null) userName = "Active Member";
+        String rawUserName = session.getUserName();
+        final String finalUserName = (rawUserName != null) ? rawUserName : "Active Member";
 
         double amount = Double.parseDouble(amountStr);
 
         LoanRequest loanRequest = new LoanRequest(
-                userName,
+                finalUserName,
                 amount,
                 duration,
                 guarantorName,
@@ -322,9 +322,22 @@ public class LoanApplicationFragment extends Fragment {
                 
                 binding.btnSubmitLoan.postDelayed(() -> {
                     if (isAdded() && getActivity() != null) {
-                        getActivity().getSupportFragmentManager().popBackStack();
+                        NumberFormat fmt = NumberFormat.getNumberInstance(Locale.US);
+                        String formattedAmount = "UGX " + fmt.format(amount);
+
+                        LoanSubmittedSuccessFragment successFrag = LoanSubmittedSuccessFragment.newInstance(finalUserName, formattedAmount);
+                        
+                        // Use Activity navigation helper if available, else standard transaction
+                        if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
+                            ((com.example.save.ui.activities.MemberMainActivity) getActivity()).loadFragment(successFrag, true);
+                        } else {
+                            getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.fragment_container, successFrag)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
                     }
-                }, 1200);
+                }, 800);
             } else {
                 binding.btnSubmitLoan.setText("Submit Loan Request  →");
                 binding.btnSubmitLoan.setEnabled(true);

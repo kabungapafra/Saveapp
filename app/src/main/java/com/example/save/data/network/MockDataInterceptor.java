@@ -24,7 +24,11 @@ public class MockDataInterceptor implements Interceptor {
         } else if (uri.contains("members")) {
             responseString = MockDataStore.MEMBERS_LIST;
         } else if (uri.contains("loans")) {
-            responseString = MockDataStore.LOANS_LIST;
+            if ("POST".equalsIgnoreCase(chain.request().method())) {
+                responseString = "{\"id\": \"l_mock\", \"memberName\": \"User\", \"amount\": 10000, \"status\": \"PENDING\"}";
+            } else {
+                responseString = MockDataStore.LOANS_LIST;
+            }
         } else if (uri.contains("config")) {
             responseString = MockDataStore.SYSTEM_CONFIG;
         } else {

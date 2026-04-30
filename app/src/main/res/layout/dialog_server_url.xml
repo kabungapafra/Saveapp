@@ -6,27 +6,34 @@
     android:padding="20dp">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter API Base URL:"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:layout_marginBottom="10dp"/>
+        android:text="Enter Backend API URL:"
+        android:textColor="@color/v_text_mid"
+        android:textSize="14sp" />
 
-    <EditText
-        android:id="@+id/etServerUrl"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="http://10.0.2.2:8000/api/"
-        android:inputType="textUri"
-        android:minHeight="48dp"/>
+        android:layout_marginTop="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etServerUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="https://example.com/api/"
+            android:inputType="textUri"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Note: For Emulator use 10.0.2.2. For Physical Device use your computer's IP (e.g. 192.168.1.x)"
+        android:layout_marginTop="12dp"
+        android:text="Note: URL must end with a forward slash (/)"
+        android:textColor="@color/v_text_muted"
         android:textSize="12sp"
-        android:layout_marginTop="8dp"
-        android:textColor="#555555"/>
+        android:textStyle="italic" />
 
 </LinearLayout>

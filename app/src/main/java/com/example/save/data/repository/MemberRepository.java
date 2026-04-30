@@ -874,30 +874,15 @@ public class MemberRepository {
      */
     public void submitLoanRequest(com.example.save.data.models.LoanRequest request,
             LoanSubmissionCallback callback) {
-        // Submit loan request to backend - backend will calculate interest, validate
-        // eligibility, etc.
-        // Context is stored in the repository
-        android.content.Context context = null;
-        try {
-            // Get context from SharedPreferences (stored during initialization)
-            java.lang.reflect.Field contextField = prefs.getClass().getDeclaredField("mContext");
-            contextField.setAccessible(true);
-            context = (android.content.Context) contextField.get(prefs);
-        } catch (Exception e) {
-            // Fallback: use application context if available
-            if (memberDao != null) {
-                // Try to get from database
-            }
-        }
-
-        if (context == null) {
+        // Use the already available appContext
+        if (appContext == null) {
             if (callback != null)
                 callback.onResult(false, "Context not available");
             return;
         }
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
-                .getClient(context).create(com.example.save.data.network.ApiService.class);
+                .getClient(appContext).create(com.example.save.data.network.ApiService.class);
 
         apiService.submitLoanRequest(request)
                 .enqueue(new retrofit2.Callback<com.example.save.data.network.LoanResponse>() {

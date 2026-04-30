@@ -105,6 +105,7 @@ public class AdminLoansFragment extends Fragment {
     private void showRejectDialog(LoanRequest request) {
         String formattedAmount = "$" + String.format(Locale.US, "%,.2f", request.getAmount());
         DeclineLoanRequestFragment fragment = DeclineLoanRequestFragment.newInstance(
+                request.getId(),
                 request.getMemberName(),
                 formattedAmount,
                 "Standard Loan" // Or request.getLoanType() if available

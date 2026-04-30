@@ -59,9 +59,20 @@ public class AdminMainActivity extends AppCompatActivity {
 
         setupBottomNavigation();
         
-        // Initial setup - default to Dashboard
+        // Initial setup
         if (savedInstanceState == null) {
-            loadFragment(new AdminDashboardFragment(), false);
+            String startFragClass = getIntent().getStringExtra("start_fragment");
+            if (startFragClass != null) {
+                try {
+                    Fragment frag = (Fragment) Class.forName(startFragClass).newInstance();
+                    loadFragment(frag, false);
+                } catch (Exception e) {
+                    loadFragment(new AdminDashboardFragment(), false);
+                }
+            } else {
+                loadFragment(new AdminDashboardFragment(), false);
+            }
+            
             updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
             
             // Premium Entry Animation for Nav Bar

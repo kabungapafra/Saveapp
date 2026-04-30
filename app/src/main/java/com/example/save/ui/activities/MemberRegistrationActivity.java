@@ -150,8 +150,8 @@ public class MemberRegistrationActivity extends AppCompatActivity {
 
                     // Check if this is first login - redirect to change password
                     if (loginResponse.isFirstLogin()) {
-                        Intent intent = new Intent(MemberRegistrationActivity.this, ChangePasswordActivity.class);
-                        intent.putExtra("member_email", loginResponse.getEmail());
+                        Intent intent = new Intent(MemberRegistrationActivity.this, ResetPasswordActivity.class);
+                        intent.putExtra("email", loginResponse.getEmail());
                         intent.putExtra("member_name", loginResponse.getName());
                         intent.putExtra("current_password", password);
                         intent.putExtra("is_first_login", true);

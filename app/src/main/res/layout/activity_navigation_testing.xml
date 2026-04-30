@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/v_page_bg"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/permanent_white"
+        app:title="Screen Navigator"
+        app:titleTextColor="@color/v_text_dark" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Activities"
+                android:textColor="@color/v_blue"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLanding"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Splash Screen"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical"
+                app:icon="@drawable/ic_home" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAdminLogin"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Portal Selector (Login)"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical"
+                app:icon="@drawable/ic_person" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAdminMain"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Admin Dashboard (Main)"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical"
+                app:icon="@drawable/ic_dashboard" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMemberMain"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Member Dashboard (Main)"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical"
+                app:icon="@drawable/ic_person" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Key Flows &amp; Fragments"
+                android:textColor="@color/v_blue"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLoanRequest"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loan Request Form"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLoanSuccess"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loan Success Animation"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddMember"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Member Form"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMemberSuccess"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Member Success screen"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMakePayment"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Make Contribution"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSettings"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Settings / Config"
+                android:layout_marginBottom="8dp"
+                android:gravity="start|center_vertical" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

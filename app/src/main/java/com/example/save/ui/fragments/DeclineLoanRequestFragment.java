@@ -35,17 +35,22 @@ public class DeclineLoanRequestFragment extends Fragment {
     private EditText etOtherReason, etFeedback;
     private TextView tvCharCounter;
 
+    private static final String ARG_LOAN_ID = "loan_id";
     private static final String ARG_BORROWER = "borrower_name";
     private static final String ARG_AMOUNT = "loan_amount";
     private static final String ARG_LOAN_TYPE = "loan_type";
 
+    private String loanId;
     private String borrowerName = "Marcus Wright";
     private String loanAmount = "$8,000";
     private String loanType = "Business Expansion Loan";
 
-    public static DeclineLoanRequestFragment newInstance(String borrower, String amount, String type) {
+    private com.example.save.ui.viewmodels.MembersViewModel viewModel;
+
+    public static DeclineLoanRequestFragment newInstance(String loanId, String borrower, String amount, String type) {
         DeclineLoanRequestFragment fragment = new DeclineLoanRequestFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_LOAN_ID, loanId);
         args.putString(ARG_BORROWER, borrower);
         args.putString(ARG_AMOUNT, amount);
         args.putString(ARG_LOAN_TYPE, type);
@@ -69,10 +74,13 @@ public class DeclineLoanRequestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         
         if (getArguments() != null) {
+            loanId = getArguments().getString(ARG_LOAN_ID);
             borrowerName = getArguments().getString(ARG_BORROWER, borrowerName);
             loanAmount = getArguments().getString(ARG_AMOUNT, loanAmount);
             loanType = getArguments().getString(ARG_LOAN_TYPE, loanType);
         }
+
+        viewModel = new androidx.lifecycle.ViewModelProvider(requireActivity()).get(com.example.save.ui.viewmodels.MembersViewModel.class);
 
         initViews(view);
         setupReasonSelection();
@@ -187,19 +195,34 @@ public class DeclineLoanRequestFragment extends Fragment {
             }
             if (reasonStr.isEmpty()) reasonStr = "Other";
 
-            // Navigate to Success Screen
-            if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
-                ((com.example.save.ui.activities.AdminMainActivity) getActivity())
-                        .loadFragment(LoanDeclinedSuccessFragment.newInstance(borrowerName, loanAmount, reasonStr), true);
+            final String finalReason = reasonStr;
+            
+            if (loanId != null) {
+                viewModel.rejectLoanRequest(loanId, finalReason, (success, message) -> {
+                    if (success) {
+                        navigateToSuccess(finalReason);
+                    } else {
+                        Toast.makeText(getContext(), message != null ? message : "Failed to decline loan", Toast.LENGTH_SHORT).show();
+                    }
+                });
             } else {
-                // Fallback for generic fragment manager
-                getParentFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                        .replace(R.id.fragment_container, LoanDeclinedSuccessFragment.newInstance(borrowerName, loanAmount, reasonStr))
-                        .addToBackStack(null)
-                        .commit();
+                // Mock behavior if no ID (e.g. from static approvals list)
+                navigateToSuccess(finalReason);
             }
         });
+    }
+
+    private void navigateToSuccess(String reasonStr) {
+        if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+            ((com.example.save.ui.activities.AdminMainActivity) getActivity())
+                    .loadFragment(LoanDeclinedSuccessFragment.newInstance(borrowerName, loanAmount, reasonStr), true);
+        } else {
+            getParentFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.fragment_container, LoanDeclinedSuccessFragment.newInstance(borrowerName, loanAmount, reasonStr))
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
     private int dpToPx(int dp) {

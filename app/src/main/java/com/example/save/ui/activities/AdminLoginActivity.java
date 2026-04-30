@@ -56,6 +56,17 @@ public class AdminLoginActivity extends AppCompatActivity {
                 R.anim.heartbeat);
         binding.logoImage.startAnimation(heartbeat);
 
+        // Secret Debug Feature: Tap logo 5 times to open Screen Navigator
+        final int[] tapCount = {0};
+        binding.logoImage.setOnClickListener(v -> {
+            tapCount[0]++;
+            if (tapCount[0] >= 5) {
+                tapCount[0] = 0;
+                startActivity(new Intent(this, NavigationTestingActivity.class));
+                Toast.makeText(this, "Opening Screen Navigator...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         startCascadingAnimations();
 
         com.example.save.ui.viewmodels.MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(this)

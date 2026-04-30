@@ -46,6 +46,11 @@
             android:theme="@style/Theme.SaveApp.NoActionBar" />
 
         <activity
+            android:name=".ui.activities.NavigationTestingActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Save" />
+
+        <activity
             android:name="com.example.save.ui.activities.AdminLoginActivity"
             android:exported="false"
             tools:ignore="DuplicateActivity" />
@@ -76,10 +81,6 @@
 
 
 
-
-        <activity
-            android:name="com.example.save.ui.activities.ChangePasswordActivity"
-            android:exported="false" />
 
         <activity
             android:name="com.example.save.ui.activities.AdminSetupWizardActivity"

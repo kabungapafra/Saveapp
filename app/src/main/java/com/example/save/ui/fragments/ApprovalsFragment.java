@@ -47,14 +47,14 @@ public class ApprovalsFragment extends Fragment {
 
         binding.btnRejectJulian.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, DeclineLoanRequestFragment.newInstance("Julian Wan", "$12,000", "Emergency Loan"))
+                    .replace(R.id.fragment_container, DeclineLoanRequestFragment.newInstance("loan_julian", "Julian Wan", "$12,000", "Emergency Loan"))
                     .addToBackStack(null)
                     .commit();
         });
 
         binding.btnRejectElena.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, DeclineLoanRequestFragment.newInstance("Elena Stix", "$5,500", "Personal Loan"))
+                    .replace(R.id.fragment_container, DeclineLoanRequestFragment.newInstance("loan_elena", "Elena Stix", "$5,500", "Personal Loan"))
                     .addToBackStack(null)
                     .commit();
         });
