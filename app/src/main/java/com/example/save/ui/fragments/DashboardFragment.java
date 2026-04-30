@@ -209,11 +209,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Restore nav bar directly when returning to dashboard
-        if (getActivity() != null) {
-            View navAction = getActivity().findViewById(R.id.navContainer);
-            if (navAction != null) navAction.setVisibility(View.VISIBLE);
-        }
+        // syncNavUI in Activity handles bottom nav visibility
     }
 
     @Override

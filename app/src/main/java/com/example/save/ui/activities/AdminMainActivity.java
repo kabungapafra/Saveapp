@@ -27,6 +27,8 @@ import com.example.save.ui.fragments.AnalyticsFragment;
 import com.example.save.ui.fragments.ApprovalsFragment;
 import com.example.save.ui.fragments.MembersFragment;
 import com.example.save.ui.fragments.NotificationsFragment;
+import com.example.save.ui.fragments.LoanApplicationFragment;
+import com.example.save.ui.fragments.LoanSubmittedSuccessFragment;
 import com.example.save.ui.fragments.PollsFragment;
 import com.example.save.ui.fragments.QueueFragment;
 import com.example.save.ui.fragments.SettingsFragment;
@@ -199,11 +201,14 @@ public class AdminMainActivity extends AppCompatActivity {
         } else if (frag instanceof MembersFragment) {
             updateNavUI(binding.navMembers, binding.txtMembers, binding.imgMembers);
             setBottomNavVisible(true);
-        } else if (frag instanceof AdminLoansFragment) {
+        } else if (frag instanceof AdminLoansFragment || frag instanceof LoanApplicationFragment) {
             updateNavUI(binding.navLoans, binding.txtLoans, binding.imgLoans);
             setBottomNavVisible(true);
         } else if (frag instanceof SettingsFragment) {
             updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings);
+            setBottomNavVisible(true);
+        } else if (frag instanceof StashFragment || frag instanceof PollsFragment || frag instanceof QueueFragment || frag instanceof AnalyticsFragment) {
+            // These are sub-screens that should still show the bottom nav for easy exit
             setBottomNavVisible(true);
         } else if (frag instanceof com.example.save.ui.fragments.SupportFragment) {
             // Support Hub is a normal screen — show nav, highlight Settings

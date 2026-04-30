@@ -23,6 +23,7 @@ import com.example.save.ui.fragments.AnalyticsFragment;
 import com.example.save.ui.fragments.PollsFragment;
 import com.example.save.ui.fragments.QueueFragment;
 import com.example.save.ui.fragments.StashFragment;
+import com.example.save.ui.fragments.LoanApplicationFragment;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.utils.NotificationHelper;
 import com.example.save.utils.PermissionUtils;
@@ -331,8 +332,11 @@ public class MemberMainActivity extends AppCompatActivity {
         } else if (frag instanceof SettingsFragment) {
             updateNavHighlight(binding.txtSettings, binding.imgSettings);
             setBottomNavVisible(true);
+        } else if (frag instanceof LoanApplicationFragment || frag instanceof StashFragment || frag instanceof PollsFragment || frag instanceof QueueFragment) {
+            // Keep nav visible for these sub-screens
+            setBottomNavVisible(true);
         } else {
-            setBottomNavVisible(false); // Hidden for immersive sub-screens
+            setBottomNavVisible(false); // Hidden for truly immersive screens (e.g. Success screens)
         }
     }
 
