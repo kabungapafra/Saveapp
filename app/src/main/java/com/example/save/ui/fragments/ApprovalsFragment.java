@@ -45,15 +45,19 @@ public class ApprovalsFragment extends Fragment {
         binding.btnViewVictoria.setOnClickListener(openPayoutDetail);
         binding.btnViewAris.setOnClickListener(openPayoutDetail);
 
-        View.OnClickListener openDeclineRequest = v -> {
+        binding.btnRejectJulian.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new DeclineLoanRequestFragment())
+                    .replace(R.id.fragment_container, DeclineLoanRequestFragment.newInstance("Julian Wan", "$12,000", "Emergency Loan"))
                     .addToBackStack(null)
                     .commit();
-        };
+        });
 
-        binding.btnRejectJulian.setOnClickListener(openDeclineRequest);
-        binding.btnRejectElena.setOnClickListener(openDeclineRequest);
+        binding.btnRejectElena.setOnClickListener(v -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, DeclineLoanRequestFragment.newInstance("Elena Stix", "$5,500", "Personal Loan"))
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         View.OnClickListener openConfirmApproval = v -> {
             getParentFragmentManager().beginTransaction()

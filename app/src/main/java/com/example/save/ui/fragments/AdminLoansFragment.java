@@ -103,23 +103,21 @@ public class AdminLoansFragment extends Fragment {
     }
 
     private void showRejectDialog(LoanRequest request) {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
-        android.widget.EditText reasonInput = new android.widget.EditText(getContext());
-        reasonInput.setHint("Rejection reason (optional)");
-        builder.setTitle("Decline Loan Request");
-        builder.setMessage("Are you sure you want to decline this request from " + request.getMemberName() + "?");
-        builder.setView(reasonInput);
-        builder.setPositiveButton("Decline", (dialog, which) -> {
-            String reason = reasonInput.getText().toString().trim();
-            viewModel.rejectLoanRequest(request.getId(), reason, (success, message) -> {
-                if (isVisible()) {
-                    Toast.makeText(getContext(), message != null ? message : (success ? "Loan declined" : "Failed"),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
-        builder.setNegativeButton("Cancel", null);
-        builder.show();
+        String formattedAmount = "$" + String.format(Locale.US, "%,.2f", request.getAmount());
+        DeclineLoanRequestFragment fragment = DeclineLoanRequestFragment.newInstance(
+                request.getMemberName(),
+                formattedAmount,
+                "Standard Loan" // Or request.getLoanType() if available
+        );
+        
+        if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+            ((com.example.save.ui.activities.AdminMainActivity) getActivity()).loadFragment(fragment, true);
+        } else {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
     private void setupSearch() {

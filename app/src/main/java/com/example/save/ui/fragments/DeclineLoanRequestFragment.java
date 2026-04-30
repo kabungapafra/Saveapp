@@ -35,6 +35,24 @@ public class DeclineLoanRequestFragment extends Fragment {
     private EditText etOtherReason, etFeedback;
     private TextView tvCharCounter;
 
+    private static final String ARG_BORROWER = "borrower_name";
+    private static final String ARG_AMOUNT = "loan_amount";
+    private static final String ARG_LOAN_TYPE = "loan_type";
+
+    private String borrowerName = "Marcus Wright";
+    private String loanAmount = "$8,000";
+    private String loanType = "Business Expansion Loan";
+
+    public static DeclineLoanRequestFragment newInstance(String borrower, String amount, String type) {
+        DeclineLoanRequestFragment fragment = new DeclineLoanRequestFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_BORROWER, borrower);
+        args.putString(ARG_AMOUNT, amount);
+        args.putString(ARG_LOAN_TYPE, type);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public static DeclineLoanRequestFragment newInstance() {
         return new DeclineLoanRequestFragment();
     }
@@ -49,10 +67,26 @@ public class DeclineLoanRequestFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        
+        if (getArguments() != null) {
+            borrowerName = getArguments().getString(ARG_BORROWER, borrowerName);
+            loanAmount = getArguments().getString(ARG_AMOUNT, loanAmount);
+            loanType = getArguments().getString(ARG_LOAN_TYPE, loanType);
+        }
+
         initViews(view);
         setupReasonSelection();
         setupFeedbackCounter();
         setupButtons(view);
+        
+        updateSummaryUI();
+    }
+
+    private void updateSummaryUI() {
+        TextView tvName = getView().findViewById(R.id.tvBorrowerName);
+        TextView tvType = getView().findViewById(R.id.tvLoanType);
+        if (tvName != null) tvName.setText(borrowerName);
+        if (tvType != null) tvType.setText(loanType + " • " + loanAmount);
     }
 
     private void initViews(View view) {
@@ -143,8 +177,28 @@ public class DeclineLoanRequestFragment extends Fragment {
         });
 
         view.findViewById(R.id.btnConfirmDecline).setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Loan Decline Confirmed", Toast.LENGTH_SHORT).show();
-            // Implement actual logic here
+            String reasonStr = "";
+            switch (selectedReason) {
+                case INSUFFICIENT_SAVINGS: reasonStr = "Insufficient Savings Coverage"; break;
+                case LOW_CREDIT_SCORE: reasonStr = "Low Credit Score"; break;
+                case INCOMPLETE_DOCUMENTATION: reasonStr = "Incomplete Documentation"; break;
+                case MAX_RISK: reasonStr = "Maximum Group Risk Reached"; break;
+                case OTHER: reasonStr = etOtherReason.getText().toString(); break;
+            }
+            if (reasonStr.isEmpty()) reasonStr = "Other";
+
+            // Navigate to Success Screen
+            if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+                ((com.example.save.ui.activities.AdminMainActivity) getActivity())
+                        .loadFragment(LoanDeclinedSuccessFragment.newInstance(borrowerName, loanAmount, reasonStr), true);
+            } else {
+                // Fallback for generic fragment manager
+                getParentFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                        .replace(R.id.fragment_container, LoanDeclinedSuccessFragment.newInstance(borrowerName, loanAmount, reasonStr))
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
     }
 
