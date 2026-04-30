@@ -1,154 +1,51 @@
 package com.example.save.data.repository;
 
-import android.content.Context;
-
+import android.app.Application;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
-
-import com.example.save.data.local.AppDatabase;
-import com.example.save.data.local.dao.LoanDao;
-import com.example.save.data.local.entities.LoanEntity;
-import com.example.save.data.models.Loan;
-
+import androidx.lifecycle.MutableLiveData;
+import com.example.save.data.models.LoanRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
+/**
+ * LoanRepository - Fully Static Version
+ * No Database, No Network.
+ */
 public class LoanRepository {
+    private final MutableLiveData<List<LoanRequest>> loansLiveData = new MutableLiveData__(new ArrayList<>());
     private static LoanRepository instance;
-    private final LoanDao loanDao;
-    private final Executor executor;
-    private LiveData<List<Loan>> loansLiveData;
 
-    private LoanRepository(Context context) {
-        AppDatabase database = AppDatabase.getInstance(context);
-        loanDao = database.loanDao();
-        executor = Executors.newSingleThreadExecutor();
-
-        // Transform entity LiveData to model LiveData
-        LiveData<List<LoanEntity>> entityLiveData = loanDao.getAllLoans();
-        loansLiveData = Transformations.map(entityLiveData, this::convertEntitiesToModels);
+    private LoanRepository(Application application) {
+        // Mock data
+        List<LoanRequest> mockLoans = new ArrayList<>();
+        loansLiveData.setValue(mockLoans);
     }
 
-    public static synchronized LoanRepository getInstance(Context context) {
+    public static synchronized LoanRepository getInstance(Application application) {
         if (instance == null) {
-            instance = new LoanRepository(context.getApplicationContext());
+            instance = new LoanRepository(application);
         }
         return instance;
     }
 
-    // Keep singleton method for backward compatibility
-    public static synchronized LoanRepository getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException("LoanRepository not initialized. Call getInstance(Context) first.");
-        }
-        return instance;
-    }
-
-    /**
-     * Returns a LiveData object providing an observable list of all loans.
-     * 
-     * @return Observable list of Loan models.
-     */
-    public LiveData<List<Loan>> getLoans() {
+    public LiveData<List<LoanRequest>> getAllLoans() {
         return loansLiveData;
     }
 
-    /**
-     * Retrieves all loans synchronously from the local database.
-     * 
-     * @return List of Loan models.
-     */
-    public List<Loan> getAllLoans() {
-        List<LoanEntity> entities = loanDao.getAllLoansSync();
-        return convertEntitiesToModels(entities);
+    public void addLoan(LoanRequest loan) {
+        List<LoanRequest> current = new ArrayList<>(loansLiveData.getValue());
+        current.add(loan);
+        loansLiveData.setValue(current);
     }
 
-    public List<Loan> getLoansSync() {
-        return getAllLoans();
-    }
-
-    /**
-     * Retrieves all pending loans synchronously.
-     * 
-     * @return List of pending Loan models.
-     */
-    public List<Loan> getPendingLoans() {
-        List<LoanEntity> entities = loanDao.getPendingLoans();
-        return convertEntitiesToModels(entities);
-    }
-
-    public List<Loan> getActiveLoans() {
-        List<LoanEntity> entities = loanDao.getActiveLoans();
-        return convertEntitiesToModels(entities);
-    }
-
-    /**
-     * Approves a loan by its ID, updating its status to ACTIVE and setting a due
-     * date.
-     * 
-     * @param id The unique ID of the loan to approve.
-     */
-    public void approveLoan(String id) {
-        executor.execute(() -> {
-            LoanEntity entity = loanDao.getLoanByIdSync(id);
-            if (entity != null) {
-                entity.setStatus(Loan.STATUS_ACTIVE);
-                java.util.Calendar cal = java.util.Calendar.getInstance();
-                cal.add(java.util.Calendar.DAY_OF_YEAR, 30); // Default 30 day term
-                entity.setDueDate(cal.getTime());
-                loanDao.update(entity);
+    public void updateLoan(LoanRequest loan) {
+        List<LoanRequest> current = new ArrayList<>(loansLiveData.getValue());
+        for (int i = 0; i < current.size(); i++) {
+            if (current.get(i).getId() != null && current.get(i).getId().equals(loan.getId())) {
+                current.set(i, loan);
+                break;
             }
-        });
-    }
-
-    /**
-     * Rejects a loan by its ID, updating its status to REJECTED.
-     * 
-     * @param id The unique ID of the loan to reject.
-     */
-    public void rejectLoan(String id) {
-        executor.execute(() -> {
-            LoanEntity entity = loanDao.getLoanByIdSync(id);
-            if (entity != null) {
-                entity.setStatus(Loan.STATUS_REJECTED);
-                loanDao.update(entity);
-            }
-        });
-    }
-
-    public double getTotalOutstanding() {
-        Double total = loanDao.getTotalOutstanding();
-        return total != null ? total : 0.0;
-    }
-
-    public double getTotalInterestEarned() {
-        Double total = loanDao.getTotalInterestEarned();
-        return total != null ? total : 0.0;
-    }
-
-    // Conversion Methods
-    private List<Loan> convertEntitiesToModels(List<LoanEntity> entities) {
-        List<Loan> loans = new ArrayList<>();
-        for (LoanEntity entity : entities) {
-            loans.add(convertEntityToModel(entity));
         }
-        return loans;
-    }
-
-    private Loan convertEntityToModel(LoanEntity entity) {
-        Loan loan = new Loan(
-                entity.getId(),
-                entity.getMemberId(),
-                entity.getMemberName(),
-                entity.getAmount(),
-                entity.getInterest(),
-                entity.getReason(),
-                entity.getDateRequested(),
-                entity.getStatus());
-        loan.setDueDate(entity.getDueDate());
-        loan.setRepaidAmount(entity.getRepaidAmount());
-        return loan;
+        loansLiveData.setValue(current);
     }
 }

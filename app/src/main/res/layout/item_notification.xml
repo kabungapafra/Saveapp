@@ -79,7 +79,7 @@
             android:layout_marginTop="6dp"
             android:fontFamily="@font/manrope_medium"
             android:lineSpacingExtra="4dp"
-            android:text="Sarah Jenkins requested a loan of $500.00 from the Emergency Fund."
+            android:text="Sarah Jenkins requested a loan of UGX 500.00 from the Emergency Fund."
             android:textColor="@color/v_text_mid"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -12,10 +12,6 @@
 # Keep custom exceptions
 -keep public class * extends java.lang.Exception
 
-# Room Database
--keep class * extends androidx.room.RoomDatabase
--keep @androidx.room.Entity class *
--dontwarn androidx.room.paging.**
 
 # ViewBinding
 -keep class * implements androidx.viewbinding.ViewBinding {

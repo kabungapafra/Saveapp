@@ -188,7 +188,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:fontFamily="sans-serif-bold"
-                            android:text="$35,000.00"
+                            android:text="UGX 35,000.00"
                             android:textColor="@color/v_text_dark"
                             android:textSize="14sp" />
                     </RelativeLayout>

@@ -133,7 +133,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="$500"
+                            android:text="UGX 500"
                             android:textColor="@color/v_text_dark"
                             android:textSize="22sp" />
                     </LinearLayout>
@@ -219,7 +219,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="$25"
+                            android:text="UGX 25"
                             android:textColor="@color/v_text_dark"
                             android:textSize="22sp" />
                     </LinearLayout>
@@ -497,7 +497,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
-                            android:text="Round up to the nearest $1.00"
+                            android:text="Round up to the nearest UGX 1.00"
                             android:textColor="@color/v_text_muted"
                             android:textSize="12sp" />
                     </LinearLayout>

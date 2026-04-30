@@ -119,7 +119,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="Business Expansion Loan • $8,000"
+                                android:text="Business Expansion Loan • UGX 8,000"
                                 android:textColor="#2563EB"
                                 android:textSize="14sp" />
 

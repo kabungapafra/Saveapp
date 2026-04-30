@@ -78,13 +78,10 @@ public class MembersFragment extends Fragment {
         setupRecyclerView();
         observeViewModel();
         setupSearchView();
-        setupTabs();
-        setupTabs();
 
         // Sync data with backend
         viewModel.syncMembers();
 
-        binding.btnInvite.setOnClickListener(v -> showAddMemberDialog());
         binding.btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
         // Check for auto-open argument
@@ -92,11 +89,6 @@ public class MembersFragment extends Fragment {
             binding.getRoot().post(this::showAddMemberDialog);
         }
 
-        // Setup Swipe Refresh
-        binding.swipeRefreshUtils.setOnRefreshListener(() -> {
-            loadMembers();
-            loadMembers();
-        });
 
         // Initialize animation views
         successAnimation = binding.successAnimation;
@@ -134,41 +126,6 @@ public class MembersFragment extends Fragment {
         binding.membersRecyclerView.setLayoutAnimation(controller);
     }
 
-    private void setupTabs() {
-        binding.tabAll.setOnClickListener(v -> selectTab("All"));
-        binding.tabActive.setOnClickListener(v -> selectTab("Active"));
-        binding.tabInactive.setOnClickListener(v -> selectTab("Inactive"));
-    }
-
-    private void selectTab(String tab) {
-        currentTab = tab;
-
-        // Reset styles
-        binding.tabAll.setBackgroundResource(R.drawable.bg_pill_tab_unselected);
-        binding.tabActive.setBackgroundResource(R.drawable.bg_pill_tab_unselected);
-        binding.tabInactive.setBackgroundResource(R.drawable.bg_pill_tab_unselected);
-
-        binding.tabAll.setTextColor(android.graphics.Color.parseColor("#64748B"));
-        binding.tabActive.setTextColor(android.graphics.Color.parseColor("#64748B"));
-        binding.tabInactive.setTextColor(android.graphics.Color.parseColor("#64748B"));
-
-        // Set selected style
-        TextView selectedView = null;
-        if (tab.equals("All"))
-            selectedView = binding.tabAll;
-        else if (tab.equals("Active"))
-            selectedView = binding.tabActive;
-        else if (tab.equals("Inactive"))
-            selectedView = binding.tabInactive;
-
-        if (selectedView != null) {
-            selectedView.setBackgroundResource(R.drawable.bg_pill_tab_selected);
-            selectedView.setTextColor(android.graphics.Color.parseColor("#2563EB"));
-            selectedView.setElevation(2f);
-        }
-
-        filterAndApply();
-    }
 
     private void filterAndApply() {
         if (currentMembersList == null || adapter == null)
@@ -221,7 +178,7 @@ public class MembersFragment extends Fragment {
 
     private void loadMembers() {
         // Show loading initially if not refreshing
-        if (!binding.swipeRefreshUtils.isRefreshing() && binding.progressBar != null) {
+        if (binding.progressBar != null) {
             binding.progressBar.setVisibility(View.VISIBLE);
         }
 
@@ -234,9 +191,6 @@ public class MembersFragment extends Fragment {
             if (binding.progressBar != null) {
                 binding.progressBar.setVisibility(View.GONE);
             }
-            if (binding.swipeRefreshUtils != null) {
-                binding.swipeRefreshUtils.setRefreshing(false);
-            }
 
             if (members != null && adapter != null && !isSearching) {
                 currentMembersList = members;
@@ -247,7 +201,6 @@ public class MembersFragment extends Fragment {
                     insightsAdapter.updateList(members);
                 }
 
-                binding.tabAll.setText("All Members (" + members.size() + ")");
 
                 binding.membersRecyclerView.setVisibility(members.isEmpty() ? View.GONE : View.VISIBLE);
             }

@@ -42,7 +42,7 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         com.example.save.data.models.LoanWithApproval item = loans.get(position);
-        com.example.save.data.local.entities.LoanEntity loan = item.loan;
+        com.example.save.data.models.LoanEntity loan = item.loan;
 
         String amountText = String.format(Locale.getDefault(), "UGX %,.0f", loan.getAmount());
         holder.tvAmount.setText(amountText);

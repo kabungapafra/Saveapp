@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.save.data.local.entities.TransactionEntity;
+import com.example.save.data.models.TransactionEntity;
 import com.example.save.databinding.ItemActivityBinding;
 
 import java.text.SimpleDateFormat;

@@ -166,7 +166,7 @@ public class ReportUtils {
         y += 25;
 
         if (report.getPayouts() != null && !report.getPayouts().isEmpty()) {
-            for (com.example.save.data.local.entities.TransactionEntity tx : report.getPayouts()) {
+            for (com.example.save.data.models.TransactionEntity tx : report.getPayouts()) {
                 if (checkPageBreak(y)) {
                     document.finishPage(page);
                     pageInfo = new PdfDocument.PageInfo.Builder(595, 842, ++pageNumber).create();

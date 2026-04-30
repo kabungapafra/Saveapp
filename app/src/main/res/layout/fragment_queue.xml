@@ -111,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="$4,250.00"
+                        android:text="UGX 4,250.00"
                         android:textColor="@color/brand_blue"
                         android:textSize="26sp"
                         android:textStyle="bold" />
@@ -140,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="$1,120.00"
+                        android:text="UGX 1,120.00"
                         android:textColor="@color/black"
                         android:textSize="26sp"
                         android:textStyle="bold" />
@@ -277,7 +277,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$450.00"
+                            android:text="UGX 450.00"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -384,7 +384,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$1,200.00"
+                            android:text="UGX 1,200.00"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -490,7 +490,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$300.00"
+                            android:text="UGX 300.00"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold" />

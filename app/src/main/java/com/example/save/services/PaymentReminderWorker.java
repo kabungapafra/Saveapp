@@ -5,9 +5,8 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.example.save.data.local.AppDatabase;
-import com.example.save.data.local.dao.MemberDao;
-import com.example.save.data.local.entities.MemberEntity;
+import com.example.save.data.models.Member;
+import com.example.save.data.repository.MemberRepository;
 import com.example.save.utils.NotificationHelper;
 
 import java.util.Calendar;
@@ -23,8 +22,7 @@ public class PaymentReminderWorker extends Worker {
     @Override
     public Result doWork() {
         Context context = getApplicationContext();
-        AppDatabase database = AppDatabase.getInstance(context);
-        MemberDao memberDao = database.memberDao();
+        MemberRepository memberRepository = MemberRepository.getInstance(context);
         NotificationHelper notificationHelper = new NotificationHelper(context);
 
         Calendar calendar = Calendar.getInstance();
@@ -37,14 +35,11 @@ public class PaymentReminderWorker extends Worker {
             return Result.success();
         }
 
-        List<MemberEntity> members = memberDao.getAllMembersSync();
+        // Note: In a production app with no local DB, this should ideally call a sync version of the API
+        // For now we use the in-memory cache from the repository
+        List<Member> members = memberRepository.getAllMembers();
 
-        for (MemberEntity member : members) {
-            // Auto-Pay Logic
-            if (member.isAutoPayEnabled() && member.getAutoPayDay() == currentDay) {
-                // ... (Auto-pay logic)
-            }
-
+        for (Member member : members) {
             // Targeted Payment Notifications
             String dueDateStr = member.getNextPaymentDueDate();
             if (dueDateStr != null && !"TBD".equals(dueDateStr)) {

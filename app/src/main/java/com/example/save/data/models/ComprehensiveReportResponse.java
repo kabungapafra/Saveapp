@@ -2,7 +2,7 @@ package com.example.save.data.models;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
-import com.example.save.data.local.entities.TransactionEntity;
+import com.example.save.data.models.TransactionEntity;
 
 public class ComprehensiveReportResponse {
     @SerializedName("generated_at")

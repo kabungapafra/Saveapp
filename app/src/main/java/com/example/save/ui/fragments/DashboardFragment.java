@@ -97,10 +97,6 @@ public class DashboardFragment extends Fragment {
             ((MemberMainActivity) requireActivity()).showNotifications();
         });
 
-        binding.btnPayNowBottom.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            ((MemberMainActivity) requireActivity()).loadFragment(new MakeContributionFragment());
-        });
 
         binding.btnThemeToggle.setOnClickListener(v -> {
             applyClickAnimation(v);
@@ -184,7 +180,7 @@ public class DashboardFragment extends Fragment {
                         if (transactionItems != null) {
                             allCachedTransactions.clear();
                             for (com.example.save.data.models.TransactionWithApproval item : transactionItems) {
-                                com.example.save.data.local.entities.TransactionEntity entity = item.transaction;
+                                com.example.save.data.models.TransactionEntity entity = item.transaction;
                                 int iconRes = entity.isPositive() ? R.drawable.ic_money : R.drawable.ic_loan;
                                 int color = entity.isPositive() ? 0xFF4CAF50 : 0xFFF44336;
                                 String description = entity.getDescription();

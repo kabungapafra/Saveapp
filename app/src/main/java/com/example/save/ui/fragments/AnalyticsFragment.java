@@ -29,7 +29,7 @@ import com.example.save.databinding.ItemMemberPerformanceBinding;
 import com.example.save.databinding.ItemTransactionLedgerBinding;
 import com.example.save.ui.viewmodels.LoansViewModel;
 import com.example.save.ui.viewmodels.MembersViewModel;
-import com.example.save.data.local.entities.TransactionEntity;
+import com.example.save.data.models.TransactionEntity;
 import com.example.save.data.models.Loan;
 import com.example.save.data.models.Member;
 

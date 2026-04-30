@@ -145,7 +145,7 @@
                             android:fontFamily="@font/manrope"
                             android:text="Connect &amp; Earn"
                             android:textColor="@color/v_text_muted"
-                            android:textSize="12dp"
+                            android:textSize="12sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/socialTitleText" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -209,7 +209,7 @@
                             android:fontFamily="@font/manrope"
                             android:text="Smart Goals"
                             android:textColor="@color/v_text_muted"
-                            android:textSize="12dp"
+                            android:textSize="12sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/savingTitleText" />
                     </androidx.constraintlayout.widget.ConstraintLayout>

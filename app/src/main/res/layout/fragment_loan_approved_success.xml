@@ -179,7 +179,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-bold"
-                            android:text="$35,000"
+                            android:text="UGX 35,000"
                             android:textColor="@color/brand_blue"
                             android:textSize="16sp" />
 

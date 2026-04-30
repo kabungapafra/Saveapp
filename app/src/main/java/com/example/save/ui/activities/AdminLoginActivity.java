@@ -162,25 +162,9 @@ public class AdminLoginActivity extends AppCompatActivity {
         binding.loginButton.setEnabled(false);
         binding.loginButtonText.setText("Signing in...");
 
-        // Cold Start Feedback: If request takes > 2.5s, update UI to show server is
-        // waking up
-        android.os.Handler feedbackHandler = new android.os.Handler();
-        Runnable feedbackRunnable = () -> {
-            if (!binding.loginButton.isEnabled()) {
-                binding.loginButtonText.setText("Waking up server...");
-                android.widget.Toast.makeText(AdminLoginActivity.this,
-                        "Server is waking up from standby. This may take a moment...",
-                        android.widget.Toast.LENGTH_LONG).show();
-            }
-        };
-        feedbackHandler.postDelayed(feedbackRunnable, 2500);
-
-        // Directly call Backend Login (Native Email/Password)
-        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(email,
-                password);
-        final String finalGroupName = groupName;
-        loginRequest.setGroupName(finalGroupName);
+        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(email, password);
         loginRequest.setLoginType("admin");
+        loginRequest.setGroupName(groupName);
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(this).create(com.example.save.data.network.ApiService.class);
@@ -188,63 +172,42 @@ public class AdminLoginActivity extends AppCompatActivity {
         apiService.login(loginRequest).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
             @Override
             public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
-                    retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
-                feedbackHandler.removeCallbacks(feedbackRunnable);
+                                   retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
                 binding.loginButton.setEnabled(true);
                 binding.loginButtonText.setText("Login");
 
                 if (response.isSuccessful() && response.body() != null) {
                     com.example.save.data.network.LoginResponse loginResponse = response.body();
 
-                    // Verify user is admin
-                    if (!"Administrator".equalsIgnoreCase(loginResponse.getRole()) &&
-                            !"Admin".equalsIgnoreCase(loginResponse.getRole())) {
-                        Toast.makeText(AdminLoginActivity.this,
-                                "Access Denied: Please use the Member login portal.", Toast.LENGTH_LONG).show();
-                        return;
-                    }
+                    com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
+                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), loginResponse.getRole(), false);
+                    session.saveJwtToken(loginResponse.getToken());
 
-                    // Save session with JWT token
-                    com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(
-                            getApplicationContext());
-                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(),
-                            loginResponse.getRole(), false);
-
-                    if (loginResponse.getToken() != null) {
-                        session.saveJwtToken(loginResponse.getToken());
-                    }
-
-                    // Save to SharedPreferences for backward compatibility
                     android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
                     prefs.edit()
                             .putString("admin_name", loginResponse.getName())
-                            .putString("group_name", finalGroupName)
+                            .putString("group_name", groupName)
                             .putString("admin_email", loginResponse.getEmail())
                             .apply();
-
-                    Toast.makeText(AdminLoginActivity.this, "Welcome " + loginResponse.getName(),
-                            Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
                     intent.putExtra("admin_email", loginResponse.getEmail());
                     intent.putExtra("admin_name", loginResponse.getName());
-                    intent.putExtra("group_name", finalGroupName);
-
+                    intent.putExtra("group_name", groupName);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
                     finish();
                 } else {
-                    com.example.save.utils.ApiErrorHandler.handleResponse(AdminLoginActivity.this, response);
+                    Toast.makeText(AdminLoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
-                feedbackHandler.removeCallbacks(feedbackRunnable);
                 binding.loginButton.setEnabled(true);
                 binding.loginButtonText.setText("Login");
-                com.example.save.utils.ApiErrorHandler.handleError(AdminLoginActivity.this, t);
+                Toast.makeText(AdminLoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

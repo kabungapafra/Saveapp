@@ -67,11 +67,6 @@ dependencies {
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)
     
-    // Room Database
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-common:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-
     // AndroidX Security - EncryptedSharedPreferences for secure local storage
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
     
@@ -87,11 +82,12 @@ dependencies {
     // WorkManager - Updated
     implementation("androidx.work:work-runtime:2.9.1")
     
-    // Networking
+    // Networking (Re-enabled for PostgreSQL Backend)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    
 
     
     // Testing

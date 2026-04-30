@@ -24,6 +24,12 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
 
     private void setupListeners() {
         binding.backButton.setOnClickListener(v -> finish());
+        binding.btnViewWebPolicy.setOnClickListener(v -> {
+            String url = "https://save-app.com/privacy-policy"; // Placeholder for actual policy URL
+            android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
+            intent.setData(android.net.Uri.parse(url));
+            startActivity(intent);
+        });
     }
 
     private void loadPrivacyContent() {

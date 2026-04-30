@@ -14,7 +14,7 @@ import com.example.save.R;
 import com.example.save.databinding.FragmentApprovalsBinding;
 import com.example.save.ui.adapters.ApprovalsAdapter;
 import com.example.save.ui.viewmodels.MembersViewModel;
-import com.example.save.data.local.entities.TransactionEntity;
+import com.example.save.data.models.TransactionEntity;
 import com.example.save.data.models.LoanRequest;
 import java.util.ArrayList;
 import java.util.List;

@@ -92,7 +92,7 @@
                                 android:layout_below="@id/tvActiveLoansLabel"
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/manrope"
-                                android:text="$45,000"
+                                android:text="UGX 45,000"
                                 android:textColor="#FFFFFF"
                                 android:textSize="32sp"
                                 android:textStyle="bold" />
@@ -189,7 +189,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="6dp"
-                                    android:text="$128.4k"
+                                    android:text="UGX 128.4k"
                                     android:textColor="@color/dashboard_text_primary"
                                     android:textSize="22sp"
                                     android:textStyle="bold" />

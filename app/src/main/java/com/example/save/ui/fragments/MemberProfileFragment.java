@@ -130,7 +130,7 @@ public class MemberProfileFragment extends Fragment {
         viewModel.getLatestMemberTransactions(memberName).observe(getViewLifecycleOwner(), entities -> {
             if (entities != null) {
                 List<Transaction> transactions = new ArrayList<>();
-                for (com.example.save.data.local.entities.TransactionEntity entity : entities) {
+                for (com.example.save.data.models.TransactionEntity entity : entities) {
                     transactions.add(new Transaction(
                             entity.getDescription(),
                             new java.text.SimpleDateFormat("MMM dd, yyyy", java.util.Locale.getDefault())

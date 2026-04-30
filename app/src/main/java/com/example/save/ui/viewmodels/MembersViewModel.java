@@ -68,28 +68,8 @@ public class MembersViewModel extends AndroidViewModel {
     @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
     public String resetPassword(Member member) {
-        // Legacy method for admin panel: originally generated OTP and set it locally.
-        // For the backend, the user should be sent to the forgot-password flow.
-        String newOtp = com.example.save.utils.ValidationUtils.generateOTP();
-
-        if (member.getEmail() != null) {
-            com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
-                    .getClient(getApplication()).create(com.example.save.data.network.ApiService.class);
-            apiService.forgotPassword(new com.example.save.data.network.ForgotPasswordRequest(member.getEmail()))
-                    .enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
-                        @Override
-                        public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
-                                retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
-                        }
-
-                        @Override
-                        public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call,
-                                Throwable t) {
-                        }
-                    });
-        }
-
-        return newOtp;
+        // MOCK: No Database, No Network
+        return com.example.save.utils.ValidationUtils.generateOTP();
     }
 
     public void updateMember(int position, Member member) {
@@ -183,7 +163,7 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getLoanRequests();
     }
 
-    public com.example.save.data.local.entities.LoanEntity getActiveLoanForMember(String memberName) {
+    public com.example.save.data.models.LoanEntity getActiveLoanForMember(String memberName) {
         return repository.getActiveLoanForMember(memberName);
     }
 
@@ -221,11 +201,11 @@ public class MembersViewModel extends AndroidViewModel {
         repository.enableAutoPay(member, amount, day);
     }
 
-    public LiveData<List<com.example.save.data.local.entities.TransactionEntity>> getRecentTransactions() {
+    public LiveData<List<com.example.save.data.models.TransactionEntity>> getRecentTransactions() {
         return repository.getRecentTransactions();
     }
 
-    public LiveData<List<com.example.save.data.local.entities.TransactionEntity>> getLatestMemberTransactions(
+    public LiveData<List<com.example.save.data.models.TransactionEntity>> getLatestMemberTransactions(
             String memberName) {
         return repository.getLatestMemberTransactions(memberName);
     }
@@ -327,7 +307,7 @@ public class MembersViewModel extends AndroidViewModel {
             java.util.Collections.sort(transactions, (a, b) -> a.getDate().compareTo(b.getDate()));
 
             int index = 0;
-            for (com.example.save.data.local.entities.TransactionEntity tx : transactions) {
+            for (com.example.save.data.models.TransactionEntity tx : transactions) {
                 if (tx.isPositive()) {
                     cumulative += tx.getAmount();
                 } else {
@@ -348,7 +328,7 @@ public class MembersViewModel extends AndroidViewModel {
         repository.approveLoan(loanId, adminEmail, callback);
     }
 
-    public LiveData<List<com.example.save.data.local.entities.TransactionEntity>> getPendingTransactions() {
+    public LiveData<List<com.example.save.data.models.TransactionEntity>> getPendingTransactions() {
         return repository.getPendingTransactions();
     }
 
@@ -485,7 +465,7 @@ public class MembersViewModel extends AndroidViewModel {
     }
 
     // System Config & Logic
-    public void updateSystemConfig(com.example.save.data.network.SystemConfigUpdate update, MemberRepository.ConfigCallback callback) {
+    public void updateSystemConfig(Object update, MemberRepository.ConfigCallback callback) {
         repository.updateSystemConfig(update, callback);
     }
 

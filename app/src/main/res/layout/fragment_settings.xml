@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="120dp"
         android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +51,7 @@
                     android:src="@drawable/save_logo"
                     app:layout_constraintBottom_toBottomOf="@id/btnBack"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btnBack"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/btnBack"
                     app:tint="#FFFFFF" />
 
@@ -174,7 +176,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="KES 45K"
+                                android:text="UGX 45,000,000"
                                 android:textColor="#FFFFFF"
                                 android:textSize="17sp" />
 
@@ -299,20 +301,18 @@
                     android:textColor="@color/v_text_muted"
                     android:textSize="12sp" />
 
-                <!-- Menu Grid -->
-                <GridLayout
+                <!-- Menu List (Stacked vertically) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:columnCount="2">
+                    android:orientation="vertical">
 
-                    <!-- Personal Info -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardPersonal"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="6dp"
+                        android:layout_marginBottom="12dp"
                         app:cardBackgroundColor="@color/card_surface"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
@@ -358,13 +358,11 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Scheduled -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardAutomation"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="6dp"
+                        android:layout_marginBottom="12dp"
                         app:cardBackgroundColor="@color/card_surface"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
@@ -409,13 +407,11 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Wallets -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardBank"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="6dp"
+                        android:layout_marginBottom="12dp"
                         app:cardBackgroundColor="@color/card_surface"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
@@ -460,13 +456,11 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Settings -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardGeneral"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="6dp"
+                        android:layout_marginBottom="12dp"
                         app:cardBackgroundColor="@color/card_surface"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
@@ -510,7 +504,7 @@
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-                </GridLayout>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -747,7 +741,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Earn KES 200 per referral"
+                            android:text="Earn UGX 2,000 per referral"
                             android:textColor="#99FFFFFF"
                             android:textSize="11sp" />
                     </LinearLayout>

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="40dp">
+        android:paddingBottom="120dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,21 +23,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp"
-                android:paddingTop="24dp"
+                android:paddingTop="40dp"
                 android:paddingBottom="4dp">
-                
 
-                <!-- Branding text removed as per user request -->
+                <!-- Save Logo branding -->
 
                 <!-- Theme toggle button — to the left of the bell -->
+
+                <ImageView
+                    android:layout_width="114dp"
+                    android:layout_height="38dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/save_logo"
+                    app:tint="@color/brand_blue" />
+
                 <FrameLayout
                     android:id="@+id/btnThemeToggle"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_toStartOf="@id/btnNotifications"
-                    android:layout_marginEnd="4dp"
-                    android:layout_centerVertical="true"
                     android:background="?attr/selectableItemBackgroundBorderless">
+
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -51,14 +58,16 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp"
                     android:background="?attr/selectableItemBackgroundBorderless">
+
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_notifications"
                         app:tint="@color/brand_blue" />
+
                     <View
                         android:id="@+id/notificationIndicator"
                         android:layout_width="8dp"
@@ -109,58 +118,6 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <!-- 3. ALERT BANNER -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/alertBanner" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="16dp" app:cardCornerRadius="14dp" app:cardElevation="0dp" >
-                
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_alert_amber"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-                    
-                    <com.google.android.material.card.MaterialCardView android:layout_width="32dp" android:layout_height="32dp" app:cardBackgroundColor="#FDE68A" app:cardCornerRadius="10dp" app:cardElevation="0dp">
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_clock_orange"
-                            app:tint="@color/h_amber_text" />
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="Contribution due in 3 days"
-                            android:textColor="@color/h_amber_text"
-                            android:textSize="12sp" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="UGX 200,000 · Holiday Fund 2024"
-                            android:textColor="@color/h_amber_subtext"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="Pay Now"
-                        android:textColor="@color/h_blue_600"
-                        android:textSize="11sp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
             <!-- 4. BALANCE CARD -->
             <com.google.android.material.card.MaterialCardView android:id="@+id/balanceCard" android:layout_width="match_parent" android:layout_height="140dp" android:layout_marginHorizontal="20dp" android:layout_marginTop="16dp" app:cardCornerRadius="20dp" app:cardElevation="8dp" >
                 
@@ -186,7 +143,7 @@
                         android:layout_below="@id/tvBalanceLabel"
                         android:layout_marginTop="6dp"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="$12,450.00"
+                        android:text="UGX 12,450,000"
                         android:textColor="#FFFFFF"
                         android:textSize="30sp" />
 
@@ -276,13 +233,14 @@
                         </RelativeLayout>
 
                         <FrameLayout
-                            android:layout_width="72dp"
-                            android:layout_height="72dp"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
                             android:layout_marginTop="12dp">
                             <com.google.android.material.progressindicator.CircularProgressIndicator
                                 android:id="@+id/goalProgress"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:progress="70"
                                 app:indicatorSize="72dp"
                                 app:trackThickness="8dp"
@@ -304,7 +262,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/manrope_medium"
-                            android:text="$2,100 of $3,000"
+                            android:text="UGX 2,100,000 of 3,000,000"
                             android:textColor="@color/h_slate_400"
                             android:textSize="11sp" />
                     </LinearLayout>
@@ -342,7 +300,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="$850"
+                            android:text="UGX 850,000"
                             android:textColor="@color/h_red_500"
                             android:textSize="22sp" />
                         
@@ -621,7 +579,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="$4,800.00"
+                                android:text="UGX 4,800,000.00"
                                 android:textColor="@color/h_blue_600"
                                 android:textSize="18sp" />
                         </LinearLayout>
@@ -728,7 +686,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="24dp">
+                android:layout_marginTop="60dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -791,35 +749,6 @@
                     tools:itemCount="2"
                     tools:listitem="@layout/item_transaction" />
             </com.google.android.material.card.MaterialCardView>
-
-            <!-- 10 & 11. BUTTON ACTIONS -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="30dp"
-                android:orientation="vertical">
-                
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnPayNowBottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Pay Now · UGX 200,000"
-                    android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/manrope_bold"
-                    app:backgroundTint="@color/h_blue_600"
-                    app:cornerRadius="16dp"
-                    app:icon="@drawable/ic_wallet_mockup"
-                    app:iconGravity="textStart"
-                    app:iconSize="20dp"
-                    app:iconPadding="10dp" />
-
-            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

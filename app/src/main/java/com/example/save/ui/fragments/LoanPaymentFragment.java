@@ -31,7 +31,7 @@ public class LoanPaymentFragment extends Fragment {
     private com.google.android.material.progressindicator.CircularProgressIndicator loanProgressRail;
     private com.airbnb.lottie.LottieAnimationView successAnimation;
     private android.view.View animationOverlay;
-    private com.example.save.data.local.entities.LoanEntity activeLoan;
+    private com.example.save.data.models.LoanEntity activeLoan;
 
     public LoanPaymentFragment() {
         // Required empty public constructor
@@ -109,7 +109,7 @@ public class LoanPaymentFragment extends Fragment {
             // Fetch Active Loan from database (for display)
             // NOTE: In production, this should come from backend API
             java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
-                com.example.save.data.local.entities.LoanEntity loan = viewModel
+                com.example.save.data.models.LoanEntity loan = viewModel
                         .getActiveLoanForMember(currentMember.getName());
                 requireActivity().runOnUiThread(() -> {
                     activeLoan = loan;
@@ -119,7 +119,7 @@ public class LoanPaymentFragment extends Fragment {
         }
     }
 
-    private void updateLoanUI(com.example.save.data.local.entities.LoanEntity loan) {
+    private void updateLoanUI(com.example.save.data.models.LoanEntity loan) {
         if (loan != null) {
             java.text.NumberFormat nf = java.text.NumberFormat.getIntegerInstance();
 

@@ -65,18 +65,44 @@ public class MemberLoginActivity extends AppCompatActivity {
                     android.view.animation.Animation release = android.view.animation.AnimationUtils
                             .loadAnimation(MemberLoginActivity.this, R.anim.login_btn_release);
                     v.startAnimation(release);
-                    if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-                        Intent intent = new Intent(MemberLoginActivity.this, MemberInvitationActivity.class);
-                        intent.putExtra("member_name", "Design Member");
-                        intent.putExtra("member_email", "member@design.com");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
-                        finish();
-                    } else {
-                        // TODO: implement real member login
-                        finish();
-                    }
+                    binding.loginButton.setEnabled(false);
+                    com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(
+                            binding.emailInput.getText().toString(),
+                            binding.passwordInput.getText().toString());
+                    loginRequest.setLoginType("member");
+
+                    com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                            .getClient(MemberLoginActivity.this).create(com.example.save.data.network.ApiService.class);
+
+                    apiService.login(loginRequest).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
+                        @Override
+                        public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
+                                               retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
+                            binding.loginButton.setEnabled(true);
+                            if (response.isSuccessful() && response.body() != null) {
+                                com.example.save.data.network.LoginResponse loginResponse = response.body();
+                                com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
+                                session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), loginResponse.getRole(), false);
+                                session.saveJwtToken(loginResponse.getToken());
+
+                                Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
+                                intent.putExtra("member_name", loginResponse.getName());
+                                intent.putExtra("member_email", loginResponse.getEmail());
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
+                                finish();
+                            } else {
+                                Toast.makeText(MemberLoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
+                            binding.loginButton.setEnabled(true);
+                            Toast.makeText(MemberLoginActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
             v.startAnimation(press);

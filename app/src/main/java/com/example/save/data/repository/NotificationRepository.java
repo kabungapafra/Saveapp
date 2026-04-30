@@ -3,11 +3,8 @@ package com.example.save.data.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
+import androidx.lifecycle.MutableLiveData;
 
-import com.example.save.data.local.AppDatabase;
-import com.example.save.data.local.dao.NotificationDao;
-import com.example.save.data.local.entities.NotificationEntity;
 import com.example.save.data.models.Notification;
 
 import java.util.ArrayList;
@@ -16,29 +13,14 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class NotificationRepository {
-    private final NotificationDao notificationDao;
     private final Executor executor;
-    private LiveData<List<Notification>> notificationsLiveData;
+    private final MutableLiveData<List<Notification>> notificationsLiveData = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<Integer> unreadCountLiveData = new MutableLiveData<>(0);
 
     private static NotificationRepository instance;
 
     private NotificationRepository(Application application) {
-        AppDatabase db = AppDatabase.getInstance(application);
-        notificationDao = db.notificationDao();
         executor = Executors.newSingleThreadExecutor();
-
-        // Transform Entities to Models
-        notificationsLiveData = Transformations.map(notificationDao.getAllNotifications(), entities -> {
-            List<Notification> models = new ArrayList<>();
-            for (NotificationEntity entity : entities) {
-                Notification n = new Notification(entity.getTitle(), entity.getMessage(), entity.getType());
-                n.setId(entity.getId());
-                n.setTimestamp(entity.getTimestamp());
-                n.setRead(entity.isRead());
-                models.add(n);
-            }
-            return models;
-        });
     }
 
     public static synchronized NotificationRepository getInstance(Application application) {
@@ -48,87 +30,85 @@ public class NotificationRepository {
         return instance;
     }
 
-    /**
-     * Returns a LiveData object providing an observable list of all notifications.
-     * 
-     * @return Observable list of Notification models.
-     */
     public LiveData<List<Notification>> getAllNotifications() {
         return notificationsLiveData;
     }
 
-    /**
-     * Returns a LiveData object providing the count of unread notifications.
-     * 
-     * @return Observable count of unread notifications.
-     */
     public LiveData<Integer> getUnreadCount() {
-        return notificationDao.getUnreadCount();
+        return unreadCountLiveData;
     }
 
-    /**
-     * Adds a new notification to the local database.
-     * 
-     * @param title   The title of the notification.
-     * @param message The content of the notification.
-     * @param type    The type/category of notification.
-     */
     public void addNotification(String title, String message, String type) {
         executor.execute(() -> {
-            NotificationEntity entity = new NotificationEntity(title, message, type, System.currentTimeMillis(), false);
-            notificationDao.insert(entity);
+            List<Notification> current = new ArrayList<>(notificationsLiveData.getValue());
+            Notification n = new Notification(title, message, type);
+            n.setId(System.currentTimeMillis());
+            n.setTimestamp(System.currentTimeMillis());
+            n.setRead(false);
+            current.add(0, n);
+            updateLiveData(current);
         });
     }
 
     public void addUniqueNotification(String title, String message, String type) {
         executor.execute(() -> {
-            // Only add if there's no unread notification of this exact type
-            List<NotificationEntity> unread = notificationDao.getUnreadByTypeSync(type);
+            List<Notification> current = new ArrayList<>(notificationsLiveData.getValue());
             boolean alreadyExists = false;
-            for (NotificationEntity e : unread) {
-                if (e.getTitle().equals(title)) {
+            for (Notification n : current) {
+                if (!n.isRead() && n.getType().equals(type) && n.getTitle().equals(title)) {
                     alreadyExists = true;
                     break;
                 }
             }
 
             if (!alreadyExists) {
-                NotificationEntity entity = new NotificationEntity(title, message, type, System.currentTimeMillis(),
-                        false);
-                notificationDao.insert(entity);
+                Notification n = new Notification(title, message, type);
+                n.setId(System.currentTimeMillis());
+                n.setTimestamp(System.currentTimeMillis());
+                n.setRead(false);
+                current.add(0, n);
+                updateLiveData(current);
             }
         });
     }
 
     public void markAsRead(long id) {
-        // Need to query, update, insert... simpler if we update by ID query but used
-        // @Update annotation on obj
-        // Since we don't have getById exposed in DAO yet, let's just use a query or add
-        // it.
-        // Actually, just add a @Query to update read status.
-        // But since I already wrote DAO, I might not want to edit it again if I can
-        // avoid it.
-        // I didn't add UPDATE auto-query. I added @Update Entity.
-        // For now, let's assume UI handles it or I accept 'mark all read' style for
-        // simplicity?
-        // No, let's just make it simple.
+        executor.execute(() -> {
+            List<Notification> current = new ArrayList<>(notificationsLiveData.getValue());
+            for (Notification n : current) {
+                if (n.getId() == id) {
+                    n.setRead(true);
+                    break;
+                }
+            }
+            updateLiveData(current);
+        });
     }
 
-    /**
-     * Marks all unread notifications as read.
-     */
     public void markAllAsRead() {
         executor.execute(() -> {
-            // Inefficient but works: fetch sync -> update loop
-            List<NotificationEntity> unread = notificationDao.getUnreadNotificationsSync();
-            for (NotificationEntity e : unread) {
-                e.setRead(true);
-                notificationDao.update(e);
+            List<Notification> current = new ArrayList<>(notificationsLiveData.getValue());
+            for (Notification n : current) {
+                n.setRead(true);
             }
+            updateLiveData(current);
         });
     }
 
     public void clearAll() {
-        executor.execute(notificationDao::deleteAll);
+        executor.execute(() -> {
+            updateLiveData(new ArrayList<>());
+        });
+    }
+
+    private void updateLiveData(List<Notification> notifications) {
+        new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+            notificationsLiveData.setValue(notifications);
+            int unread = 0;
+            for (Notification n : notifications) {
+                if (!n.isRead()) unread++;
+            }
+            unreadCountLiveData.setValue(unread);
+        });
     }
 }

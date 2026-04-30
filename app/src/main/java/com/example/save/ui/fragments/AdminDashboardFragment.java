@@ -20,7 +20,6 @@ import com.example.save.databinding.FragmentAdminDashboardBinding;
 import com.example.save.ui.activities.AdminMainActivity;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.ui.viewmodels.NotificationsViewModel;
-import com.example.save.data.network.DashboardSummaryResponse;
 import com.example.save.data.repository.MemberRepository;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -219,15 +218,15 @@ public class AdminDashboardFragment extends Fragment {
         if (isAdmin) {
             viewModel.getDashboardSummary(new MemberRepository.SummaryCallback() {
                 @Override
-                public void onResult(boolean success, DashboardSummaryResponse summary, String message) {
-                    if (success && summary != null && isAdded()) {
+                public void onResult(boolean success, String message) {
+                    if (success && isAdded()) {
                         requireActivity().runOnUiThread(() -> {
-                            totalBalanceValue = summary.getTotalBalance();
+                            // MOCK DATA: No Database
+                            totalBalanceValue = 2500000.0;
                             updateBalanceDisplay();
-
-                            NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
-                            binding.monthlyContrib.setText(ugFormat.format(summary.getMonthlyContributions()).replace("UGX", "UGX "));
-                            binding.interestEarned.setText(ugFormat.format(summary.getInterestEarned()).replace("UGX", "UGX "));
+                            
+                            binding.monthlyContrib.setText("UGX 450,000");
+                            binding.interestEarned.setText("UGX 125,000");
                         });
                     }
                 }
