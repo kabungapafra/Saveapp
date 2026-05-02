@@ -34,16 +34,18 @@
 
         <activity
             android:name="com.example.save.ui.activities.LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
 
         <activity
             android:name="com.example.save.ui.activities.MemberLoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
 
         <activity
             android:name="com.example.save.ui.activities.MemberInvitationActivity"
             android:exported="false"
-            android:theme="@style/Theme.SaveApp.NoActionBar" />
+            android:theme="@style/Theme.Save.LightOnly" />
 
         <activity
             android:name=".ui.activities.NavigationTestingActivity"
@@ -53,6 +55,7 @@
         <activity
             android:name="com.example.save.ui.activities.AdminLoginActivity"
             android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly"
             tools:ignore="DuplicateActivity" />
         <activity
             android:name="com.example.save.ui.activities.MemberMainActivity"
@@ -60,10 +63,12 @@
             android:theme="@style/Theme.Save.Dashboard" />
         <activity
             android:name="com.example.save.ui.activities.MemberRegistrationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
         <activity
             android:name="com.example.save.ui.activities.AdminSignupActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
 
         <activity
             android:name="com.example.save.ui.activities.AdminMainActivity"
@@ -72,11 +77,13 @@
 
         <activity
             android:name="com.example.save.ui.activities.ResetPasswordActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
 
         <activity
             android:name="com.example.save.ui.activities.PasswordResetSuccessActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
 
 
 
@@ -85,7 +92,7 @@
         <activity
             android:name="com.example.save.ui.activities.AdminSetupWizardActivity"
             android:exported="false"
-            android:theme="@style/Theme.Save" />
+            android:theme="@style/Theme.Save.LightOnly" />
 
         <activity
             android:name="com.example.save.ui.activities.HelpSupportActivity"

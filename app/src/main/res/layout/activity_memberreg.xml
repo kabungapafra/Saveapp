@@ -1,207 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login_root">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/burgundy_gradient">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-        <!-- Decorative Circles -->
-        <View
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginStart="-40dp"
-            android:alpha="0.1"
-            android:background="@drawable/white_circle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/helloText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="64dp"
-            android:text="Member!"
-            android:textColor="#FFFFFF"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- White Card Background -->
-        <View
-            android:id="@+id/cardBg"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="160dp"
-            android:background="@drawable/white_card_bg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Side Tab Container -->
-        <LinearLayout
-            android:id="@+id/sideTabContainer"
-            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:paddingStart="24dp"
+            android:paddingTop="48dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="32dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:rotation="270"
-                android:text="LOG IN"
-                android:textColor="@color/project_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <!-- Dummy Signup Tab for consistency and compatibility -->
-            <TextView
-                android:id="@+id/sideSignUpTab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:rotation="270"
-                android:text="MEMBER"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/loginCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="32dp"
-            app:layout_constraintEnd_toStartOf="@+id/sideTabContainer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cardBg">
-
-            <!-- Group Name -->
-            <EditText
-                android:id="@+id/groupNameInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableStart="@drawable/ic_people"
-                android:drawablePadding="12dp"
-                app:drawableTint="@color/project_primary"
-                android:hint="Group Name"
-                android:inputType="text"
-                android:paddingVertical="16dp"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="16dp"
-                android:background="#EEEEEE" />
-
-            <!-- Email Address -->
-            <EditText
-                android:id="@+id/emailInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableStart="@drawable/ic_email"
-                android:drawablePadding="12dp"
-                app:drawableTint="@color/project_primary"
-                android:hint="Email Address"
-                android:inputType="textEmailAddress"
-                android:paddingVertical="16dp"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="16dp"
-                android:background="#EEEEEE" />
-
-            <!-- Password -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/passwordInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:drawableStart="@drawable/ic_lock"
-                    android:drawablePadding="12dp"
-                    app:drawableTint="@color/project_primary"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:paddingVertical="16dp"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+            <!-- Squircle Logo Container -->
+            <FrameLayout
+                android:id="@+id/logoContainer"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/bg_logo_squircle">
 
                 <ImageView
-                    android:id="@+id/passwordToggle"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_visibility_off"
-                    app:tint="#CCCCCC"
-                    tools:ignore="ContentDescription" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="16dp"
-                android:background="#EEEEEE" />
+                    android:id="@+id/logoImage"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/app_logo"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/save_logo" />
+            </FrameLayout>
 
             <TextView
-                android:id="@+id/forgotPassword"
+                android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="Forgot Password?"
-                android:textColor="@color/project_primary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <!-- Login Button -->
-            <Button
-                android:id="@+id/loginButton"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="48dp"
-                android:background="@drawable/gradient_button"
-                app:backgroundTint="@null"
-                android:text="SIGN IN"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
+                android:fontFamily="@font/manrope"
+                android:text="Member Registration"
+                android:textColor="@color/v_text_dark"
+                android:textSize="32sp"
                 android:textStyle="bold"
-                android:letterSpacing="0.1" />
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/subtitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope"
+                android:text="Join your group and start saving"
+                android:textColor="@color/v_text_mid"
+                android:textSize="16sp"
+                android:layout_marginBottom="32dp" />
+
+            <!-- Form Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/loginCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/v_page_bg"
+                android:layout_marginBottom="32dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <!-- Group Name Field -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Group Name"
+                        android:textColor="@color/v_text_mid"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/manrope"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_input_field"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginBottom="20dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:srcCompat="@drawable/ic_people"
+                            app:tint="@color/v_text_muted" />
+
+                        <EditText
+                            android:id="@+id/groupNameInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:background="@null"
+                            android:hint="Enter group name to join"
+                            android:inputType="text"
+                            android:textColor="@color/v_text_dark"
+                            android:textColorHint="@color/v_text_muted"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <!-- Email Address Field -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Your Email Address"
+                        android:textColor="@color/v_text_mid"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/manrope"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_input_field"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginBottom="32dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:srcCompat="@drawable/ic_email"
+                            app:tint="@color/v_text_muted" />
+
+                        <EditText
+                            android:id="@+id/emailInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:background="@null"
+                            android:hint="name@example.com"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/v_text_dark"
+                            android:textColorHint="@color/v_text_muted"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <!-- Register Button -->
+                    <LinearLayout
+                        android:id="@+id/loginButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_btn_member_blue"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/loginButtonText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Join Group"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/manrope"
+                            android:layout_marginEnd="8dp" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:srcCompat="@drawable/ic_arrow_right"
+                            app:tint="#FFFFFF" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Back to Login -->
+            <TextView
+                android:id="@+id/backToLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? Login"
+                android:textColor="@color/login_button_blue"
+                android:textSize="15sp"
+                android:fontFamily="@font/manrope"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
 
         </LinearLayout>
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Fragment Container -->
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:visibility="gone" />
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,21 +3,21 @@ package com.example.save.data.repository;
 import android.app.Application;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import com.example.save.data.models.LoanRequest;
+import com.example.save.data.models.Loan;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * LoanRepository - Fully Static Version
- * No Database, No Network.
+ * Transitioned to satisfy ViewModel requirements.
  */
 public class LoanRepository {
-    private final MutableLiveData<List<LoanRequest>> loansLiveData = new MutableLiveData__(new ArrayList<>());
+    private final MutableLiveData<List<Loan>> loansLiveData = new MutableLiveData<>(new ArrayList<>());
     private static LoanRepository instance;
 
     private LoanRepository(Application application) {
         // Mock data
-        List<LoanRequest> mockLoans = new ArrayList<>();
+        List<Loan> mockLoans = new ArrayList<>();
         loansLiveData.setValue(mockLoans);
     }
 
@@ -28,24 +28,33 @@ public class LoanRepository {
         return instance;
     }
 
-    public LiveData<List<LoanRequest>> getAllLoans() {
+    public LiveData<List<Loan>> getLoans() {
         return loansLiveData;
     }
 
-    public void addLoan(LoanRequest loan) {
-        List<LoanRequest> current = new ArrayList<>(loansLiveData.getValue());
-        current.add(loan);
-        loansLiveData.setValue(current);
+    public void approveLoan(String id) {
+        // Stub
     }
 
-    public void updateLoan(LoanRequest loan) {
-        List<LoanRequest> current = new ArrayList<>(loansLiveData.getValue());
-        for (int i = 0; i < current.size(); i++) {
-            if (current.get(i).getId() != null && current.get(i).getId().equals(loan.getId())) {
-                current.set(i, loan);
-                break;
-            }
-        }
+    public void rejectLoan(String id) {
+        // Stub
+    }
+
+    public double getTotalOutstanding() {
+        return 0;
+    }
+
+    public double getTotalInterestEarned() {
+        return 0;
+    }
+
+    public List<Loan> getLoansSync() {
+        return loansLiveData.getValue();
+    }
+
+    public void addLoan(Loan loan) {
+        List<Loan> current = new ArrayList<>(loansLiveData.getValue());
+        current.add(loan);
         loansLiveData.setValue(current);
     }
 }

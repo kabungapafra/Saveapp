@@ -8,7 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.save.R;
 import com.example.save.databinding.ActivityAdminSetupWizardBinding;
@@ -17,31 +18,250 @@ import com.example.save.ui.fragments.WizardContributionFragment;
 import com.example.save.ui.fragments.WizardRulesFragment;
 import com.example.save.ui.fragments.WizardPayoutFragment;
 import com.example.save.ui.fragments.WizardCompleteFragment;
-import com.example.save.ui.viewmodels.MembersViewModel;
+import com.example.save.ui.fragments.LegalAgreementFragment;
+import com.example.save.ui.fragments.OtpFragment;
+
+public class AdminSetupWizardActivity extends AppCompatActivity {
+
+    private ActivityAdminSetupWizardBinding binding;
+    private int currentStep = 1;
+
+    // Wizard Data
+    private String groupName;
+    private String groupDescription;
+    private String currency;
+    private double contributionAmount;
+    private String contributionFrequency;
+    private double latePenalty;
+    private double payoutAmount;
+    private double retentionPercentage;
+    private double maxLoanAmount;
+    private double interest_rate;
+    private int repaymentPeriod;
+    private boolean requireGuarantor;
+    
+    // Admin Signup Data
+    private String adminName;
+    private String adminEmail;
+    private String adminPhone;
+    private String adminPassword;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityAdminSetupWizardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
+
+        // Get Admin data from Intent
+        adminName = getIntent().getStringExtra("ADMIN_NAME");
+        adminEmail = getIntent().getStringExtra("EMAIL");
+        adminPhone = getIntent().getStringExtra("PHONE");
+        adminPassword = getIntent().getStringExtra("PASSWORD");
+
+        setupListeners();
+        loadStep(currentStep);
+    }
+
+    private void setupListeners() {
+        binding.btnNext.setOnClickListener(v -> nextStep());
+        binding.btnBack.setOnClickListener(v -> onBackPressed());
+    }
+
+    public void nextStep() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.wizardFragmentContainer);
+        boolean isValid = true;
+
+        if (currentFragment instanceof WizardGroupInfoFragment) {
+            isValid = ((WizardGroupInfoFragment) currentFragment).validateAndSave();
+        } else if (currentFragment instanceof WizardContributionFragment) {
+            isValid = ((WizardContributionFragment) currentFragment).validateAndSave();
+        } else if (currentFragment instanceof WizardPayoutFragment) {
+            isValid = ((WizardPayoutFragment) currentFragment).validateAndSave();
+        } else if (currentFragment instanceof WizardRulesFragment) {
+            isValid = ((WizardRulesFragment) currentFragment).validateAndSave();
+        }
+
+        if (isValid) {
+            if (currentStep < 7) {
+                if (currentStep == 6) {
+                    sendOtpAndProceed();
+                } else {
+                    currentStep++;
+                    loadStep(currentStep);
+                }
+            } else {
+                completeWizard();
+            }
+        } else {
+            Toast.makeText(this, "Please complete all required fields correctly", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendOtpAndProceed() {
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            currentStep++;
+            loadStep(currentStep);
+            return;
+        }
+
+        Toast.makeText(this, "Sending OTP...", Toast.LENGTH_SHORT).show();
+
+        com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(adminEmail, adminPhone);
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(this).create(com.example.save.data.network.ApiService.class);
+
+        apiService.sendAdminOtp(request).enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call, 
+                                   retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    Toast.makeText(AdminSetupWizardActivity.this, "OTP sent to " + adminEmail, Toast.LENGTH_SHORT).show();
+                    currentStep++;
+                    loadStep(currentStep);
+                } else {
+                    String error = "Failed to send OTP";
+                    if (response.errorBody() != null) {
+                        try { error = response.errorBody().string(); } catch (Exception e) {}
+                    }
+                    Toast.makeText(AdminSetupWizardActivity.this, error, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                Toast.makeText(AdminSetupWizardActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (currentStep > 1) {
+            currentStep--;
+            loadStep(currentStep);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void loadStep(int step) {
+        Fragment fragment;
+        switch (step) {
+            case 1:
+                fragment = new WizardGroupInfoFragment();
+                binding.btnNext.setText("Continue");
+                break;
+            case 2:
+                fragment = new WizardContributionFragment();
+                binding.btnNext.setText("Continue");
+                break;
+            case 3:
+                fragment = new WizardPayoutFragment();
+                binding.btnNext.setText("Continue");
+                break;
+            case 4:
+                fragment = new WizardRulesFragment();
+                binding.btnNext.setText("Continue");
+                binding.footer.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                fragment = new WizardCompleteFragment();
+                binding.btnNext.setText("Go to Legal Center");
+                binding.footer.setVisibility(View.VISIBLE);
+                break;
+            case 6:
+                fragment = new LegalAgreementFragment();
+                binding.footer.setVisibility(View.GONE);
+                break;
+            case 7:
+                fragment = new OtpFragment();
+                binding.footer.setVisibility(View.GONE);
+                break;
+            default:
+                fragment = new WizardGroupInfoFragment();
+                binding.btnNext.setText("Continue");
+                binding.footer.setVisibility(View.VISIBLE);
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+        transaction.replace(R.id.wizardFragmentContainer, fragment);
+        transaction.commit();
+
+        updateProgress(step);
+    }
+
+    private void updateProgress(int step) {
+        int progress = (step * 100) / 7;
+        binding.wizardProgressBar.setProgress(progress);
+        binding.tvStepCount.setText("Step " + step + " of 7");
+        
+        switch (step) {
+            case 1: binding.tvSectionTitle.setText("GROUP INFO"); break;
+            case 2: binding.tvSectionTitle.setText("CONTRIBUTIONS"); break;
+            case 3: binding.tvSectionTitle.setText("PAYOUTS"); break;
+            case 4: binding.tvSectionTitle.setText("LOAN RULES"); break;
+            case 5: binding.tvSectionTitle.setText("REVIEW"); break;
+            case 6: binding.tvSectionTitle.setText("LEGAL"); break;
+            case 7: binding.tvSectionTitle.setText("VERIFICATION"); break;
+        }
+        
+        // Progress and Navigation are now handled inside each fragment
+        binding.progressSection.setVisibility(View.GONE);
+        binding.toolbar.setVisibility(View.GONE);
+    }
+
     private void completeWizard() {
-        // MOCK: No Database, No Network
-        // Save configuration to local SharedPreferences only
+        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+            finishSetup();
+            return;
+        }
+
+        // Prepare Config Object
+        com.example.save.data.models.SystemConfig config = new com.example.save.data.models.SystemConfig();
+        config.setContributionAmount(contributionAmount);
+        config.setPayoutAmount(payoutAmount);
+        config.setRetentionPercentage(retentionPercentage);
+        config.setLoanInterestRate(interest_rate);
+        config.setMaxLoanLimit(maxLoanAmount);
+        config.setMaxLoanDuration(repaymentPeriod);
+        config.setLatePenaltyRate(latePenalty);
+        config.setCurrency(currency);
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(this).create(com.example.save.data.network.ApiService.class);
+
+        apiService.updateSystemConfig(config).enqueue(new retrofit2.Callback<com.example.save.data.models.SystemConfig>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.models.SystemConfig> call, 
+                                   retrofit2.Response<com.example.save.data.models.SystemConfig> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(AdminSetupWizardActivity.this, "Group Configured Successfully!", Toast.LENGTH_SHORT).show();
+                    finishSetup();
+                } else {
+                    Toast.makeText(AdminSetupWizardActivity.this, "Failed to save configuration", Toast.LENGTH_SHORT).show();
+                    // Fallback to finishing anyway for now, or stay on screen
+                    finishSetup();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.models.SystemConfig> call, Throwable t) {
+                Toast.makeText(AdminSetupWizardActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                finishSetup();
+            }
+        });
+    }
+
+    private void finishSetup() {
         SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+        prefs.edit()
+                .putString("group_name", groupName)
+                .putBoolean("wizard_completed", true)
+                .apply();
 
-        editor.putString("group_name", groupName);
-        editor.putString("group_description", groupDescription);
-        editor.putString("currency", currency);
-        editor.putFloat("contribution_amount", (float) contributionAmount);
-        editor.putString("contribution_frequency", contributionFrequency);
-        editor.putFloat("late_penalty", (float) latePenalty);
-        editor.putFloat("payout_amount", (float) payoutAmount);
-        editor.putFloat("retention_percentage", (float) retentionPercentage);
-        editor.putFloat("max_loan_amount", (float) maxLoanAmount);
-        editor.putFloat("interest_rate", (float) interest_rate);
-        editor.putInt("repayment_period", repaymentPeriod);
-        editor.putBoolean("require_guarantor", requireGuarantor);
-        editor.putBoolean("wizard_completed", true);
-        editor.apply();
-
-        Toast.makeText(this, "Group successfully configured (Offline)!", Toast.LENGTH_SHORT).show();
-
-        // Navigate to main activity
         Intent intent = new Intent(this, AdminMainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -79,4 +299,9 @@ import com.example.save.ui.viewmodels.MembersViewModel;
     public String getContributionFrequency() { return contributionFrequency; }
     public double getPayoutAmount() { return payoutAmount; }
     public double getRetentionPercentage() { return retentionPercentage; }
+
+    public String getAdminName() { return adminName; }
+    public String getAdminEmail() { return adminEmail; }
+    public String getAdminPhone() { return adminPhone; }
+    public String getAdminPassword() { return adminPassword; }
 }

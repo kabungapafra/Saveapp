@@ -59,6 +59,18 @@ public class AdminMainActivity extends AppCompatActivity {
         new NotificationHelper(this);
         PermissionUtils.requestNotificationPermission(this);
 
+        // Security Check: If it's the first login, force password change redirect
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(this);
+        if (session.isFirstLogin()) {
+            Intent intent = new Intent(this, ResetPasswordActivity.class);
+            intent.putExtra("email", session.getUserEmail());
+            intent.putExtra("is_first_login", true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         setupBottomNavigation();
         
         // Initial setup

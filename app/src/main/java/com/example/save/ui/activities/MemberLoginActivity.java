@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
 import com.example.save.R;
 import com.example.save.databinding.ActivityMemberLoginBinding;
 
@@ -113,7 +114,11 @@ public class MemberLoginActivity extends AppCompatActivity {
         });
 
         binding.forgotPasswordText.setOnClickListener(v -> {
-            // Future Forgot Password
+            Intent intent = new Intent(this, ResetPasswordActivity.class);
+            intent.putExtra("email", binding.emailInput.getText().toString().trim());
+            intent.putExtra("sourceActivity", "MemberLoginActivity");
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         binding.adminPortalLink.setOnClickListener(v -> {

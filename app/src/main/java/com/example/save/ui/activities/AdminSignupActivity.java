@@ -33,6 +33,7 @@ public class AdminSignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
 
         // Handle back press with OnBackPressedDispatcher
         // Handle back press
@@ -54,7 +55,7 @@ public class AdminSignupActivity extends AppCompatActivity {
         });
 
         // Signup button click (Next)
-        binding.signupButton.setOnClickListener(v -> sendOtp());
+        binding.signupButton.setOnClickListener(v -> proceedToWizard());
 
         // Already have account - navigate to login
         binding.alreadyHaveAccount.setOnClickListener(v -> {
@@ -84,7 +85,7 @@ public class AdminSignupActivity extends AppCompatActivity {
         binding.alreadyHaveAccount.startAnimation(slideUp);
     }
 
-    private void sendOtp() {
+    private void proceedToWizard() {
         // Get input values
         String adminName = binding.adminNameInput.getText().toString().trim();
         String phoneInput = binding.phoneInput.getText().toString().trim();
@@ -121,11 +122,10 @@ public class AdminSignupActivity extends AppCompatActivity {
             return;
         }
 
-        // Disable button while transitioning
-        binding.signupButton.setEnabled(false);
-        binding.signupButton.setText("Continuing...");
+        navigateToWizard(adminName, email, phone, password);
+    }
 
-        // Navigate directly to Group Setup Wizard instead of sending OTP immediately
+    private void navigateToWizard(String adminName, String email, String phone, String password) {
         Intent intent = new Intent(AdminSignupActivity.this, AdminSetupWizardActivity.class);
         intent.putExtra("ADMIN_NAME", adminName);
         intent.putExtra("PHONE", phone);

@@ -216,19 +216,16 @@ public class AdminDashboardFragment extends Fragment {
 
     private void loadDashboardData() {
         if (isAdmin) {
-            viewModel.getDashboardSummary(new MemberRepository.SummaryCallback() {
-                @Override
-                public void onResult(boolean success, String message) {
-                    if (success && isAdded()) {
-                        requireActivity().runOnUiThread(() -> {
-                            // MOCK DATA: No Database
-                            totalBalanceValue = 2500000.0;
-                            updateBalanceDisplay();
-                            
-                            binding.monthlyContrib.setText("UGX 450,000");
-                            binding.interestEarned.setText("UGX 125,000");
-                        });
-                    }
+            viewModel.getDashboardSummary((success, summary, message) -> {
+                if (success && isAdded()) {
+                    requireActivity().runOnUiThread(() -> {
+                        // MOCK DATA: No Database
+                        totalBalanceValue = 2500000.0;
+                        updateBalanceDisplay();
+                        
+                        binding.monthlyContrib.setText("UGX 450,000");
+                        binding.interestEarned.setText("UGX 125,000");
+                    });
                 }
             });
         } else {

@@ -8,6 +8,13 @@
 
     <style name="Theme.Save" parent="Base.Theme.Save" />
 
+    <style name="Theme.Save.LightOnly" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:colorBackground">@color/white</item>
+    </style>
+
     <!-- Dashboard specific theme for smooth transitions -->
     <style name="Theme.Save.Dashboard" parent="Theme.Save">
         <item name="android:windowBackground">@drawable/bg_geometric_pattern</item>

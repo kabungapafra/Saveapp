@@ -114,17 +114,12 @@ public class AdminLoginActivity extends AppCompatActivity {
      * Show forgot password fragment
      */
     private void showForgotPasswordFragment() {
-        // Hide login card and show fragment container
-        binding.loginCard.setVisibility(View.GONE);
-        binding.sideTabContainer.setVisibility(View.GONE);
-        binding.fragmentContainer.setVisibility(View.VISIBLE);
-
-        // Show forgot password fragment
-        NewPasswordFragment fragment = NewPasswordFragment.newInstance();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit();
+        // Navigate directly to ResetPasswordActivity as the "Forgot Password" flow
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        intent.putExtra("email", binding.emailInput.getText().toString().trim());
+        intent.putExtra("sourceActivity", "AdminLoginActivity");
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @SuppressLint("GestureBackNavigation")

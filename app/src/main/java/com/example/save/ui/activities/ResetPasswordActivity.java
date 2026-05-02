@@ -116,32 +116,42 @@ public class ResetPasswordActivity extends AppCompatActivity {
         binding.actionButton.setText("Resetting...");
         binding.loadingIndicator.setVisibility(View.VISIBLE);
 
-        // Call backend API (ViewModel) to update password
-        com.example.save.ui.viewmodels.MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(this)
-                .get(com.example.save.ui.viewmodels.MembersViewModel.class);
+        // Call backend API to update password
+        com.example.save.data.network.ResetPasswordRequest request = new com.example.save.data.network.ResetPasswordRequest();
+        request.setEmail(userEmail);
+        request.setNewPassword(newPassword);
 
-        viewModel.resetPassword(userEmail, newPassword,
-                new com.example.save.data.repository.MemberRepository.PasswordChangeCallback() {
-                    @Override
-                    public void onResult(boolean success, String message) {
-                        binding.loadingIndicator.setVisibility(View.GONE);
-                        binding.actionButton.setEnabled(true);
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(this).create(com.example.save.data.network.ApiService.class);
 
-                        if (success) {
-                            Toast.makeText(ResetPasswordActivity.this, "Password reset successfully!",
-                                    Toast.LENGTH_SHORT).show();
+        apiService.resetPassword(request).enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call, 
+                                   retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                binding.loadingIndicator.setVisibility(View.GONE);
+                binding.actionButton.setEnabled(true);
 
-                            // Navigate to the Success Activity
-                            Intent intent = new Intent(ResetPasswordActivity.this, PasswordResetSuccessActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(ResetPasswordActivity.this,
-                                    message != null ? message : "Failed to reset password",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    Toast.makeText(ResetPasswordActivity.this, "Password reset successfully!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ResetPasswordActivity.this, PasswordResetSuccessActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    String error = "Failed to reset password";
+                    if (response.errorBody() != null) {
+                        try { error = response.errorBody().string(); } catch (Exception e) {}
                     }
-                });
+                    Toast.makeText(ResetPasswordActivity.this, error, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                binding.loadingIndicator.setVisibility(View.GONE);
+                binding.actionButton.setEnabled(true);
+                Toast.makeText(ResetPasswordActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

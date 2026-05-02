@@ -30,7 +30,9 @@ public class MembersViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Member>> searchMembers(String query) {
-        return repository.searchMembers(query);
+        androidx.lifecycle.MutableLiveData<List<Member>> liveData = new androidx.lifecycle.MutableLiveData<>();
+        liveData.setValue(repository.searchMembers(query));
+        return liveData;
     }
 
     public List<Member> getAdmins() {

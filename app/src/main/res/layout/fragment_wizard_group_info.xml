@@ -39,7 +39,7 @@
             android:id="@+id/tvStepIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Step 1 of 3"
+            android:text="Step 1 of 7"
             android:textColor="@color/v_text_muted"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/tvSectionLabel"
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="6dp"
             android:layout_marginTop="12dp"
-            android:progress="33"
+            android:progress="14"
             android:progressDrawable="@drawable/bg_wizard_progress"
             app:layout_constraintTop_toBottomOf="@id/tvSectionLabel" />
 

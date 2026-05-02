@@ -22,17 +22,52 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/v_text_dark" />
 
+        <!-- Progress Indicator Row -->
+        <RelativeLayout
+            android:id="@+id/progressRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/btnBack">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VERIFICATION"
+                android:textColor="@color/brand_blue"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Step 7 of 7"
+                android:textColor="@color/v_text_muted"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/stepProgress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="12dp"
+            android:progress="100"
+            android:progressDrawable="@drawable/bg_wizard_progress"
+            app:layout_constraintTop_toBottomOf="@id/progressRow" />
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:text="Verify Your Email"
             android:textColor="@color/v_text_dark"
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnBack" />
+            app:layout_constraintTop_toBottomOf="@id/stepProgress" />
 
         <TextView
             android:id="@+id/tvSubtitle"

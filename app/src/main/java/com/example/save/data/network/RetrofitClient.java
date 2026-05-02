@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RetrofitClient {
     // Replace this with your actual PostgreSQL Backend URL
-    private static final String BASE_URL = "https://your-railway-app-name.up.railway.app/api/";
+    private static final String BASE_URL = "https://saveapp-backend-production-19fe.up.railway.app/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {

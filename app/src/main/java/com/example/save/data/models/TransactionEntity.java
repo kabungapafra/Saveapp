@@ -14,6 +14,17 @@ public class TransactionEntity {
 
     public TransactionEntity() {}
 
+    public TransactionEntity(String id, String memberName, double amount, String description, Date date, boolean isPositive, String status, String type) {
+        this.id = id;
+        this.memberName = memberName;
+        this.amount = amount;
+        this.description = description;
+        this.date = date;
+        this.isPositive = isPositive;
+        this.status = status;
+        this.type = type;
+    }
+
     public TransactionEntity(String memberName, String type, double amount, String description, boolean isPositive) {
         this.memberName = memberName;
         this.type = type;
