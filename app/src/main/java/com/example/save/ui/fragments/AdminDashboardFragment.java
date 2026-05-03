@@ -154,11 +154,22 @@ public class AdminDashboardFragment extends Fragment {
 
     private void updateScheduleUI() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("SaveAppPrefs", Context.MODE_PRIVATE);
-        String contrib = prefs.getString("sched_contrib_date", "Dec 05 & Dec 19");
-        binding.tvContributionDate.setText(contrib);
+        String contrib = prefs.getString("sched_contrib_date", "");
+        String payout = prefs.getString("sched_payout_date", "");
+
+        if (contrib.isEmpty()) {
+            binding.sectionPayoutSchedule.setVisibility(View.GONE);
+        } else {
+            binding.sectionPayoutSchedule.setVisibility(View.VISIBLE);
+            binding.tvContributionDate.setText(contrib);
+            binding.tvPayoutDate.setText(payout);
+        }
         
-        String payout = prefs.getString("sched_payout_date", "Jan 02 & Jan 16");
-        binding.tvPayoutDate.setText(payout);
+        // Hide other demo sections by default for now
+        binding.sectionSavingsTargets.setVisibility(View.GONE);
+        binding.sectionActiveLoans.setVisibility(View.GONE);
+        binding.sectionRecentPayouts.setVisibility(View.GONE);
+        binding.sectionUpcomingPayouts.setVisibility(View.GONE);
     }
 
     private void observeViewModel() {

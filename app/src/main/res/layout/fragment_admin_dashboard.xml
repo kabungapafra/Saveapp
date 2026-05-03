@@ -64,8 +64,30 @@
                 <LinearLayout android:id="@+id/balanceContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/brandArea" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="10dp">
                     <TextView android:id="@+id/tvBalanceLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TOTAL GROUP BALANCE" android:textColor="#E0E7FF" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.05" />
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
-                        <TextView android:id="@+id/currentBalance" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UGX 142,580" android:textColor="#FFFFFF" android:textSize="36sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_marginBottom="8dp" android:background="@drawable/bg_status_pills" android:backgroundTint="@color/brand_blue" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:text="+ 12.5%" android:textColor="#FFFFFF" android:textSize="10sp" android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/currentBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="UGX 0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="36sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvBalanceTrend"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/bg_status_pills"
+                            android:backgroundTint="@color/brand_blue"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="2dp"
+                            android:text="+ 0%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -73,21 +95,59 @@
                     <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp" app:cardBackgroundColor="@color/dashboard_blue_header" app:cardCornerRadius="12dp" app:cardElevation="0dp">
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
                             <TextView android:id="@+id/tvMonthlyLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Monthly Contributions" android:textColor="#E9F2FB" android:textSize="11sp" />
-                            <TextView android:id="@+id/monthlyContrib" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="UGX 12,450" android:textColor="#FFFFFF" android:textSize="18sp" android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/monthlyContrib"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="UGX 0"
+                                android:textColor="#FFFFFF"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" app:cardBackgroundColor="@color/dashboard_blue_header" app:cardCornerRadius="12dp" app:cardElevation="0dp">
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                            <TextView android:id="@+id/tvInterestLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Interest Earned" android:textColor="#E9F2FB" android:textSize="11sp" />
-                            <TextView android:id="@+id/interestEarned" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="UGX 3,120" android:textColor="@color/dashboard_accent_orange" android:textSize="18sp" android:textStyle="bold" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardBackgroundColor="@color/dashboard_blue_header"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:id="@+id/tvInterestLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Interest Earned"
+                                android:textColor="#E9F2FB"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/interestEarned"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="UGX 0"
+                                android:textColor="@color/dashboard_accent_orange"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </RelativeLayout>
 
             <!-- Savings Targets Card -->
-            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="-20dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="4dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/sectionSavingsTargets"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="-20dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="4dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Savings Targets" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold" />
@@ -128,7 +188,9 @@
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Active Loans Card -->
-            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="16dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/sectionActiveLoans"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="16dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Active Loans" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
@@ -160,7 +222,9 @@
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Recent Payouts -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="16dp">
+            <LinearLayout
+                android:id="@+id/sectionRecentPayouts"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="16dp">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Recent Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
                 <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
@@ -191,7 +255,9 @@
             </LinearLayout>
 
             <!-- Upcoming Payouts -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="20dp">
+            <LinearLayout
+                android:id="@+id/sectionUpcomingPayouts"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="20dp">
                   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Upcoming Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
                   <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                      <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
@@ -228,7 +294,9 @@
             </LinearLayout>
 
             <!-- Payout Schedule Section -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="32dp" android:paddingBottom="24dp">
+            <LinearLayout
+                android:id="@+id/sectionPayoutSchedule"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="32dp" android:paddingBottom="24dp">
                 <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
