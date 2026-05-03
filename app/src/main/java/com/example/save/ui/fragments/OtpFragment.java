@@ -221,6 +221,11 @@ public class OtpFragment extends Fragment {
 
                     if (s.length() == 1 && currentIndex < editTexts.length - 1) {
                         editTexts[currentIndex + 1].requestFocus();
+                    } else if (s.length() > 1 && currentIndex < editTexts.length - 1) {
+                        // If user typed second char manually without pasting
+                        String text = s.toString();
+                        editTexts[currentIndex].setText(String.valueOf(text.charAt(text.length() - 1)));
+                        editTexts[currentIndex + 1].requestFocus();
                     } else if (s.length() == 0 && currentIndex > 0) {
                         editTexts[currentIndex - 1].requestFocus();
                     }
