@@ -83,8 +83,6 @@ public class AdminDashboardFragment extends Fragment {
         // Hide admin-only actions if member
         if (!isAdmin) {
             binding.btnEditSchedule.setVisibility(View.GONE);
-            binding.btnMarkPaid1.setVisibility(View.GONE);
-            binding.btnMarkPaid2.setVisibility(View.GONE);
         }
     }
 
@@ -118,26 +116,11 @@ public class AdminDashboardFragment extends Fragment {
             }
         });
 
-        // MARK PAID BUTTONS
-        binding.btnMarkPaid1.setOnClickListener(v -> handleMarkPaid(1));
-        binding.btnMarkPaid2.setOnClickListener(v -> handleMarkPaid(2));
-
         // EDIT SCHEDULE
         binding.btnEditSchedule.setOnClickListener(v -> showEditScheduleDialog());
     }
 
-    private void handleMarkPaid(int index) {
-        if (index == 1) {
-            binding.btnMarkPaid1.setText("PAID \u2714");
-            binding.btnMarkPaid1.setTextColor(Color.parseColor("#10B981"));
-            binding.btnMarkPaid1.setEnabled(false);
-        } else {
-            binding.btnMarkPaid2.setText("PAID \u2714");
-            binding.btnMarkPaid2.setTextColor(Color.parseColor("#10B981"));
-            binding.btnMarkPaid2.setEnabled(false);
-        }
-        Toast.makeText(getContext(), "Transaction recorded successfully", Toast.LENGTH_SHORT).show();
-    }
+
 
     private void showEditScheduleDialog() {
         Calendar c = Calendar.getInstance();
