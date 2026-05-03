@@ -216,15 +216,16 @@ public class AdminDashboardFragment extends Fragment {
 
     private void loadDashboardData() {
         if (isAdmin) {
-            viewModel.getDashboardSummary((success, summary, message) -> {
-                if (success && isAdded()) {
+            viewModel.getDashboardSummary((success, summaryObj, message) -> {
+                if (success && isAdded() && summaryObj instanceof com.example.save.data.models.DashboardSummaryResponse) {
+                    com.example.save.data.models.DashboardSummaryResponse summary = (com.example.save.data.models.DashboardSummaryResponse) summaryObj;
                     requireActivity().runOnUiThread(() -> {
-                        // MOCK DATA: No Database
-                        totalBalanceValue = 2500000.0;
+                        totalBalanceValue = summary.getTotalBalance();
                         updateBalanceDisplay();
                         
-                        binding.monthlyContrib.setText("UGX 450,000");
-                        binding.interestEarned.setText("UGX 125,000");
+                        NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+                        binding.monthlyContrib.setText(ugFormat.format(summary.getMonthlyContributions()).replace("UGX", "UGX "));
+                        binding.interestEarned.setText(ugFormat.format(summary.getInterestEarned()).replace("UGX", "UGX "));
                     });
                 }
             });
@@ -281,24 +282,36 @@ public class AdminDashboardFragment extends Fragment {
         leftAxis.setAxisMinimum(0f);
         chart.getAxisRight().setEnabled(false);
 
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, 4.5f));
-        entries.add(new BarEntry(1, 6.2f));
-        entries.add(new BarEntry(2, 5.1f));
-        entries.add(new BarEntry(3, 8.4f));
-        entries.add(new BarEntry(4, 7.8f));
-        entries.add(new BarEntry(5, 11.2f));
-        entries.add(new BarEntry(6, 13.5f));
+        viewModel.getSavingsTrend().observe(getViewLifecycleOwner(), trendEntries -> {
+            if (trendEntries == null || trendEntries.isEmpty()) {
+                // If no real data, show a subtle empty state or flat line
+                ArrayList<BarEntry> emptyEntries = new ArrayList<>();
+                for(int i=0; i<7; i++) emptyEntries.add(new BarEntry(i, 0.1f));
+                updateChartData(chart, emptyEntries);
+                return;
+            }
 
+            ArrayList<BarEntry> barEntries = new ArrayList<>();
+            for (com.github.mikephil.charting.data.Entry e : trendEntries) {
+                barEntries.add(new BarEntry(e.getX(), e.getY()));
+            }
+            updateChartData(chart, barEntries);
+        });
+    }
+
+    private void updateChartData(BarChart chart, ArrayList<BarEntry> entries) {
         BarDataSet dataSet = new BarDataSet(entries, "Growth");
-        int[] colors = new int[7];
+        int count = entries.size();
+        int[] colors = new int[count];
         int lightBlue = Color.parseColor("#DBEAFE");
         int primaryBlue = Color.parseColor("#2563EB");
         int accentOrange = Color.parseColor("#FF8A00");
 
-        for (int i = 0; i < 5; i++) colors[i] = lightBlue;
-        colors[5] = primaryBlue;
-        colors[6] = accentOrange;
+        for (int i = 0; i < count; i++) {
+            if (i == count - 1) colors[i] = accentOrange;
+            else if (i == count - 2) colors[i] = primaryBlue;
+            else colors[i] = lightBlue;
+        }
 
         dataSet.setColors(colors);
         dataSet.setDrawValues(false);

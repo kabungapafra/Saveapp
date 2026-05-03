@@ -46,6 +46,9 @@ public class SessionManager {
     // First Login Flag
     private static final String KEY_IS_FIRST_LOGIN = "is_first_login";
 
+    // Group Creator Flag
+    private static final String KEY_IS_CREATOR = "is_creator";
+
     // Singleton instance
     private static SessionManager instance;
 
@@ -98,10 +101,14 @@ public class SessionManager {
      * Create login session
      */
     public void createLoginSession(String name, String email, String role, boolean isFirstLogin) {
-        createLoginSession(name, email, "", role, isFirstLogin);
+        createLoginSession(name, email, "", role, isFirstLogin, false);
     }
 
-    public void createLoginSession(String name, String email, String phone, String role, boolean isFirstLogin) {
+    public void createLoginSession(String name, String email, String role, boolean isFirstLogin, boolean isCreator) {
+        createLoginSession(name, email, "", role, isFirstLogin, isCreator);
+    }
+
+    public void createLoginSession(String name, String email, String phone, String role, boolean isFirstLogin, boolean isCreator) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -119,6 +126,9 @@ public class SessionManager {
 
         // Storing first login flag
         editor.putBoolean(KEY_IS_FIRST_LOGIN, isFirstLogin);
+
+        // Storing is_creator flag
+        editor.putBoolean(KEY_IS_CREATOR, isCreator);
 
         // commit changes
         editor.apply();
@@ -233,5 +243,9 @@ public class SessionManager {
 
     public String getUserRole() {
         return pref.getString(KEY_ROLE, null);
+    }
+
+    public boolean isCreator() {
+        return pref.getBoolean(KEY_IS_CREATOR, false);
     }
 }

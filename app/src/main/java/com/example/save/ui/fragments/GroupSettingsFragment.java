@@ -26,6 +26,11 @@ public class GroupSettingsFragment extends Fragment {
         setupButtons();
         setupToggles();
 
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
+        if (!session.isCreator()) {
+            binding.btnDeleteGroup.setVisibility(View.GONE);
+        }
+
         return binding.getRoot();
     }
 
@@ -37,9 +42,42 @@ public class GroupSettingsFragment extends Fragment {
             Toast.makeText(getContext(), "Invite link copied to clipboard", Toast.LENGTH_SHORT).show();
         });
 
-        binding.btnLeaveGroup.setOnClickListener(v -> {
+        binding.btnDeleteGroup.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "Confirm leave group in the next step", Toast.LENGTH_LONG).show();
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("Delete Group")
+                .setMessage("Are you sure you want to delete this group? This will permanently remove all members, transactions, and group data. This action cannot be undone.")
+                .setPositiveButton("DELETE", (dialog, which) -> {
+                    deleteGroup();
+                })
+                .setNegativeButton("CANCEL", null)
+                .show();
+        });
+    }
+
+    private void deleteGroup() {
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient.getClient(requireContext()).create(com.example.save.data.network.ApiService.class);
+        apiService.deleteGroup().enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call, retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                if (isAdded()) {
+                    if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                        Toast.makeText(getContext(), "Group deleted successfully", Toast.LENGTH_LONG).show();
+                        com.example.save.utils.SessionManager.getInstance(requireContext()).logoutUser();
+                    } else {
+                        String error = "Failed to delete group";
+                        if (response.code() == 403) error = "Only the group creator can delete the group";
+                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                if (isAdded()) {
+                    Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
         });
     }
 

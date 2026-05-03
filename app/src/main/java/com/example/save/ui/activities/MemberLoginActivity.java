@@ -83,7 +83,7 @@ public class MemberLoginActivity extends AppCompatActivity {
                             if (response.isSuccessful() && response.body() != null) {
                                 com.example.save.data.network.LoginResponse loginResponse = response.body();
                                 com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
-                                session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), loginResponse.getRole(), false);
+                                session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), loginResponse.getRole(), false, loginResponse.isCreator());
                                 session.saveJwtToken(loginResponse.getToken());
 
                                 Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);

@@ -301,18 +301,23 @@
                     android:textColor="@color/v_text_muted"
                     android:textSize="12sp" />
 
-                <!-- Menu List (Stacked vertically) -->
-                <LinearLayout
+                <!-- Menu Cards Grid -->
+                <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:orientation="vertical">
+                    android:columnCount="2"
+                    android:alignmentMode="alignMargins"
+                    android:columnOrderPreserved="false"
+                    android:useDefaultMargins="true">
 
+                    <!-- Personal Info Card -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardPersonal"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="6dp"
                         app:cardBackgroundColor="@color/card_surface"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
@@ -326,15 +331,14 @@
                             <View
                                 android:layout_width="44dp"
                                 android:layout_height="44dp"
-                                android:layout_marginBottom="14dp"
+                                android:layout_marginBottom="12dp"
                                 android:background="@drawable/bg_icon_circle_blue"
                                 android:backgroundTint="#E9F2FB" />
 
-                            <!-- Overlaying icon manually since drawable logic is simple -->
                             <ImageView
                                 android:layout_width="22dp"
                                 android:layout_height="22dp"
-                                android:layout_marginTop="-50dp"
+                                android:layout_marginTop="-48dp"
                                 android:layout_marginStart="11dp"
                                 android:src="@drawable/ic_person"
                                 app:tint="@color/brand_blue" />
@@ -342,7 +346,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="28dp"
+                                android:layout_marginTop="26dp"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Personal Info"
                                 android:textColor="@color/v_text_dark"
@@ -351,18 +355,20 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="2dp"
                                 android:text="Name, ID, phone"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="11sp" />
+                                android:textSize="10sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
+                    <!-- Scheduled Card -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardAutomation"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="6dp"
                         app:cardBackgroundColor="@color/card_surface"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
@@ -376,14 +382,14 @@
                             <View
                                 android:layout_width="44dp"
                                 android:layout_height="44dp"
-                                android:layout_marginBottom="14dp"
+                                android:layout_marginBottom="12dp"
                                 android:background="@drawable/bg_icon_circle_blue"
                                 android:backgroundTint="#FFF7ED" />
 
                             <ImageView
                                 android:layout_width="22dp"
                                 android:layout_height="22dp"
-                                android:layout_marginTop="-50dp"
+                                android:layout_marginTop="-48dp"
                                 android:layout_marginStart="11dp"
                                 android:src="@drawable/ic_clock_orange"
                                 app:tint="#F97316" />
@@ -391,27 +397,29 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="28dp"
+                                android:layout_marginTop="26dp"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Scheduled"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="14sp" />
+                                android:textSize="13sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="2dp"
                                 android:text="Auto-pay, reminders"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="12sp" />
+                                android:textSize="10sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
+                    <!-- Wallets Card -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardBank"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="6dp"
                         app:cardBackgroundColor="@color/card_surface"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
@@ -425,14 +433,14 @@
                             <View
                                 android:layout_width="44dp"
                                 android:layout_height="44dp"
-                                android:layout_marginBottom="14dp"
+                                android:layout_marginBottom="12dp"
                                 android:background="@drawable/bg_icon_circle_blue"
                                 android:backgroundTint="#F0FDF4" />
 
                             <ImageView
                                 android:layout_width="22dp"
                                 android:layout_height="22dp"
-                                android:layout_marginTop="-50dp"
+                                android:layout_marginTop="-48dp"
                                 android:layout_marginStart="11dp"
                                 android:src="@drawable/ic_wallet_green"
                                 app:tint="#16A34A" />
@@ -440,27 +448,29 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="28dp"
+                                android:layout_marginTop="26dp"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Wallets"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="14sp" />
+                                android:textSize="13sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="2dp"
                                 android:text="M-Pesa, bank"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="12sp" />
+                                android:textSize="10sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
+                    <!-- Settings Card -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardGeneral"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="6dp"
                         app:cardBackgroundColor="@color/card_surface"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
@@ -474,14 +484,14 @@
                             <View
                                 android:layout_width="44dp"
                                 android:layout_height="44dp"
-                                android:layout_marginBottom="14dp"
+                                android:layout_marginBottom="12dp"
                                 android:background="@drawable/bg_icon_circle_blue"
                                 android:backgroundTint="#FAF5FF" />
 
                             <ImageView
                                 android:layout_width="22dp"
                                 android:layout_height="22dp"
-                                android:layout_marginTop="-50dp"
+                                android:layout_marginTop="-48dp"
                                 android:layout_marginStart="11dp"
                                 android:src="@drawable/ic_settings"
                                 app:tint="#9333EA" />
@@ -489,22 +499,22 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="28dp"
+                                android:layout_marginTop="26dp"
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Settings"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="14sp" />
+                                android:textSize="13sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="2dp"
                                 android:text="Theme, language"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="12sp" />
+                                android:textSize="10sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-                </LinearLayout>
+                </GridLayout>
 
                 <TextView
                     android:layout_width="wrap_content"

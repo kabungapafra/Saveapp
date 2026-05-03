@@ -168,7 +168,22 @@ public class MemberRepository {
     public void fetchSystemConfig(ConfigCallback cb) {}
     public void getComprehensiveReport(ReportCallback cb) {}
     public void getDashboardSummary(SummaryCallback cb) {
-        if (cb != null) cb.onResult(true, null, "Summary loaded (Mock)");
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getDashboardSummary().enqueue(new Callback<com.example.save.data.models.DashboardSummaryResponse>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.DashboardSummaryResponse> call, Response<com.example.save.data.models.DashboardSummaryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (cb != null) cb.onResult(true, response.body(), "Summary loaded");
+                } else if (cb != null) {
+                    cb.onResult(false, null, "Failed to load summary: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.save.data.models.DashboardSummaryResponse> call, Throwable t) {
+                if (cb != null) cb.onResult(false, null, "Network error: " + t.getMessage());
+            }
+        });
     }
     public Member getNextPayoutRecipient() { return null; }
     public boolean canExecutePayout() { return false; }
@@ -258,8 +273,24 @@ public class MemberRepository {
     public double getRetentionPercentage() { return 0; }
     public void setRetentionPercentage(double percentage) {}
 
+    private final MutableLiveData<List<com.example.save.data.models.TransactionEntity>> transactionsLiveData = new MutableLiveData<>(new ArrayList<>());
+
     public LiveData<List<com.example.save.data.models.TransactionEntity>> getGenericTransactions() {
-        return new MutableLiveData<>(new ArrayList<>());
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getTransactions().enqueue(new Callback<List<com.example.save.data.models.TransactionEntity>>() {
+            @Override
+            public void onResponse(Call<List<com.example.save.data.models.TransactionEntity>> call, Response<List<com.example.save.data.models.TransactionEntity>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    transactionsLiveData.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<com.example.save.data.models.TransactionEntity>> call, Throwable t) {
+                // Silently fail or log
+            }
+        });
+        return transactionsLiveData;
     }
 
     public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(String adminEmail) {

@@ -109,18 +109,18 @@ public class DashboardFragment extends Fragment {
         SessionManager session = SessionManager.getInstance(requireContext().getApplicationContext());
         String email = session.getUserEmail();
 
-        if (email != null) {
-            viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
-                if (member != null) {
-                    binding.tvCircleName.setText("Holiday Fund 2024"); // Design specified static text for mockup parity
-                }
-            });
-        }
-
-        viewModel.getGroupBalance().observe(getViewLifecycleOwner(), balance -> {
-            if (balance != null) {
-                String formatted = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG")).format(balance);
-                binding.tvBalanceAmount.setText(formatted);
+        viewModel.getDashboardSummary((success, summaryObj, message) -> {
+            if (success && isAdded() && summaryObj instanceof com.example.save.data.models.DashboardSummaryResponse) {
+                com.example.save.data.models.DashboardSummaryResponse summary = (com.example.save.data.models.DashboardSummaryResponse) summaryObj;
+                requireActivity().runOnUiThread(() -> {
+                    String formatted = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG")).format(summary.getTotalBalance());
+                    binding.tvBalanceAmount.setText(formatted.replace("UGX", "UGX "));
+                    binding.tvCircleName.setText(summary.getGroupName());
+                    
+                    double mySavings = summary.getPersonalSavings();
+                    // We might need the target from the member record if it's not in the summary
+                    // For now, let's just show the savings amount if we can find a place for it
+                });
             }
         });
 
@@ -128,7 +128,6 @@ public class DashboardFragment extends Fragment {
             viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
                     double mySavings = member.getContributionPaid();
-
                     double target = member.getContributionTarget();
                     int progress = target > 0 ? (int) ((mySavings / target) * 100) : 0;
                     binding.goalProgress.setProgress(progress);

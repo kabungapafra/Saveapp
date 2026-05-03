@@ -175,7 +175,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                     com.example.save.data.network.LoginResponse loginResponse = response.body();
 
                     com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
-                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), loginResponse.getRole(), false);
+                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), loginResponse.getRole(), false, loginResponse.isCreator());
                     session.saveJwtToken(loginResponse.getToken());
 
                     android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);

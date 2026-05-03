@@ -6,10 +6,12 @@ public class LoginResponse {
     private String email;
     private String role;
     private boolean success;
+    private boolean is_creator;
 
     public String getToken() { return token; }
     public String getName() { return name; }
     public String getEmail() { return email; }
     public String getRole() { return role; }
     public boolean isSuccess() { return success; }
+    public boolean isCreator() { return is_creator; }
 }

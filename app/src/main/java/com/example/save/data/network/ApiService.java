@@ -32,4 +32,13 @@ public interface ApiService {
 
     @POST("auth/reset-password")
     Call<ApiResponse> resetPassword(@Body com.example.save.data.network.ResetPasswordRequest request);
+
+    @GET("analytics/summary")
+    Call<com.example.save.data.models.DashboardSummaryResponse> getDashboardSummary();
+
+    @retrofit2.http.DELETE("groups")
+    Call<ApiResponse> deleteGroup();
+
+    @GET("transactions")
+    Call<List<com.example.save.data.models.TransactionEntity>> getTransactions();
 }
