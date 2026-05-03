@@ -246,6 +246,37 @@ public class OtpFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @androidx.annotation.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        
+        // Check for deep link OTP from activity
+        if (getActivity() != null) {
+            String deepLinkOtp = getActivity().getIntent().getStringExtra("DEEP_LINK_OTP");
+            if (deepLinkOtp != null && !deepLinkOtp.isEmpty()) {
+                autoFillOtp(deepLinkOtp);
+                // Clear it so it doesn't trigger again on rotation
+                getActivity().getIntent().removeExtra("DEEP_LINK_OTP");
+            }
+        }
+    }
+
+    public void autoFillOtp(String code) {
+        if (code == null || code.length() < 6 || binding == null) return;
+        
+        android.widget.EditText[] boxes = {
+            binding.otpDigit1, binding.otpDigit2, binding.otpDigit3,
+            binding.otpDigit4, binding.otpDigit5, binding.otpDigit6
+        };
+        
+        for (int i = 0; i < 6; i++) {
+            boxes[i].setText(String.valueOf(code.charAt(i)));
+        }
+        
+        // Automatically trigger verification
+        binding.verifyButton.performClick();
+    }
+
     private void onVerificationSuccess() {
         if (getActivity() instanceof AdminSetupWizardActivity) {
             ((AdminSetupWizardActivity) getActivity()).nextStep();

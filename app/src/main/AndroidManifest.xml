@@ -91,8 +91,16 @@
 
         <activity
             android:name="com.example.save.ui.activities.AdminSetupWizardActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Save.LightOnly" />
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Save.LightOnly">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="saveapp" android:host="otp" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.example.save.ui.activities.HelpSupportActivity"

@@ -61,6 +61,37 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
 
         setupListeners();
         loadStep(currentStep);
+        handleDeepLink(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleDeepLink(intent);
+    }
+
+    private void handleDeepLink(Intent intent) {
+        if (intent == null || intent.getData() == null) return;
+        
+        android.net.Uri data = intent.getData();
+        if ("saveapp".equals(data.getScheme()) && "otp".equals(data.getHost())) {
+            String code = data.getQueryParameter("code");
+            if (code != null && !code.isEmpty()) {
+                // If we are on the OTP step, we can auto-fill or just store it
+                // For now, let's toast and we can improve by passing it to the fragment
+                Toast.makeText(this, "OTP Received from link: " + code, Toast.LENGTH_LONG).show();
+                
+                // Store code for fragment to pick up
+                getIntent().putExtra("DEEP_LINK_OTP", code);
+                
+                // If not yet on OTP step, maybe wait. If already there, update fragment.
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.wizardFragmentContainer);
+                if (currentFragment instanceof com.example.save.ui.fragments.OtpFragment) {
+                    ((com.example.save.ui.fragments.OtpFragment) currentFragment).autoFillOtp(code);
+                }
+            }
+        }
     }
 
     private void setupListeners() {
