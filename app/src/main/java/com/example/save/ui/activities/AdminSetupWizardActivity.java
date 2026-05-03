@@ -276,6 +276,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         config.setRetentionPercentage(retentionPercentage);
         config.setLoanInterestRate(interest_rate);
         config.setMaxLoanLimit(maxLoanAmount);
+        config.setMaxLoanMultiplier(3.0); // Default multiplier (3x savings)
         config.setMaxLoanDuration(repaymentPeriod);
         config.setLatePenaltyRate(latePenalty);
         config.setCurrency(currency);
