@@ -153,27 +153,36 @@
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Savings Targets" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold" />
                         <TextView android:id="@+id/viewAllTargets" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="View All" android:textColor="@color/dashboard_accent_blue" android:textSize="14sp" android:textStyle="bold" />
                     </RelativeLayout>
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="20dp">
+                    <LinearLayout
+                        android:id="@+id/containerSavingsTargets"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp">
+                        
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Emergency Fund" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 15k / UGX 20k" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp" android:textStyle="bold"/>
+                            <TextView android:id="@+id/tvTarget1Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Emergency Fund" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp"/>
+                            <TextView android:id="@+id/tvTarget1Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 0 / UGX 0" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp" android:textStyle="bold"/>
                         </RelativeLayout>
-                        <com.google.android.material.progressindicator.LinearProgressIndicator android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:progress="75" app:indicatorColor="@color/dashboard_accent_blue" app:trackColor="@color/v_page_bg" app:trackCornerRadius="4dp" app:trackThickness="6dp"/>
-                    </LinearLayout>
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="20dp">
-                        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Community Project" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 8.2k / UGX 10k" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp" android:textStyle="bold"/>
+                        <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/pbTarget1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:progress="0" app:indicatorColor="@color/dashboard_accent_blue" app:trackColor="@color/v_page_bg" app:trackCornerRadius="4dp" app:trackThickness="6dp"/>
+
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+                            <TextView android:id="@+id/tvTarget2Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Community Project" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp"/>
+                            <TextView android:id="@+id/tvTarget2Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 0 / UGX 0" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp" android:textStyle="bold"/>
                         </RelativeLayout>
-                        <com.google.android.material.progressindicator.LinearProgressIndicator android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:progress="82" app:indicatorColor="@color/dashboard_accent_orange" app:trackColor="@color/v_page_bg" app:trackCornerRadius="4dp" app:trackThickness="6dp"/>
+                        <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/pbTarget2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:progress="0" app:indicatorColor="@color/dashboard_accent_orange" app:trackColor="@color/v_page_bg" app:trackCornerRadius="4dp" app:trackThickness="6dp"/>
                     </LinearLayout>
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="20dp">
-                        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Annual Reserve" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 45k / UGX 100k" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp" android:textStyle="bold"/>
-                        </RelativeLayout>
-                        <com.google.android.material.progressindicator.LinearProgressIndicator android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:progress="45" app:indicatorColor="@color/v_text_muted" app:trackColor="@color/v_page_bg" app:trackCornerRadius="4dp" app:trackThickness="6dp"/>
-                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvNoTargets"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:text="No active targets"
+                        android:textColor="@color/v_text_muted"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -196,28 +205,24 @@
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Active Loans" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
                         <TextView android:id="@+id/viewAllLoans" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:background="@drawable/bg_status_pills" android:backgroundTint="#E9F2FB" android:paddingHorizontal="10dp" android:paddingVertical="4dp" android:text="24 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="11sp" android:textStyle="bold"/>
                     </RelativeLayout>
-                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
-                        <com.google.android.material.imageview.ShapeableImageView android:id="@+id/avatar1" android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/ic_search" android:background="@color/v_page_bg" android:padding="8dp" app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle"/>
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/avatar1" android:layout_marginStart="12dp" android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Marcus Thompson" android:textColor="@color/dashboard_text_primary" android:textSize="14sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Business Expansion" android:textColor="@color/dashboard_text_secondary" android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:gravity="end" android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UGX 4,200" android:textColor="@color/dashboard_text_primary" android:textSize="14sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Due in 12 days" android:textColor="#E11D48" android:textSize="11sp" android:textStyle="bold"/>
-                        </LinearLayout>
-                    </RelativeLayout>
-                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp">
-                        <com.google.android.material.imageview.ShapeableImageView android:id="@+id/avatar2" android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/ic_search" android:background="@color/v_page_bg" android:padding="8dp" app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle"/>
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/avatar2" android:layout_marginStart="12dp" android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Elena Rodriguez" android:textColor="@color/dashboard_text_primary" android:textSize="14sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Education Loan" android:textColor="@color/dashboard_text_secondary" android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:gravity="end" android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UGX 1,850" android:textColor="@color/dashboard_text_primary" android:textSize="14sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Paid 65%" android:textColor="@color/dashboard_accent_blue" android:textSize="11sp" android:textStyle="bold"/>
-                        </LinearLayout>
-                    </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/containerActiveLoans"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        <!-- Loan items would go here -->
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvNoLoans"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:text="No active loans"
+                        android:textColor="@color/v_text_muted"
+                        android:textSize="13sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -226,32 +231,16 @@
                 android:id="@+id/sectionRecentPayouts"
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="16dp">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Recent Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
-                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
-                   <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
-                        <ImageView android:id="@+id/check1" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_check_circle" app:tint="@color/dashboard_accent_green"/>
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/check1" android:layout_marginStart="12dp" android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sarah Jenkins" android:textColor="@color/dashboard_text_primary" android:textSize="15sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Payout - Round 14" android:textColor="@color/dashboard_text_secondary" android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:gravity="end" android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UGX 12,000" android:textColor="@color/dashboard_text_primary" android:textSize="15sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Oct 24, 2023" android:textColor="@color/dashboard_text_secondary" android:textSize="11sp"/>
-                        </LinearLayout>
-                   </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
-                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
-                   <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
-                        <ImageView android:id="@+id/check2" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_check_circle" app:tint="@color/dashboard_accent_green"/>
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/check2" android:layout_marginStart="12dp" android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="David Chen" android:textColor="@color/dashboard_text_primary" android:textSize="15sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Payout - Round 13" android:textColor="@color/dashboard_text_secondary" android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:gravity="end" android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UGX 12,000" android:textColor="@color/dashboard_text_primary" android:textSize="15sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Oct 10, 2023" android:textColor="@color/dashboard_text_secondary" android:textSize="11sp"/>
-                        </LinearLayout>
-                   </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/tvNoRecentPayouts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:text="No recent payouts"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <!-- Upcoming Payouts -->
@@ -259,38 +248,16 @@
                 android:id="@+id/sectionUpcomingPayouts"
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="20dp">
                   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Upcoming Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
-                  <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
-                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
-                          <com.google.android.material.card.MaterialCardView android:id="@+id/calIcon1" android:layout_width="36dp" android:layout_height="36dp" app:cardBackgroundColor="@color/h_blue_50" app:cardCornerRadius="8dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
-                              <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp" android:src="@drawable/ic_calendar_month" app:tint="@color/dashboard_accent_blue"/>
-                          </com.google.android.material.card.MaterialCardView>
-                          <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/calIcon1" android:layout_marginStart="12dp" android:orientation="vertical">
-                              <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Michael Abiodun" android:textColor="@color/dashboard_text_primary" android:textSize="15sp" android:textStyle="bold"/>
-                              <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Payout - Round 15" android:textColor="@color/dashboard_text_secondary" android:textSize="12sp"/>
-                          </LinearLayout>
-                          <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:gravity="end" android:orientation="vertical">
-                              <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UGX 12,000" android:textColor="@color/dashboard_text_primary" android:textSize="15sp" android:textStyle="bold"/>
-                              <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nov 07, 2023" android:textColor="@color/dashboard_accent_orange" android:textSize="11sp" android:textStyle="bold"/>
-                          </LinearLayout>
-                          <TextView android:id="@+id/btnMarkPaid1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/calIcon1" android:layout_marginTop="12dp" android:background="@drawable/bg_btn_mark_paid" android:gravity="center" android:paddingVertical="6dp" android:text="MARK PAID" android:textColor="@color/v_text_mid" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.02" />
-                     </RelativeLayout>
-                  </com.google.android.material.card.MaterialCardView>
-                  <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
-                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
-                          <com.google.android.material.card.MaterialCardView android:id="@+id/calIcon2" android:layout_width="36dp" android:layout_height="36dp" app:cardBackgroundColor="@color/h_blue_50" app:cardCornerRadius="8dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
-                              <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp" android:src="@drawable/ic_calendar_month" app:tint="@color/dashboard_accent_blue"/>
-                          </com.google.android.material.card.MaterialCardView>
-                          <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/calIcon2" android:layout_marginStart="12dp" android:orientation="vertical">
-                              <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Linda Okafor" android:textColor="@color/dashboard_text_primary" android:textSize="15sp" android:textStyle="bold"/>
-                              <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Payout - Round 16" android:textColor="@color/dashboard_text_secondary" android:textSize="12sp"/>
-                          </LinearLayout>
-                          <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:gravity="end" android:orientation="vertical">
-                              <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UGX 12,000" android:textColor="@color/dashboard_text_primary" android:textSize="15sp" android:textStyle="bold"/>
-                              <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nov 21, 2023" android:textColor="@color/dashboard_accent_orange" android:textSize="11sp" android:textStyle="bold"/>
-                          </LinearLayout>
-                          <TextView android:id="@+id/btnMarkPaid2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/calIcon2" android:layout_marginTop="12dp" android:background="@drawable/bg_btn_mark_paid" android:gravity="center" android:paddingVertical="6dp" android:text="MARK PAID" android:textColor="@color/v_text_mid" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.02" />
-                     </RelativeLayout>
-                  </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/tvNoUpcomingPayouts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:text="No upcoming payouts"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <!-- Payout Schedule Section -->

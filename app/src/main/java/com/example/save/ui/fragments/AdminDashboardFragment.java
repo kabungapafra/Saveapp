@@ -165,11 +165,17 @@ public class AdminDashboardFragment extends Fragment {
             binding.tvPayoutDate.setText(payout);
         }
         
-        // Hide other demo sections by default for now
-        binding.sectionSavingsTargets.setVisibility(View.GONE);
-        binding.sectionActiveLoans.setVisibility(View.GONE);
-        binding.sectionRecentPayouts.setVisibility(View.GONE);
-        binding.sectionUpcomingPayouts.setVisibility(View.GONE);
+        // Show sections but ensure they use 'Empty State' views instead of GONE
+        binding.sectionSavingsTargets.setVisibility(View.VISIBLE);
+        binding.sectionActiveLoans.setVisibility(View.VISIBLE);
+        binding.sectionRecentPayouts.setVisibility(View.VISIBLE);
+        binding.sectionUpcomingPayouts.setVisibility(View.VISIBLE);
+
+        // Reset trackers to clean state if no real data
+        binding.pbTarget1.setProgress(0);
+        binding.pbTarget2.setProgress(0);
+        binding.tvTarget1Amount.setText("UGX 0 / UGX 0");
+        binding.tvTarget2Amount.setText("UGX 0 / UGX 0");
     }
 
     private void observeViewModel() {
