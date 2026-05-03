@@ -107,7 +107,7 @@ public class OtpFragment extends Fragment {
 
         AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
         if (activity != null && activity.getAdminEmail() != null) {
-            binding.subtitle.setText("We've sent a 6-digit code to " + activity.getAdminEmail());
+            binding.tvSubtitle.setText("We've sent a 6-digit code to " + activity.getAdminEmail());
         }
 
         startResendTimer();
