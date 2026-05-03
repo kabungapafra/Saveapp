@@ -105,7 +105,11 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, "Sending OTP...", Toast.LENGTH_SHORT).show();
+        android.widget.Button btnAccept = findViewById(R.id.btnAccept);
+        if (btnAccept != null) {
+            btnAccept.setEnabled(false);
+            btnAccept.setText("Sending OTP...");
+        }
 
         com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(adminEmail, adminPhone);
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
@@ -115,6 +119,12 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
             @Override
             public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call, 
                                    retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                
+                if (btnAccept != null) {
+                    btnAccept.setEnabled(true);
+                    btnAccept.setText("I Accept the Terms");
+                }
+
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     Toast.makeText(AdminSetupWizardActivity.this, "OTP sent to " + adminEmail, Toast.LENGTH_SHORT).show();
                     currentStep++;
@@ -130,6 +140,10 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                if (btnAccept != null) {
+                    btnAccept.setEnabled(true);
+                    btnAccept.setText("I Accept the Terms");
+                }
                 Toast.makeText(AdminSetupWizardActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -304,4 +318,10 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     public String getAdminEmail() { return adminEmail; }
     public String getAdminPhone() { return adminPhone; }
     public String getAdminPassword() { return adminPassword; }
+    
+    public double getLatePenalty() { return latePenalty; }
+    public double getMaxLoanAmount() { return maxLoanAmount; }
+    public double getInterestRate() { return interest_rate; }
+    public int getRepaymentPeriod() { return repaymentPeriod; }
+    public boolean isRequireGuarantor() { return requireGuarantor; }
 }

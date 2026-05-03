@@ -34,6 +34,8 @@ public class OtpFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentOtpBinding.inflate(inflater, container, false);
         
+        setupOtpInputs();
+
         binding.verifyButton.setOnClickListener(v -> {
             String otpCode = getOtpFromInputs();
             if (otpCode.length() < 6) {
@@ -111,6 +113,63 @@ public class OtpFragment extends Fragment {
                binding.otpDigit4.getText().toString() +
                binding.otpDigit5.getText().toString() +
                binding.otpDigit6.getText().toString();
+    }
+
+    private void setupOtpInputs() {
+        android.widget.EditText[] editTexts = {
+            binding.otpDigit1, binding.otpDigit2, binding.otpDigit3,
+            binding.otpDigit4, binding.otpDigit5, binding.otpDigit6
+        };
+
+        for (int i = 0; i < editTexts.length; i++) {
+            final int currentIndex = i;
+            
+            editTexts[i].addTextChangedListener(new android.text.TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+                @Override
+                public void afterTextChanged(android.text.Editable s) {
+                    if (s.length() > 1 && currentIndex == 0) {
+                        // Handle paste event
+                        String pastedText = s.toString().trim();
+                        if (pastedText.length() >= 6) {
+                            String code = pastedText.substring(0, 6);
+                            android.widget.EditText[] boxes = {
+                                binding.otpDigit1, binding.otpDigit2, binding.otpDigit3,
+                                binding.otpDigit4, binding.otpDigit5, binding.otpDigit6
+                            };
+                            for (int j = 0; j < 6; j++) {
+                                boxes[j].setText(String.valueOf(code.charAt(j)));
+                            }
+                            boxes[5].requestFocus();
+                            return;
+                        }
+                    }
+
+                    if (s.length() == 1 && currentIndex < editTexts.length - 1) {
+                        editTexts[currentIndex + 1].requestFocus();
+                    } else if (s.length() == 0 && currentIndex > 0) {
+                        editTexts[currentIndex - 1].requestFocus();
+                    }
+                }
+            });
+
+            editTexts[i].setOnKeyListener((v, keyCode, event) -> {
+                if (keyCode == android.view.KeyEvent.KEYCODE_DEL && 
+                    event.getAction() == android.view.KeyEvent.ACTION_DOWN &&
+                    editTexts[currentIndex].getText().toString().isEmpty() &&
+                    currentIndex > 0) {
+                    editTexts[currentIndex - 1].requestFocus();
+                    editTexts[currentIndex - 1].setText("");
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     private void onVerificationSuccess() {

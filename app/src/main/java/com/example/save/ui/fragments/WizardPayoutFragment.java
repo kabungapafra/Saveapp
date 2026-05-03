@@ -30,6 +30,26 @@ public class WizardPayoutFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Restore data from activity if available
+        if (getActivity() instanceof AdminSetupWizardActivity) {
+            AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
+
+            double payout = activity.getPayoutAmount();
+            if (payout > 0) {
+                etPayoutAmount.setText(String.valueOf(payout));
+            }
+
+            double retention = activity.getRetentionPercentage();
+            if (retention > 0) {
+                etRetention.setText(String.valueOf(retention));
+            }
+        }
+    }
+
     public boolean validateAndSave() {
         if (etPayoutAmount == null || etRetention == null) return false;
 

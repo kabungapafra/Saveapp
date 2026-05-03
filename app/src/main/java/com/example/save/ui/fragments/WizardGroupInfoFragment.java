@@ -50,6 +50,36 @@ public class WizardGroupInfoFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        
+        // Restore data from activity if available
+        if (getActivity() instanceof AdminSetupWizardActivity) {
+            AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
+            
+            String groupName = activity.getGroupName();
+            if (groupName != null && !groupName.isEmpty()) {
+                etGroupName.setText(groupName);
+            }
+            
+            double amount = activity.getContributionAmount();
+            if (amount > 0) {
+                etMonthlyContribution.setText(String.valueOf((int)amount));
+            }
+            
+            String currency = activity.getCurrency();
+            if (currency != null && !currency.isEmpty()) {
+                for (int i = 0; i < spinnerCurrency.getCount(); i++) {
+                    if (spinnerCurrency.getItemAtPosition(i).toString().equals(currency)) {
+                        spinnerCurrency.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     private void setupCurrencySpinner() {
         if (getContext() == null) return;
         

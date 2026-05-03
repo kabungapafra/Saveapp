@@ -36,6 +36,33 @@ public class WizardRulesFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Restore data from activity if available
+        if (getActivity() instanceof AdminSetupWizardActivity) {
+            AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
+
+            double maxAmount = activity.getMaxLoanAmount();
+            if (maxAmount > 0) {
+                etMaxLoanAmount.setText(String.valueOf(maxAmount));
+            }
+
+            double rate = activity.getInterestRate();
+            if (rate > 0) {
+                etInterestRate.setText(String.valueOf(rate));
+            }
+
+            int period = activity.getRepaymentPeriod();
+            if (period > 0) {
+                etRepaymentPeriod.setText(String.valueOf(period));
+            }
+
+            switchRequireGuarantor.setChecked(activity.isRequireGuarantor());
+        }
+    }
+
     public boolean validateAndSave() {
         if (etMaxLoanAmount == null || etInterestRate == null || etRepaymentPeriod == null) return false;
 

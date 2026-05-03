@@ -38,6 +38,31 @@ public class WizardContributionFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Restore data from activity if available
+        if (getActivity() instanceof AdminSetupWizardActivity) {
+            AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
+
+            double penalty = activity.getLatePenalty();
+            if (penalty > 0) {
+                etLatePenalty.setText(String.valueOf(penalty));
+            }
+
+            String frequency = activity.getContributionFrequency();
+            if (frequency != null && !frequency.isEmpty()) {
+                for (int i = 0; i < spinnerFrequency.getCount(); i++) {
+                    if (spinnerFrequency.getItemAtPosition(i).toString().equals(frequency)) {
+                        spinnerFrequency.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     private void setupFrequencySpinner() {
         if (getContext() == null) return;
 
