@@ -141,6 +141,23 @@ public class AdminLoginActivity extends AppCompatActivity {
         String email = binding.emailInput.getText().toString().trim().toLowerCase();
         String password = binding.passwordInput.getText().toString().trim();
 
+        // Validation
+        if (groupName.isEmpty()) {
+            Toast.makeText(this, "Please enter group name", Toast.LENGTH_SHORT).show();
+            binding.groupNameInput.requestFocus();
+            return;
+        }
+        if (email.isEmpty()) {
+            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+            binding.emailInput.requestFocus();
+            return;
+        }
+        if (password.isEmpty()) {
+            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            binding.passwordInput.requestFocus();
+            return;
+        }
+
         if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
             // Immediately navigate to AdminMainActivity
             Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);

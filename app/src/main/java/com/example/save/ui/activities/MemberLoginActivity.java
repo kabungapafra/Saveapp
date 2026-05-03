@@ -66,11 +66,33 @@ public class MemberLoginActivity extends AppCompatActivity {
                     android.view.animation.Animation release = android.view.animation.AnimationUtils
                             .loadAnimation(MemberLoginActivity.this, R.anim.login_btn_release);
                     v.startAnimation(release);
+                    String groupName = binding.groupNameInput.getText().toString().trim();
+                    String email = binding.emailInput.getText().toString().trim();
+                    String password = binding.passwordInput.getText().toString().trim();
+
+                    // Validation
+                    if (groupName.isEmpty()) {
+                        Toast.makeText(MemberLoginActivity.this, "Please enter group name", Toast.LENGTH_SHORT).show();
+                        binding.groupNameInput.requestFocus();
+                        return;
+                    }
+                    if (email.isEmpty()) {
+                        Toast.makeText(MemberLoginActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
+                        binding.emailInput.requestFocus();
+                        return;
+                    }
+                    if (password.isEmpty()) {
+                        Toast.makeText(MemberLoginActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
+                        binding.passwordInput.requestFocus();
+                        return;
+                    }
+
                     binding.loginButton.setEnabled(false);
-                    com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(
-                            binding.emailInput.getText().toString(),
-                            binding.passwordInput.getText().toString());
+                    binding.loginButtonText.setText("Signing in...");
+
+                    com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(email, password);
                     loginRequest.setLoginType("member");
+                    loginRequest.setGroupName(groupName);
 
                     com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                             .getClient(MemberLoginActivity.this).create(com.example.save.data.network.ApiService.class);
@@ -80,6 +102,7 @@ public class MemberLoginActivity extends AppCompatActivity {
                         public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
                                                retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
                             binding.loginButton.setEnabled(true);
+                            binding.loginButtonText.setText("Login");
                             if (response.isSuccessful() && response.body() != null) {
                                 com.example.save.data.network.LoginResponse loginResponse = response.body();
                                 com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
@@ -94,14 +117,15 @@ public class MemberLoginActivity extends AppCompatActivity {
                                 overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
                                 finish();
                             } else {
-                                Toast.makeText(MemberLoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MemberLoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
                             binding.loginButton.setEnabled(true);
-                            Toast.makeText(MemberLoginActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                            binding.loginButtonText.setText("Login");
+                            Toast.makeText(MemberLoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
