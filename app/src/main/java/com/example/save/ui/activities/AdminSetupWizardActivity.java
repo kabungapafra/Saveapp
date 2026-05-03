@@ -136,11 +136,10 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
             return;
         }
 
-        android.widget.Button btnAccept = findViewById(R.id.btnAccept);
-        if (btnAccept != null) {
-            btnAccept.setEnabled(false);
-            btnAccept.setText("Sending OTP...");
-        }
+        android.app.ProgressDialog progressDialog = new android.app.ProgressDialog(this);
+        progressDialog.setMessage("Sending secure verification code...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(adminEmail, adminPhone);
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
@@ -151,31 +150,37 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
             public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call, 
                                    retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
                 
-                if (btnAccept != null) {
-                    btnAccept.setEnabled(true);
-                    btnAccept.setText("I Accept the Terms");
-                }
+                if (progressDialog.isShowing()) progressDialog.dismiss();
 
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(AdminSetupWizardActivity.this, "OTP sent to " + adminEmail, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminSetupWizardActivity.this, "OTP sent successfully!", Toast.LENGTH_SHORT).show();
                     currentStep++;
                     loadStep(currentStep);
                 } else {
-                    String error = "Failed to send OTP";
-                    if (response.errorBody() != null) {
+                    String error = "Failed to send OTP. Please try again.";
+                    if (response.code() == 429) {
+                        error = "Too many requests. Please wait a few minutes.";
+                    } else if (response.errorBody() != null) {
                         try { error = response.errorBody().string(); } catch (Exception e) {}
                     }
-                    Toast.makeText(AdminSetupWizardActivity.this, error, Toast.LENGTH_SHORT).show();
+                    new androidx.appcompat.app.AlertDialog.Builder(AdminSetupWizardActivity.this)
+                        .setTitle("OTP Error")
+                        .setMessage(error)
+                        .setPositiveButton("Retry", (d, w) -> sendOtpAndProceed())
+                        .setNegativeButton("Cancel", null)
+                        .show();
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
-                if (btnAccept != null) {
-                    btnAccept.setEnabled(true);
-                    btnAccept.setText("I Accept the Terms");
-                }
-                Toast.makeText(AdminSetupWizardActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (progressDialog.isShowing()) progressDialog.dismiss();
+                new androidx.appcompat.app.AlertDialog.Builder(AdminSetupWizardActivity.this)
+                    .setTitle("Network Error")
+                    .setMessage("Could not connect to server. Please check your internet.")
+                    .setPositiveButton("Retry", (d, w) -> sendOtpAndProceed())
+                    .setNegativeButton("Cancel", null)
+                    .show();
             }
         });
     }
