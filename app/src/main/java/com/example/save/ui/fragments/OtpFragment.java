@@ -96,14 +96,83 @@ public class OtpFragment extends Fragment {
         });
 
         binding.resendOtp.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "OTP Resent!", Toast.LENGTH_SHORT).show();
+            if (binding.resendOtp.isEnabled()) {
+                resendOtp();
+            }
         });
 
         binding.btnBack.setOnClickListener(v -> {
             if (getActivity() != null) getActivity().onBackPressed();
         });
 
+        startResendTimer();
+
         return binding.getRoot();
+    }
+
+    private void startResendTimer() {
+        binding.resendOtp.setEnabled(false);
+        binding.resendOtp.setAlpha(0.5f);
+        
+        new android.os.CountDownTimer(30000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (isAdded()) {
+                    binding.timerText.setText("(" + (millisUntilFinished / 1000) + "s)");
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if (isAdded()) {
+                    binding.resendOtp.setEnabled(true);
+                    binding.resendOtp.setAlpha(1.0f);
+                    binding.timerText.setText("");
+                }
+            }
+        }.start();
+    }
+
+    private void resendOtp() {
+        AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
+        if (activity == null) return;
+
+        binding.resendOtp.setEnabled(false);
+        binding.resendOtp.setText("Sending...");
+
+        com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(
+            activity.getAdminEmail(),
+            activity.getAdminPhone()
+        );
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+            .getClient(getContext()).create(com.example.save.data.network.ApiService.class);
+
+        apiService.sendAdminOtp(request).enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call, 
+                                   retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                if (isAdded()) {
+                    binding.resendOtp.setText("Resend Code");
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getContext(), "OTP Resent!", Toast.LENGTH_SHORT).show();
+                        startResendTimer();
+                    } else {
+                        binding.resendOtp.setEnabled(true);
+                        Toast.makeText(getContext(), "Failed to resend OTP", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                if (isAdded()) {
+                    binding.resendOtp.setEnabled(true);
+                    binding.resendOtp.setText("Resend Code");
+                    Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private String getOtpFromInputs() {

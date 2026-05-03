@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="48dp"
             android:text="Verify Your Email"
             android:textColor="@color/v_text_dark"
             android:textSize="28sp"
@@ -56,9 +56,10 @@
             android:id="@+id/ivHeaderLogo"
             android:layout_width="120dp"
             android:layout_height="48dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="112dp"
             android:src="@drawable/save_logo"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
 
@@ -177,6 +178,7 @@
             android:text="Having trouble? Contact support"
             android:textColor="@color/v_text_muted"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.546"
             app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +211,7 @@
             app:layout_constraintBottom_toTopOf="@+id/helpText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/resendContainer"
-            app:layout_constraintVertical_bias="0.1" />
+            app:layout_constraintVertical_bias="0.615" />
 
         <ImageView
             android:layout_width="16dp"
