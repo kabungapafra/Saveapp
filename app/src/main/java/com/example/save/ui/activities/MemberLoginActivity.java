@@ -90,6 +90,17 @@ public class MemberLoginActivity extends AppCompatActivity {
                     binding.loginButton.setEnabled(false);
                     binding.loginButtonText.setText("Signing in...");
 
+                    if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
+                        Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
+                        intent.putExtra("member_name", email.isEmpty() ? "Design Member" : email);
+                        intent.putExtra("member_email", email.isEmpty() ? "member@design.com" : email);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
+                        finish();
+                        return;
+                    }
+
                     com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(email, password);
                     loginRequest.setLoginType("member");
                     loginRequest.setGroupName(groupName);
