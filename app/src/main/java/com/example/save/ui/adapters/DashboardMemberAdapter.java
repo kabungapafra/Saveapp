@@ -11,16 +11,29 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.save.R;
+import com.example.save.data.models.Member;
 import com.google.android.material.imageview.ShapeableImageView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMemberAdapter.ViewHolder> {
 
-    private final List<MemberStatus> members;
+    private List<Member> members = new ArrayList<>();
+    private String currentUserEmail = "";
+
+    private static final String[] AVATAR_COLORS = {
+        "#FBBF24", "#F87171", "#A78BFA", "#34D399", "#60A5FA", "#F472B6", "#FCA5A5", "#6EE7B7"
+    };
 
     public DashboardMemberAdapter(Context context) {
-        this.members = generateMockData();
+        // Empty — data will be loaded via setMembers()
+    }
+
+    public void setMembers(List<Member> members, String currentUserEmail) {
+        this.members = members != null ? members : new ArrayList<>();
+        this.currentUserEmail = currentUserEmail != null ? currentUserEmail : "";
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -32,25 +45,44 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MemberStatus member = members.get(position);
-        
-        holder.tvName.setText(member.name);
-        holder.tvInitials.setText(member.initials);
-        holder.tvTurn.setText(member.turnInfo);
-        holder.tvStatus.setText(member.status);
-        holder.tvAmount.setText(member.amount);
+        Member member = members.get(position);
+        boolean isSelf = member.getEmail() != null && member.getEmail().equalsIgnoreCase(currentUserEmail);
 
-        // Styling Avatar
-        holder.ivAvatar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(member.avatarBg)));
-        holder.tvInitials.setTextColor(Color.parseColor(member.avatarText));
+        // Name & Initials
+        holder.tvName.setText(isSelf ? member.getName() + " (You)" : member.getName());
+        holder.tvInitials.setText(getInitials(member.getName()));
 
-        // Styling Status Pill
-        holder.tvStatus.setBackgroundResource(R.drawable.bg_badge_pill); // Reusing existing pill drawable
-        holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(member.statusBg)));
-        holder.tvStatus.setTextColor(Color.parseColor(member.statusText));
+        // Turn Info
+        holder.tvTurn.setText(String.format(Locale.getDefault(), "Turn #%d", position + 1));
 
-        // Highlight Self
-        if (member.isSelf) {
+        // Status from server-authoritative reliability label
+        String label = member.getReliabilityLabel();
+        String color = member.getReliabilityColor();
+        holder.tvStatus.setText(label);
+
+        // Avatar color based on name hash
+        int colorIdx = Math.abs(member.getName().hashCode()) % AVATAR_COLORS.length;
+        holder.ivAvatar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(AVATAR_COLORS[colorIdx])));
+        holder.tvInitials.setTextColor(Color.parseColor("#1A1D2E"));
+
+        // Status pill color
+        int statusColor = Color.parseColor(color);
+        holder.tvStatus.setBackgroundResource(R.drawable.bg_badge_pill);
+        holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(statusColor & 0x30FFFFFF | 0x20000000));
+        holder.tvStatus.setTextColor(statusColor);
+
+        // Amount
+        double amount = member.getContributionPaid();
+        if (amount >= 1_000_000) {
+            holder.tvAmount.setText(String.format(Locale.getDefault(), "UGX %.1fM", amount / 1_000_000));
+        } else if (amount >= 1000) {
+            holder.tvAmount.setText(String.format(Locale.getDefault(), "UGX %.0fK", amount / 1000));
+        } else {
+            holder.tvAmount.setText(String.format(Locale.getDefault(), "UGX %.0f", amount));
+        }
+
+        // Highlight self
+        if (isSelf) {
             holder.itemView.setBackgroundColor(Color.parseColor("#F0F7FF"));
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -77,34 +109,10 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
         }
     }
 
-    private List<MemberStatus> generateMockData() {
-        List<MemberStatus> list = new ArrayList<>();
-        list.add(new MemberStatus("JK", "#FBBF24", "#78350F", "James K.", "Turn #1 · Received Sept 1", "Paid", "#D1FAE5", "#065F46", "UGX 200k", false));
-        list.add(new MemberStatus("AM", "#F87171", "#7F1D1D", "Amara M.", "Turn #2 · Received Oct 1", "Paid", "#D1FAE5", "#065F46", "UGX 200k", false));
-        list.add(new MemberStatus("PF", "#DBEAFE", "#1D4ED8", "Pafra F. (You)", "Turn #3 · Due Oct 14", "Due Soon", "#EFF6FF", "#1D4ED8", "UGX 200k", true));
-        list.add(new MemberStatus("TR", "#A78BFA", "#3B0764", "Tendo R.", "Turn #4 · Pending", "Paid", "#D1FAE5", "#065F46", "UGX 200k", false));
-        list.add(new MemberStatus("NK", "#FEE2E2", "#991B1B", "Nakato K.", "Turn #5 · 2 days late", "Late", "#FEE2E2", "#991B1B", "UGX 200k", false));
-        list.add(new MemberStatus("BM", "#D1FAE5", "#065F46", "Brian M.", "Turn #6 · Pending", "Pending", "#FEF3C7", "#92400E", "UGX 200k", false));
-        list.add(new MemberStatus("SR", "#E0E7FF", "#3730A3", "Sarah R.", "Turn #7 · Pending", "Pending", "#FEF3C7", "#92400E", "UGX 200k", false));
-        list.add(new MemberStatus("OW", "#FEF3C7", "#92400E", "Owen W.", "Turn #8 · Pending", "Pending", "#FEF3C7", "#92400E", "UGX 200k", false));
-        return list;
-    }
-
-    static class MemberStatus {
-        String initials, avatarBg, avatarText, name, turnInfo, status, statusBg, statusText, amount;
-        boolean isSelf;
-
-        MemberStatus(String initials, String avatarBg, String avatarText, String name, String turnInfo, String status, String statusBg, String statusText, String amount, boolean isSelf) {
-            this.initials = initials;
-            this.avatarBg = avatarBg;
-            this.avatarText = avatarText;
-            this.name = name;
-            this.turnInfo = turnInfo;
-            this.status = status;
-            this.statusBg = statusBg;
-            this.statusText = statusText;
-            this.amount = amount;
-            this.isSelf = isSelf;
-        }
+    private String getInitials(String name) {
+        if (name == null || name.isEmpty()) return "?";
+        String[] parts = name.trim().split("\\s+");
+        if (parts.length > 1) return ("" + parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+        return name.substring(0, Math.min(2, name.length())).toUpperCase();
     }
 }
