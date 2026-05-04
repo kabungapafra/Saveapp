@@ -13,6 +13,7 @@ import com.example.save.data.network.RetrofitClient;
 import com.example.save.data.network.LoginResponse;
 import com.example.save.data.network.MemberRegistrationRequest;
 import com.example.save.data.network.MemberRegistrationResponse;
+import com.example.save.data.network.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;
