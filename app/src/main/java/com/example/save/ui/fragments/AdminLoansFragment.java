@@ -285,27 +285,33 @@ public class AdminLoansFragment extends Fragment {
         yAxis.setTextColor(Color.parseColor("#94A3B8"));
         yAxis.setAxisMinimum(0f);
 
-        List<com.github.mikephil.charting.data.BarEntry> entries = new ArrayList<>();
-        entries.add(new com.github.mikephil.charting.data.BarEntry(0, 4.5f));
-        entries.add(new com.github.mikephil.charting.data.BarEntry(1, 11.2f));
-        entries.add(new com.github.mikephil.charting.data.BarEntry(2, 7.8f));
-        entries.add(new com.github.mikephil.charting.data.BarEntry(3, 13.5f));
-
-        com.github.mikephil.charting.data.BarDataSet dataSet = new com.github.mikephil.charting.data.BarDataSet(entries,
-                "Loans");
-        dataSet.setColors(new int[] {
-                Color.parseColor("#2563EB"),
-                Color.parseColor("#2563EB"),
-                Color.parseColor("#FF8A00"),
-                Color.parseColor("#FF8A00")
+        // Chart will be populated when loan data is observed
+        viewModel.getLoanRequests().observe(getViewLifecycleOwner(), loans -> {
+            if (loans == null || loans.isEmpty()) {
+                chart.clear();
+                return;
+            }
+            List<com.github.mikephil.charting.data.BarEntry> entries = new ArrayList<>();
+            int max = Math.min(loans.size(), 6);
+            for (int i = 0; i < max; i++) {
+                entries.add(new com.github.mikephil.charting.data.BarEntry(i,
+                        (float) (loans.get(i).getAmount() / 1000.0))); // show in K
+            }
+            com.github.mikephil.charting.data.BarDataSet dataSet =
+                    new com.github.mikephil.charting.data.BarDataSet(entries, "Loans");
+            int[] colors = new int[entries.size()];
+            for (int i = 0; i < colors.length; i++) {
+                colors[i] = Color.parseColor(i % 2 == 0 ? "#2563EB" : "#FF8A00");
+            }
+            dataSet.setColors(colors);
+            dataSet.setDrawValues(false);
+            com.github.mikephil.charting.data.BarData data =
+                    new com.github.mikephil.charting.data.BarData(dataSet);
+            data.setBarWidth(0.5f);
+            chart.setData(data);
+            chart.animateY(1000);
+            chart.invalidate();
         });
-        dataSet.setDrawValues(false);
-
-        com.github.mikephil.charting.data.BarData data = new com.github.mikephil.charting.data.BarData(dataSet);
-        data.setBarWidth(0.5f);
-        chart.setData(data);
-        chart.animateY(1000);
-        chart.invalidate();
     }
 
     @Override

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
 import com.example.save.databinding.FragmentSettingsBinding;
+import com.example.save.utils.SessionManager;
 
 public class SettingsFragment extends Fragment {
 
@@ -44,14 +45,21 @@ public class SettingsFragment extends Fragment {
     }
 
     private void loadUserData() {
-        android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
-        String name = prefs.getString("admin_name", "John Doe");
-        String group = prefs.getString("group_name", "Alpha Savers Group");
+        SessionManager session = SessionManager.getInstance(requireContext());
+        String name = session.getUserName();
+        String email = session.getUserEmail();
 
-        binding.tvUserName.setText(name);
-        binding.tvGroupName.setText(group);
+        // Fallback to SharedPreferences for admins
+        if (name == null || name.isEmpty()) {
+            name = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
+                    .getString("admin_name", "");
+        }
+        String group = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
+                .getString("group_name", "");
 
-        // Simple initials logic
+        binding.tvUserName.setText(name != null && !name.isEmpty() ? name : email);
+        binding.tvGroupName.setText(group != null && !group.isEmpty() ? group : "");
+
         if (name != null && !name.isEmpty()) {
             String[] parts = name.split(" ");
             if (parts.length >= 2) {
@@ -78,10 +86,31 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupStats() {
-        // Mock data as per design or load from repo if available
-        binding.tvPoolBalance.setText("KES 45K");
-        binding.tvNextPayout.setText("Apr 28");
-        binding.tvPosition.setText("3 / 12");
+        // Load real stats from the backend dashboard summary
+        androidx.lifecycle.ViewModelProvider provider = new androidx.lifecycle.ViewModelProvider(requireActivity());
+        com.example.save.ui.viewmodels.MembersViewModel vm = provider.get(com.example.save.ui.viewmodels.MembersViewModel.class);
+        vm.getDashboardSummary((success, summaryObj, message) -> {
+            if (success && isAdded() && summaryObj instanceof com.example.save.data.models.DashboardSummaryResponse) {
+                com.example.save.data.models.DashboardSummaryResponse summary =
+                        (com.example.save.data.models.DashboardSummaryResponse) summaryObj;
+                requireActivity().runOnUiThread(() -> {
+                    double balance = summary.getTotalBalance();
+                    if (balance >= 1_000_000) {
+                        binding.tvPoolBalance.setText(String.format(java.util.Locale.getDefault(), "UGX %.1fM", balance / 1_000_000));
+                    } else if (balance >= 1000) {
+                        binding.tvPoolBalance.setText(String.format(java.util.Locale.getDefault(), "UGX %.0fK", balance / 1000));
+                    } else {
+                        binding.tvPoolBalance.setText(String.format(java.util.Locale.getDefault(), "UGX %.0f", balance));
+                    }
+                    String nextPayout = requireContext()
+                            .getSharedPreferences("SaveAppPrefs", android.content.Context.MODE_PRIVATE)
+                            .getString("sched_payout_date", "TBD");
+                    binding.tvNextPayout.setText(nextPayout);
+                    int total = summary.getTotalMembers() > 0 ? summary.getTotalMembers() : 0;
+                    binding.tvPosition.setText("1 / " + total);
+                });
+            }
+        });
     }
 
     private void setupGridListeners() {

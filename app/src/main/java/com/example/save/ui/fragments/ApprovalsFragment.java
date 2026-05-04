@@ -5,70 +5,89 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.save.R;
 import com.example.save.databinding.FragmentApprovalsBinding;
 import com.example.save.ui.adapters.ApprovalsAdapter;
 import com.example.save.ui.viewmodels.MembersViewModel;
-import com.example.save.data.models.TransactionEntity;
-import com.example.save.data.models.LoanRequest;
+import com.example.save.utils.SessionManager;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class ApprovalsFragment extends Fragment {
 
     private FragmentApprovalsBinding binding;
+    private MembersViewModel viewModel;
+    private ApprovalsAdapter adapter;
+
+    public static ApprovalsFragment newInstance() {
+        return new ApprovalsFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         binding = FragmentApprovalsBinding.inflate(inflater, container, false);
-
-        setupNavigation();
-
         return binding.getRoot();
     }
 
-    private void setupNavigation() {
-        View.OnClickListener openPayoutDetail = v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new PayoutConfirmationFragment())
-                    .addToBackStack(null)
-                    .commit();
-        };
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
-        binding.btnViewAlexander.setOnClickListener(openPayoutDetail);
-        binding.btnViewVictoria.setOnClickListener(openPayoutDetail);
-        binding.btnViewAris.setOnClickListener(openPayoutDetail);
+        setupRecyclerView();
+        observeApprovals();
+    }
 
-        binding.btnRejectJulian.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, DeclineLoanRequestFragment.newInstance("loan_julian", "Julian Wan", "$12,000", "Emergency Loan"))
-                    .addToBackStack(null)
-                    .commit();
+    private void setupRecyclerView() {
+        String adminEmail = SessionManager.getInstance(requireContext()).getUserEmail();
+        adapter = new ApprovalsAdapter(item -> {
+            if ("LOAN".equals(item.getType())) {
+                viewModel.approveLoan(item.getId(), adminEmail, (success, message) -> {
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(() ->
+                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
+                    }
+                });
+            } else {
+                viewModel.approveTransaction(item.getId(), adminEmail, (success, message) -> {
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(() ->
+                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
+                    }
+                });
+            }
         });
 
-        binding.btnRejectElena.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, DeclineLoanRequestFragment.newInstance("loan_elena", "Elena Stix", "$5,500", "Personal Loan"))
-                    .addToBackStack(null)
-                    .commit();
+        binding.rvApprovals.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvApprovals.setAdapter(adapter);
+    }
+
+    private void observeApprovals() {
+        String adminEmail = SessionManager.getInstance(requireContext()).getUserEmail();
+        viewModel.getCombinedApprovals(adminEmail).observe(getViewLifecycleOwner(), items -> {
+            if (items != null && !items.isEmpty()) {
+                binding.rvApprovals.setVisibility(View.VISIBLE);
+                if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);
+                adapter.updateList(items);
+            } else {
+                binding.rvApprovals.setVisibility(View.GONE);
+                if (binding.emptyState != null) binding.emptyState.setVisibility(View.VISIBLE);
+            }
         });
+    }
 
-        View.OnClickListener openConfirmApproval = v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ConfirmLoanApprovalFragment())
-                    .addToBackStack(null)
-                    .commit();
-        };
-
-        binding.btnAcceptJulian.setOnClickListener(openConfirmApproval);
-        binding.btnAcceptElena.setOnClickListener(openConfirmApproval);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
-
-

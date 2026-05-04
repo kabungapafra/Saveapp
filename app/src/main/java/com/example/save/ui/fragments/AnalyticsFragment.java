@@ -170,26 +170,14 @@ public class AnalyticsFragment extends Fragment {
         membersViewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
             if (members != null && !members.isEmpty() && binding != null) {
                 double totalGross = 0;
-                for (Member m : members) {
-                    totalGross += m.getContributionPaid();
-                }
-                binding.tvGrossContributions.setText(formatCurrencyCompact(totalGross > 0 ? totalGross : 38400000.0));
+                for (Member m : members) totalGross += m.getContributionPaid();
+                binding.tvGrossContributions.setText(formatCurrencyCompact(totalGross));
                 performanceAdapter.setMembers(members);
                 updateHealthIndex(members, null);
                 animateProgressBar(binding.progressGross, 85);
             } else if (members != null && members.isEmpty() && binding != null) {
-                // Seed spec data for design parity
-                List<Member> specMembers = new ArrayList<>();
-                Member m1 = new Member("Sunrise Cooperative", "Top 1 Contributor", true);
-                m1.setContributionPaid(12400000.0);
-                Member m2 = new Member("Market Vendors Assoc.", "Top 2 Contributor", true);
-                m2.setContributionPaid(10800000.0);
-                Member m3 = new Member("Health Fund Pool", "Disbursement Amount", true);
-                m3.setContributionPaid(9200000.0);
-                specMembers.add(m1); specMembers.add(m2); specMembers.add(m3);
-                performanceAdapter.setMembers(specMembers);
-                binding.tvGrossContributions.setText("UGX 38.4M");
-                animateProgressBar(binding.progressGross, 85);
+                binding.tvGrossContributions.setText("UGX 0");
+                performanceAdapter.setMembers(new ArrayList<>());
             }
             if (binding != null && binding.swipeRefresh != null) {
                 binding.swipeRefresh.setRefreshing(false);
@@ -213,16 +201,7 @@ public class AnalyticsFragment extends Fragment {
             if (transactions != null && !transactions.isEmpty() && binding != null) {
                 ledgerAdapter.setTransactions(transactions);
             } else if (transactions != null && transactions.isEmpty() && binding != null) {
-                // Seed spec data for design parity
-                List<TransactionEntity> specTx = new ArrayList<>();
-                TransactionEntity t1 = new TransactionEntity(null, null, 1200000, "Sunrise Cooperative", new Date(), true, null, null);
-                t1.setId("SC1");
-                TransactionEntity t2 = new TransactionEntity(null, null, 450000, "John Doe Kioyo A1", new Date(), false, null, null);
-                t2.setId("MV2");
-                TransactionEntity t3 = new TransactionEntity(null, null, 2500000, "Health Fund Pool", new Date(), false, null, null);
-                t3.setId("HF3");
-                specTx.add(t1); specTx.add(t2); specTx.add(t3);
-                ledgerAdapter.setTransactions(specTx);
+                ledgerAdapter.setTransactions(new ArrayList<>());
             }
         });
 

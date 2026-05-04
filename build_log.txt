@@ -1,58 +1,258 @@
-To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
-Daemon will be stopped at the end of the build 
 > Task :app:preBuild UP-TO-DATE
 > Task :app:preDebugBuild UP-TO-DATE
 > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
 > Task :app:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
 > Task :app:generateDebugResValues UP-TO-DATE
 > Task :app:generateDebugResources UP-TO-DATE
+> Task :app:injectCrashlyticsMappingFileIdDebug UP-TO-DATE
+> Task :app:processDebugGoogleServices UP-TO-DATE
 > Task :app:mergeDebugResources UP-TO-DATE
 > Task :app:packageDebugResources UP-TO-DATE
-> Task :app:processDebugNavigationResources UP-TO-DATE
 > Task :app:parseDebugLocalResources UP-TO-DATE
 > Task :app:dataBindingGenBaseClassesDebug UP-TO-DATE
+> Task :app:dataBindingTriggerDebug UP-TO-DATE
 > Task :app:javaPreCompileDebug UP-TO-DATE
 > Task :app:checkDebugAarMetadata UP-TO-DATE
-> Task :app:compileDebugNavigationResources UP-TO-DATE
 > Task :app:mapDebugSourceSetPaths UP-TO-DATE
 > Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
 > Task :app:extractDeepLinksDebug UP-TO-DATE
 > Task :app:processDebugMainManifest UP-TO-DATE
 > Task :app:processDebugManifest UP-TO-DATE
 > Task :app:processDebugManifestForPackage UP-TO-DATE
-> Task :app:mergeDebugShaders UP-TO-DATE
-> Task :app:compileDebugShaders NO-SOURCE
-> Task :app:generateDebugAssets UP-TO-DATE
-> Task :app:mergeDebugAssets UP-TO-DATE
-> Task :app:compressDebugAssets UP-TO-DATE
-> Task :app:checkDebugDuplicateClasses UP-TO-DATE
-> Task :app:desugarDebugFileDependencies UP-TO-DATE
-> Task :app:mergeExtDexDebug UP-TO-DATE
-> Task :app:mergeLibDexDebug UP-TO-DATE
-> Task :app:mergeDebugJniLibFolders UP-TO-DATE
-> Task :app:mergeDebugNativeLibs NO-SOURCE
-> Task :app:stripDebugDebugSymbols NO-SOURCE
-> Task :app:validateSigningDebug UP-TO-DATE
-> Task :app:writeDebugAppMetadata UP-TO-DATE
-> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
-> Task :app:processDebugResources FAILED
+> Task :app:processDebugResources UP-TO-DATE
+
+> Task :app:compileDebugJavaWithJavac
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/SettingsFragment.java:47: error: cannot find symbol
+        SessionManager session = SessionManager.getInstance(requireContext());
+        ^
+  symbol:   class SessionManager
+  location: class SettingsFragment
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/SettingsFragment.java:47: error: cannot find symbol
+        SessionManager session = SessionManager.getInstance(requireContext());
+                                 ^
+  symbol:   variable SessionManager
+  location: class SettingsFragment
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:62: error: cannot find symbol
+        binding.rvQueue.setLayoutManager(new LinearLayoutManager(getContext()));
+               ^
+  symbol:   variable rvQueue
+  location: variable binding of type FragmentQueueBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:63: error: cannot find symbol
+        binding.rvQueue.setAdapter(adapter);
+               ^
+  symbol:   variable rvQueue
+  location: variable binding of type FragmentQueueBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:69: error: cannot find symbol
+                binding.rvQueue.setVisibility(View.GONE);
+                       ^
+  symbol:   variable rvQueue
+  location: variable binding of type FragmentQueueBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:70: error: cannot find symbol
+                if (binding.emptyState != null) binding.emptyState.setVisibility(View.VISIBLE);
+                           ^
+  symbol:   variable emptyState
+  location: variable binding of type FragmentQueueBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:70: error: cannot find symbol
+                if (binding.emptyState != null) binding.emptyState.setVisibility(View.VISIBLE);
+                                                       ^
+  symbol:   variable emptyState
+  location: variable binding of type FragmentQueueBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:73: error: cannot find symbol
+            binding.rvQueue.setVisibility(View.VISIBLE);
+                   ^
+  symbol:   variable rvQueue
+  location: variable binding of type FragmentQueueBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:74: error: cannot find symbol
+            if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);
+                       ^
+  symbol:   variable emptyState
+  location: variable binding of type FragmentQueueBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:74: error: cannot find symbol
+            if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);
+                                                   ^
+  symbol:   variable emptyState
+  location: variable binding of type FragmentQueueBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ActiveStandingsFragment.java:66: error: cannot find symbol
+        rvStandings = view.findViewById(R.id.rvStandings);
+                                            ^
+  symbol:   variable rvStandings
+  location: class id
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:52: error: constructor ApprovalsAdapter in class ApprovalsAdapter cannot be applied to given types;
+        adapter = new ApprovalsAdapter(adminEmail, (type, id, approve) -> {
+                  ^
+  required: OnApprovalClickListener
+  found:    String,(type,id,a[...]; } }
+  reason: actual and formal argument lists differ in length
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:79: error: cannot find symbol
+        binding.rvApprovals.setLayoutManager(new LinearLayoutManager(getContext()));
+               ^
+  symbol:   variable rvApprovals
+  location: variable binding of type FragmentApprovalsBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:80: error: cannot find symbol
+        binding.rvApprovals.setAdapter(adapter);
+               ^
+  symbol:   variable rvApprovals
+  location: variable binding of type FragmentApprovalsBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:87: error: cannot find symbol
+                binding.rvApprovals.setVisibility(View.VISIBLE);
+                       ^
+  symbol:   variable rvApprovals
+  location: variable binding of type FragmentApprovalsBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:88: error: cannot find symbol
+                if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);
+                           ^
+  symbol:   variable emptyState
+  location: variable binding of type FragmentApprovalsBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:88: error: cannot find symbol
+                if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);
+                                                       ^
+  symbol:   variable emptyState
+  location: variable binding of type FragmentApprovalsBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:89: error: cannot find symbol
+                adapter.submitList(items);
+                       ^
+  symbol:   method submitList(List<ApprovalItem>)
+  location: variable adapter of type ApprovalsAdapter
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:91: error: cannot find symbol
+                binding.rvApprovals.setVisibility(View.GONE);
+                       ^
+  symbol:   variable rvApprovals
+  location: variable binding of type FragmentApprovalsBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:92: error: cannot find symbol
+                if (binding.emptyState != null) binding.emptyState.setVisibility(View.VISIBLE);
+                           ^
+  symbol:   variable emptyState
+  location: variable binding of type FragmentApprovalsBinding
+/home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:92: error: cannot find symbol
+                if (binding.emptyState != null) binding.emptyState.setVisibility(View.VISIBLE);
+                                                       ^
+  symbol:   variable emptyState
+  location: variable binding of type FragmentApprovalsBinding
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+21 errors
+
+> Task :app:compileDebugJavaWithJavac FAILED
+[Incubating] Problems report is available at: file:///home/darlin-pafra/AndroidStudioProjects/Save/Front-end/build/reports/problems/problems-report.html
 
 FAILURE: Build failed with an exception.
 
 * What went wrong:
-Execution failed for task ':app:processDebugResources'.
-> A failure occurred while executing com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask$TaskAction
-   > Android resource linking failed
-     com.example.save.app-mergeDebugResources-45:/layout/fragment_add_guarantor.xml:30: error: resource drawable/ic_chevron_left (aka com.example.save:drawable/ic_chevron_left) not found.
-     com.example.save.app-mergeDebugResources-45:/layout/item_guarantor_member.xml:97: error: resource drawable/ic_check (aka com.example.save:drawable/ic_check) not found.
-     error: failed linking file resources.
-
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+> Compilation failed; see the compiler output below.
+  Note: Recompile with -Xlint:deprecation for details.
+  Note: Some input files use or override a deprecated API.
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:89: error: cannot find symbol
+                  adapter.submitList(items);
+                         ^
+    symbol:   method submitList(List<ApprovalItem>)
+    location: variable adapter of type ApprovalsAdapter
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:52: error: constructor ApprovalsAdapter in class ApprovalsAdapter cannot be applied to given types;
+          adapter = new ApprovalsAdapter(adminEmail, (type, id, approve) -> {
+                    ^
+    required: OnApprovalClickListener
+    found:    String,(type,id,a[...]; } }
+    reason: actual and formal argument lists differ in length
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/SettingsFragment.java:47: error: cannot find symbol
+          SessionManager session = SessionManager.getInstance(requireContext());
+          ^
+    symbol:   class SessionManager
+    location: class SettingsFragment
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/SettingsFragment.java:47: error: cannot find symbol
+          SessionManager session = SessionManager.getInstance(requireContext());
+                                   ^
+    symbol:   variable SessionManager
+    location: class SettingsFragment
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:62: error: cannot find symbol
+          binding.rvQueue.setLayoutManager(new LinearLayoutManager(getContext()));
+                 ^
+    symbol:   variable rvQueue
+    location: variable binding of type FragmentQueueBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:63: error: cannot find symbol
+          binding.rvQueue.setAdapter(adapter);
+                 ^
+    symbol:   variable rvQueue
+    location: variable binding of type FragmentQueueBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:69: error: cannot find symbol
+                  binding.rvQueue.setVisibility(View.GONE);
+                         ^
+    symbol:   variable rvQueue
+    location: variable binding of type FragmentQueueBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:70: error: cannot find symbol
+                  if (binding.emptyState != null) binding.emptyState.setVisibility(View.VISIBLE);
+                             ^
+    symbol:   variable emptyState
+    location: variable binding of type FragmentQueueBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:70: error: cannot find symbol
+                  if (binding.emptyState != null) binding.emptyState.setVisibility(View.VISIBLE);
+                                                         ^
+    symbol:   variable emptyState
+    location: variable binding of type FragmentQueueBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:73: error: cannot find symbol
+              binding.rvQueue.setVisibility(View.VISIBLE);
+                     ^
+    symbol:   variable rvQueue
+    location: variable binding of type FragmentQueueBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:74: error: cannot find symbol
+              if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);
+                         ^
+    symbol:   variable emptyState
+    location: variable binding of type FragmentQueueBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/QueueFragment.java:74: error: cannot find symbol
+              if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);
+                                                     ^
+    symbol:   variable emptyState
+    location: variable binding of type FragmentQueueBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ActiveStandingsFragment.java:66: error: cannot find symbol
+          rvStandings = view.findViewById(R.id.rvStandings);
+                                              ^
+    symbol:   variable rvStandings
+    location: class id
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:79: error: cannot find symbol
+          binding.rvApprovals.setLayoutManager(new LinearLayoutManager(getContext()));
+                 ^
+    symbol:   variable rvApprovals
+    location: variable binding of type FragmentApprovalsBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:80: error: cannot find symbol
+          binding.rvApprovals.setAdapter(adapter);
+                 ^
+    symbol:   variable rvApprovals
+    location: variable binding of type FragmentApprovalsBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:87: error: cannot find symbol
+                  binding.rvApprovals.setVisibility(View.VISIBLE);
+                         ^
+    symbol:   variable rvApprovals
+    location: variable binding of type FragmentApprovalsBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:88: error: cannot find symbol
+                  if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);
+                             ^
+    symbol:   variable emptyState
+    location: variable binding of type FragmentApprovalsBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:88: error: cannot find symbol
+                  if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);
+                                                         ^
+    symbol:   variable emptyState
+    location: variable binding of type FragmentApprovalsBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:91: error: cannot find symbol
+                  binding.rvApprovals.setVisibility(View.GONE);
+                         ^
+    symbol:   variable rvApprovals
+    location: variable binding of type FragmentApprovalsBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:92: error: cannot find symbol
+                  if (binding.emptyState != null) binding.emptyState.setVisibility(View.VISIBLE);
+                             ^
+    symbol:   variable emptyState
+    location: variable binding of type FragmentApprovalsBinding
+  /home/darlin-pafra/AndroidStudioProjects/Save/Front-end/app/src/main/java/com/example/save/ui/fragments/ApprovalsFragment.java:92: error: cannot find symbol
+                  if (binding.emptyState != null) binding.emptyState.setVisibility(View.VISIBLE);
+                                                         ^
+    symbol:   variable emptyState
+    location: variable binding of type FragmentApprovalsBinding
+  21 errors
 
 * Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
+> Check your code and dependencies to fix the compilation error(s)
 > Run with --scan to get full insights.
-> Get more help at https://help.gradle.org.
 
-BUILD FAILED in 8s
-29 actionable tasks: 1 executed, 28 up-to-date
+BUILD FAILED in 3s
+20 actionable tasks: 1 executed, 19 up-to-date

@@ -1,538 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/v_page_bg">
+    android:background="#F8FAFC">
 
-    <!-- Top Navigation Bar -->
-    <LinearLayout
-        android:id="@+id/topNavBar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="12dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_circle_white_border"
-            android:padding="10dp"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="@color/black" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:text="Payment Queue"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="40dp" /> <!-- margin to center exactly -->
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topNavBar">
-
-        <LinearLayout
+        <!-- Top Header -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topNavBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="12dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="16dp">
 
-            <!-- Search Bar -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_rounded_search"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp">
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_icon_circle_gray_light"
+                android:padding="8dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="#1E293B"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_search"
-                    app:tint="@color/v_text_muted" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:hint="Search members or payments"
-                    android:textColorHint="@color/v_text_muted"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Metric Cards (Horizontal Stack) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:layout_marginTop="36dp"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
-
-                <!-- Total Pending Card -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/bg_metric_card"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TOTAL PENDING"
-                        android:textColor="@color/v_text_muted"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="UGX 4,250.00"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="26sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Next Payout Card -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_metric_card"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="NEXT PAYOUT"
-                        android:textColor="@color/v_text_muted"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="UGX 1,120.00"
-                        android:textColor="@color/black"
-                        android:textSize="26sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Segmented Tab Control -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/bg_segmented_container"
-                android:orientation="horizontal"
-                android:padding="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_segmented_active"
-                    android:gravity="center"
-                    android:text="Pending"
-                    android:textColor="@color/brand_blue"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Scheduled"
-                    android:textColor="@color/v_text_muted"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Completed"
-                    android:textColor="@color/v_text_muted"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Section Label -->
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp"
-                android:letterSpacing="0.05"
-                android:text="UPCOMING PAYMENTS"
-                android:textColor="@color/v_text_muted"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:text="Upcoming Payouts"
+                android:textColor="#0F172A"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/btnBack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintHorizontal_bias="0"/>
 
-            <!-- Card 1: Sarah Johnson -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_rounded_card_16"
-                android:orientation="vertical"
-                android:padding="16dp">
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvQueue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="16dp"
+        android:paddingBottom="100dp"
+        android:paddingHorizontal="24dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/item_payout_queue" />
 
-                    <!-- Avatar Box -->
-                    <FrameLayout
-                        android:id="@+id/avatar_frame_1"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
-                        android:layout_marginEnd="12dp">
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:cardCornerRadius="26dp"
-                            app:cardBackgroundColor="#FFE0B2"
-                            app:cardElevation="0dp">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="SJ"
-                                android:textColor="#E65100"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-                        </androidx.cardview.widget.CardView>
-                        <!-- Status dot -->
-                        <View
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="bottom|end"
-                            android:background="@drawable/bg_status_dot_green" />
-                    </FrameLayout>
+    <LinearLayout
+        android:id="@+id/emptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_clock_orange"
+            app:tint="#94A3B8" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Queue is empty"
+            android:textColor="#64748B"
+            android:textSize="16sp" />
+    </LinearLayout>
 
-                    <!-- Center details -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/avatar_frame_1"
-                        android:layout_toStartOf="@id/right_info_1"
-                        android:orientation="vertical"
-                        android:layout_centerVertical="true">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sarah Johnson"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="Monthly Contribution"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-
-                    <!-- Right Info -->
-                    <LinearLayout
-                        android:id="@+id/right_info_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:orientation="vertical"
-                        android:gravity="end">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="UGX 450.00"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/bg_status_orange"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="DUE IN 2 DAYS"
-                            android:textColor="#E65100"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <!-- Actions -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.70"
-                        android:background="@drawable/bg_pill_blue_solid"
-                        android:text="Mark as Paid"
-                        android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
-                        app:backgroundTint="@null" />
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.30"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/bg_pill_white_border"
-                        android:text="Remind"
-                        android:textAllCaps="false"
-                        android:textColor="@color/black"
-                        app:backgroundTint="@null" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Card 2: Elena Rodriguez -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_rounded_card_16"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/avatar_2"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
-                        android:layout_marginEnd="12dp"
-                        app:cardCornerRadius="26dp"
-                        app:cardBackgroundColor="#E1BEE7"
-                        app:cardElevation="0dp">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="ER"
-                            android:textColor="#6A1B9A"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </androidx.cardview.widget.CardView>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/avatar_2"
-                        android:layout_toStartOf="@id/right_info_2"
-                        android:orientation="vertical"
-                        android:layout_centerVertical="true">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Elena Rodriguez"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="Emergency Fund"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/right_info_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:orientation="vertical"
-                        android:gravity="end">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="UGX 1,200.00"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/bg_status_blue"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="PENDING APPROVAL"
-                            android:textColor="@color/brand_blue"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.70"
-                        android:background="@drawable/bg_pill_blue_solid"
-                        android:text="Approve Payment"
-                        android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
-                        app:backgroundTint="@null" />
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.30"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/bg_pill_white_border"
-                        android:text="Details"
-                        android:textAllCaps="false"
-                        android:textColor="@color/black"
-                        app:backgroundTint="@null" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Card 3: David Chen -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_rounded_card_16"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/avatar_3"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
-                        android:layout_marginEnd="12dp"
-                        app:cardCornerRadius="26dp"
-                        app:cardBackgroundColor="#BBDEFB"
-                        app:cardElevation="0dp">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="DC"
-                            android:textColor="#1565C0"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </androidx.cardview.widget.CardView>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/avatar_3"
-                        android:layout_toStartOf="@id/right_info_3"
-                        android:orientation="vertical"
-                        android:layout_centerVertical="true">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="David Chen"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="Savings Circle #4"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/right_info_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:orientation="vertical"
-                        android:gravity="end">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="UGX 300.00"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="DUE AUG 15"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.70"
-                        android:background="@drawable/bg_pill_blue_solid"
-                        android:text="Mark as Paid"
-                        android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
-                        app:backgroundTint="@null" />
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.30"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/bg_pill_white_border"
-                        android:text="Remind"
-                        android:textAllCaps="false"
-                        android:textColor="@color/black"
-                        app:backgroundTint="@null" />
-                </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
