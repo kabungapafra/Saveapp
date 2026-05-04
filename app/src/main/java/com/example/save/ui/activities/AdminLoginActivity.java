@@ -211,7 +211,21 @@ public class AdminLoginActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
                     finish();
                 } else {
-                    Toast.makeText(AdminLoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                    String errorMessage = "Login failed";
+                    try {
+                        if (response.errorBody() != null) {
+                            String errorJson = response.errorBody().string();
+                            // Simple extraction if it's a FastAPI detail JSON
+                            if (errorJson.contains("\"detail\":\"")) {
+                                errorMessage = errorJson.split("\"detail\":\"")[1].split("\"")[0];
+                            } else {
+                                errorMessage = "Error: " + response.code();
+                            }
+                        }
+                    } catch (Exception e) {
+                        errorMessage = "Login failed: " + response.message();
+                    }
+                    Toast.makeText(AdminLoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                 }
             }
 
