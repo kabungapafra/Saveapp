@@ -56,16 +56,10 @@ public class GuarantorRosterAdapter extends RecyclerView.Adapter<GuarantorRoster
         Member member = members.get(position);
         boolean isSelected = selectedMemberIds.contains(member.getId());
         
-        // Mock state logic based on specs. Usually this would come from the backend model.
-        // We simulate some users being locked or low score based on name or ID to match the UI mockup,
-        // or just depend on their credit score.
-        String state = "ELIGIBLE";
-        if (member.getCreditScore() < 60) {
-            state = "LOW_SCORE";
-        } else if (member.getName().contains("David")) {
-            // Mock David being locked as per mockup
-            state = "LOCKED";
-        }
+        // Authoritative logic from server
+        boolean isEligible = member.isEligible();
+        String label = member.getReliabilityLabel();
+        String color = member.getReliabilityColor();
         
         holder.tvName.setText(member.getName());
         
@@ -73,11 +67,11 @@ public class GuarantorRosterAdapter extends RecyclerView.Adapter<GuarantorRoster
         holder.tvAvatar.setText(initials);
         holder.tvAvatar.setBackgroundTintList(ColorStateList.valueOf(getAvatarColor(member.getName())));
 
-        if (state.equals("LOCKED")) {
+        if (!isEligible) {
             holder.cardRoot.setCardBackgroundColor(Color.parseColor("#FAFAFA"));
             holder.tvName.setTextColor(Color.parseColor("#9CA3AF"));
             
-            holder.tvBadge.setText("ALREADY A GUARANTOR");
+            holder.tvBadge.setText(label);
             holder.tvBadge.setTextColor(Color.parseColor("#9CA3AF"));
             holder.tvBadge.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F1F3F6")));
             
@@ -90,15 +84,11 @@ public class GuarantorRosterAdapter extends RecyclerView.Adapter<GuarantorRoster
             holder.cardRoot.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             holder.tvName.setTextColor(Color.parseColor("#1A1D2E"));
             
-            if (state.equals("LOW_SCORE")) {
-                holder.tvBadge.setText("LOW SAVINGS SCORE");
-                holder.tvBadge.setTextColor(Color.parseColor("#D97706"));
-                holder.tvBadge.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FEF3C7")));
-            } else {
-                holder.tvBadge.setText("ELIGIBLE");
-                holder.tvBadge.setTextColor(Color.parseColor("#16A34A"));
-                holder.tvBadge.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DCFCE7")));
-            }
+            holder.tvBadge.setText(label);
+            holder.tvBadge.setTextColor(Color.parseColor(color));
+            // Lighten the background color slightly for the badge
+            int badgeBgColor = Color.parseColor(color);
+            holder.tvBadge.setBackgroundTintList(ColorStateList.valueOf(badgeBgColor).withAlpha(30));
             
             holder.imgLocked.setVisibility(View.GONE);
             

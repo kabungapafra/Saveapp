@@ -24,6 +24,15 @@ public class MemberEntity {
     private String joinedDate;
     private double loanBalance;
     private boolean isActive;
+    
+    @com.google.gson.annotations.SerializedName("reliability_label")
+    private String reliabilityLabel;
+    
+    @com.google.gson.annotations.SerializedName("reliability_color")
+    private String reliabilityColor;
+    
+    @com.google.gson.annotations.SerializedName("is_eligible")
+    private boolean isEligible;
 
     public MemberEntity() {}
 
@@ -82,4 +91,13 @@ public class MemberEntity {
     public void setLoanBalance(double loanBalance) { this.loanBalance = loanBalance; }
     public boolean isActive() { return isActive; }
     public void setActive(boolean active) { isActive = active; }
+    
+    public String getReliabilityLabel() { return reliabilityLabel != null ? reliabilityLabel : "ELIGIBLE"; }
+    public void setReliabilityLabel(String reliabilityLabel) { this.reliabilityLabel = reliabilityLabel; }
+    
+    public String getReliabilityColor() { return reliabilityColor != null ? reliabilityColor : "#10B981"; }
+    public void setReliabilityColor(String reliabilityColor) { this.reliabilityColor = reliabilityColor; }
+    
+    public boolean isEligible() { return isEligible; }
+    public void setEligible(boolean eligible) { isEligible = eligible; }
 }

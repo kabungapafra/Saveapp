@@ -48,34 +48,34 @@ public class TechnicalInsightsAdapter extends RecyclerView.Adapter<TechnicalInsi
         void bind(Member member) {
             binding.tvInsightName.setText(member.getName());
             binding.tvReliabilityScore.setText(member.getCreditScore() + ".0");
-            binding.tvLastPayDate.setText("Oct 12"); // Placeholder as requested for visual match
+            binding.tvLastPayDate.setText(member.getJoinedDate() != null ? member.getJoinedDate() : "Oct 12");
 
-            // Tier logic
-            int score = member.getCreditScore();
-            if (score >= 95) {
-                binding.tvTierBadge.setText("VIP");
+            // Server-authoritative logic
+            String label = member.getReliabilityLabel();
+            String colorStr = member.getReliabilityColor();
+            int color = android.graphics.Color.parseColor(colorStr);
+
+            binding.tvTierBadge.setText(label);
+            binding.tvReliabilityScore.setTextColor(color);
+            binding.imgTrend.setColorFilter(color);
+
+            // Adjust trend rotation based on label
+            if (label.equals("SAFE") || label.equals("STABLE")) {
+                binding.imgTrend.setRotation(0);
+            } else {
+                binding.imgTrend.setRotation(45);
+            }
+
+            // Styling for the badge based on the server-provided label
+            if (label.equals("SAFE")) {
                 binding.tvTierBadge.setBackgroundResource(R.drawable.bg_tier_vip);
                 binding.tvTierBadge.setTextColor(android.graphics.Color.parseColor("#0369A1"));
-                binding.imgTrend.setImageResource(R.drawable.ic_diagonal_arrow);
-                binding.imgTrend.setRotation(0);
-                binding.imgTrend.setColorFilter(android.graphics.Color.parseColor("#10B981"));
-                binding.tvReliabilityScore.setTextColor(android.graphics.Color.parseColor("#10B981"));
-            } else if (score >= 85) {
-                binding.tvTierBadge.setText("PRO");
+            } else if (label.equals("STABLE")) {
                 binding.tvTierBadge.setBackgroundResource(R.drawable.bg_tier_pro);
                 binding.tvTierBadge.setTextColor(android.graphics.Color.parseColor("#B91C1C"));
-                binding.imgTrend.setImageResource(R.drawable.ic_diagonal_arrow);
-                binding.imgTrend.setRotation(0);
-                binding.imgTrend.setColorFilter(android.graphics.Color.parseColor("#10B981"));
-                binding.tvReliabilityScore.setTextColor(android.graphics.Color.parseColor("#10B981"));
             } else {
-                binding.tvTierBadge.setText("BASIC");
                 binding.tvTierBadge.setBackgroundResource(R.drawable.bg_tier_basic);
                 binding.tvTierBadge.setTextColor(android.graphics.Color.parseColor("#475569"));
-                binding.imgTrend.setImageResource(R.drawable.ic_diagonal_arrow);
-                binding.imgTrend.setRotation(45); // Side arrow effect
-                binding.imgTrend.setColorFilter(android.graphics.Color.parseColor("#F59E0B"));
-                binding.tvReliabilityScore.setTextColor(android.graphics.Color.parseColor("#F59E0B"));
             }
         }
     }

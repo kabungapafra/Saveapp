@@ -22,6 +22,15 @@ public class Member {
     private String nextPaymentDueDate;
     private int creditScore;
     private String joinedDate;
+    
+    @com.google.gson.annotations.SerializedName("reliability_label")
+    private String reliabilityLabel;
+    
+    @com.google.gson.annotations.SerializedName("reliability_color")
+    private String reliabilityColor;
+    
+    @com.google.gson.annotations.SerializedName("is_eligible")
+    private boolean isEligible;
 
     private String password;
 
@@ -259,4 +268,13 @@ public class Member {
     public void setLoanBalance(double loanBalance) {
         this.loanBalance = loanBalance;
     }
+
+    public String getReliabilityLabel() { return reliabilityLabel != null ? reliabilityLabel : "ELIGIBLE"; }
+    public void setReliabilityLabel(String reliabilityLabel) { this.reliabilityLabel = reliabilityLabel; }
+    
+    public String getReliabilityColor() { return reliabilityColor != null ? reliabilityColor : "#10B981"; }
+    public void setReliabilityColor(String reliabilityColor) { this.reliabilityColor = reliabilityColor; }
+    
+    public boolean isEligible() { return isEligible; }
+    public void setEligible(boolean eligible) { isEligible = eligible; }
 }
