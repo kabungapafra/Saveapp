@@ -35,6 +35,8 @@ public class DashboardFragment extends Fragment {
 
     private final List<Transaction> allCachedTransactions = new ArrayList<>();
 
+    private com.example.save.ui.adapters.DashboardMemberAdapter memberAdapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +53,9 @@ public class DashboardFragment extends Fragment {
         setupFilters();
         setupHeaderInteractions();
         loadDashboardData();
+        
+        // Ensure members are synced
+        viewModel.syncMembers();
     }
 
     private void initializeViews() {
@@ -60,7 +65,7 @@ public class DashboardFragment extends Fragment {
         binding.rvMonthRecipients.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext(),
                 androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
 
-        com.example.save.ui.adapters.DashboardMemberAdapter memberAdapter = new com.example.save.ui.adapters.DashboardMemberAdapter(requireContext());
+        memberAdapter = new com.example.save.ui.adapters.DashboardMemberAdapter(requireContext());
         binding.rvDashboardMembers.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
         binding.rvDashboardMembers.setAdapter(memberAdapter);
 
@@ -168,6 +173,12 @@ public class DashboardFragment extends Fragment {
                 // Update additional stats if components are added to UI
             });
         }
+        
+        viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
+            if (members != null) {
+                memberAdapter.setMembers(members, email);
+            }
+        });
     }
 
     private void loadRecentTransactions() {
