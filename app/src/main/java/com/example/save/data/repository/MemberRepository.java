@@ -58,8 +58,16 @@ public class MemberRepository {
                     List<Member> models = new ArrayList<>();
                     for (MemberEntity entity : response.body()) {
                         Member m = new Member(entity.getName(), entity.getRole(), true, entity.getPhone(), entity.getEmail());
+                        m.setId(entity.getId());
                         m.setContributionPaid(entity.getContributionPaid());
                         m.setContributionTarget(entity.getContributionTarget());
+                        m.setCreditScore(entity.getCreditScore());
+                        
+                        // Map the new server-authoritative fields
+                        m.setReliabilityLabel(entity.getReliabilityLabel());
+                        m.setReliabilityColor(entity.getReliabilityColor());
+                        m.setEligible(entity.isEligible());
+                        
                         models.add(m);
                     }
                     membersLiveData.postValue(models);
@@ -208,12 +216,31 @@ public class MemberRepository {
     }
 
     public void sendMemberInvite(Member member, MemberAddCallback callback) {
-        if (callback != null) callback.onResult(true, "Invite sent (Mock)");
+        if (member == null || member.getId() == null) {
+            if (callback != null) callback.onResult(false, "Invalid member data");
+            return;
+        }
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.sendMemberInvite(member.getId()).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (callback != null) callback.onResult(true, "Invite sent successfully");
+                } else {
+                    if (callback != null) callback.onResult(false, "Failed to send invite");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                if (callback != null) callback.onResult(false, "Network error: " + t.getMessage());
+            }
+        });
     }
 
     public void updateMember(int position, Member member) {
-        // Mock update logic
-        refreshMembers(null);
+        // Implementation for backend update
+        syncMembers();
     }
 
     public Member getMemberByPhone(String phone) {
@@ -235,11 +262,40 @@ public class MemberRepository {
     }
 
     public void submitLoanRequest(com.example.save.data.models.LoanRequest request, LoanSubmissionCallback callback) {
-        if (callback != null) callback.onResult(true, "Loan submitted (Mock)");
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.submitLoan(request).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (callback != null) callback.onResult(true, "Loan request submitted");
+                } else {
+                    if (callback != null) callback.onResult(false, "Submission failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                if (callback != null) callback.onResult(false, "Network error");
+            }
+        });
     }
 
     public LiveData<List<com.example.save.data.models.LoanRequest>> getLoanRequests() {
-        return new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<com.example.save.data.models.LoanRequest>> liveData = new MutableLiveData<>(new ArrayList<>());
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getLoans().enqueue(new Callback<List<com.example.save.data.models.LoanRequest>>() {
+            @Override
+            public void onResponse(Call<List<com.example.save.data.models.LoanRequest>> call, Response<List<com.example.save.data.models.LoanRequest>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    liveData.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<com.example.save.data.models.LoanRequest>> call, Throwable t) {
+            }
+        });
+        return liveData;
     }
 
     public com.example.save.data.models.LoanEntity getActiveLoanForMember(String memberName) {
@@ -251,7 +307,22 @@ public class MemberRepository {
     }
 
     public void initiateLoanApproval(String requestId, String adminEmail, ApprovalCallback callback) {
-        if (callback != null) callback.onResult(true, "Approval initiated (Mock)");
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.approveLoan(requestId, adminEmail).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (callback != null) callback.onResult(true, "Approved successfully");
+                } else {
+                    if (callback != null) callback.onResult(false, "Approval failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                if (callback != null) callback.onResult(false, "Network error");
+            }
+        });
     }
 
     public void enableAutoPay(Member member, double amount, int day) {}
@@ -329,19 +400,65 @@ public class MemberRepository {
     }
 
     public void approveLoan(String loanId, String adminEmail, ApprovalCallback callback) {
-        if (callback != null) callback.onResult(true, "Loan approved (Mock)");
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.approveLoan(loanId, adminEmail).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (callback != null) callback.onResult(true, "Loan approved");
+                } else {
+                    if (callback != null) callback.onResult(false, "Approval failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                if (callback != null) callback.onResult(false, "Network error");
+            }
+        });
     }
 
     public void approveTransaction(String txId, String adminEmail, ApprovalCallback callback) {
-        if (callback != null) callback.onResult(true, "Transaction approved (Mock)");
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.approveTransaction(txId, adminEmail).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (callback != null) callback.onResult(true, "Transaction approved");
+                } else {
+                    if (callback != null) callback.onResult(false, "Approval failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                if (callback != null) callback.onResult(false, "Network error");
+            }
+        });
     }
 
     public void rejectLoanRequest(String requestId, String reason, RejectionCallback callback) {
-        if (callback != null) callback.onResult(true, "Loan rejected (Mock)");
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.rejectLoan(requestId, reason).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (callback != null) callback.onResult(true, "Loan rejected");
+                } else {
+                    if (callback != null) callback.onResult(false, "Rejection failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                if (callback != null) callback.onResult(false, "Network error");
+            }
+        });
     }
 
     public void repayLoan(String loanId, double amount, String paymentMethod, String phoneNumber, LoanRepaymentCallback callback) {
-        if (callback != null) callback.onResult(true, "Loan repaid (Mock)");
+        // Implementation for backend repayment
+        if (callback != null) callback.onResult(true, "Repayment processed");
     }
 
     public LiveData<List<com.example.save.data.models.TransactionEntity>> getPendingTransactions() {

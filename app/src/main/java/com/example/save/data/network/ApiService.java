@@ -41,4 +41,22 @@ public interface ApiService {
 
     @GET("transactions")
     Call<List<com.example.save.data.models.TransactionEntity>> getTransactions();
+
+    @POST("members/{id}/send-invite")
+    Call<ApiResponse> sendMemberInvite(@retrofit2.http.Path("id") String memberId);
+
+    @POST("loans")
+    Call<ApiResponse> submitLoan(@Body com.example.save.data.models.LoanRequest request);
+
+    @GET("loans")
+    Call<List<com.example.save.data.models.LoanRequest>> getLoans();
+
+    @POST("loans/{id}/approve")
+    Call<ApiResponse> approveLoan(@retrofit2.http.Path("id") String loanId, @retrofit2.http.Query("admin_email") String adminEmail);
+
+    @POST("loans/{id}/reject")
+    Call<ApiResponse> rejectLoan(@retrofit2.http.Path("id") String loanId, @retrofit2.http.Query("reason") String reason);
+
+    @POST("transactions/{id}/approve")
+    Call<ApiResponse> approveTransaction(@retrofit2.http.Path("id") String txId, @retrofit2.http.Query("admin_email") String adminEmail);
 }
