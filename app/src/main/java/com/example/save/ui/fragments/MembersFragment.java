@@ -81,6 +81,7 @@ public class MembersFragment extends Fragment {
         
         // Hide Add button if not admin
         binding.btnAddMember.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+        binding.btnAddMember.setOnClickListener(v -> showAddMemberDialog());
         
         setupRecyclerView(isAdmin);
         observeViewModel();

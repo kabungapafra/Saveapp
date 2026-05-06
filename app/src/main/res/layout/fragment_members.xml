@@ -29,10 +29,22 @@
             android:src="@drawable/ic_arrow_back"
             app:tint="#1E293B" />
 
+        <ImageView
+            android:id="@+id/btnAddMember"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/bg_circle_blue"
+            android:padding="10dp"
+            android:src="@drawable/ic_add"
+            android:visibility="gone"
+            app:tint="@color/white" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
+            android:layout_toStartOf="@id/btnAddMember"
             android:layout_toEndOf="@id/btnBack"
             android:orientation="vertical">
 
