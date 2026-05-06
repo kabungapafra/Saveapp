@@ -20,6 +20,7 @@ import com.example.save.ui.fragments.WizardPayoutFragment;
 import com.example.save.ui.fragments.WizardCompleteFragment;
 import com.example.save.ui.fragments.LegalAgreementFragment;
 import com.example.save.ui.fragments.OtpFragment;
+import com.example.save.ui.fragments.WizardAddMembersInfoFragment;
 
 public class AdminSetupWizardActivity extends AppCompatActivity {
 
