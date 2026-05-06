@@ -165,6 +165,7 @@ public class MembersFragment extends Fragment {
                         if (members != null && adapter != null) {
                             adapter.updateList(members);
                             binding.membersRecyclerView.setVisibility(members.isEmpty() ? View.GONE : View.VISIBLE);
+                            binding.emptyStateLayout.setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);
                         }
                     });
                 }
@@ -203,6 +204,7 @@ public class MembersFragment extends Fragment {
 
 
                 binding.membersRecyclerView.setVisibility(members.isEmpty() ? View.GONE : View.VISIBLE);
+                binding.emptyStateLayout.setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);
             }
         });
     }
@@ -223,6 +225,11 @@ public class MembersFragment extends Fragment {
                     @Override
                     public void onMoreActionsClick(View view, Member member, int position) {
                         showPopupMenu(view, member, position);
+                    }
+
+                    @Override
+                    public void onDeleteClick(Member member, int position) {
+                        showRemoveMemberConfirmation(member);
                     }
                 });
         binding.membersRecyclerView.setAdapter(adapter);

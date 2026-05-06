@@ -31,6 +31,8 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void onMemberClick(Member member);
 
         void onMoreActionsClick(View view, Member member, int position);
+
+        void onDeleteClick(Member member, int position);
     }
 
     // Default constructor
@@ -150,6 +152,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (listener != null) {
                 itemView.setOnClickListener(v -> listener.onMemberClick(member));
                 binding.btnMoreActions.setOnClickListener(v -> listener.onMoreActionsClick(v, member, position));
+                binding.btnRemoveMember.setOnClickListener(v -> listener.onDeleteClick(member, position));
             }
         }
     }

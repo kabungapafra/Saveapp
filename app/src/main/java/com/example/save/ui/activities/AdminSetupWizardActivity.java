@@ -114,15 +114,9 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         }
 
         if (isValid) {
-            if (currentStep < 7) {
-                if (currentStep == 6) {
-                    // Transition to step 7 immediately since we pre-sent the OTP
-                    currentStep++;
-                    loadStep(currentStep);
-                } else {
-                    currentStep++;
-                    loadStep(currentStep);
-                }
+            if (currentStep < 8) {
+                currentStep++;
+                loadStep(currentStep);
             } else {
                 completeWizard();
             }
@@ -233,15 +227,20 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                 binding.footer.setVisibility(View.VISIBLE);
                 break;
             case 5:
+                fragment = new WizardAddMembersInfoFragment();
+                binding.btnNext.setText("Continue to Review");
+                binding.footer.setVisibility(View.VISIBLE);
+                break;
+            case 6:
                 fragment = new WizardCompleteFragment();
                 binding.btnNext.setText("Go to Legal Center");
                 binding.footer.setVisibility(View.VISIBLE);
                 break;
-            case 6:
+            case 7:
                 fragment = new LegalAgreementFragment();
                 binding.footer.setVisibility(View.GONE); // Legal has its own internal buttons
                 break;
-            case 7:
+            case 8:
                 fragment = new OtpFragment();
                 binding.footer.setVisibility(View.GONE);
                 break;
@@ -261,18 +260,19 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     }
 
     private void updateProgress(int step) {
-        int progress = (step * 100) / 7;
+        int progress = (step * 100) / 8;
         binding.wizardProgressBar.setProgress(progress);
-        binding.tvStepCount.setText("Step " + step + " of 7");
+        binding.tvStepCount.setText("Step " + step + " of 8");
         
         switch (step) {
             case 1: binding.tvSectionTitle.setText("GROUP INFO"); break;
             case 2: binding.tvSectionTitle.setText("CONTRIBUTIONS"); break;
             case 3: binding.tvSectionTitle.setText("PAYOUTS"); break;
             case 4: binding.tvSectionTitle.setText("LOAN RULES"); break;
-            case 5: binding.tvSectionTitle.setText("REVIEW"); break;
-            case 6: binding.tvSectionTitle.setText("LEGAL"); break;
-            case 7: binding.tvSectionTitle.setText("VERIFICATION"); break;
+            case 5: binding.tvSectionTitle.setText("ADD MEMBERS"); break;
+            case 6: binding.tvSectionTitle.setText("REVIEW"); break;
+            case 7: binding.tvSectionTitle.setText("LEGAL"); break;
+            case 8: binding.tvSectionTitle.setText("VERIFICATION"); break;
         }
         
         // Show navigation components unless in high-fidelity fragments that handle their own

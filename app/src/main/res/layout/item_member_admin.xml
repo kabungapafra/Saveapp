@@ -73,6 +73,16 @@
                 android:textSize="10sp" />
 
             <ImageView
+                android:id="@+id/btnRemoveMember"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_circle_red_light"
+                android:padding="8dp"
+                android:src="@drawable/ic_close"
+                app:tint="#EF4444" />
+
+            <ImageView
                 android:id="@+id/btnMoreActions"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
