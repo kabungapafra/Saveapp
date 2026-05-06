@@ -27,7 +27,10 @@ public class GroupSettingsFragment extends Fragment {
         setupToggles();
 
         com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
-        if (!session.isCreator()) {
+        String role = session.getUserRole();
+        // Show Delete Group button to all admins (not just the creator flag which may not be in session yet)
+        boolean isAdmin = role != null && role.equalsIgnoreCase("admin");
+        if (!isAdmin) {
             binding.btnDeleteGroup.setVisibility(View.GONE);
         }
 
