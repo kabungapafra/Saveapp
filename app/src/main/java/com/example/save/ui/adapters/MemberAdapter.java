@@ -26,6 +26,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private List<Member> list;
     private OnMemberClickListener listener;
+    private boolean isAdmin = false;
 
     public interface OnMemberClickListener {
         void onMemberClick(Member member);
@@ -49,6 +50,11 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public MemberAdapter(OnMemberClickListener listener) {
         this.list = new ArrayList<>();
         this.listener = listener;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.isAdmin = admin;
+        notifyDataSetChanged();
     }
 
     public void updateList(List<Member> newList) {
@@ -148,6 +154,9 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 binding.tvStatusBadge.setBackgroundResource(com.example.save.R.drawable.bg_status_inactive_badge);
                 binding.tvStatusBadge.setTextColor(android.graphics.Color.parseColor("#64748B"));
             }
+
+            binding.btnMoreActions.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+            binding.btnRemoveMember.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
 
             if (listener != null) {
                 itemView.setOnClickListener(v -> listener.onMemberClick(member));

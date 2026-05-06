@@ -75,7 +75,14 @@ public class MembersFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
         LoansViewModel loansViewModel = new ViewModelProvider(requireActivity()).get(LoansViewModel.class);
 
-        setupRecyclerView();
+        // Check permissions
+        String userRole = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserRole();
+        boolean isAdmin = "admin".equalsIgnoreCase(userRole) || "Administrator".equalsIgnoreCase(userRole);
+        
+        // Hide Add button if not admin
+        binding.btnAddMember.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+        
+        setupRecyclerView(isAdmin);
         observeViewModel();
         setupSearchView();
 
@@ -213,25 +220,29 @@ public class MembersFragment extends Fragment {
         loadMembers();
     }
 
-    private void setupRecyclerView() {
+    private void setupRecyclerView(boolean isAdmin) {
         binding.membersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new com.example.save.ui.adapters.MemberAdapter(
-                new com.example.save.ui.adapters.MemberAdapter.OnMemberClickListener() {
-                    @Override
-                    public void onMemberClick(Member member) {
-                        showProfileDialog(member);
-                    }
+        adapter = new MemberAdapter(new MemberAdapter.OnMemberClickListener() {
+            @Override
+            public void onMemberClick(Member member) {
+                showProfileDialog(member);
+            }
 
-                    @Override
-                    public void onMoreActionsClick(View view, Member member, int position) {
-                        showPopupMenu(view, member, position);
-                    }
+            @Override
+            public void onMoreActionsClick(View view, Member member, int position) {
+                if (isAdmin) {
+                    showPopupMenu(view, member, position);
+                }
+            }
 
-                    @Override
-                    public void onDeleteClick(Member member, int position) {
-                        showRemoveMemberConfirmation(member);
-                    }
-                });
+            @Override
+            public void onDeleteClick(Member member, int position) {
+                if (isAdmin) {
+                    showRemoveMemberConfirmation(member);
+                }
+            }
+        });
+        adapter.setAdmin(isAdmin);
         binding.membersRecyclerView.setAdapter(adapter);
 
         // Setup Insights RecyclerView
