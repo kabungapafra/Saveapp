@@ -131,6 +131,10 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         }
     }
 
+    public void sendOtpExplicitly() {
+        sendOtpAndProceed(true);
+    }
+
     private void sendOtpAndProceed(boolean shouldProceed) {
         if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
             if (shouldProceed) {
@@ -235,9 +239,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                 break;
             case 6:
                 fragment = new LegalAgreementFragment();
-                binding.footer.setVisibility(View.GONE);
-                // Pre-send OTP so it's ready by the time they reach the next screen
-                sendOtpAndProceed(false); // Add a flag to not proceed to next step automatically
+                binding.footer.setVisibility(View.GONE); // Legal has its own internal buttons
                 break;
             case 7:
                 fragment = new OtpFragment();
@@ -273,9 +275,14 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
             case 7: binding.tvSectionTitle.setText("VERIFICATION"); break;
         }
         
-        // Progress and Navigation are now handled inside each fragment
-        binding.progressSection.setVisibility(View.GONE);
-        binding.toolbar.setVisibility(View.GONE);
+        // Show navigation components unless in high-fidelity fragments that handle their own
+        if (step >= 6) {
+            binding.progressSection.setVisibility(View.GONE);
+            binding.toolbar.setVisibility(View.VISIBLE); // Keep toolbar for the back button
+        } else {
+            binding.progressSection.setVisibility(View.VISIBLE);
+            binding.toolbar.setVisibility(View.VISIBLE);
+        }
     }
 
     private void completeWizard() {

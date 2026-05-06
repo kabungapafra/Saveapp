@@ -61,7 +61,7 @@ public class LegalAgreementFragment extends Fragment {
         if (btnAccept != null) {
             btnAccept.setOnClickListener(v -> {
                 if (getActivity() instanceof AdminSetupWizardActivity) {
-                    ((AdminSetupWizardActivity) getActivity()).nextStep();
+                    ((AdminSetupWizardActivity) getActivity()).sendOtpExplicitly();
                 }
             });
         }
