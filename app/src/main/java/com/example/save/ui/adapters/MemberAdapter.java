@@ -89,7 +89,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.itemView.startAnimation(animation);
 
         if (holder instanceof AdminViewHolder) {
-            ((AdminViewHolder) holder).bind(member, position, listener);
+            ((AdminViewHolder) holder).bind(member, position, listener, isAdmin);
         } else if (holder instanceof SimpleViewHolder) {
             ((SimpleViewHolder) holder).bind(member);
         }
@@ -131,7 +131,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             this.binding = binding;
         }
 
-        void bind(Member member, int position, OnMemberClickListener listener) {
+        public void bind(Member member, int position, OnMemberClickListener listener, boolean isUserAdmin) {
             binding.tvMemberName.setText(member.getName());
             binding.tvMemberContributed.setText(String.format("$%,.2f", member.getContributionPaid()));
 
@@ -155,8 +155,8 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 binding.tvStatusBadge.setTextColor(android.graphics.Color.parseColor("#64748B"));
             }
 
-            binding.btnMoreActions.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-            binding.btnRemoveMember.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+            binding.btnMoreActions.setVisibility(isUserAdmin ? View.VISIBLE : View.GONE);
+            binding.btnRemoveMember.setVisibility(isUserAdmin ? View.VISIBLE : View.GONE);
 
             if (listener != null) {
                 itemView.setOnClickListener(v -> listener.onMemberClick(member));
