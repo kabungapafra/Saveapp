@@ -240,8 +240,28 @@ public class MemberRepository {
     }
 
     public void updateMember(int position, Member member) {
-        // Implementation for backend update
-        syncMembers();
+        if (member == null || member.getId() == null) return;
+        
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        MemberUpdateRequest request = new MemberUpdateRequest(
+            member.getName(),
+            member.getRole(),
+            member.isActive()
+        );
+        
+        apiService.updateMember(member.getId(), request).enqueue(new Callback<MemberEntity>() {
+            @Override
+            public void onResponse(Call<MemberEntity> call, Response<MemberEntity> response) {
+                if (response.isSuccessful()) {
+                    syncMembers(); // Refresh list to show updated roles
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MemberEntity> call, Throwable t) {
+                // Optional: log failure
+            }
+        });
     }
 
     public Member getMemberByPhone(String phone) {

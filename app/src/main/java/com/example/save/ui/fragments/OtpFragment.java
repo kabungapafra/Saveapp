@@ -73,8 +73,19 @@ public class OtpFragment extends Fragment {
                     binding.verifyButton.setText("Verify & Continue");
 
                     if (response.isSuccessful() && response.body() != null) {
-                        // Save token and session
-                        com.example.save.utils.SessionManager.getInstance(getContext()).saveJwtToken(response.body().getToken());
+                        com.example.save.data.network.LoginResponse loginData = response.body();
+                        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getContext());
+                        
+                        // Save all session details
+                        session.saveJwtToken(loginData.getToken());
+                        session.createLoginSession(
+                            loginData.getName(),
+                            loginData.getEmail(),
+                            loginData.getRole(),
+                            false, // not first login anymore
+                            loginData.isCreator()
+                        );
+                        
                         Toast.makeText(getContext(), "OTP Verified! Account Created.", Toast.LENGTH_SHORT).show();
                         onVerificationSuccess();
                     } else {

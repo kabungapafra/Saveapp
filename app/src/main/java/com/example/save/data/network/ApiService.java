@@ -18,6 +18,9 @@ public interface ApiService {
     @POST("members")
     Call<MemberRegistrationResponse> createMember(@Body MemberRegistrationRequest request);
 
+    @PUT("members/{id}")
+    Call<MemberEntity> updateMember(@retrofit2.http.Path("id") String memberId, @Body MemberUpdateRequest request);
+
     @POST("auth/admin/send-otp")
     Call<ApiResponse> sendAdminOtp(@Body OtpRequest request);
 
