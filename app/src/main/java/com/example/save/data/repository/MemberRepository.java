@@ -14,6 +14,7 @@ import com.example.save.data.network.LoginResponse;
 import com.example.save.data.network.MemberRegistrationRequest;
 import com.example.save.data.network.MemberRegistrationResponse;
 import com.example.save.data.network.ApiResponse;
+import com.example.save.data.network.MemberUpdateRequest;
 
 import java.util.ArrayList;
 import java.util.List;
