@@ -116,7 +116,9 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         if (isValid) {
             if (currentStep < 7) {
                 if (currentStep == 6) {
-                    sendOtpAndProceed();
+                    // Transition to step 7 immediately since we pre-sent the OTP
+                    currentStep++;
+                    loadStep(currentStep);
                 } else {
                     currentStep++;
                     loadStep(currentStep);
@@ -129,34 +131,43 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         }
     }
 
-    private void sendOtpAndProceed() {
+    private void sendOtpAndProceed(boolean shouldProceed) {
         if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-            currentStep++;
-            loadStep(currentStep);
+            if (shouldProceed) {
+                currentStep++;
+                loadStep(currentStep);
+            }
             return;
         }
 
-        android.app.ProgressDialog progressDialog = new android.app.ProgressDialog(this);
-        progressDialog.setMessage("Sending secure verification code...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+        // Only show progress if we are explicitly proceeding
+        android.app.ProgressDialog progressDialog = null;
+        if (shouldProceed) {
+            progressDialog = new android.app.ProgressDialog(this);
+            progressDialog.setMessage("Sending secure verification code...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
 
         com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(adminEmail, adminPhone);
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(this).create(com.example.save.data.network.ApiService.class);
 
+        final android.app.ProgressDialog finalDialog = progressDialog;
         apiService.sendAdminOtp(request).enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
             @Override
             public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call, 
                                    retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
                 
-                if (progressDialog.isShowing()) progressDialog.dismiss();
+                if (finalDialog != null && finalDialog.isShowing()) finalDialog.dismiss();
 
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(AdminSetupWizardActivity.this, "OTP sent successfully!", Toast.LENGTH_SHORT).show();
-                    currentStep++;
-                    loadStep(currentStep);
-                } else {
+                    if (shouldProceed) {
+                        Toast.makeText(AdminSetupWizardActivity.this, "OTP sent successfully!", Toast.LENGTH_SHORT).show();
+                        currentStep++;
+                        loadStep(currentStep);
+                    }
+                } else if (shouldProceed) {
                     String error = "Failed to send OTP. Please try again.";
                     if (response.code() == 429) {
                         error = "Too many requests. Please wait a few minutes.";
@@ -166,7 +177,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                     new androidx.appcompat.app.AlertDialog.Builder(AdminSetupWizardActivity.this)
                         .setTitle("OTP Error")
                         .setMessage(error)
-                        .setPositiveButton("Retry", (d, w) -> sendOtpAndProceed())
+                        .setPositiveButton("Retry", (d, w) -> sendOtpAndProceed(true))
                         .setNegativeButton("Cancel", null)
                         .show();
                 }
@@ -174,13 +185,15 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
-                if (progressDialog.isShowing()) progressDialog.dismiss();
-                new androidx.appcompat.app.AlertDialog.Builder(AdminSetupWizardActivity.this)
-                    .setTitle("Network Error")
-                    .setMessage("Could not connect to server. Please check your internet.")
-                    .setPositiveButton("Retry", (d, w) -> sendOtpAndProceed())
-                    .setNegativeButton("Cancel", null)
-                    .show();
+                if (finalDialog != null && finalDialog.isShowing()) finalDialog.dismiss();
+                if (shouldProceed) {
+                    new androidx.appcompat.app.AlertDialog.Builder(AdminSetupWizardActivity.this)
+                        .setTitle("Network Error")
+                        .setMessage("Could not connect to server. Please check your internet.")
+                        .setPositiveButton("Retry", (d, w) -> sendOtpAndProceed(true))
+                        .setNegativeButton("Cancel", null)
+                        .show();
+                }
             }
         });
     }
@@ -223,6 +236,8 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
             case 6:
                 fragment = new LegalAgreementFragment();
                 binding.footer.setVisibility(View.GONE);
+                // Pre-send OTP so it's ready by the time they reach the next screen
+                sendOtpAndProceed(false); // Add a flag to not proceed to next step automatically
                 break;
             case 7:
                 fragment = new OtpFragment();
