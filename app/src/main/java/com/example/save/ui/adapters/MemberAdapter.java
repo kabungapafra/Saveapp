@@ -156,7 +156,12 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
 
             binding.btnMoreActions.setVisibility(isUserAdmin ? View.VISIBLE : View.GONE);
-            binding.btnRemoveMember.setVisibility(isUserAdmin ? View.VISIBLE : View.GONE);
+            
+            // Show trash can only for other members, not for the admin themselves
+            String currentUserEmail = com.example.save.utils.SessionManager.getInstance(itemView.getContext()).getUserEmail();
+            boolean isSelf = member.getEmail() != null && member.getEmail().equalsIgnoreCase(currentUserEmail);
+            
+            binding.btnRemoveMember.setVisibility(isUserAdmin && !isSelf ? View.VISIBLE : View.GONE);
 
             if (listener != null) {
                 itemView.setOnClickListener(v -> listener.onMemberClick(member));
