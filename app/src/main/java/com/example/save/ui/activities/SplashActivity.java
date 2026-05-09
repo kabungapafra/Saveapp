@@ -33,6 +33,20 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // ── Check for OTP deep link BEFORE anything else ───────────────────────
+        // If the app was launched via saveapp://otp?code=XXX (from email),
+        // skip the splash and go directly to the correct OTP screen.
+        android.net.Uri deepLinkData = getIntent().getData();
+        if (deepLinkData != null
+                && "saveapp".equals(deepLinkData.getScheme())
+                && "otp".equals(deepLinkData.getHost())) {
+            String otpCode = deepLinkData.getQueryParameter("code");
+            if (otpCode != null && !otpCode.isEmpty()) {
+                handleOtpDeepLink(otpCode);
+                return; // Skip splash entirely
+            }
+        }
+
         // Fetch system config early
         MemberRepository.getInstance(this).fetchSystemConfig(null);
 
@@ -82,6 +96,22 @@ public class SplashActivity extends AppCompatActivity {
                 progressAnimator.cancel();
             navigateToNextScreen();
         }, SPLASH_DURATION);
+    }
+
+    /**
+     * Handles an OTP deep link from the email.
+     * Routes the code to AdminSetupWizardActivity (admin registration flow).
+     * The wizard must be running (singleTop) to receive onNewIntent, so we
+     * always send FLAG_ACTIVITY_SINGLE_TOP to re-use the existing instance.
+     */
+    private void handleOtpDeepLink(String otpCode) {
+        Intent intent = new Intent(this, AdminSetupWizardActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("DEEP_LINK_OTP", otpCode);
+        // Also carry the original URI so onNewIntent can pick it up
+        intent.setData(getIntent().getData());
+        startActivity(intent);
+        finish();
     }
 
     // ─── Blob pulse animation ────────────────────────────────────────────────────
