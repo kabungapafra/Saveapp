@@ -4,6 +4,8 @@
         <!-- Customize your light theme here. -->
         <item name="android:windowBackground">@drawable/bg_geometric_pattern</item>
         <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <style name="Theme.Save" parent="Base.Theme.Save" />

@@ -97,7 +97,6 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
 
     private void setupListeners() {
         binding.btnNext.setOnClickListener(v -> nextStep());
-        binding.btnBack.setOnClickListener(v -> onBackPressed());
     }
 
     public void nextStep() {
@@ -261,29 +260,8 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     }
 
     private void updateProgress(int step) {
-        int progress = (step * 100) / 8;
-        binding.wizardProgressBar.setProgress(progress);
-        binding.tvStepCount.setText("Step " + step + " of 8");
-        
-        switch (step) {
-            case 1: binding.tvSectionTitle.setText("GROUP INFO"); break;
-            case 2: binding.tvSectionTitle.setText("CONTRIBUTIONS"); break;
-            case 3: binding.tvSectionTitle.setText("PAYOUTS"); break;
-            case 4: binding.tvSectionTitle.setText("LOAN RULES"); break;
-            case 5: binding.tvSectionTitle.setText("ADD MEMBERS"); break;
-            case 6: binding.tvSectionTitle.setText("REVIEW"); break;
-            case 7: binding.tvSectionTitle.setText("LEGAL"); break;
-            case 8: binding.tvSectionTitle.setText("VERIFICATION"); break;
-        }
-        
-        // Show navigation components unless in high-fidelity fragments that handle their own
-        if (step >= 6) {
-            binding.progressSection.setVisibility(View.GONE);
-            binding.toolbar.setVisibility(View.VISIBLE); // Keep toolbar for the back button
-        } else {
-            binding.progressSection.setVisibility(View.VISIBLE);
-            binding.toolbar.setVisibility(View.VISIBLE);
-        }
+        // Activity-level progress indicators have been removed.
+        // Each fragment now handles its own high-fidelity header and progress.
     }
 
     private void completeWizard() {
