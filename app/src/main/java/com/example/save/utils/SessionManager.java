@@ -189,9 +189,6 @@ public class SessionManager {
      **/
     // Get Login State
     public boolean isLoggedIn() {
-        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-            return true;
-        }
         return pref.getBoolean(IS_LOGIN, false);
     }
 

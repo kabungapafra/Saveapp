@@ -73,23 +73,7 @@ public class WizardFinalizeRulesFragment extends Fragment {
     }
 
     public boolean validateAndSave() {
-        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-            String lateFeeStr = binding.etLateFee.getText().toString().trim();
-            double lateFee = lateFeeStr.isEmpty() ? 0.0 : Double.parseDouble(lateFeeStr);
-            String interestStr = binding.etInterestRate.getText().toString().trim();
-            double interest = interestStr.isEmpty() ? 5.0 : Double.parseDouble(interestStr);
-            String frequency = binding.actvPayoutFrequency.getText().toString();
-            boolean reminders = binding.switchReminders.isChecked();
-            String repaymentStr = binding.etRepaymentPeriod.getText().toString().trim();
-            int repayment = repaymentStr.isEmpty() ? 12 : Integer.parseInt(repaymentStr);
 
-            if (getActivity() instanceof AdminSetupWizardActivity) {
-                AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
-                activity.setContributionSettings(frequency, lateFee);
-                activity.setLoanRules(0.0, interest, repayment, reminders); 
-            }
-            return true;
-        }
 
         String lateFeeStr = binding.etLateFee.getText().toString().trim();
         String interestStr = binding.etInterestRate.getText().toString().trim();

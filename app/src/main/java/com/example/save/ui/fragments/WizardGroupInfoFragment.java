@@ -100,24 +100,7 @@ public class WizardGroupInfoFragment extends Fragment {
     }
 
     public boolean validateAndSave() {
-        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-            String groupName = etGroupName.getText().toString().trim();
-            if (groupName.isEmpty()) groupName = "Design Group";
-            
-            String contributionStr = etMonthlyContribution.getText().toString().trim();
-            double amount = 0;
-            if (!contributionStr.isEmpty()) {
-                try { amount = Double.parseDouble(contributionStr); } catch (Exception e) {}
-            }
-            
-            String currency = spinnerCurrency.getSelectedItem().toString();
 
-            if (getActivity() instanceof AdminSetupWizardActivity) {
-                AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
-                activity.setGroupInfo(groupName, "", currency, amount);
-            }
-            return true;
-        }
 
         if (etGroupName == null || etMonthlyContribution == null) return false;
 

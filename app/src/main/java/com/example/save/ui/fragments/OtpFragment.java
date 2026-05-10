@@ -43,11 +43,6 @@ public class OtpFragment extends Fragment {
                 return;
             }
 
-            if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-                onVerificationSuccess();
-                return;
-            }
-
             binding.verifyButton.setEnabled(false);
             binding.verifyButton.setText("Verifying...");
 

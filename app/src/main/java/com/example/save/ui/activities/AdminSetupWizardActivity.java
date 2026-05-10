@@ -130,13 +130,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     }
 
     private void sendOtpAndProceed(boolean shouldProceed) {
-        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-            if (shouldProceed) {
-                currentStep++;
-                loadStep(currentStep);
-            }
-            return;
-        }
+
 
         // Only show progress if we are explicitly proceeding
         android.app.ProgressDialog progressDialog = null;
@@ -265,11 +259,6 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     }
 
     private void completeWizard() {
-        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-            finishSetup();
-            return;
-        }
-
         // Prepare Config Object
         com.example.save.data.models.SystemConfig config = new com.example.save.data.models.SystemConfig();
         config.setContributionAmount(contributionAmount);

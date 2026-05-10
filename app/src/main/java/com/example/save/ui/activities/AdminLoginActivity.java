@@ -158,19 +158,6 @@ public class AdminLoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (com.example.save.utils.DesignMode.IS_DESIGN_MODE) {
-            // Immediately navigate to AdminMainActivity
-            Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
-            intent.putExtra("admin_email", email.isEmpty() ? "admin@design.com" : email);
-            intent.putExtra("admin_name", "Design Admin");
-            intent.putExtra("group_name", groupName.isEmpty() ? "Design Group" : groupName);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
-            finish();
-            return;
-        }
-
         binding.loginButton.setEnabled(false);
         binding.loginButtonText.setText("Signing in...");
 
