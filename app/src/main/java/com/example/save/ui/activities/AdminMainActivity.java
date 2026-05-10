@@ -220,8 +220,8 @@ public class AdminMainActivity extends AppCompatActivity {
             updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings);
             setBottomNavVisible(true);
         } else if (frag instanceof StashFragment || frag instanceof PollsFragment || frag instanceof QueueFragment || frag instanceof AnalyticsFragment) {
-            // These are sub-screens that should still show the bottom nav for easy exit
-            setBottomNavVisible(true);
+            // These are sub-screens that should NOT show the bottom nav
+            setBottomNavVisible(false);
         } else if (frag instanceof com.example.save.ui.fragments.SupportFragment) {
             // Support Hub is a normal screen — show nav, highlight Settings
             updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings);

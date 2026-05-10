@@ -333,8 +333,8 @@ public class MemberMainActivity extends AppCompatActivity {
             updateNavHighlight(binding.txtSettings, binding.imgSettings);
             setBottomNavVisible(true);
         } else if (frag instanceof LoanApplicationFragment || frag instanceof StashFragment || frag instanceof PollsFragment || frag instanceof QueueFragment) {
-            // Keep nav visible for these sub-screens
-            setBottomNavVisible(true);
+            // Hide nav for these sub-screens
+            setBottomNavVisible(false);
         } else {
             setBottomNavVisible(false); // Hidden for truly immersive screens (e.g. Success screens)
         }
