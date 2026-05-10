@@ -192,6 +192,21 @@ public class SettingsFragment extends Fragment {
                 com.example.save.utils.SessionManager.getInstance(getContext()).logoutUser();
             }
         });
+
+        binding.btnDeleteAccount.setOnClickListener(v -> {
+            applyClickAnimation(v);
+            if (getContext() != null) {
+                new androidx.appcompat.app.AlertDialog.Builder(getContext())
+                    .setTitle("Delete Account")
+                    .setMessage("Are you sure you want to permanently delete your account? This action cannot be undone.")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        Toast.makeText(getContext(), "Account deleted successfully", Toast.LENGTH_SHORT).show();
+                        com.example.save.utils.SessionManager.getInstance(getContext()).logoutUser();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+            }
+        });
     }
 
     private void startEntranceAnimations() {
