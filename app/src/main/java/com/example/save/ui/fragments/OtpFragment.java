@@ -17,6 +17,16 @@ import com.example.save.ui.activities.AdminSetupWizardActivity;
  */
 public class OtpFragment extends Fragment {
     private FragmentOtpBinding binding;
+    private OtpListener mListener;
+
+    public interface OtpListener {
+        void onOtpEntered(String code);
+        void onResendOtp();
+    }
+
+    public void setOtpListener(OtpListener listener) {
+        this.mListener = listener;
+    }
 
     public static OtpFragment newInstanceForRegistration(String name, String groupName, String phone, String email, String password) {
         OtpFragment fragment = new OtpFragment();
@@ -45,6 +55,11 @@ public class OtpFragment extends Fragment {
 
             binding.verifyButton.setEnabled(false);
             binding.verifyButton.setText("Verifying...");
+
+            if (mListener != null) {
+                mListener.onOtpEntered(otpCode);
+                return;
+            }
 
             AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
             if (activity == null) return;
@@ -103,7 +118,12 @@ public class OtpFragment extends Fragment {
 
         binding.resendOtp.setOnClickListener(v -> {
             if (binding.resendOtp.isEnabled()) {
-                resendOtp();
+                if (mListener != null) {
+                    mListener.onResendOtp();
+                    startResendTimer();
+                } else {
+                    resendOtp();
+                }
             }
         });
 

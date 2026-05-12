@@ -34,6 +34,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     // State
     private String userEmail = "";
+    private String userPhone = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +44,17 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         // Get email and source activity from intent
         userEmail = getIntent().getStringExtra("email");
+        userPhone = getIntent().getStringExtra("phone");
         // Track where user came from
         String sourceActivity = getIntent().getStringExtra("sourceActivity");
         if (userEmail != null) {
             userEmail = userEmail.toLowerCase().trim();
         }
+        if (userPhone != null) {
+            userPhone = userPhone.trim();
+        }
 
-        if (userEmail == null || userEmail.isEmpty()) {
+        if ((userEmail == null || userEmail.isEmpty()) && (userPhone == null || userPhone.isEmpty())) {
             Toast.makeText(this, "Invalid session. Please try again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -119,6 +124,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         // Call backend API to update password
         com.example.save.data.network.ResetPasswordRequest request = new com.example.save.data.network.ResetPasswordRequest();
         request.setEmail(userEmail);
+        request.setPhone(userPhone);
         request.setNewPassword(newPassword);
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient

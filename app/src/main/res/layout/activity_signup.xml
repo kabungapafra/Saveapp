@@ -107,27 +107,7 @@
                     android:textColorHint="#BDBDBD"
                     android:textSize="@dimen/text_size_small" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Email Address"
-                    android:textColor="@color/text_primary"
-                    android:textSize="@dimen/text_size_xs"
-                    android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/emailInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/bg_signup_input"
-                    android:hint="name@example.com"
-                    android:inputType="textEmailAddress"
-                    android:paddingHorizontal="16dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#BDBDBD"
-                    android:textSize="@dimen/text_size_small" />
 
                 <TextView
                     android:layout_width="wrap_content"

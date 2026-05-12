@@ -89,7 +89,6 @@ public class AdminSignupActivity extends AppCompatActivity {
         // Get input values
         String adminName = binding.adminNameInput.getText().toString().trim();
         String phoneInput = binding.phoneInput.getText().toString().trim();
-        String email = binding.emailInput.getText().toString().trim().toLowerCase();
         String password = binding.passwordInput.getText().toString().trim();
         String confirmPassword = binding.confirmPasswordInput.getText().toString().trim();
 
@@ -107,10 +106,7 @@ public class AdminSignupActivity extends AppCompatActivity {
             return;
         }
 
-        if (!com.example.save.utils.ValidationUtils.isValidEmail(email)) {
-            binding.emailInput.setError("Invalid email format");
-            return;
-        }
+
 
         if (!com.example.save.utils.ValidationUtils.isValidPassword(password)) {
             binding.passwordInput.setError("Password must be at least 8 characters");
@@ -122,7 +118,7 @@ public class AdminSignupActivity extends AppCompatActivity {
             return;
         }
 
-        navigateToWizard(adminName, email, phone, password);
+        navigateToWizard(adminName, "", phone, password);
     }
 
     private void navigateToWizard(String adminName, String email, String phone, String password) {

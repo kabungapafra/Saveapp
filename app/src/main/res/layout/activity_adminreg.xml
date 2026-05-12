@@ -126,11 +126,11 @@
                             android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
-                    <!-- Email Address Field -->
+                    <!-- Phone Number Field -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email Address"
+                        android:text="Phone Number"
                         android:textColor="@color/v_text_mid"
                         android:textSize="@dimen/text_size_xs"
                         android:fontFamily="@font/manrope"
@@ -150,17 +150,17 @@
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            app:srcCompat="@drawable/ic_email"
+                            app:srcCompat="@drawable/ic_phone"
                             app:tint="@color/v_text_muted" />
 
                         <EditText
-                            android:id="@+id/emailInput"
+                            android:id="@+id/phoneInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
                             android:background="@null"
-                            android:hint="admin@example.com"
-                            android:inputType="textEmailAddress"
+                            android:hint="+254 7XX XXX XXX"
+                            android:inputType="phone"
                             android:textColor="@color/v_text_dark"
                             android:textColorHint="@color/v_text_muted"
                             android:textSize="@dimen/text_size_xs" />
@@ -175,7 +175,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Password"
+                            android:text="PIN"
                             android:textColor="@color/v_text_mid"
                             android:textSize="@dimen/text_size_xs"
                             android:fontFamily="@font/manrope"
@@ -186,7 +186,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="Forgot?"
+                            android:text="Forgot PIN?"
                             android:textColor="@color/login_button_blue"
                             android:textSize="@dimen/text_size_xs"
                             android:fontFamily="@font/manrope"
@@ -211,23 +211,17 @@
 
                         <EditText
                             android:id="@+id/passwordInput"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginStart="12dp"
                             android:background="@null"
-                            android:hint="........"
-                            android:inputType="textPassword"
+                            android:hint="● ● ● ● ● ●"
+                            android:inputType="numberPassword"
+                            android:maxLength="6"
+                            android:letterSpacing="0.3"
                             android:textColor="@color/v_text_dark"
                             android:textColorHint="@color/v_text_muted"
                             android:textSize="@dimen/text_size_xs" />
-
-                        <ImageView
-                            android:id="@+id/passwordToggle"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            app:srcCompat="@drawable/ic_visibility_off"
-                            app:tint="@color/v_text_muted" />
                     </LinearLayout>
 
                     <!-- Login Button -->

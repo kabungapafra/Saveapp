@@ -7,18 +7,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 import com.example.save.R;
 import com.example.save.databinding.ActivityMemberLoginBinding;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.example.save.ui.fragments.OtpFragment;
+
+import java.util.concurrent.TimeUnit;
 
 public class MemberLoginActivity extends AppCompatActivity {
 
     private ActivityMemberLoginBinding binding;
+    private FirebaseAuth mAuth;
+    private String mVerificationId;
+    private PhoneAuthProvider.ForceResendingToken mResendToken;
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMemberLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        mAuth = FirebaseAuth.getInstance();
         getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
         getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
+
+        setupPhoneAuthCallbacks();
 
         // Animate Logo Image (Heartbeat)
         android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,
@@ -27,7 +42,6 @@ public class MemberLoginActivity extends AppCompatActivity {
 
         startCascadingAnimations();
         setupListeners();
-        setupPasswordToggle();
     }
 
     private void startCascadingAnimations() {
@@ -67,7 +81,7 @@ public class MemberLoginActivity extends AppCompatActivity {
                             .loadAnimation(MemberLoginActivity.this, R.anim.login_btn_release);
                     v.startAnimation(release);
                     String groupName = binding.groupNameInput.getText().toString().trim();
-                    String email = binding.emailInput.getText().toString().trim();
+                    String phone = binding.phoneInput.getText().toString().trim();
                     String password = binding.passwordInput.getText().toString().trim();
 
                     // Validation
@@ -76,58 +90,21 @@ public class MemberLoginActivity extends AppCompatActivity {
                         binding.groupNameInput.requestFocus();
                         return;
                     }
-                    if (email.isEmpty()) {
-                        Toast.makeText(MemberLoginActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
-                        binding.emailInput.requestFocus();
+                    if (phone.isEmpty()) {
+                        Toast.makeText(MemberLoginActivity.this, "Please enter phone number", Toast.LENGTH_SHORT).show();
+                        binding.phoneInput.requestFocus();
                         return;
                     }
                     if (password.isEmpty()) {
-                        Toast.makeText(MemberLoginActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MemberLoginActivity.this, "Please enter your PIN", Toast.LENGTH_SHORT).show();
                         binding.passwordInput.requestFocus();
                         return;
                     }
 
                     binding.loginButton.setEnabled(false);
-                    binding.loginButtonText.setText("Signing in...");
+                    binding.loginButtonText.setText("Verifying...");
 
-                    com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(email, password);
-                    loginRequest.setLoginType("member");
-                    loginRequest.setGroupName(groupName);
-
-                    com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
-                            .getClient(MemberLoginActivity.this).create(com.example.save.data.network.ApiService.class);
-
-                    apiService.login(loginRequest).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
-                        @Override
-                        public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
-                                               retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
-                            binding.loginButton.setEnabled(true);
-                            binding.loginButtonText.setText("Login");
-                            if (response.isSuccessful() && response.body() != null) {
-                                com.example.save.data.network.LoginResponse loginResponse = response.body();
-                                com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
-                                session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), loginResponse.getRole(), false, loginResponse.isCreator());
-                                session.saveJwtToken(loginResponse.getToken());
-
-                                Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
-                                intent.putExtra("member_name", loginResponse.getName());
-                                intent.putExtra("member_email", loginResponse.getEmail());
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
-                                finish();
-                            } else {
-                                Toast.makeText(MemberLoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
-                            binding.loginButton.setEnabled(true);
-                            binding.loginButtonText.setText("Login");
-                            Toast.makeText(MemberLoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    startPhoneVerification(phone);
                 }
             });
             v.startAnimation(press);
@@ -139,7 +116,7 @@ public class MemberLoginActivity extends AppCompatActivity {
 
         binding.forgotPasswordText.setOnClickListener(v -> {
             Intent intent = new Intent(this, ResetPasswordActivity.class);
-            intent.putExtra("email", binding.emailInput.getText().toString().trim());
+            intent.putExtra("phone", binding.phoneInput.getText().toString().trim());
             intent.putExtra("sourceActivity", "MemberLoginActivity");
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -153,17 +130,151 @@ public class MemberLoginActivity extends AppCompatActivity {
         });
     }
 
-    private void setupPasswordToggle() {
-        binding.passwordToggle.setOnClickListener(v -> {
-            boolean isVisible = binding.passwordInput.getTransformationMethod() == null;
-            if (isVisible) {
-                binding.passwordInput.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
-                binding.passwordToggle.setImageResource(R.drawable.ic_visibility_off);
-            } else {
-                binding.passwordInput.setTransformationMethod(null);
-                binding.passwordToggle.setImageResource(R.drawable.ic_visibility);
+    private void startPhoneVerification(String phone) {
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                .setPhoneNumber(phone)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(this)
+                .setCallbacks(mCallbacks)
+                .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private void setupPhoneAuthCallbacks() {
+        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential credential) {
+                signInWithPhoneAuthCredential(credential);
             }
-            binding.passwordInput.setSelection(binding.passwordInput.getText().length());
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+                binding.loginButton.setEnabled(true);
+                binding.loginButtonText.setText("Login");
+                Toast.makeText(MemberLoginActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
+                mVerificationId = verificationId;
+                mResendToken = token;
+                showOtpFragment();
+            }
+        };
+    }
+
+    private void showOtpFragment() {
+        // Need to make sure layout has a fragment container or hide main UI
+        // Checking layout for activity_member_login.xml
+        // If it doesn't have one, I might need to add it.
+        // For now, I'll assume it has a fragmentContainer if it follows the Admin layout pattern.
+        
+        // Actually, let's check the layout first.
+        
+        // Assuming it's there for now based on AdminLoginActivity
+        binding.loginCard.setVisibility(View.GONE);
+        binding.fragmentContainer.setVisibility(View.VISIBLE);
+
+        OtpFragment fragment = OtpFragment.newInstanceForRegistration(
+                "", 
+                binding.groupNameInput.getText().toString(),
+                binding.phoneInput.getText().toString(),
+                "", 
+                binding.passwordInput.getText().toString()
+        );
+        
+        fragment.setOtpListener(new OtpFragment.OtpListener() {
+            @Override
+            public void onOtpEntered(String code) {
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+                signInWithPhoneAuthCredential(credential);
+            }
+
+            @Override
+            public void onResendOtp() {
+                String phone = binding.phoneInput.getText().toString().trim();
+                PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(phone)
+                        .setTimeout(60L, TimeUnit.SECONDS)
+                        .setActivity(MemberLoginActivity.this)
+                        .setCallbacks(mCallbacks)
+                        .setForceResendingToken(mResendToken)
+                        .build();
+                PhoneAuthProvider.verifyPhoneNumber(options);
+            }
         });
+        
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        performBackendLogin();
+                    } else {
+                        binding.loginButton.setEnabled(true);
+                        binding.loginButtonText.setText("Login");
+                        Toast.makeText(MemberLoginActivity.this, "Invalid code", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void performBackendLogin() {
+        String groupName = binding.groupNameInput.getText().toString().trim();
+        String phone = binding.phoneInput.getText().toString().trim();
+        String password = binding.passwordInput.getText().toString().trim();
+
+        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest("", password);
+        loginRequest.setPhone(phone);
+        loginRequest.setLoginType("member");
+        loginRequest.setGroupName(groupName);
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(MemberLoginActivity.this).create(com.example.save.data.network.ApiService.class);
+
+        apiService.login(loginRequest).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
+                                   retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
+                binding.loginButton.setEnabled(true);
+                binding.loginButtonText.setText("Login");
+                if (response.isSuccessful() && response.body() != null) {
+                    com.example.save.data.network.LoginResponse loginResponse = response.body();
+                    com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
+                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), loginResponse.getRole(), false, loginResponse.isCreator());
+                    session.saveJwtToken(loginResponse.getToken());
+
+                    Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
+                    intent.putExtra("member_name", loginResponse.getName());
+                    intent.putExtra("member_email", loginResponse.getEmail());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
+                    finish();
+                } else {
+                    Toast.makeText(MemberLoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
+                binding.loginButton.setEnabled(true);
+                binding.loginButtonText.setText("Login");
+                Toast.makeText(MemberLoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    @Override
+    public void onBackPressed() {
+        if (binding.fragmentContainer.getVisibility() == View.VISIBLE) {
+            binding.loginCard.setVisibility(View.VISIBLE);
+            binding.fragmentContainer.setVisibility(View.GONE);
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

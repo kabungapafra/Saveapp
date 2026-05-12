@@ -19,17 +19,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.save.R;
 import com.example.save.databinding.ActivityAdminregBinding;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import java.util.concurrent.TimeUnit;
 
 public class AdminLoginActivity extends AppCompatActivity {
 
     private ActivityAdminregBinding binding;
+    private FirebaseAuth mAuth;
+    private String mVerificationId;
+    private PhoneAuthProvider.ForceResendingToken mResendToken;
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAdminregBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        mAuth = FirebaseAuth.getInstance();
         getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
+
+        setupPhoneAuthCallbacks();
 
         // Setup click listeners
         binding.loginButton.setOnClickListener(v -> {
@@ -49,7 +63,6 @@ public class AdminLoginActivity extends AppCompatActivity {
         binding.forgotPassword.setOnClickListener(v -> showForgotPasswordFragment());
         binding.sideSignUpTab.setOnClickListener(this::onsingupClick);
         binding.memberPortalLink.setOnClickListener(v -> navigateToMemberPortal());
-        setupPasswordToggle();
 
         // Animate Logo Image (Heartbeat)
         android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,
@@ -116,7 +129,7 @@ public class AdminLoginActivity extends AppCompatActivity {
     private void showForgotPasswordFragment() {
         // Navigate directly to ResetPasswordActivity as the "Forgot Password" flow
         Intent intent = new Intent(this, ResetPasswordActivity.class);
-        intent.putExtra("email", binding.emailInput.getText().toString().trim());
+        intent.putExtra("phone", binding.phoneInput.getText().toString().trim());
         intent.putExtra("sourceActivity", "AdminLoginActivity");
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -138,7 +151,7 @@ public class AdminLoginActivity extends AppCompatActivity {
 
     private void handleLogin() {
         String groupName = binding.groupNameInput.getText().toString().trim();
-        String email = binding.emailInput.getText().toString().trim().toLowerCase();
+        String phone = binding.phoneInput.getText().toString().trim();
         String password = binding.passwordInput.getText().toString().trim();
 
         // Validation
@@ -147,21 +160,116 @@ public class AdminLoginActivity extends AppCompatActivity {
             binding.groupNameInput.requestFocus();
             return;
         }
-        if (email.isEmpty()) {
-            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
-            binding.emailInput.requestFocus();
+        if (phone.isEmpty()) {
+            Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
+            binding.phoneInput.requestFocus();
             return;
         }
         if (password.isEmpty()) {
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter your PIN", Toast.LENGTH_SHORT).show();
             binding.passwordInput.requestFocus();
             return;
         }
 
         binding.loginButton.setEnabled(false);
-        binding.loginButtonText.setText("Signing in...");
+        binding.loginButtonText.setText("Verifying...");
 
-        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(email, password);
+        startPhoneVerification(phone);
+    }
+
+    private void startPhoneVerification(String phone) {
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                .setPhoneNumber(phone)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(this)
+                .setCallbacks(mCallbacks)
+                .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private void setupPhoneAuthCallbacks() {
+        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential credential) {
+                signInWithPhoneAuthCredential(credential);
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+                binding.loginButton.setEnabled(true);
+                binding.loginButtonText.setText("Login");
+                Toast.makeText(AdminLoginActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
+                mVerificationId = verificationId;
+                mResendToken = token;
+                showOtpFragment();
+            }
+        };
+    }
+
+    private void showOtpFragment() {
+        binding.loginCard.setVisibility(View.GONE);
+        binding.sideTabContainer.setVisibility(View.GONE);
+        binding.fragmentContainer.setVisibility(View.VISIBLE);
+
+        OtpFragment fragment = OtpFragment.newInstanceForRegistration(
+                "", // name not needed for login
+                binding.groupNameInput.getText().toString(),
+                binding.phoneInput.getText().toString(),
+                "", // email empty
+                binding.passwordInput.getText().toString()
+        );
+        
+        fragment.setOtpListener(new OtpFragment.OtpListener() {
+            @Override
+            public void onOtpEntered(String code) {
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+                signInWithPhoneAuthCredential(credential);
+            }
+
+            @Override
+            public void onResendOtp() {
+                String phone = binding.phoneInput.getText().toString().trim();
+                PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(phone)
+                        .setTimeout(60L, TimeUnit.SECONDS)
+                        .setActivity(AdminLoginActivity.this)
+                        .setCallbacks(mCallbacks)
+                        .setForceResendingToken(mResendToken)
+                        .build();
+                PhoneAuthProvider.verifyPhoneNumber(options);
+            }
+        });
+        
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        performBackendLogin();
+                    } else {
+                        binding.loginButton.setEnabled(true);
+                        binding.loginButtonText.setText("Login");
+                        Toast.makeText(AdminLoginActivity.this, "Invalid code", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void performBackendLogin() {
+        String groupName = binding.groupNameInput.getText().toString().trim();
+        String phone = binding.phoneInput.getText().toString().trim();
+        String password = binding.passwordInput.getText().toString().trim();
+
+        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest("", password);
+        loginRequest.setPhone(phone);
         loginRequest.setLoginType("admin");
         loginRequest.setGroupName(groupName);
 
@@ -225,19 +333,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         });
     }
 
-    private void setupPasswordToggle() {
-        binding.passwordToggle.setOnClickListener(v -> {
-            boolean isVisible = binding.passwordInput.getTransformationMethod() == null;
-            if (isVisible) {
-                binding.passwordInput.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
-                binding.passwordToggle.setImageResource(R.drawable.ic_visibility_off);
-            } else {
-                binding.passwordInput.setTransformationMethod(null);
-                binding.passwordToggle.setImageResource(R.drawable.ic_visibility);
-            }
-            binding.passwordInput.setSelection(binding.passwordInput.getText().length());
-        });
-    }
+
 
     @Override
     public void finish() {
