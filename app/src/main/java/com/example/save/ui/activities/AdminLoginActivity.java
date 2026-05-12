@@ -60,7 +60,15 @@ public class AdminLoginActivity extends AppCompatActivity {
             });
             v.startAnimation(press);
         });
-        binding.forgotPassword.setOnClickListener(v -> showForgotPasswordFragment());
+        binding.forgotPassword.setOnClickListener(v -> {
+            String phone = binding.phoneInput.getText().toString().trim();
+            if (phone.isEmpty()) {
+                Toast.makeText(this, "Please enter your phone number first", Toast.LENGTH_SHORT).show();
+                binding.phoneInput.requestFocus();
+                return;
+            }
+            startForgotPinVerification(phone);
+        });
         binding.sideSignUpTab.setOnClickListener(this::onsingupClick);
         binding.memberPortalLink.setOnClickListener(v -> navigateToMemberPortal());
 
