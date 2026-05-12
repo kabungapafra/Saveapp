@@ -158,6 +158,8 @@ public class MemberLoginActivity extends AppCompatActivity {
                 })
                 .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
     private void startPhoneVerification(String phone) {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
                 .setPhoneNumber(phone)
