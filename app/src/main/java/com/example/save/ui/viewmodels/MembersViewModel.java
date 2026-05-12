@@ -244,6 +244,15 @@ public class MembersViewModel extends AndroidViewModel {
         return liveData;
     }
 
+    public LiveData<Member> getMemberByPhoneLive(String phone) {
+        androidx.lifecycle.MutableLiveData<Member> liveData = new androidx.lifecycle.MutableLiveData<>();
+        repository.getExecutor().execute(() -> {
+            Member member = repository.getMemberByPhone(phone);
+            liveData.postValue(member);
+        });
+        return liveData;
+    }
+
     public LiveData<Member> getMemberByNameLive(String name) {
         androidx.lifecycle.MutableLiveData<Member> liveData = new androidx.lifecycle.MutableLiveData<>();
         repository.getExecutor().execute(() -> {

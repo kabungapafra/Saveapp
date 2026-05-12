@@ -24,16 +24,16 @@ import java.util.Locale;
 
 public class MemberProfileFragment extends Fragment {
 
-    private static final String ARG_EMAIL = "member_email";
+    private static final String ARG_PHONE = "member_phone";
 
     private FragmentMemberProfileBinding binding;
     private MembersViewModel viewModel;
-    private String memberEmail;
+    private String memberPhone;
 
-    public static MemberProfileFragment newInstance(String email) {
+    public static MemberProfileFragment newInstance(String phone) {
         MemberProfileFragment fragment = new MemberProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_EMAIL, email);
+        args.putString(ARG_PHONE, phone);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,7 +42,7 @@ public class MemberProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            memberEmail = getArguments().getString(ARG_EMAIL);
+            memberPhone = getArguments().getString(ARG_PHONE);
         }
     }
 
@@ -66,9 +66,9 @@ public class MemberProfileFragment extends Fragment {
     }
 
     private void loadMemberData() {
-        if (memberEmail == null) return;
-
-        viewModel.getMemberByEmailLive(memberEmail).observe(getViewLifecycleOwner(), member -> {
+        if (memberPhone == null) return;
+        
+        viewModel.getMemberByPhoneLive(memberPhone).observe(getViewLifecycleOwner(), member -> {
             if (member != null) {
                 updateUI(member);
                 loadTransactions(member.getName());

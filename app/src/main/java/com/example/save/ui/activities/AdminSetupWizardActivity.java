@@ -21,6 +21,13 @@ import com.example.save.ui.fragments.WizardCompleteFragment;
 import com.example.save.ui.fragments.LegalAgreementFragment;
 import com.example.save.ui.fragments.OtpFragment;
 import com.example.save.ui.fragments.WizardAddMembersInfoFragment;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import java.util.concurrent.TimeUnit;
 
 public class AdminSetupWizardActivity extends AppCompatActivity {
 
@@ -47,6 +54,12 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     private String adminPhone;
     private String adminPassword;
 
+    // Firebase Auth for OTP
+    private FirebaseAuth mAuth;
+    private String mVerificationId;
+    private PhoneAuthProvider.ForceResendingToken mResendToken;
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +72,9 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         adminEmail = getIntent().getStringExtra("EMAIL");
         adminPhone = getIntent().getStringExtra("PHONE");
         adminPassword = getIntent().getStringExtra("PASSWORD");
+
+        mAuth = FirebaseAuth.getInstance();
+        setupPhoneAuthCallbacks();
 
         setupListeners();
         loadStep(currentStep);
@@ -132,62 +148,76 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     private void sendOtpAndProceed(boolean shouldProceed) {
 
 
-        // Only show progress if we are explicitly proceeding
-        android.app.ProgressDialog progressDialog = null;
-        if (shouldProceed) {
             progressDialog = new android.app.ProgressDialog(this);
-            progressDialog.setMessage("Sending secure verification code...");
+            progressDialog.setMessage("Sending verification code...");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
 
-        com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(adminEmail, adminPhone);
-        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
-                .getClient(this).create(com.example.save.data.network.ApiService.class);
-
         final android.app.ProgressDialog finalDialog = progressDialog;
-        apiService.sendAdminOtp(request).enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
-            @Override
-            public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call, 
-                                   retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
-                
-                if (finalDialog != null && finalDialog.isShowing()) finalDialog.dismiss();
+        
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                .setPhoneNumber(adminPhone)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(this)
+                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(PhoneAuthCredential credential) {
+                        if (finalDialog != null && finalDialog.isShowing()) finalDialog.dismiss();
+                        signInWithPhoneAuthCredential(credential);
+                    }
 
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    if (shouldProceed) {
-                        Toast.makeText(AdminSetupWizardActivity.this, "OTP sent successfully!", Toast.LENGTH_SHORT).show();
-                        currentStep++;
-                        loadStep(currentStep);
+                    @Override
+                    public void onVerificationFailed(FirebaseException e) {
+                        if (finalDialog != null && finalDialog.isShowing()) finalDialog.dismiss();
+                        Toast.makeText(AdminSetupWizardActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                } else if (shouldProceed) {
-                    String error = "Failed to send OTP. Please try again.";
-                    if (response.code() == 429) {
-                        error = "Too many requests. Please wait a few minutes.";
-                    } else if (response.errorBody() != null) {
-                        try { error = response.errorBody().string(); } catch (Exception e) {}
+
+                    @Override
+                    public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
+                        if (finalDialog != null && finalDialog.isShowing()) finalDialog.dismiss();
+                        mVerificationId = verificationId;
+                        mResendToken = token;
+                        if (shouldProceed) {
+                            currentStep++;
+                            loadStep(currentStep);
+                        }
                     }
-                    new androidx.appcompat.app.AlertDialog.Builder(AdminSetupWizardActivity.this)
-                        .setTitle("OTP Error")
-                        .setMessage(error)
-                        .setPositiveButton("Retry", (d, w) -> sendOtpAndProceed(true))
-                        .setNegativeButton("Cancel", null)
-                        .show();
-                }
+                })
+                .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private void setupPhoneAuthCallbacks() {
+        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential credential) {
+                signInWithPhoneAuthCredential(credential);
             }
 
             @Override
-            public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
-                if (finalDialog != null && finalDialog.isShowing()) finalDialog.dismiss();
-                if (shouldProceed) {
-                    new androidx.appcompat.app.AlertDialog.Builder(AdminSetupWizardActivity.this)
-                        .setTitle("Network Error")
-                        .setMessage("Could not connect to server. Please check your internet.")
-                        .setPositiveButton("Retry", (d, w) -> sendOtpAndProceed(true))
-                        .setNegativeButton("Cancel", null)
-                        .show();
-                }
+            public void onVerificationFailed(FirebaseException e) {
+                Toast.makeText(AdminSetupWizardActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
-        });
+
+            @Override
+            public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
+                mVerificationId = verificationId;
+                mResendToken = token;
+            }
+        };
+    }
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        completeWizard();
+                    } else {
+                        Toast.makeText(AdminSetupWizardActivity.this, "Invalid code", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
     }
 
     @Override
@@ -235,7 +265,20 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                 binding.footer.setVisibility(View.GONE); // Legal has its own internal buttons
                 break;
             case 8:
-                fragment = new OtpFragment();
+                OtpFragment otpFragment = new OtpFragment();
+                otpFragment.setOtpListener(new OtpFragment.OtpListener() {
+                    @Override
+                    public void onOtpEntered(String code) {
+                        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+                        signInWithPhoneAuthCredential(credential);
+                    }
+
+                    @Override
+                    public void onResendOtp() {
+                        sendOtpAndProceed(false);
+                    }
+                });
+                fragment = otpFragment;
                 binding.footer.setVisibility(View.GONE);
                 break;
             default:
@@ -261,37 +304,59 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     private void completeWizard() {
         // Prepare Config Object
         com.example.save.data.models.SystemConfig config = new com.example.save.data.models.SystemConfig();
-        config.setContributionAmount(contributionAmount);
-        config.setPayoutAmount(payoutAmount);
-        config.setRetentionPercentage(retentionPercentage);
-        config.setLoanInterestRate(interest_rate);
-        config.setMaxLoanLimit(maxLoanAmount);
-        config.setMaxLoanMultiplier(3.0); // Default multiplier (3x savings)
-        config.setMaxLoanDuration(repaymentPeriod);
         config.setLatePenaltyRate(latePenalty);
         config.setCurrency(currency);
+
+        // Prepare Admin User Data
+        com.example.save.data.network.OtpVerificationRequest registrationRequest = new com.example.save.data.network.OtpVerificationRequest(
+                "", // No email
+                "FIREBASE_VERIFIED", // Placeholder since Firebase verified it
+                adminName,
+                adminPassword,
+                groupName
+        );
+        registrationRequest.setPhone(adminPhone);
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(this).create(com.example.save.data.network.ApiService.class);
 
+        // Step 1: Save System Config
         apiService.updateSystemConfig(config).enqueue(new retrofit2.Callback<com.example.save.data.models.SystemConfig>() {
             @Override
             public void onResponse(retrofit2.Call<com.example.save.data.models.SystemConfig> call, 
                                    retrofit2.Response<com.example.save.data.models.SystemConfig> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(AdminSetupWizardActivity.this, "Group Configured Successfully!", Toast.LENGTH_SHORT).show();
-                    finishSetup();
+                    // Step 2: Register Admin
+                    apiService.verifyAdminOtp(registrationRequest).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
+                        @Override
+                        public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call, 
+                                               retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                com.example.save.data.network.LoginResponse loginData = response.body();
+                                com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
+                                session.saveJwtToken(loginData.getToken());
+                                session.createLoginSession(loginData.getName(), loginData.getEmail(), loginData.getRole(), false, loginData.isCreator());
+                                
+                                Toast.makeText(AdminSetupWizardActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                                finishSetup();
+                            } else {
+                                Toast.makeText(AdminSetupWizardActivity.this, "Admin registration failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
+                            Toast.makeText(AdminSetupWizardActivity.this, "Network error during registration", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     Toast.makeText(AdminSetupWizardActivity.this, "Failed to save configuration", Toast.LENGTH_SHORT).show();
-                    // Fallback to finishing anyway for now, or stay on screen
-                    finishSetup();
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<com.example.save.data.models.SystemConfig> call, Throwable t) {
                 Toast.makeText(AdminSetupWizardActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                finishSetup();
             }
         });
     }

@@ -6,6 +6,9 @@ public class OtpVerificationRequest {
     @SerializedName("email")
     private String email;
     
+    @SerializedName("phone")
+    private String phone;
+    
     @SerializedName("otp")
     private String otp;
     
@@ -25,4 +28,7 @@ public class OtpVerificationRequest {
         this.password = password;
         this.groupName = groupName;
     }
+
+    public void setPhone(String phone) { this.phone = phone; }
+    public String getPhone() { return phone; }
 }

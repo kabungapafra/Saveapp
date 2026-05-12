@@ -67,44 +67,28 @@ public class ProfileInfoFragment extends Fragment {
         if (getContext() == null) return;
         
         SessionManager session = SessionManager.getInstance(getContext());
-        String userEmail = session.getUserEmail();
+        String userPhone = session.getUserPhone();
 
-        if (userEmail == null) {
-            Toast.makeText(getContext(), "Session error", Toast.LENGTH_SHORT).show();
-            return;
+        if (userPhone == null || userPhone.isEmpty()) {
+            // Fallback to email if phone is missing (unlikely now)
+            userPhone = session.getUserEmail();
         }
 
         // Initially load from session
         String sessionName = session.getUserName();
-        android.util.Log.d("ProfileInfo", "Session - Name: " + sessionName + ", Email: " + userEmail);
+        String sessionEmail = session.getUserEmail();
         
         binding.etFullName.setText(sessionName);
-        binding.etEmail.setText(userEmail);
+        binding.etPhone.setText(userPhone);
+        binding.etEmail.setText(sessionEmail);
 
         // Fetch real data from DB
-        viewModel.getMemberByEmailLive(userEmail).observe(getViewLifecycleOwner(), member -> {
+        viewModel.getMemberByPhoneLive(userPhone).observe(getViewLifecycleOwner(), member -> {
             if (member != null) {
-                android.util.Log.d("ProfileInfo", "Member found in DB: " + member.getName());
                 binding.etFullName.setText(member.getName());
                 binding.etPhone.setText(member.getPhone());
                 binding.etEmail.setText(member.getEmail());
             } else {
-                android.util.Log.d("ProfileInfo", "Member NOT found in DB. Falling back to Session/Prefs.");
-                
-                // For admin, it might be stored as admin_name in legacy prefs or just use session
-                String fallbackName = session.getUserName();
-                String fallbackPhone = session.getUserPhone();
-                
-                android.util.Log.d("ProfileInfo", "Fallback - Name: " + fallbackName + ", Phone: " + fallbackPhone);
-
-                if (binding.etFullName.getText().toString().isEmpty() || "null".equals(binding.etFullName.getText().toString())) {
-                    binding.etFullName.setText(fallbackName);
-                }
-                
-                if (binding.etPhone.getText().toString().isEmpty()) {
-                    binding.etPhone.setText(fallbackPhone);
-                }
-                
                 // Trigger a sync if no data found locally
                 viewModel.syncMembers();
             }

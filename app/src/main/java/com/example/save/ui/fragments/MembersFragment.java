@@ -318,7 +318,7 @@ public class MembersFragment extends Fragment {
             } else {
                 phone = phoneInput;
             }
-            String email = dialogBinding.etMemberEmail.getText().toString().trim();
+            String email = null; // Email removed from UI
             String role = selectedRole[0];
 
             if (!com.example.save.utils.ValidationUtils.isNotEmpty(name)) {
@@ -326,10 +326,7 @@ public class MembersFragment extends Fragment {
                 return;
             }
 
-            if (!com.example.save.utils.ValidationUtils.isValidEmail(email)) {
-                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberEmail, "Invalid email format");
-                return;
-            }
+
 
             if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
                 com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPhone, "Invalid phone number");
@@ -415,14 +412,12 @@ public class MembersFragment extends Fragment {
         credBinding.tvCredGroupName.setText(groupName);
         credBinding.tvCredMemberName.setText(memberName);
         credBinding.tvCredPhone.setText(phone);
-        credBinding.tvCredEmail.setText(email);
         credBinding.tvCredOTP.setText(otp);
 
         // Optional: Update with database values once loaded to ensure sync
         viewModel.getMemberByNameLive(memberName).observe(getViewLifecycleOwner(), member -> {
             if (member != null) {
                 credBinding.tvCredMemberName.setText(member.getName());
-                credBinding.tvCredEmail.setText(member.getEmail());
             }
         });
 
@@ -437,8 +432,8 @@ public class MembersFragment extends Fragment {
         dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         String credentialsMessage = String.format(
-                "🎉 *Welcome to %s!*\n\nYour login credentials:\n\n👤 *Name:* %s\n📱 *Phone:* %s\n📧 *Email:* %s\n🔐 *Code:* %s\n\nDownload the app to get started! 🚀",
-                groupName, memberName, phone, email, otp);
+                "🎉 *Welcome to %s!*\n\nYour login credentials:\n\n👤 *Name:* %s\n📱 *Phone:* %s\n🔐 *Code:* %s\n\nDownload the app to get started! 🚀",
+                groupName, memberName, phone, otp);
 
         // Format OTP with spaces for visual match: "8 8 2  1 4 9"
         StringBuilder formattedOtp = new StringBuilder();
@@ -451,39 +446,7 @@ public class MembersFragment extends Fragment {
         }
         credBinding.tvCredOTP.setText(formattedOtp.toString());
 
-        credBinding.btnCopyEmail.setOnClickListener(v -> {
-            ClipboardManager clipboard = (ClipboardManager) requireContext()
-                    .getSystemService(Context.CLIPBOARD_SERVICE);
-            clipboard.setPrimaryClip(ClipData.newPlainText("Member Email", email));
-            Toast.makeText(getContext(), "Email copied!", Toast.LENGTH_SHORT).show();
-        });
 
-        credBinding.btnSendEmail.setOnClickListener(v -> {
-            credBinding.btnSendEmail.setEnabled(false);
-            credBinding.btnSendEmail.setText("Sending...");
-
-            // Get member by email if possible to get the correct ID
-            Member member = viewModel.getMemberByEmail(email);
-            if (member == null) {
-                // Fallback: create a dummy member with ID if name/email match
-                member = new Member(memberName, "Member", true, phone, email);
-                // The ID is crucial, so we try to find it from the list if the direct lookup fails
-            }
-
-            viewModel.sendInvite(member, (success, message) -> {
-                if (getActivity() == null)
-                    return;
-                getActivity().runOnUiThread(() -> {
-                    credBinding.btnSendEmail.setEnabled(true);
-                    credBinding.btnSendEmail.setText("Send Email");
-                    if (success) {
-                        Toast.makeText(getContext(), "Invitation email sent successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            });
-        });
 
         credBinding.btnShareDetails.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_SEND);
@@ -504,11 +467,11 @@ public class MembersFragment extends Fragment {
     }
 
     private void showProfileDialog(Member member) {
-        if (member.getEmail() == null)
+        if (member.getPhone() == null)
             return;
         getParentFragmentManager().beginTransaction()
                 .replace(((ViewGroup) getView().getParent()).getId(),
-                        com.example.save.ui.fragments.MemberProfileFragment.newInstance(member.getEmail()))
+                        com.example.save.ui.fragments.MemberProfileFragment.newInstance(member.getPhone()))
                 .addToBackStack(null).commit();
     }
 

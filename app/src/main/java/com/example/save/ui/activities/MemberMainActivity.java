@@ -58,6 +58,7 @@ public class MemberMainActivity extends AppCompatActivity {
         if (session.isFirstLogin()) {
             android.content.Intent intent = new android.content.Intent(this, ResetPasswordActivity.class);
             intent.putExtra("email", session.getUserEmail());
+            intent.putExtra("phone", session.getUserPhone());
             intent.putExtra("is_first_login", true);
             intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

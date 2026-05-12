@@ -118,11 +118,11 @@
                             android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
-                    <!-- Email Address Field -->
+                    <!-- Phone Number Field -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Your Email Address"
+                        android:text="Your Phone Number"
                         android:textColor="@color/v_text_mid"
                         android:textSize="@dimen/text_size_xs"
                         android:fontFamily="@font/manrope"
@@ -142,17 +142,17 @@
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            app:srcCompat="@drawable/ic_email"
+                            app:srcCompat="@drawable/ic_call"
                             app:tint="@color/v_text_muted" />
 
                         <EditText
-                            android:id="@+id/emailInput"
+                            android:id="@+id/phoneInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
                             android:background="@null"
-                            android:hint="name@example.com"
-                            android:inputType="textEmailAddress"
+                            android:hint="e.g. +256 700 000 000"
+                            android:inputType="phone"
                             android:textColor="@color/v_text_dark"
                             android:textColorHint="@color/v_text_muted"
                             android:textSize="@dimen/text_size_xs" />

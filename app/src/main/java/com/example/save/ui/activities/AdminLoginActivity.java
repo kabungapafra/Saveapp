@@ -123,16 +123,33 @@ public class AdminLoginActivity extends AppCompatActivity {
         finish();
     }
 
-    /**
-     * Show forgot password fragment
-     */
-    private void showForgotPasswordFragment() {
-        // Navigate directly to ResetPasswordActivity as the "Forgot Password" flow
-        Intent intent = new Intent(this, ResetPasswordActivity.class);
-        intent.putExtra("phone", binding.phoneInput.getText().toString().trim());
-        intent.putExtra("sourceActivity", "AdminLoginActivity");
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    private void startForgotPinVerification(String phone) {
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                .setPhoneNumber(phone)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(this)
+                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(PhoneAuthCredential credential) {
+                        // Handle auto-verification if needed
+                    }
+
+                    @Override
+                    public void onVerificationFailed(FirebaseException e) {
+                        Toast.makeText(AdminLoginActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
+                        mVerificationId = verificationId;
+                        Intent intent = new Intent(AdminLoginActivity.this, ResetPasswordActivity.class);
+                        intent.putExtra("phone", phone);
+                        intent.putExtra("verificationId", verificationId);
+                        startActivity(intent);
+                    }
+                })
+                .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
     @SuppressLint("GestureBackNavigation")

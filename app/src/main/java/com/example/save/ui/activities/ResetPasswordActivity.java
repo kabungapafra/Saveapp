@@ -23,6 +23,9 @@ import com.example.save.R;
 import com.example.save.databinding.ActivityResetpasswordBinding;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 /**
  * Activity for resetting password after OTP verification
@@ -35,6 +38,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
     // State
     private String userEmail = "";
     private String userPhone = "";
+    private String mVerificationId = "";
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +68,56 @@ public class ResetPasswordActivity extends AppCompatActivity {
         // Initialize all views
         initializeViews();
 
+        mAuth = FirebaseAuth.getInstance();
+        mVerificationId = getIntent().getStringExtra("verificationId");
+
+        if (mVerificationId != null && !mVerificationId.isEmpty()) {
+            showOtpVerification();
+        } else {
+            // Show password reset step
+            showPasswordStep();
+        }
+
         // Setup back press handling
         setupBackPressHandler();
 
         // Setup click listeners
         setupClickListeners();
+    }
 
-        // Show password reset step
-        showPasswordStep();
+    private void showOtpVerification() {
+        binding.fragmentContainer.setVisibility(View.VISIBLE);
+        
+        OtpFragment otpFragment = new OtpFragment();
+        otpFragment.setOtpListener(new OtpFragment.OtpListener() {
+            @Override
+            public void onOtpEntered(String code) {
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+                verifyAndProceed(credential);
+            }
+
+            @Override
+            public void onResendOtp() {
+                // Handle resend if needed
+                Toast.makeText(ResetPasswordActivity.this, "Resend not implemented in this view", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, otpFragment)
+                .commit();
+    }
+
+    private void verifyAndProceed(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        binding.fragmentContainer.setVisibility(View.GONE);
+                        showPasswordStep();
+                    } else {
+                        Toast.makeText(ResetPasswordActivity.this, "Invalid code", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void initializeViews() {

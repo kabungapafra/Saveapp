@@ -65,6 +65,7 @@ public class AdminMainActivity extends AppCompatActivity {
         if (session.isFirstLogin()) {
             Intent intent = new Intent(this, ResetPasswordActivity.class);
             intent.putExtra("email", session.getUserEmail());
+            intent.putExtra("phone", session.getUserPhone());
             intent.putExtra("is_first_login", true);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

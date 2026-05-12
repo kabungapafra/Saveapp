@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Please enter the 6-digit code sent to your email address to verify your account."
+            android:text="Please enter the 6-digit code sent to your phone number to verify your account."
             android:textColor="@color/v_text_mid"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"

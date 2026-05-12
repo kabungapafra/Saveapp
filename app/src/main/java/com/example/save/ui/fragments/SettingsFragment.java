@@ -57,7 +57,8 @@ public class SettingsFragment extends Fragment {
         String group = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
                 .getString("group_name", "");
 
-        binding.tvUserName.setText(name != null && !name.isEmpty() ? name : email);
+        String phone = session.getUserPhone();
+        binding.tvUserName.setText(name != null && !name.isEmpty() ? name : (phone != null && !phone.isEmpty() ? phone : email));
         binding.tvGroupName.setText(group != null && !group.isEmpty() ? group : "");
 
         if (name != null && !name.isEmpty()) {
