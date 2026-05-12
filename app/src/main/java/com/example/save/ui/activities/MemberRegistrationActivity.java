@@ -27,9 +27,9 @@ public class MemberRegistrationActivity extends AppCompatActivity {
 
     private void handleRegistration() {
         String name = binding.groupNameInput.getText().toString();
-        String email = binding.emailInput.getText().toString();
+        String phone = binding.phoneInput.getText().toString();
 
-        if (name.isEmpty() || email.isEmpty()) {
+        if (name.isEmpty() || phone.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
