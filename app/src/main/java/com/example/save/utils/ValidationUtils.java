@@ -116,12 +116,12 @@ public class ValidationUtils {
     }
 
     /**
-     * Validates PIN (exactly 6 digits)
+     * Validates PIN (exactly 4 digits)
      * 
      * @param pin PIN to validate
      * @return true if valid, false otherwise
      */
     public static boolean isValidPin(String pin) {
-        return !TextUtils.isEmpty(pin) && pin.matches("^[0-9]{6}$");
+        return !TextUtils.isEmpty(pin) && pin.matches("^[0-9]{4}$");
     }
 }

@@ -124,11 +124,11 @@
     <string name="create_new_pin_heading">Create New PIN</string>
     <string name="reset_pin_subtitle">Your new PIN must be different from previously used PINs to keep your account secure.</string>
     <string name="new_pin_label">New PIN</string>
-    <string name="enter_new_pin_hint">Enter your new 6-digit PIN</string>
+    <string name="enter_new_pin_hint">Enter your new 4-digit PIN</string>
     <string name="confirm_new_pin_label">Confirm New PIN</string>
     <string name="repeat_new_pin_hint">Repeat your new PIN</string>
     <string name="pin_requirements_title">PIN REQUIREMENTS</string>
-    <string name="req_length">Must be exactly 6 digits</string>
+    <string name="req_length">Must be exactly 4 digits</string>
     <string name="req_uppercase">Numeric digits only (0-9)</string>
     <string name="req_number">Secure and easy for you to remember</string>
     <string name="reset_pin_button">Reset PIN</string>
