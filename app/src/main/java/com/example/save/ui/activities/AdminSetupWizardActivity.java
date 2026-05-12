@@ -206,12 +206,17 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        if (credential == null) {
+            Toast.makeText(this, "Verification failed: Null credential", Toast.LENGTH_SHORT).show();
+            return;
+        }
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         completeWizard();
                     } else {
-                        Toast.makeText(AdminSetupWizardActivity.this, "Invalid code", Toast.LENGTH_SHORT).show();
+                        String error = task.getException() != null ? task.getException().getMessage() : "Invalid code";
+                        Toast.makeText(AdminSetupWizardActivity.this, "Sign-in failed: " + error, Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -265,6 +270,10 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                 otpFragment.setOtpListener(new OtpFragment.OtpListener() {
                     @Override
                     public void onOtpEntered(String code) {
+                        if (mVerificationId == null) {
+                            Toast.makeText(AdminSetupWizardActivity.this, "Verification session expired. Please resend code.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
                         signInWithPhoneAuthCredential(credential);
                     }
