@@ -146,6 +146,10 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     }
 
     private void sendOtpAndProceed(boolean shouldProceed) {
+        // Ensure phone is normalized before Firebase call
+        adminPhone = com.example.save.utils.ValidationUtils.normalizePhone(adminPhone);
+        Toast.makeText(this, "Verifying: " + adminPhone, Toast.LENGTH_SHORT).show();
+
         android.app.ProgressDialog progressDialog = new android.app.ProgressDialog(this);
         progressDialog.setMessage("Sending verification code...");
         progressDialog.setCancelable(false);
