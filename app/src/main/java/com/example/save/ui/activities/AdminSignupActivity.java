@@ -109,7 +109,7 @@ public class AdminSignupActivity extends AppCompatActivity {
 
 
         if (!com.example.save.utils.ValidationUtils.isValidPin(password)) {
-            binding.passwordInput.setError("PIN must be exactly 6 digits");
+            binding.passwordInput.setError("PIN must be exactly 4 digits");
             return;
         }
 
@@ -118,7 +118,8 @@ public class AdminSignupActivity extends AppCompatActivity {
             return;
         }
 
-        navigateToWizard(adminName, "", phone, password);
+        String normalizedPhone = com.example.save.utils.ValidationUtils.normalizePhone(phone);
+        navigateToWizard(adminName, "", normalizedPhone, password);
     }
 
     private void navigateToWizard(String adminName, String email, String phone, String password) {
