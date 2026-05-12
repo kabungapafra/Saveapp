@@ -297,6 +297,8 @@ public class MemberLoginActivity extends AppCompatActivity {
                 Toast.makeText(MemberLoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
     @Override
     public void onBackPressed() {
         if (binding.fragmentContainer.getVisibility() == View.VISIBLE) {
