@@ -325,43 +325,49 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(this).create(com.example.save.data.network.ApiService.class);
 
-        // Step 1: Save System Config
-        apiService.updateSystemConfig(config).enqueue(new retrofit2.Callback<com.example.save.data.models.SystemConfig>() {
+        // Step 1: Register Admin First
+        apiService.verifyAdminOtp(registrationRequest).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
             @Override
-            public void onResponse(retrofit2.Call<com.example.save.data.models.SystemConfig> call, 
-                                   retrofit2.Response<com.example.save.data.models.SystemConfig> response) {
-                if (response.isSuccessful()) {
-                    // Step 2: Register Admin
-                    apiService.verifyAdminOtp(registrationRequest).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
+            public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call, 
+                                   retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    com.example.save.data.network.LoginResponse loginData = response.body();
+                    com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
+                    session.saveJwtToken(loginData.getToken());
+                    session.createLoginSession(loginData.getName(), loginData.getEmail(), loginData.getRole(), false, loginData.isCreator());
+
+                    // Step 2: Now that we are logged in, Save System Config
+                    apiService.updateSystemConfig(config).enqueue(new retrofit2.Callback<com.example.save.data.models.SystemConfig>() {
                         @Override
-                        public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call, 
-                                               retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
-                            if (response.isSuccessful() && response.body() != null) {
-                                com.example.save.data.network.LoginResponse loginData = response.body();
-                                com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
-                                session.saveJwtToken(loginData.getToken());
-                                session.createLoginSession(loginData.getName(), loginData.getEmail(), loginData.getRole(), false, loginData.isCreator());
-                                
+                        public void onResponse(retrofit2.Call<com.example.save.data.models.SystemConfig> call, 
+                                               retrofit2.Response<com.example.save.data.models.SystemConfig> response) {
+                            if (response.isSuccessful()) {
                                 Toast.makeText(AdminSetupWizardActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
                                 finishSetup();
                             } else {
-                                Toast.makeText(AdminSetupWizardActivity.this, "Admin registration failed", Toast.LENGTH_SHORT).show();
+                                // Even if config fails, the admin is created, so we can proceed
+                                Toast.makeText(AdminSetupWizardActivity.this, "Admin created, but failed to save some settings.", Toast.LENGTH_SHORT).show();
+                                finishSetup();
                             }
                         }
 
                         @Override
-                        public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
-                            Toast.makeText(AdminSetupWizardActivity.this, "Network error during registration", Toast.LENGTH_SHORT).show();
+                        public void onFailure(retrofit2.Call<com.example.save.data.models.SystemConfig> call, Throwable t) {
+                            finishSetup();
                         }
                     });
                 } else {
-                    Toast.makeText(AdminSetupWizardActivity.this, "Failed to save configuration", Toast.LENGTH_SHORT).show();
+                    String error = "Admin registration failed";
+                    if (response.errorBody() != null) {
+                        try { error = response.errorBody().string(); } catch (Exception e) {}
+                    }
+                    Toast.makeText(AdminSetupWizardActivity.this, error, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(retrofit2.Call<com.example.save.data.models.SystemConfig> call, Throwable t) {
-                Toast.makeText(AdminSetupWizardActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
+                Toast.makeText(AdminSetupWizardActivity.this, "Network error during registration: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
