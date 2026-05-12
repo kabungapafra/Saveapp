@@ -146,13 +146,10 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     }
 
     private void sendOtpAndProceed(boolean shouldProceed) {
-
-
-            progressDialog = new android.app.ProgressDialog(this);
-            progressDialog.setMessage("Sending verification code...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
+        android.app.ProgressDialog progressDialog = new android.app.ProgressDialog(this);
+        progressDialog.setMessage("Sending verification code...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         final android.app.ProgressDialog finalDialog = progressDialog;
         
