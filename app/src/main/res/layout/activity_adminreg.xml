@@ -159,7 +159,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
                             android:background="@null"
-                            android:hint="+254 7XX XXX XXX"
+                            android:hint="+256 7XX XXX XXX"
                             android:inputType="phone"
                             android:textColor="@color/v_text_dark"
                             android:textColorHint="@color/v_text_muted"
