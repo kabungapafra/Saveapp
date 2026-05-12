@@ -316,9 +316,14 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         config.setLatePenaltyRate(latePenalty);
         config.setCurrency(currency);
 
+        String emailToSubmit = getIntent().getStringExtra("EMAIL");
+        if (emailToSubmit == null || emailToSubmit.trim().isEmpty()) {
+            emailToSubmit = "admin_" + adminPhone.replace("+", "") + "@save.app";
+        }
+
         // Prepare Admin User Data
         com.example.save.data.network.OtpVerificationRequest registrationRequest = new com.example.save.data.network.OtpVerificationRequest(
-                "", // No email
+                emailToSubmit,
                 "FIREBASE_VERIFIED", // Placeholder since Firebase verified it
                 adminName,
                 adminPassword,
