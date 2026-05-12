@@ -215,7 +215,6 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                     }
                 });
     }
-    }
 
     @Override
     public void onBackPressed() {
