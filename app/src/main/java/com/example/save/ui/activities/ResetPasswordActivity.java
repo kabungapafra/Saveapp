@@ -140,7 +140,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private void showPasswordStep() {
         // Update button text from strings
-        binding.actionButton.setText(R.string.reset_password_button);
+        binding.actionButton.setText(R.string.reset_pin_button);
         binding.errorMessage.setVisibility(View.GONE);
 
         // Clear password fields
@@ -152,14 +152,14 @@ public class ResetPasswordActivity extends AppCompatActivity {
         String newPassword = binding.newPasswordInput.getText().toString();
         String confirmPassword = binding.confirmPasswordInput.getText().toString();
 
-        if (newPassword.isEmpty() || newPassword.length() < 8) {
-            binding.newPasswordInput.setError("Password must be at least 8 characters");
+        if (!com.example.save.utils.ValidationUtils.isValidPin(newPassword)) {
+            binding.newPasswordInput.setError("PIN must be exactly 6 digits");
             binding.newPasswordInput.requestFocus();
             return;
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            binding.confirmPasswordInput.setError("Passwords do not match");
+            binding.confirmPasswordInput.setError("PINs do not match");
             binding.confirmPasswordInput.requestFocus();
             return;
         }
@@ -185,13 +185,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 binding.actionButton.setEnabled(true);
 
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(ResetPasswordActivity.this, "Password reset successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ResetPasswordActivity.this, "PIN reset successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ResetPasswordActivity.this, PasswordResetSuccessActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
                 } else {
-                    String error = "Failed to reset password";
+                    String error = "Failed to reset PIN";
                     if (response.errorBody() != null) {
                         try { error = response.errorBody().string(); } catch (Exception e) {}
                     }

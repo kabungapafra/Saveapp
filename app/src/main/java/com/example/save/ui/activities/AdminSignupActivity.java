@@ -108,13 +108,13 @@ public class AdminSignupActivity extends AppCompatActivity {
 
 
 
-        if (!com.example.save.utils.ValidationUtils.isValidPassword(password)) {
-            binding.passwordInput.setError("Password must be at least 8 characters");
+        if (!com.example.save.utils.ValidationUtils.isValidPin(password)) {
+            binding.passwordInput.setError("PIN must be exactly 6 digits");
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            binding.confirmPasswordInput.setError("Passwords do not match");
+            binding.confirmPasswordInput.setError("PINs do not match");
             return;
         }
 

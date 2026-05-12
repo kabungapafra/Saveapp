@@ -11,13 +11,13 @@
     <string name="logo">Logo</string>
     <string name="sign_up">Sign up</string>
     <string name="login">Login</string>
-    <string name="forgot_password">Forgot PIN?</string>
-    <string name="password">PIN*</string>
+    <string name="forgot_pin">Forgot PIN?</string>
+    <string name="pin_label">PIN*</string>
     <string name="email">Phone*</string>
     <string name="create_account">Create Account</string>
     <string name="group_name">Group Name*</string>
     <string name="phone_number">Phone Number*</string>
-    <string name="confirm_password">Confirm PIN*</string>
+    <string name="confirm_pin">Confirm PIN*</string>
     <string name="already_have_an_account">Already have an account?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -102,42 +102,42 @@
     <string name="savers_footer">Join over 50,000+ savers today</string>
 
     <!-- Forgot PIN Screen -->
-    <string name="forgot_password_heading">Forgot PIN?</string>
-    <string name="forgot_password_subtitle">Enter the phone number associated with your account and we\'ll send you a verification code to reset your PIN.</string>
-    <string name="email_address_label">Phone Number</string>
-    <string name="send_reset_link">Send Verification Code</string>
-    <string name="remember_password_question">Remember your password? </string>
+    <string name="forgot_pin_heading">Forgot PIN?</string>
+    <string name="forgot_pin_subtitle">Enter the phone number associated with your account and we\'ll send you a verification code to reset your PIN.</string>
+    <string name="phone_number_label">Phone Number</string>
+    <string name="send_verification_code">Send Verification Code</string>
+    <string name="remember_pin_question">Remember your password? </string>
     <string name="sign_in_link">Sign in</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_of_service">Terms of Service</string>
     <string name="contact_support">Contact Support</string>
 
-    <!-- OTP Mockup Specific -->
-    <string name="verify_your_email">Verify Your Email</string>
-    <string name="otp_mockup_subtitle">Please enter the 6-digit code sent to your email address to reset your password.</string>
+    <!-- OTP Verification Screen -->
+    <string name="verify_your_phone">Verify Your Phone</string>
+    <string name="otp_verification_subtitle">Please enter the 6-digit code sent to your phone number to verify your account.</string>
     <string name="verify_and_continue">Verify &amp; Continue</string>
     <string name="resend_code_link">Resend Code</string>
     <string name="didnt_receive_code_question">Didn\'t receive the code? </string>
     <string name="secure_verification">Secure encrypted verification</string>
 
     <!-- Reset PIN Screen -->
-    <string name="create_new_password_heading">Create New PIN</string>
-    <string name="reset_password_subtitle">Your new PIN must be different from previously used PINs to keep your account secure.</string>
-    <string name="new_password_label">New PIN</string>
-    <string name="enter_new_password_hint">Enter your new 6-digit PIN</string>
-    <string name="confirm_new_password_label">Confirm New PIN</string>
-    <string name="repeat_new_password_hint">Repeat your new PIN</string>
-    <string name="password_requirements_title">PIN REQUIREMENTS</string>
+    <string name="create_new_pin_heading">Create New PIN</string>
+    <string name="reset_pin_subtitle">Your new PIN must be different from previously used PINs to keep your account secure.</string>
+    <string name="new_pin_label">New PIN</string>
+    <string name="enter_new_pin_hint">Enter your new 6-digit PIN</string>
+    <string name="confirm_new_pin_label">Confirm New PIN</string>
+    <string name="repeat_new_pin_hint">Repeat your new PIN</string>
+    <string name="pin_requirements_title">PIN REQUIREMENTS</string>
     <string name="req_length">Must be exactly 6 digits</string>
     <string name="req_uppercase">Numeric digits only (0-9)</string>
     <string name="req_number">Secure and easy for you to remember</string>
-    <string name="reset_password_button">Reset PIN</string>
+    <string name="reset_pin_button">Reset PIN</string>
     <string name="back_to_login">Back to Login</string>
     <string name="help_center">Help Center</string>
 
     <!-- PIN Reset Success Screen -->
-    <string name="password_reset_success_title">PIN Reset Successful!</string>
-    <string name="password_reset_success_desc">Your account security is our priority. Your PIN has been updated. You can now log in to your Save account with your new credentials.</string>
+    <string name="pin_reset_success_title">PIN Reset Successful!</string>
+    <string name="pin_reset_success_desc">Your account security is our priority. Your PIN has been updated. You can now log in to your Save account with your new credentials.</string>
     <string name="didnt_perform_action">Didn\'t perform this action? </string>
     <string name="security_tip_title">Security Tip</string>
     <string name="security_tip_desc">Enable Two-Factor Authentication for extra safety.</string>

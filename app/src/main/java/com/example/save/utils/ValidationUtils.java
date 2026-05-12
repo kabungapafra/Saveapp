@@ -116,12 +116,12 @@ public class ValidationUtils {
     }
 
     /**
-     * Validates password strength (minimum 8 characters)
+     * Validates PIN (exactly 6 digits)
      * 
-     * @param password Password to validate
+     * @param pin PIN to validate
      * @return true if valid, false otherwise
      */
-    public static boolean isValidPassword(String password) {
-        return !TextUtils.isEmpty(password) && password.length() >= 8;
+    public static boolean isValidPin(String pin) {
+        return !TextUtils.isEmpty(pin) && pin.matches("^[0-9]{6}$");
     }
 }
