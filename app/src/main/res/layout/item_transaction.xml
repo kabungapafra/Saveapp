@@ -40,7 +40,7 @@
             android:text="Monthly Savings"
             android:textStyle="bold"
             android:textColor="@color/v_text_dark"
-            android:textSize="15sp"/>
+            android:textSize="@dimen/text_size_small"/>
 
         <TextView
             android:id="@+id/tvTransactionDate"
@@ -59,6 +59,6 @@
         android:text="+ 50,000"
         android:textColor="#4CAF50"
         android:textStyle="bold"
-        android:textSize="15sp"/>
+        android:textSize="@dimen/text_size_small"/>
 
 </LinearLayout>

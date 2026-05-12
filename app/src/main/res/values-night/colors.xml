@@ -83,6 +83,26 @@
     <color name="h_green_700">#34D399</color>
     <color name="h_red_500">#EF4444</color>
     <color name="h_red_700">#F87171</color>
+    <color name="h_red_50">#450A0A</color>
+    <color name="h_red_100">#7F1D1D</color>
     <!-- Nav dashed ring is gray in dark mode -->
     <color name="nav_ring_color">#94A3B8</color>
+
+    <!-- Action Card Adaptive Colors (Dark Mode) -->
+    <color name="action_card_bg">#111827</color>
+    <color name="action_card_icon_bg">#1F2937</color>
+    <color name="action_card_text">#F9FAFB</color>
+    <color name="action_card_subtext">#9CA3AF</color>
+
+    <!-- Status & Warning Colors (Dark Mode) -->
+    <color name="status_pending_bg">#451A03</color>
+    <color name="status_pending_text">#FB923C</color>
+    <color name="warning_border">#D97706</color>
+    <color name="warning_bg_light">#1E1B16</color>
+
+    <!-- Loan Application Colors (Dark Mode) -->
+    <color name="loan_summary_start">#111827</color>
+    <color name="loan_summary_end">#1F2937</color>
+    <color name="loan_btn_start">#1F2937</color>
+    <color name="loan_btn_end">#111827</color>
 </resources>

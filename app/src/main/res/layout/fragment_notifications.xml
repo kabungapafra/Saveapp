@@ -37,7 +37,7 @@
             android:fontFamily="@font/manrope_bold"
             android:text="Notifications"
             android:textColor="@color/v_text_dark"
-            android:textSize="22sp"
+            android:textSize="@dimen/text_size_large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnBack"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +49,7 @@
             android:fontFamily="@font/manrope_bold"
             android:text="Mark all read"
             android:textColor="@color/brand_blue"
-            android:textSize="15sp"
+            android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

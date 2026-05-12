@@ -45,7 +45,7 @@
             android:fontFamily="@font/manrope_bold"
             android:text="Alex Johnson"
             android:textColor="@color/v_text_dark"
-            android:textSize="17sp"
+            android:textSize="@dimen/text_size_normal"
             app:layout_constraintEnd_toStartOf="@id/actionLayout"
             app:layout_constraintStart_toEndOf="@id/profileContainer"
             app:layout_constraintTop_toTopOf="parent" />

@@ -76,7 +76,7 @@
                         android:gravity="center"
                         android:text="JD"
                         android:textColor="#FFFFFF"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/text_size_medium"
                         android:fontFamily="@font/manrope_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -99,7 +99,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="John Doe"
                             android:textColor="#FFFFFF"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/text_size_normal" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Alpha Savers Group"
                                 android:textColor="#B3FFFFFF"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:id="@+id/badgeAdmin"
@@ -126,7 +126,7 @@
                                 android:paddingVertical="2dp"
                                 android:text="ADMIN"
                                 android:textColor="#FB923C"
-                                android:textSize="10sp"
+                                android:textSize="@dimen/text_size_xs"
                                 android:fontFamily="@font/manrope_bold" />
                         </LinearLayout>
                     </LinearLayout>
@@ -178,7 +178,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="UGX 45,000,000"
                                 android:textColor="#FFFFFF"
-                                android:textSize="17sp" />
+                                android:textSize="@dimen/text_size_normal" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -186,7 +186,7 @@
                                 android:layout_marginTop="3dp"
                                 android:text="Pool Balance"
                                 android:textColor="#80FFFFFF"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -218,7 +218,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Apr 28"
                                 android:textColor="#FFFFFF"
-                                android:textSize="17sp" />
+                                android:textSize="@dimen/text_size_normal" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -226,7 +226,7 @@
                                 android:layout_marginTop="3dp"
                                 android:text="Next Payout"
                                 android:textColor="#80FFFFFF"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -258,7 +258,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="3 / 12"
                                 android:textColor="#FFFFFF"
-                                android:textSize="17sp" />
+                                android:textSize="@dimen/text_size_normal" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -266,7 +266,7 @@
                                 android:layout_marginTop="3dp"
                                 android:text="Your Position"
                                 android:textColor="#80FFFFFF"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -299,7 +299,7 @@
                     android:letterSpacing="0.05"
                     android:text="ACCOUNT MANAGEMENT"
                     android:textColor="@color/v_text_muted"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/text_size_xs" />
 
                 <!-- Menu Cards Grid -->
                 <GridLayout
@@ -350,7 +350,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Personal Info"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -358,7 +358,7 @@
                                 android:layout_marginTop="2dp"
                                 android:text="Name, ID, phone"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -401,7 +401,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Scheduled"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -409,7 +409,7 @@
                                 android:layout_marginTop="2dp"
                                 android:text="Auto-pay, reminders"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -452,7 +452,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Wallets"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -460,7 +460,7 @@
                                 android:layout_marginTop="2dp"
                                 android:text="M-Pesa, bank"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -503,7 +503,7 @@
                                 android:fontFamily="@font/manrope_bold"
                                 android:text="Settings"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -511,7 +511,7 @@
                                 android:layout_marginTop="2dp"
                                 android:text="Theme, language"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </GridLayout>
@@ -524,7 +524,7 @@
                     android:letterSpacing="0.05"
                     android:text="SUPPORT"
                     android:textColor="@color/v_text_muted"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/text_size_xs" />
 
                 <!-- Support List -->
                 <androidx.cardview.widget.CardView
@@ -573,7 +573,7 @@
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Help Center"
                                     android:textColor="@color/v_text_dark"
-                                    android:textSize="13sp" />
+                                    android:textSize="@dimen/text_size_xs" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -581,7 +581,7 @@
                                     android:layout_marginTop="1dp"
                                     android:text="FAQs and guides"
                                     android:textColor="@color/v_text_muted"
-                                    android:textSize="11sp" />
+                                    android:textSize="@dimen/text_size_xs" />
                             </LinearLayout>
 
                             <ImageView
@@ -628,7 +628,7 @@
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Live Chat"
                                     android:textColor="@color/v_text_dark"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/text_size_xs" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -636,7 +636,7 @@
                                     android:layout_marginTop="1dp"
                                     android:text="We reply in minutes"
                                     android:textColor="@color/v_text_muted"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_size_xs" />
                             </LinearLayout>
 
                             <TextView
@@ -647,7 +647,7 @@
                                 android:paddingVertical="3dp"
                                 android:text="Online"
                                 android:textColor="#D97706"
-                                android:textSize="10sp"
+                                android:textSize="@dimen/text_size_xs"
                                 android:fontFamily="@font/manrope_bold" />
                         </LinearLayout>
 
@@ -687,7 +687,7 @@
                                     android:fontFamily="@font/manrope_bold"
                                     android:text="Call Support"
                                     android:textColor="@color/v_text_dark"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/text_size_xs" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -695,7 +695,7 @@
                                     android:layout_marginTop="1dp"
                                     android:text="Mon – Fri, 8am – 6pm"
                                     android:textColor="@color/v_text_muted"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_size_xs" />
                             </LinearLayout>
 
                             <ImageView
@@ -745,7 +745,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="Refer a Friend"
                             android:textColor="#FFFFFF"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/text_size_small" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -753,7 +753,7 @@
                             android:layout_marginTop="2dp"
                             android:text="Earn UGX 2,000 per referral"
                             android:textColor="#99FFFFFF"
-                            android:textSize="11sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
                     <ImageView
@@ -780,7 +780,7 @@
                     android:gravity="center"
                     android:text="Sign Out"
                     android:textColor="#EF4444"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/text_size_normal" />
 
                 <!-- Delete Account -->
                 <TextView
@@ -793,7 +793,7 @@
                     android:gravity="center"
                     android:text="Delete Account"
                     android:textColor="#9CA3AF"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text_size_xs" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

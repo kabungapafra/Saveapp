@@ -24,6 +24,7 @@ import com.example.save.ui.fragments.PollsFragment;
 import com.example.save.ui.fragments.QueueFragment;
 import com.example.save.ui.fragments.StashFragment;
 import com.example.save.ui.fragments.LoanApplicationFragment;
+import com.example.save.ui.fragments.LoansFragment;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.utils.NotificationHelper;
 import com.example.save.utils.PermissionUtils;
@@ -45,7 +46,8 @@ public class MemberMainActivity extends AppCompatActivity {
         com.example.save.utils.ThemeUtils.applyTheme(this, "member");
         getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
 
-        new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
+        MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
+        viewModel.syncMembers();
 
         // Initialize Notifications
         new NotificationHelper(this);
@@ -158,9 +160,9 @@ public class MemberMainActivity extends AppCompatActivity {
     private void setupBottomNavigation() {
         binding.navDashboard.setOnClickListener(v -> switchToDashboard());
 
-        binding.navMembers.setOnClickListener(v -> {
-            updateNavHighlight(binding.txtMembers, binding.imgMembers);
-            loadFragment(new MembersFragment(), true);
+        binding.navLoans.setOnClickListener(v -> {
+            updateNavHighlight(binding.txtLoans, binding.imgLoans);
+            loadFragment(new LoansFragment(), true);
         });
 
         binding.navAction.setOnClickListener(v -> {
@@ -169,9 +171,9 @@ public class MemberMainActivity extends AppCompatActivity {
             else showQuickActions();
         });
 
-        binding.navAnalysis.setOnClickListener(v -> {
-            updateNavHighlight(binding.txtAnalysis, binding.imgAnalysis);
-            loadFragment(AnalyticsFragment.newInstance(true, true), true);
+        binding.navPayouts.setOnClickListener(v -> {
+            updateNavHighlight(binding.txtPayouts, binding.imgPayouts);
+            loadFragment(new QueueFragment(), true);
         });
 
         binding.navSettings.setOnClickListener(v -> {
@@ -195,37 +197,14 @@ public class MemberMainActivity extends AppCompatActivity {
                 });
             }
 
-            // 2. Polls
-            View actionPolls = overlay.findViewById(R.id.cardMakePollsOverlay);
-            if (actionPolls != null) {
-                actionPolls.setOnClickListener(v -> {
-                    shouldReopenQuickActions = true;
-                    hideQuickActions();
-                    getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    loadFragment(PollsFragment.newInstance(), true);
-                });
-            }
-
-            // 3. Payment Queue
-            View actionQueue = overlay.findViewById(R.id.cardPaymentQueueOverlay);
-            if (actionQueue != null) {
-                actionQueue.setOnClickListener(v -> {
-                    shouldReopenQuickActions = true;
-                    hideQuickActions();
-                    getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    loadFragment(new QueueFragment(), true);
-                });
-            }
-
-            // Hide actions not intended for Members
-            View actionAddMember = overlay.findViewById(R.id.cardAddMemberOverlay);
+            // Hide actions not intended for Members or now decentralized
             View actionAnalysis = overlay.findViewById(R.id.cardAnalysisOverlay);
             View actionApprovals = overlay.findViewById(R.id.cardApprovalsOverlay);
+            View actionPolls = overlay.findViewById(R.id.cardMakePollsOverlay);
             
-            if (actionAddMember != null) actionAddMember.setVisibility(View.GONE);
             if (actionAnalysis != null) actionAnalysis.setVisibility(View.GONE);
             if (actionApprovals != null) actionApprovals.setVisibility(View.GONE);
-
+            if (actionPolls != null) actionPolls.setVisibility(View.GONE);
         }
     }
 
@@ -323,17 +302,16 @@ public class MemberMainActivity extends AppCompatActivity {
         if (frag instanceof DashboardFragment) {
             updateNavHighlight(binding.txtDashboard, binding.imgDashboard);
             setBottomNavVisible(true);
-        } else if (frag instanceof MembersFragment) {
-            updateNavHighlight(binding.txtMembers, binding.imgMembers);
-            setBottomNavVisible(true); 
-        } else if (frag instanceof AnalyticsFragment) {
-            updateNavHighlight(binding.txtAnalysis, binding.imgAnalysis);
+        } else if (frag instanceof LoansFragment || frag instanceof LoanApplicationFragment) {
+            updateNavHighlight(binding.txtLoans, binding.imgLoans);
+            setBottomNavVisible(true);
+        } else if (frag instanceof QueueFragment) {
+            updateNavHighlight(binding.txtPayouts, binding.imgPayouts);
             setBottomNavVisible(true);
         } else if (frag instanceof SettingsFragment) {
             updateNavHighlight(binding.txtSettings, binding.imgSettings);
             setBottomNavVisible(true);
-        } else if (frag instanceof LoanApplicationFragment || frag instanceof StashFragment || frag instanceof PollsFragment || frag instanceof QueueFragment) {
-            // Hide nav for these sub-screens
+        } else if (frag instanceof StashFragment || frag instanceof PollsFragment || frag instanceof AnalyticsFragment) {
             setBottomNavVisible(false);
         } else {
             setBottomNavVisible(false); // Hidden for truly immersive screens (e.g. Success screens)
@@ -365,8 +343,8 @@ public class MemberMainActivity extends AppCompatActivity {
 
     private void resetAllNavItems() {
         resetNavItem(binding.txtDashboard, binding.imgDashboard);
-        resetNavItem(binding.txtMembers, binding.imgMembers);
-        resetNavItem(binding.txtAnalysis, binding.imgAnalysis);
+        resetNavItem(binding.txtLoans, binding.imgLoans);
+        resetNavItem(binding.txtPayouts, binding.imgPayouts);
         resetNavItem(binding.txtSettings, binding.imgSettings);
     }
 

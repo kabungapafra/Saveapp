@@ -96,7 +96,7 @@
                     android:letterSpacing="0.1"
                     android:text="DASHBOARD"
                     android:textColor="@color/h_slate_400"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_size_xs" />
 
                 <TextView
                     android:id="@+id/tvGreetingName"
@@ -106,7 +106,7 @@
                     android:fontFamily="@font/poppins"
                     android:text="Welcome back, Pafra"
                     android:textColor="@color/h_slate_900"
-                    android:textSize="22sp" />
+                    android:textSize="@dimen/text_size_large" />
 
                 <TextView
                     android:id="@+id/tvMemberStatus"
@@ -115,7 +115,7 @@
                     android:fontFamily="@font/montserrat"
                     android:text="Member since Jan 2024 · ID #00312"
                     android:textColor="@color/h_slate_400"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/text_size_xs" />
             </LinearLayout>
 
             <!-- 4. BALANCE CARD -->
@@ -134,7 +134,7 @@
                         android:fontFamily="@font/montserrat"
                         android:text="Total Balance"
                         android:textColor="#B3FFFFFF"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/text_size_xs" />
 
                     <TextView
                         android:id="@+id/tvBalanceAmount"
@@ -145,7 +145,7 @@
                         android:fontFamily="@font/poppins"
                         android:text="UGX 12,450,000"
                         android:textColor="#FFFFFF"
-                        android:textSize="30sp" />
+                        android:textSize="@dimen/text_size_xxxl" />
 
                     <com.google.android.material.card.MaterialCardView android:layout_width="36dp" android:layout_height="36dp" android:layout_alignParentEnd="true" android:layout_alignTop="@id/tvBalanceAmount" app:cardBackgroundColor="#2EFFFFFF" app:cardCornerRadius="11dp" app:cardElevation="0dp">
                         <ImageView
@@ -173,7 +173,7 @@
                             android:paddingVertical="4dp"
                             android:text="📈 +12% this month"
                             android:textColor="#6EE7B7"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_xs"
                             android:fontFamily="@font/poppins"
                             app:drawableStartCompat="@drawable/ic_stats"
                             app:drawableTint="#6EE7B7" />
@@ -189,7 +189,7 @@
                             android:fontFamily="@font/montserrat"
                             android:text="UPDATED 2M AGO"
                             android:textColor="#73FFFFFF"
-                            android:textSize="10sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -221,7 +221,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="GOAL"
                                 android:textColor="@color/h_slate_400"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -229,7 +229,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="70%"
                                 android:textColor="@color/h_blue_600"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </RelativeLayout>
 
                         <FrameLayout
@@ -254,7 +254,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="70%"
                                 android:textColor="@color/h_slate_900"
-                                android:textSize="14sp" />
+                                android:textSize="@dimen/text_size_small" />
                         </FrameLayout>
 
                         <TextView
@@ -264,7 +264,7 @@
                             android:fontFamily="@font/montserrat"
                             android:text="UGX 2,100,000 of 3,000,000"
                             android:textColor="@color/h_slate_400"
-                            android:textSize="11sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -286,7 +286,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="PAYOUT"
                                 android:textColor="@color/h_slate_400"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                             <ImageView
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
@@ -302,7 +302,7 @@
                             android:fontFamily="@font/poppins"
                             android:text="UGX 850,000"
                             android:textColor="@color/h_red_500"
-                            android:textSize="22sp" />
+                            android:textSize="@dimen/text_size_large" />
                         
                         <TextView
                             android:layout_width="wrap_content"
@@ -310,7 +310,7 @@
                             android:fontFamily="@font/montserrat"
                             android:text="Sept 14, 2024"
                             android:textColor="@color/h_slate_400"
-                            android:textSize="11sp" />
+                            android:textSize="@dimen/text_size_xs" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -322,7 +322,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="PROGRESS"
                                 android:textColor="@color/h_slate_400"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -330,7 +330,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="85%"
                                 android:textColor="@color/h_red_500"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </RelativeLayout>
 
                         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -355,7 +355,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="My position"
                 android:textColor="@color/h_slate_900"
-                android:textSize="17sp" />
+                android:textSize="@dimen/text_size_medium" />
 
             <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                 
@@ -379,7 +379,7 @@
                             android:paddingVertical="6dp"
                             android:text="You are #3 of 8"
                             android:textColor="@color/h_blue_700"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_xs"
                             android:fontFamily="@font/poppins"
                             app:drawableTint="@color/h_blue_700" />
                         <TextView
@@ -392,7 +392,7 @@
                             android:paddingVertical="6dp"
                             android:text="Round 3 of 8"
                             android:textColor="@color/h_green_700"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_xs"
                             android:fontFamily="@font/poppins" />
                     </LinearLayout>
 
@@ -417,7 +417,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="LAST RECIPIENT"
                                 android:textColor="@color/h_slate_400"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -425,14 +425,14 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="Amara M."
                                 android:textColor="@color/h_slate_900"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/text_size_xs" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat"
                                 android:text="Sept 1, 2024"
                                 android:textColor="@color/h_slate_400"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -450,7 +450,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="NEXT RECIPIENT"
                                 android:textColor="@color/brand_blue"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -458,14 +458,14 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="Pafra (You)"
                                 android:textColor="@color/h_blue_700"
-                                android:textSize="13sp" />
+                                android:textSize="@dimen/text_size_xs" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat"
                                 android:text="Oct 1, 2024"
                                 android:textColor="@color/brand_blue"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -477,13 +477,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="24dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
-                    android:text="Active circle"
-                    android:textColor="@color/h_slate_900"
-                    android:textSize="17sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+                        android:text="Active circle"
+                        android:textColor="@color/h_slate_900"
+                        android:textSize="@dimen/text_size_medium" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -491,7 +491,7 @@
                     android:fontFamily="@font/poppins"
                     android:text="View All"
                     android:textColor="@color/h_blue_600"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/text_size_xs" />
             </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
@@ -528,14 +528,14 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="Holiday Fund 2024"
                                 android:textColor="@color/h_slate_900"
-                                android:textSize="15sp" />
+                                android:textSize="@dimen/text_size_normal" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat"
                                 android:text="8 members · Monthly · 8 rounds"
                                 android:textColor="@color/h_slate_400"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
 
                         <TextView
@@ -550,7 +550,7 @@
                             android:paddingVertical="4dp"
                             android:text="ACTIVE"
                             android:textColor="@color/h_green_700"
-                            android:textSize="11sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </RelativeLayout>
 
                     <View
@@ -574,14 +574,14 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="POOLED FUNDS"
                                 android:textColor="@color/h_slate_400"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
                                 android:text="UGX 4,800,000.00"
                                 android:textColor="@color/h_blue_600"
-                                android:textSize="18sp" />
+                                android:textSize="@dimen/text_size_medium" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"
@@ -594,14 +594,14 @@
                                 android:fontFamily="@font/poppins"
                                 android:text="REMAINING"
                                 android:textColor="@color/h_slate_400"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/text_size_xs" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
                                 android:text="12 Days"
                                 android:textColor="@color/h_slate_900"
-                                android:textSize="18sp" />
+                                android:textSize="@dimen/text_size_medium" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -615,16 +615,16 @@
                         android:padding="12dp">
                         
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Contribution per member" android:textColor="@color/h_slate_600" android:textSize="12sp"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 200,000" android:textColor="@color/h_slate_900" android:textSize="12sp" android:fontFamily="@font/poppins"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Contribution per member" android:textColor="@color/h_slate_600" android:textSize="@dimen/text_size_xs"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 200,000" android:textColor="@color/h_slate_900" android:textSize="@dimen/text_size_xs" android:fontFamily="@font/poppins"/>
                         </RelativeLayout>
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total payout per round" android:textColor="@color/h_slate_600" android:textSize="12sp"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 1,600,000" android:textColor="@color/h_slate_900" android:textSize="12sp" android:fontFamily="@font/poppins"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total payout per round" android:textColor="@color/h_slate_600" android:textSize="@dimen/text_size_xs"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 1,600,000" android:textColor="@color/h_slate_900" android:textSize="@dimen/text_size_xs" android:fontFamily="@font/poppins"/>
                         </RelativeLayout>
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Late penalty" android:textColor="@color/h_slate_600" android:textSize="12sp"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 10,000 / day" android:textColor="@color/h_slate_900" android:textSize="12sp" android:fontFamily="@font/poppins"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Late penalty" android:textColor="@color/h_slate_600" android:textSize="@dimen/text_size_xs"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 10,000 / day" android:textColor="@color/h_slate_900" android:textSize="@dimen/text_size_xs" android:fontFamily="@font/poppins"/>
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -641,16 +641,16 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="YOUR PAYOUT" android:textColor="@color/brand_blue" android:textSize="11sp" android:fontFamily="@font/poppins"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pafra Francis" android:textColor="@color/h_blue_700" android:textSize="13sp" android:fontFamily="@font/poppins"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="YOUR PAYOUT" android:textColor="@color/brand_blue" android:textSize="@dimen/text_size_xs" android:fontFamily="@font/poppins"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pafra Francis" android:textColor="@color/h_blue_700" android:textSize="@dimen/text_size_xs" android:fontFamily="@font/poppins"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Oct 1, 2024" android:textColor="@color/brand_blue" android:textSize="11sp"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UGX 1,600,000" android:textColor="@color/h_blue_700" android:textSize="14sp" android:fontFamily="@font/poppins"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Oct 1, 2024" android:textColor="@color/brand_blue" android:textSize="@dimen/text_size_xs"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UGX 1,600,000" android:textColor="@color/h_blue_700" android:textSize="@dimen/text_size_small" android:fontFamily="@font/poppins"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -676,7 +676,7 @@
                             android:paddingVertical="6dp"
                             android:text="Your turn next"
                             android:textColor="@color/h_blue_600"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </RelativeLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -693,7 +693,7 @@
                     android:fontFamily="@font/poppins"
                     android:text="Member status"
                     android:textColor="@color/h_slate_900"
-                    android:textSize="17sp" />
+                    android:textSize="@dimen/text_size_medium" />
                 <TextView
                     android:id="@+id/btnViewAllMembers"
                     android:layout_width="wrap_content"
@@ -702,7 +702,7 @@
                     android:fontFamily="@font/poppins"
                     android:text="Details"
                     android:textColor="@color/h_blue_600"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/text_size_xs" />
             </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
@@ -728,7 +728,7 @@
                     android:fontFamily="@font/poppins"
                     android:text="My contributions"
                     android:textColor="@color/h_slate_900"
-                    android:textSize="17sp" />
+                    android:textSize="@dimen/text_size_medium" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -736,7 +736,7 @@
                     android:fontFamily="@font/poppins"
                     android:text="History"
                     android:textColor="@color/h_blue_600"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/text_size_xs" />
             </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">

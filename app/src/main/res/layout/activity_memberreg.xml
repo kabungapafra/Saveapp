@@ -48,7 +48,7 @@
                 android:fontFamily="@font/manrope"
                 android:text="Member Registration"
                 android:textColor="@color/v_text_dark"
-                android:textSize="32sp"
+                android:textSize="@dimen/text_size_xxxl"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
@@ -59,7 +59,7 @@
                 android:fontFamily="@font/manrope"
                 android:text="Join your group and start saving"
                 android:textColor="@color/v_text_mid"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_small"
                 android:layout_marginBottom="32dp" />
 
             <!-- Form Card -->
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:text="Group Name"
                         android:textColor="@color/v_text_mid"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_xs"
                         android:fontFamily="@font/manrope"
                         android:textStyle="bold"
                         android:layout_marginBottom="8dp" />
@@ -115,7 +115,7 @@
                             android:inputType="text"
                             android:textColor="@color/v_text_dark"
                             android:textColorHint="@color/v_text_muted"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
                     <!-- Email Address Field -->
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:text="Your Email Address"
                         android:textColor="@color/v_text_mid"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_xs"
                         android:fontFamily="@font/manrope"
                         android:textStyle="bold"
                         android:layout_marginBottom="8dp" />
@@ -155,7 +155,7 @@
                             android:inputType="textEmailAddress"
                             android:textColor="@color/v_text_dark"
                             android:textColorHint="@color/v_text_muted"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
                     <!-- Register Button -->
@@ -176,7 +176,7 @@
                             android:layout_height="wrap_content"
                             android:text="Join Group"
                             android:textColor="#FFFFFF"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             android:fontFamily="@font/manrope"
                             android:layout_marginEnd="8dp" />
@@ -198,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:text="Already have an account? Login"
                 android:textColor="@color/login_button_blue"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_size_small"
                 android:fontFamily="@font/manrope"
                 android:textStyle="bold"
                 android:clickable="true"

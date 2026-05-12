@@ -30,7 +30,7 @@
             android:fontFamily="@font/manrope_bold"
             android:text="@string/add_new_member"
             android:textColor="@color/text_slate_900"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text_size_normal" />
     </RelativeLayout>
 
     <ScrollView
@@ -57,7 +57,7 @@
                 android:letterSpacing="0.01"
                 android:text="@string/full_name"
                 android:textColor="@color/v_text_dark"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_size_xs" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nameInputLayout"
@@ -86,7 +86,7 @@
                     android:inputType="textPersonName"
                     android:textColor="@color/v_text_dark"
                     android:textColorHint="@color/text_slate_400"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text_size_xs" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Professional Email Section -->
@@ -98,7 +98,7 @@
                 android:letterSpacing="0.01"
                 android:text="@string/professional_email"
                 android:textColor="@color/v_text_dark"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_size_xs" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailInputLayout"
@@ -127,7 +127,7 @@
                     android:inputType="textEmailAddress"
                     android:textColor="@color/v_text_dark"
                     android:textColorHint="@color/text_slate_400"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text_size_xs" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Phone Number Section -->
@@ -139,7 +139,7 @@
                 android:letterSpacing="0.01"
                 android:text="@string/phone_number"
                 android:textColor="@color/v_text_dark"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_size_xs" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -161,7 +161,7 @@
                             android:fontFamily="@font/manrope_medium"
                             android:text="🇺🇬 +256"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_size_xs" />
 
                     <ImageView
                         android:layout_width="14dp"
@@ -198,7 +198,7 @@
                         android:paddingBottom="0dp"
                         android:textColor="@color/v_text_dark"
                         android:textColorHint="@color/text_slate_400"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/text_size_xs" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -211,7 +211,7 @@
                 android:letterSpacing="0.01"
                 android:text="@string/member_role"
                 android:textColor="@color/v_text_dark"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_size_xs" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -276,7 +276,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="@string/member"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:layout_constraintBottom_toTopOf="@id/descMember"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -292,7 +292,7 @@
                             android:lineSpacingExtra="2dp"
                             android:text="@string/member_role_desc"
                             android:textColor="@color/text_slate_400"
-                            android:textSize="10.5sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleMember" />
 
@@ -357,7 +357,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="@string/admin"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:layout_constraintBottom_toTopOf="@id/descAdmin"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -373,7 +373,7 @@
                             android:lineSpacingExtra="2dp"
                             android:text="@string/admin_role_desc"
                             android:textColor="@color/text_slate_400"
-                            android:textSize="10.5sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleAdmin" />
 
@@ -407,7 +407,7 @@
             android:insetBottom="0dp"
             android:text="@string/continue_to_permissions"
             android:textAllCaps="false"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_small"
             app:backgroundTint="@color/brand_blue"
             app:cornerRadius="16dp"
             app:icon="@drawable/ic_chevron_right"
@@ -422,7 +422,7 @@
             android:gravity="center"
             android:text="@string/member_will_receive_invite_link_via_sms"
             android:textColor="@color/text_slate_400"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_xs" />
     </LinearLayout>
 
 </LinearLayout>

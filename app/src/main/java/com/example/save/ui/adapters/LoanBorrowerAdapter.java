@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.save.R;
 import com.example.save.data.models.LoanRequest;
 import com.example.save.databinding.ItemLoanBorrowerCardBinding;
 
@@ -86,21 +87,21 @@ public class LoanBorrowerAdapter extends RecyclerView.Adapter<LoanBorrowerAdapte
             binding.tvRightInfo.setVisibility(View.VISIBLE);
 
             if ("PENDING".equals(status)) {
-                binding.tvStatusBadge.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FEF3C7")));
-                binding.tvStatusBadge.setTextColor(Color.parseColor("#D97706"));
+                binding.tvStatusBadge.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.status_pending_bg));
+                binding.tvStatusBadge.setTextColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.status_pending_text));
                 binding.loanProgress.setProgress(15);
-                binding.loanProgress.setIndicatorColor(Color.parseColor("#D97706"));
+                binding.loanProgress.setIndicatorColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.status_pending_text));
 
                 binding.tvRightInfo.setText("Reviewing request...");
                 binding.tvRightInfo.setTypeface(null, Typeface.ITALIC);
 
                 binding.btnLeft.setText("Approve");
-                binding.btnLeft.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2563EB")));
+                binding.btnLeft.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.brand_blue));
                 binding.btnLeft.setTextColor(Color.WHITE);
 
                 binding.btnRight.setText("Decline");
-                binding.btnRight.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F1F5F9")));
-                binding.btnRight.setTextColor(Color.parseColor("#090F1C"));
+                binding.btnRight.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.v_input_bg));
+                binding.btnRight.setTextColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.v_text_dark));
 
                 binding.btnLeft.setOnClickListener(v -> {
                     if (listener != null)
@@ -112,21 +113,21 @@ public class LoanBorrowerAdapter extends RecyclerView.Adapter<LoanBorrowerAdapte
                 });
             } else if ("LATE".equals(status)) {
                 binding.lateStripe.setVisibility(View.VISIBLE);
-                binding.tvStatusBadge.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FEE2E2")));
-                binding.tvStatusBadge.setTextColor(Color.parseColor("#E11D48"));
+                binding.tvStatusBadge.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.h_red_50));
+                binding.tvStatusBadge.setTextColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.h_red_700));
                 binding.loanProgress.setProgress(90);
-                binding.loanProgress.setIndicatorColor(Color.parseColor("#E11D48"));
+                binding.loanProgress.setIndicatorColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.h_red_700));
 
                 binding.tvRightInfo.setVisibility(View.GONE);
                 binding.tvOverdueInfo.setVisibility(View.VISIBLE);
                 binding.tvOverdueInfo.setText("Overdue: 4 days");
 
                 binding.btnLeft.setText("View Details");
-                binding.btnLeft.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F1F5F9")));
-                binding.btnLeft.setTextColor(Color.parseColor("#090F1C"));
+                binding.btnLeft.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.v_input_bg));
+                binding.btnLeft.setTextColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.v_text_dark));
 
                 binding.btnRight.setText("Send Alert");
-                binding.btnRight.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E11D48")));
+                binding.btnRight.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.h_red_700));
                 binding.btnRight.setTextColor(Color.WHITE);
 
                 binding.btnLeft.setOnClickListener(v -> {
@@ -138,20 +139,20 @@ public class LoanBorrowerAdapter extends RecyclerView.Adapter<LoanBorrowerAdapte
                         listener.onSendAlert(request);
                 });
             } else { // ACTIVE
-                binding.tvStatusBadge.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E8F5E9")));
-                binding.tvStatusBadge.setTextColor(Color.parseColor("#10B981"));
+                binding.tvStatusBadge.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.h_green_50));
+                binding.tvStatusBadge.setTextColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.h_green_700));
                 binding.loanProgress.setProgress(45);
-                binding.loanProgress.setIndicatorColor(Color.parseColor("#2563EB"));
+                binding.loanProgress.setIndicatorColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.brand_blue));
 
                 binding.tvRightInfo.setText("Due: " + request.getRequestDate());
 
                 binding.btnLeft.setText("View Details");
-                binding.btnLeft.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F1F5F9")));
-                binding.btnLeft.setTextColor(Color.parseColor("#090F1C"));
+                binding.btnLeft.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.v_input_bg));
+                binding.btnLeft.setTextColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.v_text_dark));
 
                 binding.btnRight.setText("Remind");
-                binding.btnRight.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#EFF6FF")));
-                binding.btnRight.setTextColor(Color.parseColor("#2563EB"));
+                binding.btnRight.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.h_blue_50));
+                binding.btnRight.setTextColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.brand_blue));
 
                 binding.btnLeft.setOnClickListener(v -> {
                     if (listener != null)

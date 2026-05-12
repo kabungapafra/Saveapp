@@ -48,7 +48,7 @@
                 android:fontFamily="@font/manrope"
                 android:text="Admin Login"
                 android:textColor="@color/v_text_dark"
-                android:textSize="32sp"
+                android:textSize="@dimen/text_size_xxxl"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
@@ -59,7 +59,7 @@
                 android:fontFamily="@font/manrope"
                 android:text="Manage your group effectively"
                 android:textColor="@color/v_text_mid"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_small"
                 android:layout_marginBottom="32dp" />
 
             <!-- Support for Legacy logic - Hidden Side Tabs -->
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:text="Group Name"
                         android:textColor="@color/v_text_mid"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_xs"
                         android:fontFamily="@font/manrope"
                         android:textStyle="bold"
                         android:layout_marginBottom="8dp" />
@@ -123,7 +123,7 @@
                             android:inputType="text"
                             android:textColor="@color/v_text_dark"
                             android:textColorHint="@color/v_text_muted"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
                     <!-- Email Address Field -->
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:text="Email Address"
                         android:textColor="@color/v_text_mid"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/text_size_xs"
                         android:fontFamily="@font/manrope"
                         android:textStyle="bold"
                         android:layout_marginBottom="8dp" />
@@ -163,7 +163,7 @@
                             android:inputType="textEmailAddress"
                             android:textColor="@color/v_text_dark"
                             android:textColorHint="@color/v_text_muted"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
                     <!-- Password Field -->
@@ -177,7 +177,7 @@
                             android:layout_height="wrap_content"
                             android:text="Password"
                             android:textColor="@color/v_text_mid"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_size_xs"
                             android:fontFamily="@font/manrope"
                             android:textStyle="bold" />
 
@@ -188,7 +188,7 @@
                             android:layout_alignParentEnd="true"
                             android:text="Forgot?"
                             android:textColor="@color/login_button_blue"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_xs"
                             android:fontFamily="@font/manrope"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -220,7 +220,7 @@
                             android:inputType="textPassword"
                             android:textColor="@color/v_text_dark"
                             android:textColorHint="@color/v_text_muted"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_size_xs" />
 
                         <ImageView
                             android:id="@+id/passwordToggle"
@@ -248,7 +248,7 @@
                             android:layout_height="wrap_content"
                             android:text="Login"
                             android:textColor="#FFFFFF"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             android:fontFamily="@font/manrope"
                             android:layout_marginEnd="8dp" />
@@ -281,7 +281,7 @@
                             android:layout_marginEnd="16dp"
                             android:text="OR CONTINUE WITH"
                             android:textColor="@color/v_text_muted"
-                            android:textSize="11sp"
+                            android:textSize="@dimen/text_size_xs"
                             android:fontFamily="@font/manrope"
                             android:textStyle="bold" />
 
@@ -312,7 +312,7 @@
                             android:layout_height="wrap_content"
                             android:text="Continue with Google"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             android:fontFamily="@font/manrope" />
                     </LinearLayout>
@@ -332,7 +332,7 @@
                     android:layout_height="wrap_content"
                     android:text="New group? "
                     android:textColor="@color/v_text_mid"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_size_small"
                     android:fontFamily="@font/manrope" />
 
                 <TextView
@@ -341,7 +341,7 @@
                     android:layout_height="wrap_content"
                     android:text="Register Admin"
                     android:textColor="@color/login_button_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_size_small"
                     android:fontFamily="@font/manrope"
                     android:textStyle="bold"
                     android:clickable="true"
@@ -354,7 +354,7 @@
                 android:layout_height="wrap_content"
                 android:text="Go to Member Portal"
                 android:textColor="@color/login_button_blue"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_size_small"
                 android:fontFamily="@font/manrope"
                 android:textStyle="bold"
                 android:clickable="true"

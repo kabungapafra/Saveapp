@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="Action Required"
                 android:textColor="#0F172A"
-                android:textSize="20sp"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/btnBack"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
             android:layout_marginTop="16dp"
             android:text="All caught up!"
             android:textColor="#64748B"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_normal"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
             android:layout_marginTop="8dp"
             android:text="No pending requests at the moment."
             android:textColor="#94A3B8"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_size_xs" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

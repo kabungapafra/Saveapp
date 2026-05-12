@@ -131,7 +131,7 @@ public class SessionManager {
         editor.putBoolean(KEY_IS_CREATOR, isCreator);
 
         // commit changes
-        editor.apply();
+        editor.commit();
     }
 
     /**
@@ -198,6 +198,9 @@ public class SessionManager {
             // Clearing all data from Shared Preferences
             editor.clear();
             editor.commit();
+            
+            // Clear repository data
+            com.example.save.data.repository.MemberRepository.getInstance(_context).clearData();
         } catch (Exception e) {
             // If decryption fails or keystore is corrupted, the standard clear() might
             // fail.
@@ -222,7 +225,7 @@ public class SessionManager {
 
     public void saveJwtToken(String token) {
         editor.putString(KEY_JWT_TOKEN, token);
-        editor.apply();
+        editor.commit();
     }
 
     public String getJwtToken() {

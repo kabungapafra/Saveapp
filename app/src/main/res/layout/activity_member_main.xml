@@ -64,14 +64,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="Home"
+                    android:text="Dashboard"
                     android:textColor="#FFFFFF"
                     android:textSize="11sp" />
             </LinearLayout>
 
-            <!-- Members -->
+            <!-- Loans -->
             <LinearLayout
-                android:id="@+id/nav_members"
+                android:id="@+id/nav_loans"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -79,18 +79,18 @@
                 android:orientation="vertical"
                 android:background="?attr/selectableItemBackgroundBorderless">
                 <ImageView
-                    android:id="@+id/img_members"
+                    android:id="@+id/img_loans"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_people"
+                    android:src="@drawable/ic_loan"
                     app:tint="#B3FFFFFF" />
                 <TextView
-                    android:id="@+id/txt_members"
+                    android:id="@+id/txt_loans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="Members"
+                    android:text="Loans"
                     android:textColor="#B3FFFFFF"
                     android:textSize="11sp" />
             </LinearLayout>
@@ -103,9 +103,9 @@
                 android:layout_weight="1"
                 android:visibility="invisible" />
 
-            <!-- Analysis -->
+            <!-- Payouts -->
             <LinearLayout
-                android:id="@+id/nav_analysis"
+                android:id="@+id/nav_payouts"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -113,18 +113,18 @@
                 android:orientation="vertical"
                 android:background="?attr/selectableItemBackgroundBorderless">
                 <ImageView
-                    android:id="@+id/img_analysis"
+                    android:id="@+id/img_payouts"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_analytics"
+                    android:src="@drawable/ic_payments"
                     app:tint="#B3FFFFFF" />
                 <TextView
-                    android:id="@+id/txt_analysis"
+                    android:id="@+id/txt_payouts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="Analysis"
+                    android:text="Payouts"
                     android:textColor="#B3FFFFFF"
                     android:textSize="11sp" />
             </LinearLayout>

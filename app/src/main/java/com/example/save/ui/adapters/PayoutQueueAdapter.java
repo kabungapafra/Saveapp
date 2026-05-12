@@ -20,10 +20,27 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
     private double payoutAmount;
     private String basePayoutDate;
 
+    public PayoutQueueAdapter(List<Member> members) {
+        this.members = members;
+        this.payoutAmount = 0.0;
+        this.basePayoutDate = "TBD";
+    }
+
+    public PayoutQueueAdapter(List<Member> members, double payoutAmount, String basePayoutDate) {
+        this.members = members;
+        this.payoutAmount = payoutAmount;
+        this.basePayoutDate = basePayoutDate;
+    }
+
     public PayoutQueueAdapter(List<Member> members, boolean isFullQueue, double payoutAmount, String basePayoutDate) {
         this.members = members;
         this.payoutAmount = payoutAmount;
         this.basePayoutDate = basePayoutDate;
+    }
+
+    public void updateList(List<Member> newList) {
+        this.members = newList;
+        notifyDataSetChanged();
     }
 
     public void updateList(List<Member> newList, String basePayoutDate) {

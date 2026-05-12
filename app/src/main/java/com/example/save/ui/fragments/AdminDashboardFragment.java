@@ -41,6 +41,8 @@ public class AdminDashboardFragment extends Fragment {
     private String adminNameStr;
     private double totalBalanceValue = 0.0;
     private boolean isAdmin = true;
+    private com.example.save.ui.adapters.DashboardMemberAdapter memberAdapter;
+    private com.example.save.ui.adapters.PayoutQueueAdapter payoutAdapter;
 
     public static AdminDashboardFragment newInstance(boolean isAdmin) {
         AdminDashboardFragment fragment = new AdminDashboardFragment();
@@ -79,6 +81,14 @@ public class AdminDashboardFragment extends Fragment {
         updateScheduleUI();
         setupEntranceAnimations();
         observeViewModel();
+        viewModel.syncMembers();
+
+        // Initialize adapters
+        memberAdapter = new com.example.save.ui.adapters.DashboardMemberAdapter(requireContext());
+        binding.rvDashboardMembers.setAdapter(memberAdapter);
+
+        payoutAdapter = new com.example.save.ui.adapters.PayoutQueueAdapter(new ArrayList<>());
+        binding.rvDashboardPayouts.setAdapter(payoutAdapter);
 
         // Hide admin-only actions if member
         if (!isAdmin) {
@@ -96,7 +106,19 @@ public class AdminDashboardFragment extends Fragment {
             }
         });
 
+        binding.btnViewAllMembers.setOnClickListener(v -> {
+            applyClickAnimation(v);
+            if (getActivity() instanceof AdminMainActivity) {
+                ((AdminMainActivity) getActivity()).loadFragment(new MembersFragment(), true);
+            }
+        });
 
+        binding.btnViewQueue.setOnClickListener(v -> {
+            applyClickAnimation(v);
+            if (getActivity() instanceof AdminMainActivity) {
+                ((AdminMainActivity) getActivity()).loadFragment(new QueueFragment(), true);
+            }
+        });
         binding.btnThemeToggle.setOnClickListener(v -> {
             applyClickAnimation(v);
             com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "admin");
@@ -165,6 +187,11 @@ public class AdminDashboardFragment extends Fragment {
         viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
             if (members != null) {
                 loadDashboardData();
+                if (memberAdapter != null) memberAdapter.setMembers(members, null);
+                if (payoutAdapter != null) payoutAdapter.updateList(members);
+                
+                binding.tvNoUpcomingPayouts.setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);
+                binding.rvDashboardPayouts.setVisibility(members.isEmpty() ? View.GONE : View.VISIBLE);
             }
         });
 

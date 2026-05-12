@@ -54,7 +54,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:text="Support"
                         android:textColor="@color/v_text_dark"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/text_size_normal" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -91,7 +91,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:text="How can we help?"
                     android:textColor="@color/v_text_dark"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/text_size_xl" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -101,7 +101,7 @@
                     android:gravity="center"
                     android:text="We're here to support your saving journey"
                     android:textColor="@color/v_text_mid"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text_size_xs" />
             </LinearLayout>
 
             <!-- ── GENERAL ASSISTANCE ── -->
@@ -165,7 +165,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="Help Center"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/text_size_small" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -174,7 +174,7 @@
                             android:fontFamily="@font/manrope_medium"
                             android:text="Browse articles and guides"
                             android:textColor="@color/v_text_muted"
-                            android:textSize="13sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
                     <ImageView
@@ -251,7 +251,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="Report a Problem"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/text_size_small" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -260,7 +260,7 @@
                             android:fontFamily="@font/manrope_medium"
                             android:text="@string/let_us_know_if_something_is_wrong_create_a_ticket"
                             android:textColor="@color/v_text_muted"
-                            android:textSize="13sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
                     <ImageView
@@ -326,7 +326,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="Frequently Asked Questions"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/text_size_small" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -335,7 +335,7 @@
                             android:fontFamily="@font/manrope_medium"
                             android:text="Common issues and solutions"
                             android:textColor="@color/v_text_muted"
-                            android:textSize="13sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
 
                     <ImageView
@@ -386,7 +386,7 @@
                             android:fontFamily="@font/manrope_bold"
                             android:text="New to Save?"
                             android:textColor="#FFFFFF"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/text_size_normal" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -395,7 +395,7 @@
                             android:fontFamily="@font/manrope_medium"
                             android:text="Check out our guided tour for beginners."
                             android:textColor="#C0D9F8"
-                            android:textSize="13sp" />
+                            android:textSize="@dimen/text_size_xs" />
 
                         <!-- White outlined pill button -->
                         <com.google.android.material.button.MaterialButton
@@ -410,7 +410,7 @@
                             android:text="Watch Video"
                             android:textAllCaps="false"
                             android:textColor="#FFFFFF"
-                            android:textSize="13sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:cornerRadius="18dp"
                             app:strokeColor="@color/white"
                             app:strokeWidth="1.5dp" />

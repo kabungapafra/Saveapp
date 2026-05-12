@@ -128,5 +128,27 @@
     <color name="h_green_700">#047857</color>
     <color name="h_red_500">#EF4444</color>
     <color name="h_red_700">#B91C1C</color>
+    <color name="h_red_50">#FEF2F2</color>
+    <color name="h_red_100">#FEE2E2</color>
+    <color name="brand_orange">#FF8A00</color>
     <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="white_translucent">#4DFFFFFF</color>
+    
+    <!-- Action Card Adaptive Colors -->
+    <color name="action_card_bg">#215DA1</color>
+    <color name="action_card_icon_bg">#4DFFFFFF</color>
+    <color name="action_card_text">#FFFFFF</color>
+    <color name="action_card_subtext">#B3FFFFFF</color>
+
+    <!-- Status & Warning Colors -->
+    <color name="status_pending_bg">#FFEDD5</color>
+    <color name="status_pending_text">#C2410C</color>
+    <color name="warning_border">#F59E0B</color>
+    <color name="warning_bg_light">#FFFBEB</color>
+
+    <!-- Loan Application Colors -->
+    <color name="loan_summary_start">#F5A623</color>
+    <color name="loan_summary_end">#F4902A</color>
+    <color name="loan_btn_start">#3B8CF8</color>
+    <color name="loan_btn_end">#215DA1</color>
 </resources>

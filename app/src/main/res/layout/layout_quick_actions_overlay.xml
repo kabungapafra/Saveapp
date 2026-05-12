@@ -90,16 +90,10 @@
 
                 <!-- My Stash (Pay) -->
                 <include android:id="@+id/cardMyStashOverlay" layout="@layout/item_quick_action_stash" />
-                <!-- Add Member -->
-                <include android:id="@+id/cardAddMemberOverlay" layout="@layout/item_quick_action_add_member" />
-                <!-- Polls -->
-                <include android:id="@+id/cardMakePollsOverlay" layout="@layout/item_quick_action_polls" />
-                <!-- Payment Queue -->
-                <include android:id="@+id/cardPaymentQueueOverlay" layout="@layout/item_quick_action_payment_queue" />
+                <!-- Members -->
+                <include android:id="@+id/cardMembersOverlay" layout="@layout/item_quick_action_add_member" />
                 <!-- Analysis -->
                 <include android:id="@+id/cardAnalysisOverlay" layout="@layout/item_quick_action_analysis" />
-                <!-- Approvals -->
-                <include android:id="@+id/cardApprovalsOverlay" layout="@layout/item_quick_action_approvals" />
 
             </LinearLayout>
 

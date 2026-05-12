@@ -486,4 +486,77 @@ public class MembersViewModel extends AndroidViewModel {
     public void getDashboardSummary(MemberRepository.SummaryCallback callback) {
         repository.getDashboardSummary(callback);
     }
+
+    // --- Decentralized Approvals Implementation ---
+
+    public void processApproval(com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem item, boolean approve, MemberRepository.ApprovalCallback callback) {
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplication());
+        String adminEmail = session.getUserEmail();
+        
+        if ("LOAN".equalsIgnoreCase(item.getType())) {
+            if (approve) {
+                repository.initiateLoanApproval(item.getId(), adminEmail, callback);
+            } else {
+                repository.rejectLoanRequest(item.getId(), "Rejected by Admin", (success, message) -> callback.onResult(success, message));
+            }
+        } else {
+            if (approve) {
+                repository.approveTransaction(item.getId(), adminEmail, callback);
+            } else {
+                callback.onResult(false, "Rejection not implemented for payouts yet");
+            }
+        }
+    }
+
+    public LiveData<List<com.example.save.data.models.ApprovalRequest>> getPendingApprovals() {
+        String adminEmail = com.example.save.utils.SessionManager.getInstance(getApplication()).getUserEmail();
+        androidx.lifecycle.MediatorLiveData<List<com.example.save.data.models.ApprovalRequest>> mediator = new androidx.lifecycle.MediatorLiveData<>();
+
+        LiveData<List<com.example.save.data.models.TransactionWithApproval>> txSource = repository.getPendingTransactionsWithApproval(adminEmail);
+        LiveData<List<com.example.save.data.models.LoanWithApproval>> loanSource = repository.getPendingLoansWithApproval(adminEmail);
+
+        mediator.addSource(txSource, txs -> combineToApprovalRequests(mediator, txs, loanSource.getValue()));
+        mediator.addSource(loanSource, loans -> combineToApprovalRequests(mediator, txSource.getValue(), loans));
+
+        return mediator;
+    }
+
+    private void combineToApprovalRequests(
+            androidx.lifecycle.MutableLiveData<List<com.example.save.data.models.ApprovalRequest>> mediator,
+            List<com.example.save.data.models.TransactionWithApproval> transactions,
+            List<com.example.save.data.models.LoanWithApproval> loans) {
+
+        java.util.List<com.example.save.data.models.ApprovalRequest> combined = new java.util.ArrayList<>();
+
+        if (transactions != null) {
+            for (com.example.save.data.models.TransactionWithApproval item : transactions) {
+                combined.add(new com.example.save.data.models.ApprovalRequest(
+                        item.transaction.getId(),
+                        "PAYOUT",
+                        item.transaction.getMemberName(),
+                        item.transaction.getAmount(),
+                        item.transaction.getDescription(),
+                        item.transaction.getDate(),
+                        item.transaction.getStatus(),
+                        item.isApprovedByAdmin));
+            }
+        }
+
+        if (loans != null) {
+            for (com.example.save.data.models.LoanWithApproval item : loans) {
+                combined.add(new com.example.save.data.models.ApprovalRequest(
+                        item.loan.getId(),
+                        "LOAN",
+                        item.loan.getMemberName(),
+                        item.loan.getAmount(),
+                        item.loan.getReason(),
+                        item.loan.getDateRequested(),
+                        item.loan.getStatus(),
+                        item.isApprovedByAdmin));
+            }
+        }
+
+        java.util.Collections.sort(combined, (a, b) -> b.getDate().compareTo(a.getDate()));
+        mediator.setValue(combined);
+    }
 }

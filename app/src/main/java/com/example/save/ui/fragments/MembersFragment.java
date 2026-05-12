@@ -79,9 +79,7 @@ public class MembersFragment extends Fragment {
         String userRole = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserRole();
         boolean isAdmin = "admin".equalsIgnoreCase(userRole) || "Administrator".equalsIgnoreCase(userRole);
         
-        // Hide Add button if not admin
-        binding.btnAddMember.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-        binding.btnAddMember.setOnClickListener(v -> showAddMemberDialog());
+        // observeViewModel(); // Assuming this is called later or elsewhere
         
         setupRecyclerView(isAdmin);
         observeViewModel();
@@ -101,6 +99,21 @@ public class MembersFragment extends Fragment {
         // Initialize animation views
         successAnimation = binding.successAnimation;
         animationOverlay = binding.animationOverlay;
+
+        // Add Member Card Click (Today's Work Restoration)
+        binding.btnAddMemberCard.setOnClickListener(v -> showAddMemberDialog());
+
+        // Make Poll Card Click (Today's Work Restoration)
+        binding.cardMakePoll.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                Fragment pollFragment = PollsFragment.newInstance();
+                if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+                    ((com.example.save.ui.activities.AdminMainActivity) getActivity()).loadFragment(pollFragment, true);
+                } else if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
+                    ((com.example.save.ui.activities.MemberMainActivity) getActivity()).loadFragment(pollFragment, true);
+                }
+            }
+        });
 
         startEntryAnimations();
 

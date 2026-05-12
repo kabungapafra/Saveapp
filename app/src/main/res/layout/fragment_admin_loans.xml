@@ -32,7 +32,7 @@
                 android:fontFamily="@font/manrope"
                 android:text="Loan Management"
                 android:textColor="@color/dashboard_text_primary"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold" />
 
             <View
@@ -82,7 +82,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Total Active Loans"
                                 android:textColor="#E9F2FB"
-                                android:textSize="13sp"
+                                android:textSize="@dimen/text_size_xs"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -94,7 +94,7 @@
                                 android:fontFamily="@font/manrope"
                                 android:text="UGX 45,000"
                                 android:textColor="#FFFFFF"
-                                android:textSize="32sp"
+                                android:textSize="@dimen/text_size_xxxl"
                                 android:textStyle="bold" />
 
                             <com.google.android.material.card.MaterialCardView
@@ -145,7 +145,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="PENDING"
                                     android:textColor="@color/dashboard_text_secondary"
-                                    android:textSize="11sp"
+                                    android:textSize="@dimen/text_size_xs"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -155,7 +155,7 @@
                                     android:layout_marginTop="6dp"
                                     android:text="12"
                                     android:textColor="@color/dashboard_text_primary"
-                                    android:textSize="22sp"
+                                    android:textSize="@dimen/text_size_large"
                                     android:textStyle="bold" />
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -181,7 +181,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="DISBURSED"
                                     android:textColor="@color/dashboard_text_secondary"
-                                    android:textSize="11sp"
+                                    android:textSize="@dimen/text_size_xs"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -191,7 +191,7 @@
                                     android:layout_marginTop="6dp"
                                     android:text="UGX 128.4k"
                                     android:textColor="@color/dashboard_text_primary"
-                                    android:textSize="22sp"
+                                    android:textSize="@dimen/text_size_large"
                                     android:textStyle="bold" />
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -224,7 +224,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Loan Growth vs\nRepayments"
                                 android:textColor="@color/dashboard_text_primary"
-                                android:textSize="16sp"
+                                android:textSize="@dimen/text_size_small"
                                 android:textStyle="bold" />
 
                             <LinearLayout
@@ -240,7 +240,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Last Quarter"
                                     android:textColor="@color/dashboard_text_secondary"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_size_xs" />
 
                                 <ImageView
                                     android:layout_width="16dp"
@@ -278,7 +278,7 @@
                                 android:layout_marginStart="6dp"
                                 android:text="Loan Growth"
                                 android:textColor="@color/dashboard_text_secondary"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <View
                                 android:layout_width="10dp"
@@ -293,10 +293,63 @@
                                 android:layout_marginStart="6dp"
                                 android:text="Repayments"
                                 android:textColor="@color/dashboard_text_secondary"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
+                <!-- Needs Your Approval Section (Today's Work Restoration) -->
+                <LinearLayout
+                    android:id="@+id/llPendingApprovals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Needs Your Approval"
+                            android:textColor="@color/dashboard_text_primary"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/btnViewAllApprovals"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="View All"
+                            android:textColor="@color/brand_blue"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvPendingApprovals"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_approval_loan" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/divider_color" />
+                </LinearLayout>
 
                 <!-- Search -->
                 <com.google.android.material.card.MaterialCardView
@@ -332,7 +385,7 @@
                             android:hint="Search borrower name..."
                             android:textColor="@color/dashboard_text_primary"
                             android:textColorHint="@color/dashboard_text_secondary"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_size_xs" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -358,7 +411,7 @@
                             android:layout_marginEnd="8dp"
                             android:text="All Loans"
                             android:textAllCaps="false"
-                            android:textSize="13sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:cornerRadius="20dp" />
 
                         <com.google.android.material.button.MaterialButton
@@ -371,7 +424,7 @@
                             android:text="Active"
                             android:textAllCaps="false"
                             android:textColor="@color/dashboard_text_secondary"
-                            android:textSize="13sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:cornerRadius="20dp" />
 
                         <com.google.android.material.button.MaterialButton
@@ -384,7 +437,7 @@
                             android:text="Pending"
                             android:textAllCaps="false"
                             android:textColor="@color/dashboard_text_secondary"
-                            android:textSize="13sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:cornerRadius="20dp" />
 
                         <com.google.android.material.button.MaterialButton
@@ -396,7 +449,7 @@
                             android:text="Late"
                             android:textAllCaps="false"
                             android:textColor="@color/dashboard_text_secondary"
-                            android:textSize="13sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:cornerRadius="20dp" />
                     </LinearLayout>
                 </HorizontalScrollView>
@@ -409,7 +462,7 @@
                     android:gravity="center"
                     android:text="No loan records found"
                     android:textColor="@color/dashboard_text_secondary"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_xs"
                     android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView

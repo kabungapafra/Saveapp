@@ -51,7 +51,20 @@ public class MemberRepository {
         return instance;
     }
 
+    private boolean isSyncing = false;
+
+    public void clearData() {
+        membersLiveData.postValue(new ArrayList<>());
+        groupBalance.postValue(0.0);
+        isSyncing = false;
+    }
+
     public void refreshMembers(MemberAddCallback callback) {
+        if (isSyncing) {
+            if (callback != null) callback.onResult(true, "Sync already in progress");
+            return;
+        }
+        isSyncing = true;
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
         apiService.getMembers().enqueue(new Callback<List<MemberEntity>>() {
             @Override
@@ -73,14 +86,17 @@ public class MemberRepository {
                         models.add(m);
                     }
                     membersLiveData.postValue(models);
+                    isSyncing = false;
                     if (callback != null) callback.onResult(true, "Synced from PostgreSQL");
-                } else if (callback != null) {
-                    callback.onResult(false, "Failed to sync");
+                } else {
+                    isSyncing = false;
+                    if (callback != null) callback.onResult(false, "Failed to sync");
                 }
             }
 
             @Override
             public void onFailure(Call<List<MemberEntity>> call, Throwable t) {
+                isSyncing = false;
                 if (callback != null) callback.onResult(false, "Network error: " + t.getMessage());
             }
         });

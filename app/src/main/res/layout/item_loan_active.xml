@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_normal"
                     tools:text="Jane Smith" />
 
                 <TextView
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_normal"
                 tools:text="UGX 550,000" />
         </LinearLayout>
 
@@ -97,7 +97,7 @@
                 android:paddingVertical="6dp"
                 android:text="Remind"
                 android:textColor="@color/project_primary"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_size_xs" />
         </LinearLayout>
 
     </LinearLayout>

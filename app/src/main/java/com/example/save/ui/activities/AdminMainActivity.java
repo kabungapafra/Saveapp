@@ -54,6 +54,7 @@ public class AdminMainActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
 
         MembersViewModel viewModel = new ViewModelProvider(this).get(MembersViewModel.class);
+        viewModel.syncMembers();
 
         // Initialize Helpers
         new NotificationHelper(this);
@@ -175,8 +176,8 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private void setupBottomNavigation() {
         binding.navDashboard.setOnClickListener(v -> switchToDashboard());
-        binding.navMembers.setOnClickListener(v -> loadFragment(new MembersFragment(), true));
         binding.navLoans.setOnClickListener(v -> loadFragment(new AdminLoansFragment(), true));
+        binding.navPayouts.setOnClickListener(v -> loadFragment(new QueueFragment(), true));
         binding.navSettings.setOnClickListener(v -> loadFragment(new SettingsFragment(), true));
         binding.navAction.setOnClickListener(v -> showQuickActions());
     }
@@ -210,16 +211,16 @@ public class AdminMainActivity extends AppCompatActivity {
         if (frag instanceof AdminDashboardFragment) {
             updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
             setBottomNavVisible(true);
-        } else if (frag instanceof MembersFragment) {
-            updateNavUI(binding.navMembers, binding.txtMembers, binding.imgMembers);
-            setBottomNavVisible(true);
         } else if (frag instanceof AdminLoansFragment || frag instanceof LoanApplicationFragment) {
             updateNavUI(binding.navLoans, binding.txtLoans, binding.imgLoans);
+            setBottomNavVisible(true);
+        } else if (frag instanceof QueueFragment) {
+            updateNavUI(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
             setBottomNavVisible(true);
         } else if (frag instanceof SettingsFragment) {
             updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings);
             setBottomNavVisible(true);
-        } else if (frag instanceof StashFragment || frag instanceof PollsFragment || frag instanceof QueueFragment || frag instanceof AnalyticsFragment) {
+        } else if (frag instanceof StashFragment || frag instanceof PollsFragment || frag instanceof AnalyticsFragment) {
             // These are sub-screens that should NOT show the bottom nav
             setBottomNavVisible(false);
         } else if (frag instanceof com.example.save.ui.fragments.SupportFragment) {
@@ -260,7 +261,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private void resetAllNavItems() {
         resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
-        resetNavItem(binding.navMembers, binding.txtMembers, binding.imgMembers);
+        resetNavItem(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
         resetNavItem(binding.navLoans, binding.txtLoans, binding.imgLoans);
         resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
     }
@@ -327,17 +328,12 @@ public class AdminMainActivity extends AppCompatActivity {
         findViewById(R.id.btnCloseOverlay).setOnClickListener(v -> closeQuickActions());
         findViewById(R.id.quickActionsDim).setOnClickListener(v -> closeQuickActions());
 
-        findViewById(R.id.cardAddMemberOverlay).setOnClickListener(v -> {
+        findViewById(R.id.cardMembersOverlay).setOnClickListener(v -> {
             shouldReopenQuickActions = true;
             closeQuickActions();
             // Clear existing sub-screens so we don't stack Quick Actions
             getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            
-            Bundle args = new Bundle();
-            args.putBoolean("SHOW_ADD_DIALOG", true);
-            MembersFragment fragment = new MembersFragment();
-            fragment.setArguments(args);
-            loadFragment(fragment, true);
+            loadFragment(new MembersFragment(), true);
         });
         findViewById(R.id.cardAnalysisOverlay).setOnClickListener(v -> {
             shouldReopenQuickActions = true;
@@ -345,31 +341,12 @@ public class AdminMainActivity extends AppCompatActivity {
             getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             loadFragment(AnalyticsFragment.newInstance(true), true);
         });
-        findViewById(R.id.cardMakePollsOverlay).setOnClickListener(v -> {
-            shouldReopenQuickActions = true;
-            closeQuickActions();
-            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            loadFragment(PollsFragment.newInstance(), true);
-        });
-        findViewById(R.id.cardPaymentQueueOverlay).setOnClickListener(v -> {
-            shouldReopenQuickActions = true;
-            closeQuickActions();
-            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            loadFragment(new QueueFragment(), true);
-        });
         findViewById(R.id.cardMyStashOverlay).setOnClickListener(v -> {
             shouldReopenQuickActions = true;
             closeQuickActions();
             getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             loadFragment(StashFragment.newInstance(), true);
         });
-        findViewById(R.id.cardApprovalsOverlay).setOnClickListener(v -> {
-            shouldReopenQuickActions = true;
-            closeQuickActions();
-            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            loadFragment(new ApprovalsFragment(), true);
-        });
-
     }
 
     private void closeQuickActions() {

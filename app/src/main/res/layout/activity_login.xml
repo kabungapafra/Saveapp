@@ -62,7 +62,7 @@
                     android:fontFamily="@font/manrope"
                     android:text="Welcome to Save"
                     android:textColor="@color/v_text_dark"
-                    android:textSize="32sp"
+                    android:textSize="@dimen/text_size_xxxl"
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp" />
 
@@ -76,7 +76,7 @@
                     android:lineSpacingMultiplier="1.2"
                     android:text="Join a community of savers and social\ncircles with Save's premium financial\ntools."
                     android:textColor="@color/v_text_mid"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_size_small" />
 
                 <!-- Features Quick Look -->
                 <LinearLayout
@@ -133,7 +133,7 @@
                             android:fontFamily="@font/manrope"
                             android:text="Social\nCircles"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/iconContainerSocial" />
@@ -145,7 +145,7 @@
                             android:fontFamily="@font/manrope"
                             android:text="Connect &amp; Earn"
                             android:textColor="@color/v_text_muted"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/socialTitleText" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -197,7 +197,7 @@
                             android:fontFamily="@font/manrope"
                             android:text="Easy Saving"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_size_small"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/iconContainerSaving" />
@@ -209,7 +209,7 @@
                             android:fontFamily="@font/manrope"
                             android:text="Smart Goals"
                             android:textColor="@color/v_text_muted"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/text_size_xs"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/savingTitleText" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -238,7 +238,7 @@
                         android:gravity="center"
                         android:text="Continue as Member"
                         android:textColor="#FFFFFF"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/text_size_normal"
                         android:textStyle="bold" />
 
                     <ImageView
@@ -270,7 +270,7 @@
                         android:gravity="center"
                         android:text="Continue as Admin"
                         android:textColor="@color/v_text_mid"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/text_size_normal"
                         android:textStyle="bold" />
 
                     <ImageView

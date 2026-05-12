@@ -118,7 +118,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@null"
+                        android:background="@android:color/transparent"
                         android:inputType="number"
                         android:text="1000000"
                         android:textColor="@color/v_text_dark"
@@ -175,10 +175,10 @@
                     android:layout_marginTop="14dp"
                     android:max="11"
                     android:progress="5"
-                    android:progressTint="@color/v_blue"
+                    android:progressTint="@color/brand_blue"
                     android:thumb="@drawable/bg_avatar_blue"
-                    android:thumbTint="@color/v_blue"
-                    android:progressBackgroundTint="#E2E5EA"
+                    android:thumbTint="@color/brand_blue"
+                    android:progressBackgroundTint="@color/divider_color"
                     android:splitTrack="false" />
 
                 <LinearLayout
@@ -565,16 +565,13 @@
             android:layout_height="56dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_loan_submit_btn"
-            app:backgroundTint="@null"
             android:text="Submit Loan Request  →"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:stateListAnimator="@null"
             app:cornerRadius="16dp"
-            app:elevation="0dp"
-            app:rippleColor="#40215DA1" />
+            app:elevation="0dp" />
 
         <!-- ══════════════ LEGAL TEXT ══════════════ -->
         <TextView

@@ -35,8 +35,8 @@
 
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
                         <ImageView android:layout_width="56dp" android:layout_height="56dp" android:layout_marginBottom="12dp" android:src="@drawable/white" />
-                        <TextView android:id="@+id/tvTopGreeting" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/roboto" android:text="Good Morning," android:textColor="#FFFFFF" android:textSize="18sp" />
-                        <TextView android:id="@+id/tvTopName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:fontFamily="@font/roboto" android:text="Admin" android:textColor="#FFFFFF" android:textSize="24sp" android:textStyle="bold" />
+                        <TextView android:id="@+id/tvTopGreeting" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/roboto" android:text="Good Morning," android:textColor="#FFFFFF" android:textSize="@dimen/text_size_normal" />
+                        <TextView android:id="@+id/tvTopName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:fontFamily="@font/roboto" android:text="Admin" android:textColor="#FFFFFF" android:textSize="@dimen/text_size_xxl" android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:gravity="center_vertical" android:orientation="horizontal">
@@ -62,7 +62,7 @@
                 </RelativeLayout>
 
                 <LinearLayout android:id="@+id/balanceContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/brandArea" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="10dp">
-                    <TextView android:id="@+id/tvBalanceLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TOTAL GROUP BALANCE" android:textColor="#E0E7FF" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.05" />
+                    <TextView android:id="@+id/tvBalanceLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TOTAL GROUP BALANCE" android:textColor="#E0E7FF" android:textSize="@dimen/text_size_xs" android:textStyle="bold" android:letterSpacing="0.05" />
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
                         <TextView
                             android:id="@+id/currentBalance"
@@ -70,7 +70,7 @@
                             android:layout_height="wrap_content"
                             android:text="UGX 0"
                             android:textColor="#FFFFFF"
-                            android:textSize="36sp"
+                            android:textSize="@dimen/text_size_xxxl"
                             android:textStyle="bold" />
 
                         <TextView
@@ -85,7 +85,7 @@
                             android:paddingVertical="2dp"
                             android:text="+ 0%"
                             android:textColor="#FFFFFF"
-                            android:textSize="10sp"
+                            android:textSize="@dimen/text_size_xs"
                             android:textStyle="bold"
                             android:visibility="gone" />
                     </LinearLayout>
@@ -94,7 +94,7 @@
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/balanceContainer" android:layout_marginTop="24dp" android:orientation="horizontal" android:paddingHorizontal="20dp">
                     <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp" app:cardBackgroundColor="@color/dashboard_blue_header" app:cardCornerRadius="12dp" app:cardElevation="0dp">
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                            <TextView android:id="@+id/tvMonthlyLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Monthly Contributions" android:textColor="#E9F2FB" android:textSize="11sp" />
+                            <TextView android:id="@+id/tvMonthlyLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Monthly Contributions" android:textColor="#E9F2FB" android:textSize="@dimen/text_size_xs" />
                             <TextView
                                 android:id="@+id/monthlyContrib"
                                 android:layout_width="wrap_content"
@@ -102,7 +102,7 @@
                                 android:layout_marginTop="4dp"
                                 android:text="UGX 0"
                                 android:textColor="#FFFFFF"
-                                android:textSize="18sp"
+                                android:textSize="@dimen/text_size_normal"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -128,7 +128,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Interest Earned"
                                 android:textColor="#E9F2FB"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:id="@+id/interestEarned"
@@ -137,7 +137,7 @@
                                 android:layout_marginTop="4dp"
                                 android:text="UGX 0"
                                 android:textColor="@color/dashboard_accent_orange"
-                                android:textSize="18sp"
+                                android:textSize="@dimen/text_size_normal"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -150,8 +150,8 @@
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="-20dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="4dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Savings Targets" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold" />
-                        <TextView android:id="@+id/viewAllTargets" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="View All" android:textColor="@color/dashboard_accent_blue" android:textSize="14sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Savings Targets" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold" />
+                        <TextView android:id="@+id/viewAllTargets" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="View All" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_small" android:textStyle="bold" />
                     </RelativeLayout>
                     <LinearLayout
                         android:id="@+id/containerSavingsTargets"
@@ -161,14 +161,14 @@
                         android:layout_marginTop="20dp">
                         
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                            <TextView android:id="@+id/tvTarget1Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Emergency Fund" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp"/>
-                            <TextView android:id="@+id/tvTarget1Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 0 / UGX 0" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp" android:textStyle="bold"/>
+                            <TextView android:id="@+id/tvTarget1Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Emergency Fund" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs"/>
+                            <TextView android:id="@+id/tvTarget1Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 0 / UGX 0" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs" android:textStyle="bold"/>
                         </RelativeLayout>
                         <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/pbTarget1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:progress="0" app:indicatorColor="@color/dashboard_accent_blue" app:trackColor="@color/v_page_bg" app:trackCornerRadius="4dp" app:trackThickness="6dp"/>
 
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
-                            <TextView android:id="@+id/tvTarget2Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Community Project" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp"/>
-                            <TextView android:id="@+id/tvTarget2Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 0 / UGX 0" android:textColor="@color/dashboard_text_secondary" android:textSize="13sp" android:textStyle="bold"/>
+                            <TextView android:id="@+id/tvTarget2Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Community Project" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs"/>
+                            <TextView android:id="@+id/tvTarget2Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 0 / UGX 0" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs" android:textStyle="bold"/>
                         </RelativeLayout>
                         <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/pbTarget2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:progress="0" app:indicatorColor="@color/dashboard_accent_orange" app:trackColor="@color/v_page_bg" app:trackCornerRadius="4dp" app:trackThickness="6dp"/>
                     </LinearLayout>
@@ -190,7 +190,7 @@
             <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="16dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Group Growth" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Group Growth" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
                     </RelativeLayout>
                     <com.github.mikephil.charting.charts.BarChart android:id="@+id/growthBarChart" android:layout_width="match_parent" android:layout_height="180dp" android:layout_marginTop="20dp" />
                 </LinearLayout>
@@ -202,8 +202,8 @@
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="16dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Active Loans" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
-                        <TextView android:id="@+id/viewAllLoans" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:background="@drawable/bg_status_pills" android:backgroundTint="#E9F2FB" android:paddingHorizontal="10dp" android:paddingVertical="4dp" android:text="24 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="11sp" android:textStyle="bold"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Active Loans" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
+                        <TextView android:id="@+id/viewAllLoans" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:background="@drawable/bg_status_pills" android:backgroundTint="#E9F2FB" android:paddingHorizontal="10dp" android:paddingVertical="4dp" android:text="24 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_xs" android:textStyle="bold"/>
                     </RelativeLayout>
                     <LinearLayout
                         android:id="@+id/containerActiveLoans"
@@ -230,7 +230,7 @@
             <LinearLayout
                 android:id="@+id/sectionRecentPayouts"
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="16dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Recent Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Recent Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
                 <TextView
                     android:id="@+id/tvNoRecentPayouts"
                     android:layout_width="match_parent"
@@ -240,14 +240,29 @@
                     android:padding="20dp"
                     android:text="No recent payouts"
                     android:textColor="@color/v_text_muted"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/text_size_xs" />
             </LinearLayout>
 
             <!-- Upcoming Payouts -->
             <LinearLayout
                 android:id="@+id/sectionUpcomingPayouts"
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="20dp">
-                  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Upcoming Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="16sp" android:textStyle="bold"/>
+                  <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Upcoming Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
+                      <TextView android:id="@+id/btnViewQueue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="View Queue" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_xs" android:textStyle="bold" />
+                  </RelativeLayout>
+                  
+                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvDashboardPayouts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_payout_queue" />
+                </com.google.android.material.card.MaterialCardView>
+
                 <TextView
                     android:id="@+id/tvNoUpcomingPayouts"
                     android:layout_width="match_parent"
@@ -257,7 +272,29 @@
                     android:padding="20dp"
                     android:text="No upcoming payouts"
                     android:textColor="@color/v_text_muted"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/text_size_xs"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Group Members -->
+            <LinearLayout
+                android:id="@+id/sectionMembers"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="20dp">
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Group Members" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
+                    <TextView android:id="@+id/btnViewAllMembers" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="View All" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_xs" android:textStyle="bold" />
+                </RelativeLayout>
+
+                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvDashboardMembers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_member_status_v2" />
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
             <!-- Payout Schedule Section -->
@@ -267,22 +304,22 @@
                 <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardBackgroundColor="@color/card_surface" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/divider_color">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PAYOUT SCHEDULE" android:textColor="@color/v_text_muted" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.05"/>
-                            <TextView android:id="@+id/btnEditSchedule" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="Edit" android:textColor="@color/dashboard_accent_blue" android:textSize="12sp" android:textStyle="bold" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PAYOUT SCHEDULE" android:textColor="@color/v_text_muted" android:textSize="@dimen/text_size_xs" android:textStyle="bold" android:letterSpacing="0.05"/>
+                            <TextView android:id="@+id/btnEditSchedule" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="Edit" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_xs" android:textStyle="bold" />
                         </RelativeLayout>
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp">
                             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="December Cycle" android:textColor="@color/dashboard_text_primary" android:textSize="14sp" android:textStyle="bold"/>
-                                <TextView android:id="@+id/tvContributionDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dec 05 &amp; Dec 19" android:textColor="@color/v_text_muted" android:textSize="11sp"/>
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="December Cycle" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
+                                <TextView android:id="@+id/tvContributionDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dec 05 &amp; Dec 19" android:textColor="@color/v_text_muted" android:textSize="@dimen/text_size_xs"/>
                             </LinearLayout>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:text="UGX 24,000 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="15sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:text="UGX 24,000 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
                         </RelativeLayout>
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
                             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="January Cycle" android:textColor="@color/dashboard_text_primary" android:textSize="14sp" android:textStyle="bold"/>
-                                <TextView android:id="@+id/tvPayoutDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Jan 02 &amp; Jan 16" android:textColor="@color/v_text_muted" android:textSize="11sp"/>
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="January Cycle" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
+                                <TextView android:id="@+id/tvPayoutDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Jan 02 &amp; Jan 16" android:textColor="@color/v_text_muted" android:textSize="@dimen/text_size_xs"/>
                             </LinearLayout>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:text="UGX 24,000 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="15sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:text="UGX 24,000 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
                         </RelativeLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

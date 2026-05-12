@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-bold"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_small"
                 tools:text="UGX 200,000" />
 
             <TextView

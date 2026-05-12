@@ -19,6 +19,8 @@ import com.example.save.databinding.FragmentAdminLoansBinding;
 import com.example.save.data.models.LoanRequest;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.ui.adapters.LoanBorrowerAdapter;
+import com.example.save.ui.adapters.ApprovalsAdapter;
+import com.example.save.data.models.ApprovalRequest;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class AdminLoansFragment extends Fragment {
     private FragmentAdminLoansBinding binding;
     private MembersViewModel viewModel;
     private LoanBorrowerAdapter adapter;
+    private ApprovalsAdapter approvalsAdapter;
     private List<LoanRequest> allRequests = new ArrayList<>();
     private String currentFilter = "ALL";
     private String searchQuery = "";
@@ -60,6 +63,13 @@ public class AdminLoansFragment extends Fragment {
         binding.backButton.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().onBackPressed();
+            }
+        });
+
+        // Decentralized Approvals - Header Click (Today's Work Restoration)
+        binding.btnViewAllApprovals.setOnClickListener(v -> {
+            if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+                ((com.example.save.ui.activities.AdminMainActivity) getActivity()).loadFragment(new ApprovalsFragment(), true);
             }
         });
     }
@@ -100,6 +110,15 @@ public class AdminLoansFragment extends Fragment {
             }
         });
         binding.rvLoans.setAdapter(adapter);
+
+        // Setup Approvals (Today's Work Restoration)
+        approvalsAdapter = new ApprovalsAdapter(item -> {
+            viewModel.processApproval(item, true, (success, message) -> {
+                if (isVisible()) Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            });
+        });
+        binding.rvPendingApprovals.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvPendingApprovals.setAdapter(approvalsAdapter);
     }
 
     private void showRejectDialog(LoanRequest request) {
@@ -176,7 +195,7 @@ public class AdminLoansFragment extends Fragment {
         }
 
         if (selected != null) {
-            selected.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#2563EB")));
+            selected.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(requireContext(), R.color.brand_blue));
             selected.setTextColor(Color.WHITE);
         }
 
@@ -184,8 +203,8 @@ public class AdminLoansFragment extends Fragment {
     }
 
     private void resetFilterButton(com.google.android.material.button.MaterialButton btn) {
-        btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#F1F5F9")));
-        btn.setTextColor(Color.parseColor("#64748B"));
+        btn.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(requireContext(), R.color.v_input_bg));
+        btn.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.v_text_muted));
     }
 
     private void observeLoanRequests() {
@@ -194,6 +213,25 @@ public class AdminLoansFragment extends Fragment {
                 allRequests = requests;
                 calculateStats(requests);
                 applyFilters();
+            }
+        });
+
+        // Observe Loan Approvals (Today's Work Restoration)
+        viewModel.getPendingApprovals().observe(getViewLifecycleOwner(), approvals -> {
+            List<ApprovalsAdapter.ApprovalItem> loanApprovals = new ArrayList<>();
+            if (approvals != null) {
+                for (ApprovalRequest a : approvals) {
+                    if ("LOAN".equalsIgnoreCase(a.getType())) {
+                        loanApprovals.add(a);
+                    }
+                }
+            }
+
+            if (loanApprovals.isEmpty()) {
+                binding.llPendingApprovals.setVisibility(View.GONE);
+            } else {
+                binding.llPendingApprovals.setVisibility(View.VISIBLE);
+                approvalsAdapter.updateList(loanApprovals);
             }
         });
     }
