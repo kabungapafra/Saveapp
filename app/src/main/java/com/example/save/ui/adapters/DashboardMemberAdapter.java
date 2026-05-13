@@ -46,7 +46,10 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Member member = members.get(position);
-        boolean isSelf = member.getEmail() != null && member.getEmail().equalsIgnoreCase(currentUserEmail);
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(holder.itemView.getContext());
+        String currentUserPhone = session.getUserPhone();
+        boolean isSelf = (member.getEmail() != null && !member.getEmail().isEmpty() && member.getEmail().equalsIgnoreCase(currentUserEmail))
+                || (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
 
         // Name & Initials
         holder.tvName.setText(isSelf ? member.getName() + " (You)" : member.getName());
@@ -60,10 +63,25 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
         String color = member.getReliabilityColor();
         holder.tvStatus.setText(label);
 
-        // Avatar color based on name hash
-        int colorIdx = Math.abs(member.getName().hashCode()) % AVATAR_COLORS.length;
-        holder.ivAvatar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(AVATAR_COLORS[colorIdx])));
-        holder.tvInitials.setTextColor(Color.parseColor("#1A1D2E"));
+        // Avatar image/initials
+        String savedImage = isSelf ? session.getProfileImage() : null;
+        if (savedImage != null) {
+            holder.tvInitials.setVisibility(View.GONE);
+            holder.ivAvatar.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
+            com.bumptech.glide.Glide.with(holder.itemView.getContext())
+                    .load(savedImage)
+                    .circleCrop()
+                    .into(holder.ivAvatar);
+            holder.ivAvatar.setBackgroundTintList(null);
+        } else {
+            holder.tvInitials.setVisibility(View.VISIBLE);
+            holder.ivAvatar.setImageDrawable(null);
+            holder.ivAvatar.setScaleType(android.widget.ImageView.ScaleType.CENTER_INSIDE);
+            // Avatar color based on name hash
+            int colorIdx = Math.abs(member.getName().hashCode()) % AVATAR_COLORS.length;
+            holder.ivAvatar.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(AVATAR_COLORS[colorIdx])));
+            holder.tvInitials.setTextColor(android.graphics.Color.parseColor("#1A1D2E"));
+        }
 
         // Status pill color
         int statusColor = Color.parseColor(color);

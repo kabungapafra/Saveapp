@@ -18,7 +18,8 @@
             android:id="@+id/imgBrand"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/white" />
+            android:src="@drawable/save_logo"
+            app:tint="#FFFFFF" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/btnClose"

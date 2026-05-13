@@ -30,7 +30,7 @@ import com.example.save.utils.NotificationHelper;
 import com.example.save.utils.PermissionUtils;
 import com.example.save.utils.SessionManager;
 
-public class MemberMainActivity extends AppCompatActivity {
+public class MemberMainActivity extends BaseActivity {
 
     private ActivityMemberMainBinding binding;
     private boolean isQuickActionsOpen = false;
@@ -44,7 +44,7 @@ public class MemberMainActivity extends AppCompatActivity {
         binding = ActivityMemberMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         com.example.save.utils.ThemeUtils.applyTheme(this, "member");
-        getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
+        getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(androidx.core.content.ContextCompat.getColor(this, R.color.dashboard_bg)));
 
         MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(this).get(MembersViewModel.class);
         viewModel.syncMembers();

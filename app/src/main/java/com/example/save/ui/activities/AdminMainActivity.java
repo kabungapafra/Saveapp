@@ -37,7 +37,7 @@ import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.utils.NotificationHelper;
 import com.example.save.utils.PermissionUtils;
 
-public class AdminMainActivity extends AppCompatActivity {
+public class AdminMainActivity extends BaseActivity {
 
     private ActivityAdminmainBinding binding;
     private boolean isQuickActionsOpen = false;
@@ -51,7 +51,7 @@ public class AdminMainActivity extends AppCompatActivity {
         binding = ActivityAdminmainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         com.example.save.utils.ThemeUtils.applyTheme(this, "admin");
-        getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
+        getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(androidx.core.content.ContextCompat.getColor(this, R.color.dashboard_bg)));
 
         MembersViewModel viewModel = new ViewModelProvider(this).get(MembersViewModel.class);
         viewModel.syncMembers();
@@ -156,7 +156,9 @@ public class AdminMainActivity extends AppCompatActivity {
     private void startRingSpinning() {
         if (ringAnimator != null && ringAnimator.isRunning()) return;
         
-        View ring = findViewById(R.id.navActionDashedRing);
+        View ring = binding.navActionDashedRing;
+        if (ring == null) return;
+        
         ringAnimator = android.animation.ObjectAnimator.ofFloat(ring, "rotation", 0f, 360f);
         ringAnimator.setDuration(1000);
         ringAnimator.setRepeatCount(android.animation.ObjectAnimator.INFINITE);
@@ -167,11 +169,14 @@ public class AdminMainActivity extends AppCompatActivity {
     private void stopRingSpinning() {
         if (ringAnimator != null && !isQuickActionsOpen) {
             ringAnimator.cancel();
-            findViewById(R.id.navActionDashedRing).animate()
-                .rotation(0f)
-                .setDuration(500)
-                .setInterpolator(new android.view.animation.DecelerateInterpolator())
-                .start();
+            View ring = binding.navActionDashedRing;
+            if (ring != null) {
+                ring.animate()
+                    .rotation(0f)
+                    .setDuration(500)
+                    .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                    .start();
+            }
         }
     }
 
@@ -296,58 +301,86 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void openQuickActions() {
+        if (binding == null || binding.quickActionsOverlay == null) return;
+        
         isQuickActionsOpen = true;
-        View overlay = findViewById(R.id.quickActionsOverlay);
-        overlay.setVisibility(View.VISIBLE);
-        overlay.setAlpha(0f);
-        overlay.animate().alpha(1f).setDuration(300).start();
+        View overlayRoot = binding.quickActionsOverlay.getRoot();
+        if (overlayRoot == null) return;
+        
+        overlayRoot.setVisibility(View.VISIBLE);
+        overlayRoot.setAlpha(0f);
+        overlayRoot.animate().alpha(1f).setDuration(300).start();
+
+        // Rotate plus to X
+        View plusIcon = binding.navActionPlusIcon;
+        if (plusIcon != null) plusIcon.animate().rotation(45f).setDuration(300).start();
         
         // Animate FAB ring rotation
-        View ring = findViewById(R.id.navActionDashedRing);
-        ringAnimator = android.animation.ObjectAnimator.ofFloat(ring, "rotation", 0f, 360f);
-        ringAnimator.setDuration(3000);
-        ringAnimator.setRepeatCount(android.animation.ObjectAnimator.INFINITE);
-        ringAnimator.setInterpolator(new android.view.animation.LinearInterpolator());
-        ringAnimator.start();
-
-        // Staggered Cascade Animation for cards
-        android.view.ViewGroup container = findViewById(R.id.cardContainer);
-        for (int i = 0; i < container.getChildCount(); i++) {
-            android.view.View child = container.getChildAt(i);
-            child.setAlpha(0f);
-            child.setTranslationY(50f);
-            child.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setDuration(400)
-                .setStartDelay(100 + (i * 100))
-                .setInterpolator(new android.view.animation.DecelerateInterpolator())
-                .start();
+        View ring = binding.navActionDashedRing;
+        if (ring != null) {
+            ringAnimator = android.animation.ObjectAnimator.ofFloat(ring, "rotation", 0f, 360f);
+            ringAnimator.setDuration(3000);
+            ringAnimator.setRepeatCount(android.animation.ObjectAnimator.INFINITE);
+            ringAnimator.setInterpolator(new android.view.animation.LinearInterpolator());
+            ringAnimator.start();
         }
 
-        // Setup listeners if not already done (or just once)
-        findViewById(R.id.btnCloseOverlay).setOnClickListener(v -> closeQuickActions());
-        findViewById(R.id.quickActionsDim).setOnClickListener(v -> closeQuickActions());
+        // Staggered Cascade Animation for cards
+        android.view.ViewGroup container = overlayRoot.findViewById(R.id.cardContainer);
+        if (container != null) {
+            for (int i = 0; i < container.getChildCount(); i++) {
+                android.view.View child = container.getChildAt(i);
+                if (child != null) {
+                    child.setAlpha(0f);
+                    child.setTranslationY(50f);
+                    child.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setDuration(400)
+                        .setStartDelay(100 + (i * 100))
+                        .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                        .start();
+                }
+            }
+        }
 
-        findViewById(R.id.cardMembersOverlay).setOnClickListener(v -> {
-            shouldReopenQuickActions = true;
-            closeQuickActions();
-            // Clear existing sub-screens so we don't stack Quick Actions
-            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            loadFragment(new MembersFragment(), true);
-        });
-        findViewById(R.id.cardAnalysisOverlay).setOnClickListener(v -> {
-            shouldReopenQuickActions = true;
-            closeQuickActions();
-            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            loadFragment(AnalyticsFragment.newInstance(true), true);
-        });
-        findViewById(R.id.cardMyStashOverlay).setOnClickListener(v -> {
-            shouldReopenQuickActions = true;
-            closeQuickActions();
-            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            loadFragment(StashFragment.newInstance(), true);
-        });
+        // Setup listeners via binding for safety
+        com.example.save.databinding.LayoutQuickActionsOverlayBinding overlayBinding = binding.quickActionsOverlay;
+        
+        if (overlayBinding.btnCloseOverlay != null) {
+            overlayBinding.btnCloseOverlay.setOnClickListener(v -> closeQuickActions());
+        }
+        
+        if (overlayBinding.quickActionsDim != null) {
+            overlayBinding.quickActionsDim.setOnClickListener(v -> closeQuickActions());
+        }
+
+        if (overlayBinding.cardMembersOverlay != null && overlayBinding.cardMembersOverlay.getRoot() != null) {
+            overlayBinding.cardMembersOverlay.getRoot().setOnClickListener(v -> {
+                shouldReopenQuickActions = true;
+                closeQuickActions();
+                getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                loadFragment(new MembersFragment(), true);
+            });
+        }
+
+        if (overlayBinding.cardAnalysisOverlay != null && overlayBinding.cardAnalysisOverlay.getRoot() != null) {
+            overlayBinding.cardAnalysisOverlay.getRoot().setOnClickListener(v -> {
+                shouldReopenQuickActions = true;
+                closeQuickActions();
+                getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                loadFragment(AnalyticsFragment.newInstance(true), true);
+            });
+        }
+
+        if (overlayBinding.cardMyStashOverlay != null && overlayBinding.cardMyStashOverlay.getRoot() != null) {
+            overlayBinding.cardMyStashOverlay.getRoot().setOnClickListener(v -> {
+                shouldReopenQuickActions = true;
+                closeQuickActions();
+                getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                loadFragment(StashFragment.newInstance(), true);
+            });
+        }
     }
 
     private void closeQuickActions() {
@@ -356,13 +389,17 @@ public class AdminMainActivity extends AppCompatActivity {
         // Stop ring animation
         if (ringAnimator != null) {
             ringAnimator.cancel();
-            findViewById(R.id.navActionDashedRing).animate().rotation(0f).setDuration(300).start();
+            View ring = binding.navActionDashedRing;
+            if (ring != null) ring.animate().rotation(0f).setDuration(300).start();
         }
 
         // Rotate X back to Plus
-        findViewById(R.id.navActionPlusIcon).animate().rotation(0f).setDuration(300).start();
+        View plusIcon = binding.navActionPlusIcon;
+        if (plusIcon != null) plusIcon.animate().rotation(0f).setDuration(300).start();
 
-        View overlay = findViewById(R.id.quickActionsOverlay);
+        View overlay = binding.quickActionsOverlay.getRoot();
+        if (overlay == null) return;
+
         overlay.animate().alpha(0f).setDuration(300).withEndAction(() -> {
             overlay.setVisibility(View.GONE);
         }).start();

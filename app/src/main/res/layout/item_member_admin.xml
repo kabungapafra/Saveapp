@@ -14,27 +14,20 @@
         android:padding="16dp">
 
         <!-- Profile Picture Container -->
-        <FrameLayout
-            android:id="@+id/profileContainer"
+        <!-- Profile Picture -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgProfile"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:padding="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_person"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_circle_white"
-                android:backgroundTint="@color/v_page_bg" />
-
-            <ImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_person"
-                app:tint="@color/v_text_mid" />
-        </FrameLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle"
+            app:strokeColor="#EAECF0"
+            app:strokeWidth="1dp"
+            app:tint="@color/v_text_mid" />
 
         <!-- Name -->
         <TextView
@@ -47,7 +40,7 @@
             android:textColor="@color/v_text_dark"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintEnd_toStartOf="@id/actionLayout"
-            app:layout_constraintStart_toEndOf="@id/profileContainer"
+            app:layout_constraintStart_toEndOf="@id/imgProfile"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Status Badge and More Actions -->

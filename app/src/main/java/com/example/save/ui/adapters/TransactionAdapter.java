@@ -55,7 +55,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.tvAmount.setTextColor(amountColor);
 
         // Set icon and background
-        holder.ivIcon.setImageResource(transaction.getIconRes());
+        if (transaction.getIconRes() != 0) {
+            holder.ivIcon.setImageResource(transaction.getIconRes());
+        } else {
+            holder.ivIcon.setImageResource(R.drawable.ic_money);
+        }
         holder.ivIcon.setBackgroundColor(transaction.getIconBackgroundColor());
 
         // Set icon tint based on transaction type

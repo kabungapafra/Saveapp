@@ -61,7 +61,7 @@ public class AdminLoginActivity extends AppCompatActivity {
             v.startAnimation(press);
         });
         binding.forgotPassword.setOnClickListener(v -> {
-            String phone = binding.phoneInput.getText().toString().trim();
+            String phone = com.example.save.utils.ValidationUtils.normalizePhone(binding.phoneInput.getText().toString().trim());
             if (phone.isEmpty()) {
                 Toast.makeText(this, "Please enter your phone number first", Toast.LENGTH_SHORT).show();
                 binding.phoneInput.requestFocus();
@@ -132,32 +132,12 @@ public class AdminLoginActivity extends AppCompatActivity {
     }
 
     private void startForgotPinVerification(String phone) {
-        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
-                .setPhoneNumber(phone)
-                .setTimeout(60L, TimeUnit.SECONDS)
-                .setActivity(this)
-                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                    @Override
-                    public void onVerificationCompleted(PhoneAuthCredential credential) {
-                        // Handle auto-verification if needed
-                    }
-
-                    @Override
-                    public void onVerificationFailed(FirebaseException e) {
-                        Toast.makeText(AdminLoginActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
-                        mVerificationId = verificationId;
-                        Intent intent = new Intent(AdminLoginActivity.this, ResetPasswordActivity.class);
-                        intent.putExtra("phone", phone);
-                        intent.putExtra("verificationId", verificationId);
-                        startActivity(intent);
-                    }
-                })
-                .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);
+        // Pass only the phone — ResetPasswordActivity will own the entire OTP flow.
+        // This guarantees the OTP screen always shows before the PIN change screen.
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        intent.putExtra("phone", phone);
+        intent.putExtra("sendOtpOnLaunch", true);
+        startActivity(intent);
     }
 
     @SuppressLint("GestureBackNavigation")
@@ -176,7 +156,7 @@ public class AdminLoginActivity extends AppCompatActivity {
 
     private void handleLogin() {
         String groupName = binding.groupNameInput.getText().toString().trim();
-        String phone = binding.phoneInput.getText().toString().trim();
+        String rawPhone = binding.phoneInput.getText().toString().trim();
         String password = binding.passwordInput.getText().toString().trim();
 
         // Validation
@@ -185,11 +165,19 @@ public class AdminLoginActivity extends AppCompatActivity {
             binding.groupNameInput.requestFocus();
             return;
         }
-        if (phone.isEmpty()) {
+        if (rawPhone.isEmpty()) {
             Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
             binding.phoneInput.requestFocus();
             return;
         }
+        
+        String phone = com.example.save.utils.ValidationUtils.normalizePhone(rawPhone);
+        if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
+            Toast.makeText(this, "Invalid phone number format", Toast.LENGTH_SHORT).show();
+            binding.phoneInput.requestFocus();
+            return;
+        }
+
         if (password.isEmpty()) {
             Toast.makeText(this, "Please enter your PIN", Toast.LENGTH_SHORT).show();
             binding.passwordInput.requestFocus();
@@ -197,9 +185,9 @@ public class AdminLoginActivity extends AppCompatActivity {
         }
 
         binding.loginButton.setEnabled(false);
-        binding.loginButtonText.setText("Verifying...");
+        binding.loginButtonText.setText("Logging in...");
 
-        startPhoneVerification(phone);
+        performBackendLogin();
     }
 
     private void startPhoneVerification(String phone) {
@@ -243,7 +231,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         OtpFragment fragment = OtpFragment.newInstanceForRegistration(
                 "", // name not needed for login
                 binding.groupNameInput.getText().toString(),
-                binding.phoneInput.getText().toString(),
+                com.example.save.utils.ValidationUtils.normalizePhone(binding.phoneInput.getText().toString()),
                 "", // email empty
                 binding.passwordInput.getText().toString()
         );
@@ -257,7 +245,7 @@ public class AdminLoginActivity extends AppCompatActivity {
 
             @Override
             public void onResendOtp() {
-                String phone = binding.phoneInput.getText().toString().trim();
+                String phone = com.example.save.utils.ValidationUtils.normalizePhone(binding.phoneInput.getText().toString().trim());
                 PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
                         .setPhoneNumber(phone)
                         .setTimeout(60L, TimeUnit.SECONDS)
@@ -290,10 +278,10 @@ public class AdminLoginActivity extends AppCompatActivity {
 
     private void performBackendLogin() {
         String groupName = binding.groupNameInput.getText().toString().trim();
-        String phone = binding.phoneInput.getText().toString().trim();
+        String phone = com.example.save.utils.ValidationUtils.normalizePhone(binding.phoneInput.getText().toString().trim());
         String password = binding.passwordInput.getText().toString().trim();
 
-        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest("", password);
+        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(null, password);
         loginRequest.setPhone(phone);
         loginRequest.setLoginType("admin");
         loginRequest.setGroupName(groupName);
@@ -312,8 +300,12 @@ public class AdminLoginActivity extends AppCompatActivity {
                     com.example.save.data.network.LoginResponse loginResponse = response.body();
 
                     com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
-                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), loginResponse.getRole(), false, loginResponse.isCreator());
+                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), phone, loginResponse.getRole(), false, loginResponse.isCreator());
+                    session.saveLastGroup(groupName);
                     session.saveJwtToken(loginResponse.getToken());
+
+                    // Update Retrofit singleton token
+                    com.example.save.data.network.RetrofitClient.getInstance(this).updateToken(loginResponse.getToken());
 
                     android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
                     prefs.edit()

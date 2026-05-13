@@ -12,11 +12,12 @@
         android:id="@+id/ivMemberAvatar"
         android:layout_width="34dp"
         android:layout_height="34dp"
+        android:background="@android:color/transparent"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle"
         tools:background="#FBBF24"
         tools:src="@android:color/transparent" />
 

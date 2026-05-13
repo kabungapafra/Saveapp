@@ -16,23 +16,21 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <!-- Profile Picture with Modern Indicator -->
+        <!-- Profile Picture with Status Indicator -->
         <FrameLayout
             android:layout_width="56dp"
             android:layout_height="56dp">
 
-            <View
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgProfile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_circle_white"
-                android:backgroundTint="#F8F9FF" />
-
-            <ImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
+                android:padding="0dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_person"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle"
+                app:strokeColor="#F8F9FF"
+                app:strokeWidth="1dp"
                 app:tint="@color/project_primary" />
 
             <!-- Compact Status Indicator -->

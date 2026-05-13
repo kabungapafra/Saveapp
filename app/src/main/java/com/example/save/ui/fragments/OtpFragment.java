@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.save.databinding.FragmentOtpBinding;
 import com.example.save.ui.activities.AdminSetupWizardActivity;
+import com.example.save.ui.activities.AdminMainActivity;
 
 /**
  * OtpFragment - Fully Static Version
@@ -61,15 +62,17 @@ public class OtpFragment extends Fragment {
                 return;
             }
 
-            AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
-            if (activity == null) return;
+            String email = getArguments() != null ? getArguments().getString("email") : null;
+            String name = getArguments() != null ? getArguments().getString("admin_name") : null;
+            String password = getArguments() != null ? getArguments().getString("password") : null;
+            String groupName = getArguments() != null ? getArguments().getString("group_name") : null;
 
             com.example.save.data.network.OtpVerificationRequest request = new com.example.save.data.network.OtpVerificationRequest(
-                activity.getAdminEmail(),
+                email,
                 otpCode,
-                activity.getAdminName(),
-                activity.getAdminPassword(),
-                activity.getGroupName()
+                name,
+                password,
+                groupName
             );
 
             com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
@@ -88,6 +91,10 @@ public class OtpFragment extends Fragment {
                         
                         // Save all session details
                         session.saveJwtToken(loginData.getToken());
+                        
+                        // Update Retrofit singleton token
+                        com.example.save.data.network.RetrofitClient.getInstance(getContext()).updateToken(loginData.getToken());
+
                         session.createLoginSession(
                             loginData.getName(),
                             loginData.getEmail(),
@@ -128,12 +135,14 @@ public class OtpFragment extends Fragment {
         });
 
         binding.btnBack.setOnClickListener(v -> {
-            if (getActivity() != null) getActivity().onBackPressed();
+            if (isAdded() && getActivity() != null) {
+                getActivity().onBackPressed();
+            }
         });
 
-        AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
-        if (activity != null && activity.getAdminEmail() != null) {
-            binding.tvSubtitle.setText("We've sent a 6-digit code to " + activity.getAdminEmail());
+        String email = getArguments() != null ? getArguments().getString("email") : null;
+        if (email != null) {
+            binding.tvSubtitle.setText("We've sent a 6-digit code to " + email);
         }
 
         startResendTimer();
@@ -165,15 +174,17 @@ public class OtpFragment extends Fragment {
     }
 
     private void resendOtp() {
-        AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
-        if (activity == null) return;
+        String email = getArguments() != null ? getArguments().getString("email") : null;
+        String phone = getArguments() != null ? getArguments().getString("phone") : null;
+        
+        if (email == null) return;
 
         binding.resendOtp.setEnabled(false);
         binding.resendOtp.setText("Sending...");
 
         com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(
-            activity.getAdminEmail(),
-            activity.getAdminPhone()
+            email,
+            phone
         );
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
@@ -309,8 +320,17 @@ public class OtpFragment extends Fragment {
     }
 
     private void onVerificationSuccess() {
+        if (!isAdded() || getActivity() == null) return;
+        
         if (getActivity() instanceof AdminSetupWizardActivity) {
             ((AdminSetupWizardActivity) getActivity()).nextStep();
+        } else {
+            // If it's another activity, maybe it just needs to finish or navigate
+            // Check if it's AdminLoginActivity and if it has a way to proceed
+            // For now, finishing the activity is a safe default if not wizard
+            if (!(getActivity() instanceof AdminMainActivity)) {
+                 // getActivity().finish(); // LoginActivity handles navigation on its own usually
+            }
         }
     }
 }

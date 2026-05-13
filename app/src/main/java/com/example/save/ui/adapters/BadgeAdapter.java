@@ -33,7 +33,11 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
     public void onBindViewHolder(@NonNull BadgeViewHolder holder, int position) {
         Badge badge = badgeList.get(position);
         holder.tvName.setText(badge.getName());
-        holder.imgIcon.setImageResource(badge.getIconResId());
+        if (badge.getIconResId() != 0) {
+            holder.imgIcon.setImageResource(badge.getIconResId());
+        } else {
+            holder.imgIcon.setImageResource(R.drawable.ic_stars);
+        }
 
         if (badge.isUnlocked()) {
             holder.imgIcon.setAlpha(1.0f);

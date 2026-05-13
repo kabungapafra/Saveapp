@@ -270,7 +270,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                 binding.footer.setVisibility(View.GONE); // Legal has its own internal buttons
                 break;
             case 8:
-                OtpFragment otpFragment = new OtpFragment();
+                OtpFragment otpFragment = OtpFragment.newInstanceForRegistration(adminName, groupName, adminPhone, adminEmail, adminPassword);
                 otpFragment.setOtpListener(new OtpFragment.OtpListener() {
                     @Override
                     public void onOtpEntered(String code) {
@@ -343,7 +343,12 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                     com.example.save.data.network.LoginResponse loginData = response.body();
                     com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
                     session.saveJwtToken(loginData.getToken());
-                    session.createLoginSession(loginData.getName(), loginData.getEmail(), loginData.getRole(), false, loginData.isCreator());
+                    
+                    // Update Retrofit singleton token
+                    com.example.save.data.network.RetrofitClient.getInstance(this).updateToken(loginData.getToken());
+
+                    session.createLoginSession(loginData.getName(), loginData.getEmail(), adminPhone, loginData.getRole(), false, loginData.isCreator());
+                    session.saveLastGroup(groupName);
 
                     // Step 2: Now that we are logged in, Save System Config
                     apiService.updateSystemConfig(config).enqueue(new retrofit2.Callback<com.example.save.data.models.SystemConfig>() {

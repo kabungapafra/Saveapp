@@ -161,13 +161,19 @@ public class SplashActivity extends AppCompatActivity {
     private void navigateToNextScreen() {
         SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         boolean isFirstTime = prefs.getBoolean("isFirstTime", true);
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(this);
 
         if (isFirstTime) {
             startActivity(new Intent(this, OnboardingActivity.class));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } else if (session.isLoggedIn() || session.hasLoggedInBefore()) {
+            // Logged in or recognized, go to Welcome Back for PIN verification
+            startActivity(new Intent(this, WelcomeBackActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         } else {
-            com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(this);
-            session.logoutUser();
+            // First time after install or cleared data
+            startActivity(new Intent(this, LoginActivity.class));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
         finish();
     }

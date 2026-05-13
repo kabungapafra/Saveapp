@@ -259,8 +259,11 @@ public class LoanApplicationFragment extends Fragment {
         
         // Native Ripple
         TypedValue outValue = new TypedValue();
-        requireContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true);
-        removeBtn.setBackgroundResource(outValue.resourceId);
+        if (requireContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true)) {
+            if (outValue.resourceId != 0) {
+                removeBtn.setBackgroundResource(outValue.resourceId);
+            }
+        }
         
         removeBtn.setOnClickListener(v -> binding.chipsContainer.removeView(chip));
         chip.addView(removeBtn);
@@ -317,7 +320,6 @@ public class LoanApplicationFragment extends Fragment {
                 // Success visual state
                 binding.btnSubmitLoan.setText("✓ Request Submitted!");
                 binding.btnSubmitLoan.setAlpha(1.0f);
-                binding.btnSubmitLoan.setBackgroundResource(0);
                 binding.btnSubmitLoan.setBackgroundColor(Color.parseColor("#059669")); // Success Green
                 
                 binding.btnSubmitLoan.postDelayed(() -> {

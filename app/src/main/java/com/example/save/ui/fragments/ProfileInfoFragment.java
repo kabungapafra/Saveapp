@@ -20,13 +20,56 @@ import com.example.save.utils.SessionManager;
 public class ProfileInfoFragment extends Fragment {
 
     private FragmentProfileInfoBinding binding;
-    private MembersViewModel viewModel;
+    private com.example.save.ui.viewmodels.MembersViewModel viewModel;
+    private androidx.activity.result.ActivityResultLauncher<String> imagePickerLauncher;
+    private SessionManager session;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentProfileInfoBinding.inflate(inflater, container, false);
+        session = SessionManager.getInstance(requireContext());
+        
+        imagePickerLauncher = registerForActivityResult(
+                new androidx.activity.result.contract.ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        String localPath = saveImageToInternalStorage(uri);
+                        if (localPath != null) {
+                            session.saveProfileImage(localPath);
+                            loadAvatar(localPath);
+                        }
+                    }
+                }
+        );
+
         return binding.getRoot();
+    }
+
+    private String saveImageToInternalStorage(android.net.Uri uri) {
+        try {
+            android.content.Context context = requireContext();
+            String fileName = "profile_image_" + System.currentTimeMillis() + ".jpg";
+            java.io.File file = new java.io.File(context.getFilesDir(), fileName);
+            
+            java.io.InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            java.io.OutputStream outputStream = new java.io.FileOutputStream(file);
+            
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+            
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+            
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -37,6 +80,22 @@ public class ProfileInfoFragment extends Fragment {
 
         setupListeners();
         loadProfileInfo();
+        
+        String savedImage = session.getProfileImage();
+        if (savedImage != null) {
+            loadAvatar(savedImage);
+        }
+    }
+
+    private void loadAvatar(String uriString) {
+        if (isAdded() && getContext() != null) {
+            com.bumptech.glide.Glide.with(this)
+                    .load(uriString)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_person)
+                    .error(R.drawable.ic_person)
+                    .into(binding.imgProfile);
+        }
     }
 
     private void setupListeners() {
@@ -49,7 +108,7 @@ public class ProfileInfoFragment extends Fragment {
 
         binding.btnChangePhoto.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "Photo upload coming soon", Toast.LENGTH_SHORT).show();
+            imagePickerLauncher.launch("image/*");
         });
 
         if (binding.btnSaveProfile != null) {
@@ -66,7 +125,6 @@ public class ProfileInfoFragment extends Fragment {
     private void loadProfileInfo() {
         if (getContext() == null) return;
         
-        SessionManager session = SessionManager.getInstance(getContext());
         String userPhone = session.getUserPhone();
 
         if (userPhone == null || userPhone.isEmpty()) {

@@ -45,6 +45,11 @@
             android:theme="@style/Theme.Save.LightOnly" />
 
         <activity
+            android:name="com.example.save.ui.activities.WelcomeBackActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
+
+        <activity
             android:name="com.example.save.ui.activities.MemberLoginActivity"
             android:exported="false"
             android:theme="@style/Theme.Save.LightOnly" />

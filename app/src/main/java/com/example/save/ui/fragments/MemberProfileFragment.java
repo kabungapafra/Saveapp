@@ -80,8 +80,24 @@ public class MemberProfileFragment extends Fragment {
         binding.tvMemberName.setText(member.getName());
         binding.tvMemberRole.setText("Member since January 2024");
         
-        // Initials
-        if (member.getName() != null && !member.getName().isEmpty()) {
+        // Handle Profile Picture vs Initials
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
+        String currentUserEmail = session.getUserEmail();
+        String currentUserPhone = session.getUserPhone();
+        
+        boolean isSelf = (member.getEmail() != null && !member.getEmail().isEmpty() && member.getEmail().equalsIgnoreCase(currentUserEmail))
+                || (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
+        
+        String savedImage = isSelf ? session.getProfileImage() : null;
+
+        if (savedImage != null) {
+            binding.ivProfileAvatar.setVisibility(View.VISIBLE);
+            binding.tvProfileInitials.setVisibility(View.GONE);
+            com.bumptech.glide.Glide.with(this)
+                    .load(savedImage)
+                    .circleCrop()
+                    .into(binding.ivProfileAvatar);
+        } else if (member.getName() != null && !member.getName().isEmpty()) {
             String[] parts = member.getName().split(" ");
             String initials = "";
             if (parts.length > 0 && !parts[0].isEmpty())

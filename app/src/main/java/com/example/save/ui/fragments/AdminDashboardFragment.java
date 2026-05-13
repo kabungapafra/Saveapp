@@ -187,7 +187,8 @@ public class AdminDashboardFragment extends Fragment {
         viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
             if (members != null) {
                 loadDashboardData();
-                if (memberAdapter != null) memberAdapter.setMembers(members, null);
+                String currentUserEmail = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserEmail();
+                if (memberAdapter != null) memberAdapter.setMembers(members, currentUserEmail);
                 if (payoutAdapter != null) payoutAdapter.updateList(members);
                 
                 binding.tvNoUpcomingPayouts.setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);

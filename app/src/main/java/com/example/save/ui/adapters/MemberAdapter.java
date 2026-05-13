@@ -1,17 +1,22 @@
 package com.example.save.ui.adapters;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.save.R;
 import com.example.save.data.models.Member;
 import com.example.save.databinding.ItemMemberAdminBinding;
 import com.example.save.databinding.ItemMemberSimpleBinding;
+import com.example.save.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +124,39 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ? android.graphics.Color.parseColor("#10B981")
                     : android.graphics.Color.parseColor("#94A3B8");
             binding.statusIndicator.setBackgroundTintList(ColorStateList.valueOf(color));
+
+            // Load profile image if it's the current user
+            com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(itemView.getContext());
+            String currentUserEmail = session.getUserEmail();
+            String currentUserPhone = session.getUserPhone();
+
+            boolean isSelf = (member.getEmail() != null && !member.getEmail().isEmpty() && member.getEmail().equalsIgnoreCase(currentUserEmail))
+                    || (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
+
+            if (isSelf) {
+                String savedImage = session.getProfileImage();
+                if (savedImage != null) {
+                    binding.imgProfile.setImageTintList(null);
+                    binding.imgProfile.setPadding(0, 0, 0, 0);
+                    binding.imgProfile.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
+                    com.bumptech.glide.Glide.with(itemView.getContext())
+                            .load(savedImage)
+                            .circleCrop()
+                            .into(binding.imgProfile);
+                } else {
+                    binding.imgProfile.setImageResource(com.example.save.R.drawable.ic_person);
+                    int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
+                    binding.imgProfile.setPadding(p, p, p, p);
+                    binding.imgProfile.setImageTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(itemView.getContext(), com.example.save.R.color.project_primary)));
+                    binding.imgProfile.setScaleType(android.widget.ImageView.ScaleType.CENTER_INSIDE);
+                }
+            } else {
+                binding.imgProfile.setImageResource(com.example.save.R.drawable.ic_person);
+                int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
+                binding.imgProfile.setPadding(p, p, p, p);
+                binding.imgProfile.setImageTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(itemView.getContext(), com.example.save.R.color.project_primary)));
+                binding.imgProfile.setScaleType(android.widget.ImageView.ScaleType.CENTER_INSIDE);
+            }
         }
     }
 
@@ -141,27 +179,58 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             // Random or calculated rank for demo
             int rank = (position % 5) + 1;
             binding.tvMemberRank.setText("#" + rank + (rank == 1 ? " Top" : ""));
-            binding.tvMemberRank.setTextColor(rank == 1 ? android.graphics.Color.parseColor("#FF8A00")
-                    : android.graphics.Color.parseColor("#94A3B8"));
+            binding.tvMemberRank.setTextColor(rank == 1 ? Color.parseColor("#FF8A00")
+                    : Color.parseColor("#94A3B8"));
 
             // Status Badge
             if (member.isActive()) {
                 binding.tvStatusBadge.setText("ACTIVE");
-                binding.tvStatusBadge.setBackgroundResource(com.example.save.R.drawable.bg_status_active);
-                binding.tvStatusBadge.setTextColor(android.graphics.Color.parseColor("#10B981"));
+                binding.tvStatusBadge.setBackgroundResource(R.drawable.bg_status_active);
+                binding.tvStatusBadge.setTextColor(Color.parseColor("#10B981"));
             } else {
                 binding.tvStatusBadge.setText("INACTIVE");
-                binding.tvStatusBadge.setBackgroundResource(com.example.save.R.drawable.bg_status_inactive_badge);
-                binding.tvStatusBadge.setTextColor(android.graphics.Color.parseColor("#64748B"));
+                binding.tvStatusBadge.setBackgroundResource(R.drawable.bg_status_inactive_badge);
+                binding.tvStatusBadge.setTextColor(Color.parseColor("#64748B"));
             }
 
             binding.btnMoreActions.setVisibility(isUserAdmin ? View.VISIBLE : View.GONE);
             
-            // Show trash can only for other members, not for the admin themselves
-            String currentUserEmail = com.example.save.utils.SessionManager.getInstance(itemView.getContext()).getUserEmail();
-            boolean isSelf = member.getEmail() != null && member.getEmail().equalsIgnoreCase(currentUserEmail);
+            // User identification for permissions and profile picture
+            SessionManager session = SessionManager.getInstance(itemView.getContext());
+            String currentUserEmail = session.getUserEmail();
+            String currentUserPhone = session.getUserPhone();
+            
+            boolean isSelf = (member.getEmail() != null && !member.getEmail().isEmpty() && member.getEmail().equalsIgnoreCase(currentUserEmail))
+                    || (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
             
             binding.btnRemoveMember.setVisibility(isUserAdmin && !isSelf ? View.VISIBLE : View.GONE);
+
+            // Load profile image if it's the current user
+
+            if (isSelf) {
+                String savedImage = session.getProfileImage();
+                if (savedImage != null) {
+                    binding.imgProfile.setImageTintList(null);
+                    binding.imgProfile.setPadding(0, 0, 0, 0);
+                    binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    com.example.glide.Glide.with(itemView.getContext())
+                            .load(savedImage)
+                            .circleCrop()
+                            .into(binding.imgProfile);
+                } else {
+                    binding.imgProfile.setImageResource(R.drawable.ic_person);
+                    int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
+                    binding.imgProfile.setPadding(p, p, p, p);
+                    binding.imgProfile.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.v_text_mid)));
+                    binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                }
+            } else {
+                binding.imgProfile.setImageResource(R.drawable.ic_person);
+                int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
+                binding.imgProfile.setPadding(p, p, p, p);
+                binding.imgProfile.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.v_text_mid)));
+                binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            }
 
             if (listener != null) {
                 itemView.setOnClickListener(v -> listener.onMemberClick(member));

@@ -82,13 +82,23 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
 
+                    <ImageView
+                        android:id="@+id/imgAvatar"
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="14dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="@id/tvAvatar"
-                        app:layout_constraintEnd_toStartOf="@id/btnEditProfile"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/tvAvatar"
                         app:layout_constraintTop_toTopOf="@id/tvAvatar">
 
@@ -131,18 +141,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/btnEditProfile"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/bg_circle_white"
-                        android:backgroundTint="#2EFFFFFF"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_edit"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:tint="#FFFFFF" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- Stats Strip -->
@@ -176,7 +174,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="UGX 45,000,000"
+                                android:text="UGX 0"
                                 android:textColor="#FFFFFF"
                                 android:textSize="@dimen/text_size_normal" />
 
@@ -216,7 +214,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="Apr 28"
+                                android:text="TBD"
                                 android:textColor="#FFFFFF"
                                 android:textSize="@dimen/text_size_normal" />
 
@@ -256,7 +254,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="3 / 12"
+                                android:text="- / -"
                                 android:textColor="#FFFFFF"
                                 android:textSize="@dimen/text_size_normal" />
 
@@ -264,7 +262,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="3dp"
-                                android:text="Your Position"
+                                android:text="Active Members"
                                 android:textColor="#80FFFFFF"
                                 android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>

@@ -69,6 +69,17 @@ public class SettingsFragment extends Fragment {
                 binding.tvAvatar.setText(name.substring(0, Math.min(2, name.length())).toUpperCase());
             }
         }
+
+        String savedImage = session.getProfileImage();
+        if (savedImage != null) {
+            binding.imgAvatar.setVisibility(View.VISIBLE);
+            com.bumptech.glide.Glide.with(this)
+                    .load(savedImage)
+                    .circleCrop()
+                    .into(binding.imgAvatar);
+        } else {
+            binding.imgAvatar.setVisibility(View.GONE);
+        }
     }
 
     private void setupHeader() {
@@ -79,10 +90,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        binding.btnEditProfile.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            Toast.makeText(getContext(), "Edit Profile", Toast.LENGTH_SHORT).show();
-        });
+
 
     }
 
@@ -97,18 +105,27 @@ public class SettingsFragment extends Fragment {
                 requireActivity().runOnUiThread(() -> {
                     double balance = summary.getTotalBalance();
                     if (balance >= 1_000_000) {
-                        binding.tvPoolBalance.setText(String.format(java.util.Locale.getDefault(), "UGX %.1fM", balance / 1_000_000));
+                        binding.tvPoolBalance.setText(String.format(java.util.Locale.getDefault(), "UGX %.1fM", balance / 1_000_000.0));
                     } else if (balance >= 1000) {
-                        binding.tvPoolBalance.setText(String.format(java.util.Locale.getDefault(), "UGX %.0fK", balance / 1000));
+                        binding.tvPoolBalance.setText(String.format(java.util.Locale.getDefault(), "UGX %.0fK", balance / 1000.0));
                     } else {
                         binding.tvPoolBalance.setText(String.format(java.util.Locale.getDefault(), "UGX %.0f", balance));
                     }
+                    
+                    // Display next payout if available, else use a reasonable default
                     String nextPayout = requireContext()
                             .getSharedPreferences("SaveAppPrefs", android.content.Context.MODE_PRIVATE)
                             .getString("sched_payout_date", "TBD");
                     binding.tvNextPayout.setText(nextPayout);
-                    int total = summary.getTotalMembers() > 0 ? summary.getTotalMembers() : 0;
-                    binding.tvPosition.setText("1 / " + total);
+                    
+                    int active = summary.getActiveMembers();
+                    int total = summary.getTotalMembers();
+                    binding.tvPosition.setText(active + " / " + (total > 0 ? total : active));
+                    
+                    // Update Group name if it was missing
+                    if (summary.getGroupName() != null && !summary.getGroupName().isEmpty()) {
+                        binding.tvGroupName.setText(summary.getGroupName());
+                    }
                 });
             }
         });
