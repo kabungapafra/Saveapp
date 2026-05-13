@@ -49,21 +49,38 @@ public class ApprovalsFragment extends Fragment {
 
     private void setupRecyclerView() {
         String adminEmail = SessionManager.getInstance(requireContext()).getUserEmail();
-        adapter = new ApprovalsAdapter(item -> {
-            if ("LOAN".equals(item.getType())) {
-                viewModel.approveLoan(item.getId(), adminEmail, (success, message) -> {
-                    if (isAdded()) {
-                        requireActivity().runOnUiThread(() ->
-                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
+        adapter = new ApprovalsAdapter(new ApprovalsAdapter.OnApprovalClickListener() {
+            @Override
+            public void onApproveClick(ApprovalsAdapter.ApprovalItem item) {
+                if ("LOAN".equals(item.getType())) {
+                    viewModel.approveLoan(item.getId(), adminEmail, (success, message) -> {
+                        if (isAdded()) {
+                            requireActivity().runOnUiThread(() ->
+                                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
+                        }
+                    });
+                } else {
+                    viewModel.approveTransaction(item.getId(), adminEmail, (success, message) -> {
+                        if (isAdded()) {
+                            requireActivity().runOnUiThread(() ->
+                                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onItemClick(ApprovalsAdapter.ApprovalItem item) {
+                if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+                    String amountStr = "UGX " + String.format(java.util.Locale.US, "%,.0f", item.getAmount());
+                    if ("LOAN".equalsIgnoreCase(item.getType())) {
+                        ((com.example.save.ui.activities.AdminMainActivity) getActivity())
+                                .loadFragment(ConfirmLoanApprovalFragment.newInstance(item.getId(), item.getTitle(), amountStr), true);
+                    } else {
+                        ((com.example.save.ui.activities.AdminMainActivity) getActivity())
+                                .loadFragment(PayoutConfirmationFragment.newInstance(item.getId(), amountStr), true);
                     }
-                });
-            } else {
-                viewModel.approveTransaction(item.getId(), adminEmail, (success, message) -> {
-                    if (isAdded()) {
-                        requireActivity().runOnUiThread(() ->
-                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
-                    }
-                });
+                }
             }
         });
 

@@ -42,6 +42,7 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public interface OnApprovalClickListener {
         void onApproveClick(ApprovalItem item);
+        default void onItemClick(ApprovalItem item) {}
     }
 
     public ApprovalsAdapter(OnApprovalClickListener listener) {
@@ -78,24 +79,25 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ApprovalItem item = items.get(position);
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
 
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
+
         if (holder instanceof LoanViewHolder) {
             LoanViewHolder loanHolder = (LoanViewHolder) holder;
             loanHolder.tvApplicantName.setText(item.getTitle());
-            loanHolder.tvAmount.setText(format.format(item.getAmount()));
+            loanHolder.tvAmount.setText("UGX " + String.format(Locale.US, "%,.0f", item.getAmount()));
             
-            // Score and Tier are hardcoded explicitly in the XML directly.
-
             if (item.hasApproved() || "COMPLETED".equals(item.getStatus())) {
                 loanHolder.btnApprove.setText("APPROVED");
                 loanHolder.btnApprove.setBackgroundTintList(ContextCompat.getColorStateList(holder.itemView.getContext(), android.R.color.holo_green_dark));
                 loanHolder.btnApprove.setClickable(false);
             } else {
-                loanHolder.btnApprove.setOnClickListener(v -> listener.onApproveClick(item));
+                loanHolder.btnApprove.setOnClickListener(v -> listener.onItemClick(item));
             }
         } else if (holder instanceof PayoutViewHolder) {
             PayoutViewHolder payoutHolder = (PayoutViewHolder) holder;
             payoutHolder.tvApplicantName.setText(item.getTitle().replace(" ", "\n"));
-            payoutHolder.tvAmount.setText(format.format(item.getAmount()));
+            String amountStr = "UGX " + String.format(Locale.US, "%,.0f", item.getAmount());
+            payoutHolder.tvAmount.setText(amountStr);
             
             String method = item.getDescription();
             if (method == null || method.isEmpty()) method = "Direct Wire\n(Intl)";
@@ -108,7 +110,7 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 payoutHolder.btnApprove.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_green_dark));
                 payoutHolder.btnApprove.setClickable(false);
             } else {
-                payoutHolder.btnApprove.setOnClickListener(v -> listener.onApproveClick(item));
+                payoutHolder.btnApprove.setOnClickListener(v -> listener.onItemClick(item));
             }
         }
     }

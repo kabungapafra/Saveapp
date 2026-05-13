@@ -15,6 +15,8 @@ import com.example.save.data.network.MemberRegistrationRequest;
 import com.example.save.data.network.MemberRegistrationResponse;
 import com.example.save.data.network.ApiResponse;
 import com.example.save.data.network.MemberUpdateRequest;
+import com.example.save.data.network.ApprovalRequestDto;
+import com.example.save.data.network.RejectionRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -346,7 +348,7 @@ public class MemberRepository {
 
     public void initiateLoanApproval(String requestId, String adminEmail, ApprovalCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.approveLoan(requestId, adminEmail).enqueue(new Callback<ApiResponse>() {
+        apiService.approveLoan(requestId).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
@@ -403,11 +405,57 @@ public class MemberRepository {
     }
 
     public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(String adminEmail) {
-        return new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<com.example.save.data.models.TransactionWithApproval>> liveData = new MutableLiveData<>(new ArrayList<>());
+        
+        // DEMO DATA - FOLLOWING OLD PATTERN
+        List<com.example.save.data.models.TransactionWithApproval> demo = new ArrayList<>();
+        com.example.save.data.models.TransactionEntity tx1 = new com.example.save.data.models.TransactionEntity();
+        tx1.setId("demo_tx_1");
+        tx1.setMemberName("Alex Nkutu");
+        tx1.setAmount(150000.0);
+        tx1.setDescription("Vault Settlement");
+        tx1.setDate(new java.util.Date());
+        tx1.setStatus("PENDING (1/3 Approved)");
+        demo.add(new com.example.save.data.models.TransactionWithApproval(tx1, false));
+
+        com.example.save.data.models.TransactionEntity tx2 = new com.example.save.data.models.TransactionEntity();
+        tx2.setId("demo_tx_2");
+        tx2.setMemberName("Sarah Namuli");
+        tx2.setAmount(120000.0);
+        tx2.setDescription("Direct Wire");
+        tx2.setDate(new java.util.Date(System.currentTimeMillis() - 86400000));
+        tx2.setStatus("PENDING (2/3 Approved)");
+        demo.add(new com.example.save.data.models.TransactionWithApproval(tx2, true)); // Already approved by this admin
+
+        liveData.postValue(demo);
+        return liveData;
     }
 
     public LiveData<List<com.example.save.data.models.LoanWithApproval>> getPendingLoansWithApproval(String adminEmail) {
-        return new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<com.example.save.data.models.LoanWithApproval>> liveData = new MutableLiveData<>(new ArrayList<>());
+        
+        // DEMO DATA - FOLLOWING OLD PATTERN
+        List<com.example.save.data.models.LoanWithApproval> demo = new ArrayList<>();
+        com.example.save.data.models.LoanEntity lr1 = new com.example.save.data.models.LoanEntity();
+        lr1.setId("demo_loan_1");
+        lr1.setMemberName("Mike Kalema");
+        lr1.setAmount(500000.0);
+        lr1.setReason("Business Growth");
+        lr1.setDateRequested(new java.util.Date());
+        lr1.setStatus("PENDING (0/3 Approved)");
+        demo.add(new com.example.save.data.models.LoanWithApproval(lr1, false));
+
+        com.example.save.data.models.LoanEntity lr2 = new com.example.save.data.models.LoanEntity();
+        lr2.setId("demo_loan_2");
+        lr2.setMemberName("Jane Doe");
+        lr2.setAmount(250000.0);
+        lr2.setReason("Emergency Medical");
+        lr2.setDateRequested(new java.util.Date(System.currentTimeMillis() - 172800000));
+        lr2.setStatus("PENDING (1/3 Approved)");
+        demo.add(new com.example.save.data.models.LoanWithApproval(lr2, false));
+
+        liveData.postValue(demo);
+        return liveData;
     }
 
     public LiveData<List<com.example.save.data.models.LoanWithApproval>> getMemberLoansWithApproval(String memberName) {
@@ -439,13 +487,13 @@ public class MemberRepository {
 
     public void approveLoan(String loanId, String adminEmail, ApprovalCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.approveLoan(loanId, adminEmail).enqueue(new Callback<ApiResponse>() {
+        apiService.approveLoan(loanId).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
                     if (callback != null) callback.onResult(true, "Loan approved");
                 } else {
-                    if (callback != null) callback.onResult(false, "Approval failed");
+                    if (callback != null) callback.onResult(false, "Approval failed: " + response.code());
                 }
             }
 
@@ -458,13 +506,13 @@ public class MemberRepository {
 
     public void approveTransaction(String txId, String adminEmail, ApprovalCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.approveTransaction(txId, adminEmail).enqueue(new Callback<ApiResponse>() {
+        apiService.approveTransaction(txId, new ApprovalRequestDto(txId, adminEmail)).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
                     if (callback != null) callback.onResult(true, "Transaction approved");
                 } else {
-                    if (callback != null) callback.onResult(false, "Approval failed");
+                    if (callback != null) callback.onResult(false, "Approval failed: " + response.code());
                 }
             }
 
@@ -477,13 +525,13 @@ public class MemberRepository {
 
     public void rejectLoanRequest(String requestId, String reason, RejectionCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.rejectLoan(requestId, reason).enqueue(new Callback<ApiResponse>() {
+        apiService.rejectLoan(requestId, new RejectionRequest(reason)).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
                     if (callback != null) callback.onResult(true, "Loan rejected");
                 } else {
-                    if (callback != null) callback.onResult(false, "Rejection failed");
+                    if (callback != null) callback.onResult(false, "Rejection failed: " + response.code());
                 }
             }
 

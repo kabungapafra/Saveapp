@@ -19,6 +19,17 @@ public class ConfirmLoanApprovalFragment extends Fragment {
 
     private MaterialSwitch switchConfirm;
     private LinearLayout btnConfirmApproval;
+    private String loanId, borrowerName, amountStr;
+
+    public static ConfirmLoanApprovalFragment newInstance(String loanId, String borrower, String amount) {
+        ConfirmLoanApprovalFragment fragment = new ConfirmLoanApprovalFragment();
+        Bundle args = new Bundle();
+        args.putString("loan_id", loanId);
+        args.putString("borrower", borrower);
+        args.putString("amount", amount);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public static ConfirmLoanApprovalFragment newInstance() {
         return new ConfirmLoanApprovalFragment();
@@ -34,14 +45,31 @@ public class ConfirmLoanApprovalFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        
+        if (getArguments() != null) {
+            loanId = getArguments().getString("loan_id");
+            borrowerName = getArguments().getString("borrower");
+            amountStr = getArguments().getString("amount");
+        }
+
         initViews(view);
         setupSwitch();
         setupButtons(view);
+        populateData();
     }
 
     private void initViews(View view) {
         switchConfirm = view.findViewById(R.id.switchConfirm);
         btnConfirmApproval = view.findViewById(R.id.btnConfirmApproval);
+    }
+
+    private void populateData() {
+        if (borrowerName != null) {
+            ((TextView) getView().findViewById(R.id.tvBorrowerNameSummary)).setText(borrowerName);
+        }
+        if (amountStr != null) {
+            ((TextView) getView().findViewById(R.id.tvAmountSummary)).setText(amountStr);
+        }
     }
 
     private void setupSwitch() {
@@ -67,14 +95,40 @@ public class ConfirmLoanApprovalFragment extends Fragment {
             if (getActivity() != null) getActivity().onBackPressed();
         });
 
-        btnConfirmApproval.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                        .replace(R.id.fragment_container, LoanApprovedSuccessFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
+        view.findViewById(R.id.btnDeclineRequest).setOnClickListener(v -> {
+            if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+                ((com.example.save.ui.activities.AdminMainActivity) getActivity())
+                        .loadFragment(DeclineLoanRequestFragment.newInstance(loanId, borrowerName, amountStr, "Loan Request"), true);
             }
         });
+
+        btnConfirmApproval.setOnClickListener(v -> {
+            com.example.save.ui.viewmodels.MembersViewModel viewModel = 
+                new androidx.lifecycle.ViewModelProvider(requireActivity()).get(com.example.save.ui.viewmodels.MembersViewModel.class);
+            
+            com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
+            
+            if (loanId != null) {
+                viewModel.approveLoan(loanId, session.getUserEmail(), (success, message) -> {
+                    if (success) {
+                        navigateToSuccess();
+                    } else {
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                navigateToSuccess();
+            }
+        });
+    }
+
+    private void navigateToSuccess() {
+        if (getActivity() != null) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                    .replace(R.id.fragment_container, LoanApprovedSuccessFragment.newInstance(borrowerName, amountStr))
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 }

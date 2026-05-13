@@ -8,8 +8,8 @@ import com.example.save.utils.SessionManager;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected SessionManager session;
-    private static final long INACTIVITY_TIMEOUT = 60 * 1000; // 1 minute
-    private static final long BACKGROUND_LOCK_THRESHOLD = 5000; // 5 seconds grace period
+    private static final long INACTIVITY_TIMEOUT = 3 * 60 * 1000; // 3 minutes
+    private static final long BACKGROUND_LOCK_THRESHOLD = 3 * 60 * 1000; // 3 minutes grace period before lock
     private android.os.Handler inactivityHandler = new android.os.Handler(android.os.Looper.getMainLooper());
     private Runnable inactivityRunnable = () -> lockApp();
 

@@ -213,7 +213,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     binding.imgProfile.setImageTintList(null);
                     binding.imgProfile.setPadding(0, 0, 0, 0);
                     binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    com.example.glide.Glide.with(itemView.getContext())
+                    com.bumptech.glide.Glide.with(itemView.getContext())
                             .load(savedImage)
                             .circleCrop()
                             .into(binding.imgProfile);

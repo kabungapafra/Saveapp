@@ -248,7 +248,7 @@
                 android:id="@+id/sectionUpcomingPayouts"
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="20dp">
                   <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Upcoming Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
+                      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
                       <TextView android:id="@+id/btnViewQueue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="View Queue" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_xs" android:textStyle="bold" />
                   </RelativeLayout>
                   

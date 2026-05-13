@@ -18,13 +18,27 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
-            android:paddingTop="56dp"
             android:paddingBottom="32dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="@color/v_text_dark" />
+            </RelativeLayout>
 
             <!-- Project Logo Header -->
             <ImageView
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/save_logo" />
 
@@ -82,6 +96,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tvPayoutAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
@@ -252,6 +267,7 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/tvCircleContribution"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -304,6 +320,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/tvNetPayoutAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"

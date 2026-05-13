@@ -78,10 +78,22 @@ public class QueueFragment extends Fragment {
         binding.rvQueue.setAdapter(adapter);
 
         // Setup Approvals (Today's Work Restoration)
-        approvalsAdapter = new ApprovalsAdapter(item -> {
-            viewModel.processApproval(item, true, (success, message) -> {
-                if (isVisible()) Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-            });
+        approvalsAdapter = new ApprovalsAdapter(new ApprovalsAdapter.OnApprovalClickListener() {
+            @Override
+            public void onApproveClick(ApprovalsAdapter.ApprovalItem item) {
+                viewModel.processApproval(item, true, (success, message) -> {
+                    if (isVisible()) Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                });
+            }
+
+            @Override
+            public void onItemClick(ApprovalsAdapter.ApprovalItem item) {
+                if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+                    String amountStr = "UGX " + String.format(java.util.Locale.US, "%,.0f", item.getAmount());
+                    ((com.example.save.ui.activities.AdminMainActivity) getActivity())
+                            .loadFragment(PayoutConfirmationFragment.newInstance(item.getId(), amountStr), true);
+                }
+            }
         });
         binding.rvPendingApprovals.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvPendingApprovals.setAdapter(approvalsAdapter);
@@ -116,9 +128,11 @@ public class QueueFragment extends Fragment {
             }
 
             if (payoutApprovals.isEmpty()) {
-                binding.llPendingApprovals.setVisibility(View.GONE);
+                binding.rvPendingApprovals.setVisibility(View.GONE);
+                binding.tvNoApprovals.setVisibility(View.VISIBLE);
             } else {
-                binding.llPendingApprovals.setVisibility(View.VISIBLE);
+                binding.rvPendingApprovals.setVisibility(View.VISIBLE);
+                binding.tvNoApprovals.setVisibility(View.GONE);
                 approvalsAdapter.updateList(payoutApprovals);
             }
         });

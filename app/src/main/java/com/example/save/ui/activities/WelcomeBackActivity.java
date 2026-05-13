@@ -206,7 +206,7 @@ public class WelcomeBackActivity extends AppCompatActivity {
                     session.saveJwtToken(body.getToken());
                     
                     // Update Retrofit singleton token
-                    com.example.save.data.network.RetrofitClient.getInstance(this).updateToken(body.getToken());
+                    com.example.save.data.network.RetrofitClient.getInstance(getApplicationContext()).updateToken(body.getToken());
 
                     session.saveLastGroup(lastGroup);
 

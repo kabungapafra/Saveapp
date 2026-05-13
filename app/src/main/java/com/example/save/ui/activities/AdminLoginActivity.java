@@ -305,7 +305,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                     session.saveJwtToken(loginResponse.getToken());
 
                     // Update Retrofit singleton token
-                    com.example.save.data.network.RetrofitClient.getInstance(this).updateToken(loginResponse.getToken());
+                    com.example.save.data.network.RetrofitClient.getInstance(getApplicationContext()).updateToken(loginResponse.getToken());
 
                     android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
                     prefs.edit()

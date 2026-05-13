@@ -72,8 +72,8 @@ public class LoanBorrowerAdapter extends RecyclerView.Adapter<LoanBorrowerAdapte
 
         void bind(LoanRequest request) {
             binding.tvBorrowerName.setText(request.getMemberName());
-            // Amount with 2 decimal places and $ as per mockup
-            String formattedAmount = "$" + String.format(Locale.US, "%,.2f", request.getAmount());
+            // Amount with 0 decimal places and UGX as per local context
+            String formattedAmount = "UGX " + String.format(Locale.US, "%,.0f", request.getAmount());
             binding.tvLoanAmount.setText(formattedAmount);
             binding.tvInterestRate.setText("Interest: " + request.getInterestRate() + "%");
 

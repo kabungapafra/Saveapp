@@ -57,6 +57,19 @@ public class AdminLoansFragment extends Fragment {
         setupChart();
         observeLoanRequests();
         loadSummaryStats();
+        loadLoanRules();
+    }
+
+    private void loadLoanRules() {
+        viewModel.fetchSystemConfig((success, config, message) -> {
+            if (success && config != null && isVisible()) {
+                getActivity().runOnUiThread(() -> {
+                    binding.tvMaxLoanLimit.setText("UGX " + String.format(Locale.US, "%,.0f", config.getMaxLoanLimit()));
+                    binding.tvLoanInterest.setText(String.format(Locale.US, "%.1f%%", config.getLoanInterestRate()));
+                    binding.tvLoanDuration.setText(config.getMaxLoanDuration() + " Months");
+                });
+            }
+        });
     }
 
     private void setupListeners() {
@@ -112,17 +125,29 @@ public class AdminLoansFragment extends Fragment {
         binding.rvLoans.setAdapter(adapter);
 
         // Setup Approvals (Today's Work Restoration)
-        approvalsAdapter = new ApprovalsAdapter(item -> {
-            viewModel.processApproval(item, true, (success, message) -> {
-                if (isVisible()) Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-            });
+        approvalsAdapter = new ApprovalsAdapter(new ApprovalsAdapter.OnApprovalClickListener() {
+            @Override
+            public void onApproveClick(ApprovalsAdapter.ApprovalItem item) {
+                viewModel.processApproval(item, true, (success, message) -> {
+                    if (isVisible()) Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                });
+            }
+
+            @Override
+            public void onItemClick(ApprovalsAdapter.ApprovalItem item) {
+                if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
+                    String amountStr = "UGX " + String.format(java.util.Locale.US, "%,.0f", item.getAmount());
+                    ((com.example.save.ui.activities.AdminMainActivity) getActivity())
+                            .loadFragment(ConfirmLoanApprovalFragment.newInstance(item.getId(), item.getTitle(), amountStr), true);
+                }
+            }
         });
         binding.rvPendingApprovals.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvPendingApprovals.setAdapter(approvalsAdapter);
     }
 
     private void showRejectDialog(LoanRequest request) {
-        String formattedAmount = "$" + String.format(Locale.US, "%,.2f", request.getAmount());
+        String formattedAmount = "UGX " + String.format(Locale.US, "%,.0f", request.getAmount());
         DeclineLoanRequestFragment fragment = DeclineLoanRequestFragment.newInstance(
                 request.getId(),
                 request.getMemberName(),
@@ -228,9 +253,11 @@ public class AdminLoansFragment extends Fragment {
             }
 
             if (loanApprovals.isEmpty()) {
-                binding.llPendingApprovals.setVisibility(View.GONE);
+                binding.rvPendingApprovals.setVisibility(View.GONE);
+                binding.tvNoApprovals.setVisibility(View.VISIBLE);
             } else {
-                binding.llPendingApprovals.setVisibility(View.VISIBLE);
+                binding.rvPendingApprovals.setVisibility(View.VISIBLE);
+                binding.tvNoApprovals.setVisibility(View.GONE);
                 approvalsAdapter.updateList(loanApprovals);
             }
         });
@@ -278,8 +305,8 @@ public class AdminLoansFragment extends Fragment {
             }
         }
 
-        binding.tvTotalActiveLoans.setText("$" + formatAmount(totalActiveAmount));
-        binding.tvDisbursedAmount.setText("$" + formatAmount(totalDisbursedAmount));
+        binding.tvTotalActiveLoans.setText("UGX " + formatAmount(totalActiveAmount));
+        binding.tvDisbursedAmount.setText("UGX " + formatAmount(totalDisbursedAmount));
         binding.tvPendingCount.setText(String.valueOf(pendingCount));
     }
 

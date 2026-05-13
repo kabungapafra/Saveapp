@@ -199,10 +199,12 @@ public class DeclineLoanRequestFragment extends Fragment {
             
             if (loanId != null) {
                 viewModel.rejectLoanRequest(loanId, finalReason, (success, message) -> {
-                    if (success) {
-                        navigateToSuccess(finalReason);
-                    } else {
-                        Toast.makeText(getContext(), message != null ? message : "Failed to decline loan", Toast.LENGTH_SHORT).show();
+                    if (isAdded() && getContext() != null) {
+                        if (success) {
+                            navigateToSuccess(finalReason);
+                        } else {
+                            Toast.makeText(getContext(), message != null ? message : "Failed to decline loan", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             } else {

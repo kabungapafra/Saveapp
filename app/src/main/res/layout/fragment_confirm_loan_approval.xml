@@ -139,6 +139,7 @@
                                 android:textColor="@color/v_text_mid"
                                 android:textSize="15sp" />
                             <TextView
+                                android:id="@+id/tvBorrowerNameSummary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -167,6 +168,7 @@
                                 android:textColor="@color/v_text_mid"
                                 android:textSize="15sp" />
                             <TextView
+                                android:id="@+id/tvAmountSummary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -337,14 +339,20 @@
             android:paddingHorizontal="24dp"
             android:paddingVertical="16dp">
 
+            <TextView
+                android:id="@+id/btnConfirmApprovalText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/btnConfirmApproval"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
                 android:alpha="0.5"
                 android:background="@drawable/bg_confirm_decline_btn"
-                android:clickable="false"
-                android:focusable="false"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center">
 
                 <TextView
@@ -363,6 +371,21 @@
                     android:src="@drawable/ic_check"
                     app:tint="#FFFFFF" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/btnDeclineRequest"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_outlined_button_red"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="Decline Request"
+                android:textColor="#DC2626"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/btnGoBack"

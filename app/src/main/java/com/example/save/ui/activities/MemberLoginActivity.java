@@ -269,7 +269,7 @@ public class MemberLoginActivity extends AppCompatActivity {
                     session.saveJwtToken(loginResponse.getToken());
 
                     // Update Retrofit singleton token
-                    com.example.save.data.network.RetrofitClient.getInstance(this).updateToken(loginResponse.getToken());
+                    com.example.save.data.network.RetrofitClient.getInstance(getApplicationContext()).updateToken(loginResponse.getToken());
 
                     Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
                     intent.putExtra("member_name", loginResponse.getName());

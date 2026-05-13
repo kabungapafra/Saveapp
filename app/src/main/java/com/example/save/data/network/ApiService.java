@@ -55,11 +55,11 @@ public interface ApiService {
     Call<List<com.example.save.data.models.LoanRequest>> getLoans();
 
     @POST("loans/{id}/approve")
-    Call<ApiResponse> approveLoan(@retrofit2.http.Path("id") String loanId, @retrofit2.http.Query("admin_email") String adminEmail);
+    Call<ApiResponse> approveLoan(@retrofit2.http.Path("id") String loanId);
 
     @POST("loans/{id}/reject")
-    Call<ApiResponse> rejectLoan(@retrofit2.http.Path("id") String loanId, @retrofit2.http.Query("reason") String reason);
+    Call<ApiResponse> rejectLoan(@retrofit2.http.Path("id") String loanId, @Body RejectionRequest request);
 
     @POST("transactions/{id}/approve")
-    Call<ApiResponse> approveTransaction(@retrofit2.http.Path("id") String txId, @retrofit2.http.Query("admin_email") String adminEmail);
+    Call<ApiResponse> approveTransaction(@retrofit2.http.Path("id") String txId, @Body ApprovalRequestDto request);
 }

@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upcoming Payouts"
+                android:text="Payouts"
                 android:textColor="@color/v_text_dark"
                 android:textSize="20sp"
                 android:fontFamily="@font/manrope_bold"
@@ -62,14 +62,13 @@
             android:orientation="vertical"
             android:paddingBottom="100dp">
 
-            <!-- Needs Your Approval Section (Today's Work Restoration) -->
+            <!-- Needs Your Approval Section -->
             <LinearLayout
                 android:id="@+id/llPendingApprovals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -105,6 +104,17 @@
                     android:orientation="horizontal"
                     android:paddingHorizontal="24dp"
                     tools:listitem="@layout/item_approval_payout" />
+
+                <TextView
+                    android:id="@+id/tv_no_approvals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="No payouts currently awaiting your approval"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"

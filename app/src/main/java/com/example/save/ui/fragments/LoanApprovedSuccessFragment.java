@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,28 @@ import androidx.fragment.app.FragmentManager;
 import com.example.save.R;
 
 public class LoanApprovedSuccessFragment extends Fragment {
+
+    private String borrower, amount;
+
+    public static LoanApprovedSuccessFragment newInstance(String borrower, String amount) {
+        LoanApprovedSuccessFragment fragment = new LoanApprovedSuccessFragment();
+        Bundle args = new Bundle();
+        args.putString("borrower", borrower);
+        args.putString("amount", amount);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static LoanApprovedSuccessFragment newPayoutInstance(String recipient, String amount) {
+        LoanApprovedSuccessFragment fragment = new LoanApprovedSuccessFragment();
+        Bundle args = new Bundle();
+        args.putString("borrower", recipient);
+        args.putString("amount", amount);
+        args.putString("title", "Payout Approved\nSuccessfully!");
+        args.putString("message", "has been successfully disbursed");
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public static LoanApprovedSuccessFragment newInstance() {
         return new LoanApprovedSuccessFragment();
@@ -27,6 +50,23 @@ public class LoanApprovedSuccessFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            borrower = getArguments().getString("borrower");
+            amount = getArguments().getString("amount");
+            String title = getArguments().getString("title", "Loan Approved\nSuccessfully!");
+            String message = getArguments().getString("message", "has been successfully allocated");
+            
+            TextView tvTitle = view.findViewById(R.id.tvSuccessTitle);
+            TextView tvAmount = view.findViewById(R.id.tvSuccessAmount);
+            TextView tvBorrower = view.findViewById(R.id.tvSuccessBorrower);
+            TextView tvAllocatedLabel = view.findViewById(R.id.tvAllocatedLabel);
+            
+            if (tvTitle != null) tvTitle.setText(title);
+            if (tvAmount != null && amount != null) tvAmount.setText(amount);
+            if (tvBorrower != null && borrower != null) tvBorrower.setText(borrower);
+            if (tvAllocatedLabel != null) tvAllocatedLabel.setText(message);
+        }
 
         // Animate Checkmark Circle
         View checkmarkCircle = view.findViewById(R.id.checkmarkCircle);

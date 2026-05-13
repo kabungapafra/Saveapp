@@ -345,7 +345,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                     session.saveJwtToken(loginData.getToken());
                     
                     // Update Retrofit singleton token
-                    com.example.save.data.network.RetrofitClient.getInstance(this).updateToken(loginData.getToken());
+                    com.example.save.data.network.RetrofitClient.getInstance(getApplicationContext()).updateToken(loginData.getToken());
 
                     session.createLoginSession(loginData.getName(), loginData.getEmail(), adminPhone, loginData.getRole(), false, loginData.isCreator());
                     session.saveLastGroup(groupName);
