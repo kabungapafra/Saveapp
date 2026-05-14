@@ -1,5 +1,6 @@
 package com.example.save.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -65,6 +66,13 @@ public class OtpRequestActivity extends AppCompatActivity {
                 }
             });
             v.startAnimation(press);
+        });
+
+        binding.loginLink.setOnClickListener(v -> {
+            Intent intent = new Intent(OtpRequestActivity.this, WelcomeBackActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
         });
     }
 

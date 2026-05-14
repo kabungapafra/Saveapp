@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope"
-                android:text="Welcome lets have u on board"
+                android:text="Welcome,\nlet's get you on board"
                 android:textColor="@color/v_text_dark"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -185,6 +185,35 @@
                             android:layout_height="20dp"
                             app:srcCompat="@drawable/ic_arrow_right"
                             app:tint="#FFFFFF" />
+                    </LinearLayout>
+
+                    <!-- Login Link -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="24dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Already a member? "
+                            android:textColor="@color/v_text_mid"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/manrope" />
+
+                        <TextView
+                            android:id="@+id/loginLink"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Log In"
+                            android:textColor="@color/login_button_blue"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/manrope"
+                            android:textStyle="bold"
+                            android:clickable="true"
+                            android:focusable="true" />
                     </LinearLayout>
 
                 </LinearLayout>
