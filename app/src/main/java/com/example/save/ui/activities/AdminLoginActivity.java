@@ -125,7 +125,7 @@ public class AdminLoginActivity extends AppCompatActivity {
     }
 
     private void navigateToMemberPortal() {
-        Intent intent = new Intent(this, MemberLoginActivity.class);
+        Intent intent = new Intent(this, OtpRequestActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
