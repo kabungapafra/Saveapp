@@ -69,7 +69,7 @@ public class OtpRequestActivity extends AppCompatActivity {
         });
 
         binding.loginLink.setOnClickListener(v -> {
-            Intent intent = new Intent(OtpRequestActivity.this, WelcomeBackActivity.class);
+            Intent intent = new Intent(OtpRequestActivity.this, MemberLoginActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();

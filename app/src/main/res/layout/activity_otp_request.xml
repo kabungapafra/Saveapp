@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope"
-                android:text="Welcome,\nlet's get you on board"
+                android:text="Start Your Journey"
                 android:textColor="@color/v_text_dark"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope"
-                android:text="Enter your details to receive an OTP"
+                android:text="Connect with your savings group"
                 android:textColor="@color/v_text_mid"
                 android:textSize="16sp"
                 android:layout_marginBottom="32dp" />
@@ -187,33 +187,65 @@
                             app:tint="#FFFFFF" />
                     </LinearLayout>
 
-                    <!-- Login Link -->
+                    <!-- Login Divider -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:layout_marginTop="24dp">
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="24dp">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:background="#E2E8F0" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Already a member? "
-                            android:textColor="@color/v_text_mid"
-                            android:textSize="14sp"
-                            android:fontFamily="@font/manrope" />
-
-                        <TextView
-                            android:id="@+id/loginLink"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Log In"
-                            android:textColor="@color/login_button_blue"
-                            android:textSize="14sp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="ALREADY A MEMBER?"
+                            android:textColor="@color/v_text_muted"
+                            android:textSize="11sp"
                             android:fontFamily="@font/manrope"
-                            android:textStyle="bold"
-                            android:clickable="true"
-                            android:focusable="true" />
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:background="#E2E8F0" />
+                    </LinearLayout>
+
+                    <!-- Large Login Button -->
+                    <LinearLayout
+                        android:id="@+id/loginLink"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_btn_admin_light"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="8dp"
+                            app:srcCompat="@drawable/ic_lock"
+                            app:tint="@color/login_button_blue" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Log In to Your Account"
+                            android:textColor="@color/login_button_blue"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/manrope"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                 </LinearLayout>
