@@ -60,6 +60,11 @@
             android:theme="@style/Theme.Save.LightOnly" />
 
         <activity
+            android:name="com.example.save.ui.activities.OtpRequestActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
+
+        <activity
             android:name=".ui.activities.NavigationTestingActivity"
             android:exported="true"
             android:theme="@style/Theme.Save" />
