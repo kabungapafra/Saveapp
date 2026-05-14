@@ -137,6 +137,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
     // ────────────────────────────────────────────────────────────────────────
 
     private void showOtpFragment(String verificationId) {
+        if (isFinishing() || isDestroyed()) return;
+        
         binding.fragmentContainer.setVisibility(View.VISIBLE);
         binding.resetCard.setVisibility(View.GONE);
 
@@ -162,7 +164,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, otpFragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     private void verifyAndShowPinChange(PhoneAuthCredential credential) {

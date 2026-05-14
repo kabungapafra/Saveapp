@@ -12,13 +12,13 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:clipToPadding="false"
-        android:paddingBottom="120dp"
+        android:paddingBottom="100dp"
         android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="100dp">
+            android:paddingBottom="24dp">
 
             <!-- HEADER SECTION -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -779,19 +779,6 @@
                     android:text="Sign Out"
                     android:textColor="#EF4444"
                     android:textSize="@dimen/text_size_normal" />
-
-                <!-- Delete Account -->
-                <TextView
-                    android:id="@+id/btnDeleteAccount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="40dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:gravity="center"
-                    android:text="Delete Account"
-                    android:textColor="#9CA3AF"
-                    android:textSize="@dimen/text_size_xs" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

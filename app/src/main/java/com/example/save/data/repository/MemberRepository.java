@@ -44,12 +44,14 @@ public class MemberRepository {
     }
 
     public static synchronized MemberRepository getInstance(Context context) {
-        if (instance == null) instance = new MemberRepository(context.getApplicationContext());
+        if (instance == null)
+            instance = new MemberRepository(context.getApplicationContext());
         return instance;
     }
 
     public static synchronized MemberRepository getInstance() {
-        if (instance == null) throw new IllegalStateException("Not initialized");
+        if (instance == null)
+            throw new IllegalStateException("Not initialized");
         return instance;
     }
 
@@ -63,57 +65,65 @@ public class MemberRepository {
 
     public void refreshMembers(MemberAddCallback callback) {
         if (isSyncing) {
-            if (callback != null) callback.onResult(true, "Sync already in progress");
+            if (callback != null)
+                callback.onResult(true, "Sync already in progress");
             return;
         }
         isSyncing = true;
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.getMembers().enqueue(new Callback<List<MemberEntity>>() {
+        apiService.getMembers(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<MemberEntity>>() {
             @Override
-            public void onResponse(Call<List<MemberEntity>> call, Response<List<MemberEntity>> response) {
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<MemberEntity>> call, Response<com.example.save.data.models.PaginatedResponse<MemberEntity>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Member> models = new ArrayList<>();
-                    for (MemberEntity entity : response.body()) {
-                        Member m = new Member(entity.getName(), entity.getRole(), true, entity.getPhone(), entity.getEmail());
+                    for (MemberEntity entity : response.body().getData()) {
+                        Member m = new Member(entity.getName(), entity.getRole(), true, entity.getPhone(),
+                                entity.getEmail());
                         m.setId(entity.getId());
                         m.setContributionPaid(entity.getContributionPaid());
                         m.setContributionTarget(entity.getContributionTarget());
                         m.setCreditScore(entity.getCreditScore());
-                        
+
                         // Map the new server-authoritative fields
                         m.setReliabilityLabel(entity.getReliabilityLabel());
                         m.setReliabilityColor(entity.getReliabilityColor());
                         m.setEligible(entity.isEligible());
-                        
+
                         models.add(m);
                     }
                     membersLiveData.postValue(models);
                     isSyncing = false;
-                    if (callback != null) callback.onResult(true, "Synced from PostgreSQL");
+                    if (callback != null)
+                        callback.onResult(true, "Synced from PostgreSQL");
                 } else {
                     isSyncing = false;
-                    if (callback != null) callback.onResult(false, "Failed to sync");
+                    if (callback != null)
+                        callback.onResult(false, "Failed to sync");
                 }
             }
 
             @Override
-            public void onFailure(Call<List<MemberEntity>> call, Throwable t) {
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<MemberEntity>> call, Throwable t) {
                 isSyncing = false;
-                if (callback != null) callback.onResult(false, "Network error: " + t.getMessage());
+                if (callback != null)
+                    callback.onResult(false, "Network error: " + t.getMessage());
             }
         });
     }
 
     public void addMember(Member member, MemberRegistrationCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        MemberRegistrationRequest request = new MemberRegistrationRequest(member.getName(), member.getEmail(), member.getPhone(), member.getRole());
-        
+        MemberRegistrationRequest request = new MemberRegistrationRequest(member.getName(), member.getEmail(),
+                member.getPhone(), member.getRole());
+
         apiService.createMember(request).enqueue(new Callback<MemberRegistrationResponse>() {
             @Override
-            public void onResponse(Call<MemberRegistrationResponse> call, Response<MemberRegistrationResponse> response) {
+            public void onResponse(Call<MemberRegistrationResponse> call,
+                    Response<MemberRegistrationResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     refreshMembers(null);
-                    if (callback != null) callback.onResult(true, "Member registered in PostgreSQL", response.body().getOtp());
+                    if (callback != null)
+                        callback.onResult(true, "Member registered in PostgreSQL", response.body().getOtp());
                 } else if (callback != null) {
                     callback.onResult(false, "Registration failed", null);
                 }
@@ -121,87 +131,179 @@ public class MemberRepository {
 
             @Override
             public void onFailure(Call<MemberRegistrationResponse> call, Throwable t) {
-                if (callback != null) callback.onResult(false, "Network error", null);
+                if (callback != null)
+                    callback.onResult(false, "Network error", null);
             }
         });
     }
 
-    public LiveData<List<Member>> getMembers() { return membersLiveData; }
-    public List<Member> getAllMembers() { return membersLiveData.getValue(); }
-    public Executor getExecutor() { return executor; }
+    public LiveData<List<Member>> getMembers() {
+        return membersLiveData;
+    }
+
+    public List<Member> getAllMembers() {
+        return membersLiveData.getValue();
+    }
+
+    public Executor getExecutor() {
+        return executor;
+    }
 
     // Preservation of other stubs (to be implemented as backend grows)
-    public interface MemberAddCallback { void onResult(boolean success, String message); }
-    public interface MemberRegistrationCallback { void onResult(boolean success, String message, String otp); }
-    public interface PasswordChangeCallback { void onResult(boolean success, String message); }
-    public interface PayoutCallback { void onResult(boolean success, String message); }
-    public interface ConfigCallback { void onResult(boolean success, SystemConfig config, String message); }
-    public interface ReportCallback { void onResult(boolean success, ComprehensiveReportResponse report, String message); }
-    public interface PaymentCallback { void onResult(boolean success, String message); }
-    public interface ApprovalCallback { void onResult(boolean success, String message); }
-    public interface LoanSubmissionCallback { void onResult(boolean success, String message); }
-    public interface RejectionCallback { void onResult(boolean success, String message); }
-    public interface LoanRepaymentCallback { void onResult(boolean success, String message); }
-    public interface EligibilityCallback { void onResult(boolean success, String message); }
-    public interface RepaymentScheduleCallback { void onResult(boolean success, String message); }
-    public interface SummaryCallback { void onResult(boolean success, Object summary, String message); }
-    public interface ApiResponseCallback { void onResult(boolean success, String message); }
+    public interface MemberAddCallback {
+        void onResult(boolean success, String message);
+    }
 
-    public int getActiveMemberCount() { return getAllMembers() != null ? getAllMembers().size() : 0; }
-    public int getTotalMemberCount() { return getAllMembers() != null ? getAllMembers().size() : 0; }
-    public void syncMembers() { refreshMembers(null); }
+    public interface MemberRegistrationCallback {
+        void onResult(boolean success, String message, String otp);
+    }
+
+    public interface PasswordChangeCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public interface PayoutCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public interface ConfigCallback {
+        void onResult(boolean success, SystemConfig config, String message);
+    }
+
+    public interface ReportCallback {
+        void onResult(boolean success, ComprehensiveReportResponse report, String message);
+    }
+
+    public interface PaymentCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public interface ApprovalCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public interface LoanSubmissionCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public interface RejectionCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public interface LoanRepaymentCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public interface EligibilityCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public interface RepaymentScheduleCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public interface SummaryCallback {
+        void onResult(boolean success, Object summary, String message);
+    }
+
+    public interface ApiResponseCallback {
+        void onResult(boolean success, String message);
+    }
+
+    public int getActiveMemberCount() {
+        return getAllMembers() != null ? getAllMembers().size() : 0;
+    }
+
+    public int getTotalMemberCount() {
+        return getAllMembers() != null ? getAllMembers().size() : 0;
+    }
+
+    public void syncMembers() {
+        refreshMembers(null);
+    }
+
     public Member getMemberByEmail(String email) {
-        if (getAllMembers() == null) return null;
-        for (Member m : getAllMembers()) if (email.equals(m.getEmail())) return m;
+        if (getAllMembers() == null)
+            return null;
+        for (Member m : getAllMembers())
+            if (email.equals(m.getEmail()))
+                return m;
         return null;
     }
+
     public Member getMemberByName(String name) {
-        if (getAllMembers() == null) return null;
-        for (Member m : getAllMembers()) if (name.equals(m.getName())) return m;
+        if (getAllMembers() == null)
+            return null;
+        for (Member m : getAllMembers())
+            if (name.equals(m.getName()))
+                return m;
         return null;
     }
+
     public List<Member> getAdmins() {
         List<Member> admins = new ArrayList<>();
         if (getAllMembers() != null) {
-            for (Member m : getAllMembers()) if ("ADMIN".equalsIgnoreCase(m.getRole())) admins.add(m);
+            for (Member m : getAllMembers())
+                if ("ADMIN".equalsIgnoreCase(m.getRole()))
+                    admins.add(m);
         }
         return admins;
     }
 
     public List<Member> searchMembers(String query) {
         List<Member> results = new ArrayList<>();
-        if (getAllMembers() == null || query == null || query.isEmpty()) return results;
+        if (getAllMembers() == null || query == null || query.isEmpty())
+            return results;
         String lowerQuery = query.toLowerCase().trim();
         for (Member m : getAllMembers()) {
-            if (m.getName().toLowerCase().contains(lowerQuery) || 
-                (m.getEmail() != null && m.getEmail().toLowerCase().contains(lowerQuery)) || 
-                (m.getPhone() != null && m.getPhone().contains(lowerQuery))) {
+            if (m.getName().toLowerCase().contains(lowerQuery) ||
+                    (m.getEmail() != null && m.getEmail().toLowerCase().contains(lowerQuery)) ||
+                    (m.getPhone() != null && m.getPhone().contains(lowerQuery))) {
                 results.add(m);
             }
         }
         return results;
     }
-    
+
     // Remaining stubs...
-    public void deleteMember(Member m, MemberAddCallback cb) {}
+    public void deleteMember(Member m, MemberAddCallback cb) {
+    }
+
     public void resetPassword(String e, String n, PasswordChangeCallback cb) {
-        if (cb != null) cb.onResult(true, "Password changed successfully (Mock)");
+        if (cb != null)
+            cb.onResult(true, "Password changed successfully (Mock)");
     }
-    public LiveData<Double> getGroupBalance() { return groupBalance; }
-    public void updateSystemConfig(Object u, ConfigCallback cb) {}
+
+    public LiveData<Double> getGroupBalance() {
+        return groupBalance;
+    }
+
+    public void updateSystemConfig(Object u, ConfigCallback cb) {
+    }
+
     public void executePayout(Member m, double a, boolean d, String adminEmail, PayoutCallback cb) {
-        if (cb != null) cb.onResult(true, "Payout executed (Mock)");
+        if (cb != null)
+            cb.onResult(true, "Payout executed (Mock)");
     }
-    public void makePayment(Member m, double a, String p, String pm, PaymentCallback cb) {}
-    public void fetchSystemConfig(ConfigCallback cb) {}
-    public void getComprehensiveReport(ReportCallback cb) {}
+
+    public void makePayment(Member m, double a, String p, String pm, PaymentCallback cb) {
+    }
+
+    public void fetchSystemConfig(ConfigCallback cb) {
+    }
+
+    public void getComprehensiveReport(ReportCallback cb) {
+    }
+
     public void getDashboardSummary(SummaryCallback cb) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
         apiService.getDashboardSummary().enqueue(new Callback<com.example.save.data.models.DashboardSummaryResponse>() {
             @Override
-            public void onResponse(Call<com.example.save.data.models.DashboardSummaryResponse> call, Response<com.example.save.data.models.DashboardSummaryResponse> response) {
+            public void onResponse(Call<com.example.save.data.models.DashboardSummaryResponse> call,
+                    Response<com.example.save.data.models.DashboardSummaryResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    if (cb != null) cb.onResult(true, response.body(), "Summary loaded");
+                    if (cb != null)
+                        cb.onResult(true, response.body(), "Summary loaded");
                 } else if (cb != null) {
                     cb.onResult(false, null, "Failed to load summary: " + response.code());
                 }
@@ -209,16 +311,30 @@ public class MemberRepository {
 
             @Override
             public void onFailure(Call<com.example.save.data.models.DashboardSummaryResponse> call, Throwable t) {
-                if (cb != null) cb.onResult(false, null, "Network error: " + t.getMessage());
+                if (cb != null)
+                    cb.onResult(false, null, "Network error: " + t.getMessage());
             }
         });
     }
-    public Member getNextPayoutRecipient() { return null; }
-    public boolean canExecutePayout() { return false; }
-    public double getNetPayoutAmount() { return 0; }
-    public void savePayoutRules(boolean auto, int day, double reserve) {}
+
+    public Member getNextPayoutRecipient() {
+        return null;
+    }
+
+    public boolean canExecutePayout() {
+        return false;
+    }
+
+    public double getNetPayoutAmount() {
+        return 0;
+    }
+
+    public void savePayoutRules(boolean auto, int day, double reserve) {
+    }
+
     public void resolveShortfall(String email, double amount, String source, ApiResponseCallback cb) {
-        if (cb != null) cb.onResult(true, "Shortfall resolved (Mock)");
+        if (cb != null)
+            cb.onResult(true, "Shortfall resolved (Mock)");
     }
 
     // --- ADDITIONAL METHODS CALLED BY VIEWMODELS ---
@@ -237,7 +353,8 @@ public class MemberRepository {
 
     public void sendMemberInvite(Member member, MemberAddCallback callback) {
         if (member == null || member.getId() == null) {
-            if (callback != null) callback.onResult(false, "Invalid member data");
+            if (callback != null)
+                callback.onResult(false, "Invalid member data");
             return;
         }
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
@@ -245,29 +362,32 @@ public class MemberRepository {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
-                    if (callback != null) callback.onResult(true, "Invite sent successfully");
+                    if (callback != null)
+                        callback.onResult(true, "Invite sent successfully");
                 } else {
-                    if (callback != null) callback.onResult(false, "Failed to send invite");
+                    if (callback != null)
+                        callback.onResult(false, "Failed to send invite");
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                if (callback != null) callback.onResult(false, "Network error: " + t.getMessage());
+                if (callback != null)
+                    callback.onResult(false, "Network error: " + t.getMessage());
             }
         });
     }
 
     public void updateMember(int position, Member member) {
-        if (member == null || member.getId() == null) return;
-        
+        if (member == null || member.getId() == null)
+            return;
+
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
         MemberUpdateRequest request = new MemberUpdateRequest(
-            member.getName(),
-            member.getRole(),
-            member.isActive()
-        );
-        
+                member.getName(),
+                member.getRole(),
+                member.isActive());
+
         apiService.updateMember(member.getId(), request).enqueue(new Callback<MemberEntity>() {
             @Override
             public void onResponse(Call<MemberEntity> call, Response<MemberEntity> response) {
@@ -284,8 +404,11 @@ public class MemberRepository {
     }
 
     public Member getMemberByPhone(String phone) {
-        if (getAllMembers() == null) return null;
-        for (Member m : getAllMembers()) if (phone.equals(m.getPhone())) return m;
+        if (getAllMembers() == null)
+            return null;
+        for (Member m : getAllMembers())
+            if (phone.equals(m.getPhone()))
+                return m;
         return null;
     }
 
@@ -307,32 +430,37 @@ public class MemberRepository {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
-                    if (callback != null) callback.onResult(true, "Loan request submitted");
+                    if (callback != null)
+                        callback.onResult(true, "Loan request submitted");
                 } else {
-                    if (callback != null) callback.onResult(false, "Submission failed");
+                    if (callback != null)
+                        callback.onResult(false, "Submission failed");
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                if (callback != null) callback.onResult(false, "Network error");
+                if (callback != null)
+                    callback.onResult(false, "Network error");
             }
         });
     }
 
     public LiveData<List<com.example.save.data.models.LoanRequest>> getLoanRequests() {
-        MutableLiveData<List<com.example.save.data.models.LoanRequest>> liveData = new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<com.example.save.data.models.LoanRequest>> liveData = new MutableLiveData<>(
+                new ArrayList<>());
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.getLoans().enqueue(new Callback<List<com.example.save.data.models.LoanRequest>>() {
+        apiService.getLoans(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>>() {
             @Override
-            public void onResponse(Call<List<com.example.save.data.models.LoanRequest>> call, Response<List<com.example.save.data.models.LoanRequest>> response) {
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> call,
+                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    liveData.postValue(response.body());
+                    liveData.postValue(response.body().getData());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<com.example.save.data.models.LoanRequest>> call, Throwable t) {
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> call, Throwable t) {
             }
         });
         return liveData;
@@ -352,109 +480,141 @@ public class MemberRepository {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
-                    if (callback != null) callback.onResult(true, "Approved successfully");
+                    if (callback != null)
+                        callback.onResult(true, "Approved successfully");
                 } else {
-                    if (callback != null) callback.onResult(false, "Approval failed");
+                    if (callback != null)
+                        callback.onResult(false, "Approval failed");
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                if (callback != null) callback.onResult(false, "Network error");
+                if (callback != null)
+                    callback.onResult(false, "Network error");
             }
         });
     }
 
-    public void enableAutoPay(Member member, double amount, int day) {}
+    public void enableAutoPay(Member member, double amount, int day) {
+    }
 
     public LiveData<List<com.example.save.data.models.TransactionEntity>> getRecentTransactions() {
         return new MutableLiveData<>(new ArrayList<>());
     }
 
-    public LiveData<List<com.example.save.data.models.TransactionEntity>> getLatestMemberTransactions(String memberName) {
+    public LiveData<List<com.example.save.data.models.TransactionEntity>> getLatestMemberTransactions(
+            String memberName) {
         return new MutableLiveData<>(new ArrayList<>());
     }
 
-    public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getMemberTransactionsWithApproval(String memberName) {
+    public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getMemberTransactionsWithApproval(
+            String memberName) {
         return new MutableLiveData<>(new ArrayList<>());
     }
 
-    public double getPayoutAmount() { return 0; }
-    public void setPayoutAmount(double amount) {}
-    public double getRetentionPercentage() { return 0; }
-    public void setRetentionPercentage(double percentage) {}
+    public double getPayoutAmount() {
+        return 0;
+    }
 
-    private final MutableLiveData<List<com.example.save.data.models.TransactionEntity>> transactionsLiveData = new MutableLiveData<>(new ArrayList<>());
+    public void setPayoutAmount(double amount) {
+    }
 
-    public LiveData<List<com.example.save.data.models.TransactionEntity>> getGenericTransactions() {
+    public double getRetentionPercentage() {
+        return 0;
+    }
+
+    public void setRetentionPercentage(double percentage) {
+    }
+
+    private final MutableLiveData<List<com.example.save.data.models.TransactionEntity>> transactionsLiveData = new MutableLiveData<>(
+            new ArrayList<>());
+
+    public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(
+            String adminEmail) {
+        MutableLiveData<List<com.example.save.data.models.TransactionWithApproval>> liveData = new MutableLiveData<>(
+                new ArrayList<>());
+
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.getTransactions().enqueue(new Callback<List<com.example.save.data.models.TransactionEntity>>() {
+        apiService.getTransactions(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>>() {
             @Override
-            public void onResponse(Call<List<com.example.save.data.models.TransactionEntity>> call, Response<List<com.example.save.data.models.TransactionEntity>> response) {
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call,
+                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    transactionsLiveData.postValue(response.body());
+                    List<com.example.save.data.models.TransactionWithApproval> pendingTxs = new ArrayList<>();
+                    for (com.example.save.data.models.TransactionEntity tx : response.body().getData()) {
+                        if ("PENDING".equalsIgnoreCase(tx.getStatus())
+                                || (tx.getStatus() != null && tx.getStatus().startsWith("PENDING"))) {
+                            pendingTxs.add(new com.example.save.data.models.TransactionWithApproval(tx, false));
+                        }
+                    }
+                    liveData.postValue(pendingTxs);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<com.example.save.data.models.TransactionEntity>> call, Throwable t) {
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call, Throwable t) {
+                liveData.postValue(new ArrayList<>());
+            }
+        });
+
+        return liveData;
+    }
+
+    public LiveData<List<com.example.save.data.models.TransactionEntity>> getGenericTransactions() {
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getTransactions(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call,
+                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    transactionsLiveData.postValue(response.body().getData());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call, Throwable t) {
                 // Silently fail or log
             }
         });
         return transactionsLiveData;
     }
 
-    public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(String adminEmail) {
-        MutableLiveData<List<com.example.save.data.models.TransactionWithApproval>> liveData = new MutableLiveData<>(new ArrayList<>());
-        
-        // DEMO DATA - FOLLOWING OLD PATTERN
-        List<com.example.save.data.models.TransactionWithApproval> demo = new ArrayList<>();
-        com.example.save.data.models.TransactionEntity tx1 = new com.example.save.data.models.TransactionEntity();
-        tx1.setId("demo_tx_1");
-        tx1.setMemberName("Alex Nkutu");
-        tx1.setAmount(150000.0);
-        tx1.setDescription("Vault Settlement");
-        tx1.setDate(new java.util.Date());
-        tx1.setStatus("PENDING (1/3 Approved)");
-        demo.add(new com.example.save.data.models.TransactionWithApproval(tx1, false));
-
-        com.example.save.data.models.TransactionEntity tx2 = new com.example.save.data.models.TransactionEntity();
-        tx2.setId("demo_tx_2");
-        tx2.setMemberName("Sarah Namuli");
-        tx2.setAmount(120000.0);
-        tx2.setDescription("Direct Wire");
-        tx2.setDate(new java.util.Date(System.currentTimeMillis() - 86400000));
-        tx2.setStatus("PENDING (2/3 Approved)");
-        demo.add(new com.example.save.data.models.TransactionWithApproval(tx2, true)); // Already approved by this admin
-
-        liveData.postValue(demo);
-        return liveData;
-    }
-
     public LiveData<List<com.example.save.data.models.LoanWithApproval>> getPendingLoansWithApproval(String adminEmail) {
         MutableLiveData<List<com.example.save.data.models.LoanWithApproval>> liveData = new MutableLiveData<>(new ArrayList<>());
         
-        // DEMO DATA - FOLLOWING OLD PATTERN
-        List<com.example.save.data.models.LoanWithApproval> demo = new ArrayList<>();
-        com.example.save.data.models.LoanEntity lr1 = new com.example.save.data.models.LoanEntity();
-        lr1.setId("demo_loan_1");
-        lr1.setMemberName("Mike Kalema");
-        lr1.setAmount(500000.0);
-        lr1.setReason("Business Growth");
-        lr1.setDateRequested(new java.util.Date());
-        lr1.setStatus("PENDING (0/3 Approved)");
-        demo.add(new com.example.save.data.models.LoanWithApproval(lr1, false));
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getLoans(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> call, Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<com.example.save.data.models.LoanWithApproval> pendingLoans = new ArrayList<>();
+                    for (com.example.save.data.models.LoanRequest lr : response.body().getData()) {
+                        if ("PENDING".equalsIgnoreCase(lr.getStatus()) || (lr.getStatus() != null && lr.getStatus().startsWith("PENDING"))) {
+                            com.example.save.data.models.LoanEntity entity = new com.example.save.data.models.LoanEntity();
+                            entity.setId(lr.getId());
+                            entity.setMemberName(lr.getMemberName());
+                            entity.setAmount(lr.getAmount());
+                            entity.setReason(lr.getReason());
+                            try {
+                                entity.setDateRequested(java.text.DateFormat.getDateInstance().parse(lr.getRequestDate()));
+                            } catch (Exception e) {
+                                entity.setDateRequested(new java.util.Date());
+                            }
+                            entity.setStatus(lr.getStatus());
+                            pendingLoans.add(new com.example.save.data.models.LoanWithApproval(entity, false));
+                        }
+                    }
+                    liveData.postValue(pendingLoans);
+                }
+            }
 
-        com.example.save.data.models.LoanEntity lr2 = new com.example.save.data.models.LoanEntity();
-        lr2.setId("demo_loan_2");
-        lr2.setMemberName("Jane Doe");
-        lr2.setAmount(250000.0);
-        lr2.setReason("Emergency Medical");
-        lr2.setDateRequested(new java.util.Date(System.currentTimeMillis() - 172800000));
-        lr2.setStatus("PENDING (1/3 Approved)");
-        demo.add(new com.example.save.data.models.LoanWithApproval(lr2, false));
-
-        liveData.postValue(demo);
+            @Override
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> call, Throwable t) {
+                liveData.postValue(new ArrayList<>());
+            }
+        });
+        
         return liveData;
     }
 
@@ -462,27 +622,55 @@ public class MemberRepository {
         return new MutableLiveData<>(new ArrayList<>());
     }
 
-    public boolean hasAdminApproved(String type, String id, String adminEmail) { return false; }
-    public int getAdminCount() { return getAdmins().size(); }
-    public LiveData<Integer> getAdminCountLive() { return new MutableLiveData<>(getAdminCount()); }
+    public boolean hasAdminApproved(String type, String id, String adminEmail) {
+        return false;
+    }
+
+    public int getAdminCount() {
+        return getAdmins().size();
+    }
+
+    public LiveData<Integer> getAdminCountLive() {
+        return new MutableLiveData<>(getAdminCount());
+    }
 
     public void checkLoanEligibility(double amount, int duration, EligibilityCallback callback) {
-        if (callback != null) callback.onResult(true, "Eligible (Mock)");
+        if (callback != null)
+            callback.onResult(true, "Eligible (Mock)");
     }
 
     public void getRepaymentSchedule(double amount, int duration, RepaymentScheduleCallback callback) {
-        if (callback != null) callback.onResult(true, "Schedule generated (Mock)");
+        if (callback != null)
+            callback.onResult(true, "Schedule generated (Mock)");
     }
 
-    public double getContributionTarget() { return 0; }
-    public void setContributionTarget(double target) {}
-    public double getMaxLoanAmount() { return 0; }
-    public double getLoanInterestRate() { return 0; }
-    public int getMaxLoanDuration() { return 0; }
-    public boolean isGuarantorRequired() { return false; }
+    public double getContributionTarget() {
+        return 0;
+    }
 
-    public void changePassword(String email, String currentPassword, String newPassword, PasswordChangeCallback callback) {
-        if (callback != null) callback.onResult(true, "Password changed (Mock)");
+    public void setContributionTarget(double target) {
+    }
+
+    public double getMaxLoanAmount() {
+        return 0;
+    }
+
+    public double getLoanInterestRate() {
+        return 0;
+    }
+
+    public int getMaxLoanDuration() {
+        return 0;
+    }
+
+    public boolean isGuarantorRequired() {
+        return false;
+    }
+
+    public void changePassword(String email, String currentPassword, String newPassword,
+            PasswordChangeCallback callback) {
+        if (callback != null)
+            callback.onResult(true, "Password changed (Mock)");
     }
 
     public void approveLoan(String loanId, String adminEmail, ApprovalCallback callback) {
@@ -491,36 +679,43 @@ public class MemberRepository {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
-                    if (callback != null) callback.onResult(true, "Loan approved");
+                    if (callback != null)
+                        callback.onResult(true, "Loan approved");
                 } else {
-                    if (callback != null) callback.onResult(false, "Approval failed: " + response.code());
+                    if (callback != null)
+                        callback.onResult(false, "Approval failed: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                if (callback != null) callback.onResult(false, "Network error");
+                if (callback != null)
+                    callback.onResult(false, "Network error");
             }
         });
     }
 
     public void approveTransaction(String txId, String adminEmail, ApprovalCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.approveTransaction(txId, new ApprovalRequestDto(txId, adminEmail)).enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()) {
-                    if (callback != null) callback.onResult(true, "Transaction approved");
-                } else {
-                    if (callback != null) callback.onResult(false, "Approval failed: " + response.code());
-                }
-            }
+        apiService.approveTransaction(txId, new ApprovalRequestDto(txId, adminEmail))
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        if (response.isSuccessful()) {
+                            if (callback != null)
+                                callback.onResult(true, "Transaction approved");
+                        } else {
+                            if (callback != null)
+                                callback.onResult(false, "Approval failed: " + response.code());
+                        }
+                    }
 
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                if (callback != null) callback.onResult(false, "Network error");
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        if (callback != null)
+                            callback.onResult(false, "Network error");
+                    }
+                });
     }
 
     public void rejectLoanRequest(String requestId, String reason, RejectionCallback callback) {
@@ -529,22 +724,27 @@ public class MemberRepository {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
-                    if (callback != null) callback.onResult(true, "Loan rejected");
+                    if (callback != null)
+                        callback.onResult(true, "Loan rejected");
                 } else {
-                    if (callback != null) callback.onResult(false, "Rejection failed: " + response.code());
+                    if (callback != null)
+                        callback.onResult(false, "Rejection failed: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                if (callback != null) callback.onResult(false, "Network error");
+                if (callback != null)
+                    callback.onResult(false, "Network error");
             }
         });
     }
 
-    public void repayLoan(String loanId, double amount, String paymentMethod, String phoneNumber, LoanRepaymentCallback callback) {
+    public void repayLoan(String loanId, double amount, String paymentMethod, String phoneNumber,
+            LoanRepaymentCallback callback) {
         // Implementation for backend repayment
-        if (callback != null) callback.onResult(true, "Repayment processed");
+        if (callback != null)
+            callback.onResult(true, "Repayment processed");
     }
 
     public LiveData<List<com.example.save.data.models.TransactionEntity>> getPendingTransactions() {

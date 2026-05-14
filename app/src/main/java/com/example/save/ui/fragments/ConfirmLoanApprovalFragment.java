@@ -110,6 +110,7 @@ public class ConfirmLoanApprovalFragment extends Fragment {
             
             if (loanId != null) {
                 viewModel.approveLoan(loanId, session.getUserEmail(), (success, message) -> {
+                    if (!isAdded() || getContext() == null) return;
                     if (success) {
                         navigateToSuccess();
                     } else {

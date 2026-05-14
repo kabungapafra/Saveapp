@@ -8,12 +8,15 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 
+import com.example.save.data.models.PaginatedResponse;
+import retrofit2.http.Query;
+
 public interface ApiService {
     @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest request);
 
     @GET("members")
-    Call<List<MemberEntity>> getMembers();
+    Call<PaginatedResponse<MemberEntity>> getMembers(@Query("limit") int limit, @Query("offset") int offset);
 
     @POST("members")
     Call<MemberRegistrationResponse> createMember(@Body MemberRegistrationRequest request);
@@ -43,7 +46,7 @@ public interface ApiService {
     Call<ApiResponse> deleteGroup();
 
     @GET("transactions")
-    Call<List<com.example.save.data.models.TransactionEntity>> getTransactions();
+    Call<PaginatedResponse<com.example.save.data.models.TransactionEntity>> getTransactions(@Query("limit") int limit, @Query("offset") int offset);
 
     @POST("members/{id}/send-invite")
     Call<ApiResponse> sendMemberInvite(@retrofit2.http.Path("id") String memberId);
@@ -52,7 +55,7 @@ public interface ApiService {
     Call<ApiResponse> submitLoan(@Body com.example.save.data.models.LoanRequest request);
 
     @GET("loans")
-    Call<List<com.example.save.data.models.LoanRequest>> getLoans();
+    Call<PaginatedResponse<com.example.save.data.models.LoanRequest>> getLoans(@Query("limit") int limit, @Query("offset") int offset);
 
     @POST("loans/{id}/approve")
     Call<ApiResponse> approveLoan(@retrofit2.http.Path("id") String loanId);

@@ -56,6 +56,9 @@ public class SettingsFragment extends Fragment {
         }
         String group = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
                 .getString("group_name", "");
+        if (group == null || group.isEmpty()) {
+            group = session.getLastGroup();
+        }
 
         String phone = session.getUserPhone();
         binding.tvUserName.setText(name != null && !name.isEmpty() ? name : (phone != null && !phone.isEmpty() ? phone : email));
@@ -98,6 +101,18 @@ public class SettingsFragment extends Fragment {
         // Load real stats from the backend dashboard summary
         androidx.lifecycle.ViewModelProvider provider = new androidx.lifecycle.ViewModelProvider(requireActivity());
         com.example.save.ui.viewmodels.MembersViewModel vm = provider.get(com.example.save.ui.viewmodels.MembersViewModel.class);
+        
+        // Observe members locally to consistently show active members count
+        vm.getMembers().observe(getViewLifecycleOwner(), members -> {
+            if (members != null) {
+                int active = 0;
+                for (com.example.save.data.models.Member m : members) {
+                    if (m.isActive()) active++;
+                }
+                binding.tvPosition.setText(active + " / " + members.size());
+            }
+        });
+
         vm.getDashboardSummary((success, summaryObj, message) -> {
             if (success && isAdded() && summaryObj instanceof com.example.save.data.models.DashboardSummaryResponse) {
                 com.example.save.data.models.DashboardSummaryResponse summary =
@@ -118,13 +133,10 @@ public class SettingsFragment extends Fragment {
                             .getString("sched_payout_date", "TBD");
                     binding.tvNextPayout.setText(nextPayout);
                     
-                    int active = summary.getActiveMembers();
-                    int total = summary.getTotalMembers();
-                    binding.tvPosition.setText(active + " / " + (total > 0 ? total : active));
-                    
                     // Update Group name if it was missing
                     if (summary.getGroupName() != null && !summary.getGroupName().isEmpty()) {
                         binding.tvGroupName.setText(summary.getGroupName());
+                        com.example.save.utils.SessionManager.getInstance(requireContext()).saveLastGroup(summary.getGroupName());
                     }
                 });
             }
@@ -208,21 +220,6 @@ public class SettingsFragment extends Fragment {
             applyClickAnimation(v);
             if (getContext() != null) {
                 com.example.save.utils.SessionManager.getInstance(getContext()).logoutUser();
-            }
-        });
-
-        binding.btnDeleteAccount.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            if (getContext() != null) {
-                new androidx.appcompat.app.AlertDialog.Builder(getContext())
-                    .setTitle("Delete Account")
-                    .setMessage("Are you sure you want to permanently delete your account? This action cannot be undone.")
-                    .setPositiveButton("Delete", (dialog, which) -> {
-                        Toast.makeText(getContext(), "Account deleted successfully", Toast.LENGTH_SHORT).show();
-                        com.example.save.utils.SessionManager.getInstance(getContext()).logoutUser();
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
             }
         });
     }
