@@ -309,6 +309,8 @@ public class MembersFragment extends Fragment {
         dialogBinding.btnCreateMember.setOnClickListener(v -> {
             String name = dialogBinding.etMemberName.getText().toString().trim();
             String phoneInput = dialogBinding.etMemberPhone.getText().toString().trim();
+            String pin = dialogBinding.etMemberPin.getText().toString().trim();
+
             // Prepend +256 if it's just the local number; use a final var for lambda capture
             final String phone;
             if (phoneInput.length() == 9 && phoneInput.startsWith("7")) {
@@ -326,7 +328,10 @@ public class MembersFragment extends Fragment {
                 return;
             }
 
-
+            if (!com.example.save.utils.ValidationUtils.isNotEmpty(pin) || pin.length() < 4) {
+                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPin, "4-digit PIN is required");
+                return;
+            }
 
             if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
                 com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPhone, "Invalid phone number");
@@ -335,7 +340,7 @@ public class MembersFragment extends Fragment {
 
             Member newMember = new Member(name, role, true, phone, email);
             newMember.setId(java.util.UUID.randomUUID().toString());
-            // Password will be assigned by backend
+            newMember.setPassword(pin);
             newMember.setFirstLogin(true);
 
             dialogBinding.btnCreateMember.setEnabled(false);
@@ -387,14 +392,23 @@ public class MembersFragment extends Fragment {
             successAnimation.setProgress(0f);
             successAnimation.playAnimation();
 
-            // After animation ends (or short delay), show the credentials
+            // After animation ends, skip OTP dialog and go to success fragment
             new android.os.Handler().postDelayed(() -> {
                 animationOverlay.setVisibility(View.GONE);
-                showOTPDialog(name, otp, email, phone);
+                navigateToSuccess(name);
             }, 2500);
         } else {
-            showOTPDialog(name, otp, email, phone);
+            navigateToSuccess(name);
         }
+    }
+
+    private void navigateToSuccess(String memberName) {
+        if (getView() == null) return;
+        getParentFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                .replace(((ViewGroup) getView().getParent()).getId(), MemberSuccessFragment.newInstance(memberName))
+                .addToBackStack(null)
+                .commit();
     }
 
     private void showOTPDialog(String memberName, String otp, String email, String phone) {

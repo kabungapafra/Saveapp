@@ -114,7 +114,7 @@ public class MemberRepository {
     public void addMember(Member member, MemberRegistrationCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
         MemberRegistrationRequest request = new MemberRegistrationRequest(member.getName(), member.getEmail(),
-                member.getPhone(), member.getRole());
+                member.getPhone(), member.getRole(), member.getPassword());
 
         apiService.createMember(request).enqueue(new Callback<MemberRegistrationResponse>() {
             @Override
