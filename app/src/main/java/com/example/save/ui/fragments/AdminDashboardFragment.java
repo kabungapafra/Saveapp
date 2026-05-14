@@ -202,29 +202,30 @@ public class AdminDashboardFragment extends Fragment {
     }
 
     private void loadAdminData() {
-        SharedPreferences prefs = requireActivity().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
-        if (isAdmin) {
-            adminNameStr = prefs.getString("admin_name", "Admin");
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
+        String nameFromSession = session.getUserName();
+        
+        if (nameFromSession != null && !nameFromSession.isEmpty()) {
+            adminNameStr = nameFromSession.split(" ")[0];
         } else {
-            // Load Member Name from Session
-            adminNameStr = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserEmail();
-            if (adminNameStr != null && adminNameStr.contains("@")) {
-                adminNameStr = adminNameStr.split("@")[0]; // Fallback if name not found
+            String email = session.getUserEmail();
+            if (email != null && email.contains("@")) {
+                adminNameStr = email.split("@")[0];
                 adminNameStr = adminNameStr.substring(0, 1).toUpperCase() + adminNameStr.substring(1);
             } else {
-                adminNameStr = "Member";
+                adminNameStr = isAdmin ? "Admin" : "Member";
             }
-            
-            // Try to get real name from ViewModel
-            String email = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserEmail();
-            if (email != null) {
-                viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
-                    if (member != null) {
-                        adminNameStr = member.getName().split(" ")[0];
-                        updateGreeting();
-                    }
-                });
-            }
+        }
+
+        // Always try to get the latest real name from ViewModel
+        String email = session.getUserEmail();
+        if (email != null) {
+            viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
+                if (member != null && member.getName() != null && !member.getName().isEmpty()) {
+                    adminNameStr = member.getName().split(" ")[0];
+                    updateGreeting();
+                }
+            });
         }
         updateGreeting();
     }
