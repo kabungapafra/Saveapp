@@ -76,6 +76,10 @@ public class RetrofitClient {
         return retrofit;
     }
 
+    public OkHttpClient getOkHttpClient() {
+        return okHttpClient;
+    }
+
     public synchronized void updateToken(String token) {
         this.authToken = token;
     }

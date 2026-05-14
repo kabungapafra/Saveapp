@@ -214,29 +214,38 @@ public class SessionManager {
     // ────────────────────────────────────────────────────────────────────────
 
     public void logoutUser() {
+        // Step 1 — Cancel in-flight requests, evict stale connections, zero out interceptor token.
+        // Must happen FIRST so no requests fire with the old token after prefs are wiped.
         try {
-            // Perform network cleanup first
             com.example.save.data.network.RetrofitClient.getInstance(_context).logout();
+        } catch (Exception ignored) {}
 
-            // Only clear the encrypted session prefs
+        // Step 2 — Wipe encrypted session prefs, then refresh the editor reference.
+        // Refreshing editor = pref.edit() is critical: without it, the next login's
+        // createLoginSession() / saveJwtToken() writes go to a drained editor object
+        // and may silently fail, causing an immediate "not logged in" state on re-login.
+        try {
             editor.clear();
             editor.commit();
-
-            // Clear repository data
-            com.example.save.data.repository.MemberRepository
-                    .getInstance(_context).clearData();
+            editor = pref.edit(); // fresh editor for the next session
         } catch (Exception e) {
             try {
-                // Secondary network cleanup attempt
-                com.example.save.data.network.RetrofitClient.getInstance(_context).logout();
                 _context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
                         .edit().clear().apply();
             } catch (Exception ignored) {}
         }
+
+        // Step 3 — Flush cached repository data (isolated so a repo failure never
+        // blocks navigation to the login screen).
+        try {
+            com.example.save.data.repository.MemberRepository
+                    .getInstance(_context).clearData();
+        } catch (Exception ignored) {}
+
         // memPref (last-user memory) is deliberately NOT cleared — it powers
         // the "Welcome Back" screen on next open.
 
-        // Route to Welcome Back if we know the user; else plain login
+        // Route to Welcome Back if we know the user; else plain login.
         Intent i;
         if (memPref.getBoolean(KEY_HAS_LOGGED_IN, false)) {
             i = new Intent(_context, WelcomeBackActivity.class);
