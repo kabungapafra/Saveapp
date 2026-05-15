@@ -51,7 +51,7 @@ public class PayoutsViewModel extends AndroidViewModel {
     }
 
     public void resolveShortfall(Member member) {
-        repository.resolveShortfall(member.getEmail(), member.getShortfallAmount(), "SYSTEM",
+        repository.resolveShortfall(member.getPhone(), member.getShortfallAmount(), "SYSTEM",
                 new MemberRepository.ApiResponseCallback() {
                     @Override
                     public void onResult(boolean success, String message) {

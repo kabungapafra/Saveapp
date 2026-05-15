@@ -93,8 +93,8 @@ public class AdminLoansFragment extends Fragment {
             @Override
             public void onApprove(LoanRequest request) {
                 com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getContext());
-                String adminEmail = session.getUserEmail();
-                viewModel.initiateLoanApproval(request.getId(), adminEmail, (success, message) -> {
+                String adminPhone = session.getUserPhone();
+                viewModel.initiateLoanApproval(request.getId(), adminPhone, (success, message) -> {
                     if (isVisible()) {
                         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     }

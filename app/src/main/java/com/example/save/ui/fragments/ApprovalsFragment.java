@@ -48,19 +48,19 @@ public class ApprovalsFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        String adminEmail = SessionManager.getInstance(requireContext()).getUserEmail();
+        String adminPhone = SessionManager.getInstance(requireContext()).getUserPhone();
         adapter = new ApprovalsAdapter(new ApprovalsAdapter.OnApprovalClickListener() {
             @Override
             public void onApproveClick(ApprovalsAdapter.ApprovalItem item) {
                 if ("LOAN".equals(item.getType())) {
-                    viewModel.approveLoan(item.getId(), adminEmail, (success, message) -> {
+                    viewModel.approveLoan(item.getId(), adminPhone, (success, message) -> {
                         if (isAdded()) {
                             requireActivity().runOnUiThread(() ->
                                     Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
                         }
                     });
                 } else {
-                    viewModel.approveTransaction(item.getId(), adminEmail, (success, message) -> {
+                    viewModel.approveTransaction(item.getId(), adminPhone, (success, message) -> {
                         if (isAdded()) {
                             requireActivity().runOnUiThread(() ->
                                     Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
@@ -89,8 +89,8 @@ public class ApprovalsFragment extends Fragment {
     }
 
     private void observeApprovals() {
-        String adminEmail = SessionManager.getInstance(requireContext()).getUserEmail();
-        viewModel.getCombinedApprovals(adminEmail).observe(getViewLifecycleOwner(), items -> {
+        String adminPhone = SessionManager.getInstance(requireContext()).getUserPhone();
+        viewModel.getCombinedApprovals(adminPhone).observe(getViewLifecycleOwner(), items -> {
             if (items != null && !items.isEmpty()) {
                 binding.rvApprovals.setVisibility(View.VISIBLE);
                 if (binding.emptyState != null) binding.emptyState.setVisibility(View.GONE);

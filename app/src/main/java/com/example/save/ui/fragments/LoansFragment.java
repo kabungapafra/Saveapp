@@ -23,18 +23,18 @@ import java.util.List;
 
 public class LoansFragment extends Fragment {
 
-    private static final String ARG_MEMBER_EMAIL = "member_email";
+    private static final String ARG_MEMBER_PHONE = "member_phone";
 
     private FragmentLoansBinding binding;
     private MembersViewModel membersViewModel;
     private LoanHistoryAdapter historyAdapter;
-    private String memberEmail;
+    private String memberPhone;
     private List<com.example.save.data.models.LoanWithApproval> allLoans = new ArrayList<>();
 
-    public static LoansFragment newInstance(String memberEmail) {
+    public static LoansFragment newInstance(String memberPhone) {
         LoansFragment fragment = new LoansFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_MEMBER_EMAIL, memberEmail);
+        args.putString(ARG_MEMBER_PHONE, memberPhone);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,7 +43,7 @@ public class LoansFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            memberEmail = getArguments().getString(ARG_MEMBER_EMAIL);
+            memberPhone = getArguments().getString(ARG_MEMBER_PHONE);
         }
     }
 
@@ -74,13 +74,17 @@ public class LoansFragment extends Fragment {
     }
 
     private void loadLoans() {
-        if (memberEmail != null) {
+        if (memberPhone == null || memberPhone.isEmpty()) {
+            memberPhone = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserPhone();
+        }
+        
+        if (memberPhone != null && !memberPhone.isEmpty()) {
             // Reactive chain:
             // 1. Observe Member (to get name) ->
             // 2. Observe Admin Count ->
             // 3. Observe Loans with Approval Stats
 
-            membersViewModel.getMemberByEmailLive(memberEmail).observe(getViewLifecycleOwner(), member -> {
+            membersViewModel.getMemberByPhoneLive(memberPhone).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
                     final String memberName = member.getName();
                     observeLoans(memberName);

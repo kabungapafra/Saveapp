@@ -91,10 +91,10 @@ public class LoanPaymentFragment extends Fragment {
 
     private void loadMemberData() {
         com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
-        String email = session.getUserEmail();
+        String phone = session.getUserPhone();
 
-        if (email != null) {
-            viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
+        if (phone != null && !phone.isEmpty()) {
+            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
                     currentMember = member;
                     // Load active loan data

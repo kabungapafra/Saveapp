@@ -333,7 +333,7 @@ public class MembersFragment extends Fragment {
                 return;
             }
 
-            Member newMember = new Member(name, role, true, phone, email);
+            Member newMember = new Member(name, role, true, phone);
             newMember.setId(java.util.UUID.randomUUID().toString());
             newMember.setPassword(""); // Member will set PIN during onboarding
             newMember.setFirstLogin(true);
@@ -528,12 +528,21 @@ public class MembersFragment extends Fragment {
     }
 
     private void showRemoveMemberConfirmation(Member member) {
-        new MaterialAlertDialogBuilder(getContext()).setTitle("Remove Member")
-                .setMessage("Remove " + member.getName() + "?")
+        new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Remove Member")
+                .setMessage("Are you sure you want to completely remove " + member.getName() + "? This action cannot be undone.")
                 .setPositiveButton("Remove", (d, w) -> {
-                    viewModel.removeMember(member);
-                    Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
-                }).setNegativeButton("Cancel", null).show();
+                    viewModel.removeMember(member, (success, message) -> {
+                        if (getActivity() == null) return;
+                        if (success) {
+                            Toast.makeText(getContext(), "Member removed successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private String formatCurrencyCompact(double amount) {

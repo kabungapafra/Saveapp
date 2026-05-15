@@ -66,7 +66,7 @@ public class MakeContributionFragment extends Fragment {
 
         MembersViewModel viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
         SessionManager session = SessionManager.getInstance(requireContext());
-        String email = session.getUserEmail();
+        String phone = session.getUserPhone();
         
         setupAmountInput();
 
@@ -88,7 +88,7 @@ public class MakeContributionFragment extends Fragment {
 
         // Confirm action
         btnConfirm.setOnClickListener(v -> {
-            if (email == null) {
+            if (phone == null || phone.isEmpty()) {
                 Toast.makeText(getContext(), "User session not found", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -97,7 +97,7 @@ public class MakeContributionFragment extends Fragment {
             btnConfirm.setText("Processing...");
 
             new Thread(() -> {
-                Member member = viewModel.getMemberByEmail(email);
+                Member member = viewModel.getMemberByPhone(phone);
                 if (member != null) {
                     getActivity().runOnUiThread(() -> {
                         viewModel.makePayment(member, (double) currentAmount, member.getPhone(), selectedPaymentMethod,

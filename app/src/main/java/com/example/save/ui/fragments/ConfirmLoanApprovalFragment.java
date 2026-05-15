@@ -109,7 +109,7 @@ public class ConfirmLoanApprovalFragment extends Fragment {
             com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
             
             if (loanId != null) {
-                viewModel.approveLoan(loanId, session.getUserEmail(), (success, message) -> {
+                viewModel.approveLoan(loanId, session.getUserPhone(), (success, message) -> {
                     if (!isAdded() || getContext() == null) return;
                     if (success) {
                         navigateToSuccess();

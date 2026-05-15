@@ -132,11 +132,10 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             // Load profile image if it's the current user
             com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(itemView.getContext());
-            String currentUserEmail = session.getUserEmail();
+
             String currentUserPhone = session.getUserPhone();
 
-            boolean isSelf = (member.getEmail() != null && !member.getEmail().isEmpty() && member.getEmail().equalsIgnoreCase(currentUserEmail))
-                    || (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
+            boolean isSelf = (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
 
             if (isSelf) {
                 String savedImage = session.getProfileImage();
@@ -207,11 +206,8 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             
             // User identification for permissions and profile picture
             SessionManager session = SessionManager.getInstance(itemView.getContext());
-            String currentUserEmail = session.getUserEmail();
             String currentUserPhone = session.getUserPhone();
-            
-            boolean isSelf = (member.getEmail() != null && !member.getEmail().isEmpty() && member.getEmail().equalsIgnoreCase(currentUserEmail))
-                    || (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
+            boolean isSelf = (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
             
             binding.btnRemoveMember.setVisibility(isUserAdmin && !isSelf ? View.VISIBLE : View.GONE);
 

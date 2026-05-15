@@ -118,7 +118,7 @@ public class AdminSignupActivity extends AppCompatActivity {
             return;
         }
 
-        navigateToWizard(adminName, normalizedPhone, password);
+        navigateToWizard(adminName, phone, password);
     }
 
     private void navigateToWizard(String adminName, String phone, String password) {

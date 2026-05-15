@@ -34,9 +34,9 @@ public class ProfileInfoActivity extends AppCompatActivity {
 
     private void loadProfileInfo() {
         SessionManager session = SessionManager.getInstance(this);
-        String userEmail = session.getUserEmail();
+        String userPhone = session.getUserPhone();
 
-        if (userEmail == null) {
+        if (userPhone == null || userPhone.isEmpty()) {
             Toast.makeText(this, "Session error: Please login again", Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -44,12 +44,12 @@ public class ProfileInfoActivity extends AppCompatActivity {
 
         // Initially load from session
         binding.tvUserName.setText(session.getUserName() != null ? session.getUserName() : "Loading...");
-        binding.tvUserEmail.setText(userEmail);
+        binding.tvUserPhone.setText(userPhone);
         binding.tvUserRole.setText(session.getUserRole() != null ? session.getUserRole() : "Member");
 
         // Fetch real data from DB
         new Thread(() -> {
-            com.example.save.data.models.Member member = viewModel.getMemberByEmail(userEmail);
+            com.example.save.data.models.Member member = viewModel.getMemberByPhone(userPhone);
             runOnUiThread(() -> {
                 if (member != null) {
                     binding.tvUserName.setText(member.getName());

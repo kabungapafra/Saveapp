@@ -201,24 +201,24 @@ public class AddGuarantorFragment extends Fragment {
     }
 
     private void createDummyData() {
-        Member m1 = new Member("Marcus Thorne", "MEMBER", true, "0711111111", "marcus@example.com");
+        Member m1 = new Member("Marcus Thorne", "MEMBER", true, "0711111111");
         m1.setId("m1");
         allMembers.add(m1);
 
-        Member m2 = new Member("David Kim", "MEMBER", true, "0722222222", "david@example.com");
+        Member m2 = new Member("David Kim", "MEMBER", true, "0722222222");
         m2.setId("m2");
         allMembers.add(m2);
 
-        Member m3 = new Member("Jasmine Lee", "MEMBER", true, "0733333333", "jasmine@example.com");
+        Member m3 = new Member("Jasmine Lee", "MEMBER", true, "0733333333");
         m3.setId("m3");
         allMembers.add(m3);
 
-        Member m4 = new Member("Samuel Rivera", "MEMBER", true, "0744444444", "samuel@example.com");
+        Member m4 = new Member("Samuel Rivera", "MEMBER", true, "0744444444");
         m4.setId("m4");
         m4.setCreditScore(80); // Ensure eligible
         allMembers.add(m4);
         
-        Member bea = new Member("Beatrice Walsh", "MEMBER", true, "0755555555", "bea@example.com");
+        Member bea = new Member("Beatrice Walsh", "MEMBER", true, "0755555555");
         bea.setId("m5");
         bea.setCreditScore(40); // Force LOW SCORE
         allMembers.add(bea);

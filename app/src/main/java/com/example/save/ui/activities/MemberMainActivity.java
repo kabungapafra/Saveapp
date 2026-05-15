@@ -57,7 +57,7 @@ public class MemberMainActivity extends BaseActivity {
         SessionManager session = SessionManager.getInstance(this);
         if (session.isFirstLogin()) {
             android.content.Intent intent = new android.content.Intent(this, ResetPasswordActivity.class);
-            intent.putExtra("email", session.getUserEmail());
+            intent.putExtra("email", session.getUserPhone()); // Keep 'email' extra key for compatibility or fix if used as phone
             intent.putExtra("phone", session.getUserPhone());
             intent.putExtra("is_first_login", true);
             intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);

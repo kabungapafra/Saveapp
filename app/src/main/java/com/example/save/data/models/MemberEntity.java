@@ -70,7 +70,7 @@ public class MemberEntity {
     public double getContributionPaid() { return contributionPaid; }
     public void setContributionPaid(double contributionPaid) { this.contributionPaid = contributionPaid; }
     public boolean isFirstLogin() { return isFirstLogin; }
-    public void setFirstLogin(boolean firstLogin) { this.firstLogin = firstLogin; }
+    public void setFirstLogin(boolean firstLogin) { this.isFirstLogin = firstLogin; }
     public int getPaymentStreak() { return paymentStreak; }
     public void setPaymentStreak(int paymentStreak) { this.paymentStreak = paymentStreak; }
     public String getNextPayoutDate() { return nextPayoutDate; }

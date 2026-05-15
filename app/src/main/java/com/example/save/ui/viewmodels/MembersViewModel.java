@@ -59,8 +59,8 @@ public class MembersViewModel extends AndroidViewModel {
         repository.sendMemberInvite(member, callback);
     }
 
-    public void removeMember(Member member) {
-        repository.deleteMember(member, null);
+    public void removeMember(Member member, MemberRepository.MemberAddCallback callback) {
+        repository.deleteMember(member, callback);
     }
 
     public void resetPassword(String email, String newPassword, MemberRepository.PasswordChangeCallback callback) {
@@ -94,9 +94,7 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getMemberByName(name);
     }
 
-    public Member getMemberByEmail(String email) {
-        return repository.getMemberByEmail(email);
-    }
+
 
     public Member getMemberByPhone(String phone) {
         return repository.getMemberByPhone(phone);
@@ -173,8 +171,8 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getPendingLoanRequests();
     }
 
-    public void initiateLoanApproval(String requestId, String adminEmail, MemberRepository.ApprovalCallback callback) {
-        repository.initiateLoanApproval(requestId, adminEmail, callback);
+    public void initiateLoanApproval(String requestId, String adminPhone, MemberRepository.ApprovalCallback callback) {
+        repository.initiateLoanApproval(requestId, adminPhone, callback);
     }
 
     // Loan rejection - Now uses backend API with callback
@@ -235,14 +233,7 @@ public class MembersViewModel extends AndroidViewModel {
     }
 
     // LiveData wrappers for async operations (replaces manual threads)
-    public LiveData<Member> getMemberByEmailLive(String email) {
-        androidx.lifecycle.MutableLiveData<Member> liveData = new androidx.lifecycle.MutableLiveData<>();
-        repository.getExecutor().execute(() -> {
-            Member member = repository.getMemberByEmail(email);
-            liveData.postValue(member);
-        });
-        return liveData;
-    }
+
 
     public LiveData<Member> getMemberByPhoneLive(String phone) {
         androidx.lifecycle.MutableLiveData<Member> liveData = new androidx.lifecycle.MutableLiveData<>();
@@ -331,12 +322,12 @@ public class MembersViewModel extends AndroidViewModel {
         });
     }
 
-    public void approveTransaction(String txId, String adminEmail, MemberRepository.ApprovalCallback callback) {
-        repository.approveTransaction(txId, adminEmail, callback);
+    public void approveTransaction(String txId, String adminPhone, MemberRepository.ApprovalCallback callback) {
+        repository.approveTransaction(txId, adminPhone, callback);
     }
 
-    public void approveLoan(String loanId, String adminEmail, MemberRepository.ApprovalCallback callback) {
-        repository.approveLoan(loanId, adminEmail, callback);
+    public void approveLoan(String loanId, String adminPhone, MemberRepository.ApprovalCallback callback) {
+        repository.approveLoan(loanId, adminPhone, callback);
     }
 
     public LiveData<List<com.example.save.data.models.TransactionEntity>> getPendingTransactions() {
@@ -345,13 +336,13 @@ public class MembersViewModel extends AndroidViewModel {
 
     // New optimized reactive method
     public LiveData<List<com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem>> getCombinedApprovals(
-            String adminEmail) {
+            String adminPhone) {
         androidx.lifecycle.MediatorLiveData<List<com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem>> mediator = new androidx.lifecycle.MediatorLiveData<>();
 
         LiveData<List<com.example.save.data.models.TransactionWithApproval>> txSource = repository
-                .getPendingTransactionsWithApproval(adminEmail);
+                .getPendingTransactionsWithApproval(adminPhone);
         LiveData<List<com.example.save.data.models.LoanWithApproval>> loanSource = repository
-                .getPendingLoansWithApproval(adminEmail);
+                .getPendingLoansWithApproval(adminPhone);
 
         mediator.addSource(txSource, txs -> combineApprovals(mediator, txs, loanSource.getValue()));
         mediator.addSource(loanSource, loans -> combineApprovals(mediator, txSource.getValue(), loans));

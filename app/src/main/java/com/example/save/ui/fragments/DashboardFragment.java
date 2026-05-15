@@ -112,7 +112,7 @@ public class DashboardFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void loadDashboardData() {
         SessionManager session = SessionManager.getInstance(requireContext().getApplicationContext());
-        String email = session.getUserEmail();
+        String phone = session.getUserPhone();
 
         viewModel.getDashboardSummary((success, summaryObj, message) -> {
             if (success && isAdded() && summaryObj instanceof com.example.save.data.models.DashboardSummaryResponse) {
@@ -129,8 +129,8 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        if (email != null) {
-            viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
+        if (phone != null && !phone.isEmpty()) {
+            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
                     double mySavings = member.getContributionPaid();
                     double target = member.getContributionTarget();
@@ -167,24 +167,24 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        String email = SessionManager.getInstance(requireContext()).getUserEmail();
-        if (email != null) {
-            viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), currentMember -> {
+        String phone = SessionManager.getInstance(requireContext()).getUserPhone();
+        if (phone != null && !phone.isEmpty()) {
+            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), currentMember -> {
                 // Update additional stats if components are added to UI
             });
         }
         
         viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
             if (members != null) {
-                memberAdapter.setMembers(members, email);
+                memberAdapter.setMembers(members, phone);
             }
         });
     }
 
     private void loadRecentTransactions() {
-        String email = SessionManager.getInstance(requireContext()).getUserEmail();
-        if (email != null) {
-            viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
+        String phone = SessionManager.getInstance(requireContext()).getUserPhone();
+        if (phone != null && !phone.isEmpty()) {
+            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
                     viewModel.getMemberTransactionsWithApproval(member.getName()).observe(getViewLifecycleOwner(), transactionItems -> {
                         if (transactionItems != null) {

@@ -59,6 +59,9 @@ public interface ApiService {
     @GET("loans")
     Call<PaginatedResponse<com.example.save.data.models.LoanRequest>> getLoans(@Query("limit") int limit, @Query("offset") int offset);
 
+    @POST("members/{id}/invite")
+    Call<ApiResponse> sendMemberInvite(@retrofit2.http.Path("id") String id);
+
     @POST("loans/{id}/approve")
     Call<ApiResponse> approveLoan(@retrofit2.http.Path("id") String loanId);
 

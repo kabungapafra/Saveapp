@@ -222,11 +222,11 @@ public class MemberRepository {
         refreshMembers(null);
     }
 
-    public Member getMemberByEmail(String email) {
+    public Member getMemberByPhone(String phone) {
         if (getAllMembers() == null)
             return null;
         for (Member m : getAllMembers())
-            if (email.equals(m.getEmail()))
+            if (phone.equals(m.getPhone()))
                 return m;
         return null;
     }
@@ -257,7 +257,6 @@ public class MemberRepository {
         String lowerQuery = query.toLowerCase().trim();
         for (Member m : getAllMembers()) {
             if (m.getName().toLowerCase().contains(lowerQuery) ||
-                    (m.getEmail() != null && m.getEmail().toLowerCase().contains(lowerQuery)) ||
                     (m.getPhone() != null && m.getPhone().contains(lowerQuery))) {
                 results.add(m);
             }
@@ -354,7 +353,7 @@ public class MemberRepository {
     public void savePayoutRules(boolean auto, int day, double reserve) {
     }
 
-    public void resolveShortfall(String email, double amount, String source, ApiResponseCallback cb) {
+    public void resolveShortfall(String phone, double amount, String source, ApiResponseCallback cb) {
         if (cb != null)
             cb.onResult(true, "Shortfall resolved (Mock)");
     }
@@ -425,14 +424,7 @@ public class MemberRepository {
         });
     }
 
-    public Member getMemberByPhone(String phone) {
-        if (getAllMembers() == null)
-            return null;
-        for (Member m : getAllMembers())
-            if (phone.equals(m.getPhone()))
-                return m;
-        return null;
-    }
+
 
     public Member getMemberByNameSync(String identifier) {
         return getMemberByName(identifier);
@@ -496,7 +488,7 @@ public class MemberRepository {
         return new ArrayList<>();
     }
 
-    public void initiateLoanApproval(String requestId, String adminEmail, ApprovalCallback callback) {
+    public void initiateLoanApproval(String requestId, String adminPhone, ApprovalCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
         apiService.approveLoan(requestId).enqueue(new Callback<ApiResponse>() {
             @Override
@@ -553,7 +545,7 @@ public class MemberRepository {
             new ArrayList<>());
 
     public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getPendingTransactionsWithApproval(
-            String adminEmail) {
+            String adminPhone) {
         MutableLiveData<List<com.example.save.data.models.TransactionWithApproval>> liveData = new MutableLiveData<>(
                 new ArrayList<>());
 
@@ -602,7 +594,7 @@ public class MemberRepository {
         return transactionsLiveData;
     }
 
-    public LiveData<List<com.example.save.data.models.LoanWithApproval>> getPendingLoansWithApproval(String adminEmail) {
+    public LiveData<List<com.example.save.data.models.LoanWithApproval>> getPendingLoansWithApproval(String adminPhone) {
         MutableLiveData<List<com.example.save.data.models.LoanWithApproval>> liveData = new MutableLiveData<>(new ArrayList<>());
         
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
@@ -644,7 +636,7 @@ public class MemberRepository {
         return new MutableLiveData<>(new ArrayList<>());
     }
 
-    public boolean hasAdminApproved(String type, String id, String adminEmail) {
+    public boolean hasAdminApproved(String type, String id, String adminPhone) {
         return false;
     }
 
@@ -695,7 +687,7 @@ public class MemberRepository {
             callback.onResult(true, "Password changed (Mock)");
     }
 
-    public void approveLoan(String loanId, String adminEmail, ApprovalCallback callback) {
+    public void approveLoan(String loanId, String adminPhone, ApprovalCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
         apiService.approveLoan(loanId).enqueue(new Callback<ApiResponse>() {
             @Override
@@ -717,9 +709,9 @@ public class MemberRepository {
         });
     }
 
-    public void approveTransaction(String txId, String adminEmail, ApprovalCallback callback) {
+    public void approveTransaction(String txId, String adminPhone, ApprovalCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.approveTransaction(txId, new ApprovalRequestDto(txId, adminEmail))
+        apiService.approveTransaction(txId, new ApprovalRequestDto(txId, adminPhone))
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
