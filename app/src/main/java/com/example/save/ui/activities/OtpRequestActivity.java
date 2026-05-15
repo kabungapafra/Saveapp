@@ -89,7 +89,54 @@ public class OtpRequestActivity extends AppCompatActivity {
             return;
         }
 
-        // Logic for requesting OTP would go here
-        Toast.makeText(this, "OTP Request sent for " + phone, Toast.LENGTH_SHORT).show();
+        // Disable button during network call
+        binding.getOtpButton.setEnabled(false);
+
+        com.example.save.data.network.MemberValidateRequest req = 
+                new com.example.save.data.network.MemberValidateRequest(phone, groupName);
+
+        com.example.save.data.network.ApiService api = 
+                com.example.save.data.network.RetrofitClient.getClient(this).create(com.example.save.data.network.ApiService.class);
+
+        api.validateMemberForOnboarding(req).enqueue(new retrofit2.Callback<com.example.save.data.network.MemberValidateResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.MemberValidateResponse> call, retrofit2.Response<com.example.save.data.network.MemberValidateResponse> response) {
+                binding.getOtpButton.setEnabled(true);
+                
+                if (response.isSuccessful() && response.body() != null) {
+                    if (!response.body().isNeedsOnboarding()) {
+                        Toast.makeText(OtpRequestActivity.this, "This account is already setup. Please login.", Toast.LENGTH_LONG).show();
+                        binding.loginLink.performClick();
+                        return;
+                    }
+
+                    Toast.makeText(OtpRequestActivity.this, "Welcome " + response.body().getMemberName() + ", please verify your number.", Toast.LENGTH_SHORT).show();
+                    
+                    Intent intent = new Intent(OtpRequestActivity.this, ResetPasswordActivity.class);
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("groupName", groupName);
+                    intent.putExtra("isOnboarding", true);
+                    intent.putExtra("sendOtpOnLaunch", true);
+                    startActivity(intent);
+                } else {
+                    String error = "Verification failed";
+                    if (response.errorBody() != null) {
+                        try {
+                            String errString = response.errorBody().string();
+                            if (errString.contains("\"detail\":\"")) {
+                                error = errString.split("\"detail\":\"")[1].split("\"")[0];
+                            }
+                        } catch (Exception ignored) {}
+                    }
+                    Toast.makeText(OtpRequestActivity.this, error, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.MemberValidateResponse> call, Throwable t) {
+                binding.getOtpButton.setEnabled(true);
+                Toast.makeText(OtpRequestActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

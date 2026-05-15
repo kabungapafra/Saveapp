@@ -65,4 +65,10 @@ public interface ApiService {
 
     @POST("transactions/{id}/approve")
     Call<ApiResponse> approveTransaction(@retrofit2.http.Path("id") String txId, @Body ApprovalRequestDto request);
+
+    @POST("auth/member/validate")
+    Call<MemberValidateResponse> validateMemberForOnboarding(@Body MemberValidateRequest request);
+
+    @POST("auth/member/complete-onboarding")
+    Call<LoginResponse> completeMemberOnboarding(@Body MemberCompleteOnboardingRequest request);
 }

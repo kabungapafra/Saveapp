@@ -309,7 +309,6 @@ public class MembersFragment extends Fragment {
         dialogBinding.btnCreateMember.setOnClickListener(v -> {
             String name = dialogBinding.etMemberName.getText().toString().trim();
             String phoneInput = dialogBinding.etMemberPhone.getText().toString().trim();
-            String pin = dialogBinding.etMemberPin.getText().toString().trim();
 
             // Prepend +256 if it's just the local number; use a final var for lambda capture
             final String phone;
@@ -328,11 +327,6 @@ public class MembersFragment extends Fragment {
                 return;
             }
 
-            if (!com.example.save.utils.ValidationUtils.isNotEmpty(pin) || pin.length() < 4) {
-                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPin, "4-digit PIN is required");
-                return;
-            }
-
             if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
                 com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPhone, "Invalid phone number");
                 return;
@@ -340,7 +334,7 @@ public class MembersFragment extends Fragment {
 
             Member newMember = new Member(name, role, true, phone, email);
             newMember.setId(java.util.UUID.randomUUID().toString());
-            newMember.setPassword(pin);
+            newMember.setPassword("1234"); // Dummy PIN, will be changed during onboarding
             newMember.setFirstLogin(true);
 
             dialogBinding.btnCreateMember.setEnabled(false);
