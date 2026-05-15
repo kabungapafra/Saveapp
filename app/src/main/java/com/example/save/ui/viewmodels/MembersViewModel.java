@@ -500,17 +500,17 @@ public class MembersViewModel extends AndroidViewModel {
 
     public void processApproval(com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem item, boolean approve, MemberRepository.ApprovalCallback callback) {
         com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplication());
-        String adminEmail = session.getUserEmail();
+        String adminPhone = session.getUserPhone();
         
         if ("LOAN".equalsIgnoreCase(item.getType())) {
             if (approve) {
-                repository.initiateLoanApproval(item.getId(), adminEmail, callback);
+                repository.initiateLoanApproval(item.getId(), adminPhone, callback);
             } else {
                 repository.rejectLoanRequest(item.getId(), "Rejected by Admin", (success, message) -> callback.onResult(success, message));
             }
         } else {
             if (approve) {
-                repository.approveTransaction(item.getId(), adminEmail, callback);
+                repository.approveTransaction(item.getId(), adminPhone, callback);
             } else {
                 callback.onResult(false, "Rejection not implemented for payouts yet");
             }
@@ -518,11 +518,11 @@ public class MembersViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<com.example.save.data.models.ApprovalRequest>> getPendingApprovals() {
-        String adminEmail = com.example.save.utils.SessionManager.getInstance(getApplication()).getUserEmail();
+        String adminPhone = com.example.save.utils.SessionManager.getInstance(getApplication()).getUserPhone();
         androidx.lifecycle.MediatorLiveData<List<com.example.save.data.models.ApprovalRequest>> mediator = new androidx.lifecycle.MediatorLiveData<>();
 
-        LiveData<List<com.example.save.data.models.TransactionWithApproval>> txSource = repository.getPendingTransactionsWithApproval(adminEmail);
-        LiveData<List<com.example.save.data.models.LoanWithApproval>> loanSource = repository.getPendingLoansWithApproval(adminEmail);
+        LiveData<List<com.example.save.data.models.TransactionWithApproval>> txSource = repository.getPendingTransactionsWithApproval(adminPhone);
+        LiveData<List<com.example.save.data.models.LoanWithApproval>> loanSource = repository.getPendingLoansWithApproval(adminPhone);
 
         mediator.addSource(txSource, txs -> combineToApprovalRequests(mediator, txs, loanSource.getValue()));
         mediator.addSource(loanSource, loans -> combineToApprovalRequests(mediator, txSource.getValue(), loans));

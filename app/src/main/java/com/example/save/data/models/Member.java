@@ -12,7 +12,8 @@ public class Member {
     private String role;
     private boolean isActive;
     private String phone;
-    private String email;
+    private String status; // PENDING or ACTIVE
+
     private String payoutDate;
     private String payoutAmount;
     private boolean hasReceivedPayout;
@@ -35,15 +36,15 @@ public class Member {
     private String password;
 
     public Member(String name, String role, boolean isActive) {
-        this(name, role, isActive, "0700000000", "email@example.com");
+        this(name, role, isActive, "0700000000");
     }
 
-    public Member(String name, String role, boolean isActive, String phone, String email) {
+    public Member(String name, String role, boolean isActive, String phone) {
         this.name = name;
         this.role = role;
         this.isActive = isActive;
         this.phone = phone;
-        this.email = email;
+
         this.password = "123456"; // Default password
         this.payoutDate = "Not Scheduled";
         this.payoutAmount = "0";
@@ -56,6 +57,7 @@ public class Member {
         this.contributionPaid = 0;
         this.paymentStreak = 0;
         this.loanBalance = 0;
+        this.status = "PENDING";
     }
 
     public String getName() {
@@ -90,13 +92,7 @@ public class Member {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getPayoutDate() {
         return payoutDate;
@@ -277,4 +273,7 @@ public class Member {
     
     public boolean isEligible() { return isEligible; }
     public void setEligible(boolean eligible) { isEligible = eligible; }
+
+    public String getStatus() { return status != null ? status : "PENDING"; }
+    public void setStatus(String status) { this.status = status; }
 }

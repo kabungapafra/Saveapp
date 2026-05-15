@@ -77,8 +77,7 @@ public class MemberRepository {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Member> models = new ArrayList<>();
                     for (MemberEntity entity : response.body().getData()) {
-                        Member m = new Member(entity.getName(), entity.getRole(), true, entity.getPhone(),
-                                entity.getEmail());
+                        Member m = new Member(entity.getName(), entity.getRole(), true, entity.getPhone());
                         m.setId(entity.getId());
                         m.setContributionPaid(entity.getContributionPaid());
                         m.setContributionTarget(entity.getContributionTarget());
@@ -88,6 +87,7 @@ public class MemberRepository {
                         m.setReliabilityLabel(entity.getReliabilityLabel());
                         m.setReliabilityColor(entity.getReliabilityColor());
                         m.setEligible(entity.isEligible());
+                        m.setStatus(entity.getStatus());
 
                         models.add(m);
                     }
@@ -113,7 +113,7 @@ public class MemberRepository {
 
     public void addMember(Member member, MemberRegistrationCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        MemberRegistrationRequest request = new MemberRegistrationRequest(member.getName(), member.getEmail(),
+        MemberRegistrationRequest request = new MemberRegistrationRequest(member.getName(),
                 member.getPhone(), member.getRole(), member.getPassword());
 
         apiService.createMember(request).enqueue(new Callback<MemberRegistrationResponse>() {
@@ -267,6 +267,28 @@ public class MemberRepository {
 
     // Remaining stubs...
     public void deleteMember(Member m, MemberAddCallback cb) {
+        if (m == null || m.getId() == null) {
+            if (cb != null) cb.onResult(false, "Invalid member");
+            return;
+        }
+
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.deleteMember(m.getId()).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    syncMembers(); // Refresh list after deletion
+                    if (cb != null) cb.onResult(true, "Member deleted");
+                } else {
+                    if (cb != null) cb.onResult(false, "Deletion failed: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                if (cb != null) cb.onResult(false, "Network error: " + t.getMessage());
+            }
+        });
     }
 
     public void resetPassword(String e, String n, PasswordChangeCallback cb) {

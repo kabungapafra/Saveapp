@@ -115,21 +115,6 @@
                         android:textColor="@color/text_primary"
                         android:layout_marginBottom="8dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email:"
-                        android:textSize="12sp"
-                        android:textColor="@color/v_text_muted" />
-
-                    <TextView
-                        android:id="@+id/tvAdminEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="admin@save.com"
-                        android:textSize="14sp"
-                        android:textColor="@color/deep_blue" />
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -143,14 +128,7 @@
                 app:icon="@drawable/ic_call"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEmailAdmin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Email Admin"
-                android:layout_marginBottom="24dp"
-                app:icon="@drawable/ic_email"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
 
             <!-- Message Form -->
             <androidx.cardview.widget.CardView

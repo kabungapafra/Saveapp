@@ -1,7 +1,7 @@
 package com.example.save.data.models;
 
 public class Invitation {
-    private String email;
+    private String phone;
     private String date;
     private Status status;
 
@@ -9,13 +9,13 @@ public class Invitation {
         PENDING, EXPIRED
     }
 
-    public Invitation(String email, String date, Status status) {
-        this.email = email;
+    public Invitation(String phone, String date, Status status) {
+        this.phone = phone;
         this.date = date;
         this.status = status;
     }
 
-    public String getEmail() { return email; }
+    public String getPhone() { return phone; }
     public String getDate() { return date; }
     public Status getStatus() { return status; }
 }

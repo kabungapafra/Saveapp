@@ -4,7 +4,7 @@ public class MemberEntity {
     private String id;
     private String name;
     private String role;
-    private String email;
+
     private String phone;
     private String password;
     private String payoutDate;
@@ -24,6 +24,7 @@ public class MemberEntity {
     private String joinedDate;
     private double loanBalance;
     private boolean isActive;
+    private String status;
     
     @com.google.gson.annotations.SerializedName("reliability_label")
     private String reliabilityLabel;
@@ -36,12 +37,12 @@ public class MemberEntity {
 
     public MemberEntity() {}
 
-    public MemberEntity(String name, String role, String email, String phone) {
+    public MemberEntity(String name, String role, String phone) {
         this.name = name;
         this.role = role;
-        this.email = email;
         this.phone = phone;
         this.isActive = true;
+        this.status = "PENDING";
     }
 
     // Getters and Setters
@@ -51,8 +52,7 @@ public class MemberEntity {
     public void setName(String name) { this.name = name; }
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
     public String getPassword() { return password; }
@@ -70,7 +70,7 @@ public class MemberEntity {
     public double getContributionPaid() { return contributionPaid; }
     public void setContributionPaid(double contributionPaid) { this.contributionPaid = contributionPaid; }
     public boolean isFirstLogin() { return isFirstLogin; }
-    public void setFirstLogin(boolean firstLogin) { isFirstLogin = firstLogin; }
+    public void setFirstLogin(boolean firstLogin) { this.firstLogin = firstLogin; }
     public int getPaymentStreak() { return paymentStreak; }
     public void setPaymentStreak(int paymentStreak) { this.paymentStreak = paymentStreak; }
     public String getNextPayoutDate() { return nextPayoutDate; }
@@ -100,4 +100,7 @@ public class MemberEntity {
     
     public boolean isEligible() { return isEligible; }
     public void setEligible(boolean eligible) { isEligible = eligible; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

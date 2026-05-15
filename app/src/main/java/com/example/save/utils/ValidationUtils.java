@@ -15,15 +15,7 @@ import java.util.Random;
  */
 public class ValidationUtils {
 
-    /**
-     * Validates if the email is in correct format
-     * 
-     * @param email Email to validate
-     * @return true if valid, false otherwise
-     */
-    public static boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
+
 
     /**
      * Validates phone number (Uganda format: 9-10 digits)

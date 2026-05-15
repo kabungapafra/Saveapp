@@ -247,8 +247,7 @@ public class MemberLoginActivity extends AppCompatActivity {
         String phone = com.example.save.utils.ValidationUtils.normalizePhone(binding.phoneInput.getText().toString().trim());
         String password = binding.passwordInput.getText().toString().trim();
 
-        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(null, password);
-        loginRequest.setPhone(phone);
+        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(phone, password);
         loginRequest.setLoginType("member");
         loginRequest.setGroupName(groupName);
 
@@ -264,7 +263,7 @@ public class MemberLoginActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     com.example.save.data.network.LoginResponse loginResponse = response.body();
                     com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
-                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), phone, loginResponse.getRole(), false, loginResponse.isCreator());
+                    session.createLoginSession(loginResponse.getName(), phone, loginResponse.getRole(), false, loginResponse.isCreator());
                     session.saveLastGroup(groupName);
                     session.saveJwtToken(loginResponse.getToken());
 
@@ -273,7 +272,6 @@ public class MemberLoginActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
                     intent.putExtra("member_name", loginResponse.getName());
-                    intent.putExtra("member_email", loginResponse.getEmail());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);

@@ -50,19 +50,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
         mVerificationId = getIntent().getStringExtra("verificationId");
         boolean sendOnLaunch = getIntent().getBooleanExtra("sendOtpOnLaunch", false);
 
-        // Legacy email field (some callers still pass it)
-        String userEmail = getIntent().getStringExtra("email");
-        if (userEmail != null) userEmail = userEmail.toLowerCase().trim();
 
-        if ((userPhone == null || userPhone.isEmpty())
-                && (userEmail == null || userEmail.isEmpty())) {
+
+        if (userPhone == null || userPhone.isEmpty()) {
             Toast.makeText(this, "Invalid session. Please try again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
-        }
-        if (userEmail != null && !userEmail.isEmpty() && (userPhone == null || userPhone.isEmpty())) {
-            // Derive phone from email if caller didn't supply one (legacy)
-            userPhone = "";
         }
 
         mAuth = FirebaseAuth.getInstance();

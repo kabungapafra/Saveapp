@@ -35,7 +35,6 @@ public class OtpFragment extends Fragment {
         args.putString("admin_name", name);
         args.putString("group_name", groupName);
         args.putString("phone", phone);
-        args.putString("email", email);
         args.putString("password", password);
         fragment.setArguments(args);
         return fragment;
@@ -62,13 +61,13 @@ public class OtpFragment extends Fragment {
                 return;
             }
 
-            String email = getArguments() != null ? getArguments().getString("email") : null;
+            String phone = getArguments() != null ? getArguments().getString("phone") : null;
             String name = getArguments() != null ? getArguments().getString("admin_name") : null;
             String password = getArguments() != null ? getArguments().getString("password") : null;
             String groupName = getArguments() != null ? getArguments().getString("group_name") : null;
 
             com.example.save.data.network.OtpVerificationRequest request = new com.example.save.data.network.OtpVerificationRequest(
-                email,
+                phone,
                 otpCode,
                 name,
                 password,
@@ -97,7 +96,6 @@ public class OtpFragment extends Fragment {
 
                         session.createLoginSession(
                             loginData.getName(),
-                            loginData.getEmail(),
                             loginData.getRole(),
                             false, // not first login anymore
                             loginData.isCreator()
@@ -140,9 +138,9 @@ public class OtpFragment extends Fragment {
             }
         });
 
-        String email = getArguments() != null ? getArguments().getString("email") : null;
-        if (email != null) {
-            binding.tvSubtitle.setText("We've sent a 6-digit code to " + email);
+        String phone = getArguments() != null ? getArguments().getString("phone") : null;
+        if (phone != null) {
+            binding.tvSubtitle.setText("We've sent a 6-digit code to " + phone);
         }
 
         startResendTimer();
@@ -174,16 +172,13 @@ public class OtpFragment extends Fragment {
     }
 
     private void resendOtp() {
-        String email = getArguments() != null ? getArguments().getString("email") : null;
         String phone = getArguments() != null ? getArguments().getString("phone") : null;
-        
-        if (email == null) return;
+        if (phone == null) return;
 
         binding.resendOtp.setEnabled(false);
         binding.resendOtp.setText("Sending...");
 
         com.example.save.data.network.OtpRequest request = new com.example.save.data.network.OtpRequest(
-            email,
             phone
         );
 

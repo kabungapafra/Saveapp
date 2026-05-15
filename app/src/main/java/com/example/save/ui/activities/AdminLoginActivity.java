@@ -281,8 +281,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         String phone = com.example.save.utils.ValidationUtils.normalizePhone(binding.phoneInput.getText().toString().trim());
         String password = binding.passwordInput.getText().toString().trim();
 
-        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(null, password);
-        loginRequest.setPhone(phone);
+        com.example.save.data.network.LoginRequest loginRequest = new com.example.save.data.network.LoginRequest(phone, password);
         loginRequest.setLoginType("admin");
         loginRequest.setGroupName(groupName);
 
@@ -300,7 +299,7 @@ public class AdminLoginActivity extends AppCompatActivity {
                     com.example.save.data.network.LoginResponse loginResponse = response.body();
 
                     com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
-                    session.createLoginSession(loginResponse.getName(), loginResponse.getEmail(), phone, loginResponse.getRole(), false, loginResponse.isCreator());
+                    session.createLoginSession(loginResponse.getName(), phone, loginResponse.getRole(), false, loginResponse.isCreator());
                     session.saveLastGroup(groupName);
                     session.saveJwtToken(loginResponse.getToken());
 
@@ -311,11 +310,9 @@ public class AdminLoginActivity extends AppCompatActivity {
                     prefs.edit()
                             .putString("admin_name", loginResponse.getName())
                             .putString("group_name", groupName)
-                            .putString("admin_email", loginResponse.getEmail())
                             .apply();
 
                     Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
-                    intent.putExtra("admin_email", loginResponse.getEmail());
                     intent.putExtra("admin_name", loginResponse.getName());
                     intent.putExtra("group_name", groupName);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

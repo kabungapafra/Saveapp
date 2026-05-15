@@ -3,14 +3,13 @@ package com.example.save.data.network;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginRequest {
-    private String email;
     private String phone;
     private String password;
     private String loginType;
     private String groupName;
 
-    public LoginRequest(String email, String password) {
-        this.email = email;
+    public LoginRequest(String phone, String password) {
+        this.phone = phone;
         this.password = password;
     }
 

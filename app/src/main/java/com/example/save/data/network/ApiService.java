@@ -24,6 +24,9 @@ public interface ApiService {
     @PUT("members/{id}")
     Call<MemberEntity> updateMember(@retrofit2.http.Path("id") String memberId, @Body MemberUpdateRequest request);
 
+    @retrofit2.http.DELETE("members/{id}")
+    Call<ApiResponse> deleteMember(@retrofit2.http.Path("id") String memberId);
+
     @POST("auth/admin/send-otp")
     Call<ApiResponse> sendAdminOtp(@Body OtpRequest request);
 
@@ -48,8 +51,7 @@ public interface ApiService {
     @GET("transactions")
     Call<PaginatedResponse<com.example.save.data.models.TransactionEntity>> getTransactions(@Query("limit") int limit, @Query("offset") int offset);
 
-    @POST("members/{id}/send-invite")
-    Call<ApiResponse> sendMemberInvite(@retrofit2.http.Path("id") String memberId);
+
 
     @POST("loans")
     Call<ApiResponse> submitLoan(@Body com.example.save.data.models.LoanRequest request);

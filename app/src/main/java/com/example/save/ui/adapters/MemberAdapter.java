@@ -120,9 +120,14 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             binding.tvMemberSavings.setText(String.format("UGX %,.0f", member.getContributionPaid()));
 
             // Subtle status color
-            int color = member.isActive()
-                    ? android.graphics.Color.parseColor("#10B981")
-                    : android.graphics.Color.parseColor("#94A3B8");
+            int color;
+            if ("PENDING".equalsIgnoreCase(member.getStatus())) {
+                color = android.graphics.Color.parseColor("#F59E0B"); // Orange/Amber
+            } else if (member.isActive()) {
+                color = android.graphics.Color.parseColor("#10B981"); // Green
+            } else {
+                color = android.graphics.Color.parseColor("#94A3B8"); // Slate/Gray
+            }
             binding.statusIndicator.setBackgroundTintList(ColorStateList.valueOf(color));
 
             // Load profile image if it's the current user
@@ -183,7 +188,12 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     : Color.parseColor("#94A3B8"));
 
             // Status Badge
-            if (member.isActive()) {
+            String status = member.getStatus() != null ? member.getStatus() : "PENDING";
+            if ("PENDING".equalsIgnoreCase(status)) {
+                binding.tvStatusBadge.setText("PENDING");
+                binding.tvStatusBadge.setBackgroundResource(R.drawable.bg_status_pending);
+                binding.tvStatusBadge.setTextColor(Color.parseColor("#D97706")); // Dark Orange
+            } else if (member.isActive()) {
                 binding.tvStatusBadge.setText("ACTIVE");
                 binding.tvStatusBadge.setBackgroundResource(R.drawable.bg_status_active);
                 binding.tvStatusBadge.setTextColor(Color.parseColor("#10B981"));

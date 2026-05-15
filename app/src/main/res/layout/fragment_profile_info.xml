@@ -205,34 +205,6 @@
                     android:layout_marginBottom="24dp"
                     android:background="@color/divider_color" />
 
-                <!-- EMAIL ADDRESS -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/manrope_bold"
-                    android:letterSpacing="0.1"
-                    android:text="EMAIL ADDRESS"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11sp" />
-
-                <EditText
-                    android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="@null"
-                    android:fontFamily="@font/manrope_medium"
-                    android:hint="Email Address"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_hint"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="24dp"
-                    android:background="@color/divider_color" />
-
                 <!-- COUNTRY / JURISDICTION -->
                 <TextView
                     android:layout_width="wrap_content"

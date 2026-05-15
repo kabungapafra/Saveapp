@@ -47,8 +47,6 @@ public class SettingsFragment extends Fragment {
     private void loadUserData() {
         SessionManager session = SessionManager.getInstance(requireContext());
         String name = session.getUserName();
-        String email = session.getUserEmail();
-
         // Fallback to SharedPreferences for admins
         if (name == null || name.isEmpty()) {
             name = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
@@ -61,7 +59,7 @@ public class SettingsFragment extends Fragment {
         }
 
         String phone = session.getUserPhone();
-        binding.tvUserName.setText(name != null && !name.isEmpty() ? name : (phone != null && !phone.isEmpty() ? phone : email));
+        binding.tvUserName.setText(name != null && !name.isEmpty() ? name : (phone != null && !phone.isEmpty() ? phone : "User"));
         binding.tvGroupName.setText(group != null && !group.isEmpty() ? group : "");
 
         if (name != null && !name.isEmpty()) {

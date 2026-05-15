@@ -29,7 +29,7 @@ public class SessionManager {
     // ── Encrypted pref keys ──────────────────────────────────────────────────
     private static final String IS_LOGIN          = "IsLoggedIn";
     public  static final String KEY_NAME          = "name";
-    public  static final String KEY_EMAIL         = "email";
+
     public  static final String KEY_PHONE         = "phone";
     public  static final String KEY_ROLE          = "role";
     private static final String KEY_IS_FIRST_LOGIN = "is_first_login";
@@ -96,21 +96,21 @@ public class SessionManager {
     //  Session creation
     // ────────────────────────────────────────────────────────────────────────
 
-    public void createLoginSession(String name, String email, String role, boolean isFirstLogin) {
-        createLoginSession(name, email, "", role, isFirstLogin, false);
+    public void createLoginSession(String name, String role, boolean isFirstLogin) {
+        createLoginSession(name, "", role, isFirstLogin, false);
     }
 
-    public void createLoginSession(String name, String email, String role,
+    public void createLoginSession(String name, String role,
                                    boolean isFirstLogin, boolean isCreator) {
-        createLoginSession(name, email, "", role, isFirstLogin, isCreator);
+        createLoginSession(name, "", role, isFirstLogin, isCreator);
     }
 
-    public void createLoginSession(String name, String email, String phone,
+    public void createLoginSession(String name, String phone,
                                    String role, boolean isFirstLogin, boolean isCreator) {
         // ── Sensitive data → encrypted prefs ──────────────────────────────
         editor.putBoolean(IS_LOGIN,           true);
         editor.putString(KEY_NAME,            name);
-        editor.putString(KEY_EMAIL,           email);
+
         editor.putString(KEY_PHONE,           phone);
         editor.putString(KEY_ROLE,            role);
         editor.putBoolean(KEY_IS_FIRST_LOGIN, isFirstLogin);
@@ -134,12 +134,12 @@ public class SessionManager {
     public HashMap<String, String> getUserDetails() {
         HashMap<String, String> user = new HashMap<>();
         user.put(KEY_NAME,  pref.getString(KEY_NAME,  null));
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+
         user.put(KEY_ROLE,  pref.getString(KEY_ROLE,  null));
         return user;
     }
 
-    public String  getUserEmail()  { return pref.getString(KEY_EMAIL, null); }
+
     public String  getUserName()   { return pref.getString(KEY_NAME,  null); }
     public String  getUserPhone()  { return pref.getString(KEY_PHONE, "");   }
     public String  getUserRole()   { return pref.getString(KEY_ROLE,  null); }

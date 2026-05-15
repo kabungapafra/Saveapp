@@ -44,7 +44,7 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Invitation invitation = invitations.get(position);
-        holder.binding.tvInviteEmail.setText(invitation.getEmail());
+        holder.binding.tvInviteEmail.setText(invitation.getPhone());
         holder.binding.tvInviteDate.setText("INVITED: " + invitation.getDate());
         
         if (invitation.getStatus() == Invitation.Status.EXPIRED) {

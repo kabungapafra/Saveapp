@@ -128,24 +128,21 @@ public class ProfileInfoFragment extends Fragment {
         String userPhone = session.getUserPhone();
 
         if (userPhone == null || userPhone.isEmpty()) {
-            // Fallback to email if phone is missing (unlikely now)
-            userPhone = session.getUserEmail();
+            Toast.makeText(getContext(), "User data not found", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         // Initially load from session
         String sessionName = session.getUserName();
-        String sessionEmail = session.getUserEmail();
         
         binding.etFullName.setText(sessionName);
         binding.etPhone.setText(userPhone);
-        binding.etEmail.setText(sessionEmail);
 
         // Fetch real data from DB
         viewModel.getMemberByPhoneLive(userPhone).observe(getViewLifecycleOwner(), member -> {
             if (member != null) {
                 binding.etFullName.setText(member.getName());
                 binding.etPhone.setText(member.getPhone());
-                binding.etEmail.setText(member.getEmail());
             } else {
                 // Trigger a sync if no data found locally
                 viewModel.syncMembers();

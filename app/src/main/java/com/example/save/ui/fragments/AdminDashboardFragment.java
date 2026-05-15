@@ -187,8 +187,8 @@ public class AdminDashboardFragment extends Fragment {
         viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
             if (members != null) {
                 loadDashboardData();
-                String currentUserEmail = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserEmail();
-                if (memberAdapter != null) memberAdapter.setMembers(members, currentUserEmail);
+                String currentUserPhone = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserPhone();
+                if (memberAdapter != null) memberAdapter.setMembers(members, currentUserPhone);
                 if (payoutAdapter != null) payoutAdapter.updateList(members);
                 
                 binding.tvNoUpcomingPayouts.setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);
@@ -208,19 +208,13 @@ public class AdminDashboardFragment extends Fragment {
         if (nameFromSession != null && !nameFromSession.isEmpty()) {
             adminNameStr = nameFromSession.split(" ")[0];
         } else {
-            String email = session.getUserEmail();
-            if (email != null && email.contains("@")) {
-                adminNameStr = email.split("@")[0];
-                adminNameStr = adminNameStr.substring(0, 1).toUpperCase() + adminNameStr.substring(1);
-            } else {
-                adminNameStr = isAdmin ? "Admin" : "Member";
-            }
+            adminNameStr = isAdmin ? "Admin" : "Member";
         }
 
         // Always try to get the latest real name from ViewModel
-        String email = session.getUserEmail();
-        if (email != null) {
-            viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
+        String phone = session.getUserPhone();
+        if (phone != null) {
+            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
                 if (member != null && member.getName() != null && !member.getName().isEmpty()) {
                     adminNameStr = member.getName().split(" ")[0];
                     updateGreeting();
@@ -261,9 +255,9 @@ public class AdminDashboardFragment extends Fragment {
         } else {
             // LOAD MEMBER SPECIFIC DATA
             binding.tvBalanceLabel.setText("My Total Savings");
-            String email = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserEmail();
-            if (email != null) {
-                viewModel.getMemberByEmailLive(email).observe(getViewLifecycleOwner(), member -> {
+            String phone = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserPhone();
+            if (phone != null) {
+                viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
                     if (member != null) {
                         totalBalanceValue = member.getContributionPaid();
                         updateBalanceDisplay();

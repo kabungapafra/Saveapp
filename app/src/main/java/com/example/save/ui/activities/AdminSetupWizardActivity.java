@@ -50,7 +50,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     
     // Admin Signup Data
     private String adminName;
-    private String adminEmail;
+
     private String adminPhone;
     private String adminPassword;
 
@@ -69,7 +69,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
 
         // Get Admin data from Intent
         adminName = getIntent().getStringExtra("ADMIN_NAME");
-        adminEmail = getIntent().getStringExtra("EMAIL");
+
         adminPhone = getIntent().getStringExtra("PHONE");
         adminPassword = getIntent().getStringExtra("PASSWORD");
 
@@ -270,7 +270,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                 binding.footer.setVisibility(View.GONE); // Legal has its own internal buttons
                 break;
             case 8:
-                OtpFragment otpFragment = OtpFragment.newInstanceForRegistration(adminName, groupName, adminPhone, adminEmail, adminPassword);
+                OtpFragment otpFragment = OtpFragment.newInstanceForRegistration(adminName, groupName, adminPhone, "", adminPassword);
                 otpFragment.setOtpListener(new OtpFragment.OtpListener() {
                     @Override
                     public void onOtpEntered(String code) {
@@ -316,20 +316,14 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         config.setLatePenaltyRate(latePenalty);
         config.setCurrency(currency);
 
-        String emailToSubmit = getIntent().getStringExtra("EMAIL");
-        if (emailToSubmit == null || emailToSubmit.trim().isEmpty()) {
-            emailToSubmit = "admin_" + adminPhone.replace("+", "") + "@save.app";
-        }
-
         // Prepare Admin User Data
         com.example.save.data.network.OtpVerificationRequest registrationRequest = new com.example.save.data.network.OtpVerificationRequest(
-                emailToSubmit,
+                adminPhone,
                 "FIREBASE_VERIFIED", // Placeholder since Firebase verified it
                 adminName,
                 adminPassword,
                 groupName
         );
-        registrationRequest.setPhone(adminPhone);
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(this).create(com.example.save.data.network.ApiService.class);
@@ -347,7 +341,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                     // Update Retrofit singleton token
                     com.example.save.data.network.RetrofitClient.getInstance(getApplicationContext()).updateToken(loginData.getToken());
 
-                    session.createLoginSession(loginData.getName(), loginData.getEmail(), adminPhone, loginData.getRole(), false, loginData.isCreator());
+                    session.createLoginSession(loginData.getName(), adminPhone, loginData.getRole(), false, loginData.isCreator());
                     session.saveLastGroup(groupName);
 
                     // Step 2: Now that we are logged in, Save System Config
@@ -432,7 +426,7 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     public double getRetentionPercentage() { return retentionPercentage; }
 
     public String getAdminName() { return adminName; }
-    public String getAdminEmail() { return adminEmail; }
+
     public String getAdminPhone() { return adminPhone; }
     public String getAdminPassword() { return adminPassword; }
     

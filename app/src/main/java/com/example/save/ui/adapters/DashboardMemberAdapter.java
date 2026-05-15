@@ -20,7 +20,7 @@ import java.util.Locale;
 public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMemberAdapter.ViewHolder> {
 
     private List<Member> members = new ArrayList<>();
-    private String currentUserEmail = "";
+    private String currentUserPhone = "";
 
     private static final String[] AVATAR_COLORS = {
         "#FBBF24", "#F87171", "#A78BFA", "#34D399", "#60A5FA", "#F472B6", "#FCA5A5", "#6EE7B7"
@@ -30,9 +30,9 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
         // Empty — data will be loaded via setMembers()
     }
 
-    public void setMembers(List<Member> members, String currentUserEmail) {
+    public void setMembers(List<Member> members, String currentUserPhone) {
         this.members = members != null ? members : new ArrayList<>();
-        this.currentUserEmail = currentUserEmail != null ? currentUserEmail : "";
+        this.currentUserPhone = currentUserPhone != null ? currentUserPhone : "";
         notifyDataSetChanged();
     }
 
@@ -47,9 +47,7 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Member member = members.get(position);
         com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(holder.itemView.getContext());
-        String currentUserPhone = session.getUserPhone();
-        boolean isSelf = (member.getEmail() != null && !member.getEmail().isEmpty() && member.getEmail().equalsIgnoreCase(currentUserEmail))
-                || (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
+        boolean isSelf = (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
 
         // Name & Initials
         holder.tvName.setText(isSelf ? member.getName() + " (You)" : member.getName());
@@ -60,7 +58,13 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
 
         // Status from server-authoritative reliability label
         String label = member.getReliabilityLabel();
-        String color = member.getReliabilityColor();
+        String colorStr = member.getReliabilityColor();
+        
+        if ("PENDING".equalsIgnoreCase(member.getStatus())) {
+            label = "PENDING";
+            colorStr = "#F59E0B"; // Amber/Orange
+        }
+        
         holder.tvStatus.setText(label);
 
         // Avatar image/initials
@@ -84,7 +88,7 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
         }
 
         // Status pill color
-        int statusColor = Color.parseColor(color);
+        int statusColor = Color.parseColor(colorStr);
         holder.tvStatus.setBackgroundResource(R.drawable.bg_badge_pill);
         holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(statusColor & 0x30FFFFFF | 0x20000000));
         holder.tvStatus.setTextColor(statusColor);

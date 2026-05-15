@@ -66,7 +66,6 @@ public class SetPasswordActivity extends AppCompatActivity {
                     com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(SetPasswordActivity.this);
                     session.createLoginSession(
                             body.getName(),
-                            body.getEmail(),
                             phone,
                             body.getRole(),
                             false,
@@ -81,7 +80,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                     // Go to Dashboard
                     Intent intent = new Intent(SetPasswordActivity.this, MemberMainActivity.class);
                     intent.putExtra("member_name", body.getName());
-                    intent.putExtra("member_email", body.getEmail());
+
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();

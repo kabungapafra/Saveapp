@@ -351,7 +351,7 @@ public class MembersFragment extends Fragment {
 
                     if (success) {
                         dialog.dismiss();
-                        showSuccessAnimation(name, generatedOtp, email, phone);
+                        showSuccessAnimation(name, generatedOtp, phone);
                     } else {
                         Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_SHORT).show();
                     }
@@ -381,7 +381,7 @@ public class MembersFragment extends Fragment {
         binding.checkAdmin.setVisibility(!isMemberSelected ? View.VISIBLE : View.GONE);
     }
 
-    private void showSuccessAnimation(String name, String otp, String email, String phone) {
+    private void showSuccessAnimation(String name, String otp, String phone) {
         if (successAnimation != null && animationOverlay != null) {
             animationOverlay.setVisibility(View.VISIBLE);
             successAnimation.setProgress(0f);
@@ -406,7 +406,7 @@ public class MembersFragment extends Fragment {
                 .commit();
     }
 
-    private void showOTPDialog(String memberName, String otp, String email, String phone) {
+    private void showOTPDialog(String memberName, String otp, String phone) {
         if (getContext() == null)
             return;
         android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs",
@@ -523,7 +523,7 @@ public class MembersFragment extends Fragment {
     private void showResetPasswordConfirmation(Member member) {
         new MaterialAlertDialogBuilder(getContext()).setTitle("Reset Password")
                 .setMessage("Reset for " + member.getName() + "?")
-                .setPositiveButton("Reset", (d, w) -> showOTPDialog(member.getName(), viewModel.resetPassword(member), member.getEmail(), member.getPhone()))
+                .setPositiveButton("Reset", (d, w) -> showOTPDialog(member.getName(), viewModel.resetPassword(member), member.getPhone()))
                 .setNegativeButton("Cancel", null).show();
     }
 

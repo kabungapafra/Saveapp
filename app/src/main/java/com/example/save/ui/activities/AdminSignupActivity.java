@@ -118,29 +118,27 @@ public class AdminSignupActivity extends AppCompatActivity {
             return;
         }
 
-        String normalizedPhone = com.example.save.utils.ValidationUtils.normalizePhone(phone);
-        navigateToWizard(adminName, "", normalizedPhone, password);
+        navigateToWizard(adminName, normalizedPhone, password);
     }
 
-    private void navigateToWizard(String adminName, String email, String phone, String password) {
+    private void navigateToWizard(String adminName, String phone, String password) {
         Intent intent = new Intent(AdminSignupActivity.this, AdminSetupWizardActivity.class);
         intent.putExtra("ADMIN_NAME", adminName);
         intent.putExtra("PHONE", phone);
-        intent.putExtra("EMAIL", email);
         intent.putExtra("PASSWORD", password);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
-    private void navigateToOtpFragment(String adminName, String groupName, String phone, String email,
+    private void navigateToOtpFragment(String adminName, String groupName, String phone,
             String password) {
         // Hide signup form, show fragment container
         binding.loginCard.setVisibility(View.GONE);
         binding.fragmentContainer.setVisibility(View.VISIBLE);
 
         // Create OTP fragment with admin data
-        OtpFragment otp = OtpFragment.newInstanceForRegistration(adminName, groupName, phone, email, password);
+        OtpFragment otp = OtpFragment.newInstanceForRegistration(adminName, groupName, phone, "", password);
 
         // Replace current view with OTP fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

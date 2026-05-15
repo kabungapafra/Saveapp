@@ -32,19 +32,16 @@ public class ContactAdminActivity extends AppCompatActivity {
 
         binding.btnSendMessage.setOnClickListener(v -> sendMessage());
         binding.btnCallAdmin.setOnClickListener(v -> callAdmin());
-        binding.btnEmailAdmin.setOnClickListener(v -> emailAdmin());
     }
 
     private void loadAdminInfo() {
         // Get admin info from SharedPreferences
         android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
         String adminName = prefs.getString("admin_name", "Group Administrator");
-        String adminEmail = prefs.getString("admin_email", "admin@save.com");
         String groupName = prefs.getString("group_name", "Your Group");
 
         binding.tvAdminName.setText(adminName);
         binding.tvGroupName.setText(groupName);
-        binding.tvAdminEmail.setText(adminEmail);
     }
 
     private void sendMessage() {
@@ -63,22 +60,25 @@ public class ContactAdminActivity extends AppCompatActivity {
             return;
         }
 
-        // Get admin email
+        // Get admin phone
         android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
-        String adminEmail = prefs.getString("admin_email", "admin@save.com");
+        String adminPhone = prefs.getString("admin_phone", null);
 
-        // Create email intent
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{adminEmail});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        emailIntent.putExtra(Intent.EXTRA_TEXT, message);
+        if (adminPhone == null || adminPhone.isEmpty()) {
+            Toast.makeText(this, "Admin phone number not available.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create SMS intent instead of email
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+        smsIntent.setData(Uri.parse("smsto:" + adminPhone));
+        smsIntent.putExtra("sms_body", "[" + subject + "] " + message);
 
         try {
-            startActivity(Intent.createChooser(emailIntent, "Send email via..."));
-            Toast.makeText(this, "Opening email client...", Toast.LENGTH_SHORT).show();
-        } catch (android.content.ActivityNotFoundException e) {
-            Toast.makeText(this, "No email app found. Please install an email client.", Toast.LENGTH_LONG).show();
+            startActivity(smsIntent);
+            Toast.makeText(this, "Opening SMS app...", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Could not open SMS app.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -95,21 +95,6 @@ public class ContactAdminActivity extends AppCompatActivity {
         Intent callIntent = new Intent(Intent.ACTION_DIAL);
         callIntent.setData(Uri.parse("tel:" + adminPhone));
         startActivity(callIntent);
-    }
-
-    private void emailAdmin() {
-        android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
-        String adminEmail = prefs.getString("admin_email", "admin@save.com");
-
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{adminEmail});
-
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Send email via..."));
-        } catch (android.content.ActivityNotFoundException e) {
-            Toast.makeText(this, "No email app found. Please install an email client.", Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override

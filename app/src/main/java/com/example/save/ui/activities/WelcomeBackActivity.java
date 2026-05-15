@@ -161,8 +161,7 @@ public class WelcomeBackActivity extends AppCompatActivity {
         binding.loginArrow.setVisibility(View.GONE);
 
         // Build login request using remembered credentials
-        LoginRequest req = new LoginRequest(null, password);
-        req.setPhone(lastPhone);
+        LoginRequest req = new LoginRequest(lastPhone, password);
         req.setLoginType((lastRole == null || lastRole.isEmpty()) ? "member" : lastRole.toLowerCase());
         req.setGroupName(lastGroup);
 
@@ -181,7 +180,6 @@ public class WelcomeBackActivity extends AppCompatActivity {
                     LoginResponse body = response.body();
                     session.createLoginSession(
                             body.getName(),
-                            body.getEmail(),
                             lastPhone,
                             body.getRole(),
                             false,
@@ -225,13 +223,11 @@ public class WelcomeBackActivity extends AppCompatActivity {
         Intent intent;
         if ("admin".equalsIgnoreCase(body.getRole())) {
             intent = new Intent(this, AdminMainActivity.class);
-            intent.putExtra("admin_email", body.getEmail());
             intent.putExtra("admin_name",  body.getName());
             intent.putExtra("group_name",  lastGroup);
         } else {
             intent = new Intent(this, MemberMainActivity.class);
             intent.putExtra("member_name",  body.getName());
-            intent.putExtra("member_email", body.getEmail());
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
