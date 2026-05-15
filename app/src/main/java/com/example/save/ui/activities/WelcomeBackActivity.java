@@ -84,33 +84,18 @@ public class WelcomeBackActivity extends AppCompatActivity {
     }
 
     private void checkLockout() {
-        long lockoutTime = session.getLockoutTime();
-        long currentTime = System.currentTimeMillis();
-
-        if (lockoutTime > currentTime) {
-            long remainingMs = lockoutTime - currentTime;
-            long hours = TimeUnit.MILLISECONDS.toHours(remainingMs);
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(remainingMs) % 60;
-
-            String timeMsg = String.format("Too many attempts. Try again in %dh %dm", hours, minutes);
-            binding.passwordInput.setEnabled(false);
-            binding.loginButton.setEnabled(false);
-            binding.passwordInput.setHint("Locked");
-            binding.subtitleText.setText(timeMsg);
-            binding.subtitleText.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        // Lockout disabled as per user request
+        binding.passwordInput.setEnabled(true);
+        binding.loginButton.setEnabled(true);
+        binding.passwordInput.setHint("● ● ● ●");
+        
+        String group = lastGroup;
+        if (group != null && !group.isEmpty()) {
+            binding.subtitleText.setText("Log in to " + group);
         } else {
-            binding.passwordInput.setEnabled(true);
-            binding.loginButton.setEnabled(true);
-            binding.passwordInput.setHint("● ● ● ●");
-            
-            String group = lastGroup;
-            if (group != null && !group.isEmpty()) {
-                binding.subtitleText.setText("Log in to " + group);
-            } else {
-                binding.subtitleText.setText("Log in to your Save account");
-            }
-            binding.subtitleText.setTextColor(getResources().getColor(R.color.v_text_mid));
+            binding.subtitleText.setText("Log in to your Save account");
         }
+        binding.subtitleText.setTextColor(getResources().getColor(R.color.v_text_mid));
     }
 
     private void startAnimations() {
@@ -191,11 +176,9 @@ public class WelcomeBackActivity extends AppCompatActivity {
                 binding.loginProgress.setVisibility(View.GONE);
                 binding.loginArrow.setVisibility(View.VISIBLE);
                 if (response.isSuccessful() && response.body() != null) {
-                    failedAttempts = 0; // Reset on success
                     session.saveLockoutTime(0); // Clear lockout on success
                     session.saveBackgroundTime(0); // Reset auto-lock timer
                     LoginResponse body = response.body();
-                    // ... existing session creation code ...
                     session.createLoginSession(
                             body.getName(),
                             body.getEmail(),
@@ -212,16 +195,7 @@ public class WelcomeBackActivity extends AppCompatActivity {
 
                     goToMain(body);
                 } else {
-                    failedAttempts++;
                     String msg = "Invalid PIN. Please try again.";
-                    
-                    if (failedAttempts >= MAX_ATTEMPTS) {
-                        session.saveLockoutTime(System.currentTimeMillis() + LOCKOUT_DURATION_MS);
-                        failedAttempts = 0; // Reset counter since we've applied the lock
-                        checkLockout();
-                        return;
-                    }
-
                     try {
                         if (response.errorBody() != null) {
                             String err = response.errorBody().string();
