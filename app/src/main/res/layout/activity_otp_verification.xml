@@ -100,7 +100,7 @@
                             android:hint="XXXXXX"
                             android:inputType="number"
                             android:letterSpacing="0.5"
-                            android:textAlign="center"
+                            android:textAlignment="center"
                             android:textColor="@color/v_text_dark"
                             android:textSize="18sp"
                             android:textStyle="bold" />
