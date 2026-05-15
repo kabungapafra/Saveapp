@@ -91,7 +91,7 @@ public class SetPasswordActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
                 binding.loadingProgress.setVisibility(View.GONE);
                 binding.submitButton.setEnabled(true);
                 Toast.makeText(SetPasswordActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
