@@ -38,8 +38,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private String userPhone      = "";
     private String mVerificationId = "";
-    private String groupName       = "";
-    private boolean isOnboarding   = false;
     private FirebaseAuth mAuth;
 
     @Override
@@ -50,8 +48,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         userPhone       = getIntent().getStringExtra("phone");
         mVerificationId = getIntent().getStringExtra("verificationId");
-        groupName       = getIntent().getStringExtra("groupName");
-        isOnboarding    = getIntent().getBooleanExtra("isOnboarding", false);
         boolean sendOnLaunch = getIntent().getBooleanExtra("sendOtpOnLaunch", false);
 
         // Legacy email field (some callers still pass it)
@@ -227,72 +223,18 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
 
         binding.actionButton.setEnabled(false);
-        binding.actionButton.setText("Processing…");
+        binding.actionButton.setText("Resetting…");
         binding.loadingIndicator.setVisibility(View.VISIBLE);
-
-        com.example.save.data.network.ApiService api =
-                com.example.save.data.network.RetrofitClient
-                        .getClient(this)
-                        .create(com.example.save.data.network.ApiService.class);
-
-        if (isOnboarding) {
-            com.example.save.data.network.MemberCompleteOnboardingRequest req =
-                    new com.example.save.data.network.MemberCompleteOnboardingRequest(userPhone, groupName, newPin);
-            
-            api.completeMemberOnboarding(req).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
-                @Override
-                public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call, retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
-                    binding.loadingIndicator.setVisibility(View.GONE);
-                    binding.actionButton.setEnabled(true);
-
-                    if (response.isSuccessful() && response.body() != null) {
-                        Toast.makeText(ResetPasswordActivity.this, "Onboarding complete!", Toast.LENGTH_SHORT).show();
-                        
-                        com.example.save.data.network.LoginResponse body = response.body();
-                        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(ResetPasswordActivity.this);
-                        session.createLoginSession(
-                                body.getName(),
-                                body.getEmail(),
-                                userPhone,
-                                body.getRole(),
-                                false,
-                                body.isCreator());
-                        session.saveJwtToken(body.getToken());
-                        session.saveLastGroup(groupName);
-                        com.example.save.data.network.RetrofitClient.getInstance(getApplicationContext()).updateToken(body.getToken());
-
-                        Intent intent = new Intent(ResetPasswordActivity.this, MemberMainActivity.class);
-                        intent.putExtra("member_name", body.getName());
-                        intent.putExtra("member_email", body.getEmail());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        String error = "Failed to complete onboarding";
-                        if (response.errorBody() != null) {
-                            try { error = response.errorBody().string(); }
-                            catch (Exception ignored) {}
-                        }
-                        Toast.makeText(ResetPasswordActivity.this, error, Toast.LENGTH_SHORT).show();
-                        binding.actionButton.setText(R.string.reset_pin_button);
-                    }
-                }
-
-                @Override
-                public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
-                    binding.loadingIndicator.setVisibility(View.GONE);
-                    binding.actionButton.setEnabled(true);
-                    binding.actionButton.setText(R.string.reset_pin_button);
-                    Toast.makeText(ResetPasswordActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            return;
-        }
 
         com.example.save.data.network.ResetPasswordRequest request =
                 new com.example.save.data.network.ResetPasswordRequest();
         request.setPhone(userPhone);
         request.setNewPassword(newPin);
+
+        com.example.save.data.network.ApiService api =
+                com.example.save.data.network.RetrofitClient
+                        .getClient(this)
+                        .create(com.example.save.data.network.ApiService.class);
 
         api.resetPassword(request).enqueue(
                 new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
