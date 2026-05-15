@@ -328,11 +328,6 @@ public class MembersFragment extends Fragment {
                 return;
             }
 
-            if (!com.example.save.utils.ValidationUtils.isNotEmpty(pin) || pin.length() < 4) {
-                com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPin, "4-digit PIN is required");
-                return;
-            }
-
             if (!com.example.save.utils.ValidationUtils.isValidPhone(phone)) {
                 com.example.save.utils.ValidationUtils.showError(dialogBinding.etMemberPhone, "Invalid phone number");
                 return;
@@ -340,7 +335,7 @@ public class MembersFragment extends Fragment {
 
             Member newMember = new Member(name, role, true, phone, email);
             newMember.setId(java.util.UUID.randomUUID().toString());
-            newMember.setPassword(pin);
+            newMember.setPassword(""); // Member will set PIN during onboarding
             newMember.setFirstLogin(true);
 
             dialogBinding.btnCreateMember.setEnabled(false);

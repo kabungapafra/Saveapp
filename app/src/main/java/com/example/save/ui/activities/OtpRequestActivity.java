@@ -89,7 +89,56 @@ public class OtpRequestActivity extends AppCompatActivity {
             return;
         }
 
-        // Logic for requesting OTP would go here
-        Toast.makeText(this, "OTP Request sent for " + phone, Toast.LENGTH_SHORT).show();
+        // 1. Check with Backend if user is pending
+        com.example.save.data.network.ApiService api = com.example.save.data.network.RetrofitClient.getClient(this).create(com.example.save.data.network.ApiService.class);
+        api.checkOnboardingPhone(new com.example.save.data.network.OnboardingCheckRequest(phone, groupName))
+                .enqueue(new retrofit2.Callback<com.example.save.data.network.ApiResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.ApiResponse> call, retrofit2.Response<com.example.save.data.network.ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    // 2. Trigger Firebase Phone Auth
+                    sendFirebaseOtp(phone, groupName);
+                } else {
+                    String msg = (response.body() != null) ? response.body().getMessage() : "Validation failed";
+                    Toast.makeText(OtpRequestActivity.this, msg, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                Toast.makeText(OtpRequestActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void sendFirebaseOtp(String phone, String groupName) {
+        com.google.firebase.auth.PhoneAuthOptions options =
+                com.google.firebase.auth.PhoneAuthOptions.newBuilder(com.google.firebase.auth.FirebaseAuth.getInstance())
+                        .setPhoneNumber(phone)
+                        .setTimeout(60L, java.util.concurrent.TimeUnit.SECONDS)
+                        .setActivity(this)
+                        .setCallbacks(new com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                            @Override
+                            public void onVerificationCompleted(com.google.firebase.auth.PhoneAuthCredential credential) {
+                                // Auto-verification (rarely happens on first try)
+                            }
+
+                            @Override
+                            public void onVerificationFailed(com.google.firebase.FirebaseException e) {
+                                Toast.makeText(OtpRequestActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onCodeSent(String verificationId, com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken token) {
+                                Intent intent = new Intent(OtpRequestActivity.this, OtpVerificationActivity.class);
+                                intent.putExtra("verificationId", verificationId);
+                                intent.putExtra("phone", phone);
+                                intent.putExtra("groupName", groupName);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            }
+                        })
+                        .build();
+        com.google.firebase.auth.PhoneAuthProvider.verifyPhoneNumber(options);
     }
 }

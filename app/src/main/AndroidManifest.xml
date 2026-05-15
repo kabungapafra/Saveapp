@@ -64,6 +64,14 @@
             android:exported="false"
             android:theme="@style/Theme.Save.LightOnly" />
 
+        <activity android:name="com.example.save.ui.activities.OtpVerificationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
+
+        <activity android:name="com.example.save.ui.activities.SetPasswordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Save.LightOnly" />
+
         <activity
             android:name=".ui.activities.NavigationTestingActivity"
             android:exported="true"

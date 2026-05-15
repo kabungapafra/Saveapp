@@ -65,4 +65,10 @@ public interface ApiService {
 
     @POST("transactions/{id}/approve")
     Call<ApiResponse> approveTransaction(@retrofit2.http.Path("id") String txId, @Body ApprovalRequestDto request);
+
+    @POST("auth/onboarding/check-phone")
+    Call<ApiResponse> checkOnboardingPhone(@Body OnboardingCheckRequest request);
+
+    @POST("auth/onboarding/set-password")
+    Call<LoginResponse> setOnboardingPassword(@Body OnboardingSetPasswordRequest request);
 }
