@@ -94,7 +94,7 @@ public class OtpRequestActivity extends AppCompatActivity {
 
         // Show loading state
         binding.getOtpButton.setEnabled(false);
-        binding.getOtpButton.setText("Sending...");
+        binding.getOtpButtonText.setText("Sending...");
 
         // 1. Check with Backend if user is pending
         com.example.save.data.network.ApiService api = com.example.save.data.network.RetrofitClient.getClient(this).create(com.example.save.data.network.ApiService.class);
@@ -107,7 +107,7 @@ public class OtpRequestActivity extends AppCompatActivity {
                     sendFirebaseOtp(phone, groupName);
                 } else {
                     binding.getOtpButton.setEnabled(true);
-                    binding.getOtpButton.setText("Get Verification Code");
+                    binding.getOtpButtonText.setText("GET OTP");
                     String msg = (response.body() != null) ? response.body().getMessage() : "Validation failed";
                     Toast.makeText(OtpRequestActivity.this, msg, Toast.LENGTH_LONG).show();
                 }
@@ -116,7 +116,7 @@ public class OtpRequestActivity extends AppCompatActivity {
             @Override
             public void onFailure(retrofit2.Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
                 binding.getOtpButton.setEnabled(true);
-                binding.getOtpButton.setText("Get Verification Code");
+                binding.getOtpButtonText.setText("GET OTP");
                 Toast.makeText(OtpRequestActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -137,7 +137,7 @@ public class OtpRequestActivity extends AppCompatActivity {
                             @Override
                             public void onVerificationFailed(com.google.firebase.FirebaseException e) {
                                 binding.getOtpButton.setEnabled(true);
-                                binding.getOtpButton.setText("Get Verification Code");
+                                binding.getOtpButtonText.setText("GET OTP");
                                 Toast.makeText(OtpRequestActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
 
