@@ -9,6 +9,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.WebResourceRequest;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import com.example.save.utils.ThemeUtils;
 public class LiveChatFragment extends Fragment {
 
     private WebView webView;
+    private android.widget.ProgressBar loadingSpinner;
     private boolean isNavigatingToNextScreen = false;
 
     public static LiveChatFragment newInstance() {
@@ -32,6 +34,7 @@ public class LiveChatFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_live_chat, container, false);
         webView = view.findViewById(R.id.webView);
+        loadingSpinner = view.findViewById(R.id.loadingSpinner);
         setupWebView();
         return view;
     }
@@ -41,20 +44,38 @@ public class LiveChatFragment extends Fragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
+        webSettings.setDatabaseEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
+        
+        // Ensure standard desktop-like behavior for chat
+        webSettings.setUserAgentString(webSettings.getUserAgentString().replace("wv", ""));
 
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
+            public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                if (loadingSpinner != null) loadingSpinner.setVisibility(View.VISIBLE);
+            }
+
+            @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                if (loadingSpinner != null) loadingSpinner.setVisibility(View.GONE);
                 applyTheme();
             }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                // Keep all navigation inside the WebView
+                return false;
+            }
         });
+        
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl("file:///android_asset/support_live_chat.html");
+        webView.loadUrl("https://tawk.to/chat/6a085942484e691c3892af02/1joo9pcb6");
     }
 
     private void applyTheme() {
