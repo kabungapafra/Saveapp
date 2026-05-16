@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,14 +7,56 @@
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-    <ProgressBar
-        android:id="@+id/loadingSpinner"
+    <!-- Floating End Chat Button (Hidden until chat starts) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnEndChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminateTint="@color/project_primary"
-        android:visibility="gone" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="#FFEBEB"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="6dp"
+        app:strokeColor="#FFCDD2"
+        app:strokeWidth="1dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_close"
+                app:tint="#D32F2F" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="End Chat"
+                android:textColor="#D32F2F"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Including your original design -->
+    <include
+        android:id="@+id/waitingRoomOverlay"
+        layout="@layout/fragment_connecting_agent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
 
 </RelativeLayout>

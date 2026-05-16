@@ -29,6 +29,8 @@ public class LiveChatFragment extends Fragment {
     private boolean isNavigatingToNextScreen = false;
     private int dotState = 0;
 
+    private View btnEndChat;
+
     public static LiveChatFragment newInstance() {
         return new LiveChatFragment();
     }
@@ -40,18 +42,25 @@ public class LiveChatFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_live_chat, container, false);
         webView = view.findViewById(R.id.webView);
         waitingRoomOverlay = view.findViewById(R.id.waitingRoomOverlay);
+        btnEndChat = view.findViewById(R.id.btnEndChat);
         
-        outerRing = view.findViewById(R.id.outerRingOverlay);
-        midRing = view.findViewById(R.id.midRingOverlay);
-        dot1 = view.findViewById(R.id.dot1Overlay);
-        dot2 = view.findViewById(R.id.dot2Overlay);
-        dot3 = view.findViewById(R.id.dot3Overlay);
-        tvHeading = view.findViewById(R.id.tvHeadingOverlay);
+        // Find views within the included original layout
+        outerRing = waitingRoomOverlay.findViewById(R.id.outerRing);
+        midRing = waitingRoomOverlay.findViewById(R.id.midRing);
+        dot1 = waitingRoomOverlay.findViewById(R.id.dot1);
+        dot2 = waitingRoomOverlay.findViewById(R.id.dot2);
+        dot3 = waitingRoomOverlay.findViewById(R.id.dot3);
+        tvHeading = waitingRoomOverlay.findViewById(R.id.tvHeading);
 
         setupWebView();
         startWaitingAnimations();
         
-        view.findViewById(R.id.btnCancelOverlay).setOnClickListener(v -> {
+        waitingRoomOverlay.findViewById(R.id.btnCancel).setOnClickListener(v -> {
+            if (getActivity() != null) getActivity().onBackPressed();
+        });
+
+        btnEndChat.setOnClickListener(v -> {
+            webView.evaluateJavascript("Tawk_API.endChat();", null);
             if (getActivity() != null) getActivity().onBackPressed();
         });
 
@@ -71,7 +80,6 @@ public class LiveChatFragment extends Fragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                // Inject Tawk.to API listener
                 injectTawkListener();
             }
 
@@ -86,13 +94,19 @@ public class LiveChatFragment extends Fragment {
     }
 
     private void injectTawkListener() {
-        // This JS snippet tells Tawk.to to notify our Android interface when an agent joins
+        // 1. Detect if chat is ALREADY ongoing to skip waiting room
+        // 2. Listen for agent joining
         String js = "var Tawk_API = Tawk_API || {}; " +
+                   "Tawk_API.onLoad = function(){ " +
+                   "  if(Tawk_API.isChatOngoing()){ " +
+                   "    Android.onAgentJoined(); " +
+                   "  } " +
+                   "}; " +
                    "Tawk_API.onAgentJoinChat = function(data){ " +
                    "  Android.onAgentJoined(); " +
                    "}; " +
                    "Tawk_API.onChatMaximized = function(){ " +
-                   "  Android.onAgentJoined(); " + // Also trigger if chat opens directly
+                   "  Android.onAgentJoined(); " + 
                    "};";
         webView.evaluateJavascript(js, null);
     }
@@ -120,11 +134,29 @@ public class LiveChatFragment extends Fragment {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                dot1.setAlpha(dotState == 0 ? 1f : 0.3f);
-                dot2.setAlpha(dotState == 1 ? 1f : 0.3f);
-                dot3.setAlpha(dotState == 2 ? 1f : 0.3f);
-                dotState = (dotState + 1) % 3;
-                handler.postDelayed(this, 500);
+                int dark = R.drawable.bg_dot_dark;
+                int mid = R.drawable.bg_dot_mid;
+                int pale = R.drawable.bg_dot_pale;
+
+                if (dotState == 0) {
+                    dot1.setBackgroundResource(dark);
+                    dot2.setBackgroundResource(mid);
+                    dot3.setBackgroundResource(pale);
+                } else if (dotState == 1) {
+                    dot1.setBackgroundResource(mid);
+                    dot2.setBackgroundResource(dark);
+                    dot3.setBackgroundResource(pale);
+                } else if (dotState == 2) {
+                    dot1.setBackgroundResource(pale);
+                    dot2.setBackgroundResource(dark);
+                    dot3.setBackgroundResource(mid);
+                } else {
+                    dot1.setBackgroundResource(pale);
+                    dot2.setBackgroundResource(mid);
+                    dot3.setBackgroundResource(dark);
+                }
+                dotState = (dotState + 1) % 4;
+                handler.postDelayed(this, 600);
             }
         });
     }
@@ -134,12 +166,15 @@ public class LiveChatFragment extends Fragment {
         public void onAgentJoined() {
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
-                    if (waitingRoomOverlay != null) {
+                    if (waitingRoomOverlay != null && waitingRoomOverlay.getVisibility() == View.VISIBLE) {
                         waitingRoomOverlay.animate().alpha(0f).setDuration(500).withEndAction(() -> {
                             waitingRoomOverlay.setVisibility(View.GONE);
                             webView.setVisibility(View.VISIBLE);
+                            btnEndChat.setVisibility(View.VISIBLE);
                             webView.setAlpha(0f);
+                            btnEndChat.setAlpha(0f);
                             webView.animate().alpha(1f).setDuration(500).start();
+                            btnEndChat.animate().alpha(1f).setDuration(500).start();
                         }).start();
                     }
                 });
@@ -175,6 +210,9 @@ public class LiveChatFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if (webView != null) {
+            webView.evaluateJavascript("Tawk_API.endChat();", null);
+        }
         if (getActivity() != null) {
             getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
