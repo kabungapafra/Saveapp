@@ -172,7 +172,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@color/brand_blue"
+                        app:cardBackgroundColor="@color/action_card_bg"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="2dp"
                         app:strokeWidth="0dp">
@@ -187,7 +187,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Total Active Loans"
-                                android:textColor="#E9F2FB"
+                                android:textColor="@color/action_card_subtext"
                                 android:textSize="@dimen/text_size_xs"
                                 android:textStyle="bold" />
 
@@ -199,7 +199,7 @@
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/manrope"
                                 android:text="UGX 45,000"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/action_card_text"
                                 android:textSize="@dimen/text_size_xxxl"
                                 android:textStyle="bold" />
 
