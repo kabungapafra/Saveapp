@@ -99,10 +99,10 @@ public class LiveChatFragment extends Fragment {
 
     private void startWaitingAnimations() {
         // Rotate outer ring
-        android.animation.ObjectAnimator.ofFloat(outerRing, "rotation", 0f, 360f)
-                .setDuration(10000)
-                .setRepeatCount(android.animation.ValueAnimator.INFINITE)
-                .start();
+        android.animation.ObjectAnimator rotate = android.animation.ObjectAnimator.ofFloat(outerRing, "rotation", 0f, 360f);
+        rotate.setDuration(10000);
+        rotate.setRepeatCount(android.animation.ValueAnimator.INFINITE);
+        rotate.start();
 
         // Pulse mid ring
         android.animation.ObjectAnimator scaleX = android.animation.ObjectAnimator.ofFloat(midRing, "scaleX", 1f, 1.1f);
@@ -111,8 +111,10 @@ public class LiveChatFragment extends Fragment {
         scaleX.setRepeatMode(android.animation.ValueAnimator.REVERSE);
         scaleY.setRepeatCount(android.animation.ValueAnimator.INFINITE);
         scaleY.setRepeatMode(android.animation.ValueAnimator.REVERSE);
-        scaleX.setDuration(2000).start();
-        scaleY.setDuration(2000).start();
+        scaleX.setDuration(2000);
+        scaleY.setDuration(2000);
+        scaleX.start();
+        scaleY.start();
 
         // Dots wave
         handler.post(new Runnable() {
