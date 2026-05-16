@@ -190,11 +190,18 @@ public class SessionManager {
     }
 
     public void saveProfileImage(String uri) {
-        editor.putString(KEY_PROFILE_IMAGE, uri).apply();
+        String phone = getUserPhone();
+        if (phone != null && !phone.isEmpty()) {
+            memPref.edit().putString(KEY_PROFILE_IMAGE + "_" + phone, uri).apply();
+        }
     }
 
     public String getProfileImage() {
-        return pref.getString(KEY_PROFILE_IMAGE, null);
+        String phone = getUserPhone();
+        if (phone != null && !phone.isEmpty()) {
+            return memPref.getString(KEY_PROFILE_IMAGE + "_" + phone, null);
+        }
+        return null;
     }
 
     // ────────────────────────────────────────────────────────────────────────
