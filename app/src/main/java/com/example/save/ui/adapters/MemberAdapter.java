@@ -33,6 +33,10 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private OnMemberClickListener listener;
     private boolean isAdmin = false;
 
+    private static final String[] AVATAR_COLORS = {
+            "#FBBF24", "#F87171", "#A78BFA", "#34D399", "#60A5FA", "#F472B6", "#FCA5A5", "#6EE7B7"
+    };
+
     public interface OnMemberClickListener {
         void onMemberClick(Member member);
 
@@ -138,6 +142,8 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             String savedImage = session.getProfileImage(normalizedPhone);
 
             if (savedImage != null && !savedImage.isEmpty()) {
+                binding.tvInitials.setVisibility(View.GONE);
+                binding.imgProfile.setVisibility(View.VISIBLE);
                 binding.imgProfile.setImageTintList(null);
                 binding.imgProfile.setPadding(0, 0, 0, 0);
                 binding.imgProfile.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
@@ -146,17 +152,19 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         .circleCrop()
                         .into(binding.imgProfile);
             } else {
-                setDefaultProfileIcon(binding.imgProfile);
+                bindInitials(binding.imgProfile, binding.tvInitials, member.getName());
             }
         }
 
-        private void setDefaultProfileIcon(android.widget.ImageView imageView) {
+        private void bindInitials(ImageView imageView, TextView textView, String name) {
             com.bumptech.glide.Glide.with(itemView.getContext()).clear(imageView);
-            imageView.setImageResource(com.example.save.R.drawable.ic_person);
-            int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
-            imageView.setPadding(p, p, p, p);
-            imageView.setImageTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(itemView.getContext(), com.example.save.R.color.project_primary)));
-            imageView.setScaleType(android.widget.ImageView.ScaleType.CENTER_INSIDE);
+            imageView.setImageDrawable(null);
+            imageView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(getInitials(name));
+            
+            int colorIdx = Math.abs(name != null ? name.hashCode() : 0) % AVATAR_COLORS.length;
+            imageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(AVATAR_COLORS[colorIdx])));
         }
     }
 
@@ -198,7 +206,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 binding.tvStatusBadge.setTextColor(Color.parseColor("#64748B"));
             }
 
-            binding.btnMoreActions.setVisibility(isUserAdmin ? View.VISIBLE : View.GONE);
+
             
             // User identification for permissions and profile picture
             SessionManager session = SessionManager.getInstance(itemView.getContext());
@@ -211,6 +219,8 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             binding.btnRemoveMember.setVisibility(View.GONE);
 
             if (savedImage != null && !savedImage.isEmpty()) {
+                binding.tvInitials.setVisibility(View.GONE);
+                binding.imgProfile.setVisibility(View.VISIBLE);
                 binding.imgProfile.setImageTintList(null);
                 binding.imgProfile.setPadding(0, 0, 0, 0);
                 binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -219,23 +229,32 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         .circleCrop()
                         .into(binding.imgProfile);
             } else {
-                setDefaultProfileIcon(binding.imgProfile);
+                bindInitials(binding.imgProfile, binding.tvInitials, member.getName());
             }
 
             if (listener != null) {
                 itemView.setOnClickListener(v -> listener.onMemberClick(member));
-                binding.btnMoreActions.setOnClickListener(v -> listener.onMoreActionsClick(v, member, position));
+
                 binding.btnRemoveMember.setOnClickListener(v -> listener.onDeleteClick(member, position));
             }
         }
 
-        private void setDefaultProfileIcon(ImageView imageView) {
+        private void bindInitials(ImageView imageView, TextView textView, String name) {
             com.bumptech.glide.Glide.with(itemView.getContext()).clear(imageView);
-            imageView.setImageResource(R.drawable.ic_person);
-            int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
-            imageView.setPadding(p, p, p, p);
-            imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.v_text_mid)));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageView.setImageDrawable(null);
+            imageView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(getInitials(name));
+            
+            int colorIdx = Math.abs(name != null ? name.hashCode() : 0) % AVATAR_COLORS.length;
+            imageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(AVATAR_COLORS[colorIdx])));
         }
+    }
+
+    private static String getInitials(String name) {
+        if (name == null || name.isEmpty()) return "?";
+        String[] parts = name.trim().split("\\s+");
+        if (parts.length > 1) return ("" + parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+        return name.substring(0, Math.min(2, name.length())).toUpperCase();
     }
 }
