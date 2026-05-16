@@ -330,14 +330,7 @@ public class MembersFragment extends Fragment {
             String pin = dialogBinding.etMemberPin.getText().toString().trim();
 
             // Prepend +256 if it's just the local number; use a final var for lambda capture
-            final String phone;
-            if (phoneInput.length() == 9 && phoneInput.startsWith("7")) {
-                phone = "+256 " + phoneInput;
-            } else if (phoneInput.length() == 10 && phoneInput.startsWith("0")) {
-                phone = "+256 " + phoneInput.substring(1);
-            } else {
-                phone = phoneInput;
-            }
+            final String phone = com.example.save.utils.ValidationUtils.normalizePhone(phoneInput);
             String email = null; // Email removed from UI
             String role = selectedRole[0];
 
