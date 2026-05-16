@@ -130,29 +130,21 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             binding.statusIndicator.setBackgroundTintList(ColorStateList.valueOf(color));
 
-            // Load profile image if it's the current user
+            // Load profile image if it exists locally for this member's phone
             com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(itemView.getContext());
-            String currentUserPhone = session.getUserPhone();
+            
+            // Normalize phone number for robust lookup
+            String normalizedPhone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
+            String savedImage = session.getProfileImage(normalizedPhone);
 
-            // Normalize both phone numbers for robust comparison
-            String normalizedMemberPhone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
-            String normalizedCurrentPhone = currentUserPhone != null ? currentUserPhone.replaceAll("[^0-9+]", "") : "";
-
-            boolean isSelf = !normalizedCurrentPhone.isEmpty() && !normalizedMemberPhone.isEmpty() && normalizedCurrentPhone.equals(normalizedMemberPhone);
-
-            if (isSelf) {
-                String savedImage = session.getProfileImage();
-                if (savedImage != null && !savedImage.isEmpty()) {
-                    binding.imgProfile.setImageTintList(null);
-                    binding.imgProfile.setPadding(0, 0, 0, 0);
-                    binding.imgProfile.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
-                    com.bumptech.glide.Glide.with(itemView.getContext())
-                            .load(savedImage)
-                            .circleCrop()
-                            .into(binding.imgProfile);
-                } else {
-                    setDefaultProfileIcon(binding.imgProfile);
-                }
+            if (savedImage != null && !savedImage.isEmpty()) {
+                binding.imgProfile.setImageTintList(null);
+                binding.imgProfile.setPadding(0, 0, 0, 0);
+                binding.imgProfile.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
+                com.bumptech.glide.Glide.with(itemView.getContext())
+                        .load(savedImage)
+                        .circleCrop()
+                        .into(binding.imgProfile);
             } else {
                 setDefaultProfileIcon(binding.imgProfile);
             }
@@ -210,29 +202,22 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             
             // User identification for permissions and profile picture
             SessionManager session = SessionManager.getInstance(itemView.getContext());
-            String currentUserPhone = session.getUserPhone();
             
-            // Normalize both phone numbers for robust comparison
-            String normalizedMemberPhone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
-            String normalizedCurrentPhone = currentUserPhone != null ? currentUserPhone.replaceAll("[^0-9+]", "") : "";
-
-            boolean isSelf = !normalizedCurrentPhone.isEmpty() && !normalizedMemberPhone.isEmpty() && normalizedCurrentPhone.equals(normalizedMemberPhone);
+            // Normalize phone number for robust lookup
+            String normalizedPhone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
+            String savedImage = session.getProfileImage(normalizedPhone);
             
-            binding.btnRemoveMember.setVisibility(isUserAdmin && !isSelf ? View.VISIBLE : View.GONE);
+            // Remove delete bin icon as requested
+            binding.btnRemoveMember.setVisibility(View.GONE);
 
-            if (isSelf) {
-                String savedImage = session.getProfileImage();
-                if (savedImage != null && !savedImage.isEmpty()) {
-                    binding.imgProfile.setImageTintList(null);
-                    binding.imgProfile.setPadding(0, 0, 0, 0);
-                    binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    com.bumptech.glide.Glide.with(itemView.getContext())
-                            .load(savedImage)
-                            .circleCrop()
-                            .into(binding.imgProfile);
-                } else {
-                    setDefaultProfileIcon(binding.imgProfile);
-                }
+            if (savedImage != null && !savedImage.isEmpty()) {
+                binding.imgProfile.setImageTintList(null);
+                binding.imgProfile.setPadding(0, 0, 0, 0);
+                binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                com.bumptech.glide.Glide.with(itemView.getContext())
+                        .load(savedImage)
+                        .circleCrop()
+                        .into(binding.imgProfile);
             } else {
                 setDefaultProfileIcon(binding.imgProfile);
             }

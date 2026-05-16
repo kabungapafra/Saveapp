@@ -197,7 +197,10 @@ public class SessionManager {
     }
 
     public String getProfileImage() {
-        String phone = getUserPhone();
+        return getProfileImage(getUserPhone());
+    }
+
+    public String getProfileImage(String phone) {
         if (phone != null && !phone.isEmpty()) {
             return memPref.getString(KEY_PROFILE_IMAGE + "_" + phone, null);
         }
