@@ -105,12 +105,8 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
             holder.tvAmount.setText(String.format(Locale.getDefault(), "UGX %.0f", amount));
         }
 
-        // Highlight self
-        if (isSelf) {
-            holder.itemView.setBackgroundColor(Color.parseColor("#F0F7FF"));
-        } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-        }
+        // Highlight self - removed hardcoded blue highlight to support dark mode
+        holder.itemView.setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override

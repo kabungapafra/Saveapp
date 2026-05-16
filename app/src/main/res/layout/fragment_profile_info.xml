@@ -260,7 +260,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:gravity="center"
                 android:text="Save Profile"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/action_card_text"
                 android:textSize="15sp"
                 android:clickable="true"
                 android:focusable="true"/>

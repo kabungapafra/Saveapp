@@ -133,7 +133,7 @@
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="@color/project_primary"
+            app:cardBackgroundColor="@color/action_card_bg"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp">
 
@@ -147,14 +147,14 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/bg_circle_white"
-                    android:backgroundTint="#22FFFFFF" />
+                    android:backgroundTint="@color/action_card_icon_bg" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="-36dp"
                     android:src="@drawable/ic_money"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/action_card_text" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                     android:layout_marginTop="16dp"
                     android:fontFamily="sans-serif-bold"
                     android:text="Pay Loan"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/action_card_text"
                     android:textSize="@dimen/text_size_xs" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

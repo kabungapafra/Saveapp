@@ -93,15 +93,6 @@
                 android:visibility="gone"
                 app:tint="#EF4444" />
 
-            <ImageView
-                android:id="@+id/btnMoreActions"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="4dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="6dp"
-                android:src="@drawable/ic_more_vert"
-                app:tint="@color/v_text_muted" />
         </LinearLayout>
 
         <!-- Stats Row -->
