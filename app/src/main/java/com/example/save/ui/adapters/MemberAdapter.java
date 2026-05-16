@@ -166,7 +166,6 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             imageView.setImageTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(itemView.getContext(), com.example.save.R.color.project_primary)));
             imageView.setScaleType(android.widget.ImageView.ScaleType.CENTER_INSIDE);
         }
-        }
     }
 
     // ViewHolder for ItemMemberAdmin
