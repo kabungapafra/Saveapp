@@ -125,8 +125,9 @@
 
                     <EditText
                         android:id="@+id/passwordInput"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/manrope"
                         android:hint="● ● ● ●"
@@ -138,6 +139,15 @@
                         android:textColor="@color/v_text_dark"
                         android:textColorHint="@color/v_text_muted"
                         android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/passwordToggle"
+                        android:layout_width="44dp"
+                        android:layout_height="match_parent"
+                        android:padding="12dp"
+                        android:alpha="0.5"
+                        android:src="@drawable/ic_visibility_off"
+                        app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
                 <!-- Remember me -->

@@ -71,6 +71,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         });
         binding.sideSignUpTab.setOnClickListener(this::onsingupClick);
         binding.memberPortalLink.setOnClickListener(v -> navigateToMemberPortal());
+        binding.passwordToggle.setOnClickListener(v -> togglePassword(binding.passwordInput, binding.passwordToggle));
 
         // Animate Logo Image (Heartbeat)
         android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,
@@ -348,6 +349,20 @@ public class AdminLoginActivity extends AppCompatActivity {
     }
 
 
+
+    private void togglePassword(android.widget.EditText editText, android.widget.ImageView toggleIcon) {
+        boolean isVisible = editText.getTransformationMethod() == null;
+        if (isVisible) {
+            editText.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
+            toggleIcon.setImageResource(R.drawable.ic_visibility_off);
+            toggleIcon.setAlpha(0.5f);
+        } else {
+            editText.setTransformationMethod(null);
+            toggleIcon.setImageResource(R.drawable.ic_visibility);
+            toggleIcon.setAlpha(0.9f);
+        }
+        editText.setSelection(editText.getText().length());
+    }
 
     @Override
     public void finish() {

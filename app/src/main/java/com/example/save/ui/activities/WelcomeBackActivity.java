@@ -129,6 +129,21 @@ public class WelcomeBackActivity extends AppCompatActivity {
 
         binding.googleButton.setOnClickListener(v ->
                 Toast.makeText(this, "Google Login coming soon", Toast.LENGTH_SHORT).show());
+        binding.passwordToggle.setOnClickListener(v -> togglePassword(binding.passwordInput, binding.passwordToggle));
+    }
+
+    private void togglePassword(android.widget.EditText editText, android.widget.ImageView toggleIcon) {
+        boolean isVisible = editText.getTransformationMethod() == null;
+        if (isVisible) {
+            editText.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
+            toggleIcon.setImageResource(R.drawable.ic_visibility_off);
+            toggleIcon.setAlpha(0.5f);
+        } else {
+            editText.setTransformationMethod(null);
+            toggleIcon.setImageResource(R.drawable.ic_visibility);
+            toggleIcon.setAlpha(0.9f);
+        }
+        editText.setSelection(editText.getText().length());
     }
 
     private void startForgotPinFlow() {
