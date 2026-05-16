@@ -132,14 +132,17 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             // Load profile image if it's the current user
             com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(itemView.getContext());
-
             String currentUserPhone = session.getUserPhone();
 
-            boolean isSelf = (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
+            // Normalize both phone numbers for robust comparison
+            String normalizedMemberPhone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
+            String normalizedCurrentPhone = currentUserPhone != null ? currentUserPhone.replaceAll("[^0-9+]", "") : "";
+
+            boolean isSelf = !normalizedCurrentPhone.isEmpty() && !normalizedMemberPhone.isEmpty() && normalizedCurrentPhone.equals(normalizedMemberPhone);
 
             if (isSelf) {
                 String savedImage = session.getProfileImage();
-                if (savedImage != null) {
+                if (savedImage != null && !savedImage.isEmpty()) {
                     binding.imgProfile.setImageTintList(null);
                     binding.imgProfile.setPadding(0, 0, 0, 0);
                     binding.imgProfile.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
@@ -148,19 +151,21 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             .circleCrop()
                             .into(binding.imgProfile);
                 } else {
-                    binding.imgProfile.setImageResource(com.example.save.R.drawable.ic_person);
-                    int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
-                    binding.imgProfile.setPadding(p, p, p, p);
-                    binding.imgProfile.setImageTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(itemView.getContext(), com.example.save.R.color.project_primary)));
-                    binding.imgProfile.setScaleType(android.widget.ImageView.ScaleType.CENTER_INSIDE);
+                    setDefaultProfileIcon(binding.imgProfile);
                 }
             } else {
-                binding.imgProfile.setImageResource(com.example.save.R.drawable.ic_person);
-                int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
-                binding.imgProfile.setPadding(p, p, p, p);
-                binding.imgProfile.setImageTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(itemView.getContext(), com.example.save.R.color.project_primary)));
-                binding.imgProfile.setScaleType(android.widget.ImageView.ScaleType.CENTER_INSIDE);
+                setDefaultProfileIcon(binding.imgProfile);
             }
+        }
+
+        private void setDefaultProfileIcon(android.widget.ImageView imageView) {
+            com.bumptech.glide.Glide.with(itemView.getContext()).clear(imageView);
+            imageView.setImageResource(com.example.save.R.drawable.ic_person);
+            int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
+            imageView.setPadding(p, p, p, p);
+            imageView.setImageTintList(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(itemView.getContext(), com.example.save.R.color.project_primary)));
+            imageView.setScaleType(android.widget.ImageView.ScaleType.CENTER_INSIDE);
+        }
         }
     }
 
@@ -207,15 +212,18 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             // User identification for permissions and profile picture
             SessionManager session = SessionManager.getInstance(itemView.getContext());
             String currentUserPhone = session.getUserPhone();
-            boolean isSelf = (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
+            
+            // Normalize both phone numbers for robust comparison
+            String normalizedMemberPhone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
+            String normalizedCurrentPhone = currentUserPhone != null ? currentUserPhone.replaceAll("[^0-9+]", "") : "";
+
+            boolean isSelf = !normalizedCurrentPhone.isEmpty() && !normalizedMemberPhone.isEmpty() && normalizedCurrentPhone.equals(normalizedMemberPhone);
             
             binding.btnRemoveMember.setVisibility(isUserAdmin && !isSelf ? View.VISIBLE : View.GONE);
 
-            // Load profile image if it's the current user
-
             if (isSelf) {
                 String savedImage = session.getProfileImage();
-                if (savedImage != null) {
+                if (savedImage != null && !savedImage.isEmpty()) {
                     binding.imgProfile.setImageTintList(null);
                     binding.imgProfile.setPadding(0, 0, 0, 0);
                     binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -224,18 +232,10 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             .circleCrop()
                             .into(binding.imgProfile);
                 } else {
-                    binding.imgProfile.setImageResource(R.drawable.ic_person);
-                    int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
-                    binding.imgProfile.setPadding(p, p, p, p);
-                    binding.imgProfile.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.v_text_mid)));
-                    binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    setDefaultProfileIcon(binding.imgProfile);
                 }
             } else {
-                binding.imgProfile.setImageResource(R.drawable.ic_person);
-                int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
-                binding.imgProfile.setPadding(p, p, p, p);
-                binding.imgProfile.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.v_text_mid)));
-                binding.imgProfile.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                setDefaultProfileIcon(binding.imgProfile);
             }
 
             if (listener != null) {
@@ -243,6 +243,15 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 binding.btnMoreActions.setOnClickListener(v -> listener.onMoreActionsClick(v, member, position));
                 binding.btnRemoveMember.setOnClickListener(v -> listener.onDeleteClick(member, position));
             }
+        }
+
+        private void setDefaultProfileIcon(ImageView imageView) {
+            com.bumptech.glide.Glide.with(itemView.getContext()).clear(imageView);
+            imageView.setImageResource(R.drawable.ic_person);
+            int p = (int)(14 * itemView.getContext().getResources().getDisplayMetrics().density);
+            imageView.setPadding(p, p, p, p);
+            imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.v_text_mid)));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
     }
 }
