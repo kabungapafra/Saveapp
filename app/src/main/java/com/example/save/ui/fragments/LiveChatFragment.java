@@ -10,6 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebResourceRequest;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -21,8 +22,12 @@ import com.example.save.utils.ThemeUtils;
 public class LiveChatFragment extends Fragment {
 
     private WebView webView;
-    private android.widget.ProgressBar loadingSpinner;
+    private View waitingRoomOverlay;
+    private View outerRing, midRing, dot1, dot2, dot3;
+    private TextView tvHeading;
+    private android.os.Handler handler = new android.os.Handler(android.os.Looper.getMainLooper());
     private boolean isNavigatingToNextScreen = false;
+    private int dotState = 0;
 
     public static LiveChatFragment newInstance() {
         return new LiveChatFragment();
@@ -34,8 +39,22 @@ public class LiveChatFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_live_chat, container, false);
         webView = view.findViewById(R.id.webView);
-        loadingSpinner = view.findViewById(R.id.loadingSpinner);
+        waitingRoomOverlay = view.findViewById(R.id.waitingRoomOverlay);
+        
+        outerRing = view.findViewById(R.id.outerRingOverlay);
+        midRing = view.findViewById(R.id.midRingOverlay);
+        dot1 = view.findViewById(R.id.dot1Overlay);
+        dot2 = view.findViewById(R.id.dot2Overlay);
+        dot3 = view.findViewById(R.id.dot3Overlay);
+        tvHeading = view.findViewById(R.id.tvHeadingOverlay);
+
         setupWebView();
+        startWaitingAnimations();
+        
+        view.findViewById(R.id.btnCancelOverlay).setOnClickListener(v -> {
+            if (getActivity() != null) getActivity().onBackPressed();
+        });
+
         return view;
     }
 
@@ -45,31 +64,19 @@ public class LiveChatFragment extends Fragment {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
         
-        // Ensure standard desktop-like behavior for chat
-        webSettings.setUserAgentString(webSettings.getUserAgentString().replace("wv", ""));
-
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                if (loadingSpinner != null) loadingSpinner.setVisibility(View.VISIBLE);
-            }
-
-            @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                if (loadingSpinner != null) loadingSpinner.setVisibility(View.GONE);
-                applyTheme();
+                // Inject Tawk.to API listener
+                injectTawkListener();
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                // Keep all navigation inside the WebView
                 return false;
             }
         });
@@ -78,43 +85,69 @@ public class LiveChatFragment extends Fragment {
         webView.loadUrl("https://tawk.to/chat/6a085942484e691c3892af02/1joo9pcb6");
     }
 
-    private void applyTheme() {
-        if (getContext() == null || webView == null) return;
-        String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
-        boolean isDark = ThemeUtils.isDarkMode(getContext(), role);
-        String theme = isDark ? "dark" : "light";
-        webView.evaluateJavascript("document.documentElement.setAttribute('data-theme', '" + theme + "');", null);
+    private void injectTawkListener() {
+        // This JS snippet tells Tawk.to to notify our Android interface when an agent joins
+        String js = "var Tawk_API = Tawk_API || {}; " +
+                   "Tawk_API.onAgentJoinChat = function(data){ " +
+                   "  Android.onAgentJoined(); " +
+                   "}; " +
+                   "Tawk_API.onChatMaximized = function(){ " +
+                   "  Android.onAgentJoined(); " + // Also trigger if chat opens directly
+                   "};";
+        webView.evaluateJavascript(js, null);
+    }
+
+    private void startWaitingAnimations() {
+        // Rotate outer ring
+        android.animation.ObjectAnimator.ofFloat(outerRing, "rotation", 0f, 360f)
+                .setDuration(10000)
+                .setRepeatCount(android.animation.ValueAnimator.INFINITE)
+                .start();
+
+        // Pulse mid ring
+        android.animation.ObjectAnimator scaleX = android.animation.ObjectAnimator.ofFloat(midRing, "scaleX", 1f, 1.1f);
+        android.animation.ObjectAnimator scaleY = android.animation.ObjectAnimator.ofFloat(midRing, "scaleY", 1f, 1.1f);
+        scaleX.setRepeatCount(android.animation.ValueAnimator.INFINITE);
+        scaleX.setRepeatMode(android.animation.ValueAnimator.REVERSE);
+        scaleY.setRepeatCount(android.animation.ValueAnimator.INFINITE);
+        scaleY.setRepeatMode(android.animation.ValueAnimator.REVERSE);
+        scaleX.setDuration(2000).start();
+        scaleY.setDuration(2000).start();
+
+        // Dots wave
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                dot1.setAlpha(dotState == 0 ? 1f : 0.3f);
+                dot2.setAlpha(dotState == 1 ? 1f : 0.3f);
+                dot3.setAlpha(dotState == 2 ? 1f : 0.3f);
+                dotState = (dotState + 1) % 3;
+                handler.postDelayed(this, 500);
+            }
+        });
     }
 
     public class WebAppInterface {
         @JavascriptInterface
-        public boolean isDarkMode() {
-            if (getContext() == null) return false;
-            String role = (getActivity() instanceof AdminMainActivity) ? "admin" : "member";
-            return ThemeUtils.isDarkMode(getContext(), role);
-        }
-
-        @JavascriptInterface
-        public void navigateBack() {
+        public void onAgentJoined() {
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
-                    getActivity().onBackPressed();
+                    if (waitingRoomOverlay != null) {
+                        waitingRoomOverlay.animate().alpha(0f).setDuration(500).withEndAction(() -> {
+                            waitingRoomOverlay.setVisibility(View.GONE);
+                            webView.setVisibility(View.VISIBLE);
+                            webView.setAlpha(0f);
+                            webView.animate().alpha(1f).setDuration(500).start();
+                        }).start();
+                    }
                 });
             }
         }
 
         @JavascriptInterface
-        public void openFeedback() {
+        public void navigateBack() {
             if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    if (!isAdded()) return;
-                    isNavigatingToNextScreen = true; // Prevent nav bar restoration during transition
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow,
-                                               R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow)
-                            .replace(R.id.fragment_container, ChatFeedbackFragment.newInstance())
-                            .commitAllowingStateLoss();
-                });
+                getActivity().runOnUiThread(() -> getActivity().onBackPressed());
             }
         }
     }
@@ -129,17 +162,11 @@ public class LiveChatFragment extends Fragment {
                 ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
                 ((MemberMainActivity) getActivity()).setHeaderVisible();
             }
-            applyTheme();
-
-            // Immersive Zero-Bar Mode
-            View decorView = getActivity().getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            // Immersive
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                    View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 
@@ -147,23 +174,14 @@ public class LiveChatFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if (getActivity() != null) {
-            // Restore System UI
-            View decorView = getActivity().getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (getActivity() != null && !isNavigatingToNextScreen) {
-            if (getActivity() instanceof AdminMainActivity) {
-                ((AdminMainActivity) getActivity()).setBottomNavVisible(true);
-            } else if (getActivity() instanceof MemberMainActivity) {
-                ((MemberMainActivity) getActivity()).setBottomNavVisible(true);
-                ((MemberMainActivity) getActivity()).setHeaderVisible();
-            }
-        }
+        handler.removeCallbacksAndMessages(null);
         if (webView != null) {
             webView.destroy();
             webView = null;
