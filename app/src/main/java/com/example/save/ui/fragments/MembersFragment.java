@@ -214,18 +214,36 @@ public class MembersFragment extends Fragment {
                 binding.progressBar.setVisibility(View.GONE);
             }
 
-            if (members != null && adapter != null && !isSearching) {
+            if (members != null && adapter != null) {
                 currentMembersList = members;
-                filterAndApply();
+                
+                if (isSearching) {
+                    // Re-apply current search query to fresh data
+                    String query = binding.etSearchMember.getText().toString().trim();
+                    if (!query.isEmpty()) {
+                        List<Member> filteredResults = new ArrayList<>();
+                        String lowerQuery = query.toLowerCase();
+                        for (Member m : members) {
+                            if (m.getName().toLowerCase().contains(lowerQuery) || 
+                                (m.getPhone() != null && m.getPhone().contains(lowerQuery))) {
+                                filteredResults.add(m);
+                            }
+                        }
+                        adapter.updateList(filteredResults);
+                    } else {
+                        filterAndApply();
+                    }
+                } else {
+                    filterAndApply();
+                }
 
                 // Update Technical Insights
                 if (insightsAdapter != null) {
                     insightsAdapter.updateList(members);
                 }
 
-
-                binding.membersRecyclerView.setVisibility(members.isEmpty() ? View.GONE : View.VISIBLE);
-                binding.emptyStateLayout.setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);
+                binding.membersRecyclerView.setVisibility(adapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
+                binding.emptyStateLayout.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
             }
         });
     }
