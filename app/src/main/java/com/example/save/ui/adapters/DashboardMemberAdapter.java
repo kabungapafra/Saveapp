@@ -68,8 +68,10 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
         holder.tvStatus.setText(label);
 
         // Avatar image/initials
-        String savedImage = isSelf ? session.getProfileImage() : null;
-        if (savedImage != null) {
+        String normalizedPhone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
+        String savedImage = session.getProfileImage(normalizedPhone);
+        
+        if (savedImage != null && !savedImage.isEmpty()) {
             holder.tvInitials.setVisibility(View.GONE);
             holder.ivAvatar.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
             com.bumptech.glide.Glide.with(holder.itemView.getContext())
@@ -82,7 +84,7 @@ public class DashboardMemberAdapter extends RecyclerView.Adapter<DashboardMember
             holder.ivAvatar.setImageDrawable(null);
             holder.ivAvatar.setScaleType(android.widget.ImageView.ScaleType.CENTER_INSIDE);
             // Avatar color based on name hash
-            int colorIdx = Math.abs(member.getName().hashCode()) % AVATAR_COLORS.length;
+            int colorIdx = Math.abs(member.getName() != null ? member.getName().hashCode() : 0) % AVATAR_COLORS.length;
             holder.ivAvatar.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(AVATAR_COLORS[colorIdx])));
             holder.tvInitials.setTextColor(android.graphics.Color.parseColor("#1A1D2E"));
         }
