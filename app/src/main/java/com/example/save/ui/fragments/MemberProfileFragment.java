@@ -83,8 +83,12 @@ public class MemberProfileFragment extends Fragment {
         // Handle Profile Picture vs Initials
         com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
         String currentUserPhone = session.getUserPhone();
-        
-        boolean isSelf = (member.getPhone() != null && !member.getPhone().isEmpty() && member.getPhone().replaceAll("\\s+", "").equalsIgnoreCase(currentUserPhone.replaceAll("\\s+", "")));
+
+        // Normalize both phone numbers for robust comparison
+        String normalizedMemberPhone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
+        String normalizedCurrentPhone = currentUserPhone != null ? currentUserPhone.replaceAll("[^0-9+]", "") : "";
+
+        boolean isSelf = !normalizedCurrentPhone.isEmpty() && !normalizedMemberPhone.isEmpty() && normalizedCurrentPhone.equals(normalizedMemberPhone);
         
         String savedImage = isSelf ? session.getProfileImage() : null;
 

@@ -35,6 +35,7 @@ public class SessionManager {
     private static final String KEY_IS_FIRST_LOGIN = "is_first_login";
     private static final String KEY_IS_CREATOR    = "is_creator";
     private static final String KEY_JWT_TOKEN     = "jwt_token";
+    private static final String KEY_PROFILE_IMAGE   = "profile_image_uri";
 
     // ── Plain (memory) pref keys — survive process kill & encryption wipe ───
     private static final String KEY_LAST_PHONE     = "last_phone";
@@ -44,7 +45,6 @@ public class SessionManager {
     private static final String KEY_HAS_LOGGED_IN  = "has_logged_in_ever";
     private static final String KEY_BACKGROUND_TIME = "background_time";
     private static final String KEY_LOCKOUT_TIME    = "lockout_time";
-    private static final String KEY_PROFILE_IMAGE   = "profile_image_uri";
 
     // Singleton
     private static SessionManager instance;
@@ -190,11 +190,11 @@ public class SessionManager {
     }
 
     public void saveProfileImage(String uri) {
-        memPref.edit().putString(KEY_PROFILE_IMAGE, uri).apply();
+        editor.putString(KEY_PROFILE_IMAGE, uri).apply();
     }
 
     public String getProfileImage() {
-        return memPref.getString(KEY_PROFILE_IMAGE, null);
+        return pref.getString(KEY_PROFILE_IMAGE, null);
     }
 
     // ────────────────────────────────────────────────────────────────────────
