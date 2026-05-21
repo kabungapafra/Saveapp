@@ -49,6 +49,9 @@ public class WelcomeBackActivity extends AppCompatActivity {
         getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         session = SessionManager.getInstance(this);
+        // Load server-side configuration to ensure persisted settings are applied
+        com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
+                .fetchSystemConfig(null);
         mAuth = FirebaseAuth.getInstance();
 
         // Load persisted user data first
@@ -206,11 +209,12 @@ public class WelcomeBackActivity extends AppCompatActivity {
 
                     // Restore all financial rule settings from server after login
                     com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
-                            .fetchSystemConfig(null);
-
-                    session.saveLastGroup(lastGroup);
-
-                    goToMain(body);
+                            .fetchSystemConfig((success, config, message) -> {
+                                // Config is saved to SharedPreferences inside the repository
+                                // Proceed to main activity regardless of fetch success
+                                session.saveLastGroup(lastGroup);
+                                goToMain(body);
+                            });
                 } else {
                     String msg = "Invalid PIN. Please try again.";
                     try {
