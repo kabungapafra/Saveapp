@@ -17,6 +17,9 @@ import com.example.save.databinding.FragmentGroupSettingsBinding;
 public class GroupSettingsFragment extends Fragment {
 
     private FragmentGroupSettingsBinding binding;
+    // Guard flag: prevents toggle change-listeners from calling syncConfigToServer()
+    // while we are programmatically restoring values from SharedPrefs / server.
+    private boolean isLoadingRules = false;
 
     @Nullable
     @Override
@@ -310,6 +313,7 @@ public class GroupSettingsFragment extends Fragment {
 
     private void setupToggles() {
         binding.switchAutomaticPayouts.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isLoadingRules) return;
             String state = isChecked ? "enabled" : "disabled";
             Toast.makeText(getContext(), "Automatic Payouts " + state, Toast.LENGTH_SHORT).show();
             requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE).edit().putBoolean("switch_automatic_payouts", isChecked).apply();
@@ -317,6 +321,7 @@ public class GroupSettingsFragment extends Fragment {
         });
 
         binding.switchScheduledContributions.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isLoadingRules) return;
             String state = isChecked ? "enabled" : "disabled";
             Toast.makeText(getContext(), "Scheduled Contributions " + state, Toast.LENGTH_SHORT).show();
             requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE).edit().putBoolean("switch_scheduled_contributions", isChecked).apply();
@@ -324,6 +329,7 @@ public class GroupSettingsFragment extends Fragment {
         });
 
         binding.switchSmartRoundups.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isLoadingRules) return;
             String state = isChecked ? "enabled" : "disabled";
             Toast.makeText(getContext(), "Smart Round-ups " + state, Toast.LENGTH_SHORT).show();
             requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE).edit().putBoolean("switch_smart_roundups", isChecked).apply();
@@ -331,6 +337,7 @@ public class GroupSettingsFragment extends Fragment {
         });
 
         binding.switchAutomatedCycle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isLoadingRules) return;
             String state = isChecked ? "enabled" : "disabled";
             Toast.makeText(getContext(), "Automated Cycle " + state, Toast.LENGTH_SHORT).show();
             requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE).edit().putBoolean("switch_automated_cycle", isChecked).apply();
@@ -338,6 +345,7 @@ public class GroupSettingsFragment extends Fragment {
         });
 
         binding.switchLoanRequests.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isLoadingRules) return;
             String state = isChecked ? "enabled" : "disabled";
             Toast.makeText(getContext(), "Loan Requests " + state, Toast.LENGTH_SHORT).show();
             requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE).edit().putBoolean("switch_loan_requests", isChecked).apply();
@@ -345,6 +353,7 @@ public class GroupSettingsFragment extends Fragment {
         });
 
         binding.switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isLoadingRules) return;
             android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
             prefs.edit().putBoolean("group_push_notifications", isChecked).apply();
             String state = isChecked ? "enabled" : "disabled";
@@ -353,8 +362,9 @@ public class GroupSettingsFragment extends Fragment {
     }
 
     private void loadFinancialRules() {
+        isLoadingRules = true;
         android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
-        
+
         binding.valContribution.setText(prefs.getString("rule_edit_contribution_amount", "UGX 500"));
         binding.valFrequency.setText(prefs.getString("rule_frequency", "Monthly"));
         binding.valPayoutAmount.setText(prefs.getString("rule_edit_payout_amount", "UGX 50,000"));
@@ -363,14 +373,15 @@ public class GroupSettingsFragment extends Fragment {
         binding.valLoanInterest.setText(prefs.getString("rule_edit_loan_interest", "5%"));
         binding.valLoanLateFee.setText(prefs.getString("rule_edit_loan_late_fee", "UGX 50"));
         binding.valStartDate.setText(prefs.getString("rule_start_date", "Oct 1, 2023"));
-        
+
         binding.switchAutomaticPayouts.setChecked(prefs.getBoolean("switch_automatic_payouts", true));
         binding.switchScheduledContributions.setChecked(prefs.getBoolean("switch_scheduled_contributions", true));
         binding.switchSmartRoundups.setChecked(prefs.getBoolean("switch_smart_roundups", false));
         binding.switchAutomatedCycle.setChecked(prefs.getBoolean("switch_automated_cycle", true));
         binding.switchLoanRequests.setChecked(prefs.getBoolean("switch_loan_requests", true));
         binding.switchNotifications.setChecked(prefs.getBoolean("group_push_notifications", true));
-        
+
+        isLoadingRules = false;
         updateNextPayoutDate();
     }
 

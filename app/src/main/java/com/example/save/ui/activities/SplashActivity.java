@@ -47,9 +47,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
 
-        // Fetch system config early
-        MemberRepository.getInstance(this).fetchSystemConfig(null);
-
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);

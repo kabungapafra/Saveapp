@@ -204,6 +204,10 @@ public class WelcomeBackActivity extends AppCompatActivity {
                     // Update Retrofit singleton token
                     com.example.save.data.network.RetrofitClient.getInstance(getApplicationContext()).updateToken(body.getToken());
 
+                    // Restore all financial rule settings from server after login
+                    com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
+                            .fetchSystemConfig(null);
+
                     session.saveLastGroup(lastGroup);
 
                     goToMain(body);

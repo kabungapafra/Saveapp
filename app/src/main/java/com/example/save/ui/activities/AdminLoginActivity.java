@@ -307,6 +307,10 @@ public class AdminLoginActivity extends AppCompatActivity {
                     // Update Retrofit singleton token
                     com.example.save.data.network.RetrofitClient.getInstance(getApplicationContext()).updateToken(loginResponse.getToken());
 
+                    // Restore all financial rule settings from server after login
+                    com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
+                            .fetchSystemConfig(null);
+
                     android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
                     prefs.edit()
                             .putString("admin_name", loginResponse.getName())
