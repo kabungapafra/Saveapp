@@ -150,8 +150,8 @@ public class DashboardFragment extends Fragment {
         int slots = requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE).getInt("slots_per_round", 5);
         // Label removed in high-fidelity redesign as it's integrated into the Active Circle card
 
-        android.content.SharedPreferences adminPrefs = requireContext().getSharedPreferences("SaveAppPrefs", Context.MODE_PRIVATE);
-        String schedPayoutDate = adminPrefs.getString("sched_payout_date", "TBD");
+        android.content.SharedPreferences adminPrefs = requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
+        String schedPayoutDate = adminPrefs.getString("rule_next_payout_date", "TBD");
 
         viewModel.getMonthlyRecipientsLive(slots).observe(getViewLifecycleOwner(), recipients -> {
             if (recipients != null) recipientAdapter.updateList(recipients, schedPayoutDate);

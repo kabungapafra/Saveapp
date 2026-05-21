@@ -70,8 +70,8 @@ public class QueueFragment extends Fragment {
 
     private void setupRecyclerView() {
         String payoutDate = requireContext()
-                .getSharedPreferences("SaveAppPrefs", android.content.Context.MODE_PRIVATE)
-                .getString("sched_payout_date", "TBD");
+                .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
+                .getString("rule_next_payout_date", "TBD");
         double payoutAmount = viewModel.getPayoutAmount();
         adapter = new PayoutQueueAdapter(new ArrayList<>(), payoutAmount, payoutDate);
         binding.rvQueue.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -111,8 +111,8 @@ public class QueueFragment extends Fragment {
             binding.emptyState.setVisibility(View.GONE);
 
             String payoutDate = requireContext()
-                    .getSharedPreferences("SaveAppPrefs", android.content.Context.MODE_PRIVATE)
-                    .getString("sched_payout_date", "TBD");
+                    .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
+                    .getString("rule_next_payout_date", "TBD");
             adapter.updateList(members, payoutDate);
         });
 

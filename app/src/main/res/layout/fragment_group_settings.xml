@@ -89,431 +89,109 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <GridLayout
-                android:id="@+id/gridFinancialRules"
+            <LinearLayout
+                android:id="@+id/listFinancialRules"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:columnCount="2"
+                android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/labelFinancialRules">
 
-                <!-- Contribution Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="@color/card_surface"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
+                <!-- Contribution Amount -->
+                <LinearLayout android:id="@+id/rowContribution" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_wallet_safe_blue" app:tint="@color/brand_blue" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Contribution Amount" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                    <TextView android:id="@+id/valContribution" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="UGX 500" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
+                </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                <!-- Frequency -->
+                <LinearLayout android:id="@+id/rowFrequency" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_calendar_month" app:tint="@color/brand_blue" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Frequency" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                    <TextView android:id="@+id/valFrequency" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="Monthly" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
+                </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_wallet_safe_blue" />
+                <!-- Payout Amount -->
+                <LinearLayout android:id="@+id/rowPayoutAmount" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_money" app:tint="@color/brand_blue" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Payout Amount" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                    <TextView android:id="@+id/valPayoutAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="UGX 50,000" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
+                </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="CONTRIBUTION"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="10sp" />
+                <!-- Recipients -->
+                <LinearLayout android:id="@+id/rowRecipients" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_people" app:tint="@color/brand_blue" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Recipients" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                    <TextView android:id="@+id/valRecipients" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="1 Member" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
+                </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="UGX 500"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="22sp" />
+                <!-- Late Fee -->
+                <LinearLayout android:id="@+id/rowLateFee" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_clock_orange" app:tint="@color/brand_blue" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Late Fee" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                    <TextView android:id="@+id/valLateFee" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="UGX 25" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
+                </LinearLayout>
+
+                <!-- Loan Interest -->
+                <LinearLayout android:id="@+id/rowLoanInterest" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_trending_up" app:tint="@color/brand_blue" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Loan Interest" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                    <TextView android:id="@+id/valLoanInterest" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="5%" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
+                </LinearLayout>
+
+                <!-- Loan Late Fee -->
+                <LinearLayout android:id="@+id/rowLoanLateFee" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_warning" app:tint="@color/brand_blue" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Loan Late Fee" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                    <TextView android:id="@+id/valLoanLateFee" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="UGX 50" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
+                </LinearLayout>
+
+                <!-- Start Date -->
+                <LinearLayout android:id="@+id/rowStartDate" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_calendar_month" app:tint="@color/brand_blue" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Start Date" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                    <TextView android:id="@+id/valStartDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="Oct 1, 2023" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
+                </LinearLayout>
+
+                <!-- Automatic Payouts -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_automatic_payouts" app:tint="@color/brand_blue" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_medium" android:text="Automatic Payouts" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                        <TextView android:id="@+id/tvNextAutomaticPayoutDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Next Payout: Oct 28, 2023" android:textColor="@color/brand_blue" android:textSize="12sp" />
                     </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchAutomaticPayouts" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" app:thumbTint="@color/white" app:trackTint="@color/brand_blue" />
+                </LinearLayout>
 
-                <!-- Frequency Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="@color/card_surface"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_calendar_month"
-                            app:tint="@color/brand_blue" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="FREQUENCY"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="Monthly"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="22sp" />
+                <!-- Scheduled Contributions -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_calendar" app:tint="@color/brand_blue" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_medium" android:text="Scheduled Contributions" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                        <TextView android:id="@+id/tvNextContributionDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Next: Oct 24, 2023" android:textColor="@color/brand_blue" android:textSize="12sp" />
                     </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchScheduledContributions" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" app:thumbTint="@color/white" app:trackTint="@color/brand_blue" />
+                </LinearLayout>
 
-                <!-- Late Fee Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="@color/card_surface"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_clock_orange"
-                            app:tint="@color/brand_blue" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="LATE FEE"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="UGX 25"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="22sp" />
+                <!-- Smart Round-ups -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_stars" app:tint="@color/brand_blue" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_medium" android:text="Smart Round-ups" android:textColor="@color/v_text_dark" android:textSize="15sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Round up to the nearest UGX 1.00" android:textColor="@color/v_text_muted" android:textSize="12sp" />
                     </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchSmartRoundups" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="false" app:thumbTint="@color/white" app:trackTint="@color/brand_blue" />
+                </LinearLayout>
 
-                <!-- Loan Interest Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="@color/card_surface"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_trending_up"
-                            app:tint="@color/brand_blue" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="LOAN INTEREST"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="5%"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="22sp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </GridLayout>
-
-            <!-- SCHEDULED ACTIONS SECTION -->
-            <TextView
-                android:id="@+id/labelScheduledActions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/manrope_bold"
-                android:letterSpacing="0.1"
-                android:text="SCHEDULED ACTIONS"
-                android:textColor="@color/v_text_muted"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gridFinancialRules" />
-
-            <!-- Automatic Payouts Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardAutomaticPayouts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/card_surface"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="2dp"
-                app:layout_constraintTop_toBottomOf="@id/labelScheduledActions"
-                app:strokeWidth="0dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <View
-                        android:id="@+id/bgIconPayouts"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/bg_icon_squircle"
-                        android:backgroundTint="#E9F2FB"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_automatic_payouts"
-                        app:layout_constraintBottom_toBottomOf="@id/bgIconPayouts"
-                        app:layout_constraintEnd_toEndOf="@id/bgIconPayouts"
-                        app:layout_constraintStart_toStartOf="@id/bgIconPayouts"
-                        app:layout_constraintTop_toTopOf="@id/bgIconPayouts"
-                        app:tint="@color/brand_blue" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/switchAutomaticPayouts"
-                        app:layout_constraintStart_toEndOf="@id/bgIconPayouts"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="Automatic Payouts"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Frequency: Weekly"
-                            android:textColor="@color/brand_blue"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchAutomaticPayouts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:thumbTint="@color/white"
-                        app:trackTint="@color/brand_blue" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Scheduled Contributions Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardScheduledContributions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardBackgroundColor="@color/card_surface"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="2dp"
-                app:layout_constraintTop_toBottomOf="@id/cardAutomaticPayouts"
-                app:strokeWidth="0dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <View
-                        android:id="@+id/bgIconContributions"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/bg_icon_squircle"
-                        android:backgroundTint="#E9F2FB"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_calendar"
-                        app:layout_constraintBottom_toBottomOf="@id/bgIconContributions"
-                        app:layout_constraintEnd_toEndOf="@id/bgIconContributions"
-                        app:layout_constraintStart_toStartOf="@id/bgIconContributions"
-                        app:layout_constraintTop_toTopOf="@id/bgIconContributions"
-                        app:tint="@color/brand_blue" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/switchScheduledContributions"
-                        app:layout_constraintStart_toEndOf="@id/bgIconContributions"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="Scheduled Contributions"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Next: Oct 24, 2023"
-                            android:textColor="@color/brand_blue"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchScheduledContributions"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:thumbTint="@color/white"
-                        app:trackTint="@color/brand_blue" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Smart Round-ups Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardSmartRoundups"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardBackgroundColor="@color/card_surface"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="2dp"
-                app:layout_constraintTop_toBottomOf="@id/cardScheduledContributions"
-                app:strokeWidth="0dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <View
-                        android:id="@+id/bgIconRoundups"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/bg_icon_squircle"
-                        android:backgroundTint="#E9F2FB"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_stars"
-                        app:layout_constraintBottom_toBottomOf="@id/bgIconRoundups"
-                        app:layout_constraintEnd_toEndOf="@id/bgIconRoundups"
-                        app:layout_constraintStart_toStartOf="@id/bgIconRoundups"
-                        app:layout_constraintTop_toTopOf="@id/bgIconRoundups"
-                        app:tint="@color/brand_blue" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/switchSmartRoundups"
-                        app:layout_constraintStart_toEndOf="@id/bgIconRoundups"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="Smart Round-ups"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Round up to the nearest UGX 1.00"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchSmartRoundups"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="false"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:thumbTint="@color/white"
-                        app:trackTint="@color/brand_blue" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <!-- AUTOMATION & GOVERNANCE SECTION -->
             <TextView
@@ -528,7 +206,7 @@
                 android:textColor="@color/v_text_muted"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardSmartRoundups" />
+                app:layout_constraintTop_toBottomOf="@id/listFinancialRules" />
 
             <!-- Automation Card Container -->
             <com.google.android.material.card.MaterialCardView

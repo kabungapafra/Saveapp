@@ -101,4 +101,58 @@ public class SystemConfig {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    @SerializedName("frequency")
+    private String frequency;
+
+    @SerializedName("recipients")
+    private int recipients;
+
+    @SerializedName("loan_late_fee")
+    private double loanLateFee;
+
+    @SerializedName("start_date")
+    private String startDate;
+
+    @SerializedName("automatic_payouts")
+    private boolean automaticPayouts;
+
+    @SerializedName("scheduled_contributions")
+    private boolean scheduledContributions;
+
+    @SerializedName("smart_roundups")
+    private boolean smartRoundups;
+
+    @SerializedName("automated_cycle")
+    private boolean automatedCycle;
+
+    @SerializedName("loan_requests")
+    private boolean loanRequests;
+
+    public String getFrequency() { return frequency; }
+    public void setFrequency(String frequency) { this.frequency = frequency; }
+
+    public int getRecipients() { return recipients; }
+    public void setRecipients(int recipients) { this.recipients = recipients; }
+
+    public double getLoanLateFee() { return loanLateFee; }
+    public void setLoanLateFee(double loanLateFee) { this.loanLateFee = loanLateFee; }
+
+    public String getStartDate() { return startDate; }
+    public void setStartDate(String startDate) { this.startDate = startDate; }
+
+    public boolean isAutomaticPayouts() { return automaticPayouts; }
+    public void setAutomaticPayouts(boolean automaticPayouts) { this.automaticPayouts = automaticPayouts; }
+
+    public boolean isScheduledContributions() { return scheduledContributions; }
+    public void setScheduledContributions(boolean scheduledContributions) { this.scheduledContributions = scheduledContributions; }
+
+    public boolean isSmartRoundups() { return smartRoundups; }
+    public void setSmartRoundups(boolean smartRoundups) { this.smartRoundups = smartRoundups; }
+
+    public boolean isAutomatedCycle() { return automatedCycle; }
+    public void setAutomatedCycle(boolean automatedCycle) { this.automatedCycle = automatedCycle; }
+
+    public boolean isLoanRequests() { return loanRequests; }
+    public void setLoanRequests(boolean loanRequests) { this.loanRequests = loanRequests; }
 }

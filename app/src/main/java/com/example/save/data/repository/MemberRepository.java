@@ -311,6 +311,81 @@ public class MemberRepository {
     }
 
     public void fetchSystemConfig(ConfigCallback cb) {
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getSystemConfig().enqueue(new Callback<SystemConfig>() {
+            @Override
+            public void onResponse(Call<SystemConfig> call, Response<SystemConfig> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    SystemConfig config = response.body();
+                    android.content.SharedPreferences.Editor editor = appContext
+                            .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE).edit();
+
+                    // Numeric rules
+                    editor.putString("rule_edit_contribution_amount", "UGX " + (int) config.getContributionAmount());
+                    editor.putString("rule_edit_payout_amount", "UGX " + (int) config.getPayoutAmount());
+                    editor.putString("rule_edit_late_fee", "UGX " + (int) config.getLatePenaltyRate());
+                    editor.putString("rule_edit_loan_interest", (int) config.getLoanInterestRate() + "%");
+                    editor.putString("rule_edit_loan_late_fee", "UGX " + (int) config.getLoanLateFee());
+
+                    int recipients = config.getRecipients();
+                    if (recipients > 0) {
+                        editor.putString("rule_edit_recipients", recipients + " Member" + (recipients == 1 ? "" : "s"));
+                    }
+
+                    // Text rules
+                    if (config.getFrequency() != null && !config.getFrequency().isEmpty()) {
+                        editor.putString("rule_frequency", config.getFrequency());
+                    }
+                    if (config.getStartDate() != null && !config.getStartDate().isEmpty()) {
+                        editor.putString("rule_start_date", config.getStartDate());
+                    }
+
+                    // Toggle rules
+                    editor.putBoolean("switch_automatic_payouts", config.isAutomaticPayouts());
+                    editor.putBoolean("switch_scheduled_contributions", config.isScheduledContributions());
+                    editor.putBoolean("switch_smart_roundups", config.isSmartRoundups());
+                    editor.putBoolean("switch_automated_cycle", config.isAutomatedCycle());
+                    editor.putBoolean("switch_loan_requests", config.isLoanRequests());
+
+                    // Calculate and store the next payout date
+                    String startDate = config.getStartDate();
+                    String frequency = config.getFrequency();
+                    if (startDate != null && !startDate.isEmpty() && frequency != null && !frequency.isEmpty()) {
+                        try {
+                            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault());
+                            java.util.Date date = sdf.parse(startDate);
+                            if (date != null) {
+                                java.util.Calendar cal = java.util.Calendar.getInstance();
+                                cal.setTime(date);
+                                switch (frequency) {
+                                    case "Daily": cal.add(java.util.Calendar.DAY_OF_YEAR, 1); break;
+                                    case "Weekly": cal.add(java.util.Calendar.WEEK_OF_YEAR, 1); break;
+                                    case "Bi-weekly": cal.add(java.util.Calendar.WEEK_OF_YEAR, 2); break;
+                                    case "Monthly": cal.add(java.util.Calendar.MONTH, 1); break;
+                                    case "Every 2 Months": cal.add(java.util.Calendar.MONTH, 2); break;
+                                    case "Every 3 Months": cal.add(java.util.Calendar.MONTH, 3); break;
+                                    case "Every 4 Months": cal.add(java.util.Calendar.MONTH, 4); break;
+                                    case "Every 5 Months": cal.add(java.util.Calendar.MONTH, 5); break;
+                                    case "Every 6 Months": cal.add(java.util.Calendar.MONTH, 6); break;
+                                }
+                                editor.putString("rule_next_payout_date", sdf.format(cal.getTime()));
+                            }
+                        } catch (Exception ignored) {}
+                    }
+
+                    editor.apply();
+
+                    if (cb != null) cb.onResult(true, config, "Config loaded from server");
+                } else {
+                    if (cb != null) cb.onResult(false, null, "Failed to fetch config: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SystemConfig> call, Throwable t) {
+                if (cb != null) cb.onResult(false, null, "Network error: " + t.getMessage());
+            }
+        });
     }
 
     public void getComprehensiveReport(ReportCallback cb) {

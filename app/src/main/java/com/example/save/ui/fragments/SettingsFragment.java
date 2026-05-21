@@ -127,8 +127,8 @@ public class SettingsFragment extends Fragment {
                     
                     // Display next payout if available, else use a reasonable default
                     String nextPayout = requireContext()
-                            .getSharedPreferences("SaveAppPrefs", android.content.Context.MODE_PRIVATE)
-                            .getString("sched_payout_date", "TBD");
+                            .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
+                            .getString("rule_next_payout_date", "TBD");
                     binding.tvNextPayout.setText(nextPayout);
                     
                     // Update Group name if it was missing

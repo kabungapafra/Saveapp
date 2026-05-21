@@ -36,6 +36,9 @@ public interface ApiService {
     @PUT("config")
     Call<com.example.save.data.models.SystemConfig> updateSystemConfig(@Body com.example.save.data.models.SystemConfig config);
 
+    @GET("config")
+    Call<com.example.save.data.models.SystemConfig> getSystemConfig();
+
     @POST("auth/forgot-password")
     Call<ApiResponse> forgotPassword(@Body com.example.save.data.network.ForgotPasswordRequest request);
 

@@ -39,28 +39,52 @@ public class RecipientSmallAdapter extends RecyclerView.Adapter<RecipientSmallAd
         holder.tvInitial.setText(String.valueOf(member.getName().charAt(0)).toUpperCase());
 
         // Calculate date
-        holder.tvDate.setText(calculateDate(position));
+        holder.tvDate.setText(calculateDate(position, holder.itemView.getContext()));
     }
 
-    private String calculateDate(int position) {
+    private String calculateDate(int position, android.content.Context context) {
         if (basePayoutDate == null || basePayoutDate.isEmpty() || basePayoutDate.contains("Not")
                 || basePayoutDate.equals("TBD")) {
             return "TBD";
         }
+        
+        android.content.SharedPreferences prefs = context.getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
+        String frequency = prefs.getString("rule_frequency", "Monthly");
+        String recipientsStr = prefs.getString("rule_edit_recipients", "1 Member").replaceAll("[^0-9]", "");
+        int recipients = 1;
         try {
-            String[] parts = basePayoutDate.split("/");
-            if (parts.length != 3)
-                return basePayoutDate;
+            recipients = Integer.parseInt(recipientsStr);
+            if (recipients < 1) recipients = 1;
+        } catch (NumberFormatException e) {
+            recipients = 1;
+        }
 
-            int day = Integer.parseInt(parts[0]);
-            int month = Integer.parseInt(parts[1]) - 1;
-            int year = Integer.parseInt(parts[2]);
+        int cyclesToAdd = position / recipients;
+
+        try {
+            java.text.SimpleDateFormat inSdf = new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault());
+            java.util.Date date = inSdf.parse(basePayoutDate);
+            if (date == null) return basePayoutDate;
 
             java.util.Calendar cal = java.util.Calendar.getInstance();
-            cal.set(year, month, day);
-            cal.add(java.util.Calendar.MONTH, position);
+            cal.setTime(date);
 
-            return cal.get(java.util.Calendar.DAY_OF_MONTH) + "/" + (cal.get(java.util.Calendar.MONTH) + 1);
+            for (int i = 0; i < cyclesToAdd; i++) {
+                switch (frequency) {
+                    case "Daily": cal.add(java.util.Calendar.DAY_OF_YEAR, 1); break;
+                    case "Weekly": cal.add(java.util.Calendar.WEEK_OF_YEAR, 1); break;
+                    case "Bi-weekly": cal.add(java.util.Calendar.WEEK_OF_YEAR, 2); break;
+                    case "Monthly": cal.add(java.util.Calendar.MONTH, 1); break;
+                    case "Every 2 Months": cal.add(java.util.Calendar.MONTH, 2); break;
+                    case "Every 3 Months": cal.add(java.util.Calendar.MONTH, 3); break;
+                    case "Every 4 Months": cal.add(java.util.Calendar.MONTH, 4); break;
+                    case "Every 5 Months": cal.add(java.util.Calendar.MONTH, 5); break;
+                    case "Every 6 Months": cal.add(java.util.Calendar.MONTH, 6); break;
+                }
+            }
+
+            java.text.SimpleDateFormat outSdf = new java.text.SimpleDateFormat("MMM d", java.util.Locale.getDefault());
+            return outSdf.format(cal.getTime());
         } catch (Exception e) {
             return basePayoutDate;
         }
