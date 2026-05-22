@@ -515,9 +515,9 @@ public class MemberRepository {
 
     public void submitLoanRequest(com.example.save.data.models.LoanRequest request, LoanSubmissionCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.submitLoan(request).enqueue(new Callback<ApiResponse>() {
+        apiService.submitLoan(request).enqueue(new Callback<com.example.save.data.models.LoanRequest>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            public void onResponse(Call<com.example.save.data.models.LoanRequest> call, Response<com.example.save.data.models.LoanRequest> response) {
                 if (response.isSuccessful()) {
                     if (callback != null)
                         callback.onResult(true, "Loan request submitted");
@@ -528,7 +528,7 @@ public class MemberRepository {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(Call<com.example.save.data.models.LoanRequest> call, Throwable t) {
                 if (callback != null)
                     callback.onResult(false, "Network error");
             }

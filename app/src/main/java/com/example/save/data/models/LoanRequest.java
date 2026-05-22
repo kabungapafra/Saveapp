@@ -1,5 +1,7 @@
 package com.example.save.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class LoanRequest {
     private String id;
     private String memberName;
@@ -9,8 +11,11 @@ public class LoanRequest {
     private String guarantorPhone;
     private String reason;
     private String status; // "PENDING", "APPROVED", "REJECTED"
+    @SerializedName("dateRequested")
     private String requestDate;
+    @SerializedName("interest")
     private double interestRate;
+    @SerializedName("totalDue")
     private double totalRepayment;
 
     public LoanRequest(String memberName, double amount, int durationMonths, String guarantor, String guarantorPhone,

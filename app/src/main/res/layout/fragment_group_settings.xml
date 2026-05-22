@@ -393,22 +393,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSaveSettings"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/manrope_bold"
-            android:text="Save Settings"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:cornerRadius="32dp"
-            app:backgroundTint="@color/brand_blue"
-            app:strokeWidth="0dp"
-            tools:ignore="VisualLintButtonSize" />
 
             <!-- Delete Group Button -->
             <com.google.android.material.button.MaterialButton

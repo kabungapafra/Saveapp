@@ -38,6 +38,7 @@ public class GroupSettingsFragment extends Fragment {
         boolean isAdmin = role != null && role.equalsIgnoreCase("admin");
         if (!isAdmin) {
             binding.btnDeleteGroup.setVisibility(View.GONE);
+            disableAdminControls();
         }
 
         return binding.getRoot();
@@ -440,14 +441,36 @@ public class GroupSettingsFragment extends Fragment {
         apiService.updateSystemConfig(config).enqueue(new retrofit2.Callback<com.example.save.data.models.SystemConfig>() {
             @Override
             public void onResponse(retrofit2.Call<com.example.save.data.models.SystemConfig> call, retrofit2.Response<com.example.save.data.models.SystemConfig> response) {
-                // Background sync, no toast needed for success to keep it unobtrusive
+                if (isAdded()) {
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(getContext(), "Failed to save settings: " + response.code(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
 
             @Override
             public void onFailure(retrofit2.Call<com.example.save.data.models.SystemConfig> call, Throwable t) {
-                // Background sync failure
+                if (isAdded()) {
+                    Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    private void disableAdminControls() {
+        binding.rowContribution.setClickable(false);
+        binding.rowFrequency.setClickable(false);
+        binding.rowPayoutAmount.setClickable(false);
+        binding.rowRecipients.setClickable(false);
+        binding.rowLateFee.setClickable(false);
+        binding.rowLoanInterest.setClickable(false);
+        binding.rowLoanLateFee.setClickable(false);
+        binding.rowStartDate.setClickable(false);
+        binding.switchAutomaticPayouts.setEnabled(false);
+        binding.switchScheduledContributions.setEnabled(false);
+        binding.switchSmartRoundups.setEnabled(false);
+        binding.switchAutomatedCycle.setEnabled(false);
+        binding.switchLoanRequests.setEnabled(false);
     }
 
     @Override

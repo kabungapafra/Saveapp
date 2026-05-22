@@ -57,7 +57,7 @@ public interface ApiService {
 
 
     @POST("loans")
-    Call<ApiResponse> submitLoan(@Body com.example.save.data.models.LoanRequest request);
+    Call<com.example.save.data.models.LoanRequest> submitLoan(@Body com.example.save.data.models.LoanRequest request);
 
     @GET("loans")
     Call<PaginatedResponse<com.example.save.data.models.LoanRequest>> getLoans(@Query("limit") int limit, @Query("offset") int offset);
