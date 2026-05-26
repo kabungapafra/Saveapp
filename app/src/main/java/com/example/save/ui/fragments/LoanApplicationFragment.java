@@ -70,31 +70,27 @@ public class LoanApplicationFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener("guarantor_request", getViewLifecycleOwner(), (requestKey, result) -> {
             java.util.ArrayList<String> ids = result.getStringArrayList("selected_guarantor_ids");
             if (ids != null) {
-                // Hide mock chips
-                binding.chipJaneDoe.setVisibility(View.GONE);
-                binding.chipMikeKalema.setVisibility(View.GONE);
-                
-                // Clear existing dynamic chips
+                // Clear existing dynamic chips (excluding the Add button)
                 int i = 0;
                 while (i < binding.chipsContainer.getChildCount()) {
                     View child = binding.chipsContainer.getChildAt(i);
-                    if (child != binding.chipJaneDoe && child != binding.chipMikeKalema && child != binding.btnAddGuarantor) {
+                    if (child != binding.btnAddGuarantor) {
                         binding.chipsContainer.removeView(child);
                     } else {
                         i++;
                     }
                 }
-                
+
                 selectedGuarantors.clear();
-                
+
                 for (String id : ids) {
                     for (Member m : availableMembers) {
                         if (m.getId().equals(id)) {
                             selectedGuarantors.add(m);
                             String name = m.getName();
                             String[] parts = name.split(" ");
-                            String initials = parts.length > 1 ? 
-                                    (parts[0].substring(0, 1) + parts[1].substring(0, 1)).toUpperCase() : 
+                            String initials = parts.length > 1 ?
+                                    (parts[0].substring(0, 1) + parts[1].substring(0, 1)).toUpperCase() :
                                     (name.length() > 1 ? name.substring(0, 2).toUpperCase() : "G");
                             addGuarantorChip(initials, name, getNextColor());
                             break;
@@ -108,12 +104,7 @@ public class LoanApplicationFragment extends Fragment {
     }
 
     private void setupInitialState() {
-        // Wire up the mock chips included in the XML
-        binding.removeChipJane.setOnClickListener(v -> binding.chipJaneDoe.setVisibility(View.GONE));
-        binding.removeChipMike.setOnClickListener(v -> binding.chipMikeKalema.setVisibility(View.GONE));
-        
-        // Initial values matching XML defaults
-        binding.seekDuration.setProgress(5); // Progress 5 = 6 Months Since max=11 -> 0-11
+
     }
 
     private void loadMembers() {
@@ -287,9 +278,9 @@ public class LoanApplicationFragment extends Fragment {
             return;
         }
 
-        // Just take the first selected guarantor if any, else default mock info needed for API
-        String guarantorName = "Jane Doe";
-        String guarantorPhone = "0700000000";
+        // Use empty guarantor info if none selected
+        String guarantorName = "";
+        String guarantorPhone = "";
         if (!selectedGuarantors.isEmpty()) {
             guarantorName = selectedGuarantors.get(0).getName();
             guarantorPhone = selectedGuarantors.get(0).getPhone();

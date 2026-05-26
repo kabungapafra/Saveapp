@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.android.material.snackbar.Snackbar;
 import com.example.save.ui.fragments.OtpFragment;
 
 import java.util.concurrent.TimeUnit;
@@ -183,11 +184,18 @@ public class MemberLoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onVerificationFailed(FirebaseException e) {
-                binding.loginButton.setEnabled(true);
-                binding.loginButtonText.setText("Login");
-                Toast.makeText(MemberLoginActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
+
+public void onVerificationFailed(FirebaseException e) {
+    binding.loginButton.setEnabled(true);
+    binding.loginButtonText.setText("Login");
+    String msg;
+    if (e.getMessage() != null && e.getMessage().toLowerCase().contains("too many requests")) {
+        msg = "Too many attempts, please wait a few minutes";
+    } else {
+        msg = "Verification failed: " + e.getMessage();
+    }
+    Snackbar.make(binding.getRoot(), msg, Snackbar.LENGTH_LONG).show();
+}
 
             @Override
             public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
@@ -221,8 +229,12 @@ public class MemberLoginActivity extends AppCompatActivity {
         fragment.setOtpListener(new OtpFragment.OtpListener() {
             @Override
             public void onOtpEntered(String code) {
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
-                signInWithPhoneAuthCredential(credential);
+                                        if (mVerificationId == null) {
+                            Snackbar.make(binding.getRoot(), "Verification failed, please try again", Snackbar.LENGTH_LONG).show();
+                            return;
+                        }
+                        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+                        signInWithPhoneAuthCredential(credential);
             }
 
             @Override
@@ -253,7 +265,7 @@ public class MemberLoginActivity extends AppCompatActivity {
                     } else {
                         binding.loginButton.setEnabled(true);
                         binding.loginButtonText.setText("Login");
-                        Toast.makeText(MemberLoginActivity.this, "Invalid code", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(binding.getRoot(), "Verification failed: Invalid code", Snackbar.LENGTH_LONG).show();
                     }
                 });
     }

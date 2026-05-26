@@ -45,7 +45,7 @@
             android:fontFamily="@font/manrope"
             android:gravity="center"
             android:textAlignment="center"
-            tools:text="Welcome back,\nJohn Doe"
+            android:text="Welcome back!"
             android:textColor="@color/v_text_dark"
             android:textSize="30sp"
             android:textStyle="bold" />
