@@ -194,7 +194,7 @@ public class DashboardFragment extends Fragment {
                                 int iconRes = entity.isPositive() ? R.drawable.ic_money : R.drawable.ic_loan;
                                 int color = entity.isPositive() ? 0xFF4CAF50 : 0xFFF44336;
                                 String description = entity.getDescription();
-                                if ("PENDING_APPROVAL".equals(entity.getStatus())) {
+                                if ("PENDING_APPROVAL".equals(entity.getStatus()) || "PENDING".equals(entity.getStatus())) {
                                     description += " (Pending: " + item.approvalCount + " Approvals)";
                                     color = 0xFFFF9800;
                                 }
@@ -217,7 +217,13 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // syncNavUI in Activity handles bottom nav visibility
+        // Reload transactions every time the fragment comes back into view.
+        // This ensures a deposit just made is immediately visible without
+        // needing a full app restart.
+        if (binding != null) {
+            allCachedTransactions.clear();
+            loadRecentTransactions();
+        }
     }
 
     @Override

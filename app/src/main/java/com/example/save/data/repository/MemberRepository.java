@@ -313,6 +313,7 @@ public class MemberRepository {
         request.setMemberId(m.getId());
         request.setAmount(a);
         request.setPaymentMethod(pm);
+        request.setDescription("Monthly Contribution via " + pm);
 
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
         apiService.makeDeposit(request).enqueue(new retrofit2.Callback<com.example.save.data.models.Transaction>() {
@@ -331,6 +332,7 @@ public class MemberRepository {
             }
         });
     }
+
 
 
     public void fetchSystemConfig(MemberRepository.ConfigCallback cb) {
