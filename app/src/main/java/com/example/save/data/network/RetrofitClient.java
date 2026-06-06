@@ -27,12 +27,20 @@ public class RetrofitClient {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
-        okhttp3.CertificatePinner certPinner = new okhttp3.CertificatePinner.Builder()
-                .add("api.digiflecttech.dev", "sha256/dDAb/Pkn0RnPn51pSazcWhSNGAR5ZV2lAxedGtLJG5I=")
-                .build();
-
-        this.okHttpClient = new OkHttpClient.Builder()
-                .certificatePinner(certPinner)
+        // DEBUG flag – set to true to bypass certificate pinning when troubleshooting network issues.
+        boolean DEBUG_DISABLE_PINNING = false;
+        okhttp3.CertificatePinner certPinner = null;
+        if (!DEBUG_DISABLE_PINNING) {
+            certPinner = new okhttp3.CertificatePinner.Builder()
+                    .add("api.digiflecttech.dev", "sha256/dDAb/Pkn0RnPn51pSazcWhSNGAR5ZV2lAxedGtLJG5I=")
+                    .build();
+        }
+        // Build OkHttp client with optional pinning
+        OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
+        if (certPinner != null) {
+            httpBuilder.certificatePinner(certPinner);
+        }
+        this.okHttpClient = httpBuilder
                 .addInterceptor(logging)
                 .addInterceptor(chain -> {
                     Request original = chain.request();

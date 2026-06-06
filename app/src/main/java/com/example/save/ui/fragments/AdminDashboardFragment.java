@@ -123,10 +123,11 @@ public class AdminDashboardFragment extends Fragment {
             applyClickAnimation(v);
             com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "admin");
         });
-        binding.viewAllTargets.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            Toast.makeText(getContext(), "Navigating to Targets", Toast.LENGTH_SHORT).show();
-        });
+// View All Targets button removed as per UI redesign
+// binding.viewAllTargets.setOnClickListener(v -> {
+//     applyClickAnimation(v);
+//     Toast.makeText(getContext(), "Navigating to Targets", Toast.LENGTH_SHORT).show();
+// });
 
         binding.viewAllLoans.setOnClickListener(v -> {
             applyClickAnimation(v);
@@ -245,10 +246,16 @@ public class AdminDashboardFragment extends Fragment {
                     requireActivity().runOnUiThread(() -> {
                         totalBalanceValue = summary.getTotalBalance();
                         updateBalanceDisplay();
-                        
+
                         NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
                         binding.monthlyContrib.setText(ugFormat.format(summary.getMonthlyContributions()).replace("UGX", "UGX "));
                         binding.interestEarned.setText(ugFormat.format(summary.getInterestEarned()).replace("UGX", "UGX "));
+
+                        // Calculate projected collections
+                        double projectedMonthly = summary.getMonthlyContributions() * 1.05; // 5% growth assumption
+                        double projectedYearly = projectedMonthly * 12;
+                        binding.tvTarget1Amount.setText(ugFormat.format(projectedMonthly).replace("UGX", "UGX "));
+                        binding.tvTarget2Amount.setText(ugFormat.format(projectedYearly).replace("UGX", "UGX "));
                     });
                 }
             });

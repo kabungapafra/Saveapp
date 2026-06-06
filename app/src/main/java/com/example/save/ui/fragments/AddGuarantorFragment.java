@@ -63,16 +63,14 @@ public class AddGuarantorFragment extends Fragment {
 
         MembersViewModel membersViewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
         
-        // Mocking the data for initial prototype states if needed
         membersViewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
-            if (members != null && !members.isEmpty()) {
+            if (members != null) {
                 allMembers = new ArrayList<>(members);
-                tvTotalMembers.setText(allMembers.size() + " members");
-                filterMembers("");
             } else {
-                // Fallback dummy data if DB is empty
-                createDummyData();
+                allMembers = new ArrayList<>();
             }
+            tvTotalMembers.setText(allMembers.size() + " members");
+            filterMembers("");
         });
     }
 
@@ -200,30 +198,5 @@ public class AddGuarantorFragment extends Fragment {
         }
     }
 
-    private void createDummyData() {
-        Member m1 = new Member("Marcus Thorne", "MEMBER", true, "0711111111");
-        m1.setId("m1");
-        allMembers.add(m1);
 
-        Member m2 = new Member("David Kim", "MEMBER", true, "0722222222");
-        m2.setId("m2");
-        allMembers.add(m2);
-
-        Member m3 = new Member("Jasmine Lee", "MEMBER", true, "0733333333");
-        m3.setId("m3");
-        allMembers.add(m3);
-
-        Member m4 = new Member("Samuel Rivera", "MEMBER", true, "0744444444");
-        m4.setId("m4");
-        m4.setCreditScore(80); // Ensure eligible
-        allMembers.add(m4);
-        
-        Member bea = new Member("Beatrice Walsh", "MEMBER", true, "0755555555");
-        bea.setId("m5");
-        bea.setCreditScore(40); // Force LOW SCORE
-        allMembers.add(bea);
-        
-        tvTotalMembers.setText(allMembers.size() + " members");
-        filterMembers("");
-    }
 }

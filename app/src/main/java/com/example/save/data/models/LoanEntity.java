@@ -13,6 +13,8 @@ public class LoanEntity {
     private String status;
     private Date dueDate;
     private double repaidAmount;
+    private int approvalsReceived = 0;
+    private int totalAdminsRequired = 0;
 
     public LoanEntity() {}
 
@@ -36,4 +38,8 @@ public class LoanEntity {
     public void setDueDate(Date dueDate) { this.dueDate = dueDate; }
     public double getRepaidAmount() { return repaidAmount; }
     public void setRepaidAmount(double repaidAmount) { this.repaidAmount = repaidAmount; }
+    public int getApprovalsReceived() { return approvalsReceived; }
+    public void setApprovalsReceived(int approvalsReceived) { this.approvalsReceived = approvalsReceived; }
+    public int getTotalAdminsRequired() { return totalAdminsRequired; }
+    public void setTotalAdminsRequired(int totalAdminsRequired) { this.totalAdminsRequired = totalAdminsRequired; }
 }

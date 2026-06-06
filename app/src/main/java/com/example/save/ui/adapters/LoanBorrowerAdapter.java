@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.save.R;
-import com.example.save.data.models.LoanRequest;
+import com.example.save.data.models.LoanEntity;
 import com.example.save.databinding.ItemLoanBorrowerCardBinding;
 
 import java.text.NumberFormat;
@@ -20,26 +20,26 @@ import java.util.List;
 import java.util.Locale;
 
 public class LoanBorrowerAdapter extends RecyclerView.Adapter<LoanBorrowerAdapter.ViewHolder> {
-    private List<LoanRequest> requests = new ArrayList<>();
+    private List<LoanEntity> requests = new ArrayList<>();
     private OnLoanActionListener listener;
 
     public interface OnLoanActionListener {
-        void onApprove(LoanRequest request);
+        void onApprove(LoanEntity request);
 
-        void onDecline(LoanRequest request);
+        void onDecline(LoanEntity request);
 
-        void onRemind(LoanRequest request);
+        void onRemind(LoanEntity request);
 
-        void onViewDetails(LoanRequest request);
+        void onViewDetails(LoanEntity request);
 
-        void onSendAlert(LoanRequest request);
+        void onSendAlert(LoanEntity request);
     }
 
     public LoanBorrowerAdapter(OnLoanActionListener listener) {
         this.listener = listener;
     }
 
-    public void updateList(List<LoanRequest> newList) {
+    public void updateList(List<LoanEntity> newList) {
         this.requests = newList;
         notifyDataSetChanged();
     }
@@ -70,12 +70,12 @@ public class LoanBorrowerAdapter extends RecyclerView.Adapter<LoanBorrowerAdapte
             this.binding = binding;
         }
 
-        void bind(LoanRequest request) {
+        void bind(LoanEntity request) {
             binding.tvBorrowerName.setText(request.getMemberName());
             // Amount with 0 decimal places and UGX as per local context
             String formattedAmount = "UGX " + String.format(Locale.US, "%,.0f", request.getAmount());
             binding.tvLoanAmount.setText(formattedAmount);
-            binding.tvInterestRate.setText("Interest: " + request.getInterestRate() + "%");
+            binding.tvInterestRate.setText("Interest: " + request.getInterest() + "%");
 
             String status = request.getStatus();
             binding.tvStatusBadge.setText(status);
@@ -144,7 +144,7 @@ public class LoanBorrowerAdapter extends RecyclerView.Adapter<LoanBorrowerAdapte
                 binding.loanProgress.setProgress(45);
                 binding.loanProgress.setIndicatorColor(androidx.core.content.ContextCompat.getColor(itemView.getContext(), R.color.brand_blue));
 
-                binding.tvRightInfo.setText("Due: " + request.getRequestDate());
+                binding.tvRightInfo.setText("Due: " + (request.getDateRequested() != null ? request.getDateRequested().toString() : ""));
 
                 binding.btnLeft.setText("View Details");
                 binding.btnLeft.setBackgroundTintList(androidx.core.content.ContextCompat.getColorStateList(itemView.getContext(), R.color.v_input_bg));

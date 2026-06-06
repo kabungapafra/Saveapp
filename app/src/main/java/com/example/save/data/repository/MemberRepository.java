@@ -308,9 +308,32 @@ public class MemberRepository {
     }
 
     public void makePayment(Member m, double a, String p, String pm, PaymentCallback cb) {
+        // Build deposit request payload
+        com.example.save.data.models.DepositRequest request = new com.example.save.data.models.DepositRequest();
+        request.setMemberId(m.getId());
+        request.setAmount(a);
+        request.setPaymentMethod(pm);
+
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.makeDeposit(request).enqueue(new retrofit2.Callback<com.example.save.data.models.Transaction>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.models.Transaction> call, retrofit2.Response<com.example.save.data.models.Transaction> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (cb != null) cb.onResult(true, "Deposit successful");
+                } else {
+                    if (cb != null) cb.onResult(false, "Deposit failed: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.models.Transaction> call, Throwable t) {
+                if (cb != null) cb.onResult(false, "Network error: " + t.getMessage());
+            }
+        });
     }
 
-    public void fetchSystemConfig(ConfigCallback cb) {
+
+    public void fetchSystemConfig(MemberRepository.ConfigCallback cb) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
         apiService.getSystemConfig().enqueue(new Callback<SystemConfig>() {
             @Override
@@ -535,21 +558,21 @@ public class MemberRepository {
         });
     }
 
-    public LiveData<List<com.example.save.data.models.LoanRequest>> getLoanRequests() {
-        MutableLiveData<List<com.example.save.data.models.LoanRequest>> liveData = new MutableLiveData<>(
+    public LiveData<List<com.example.save.data.models.LoanEntity>> getLoanRequests() {
+        MutableLiveData<List<com.example.save.data.models.LoanEntity>> liveData = new MutableLiveData<>(
                 new ArrayList<>());
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.getLoans(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>>() {
+        apiService.getLoans(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>>() {
             @Override
-            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> call,
-                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> response) {
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> call,
+                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     liveData.postValue(response.body().getData());
                 }
             }
 
             @Override
-            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> call, Throwable t) {
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> call, Throwable t) {
             }
         });
         return liveData;
@@ -589,17 +612,83 @@ public class MemberRepository {
     }
 
     public LiveData<List<com.example.save.data.models.TransactionEntity>> getRecentTransactions() {
-        return new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<com.example.save.data.models.TransactionEntity>> liveData = new MutableLiveData<>(new ArrayList<>());
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getTransactions(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call,
+                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    liveData.postValue(response.body().getData());
+                } else {
+                    liveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call, Throwable t) {
+                liveData.postValue(new ArrayList<>());
+            }
+        });
+        return liveData;
     }
 
     public LiveData<List<com.example.save.data.models.TransactionEntity>> getLatestMemberTransactions(
             String memberName) {
-        return new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<com.example.save.data.models.TransactionEntity>> liveData = new MutableLiveData<>(new ArrayList<>());
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getTransactions(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call,
+                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<com.example.save.data.models.TransactionEntity> filtered = new ArrayList<>();
+                    for (com.example.save.data.models.TransactionEntity tx : response.body().getData()) {
+                        if (memberName == null || memberName.equalsIgnoreCase(tx.getMemberName())) {
+                            filtered.add(tx);
+                        }
+                    }
+                    liveData.postValue(filtered);
+                } else {
+                    liveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call, Throwable t) {
+                liveData.postValue(new ArrayList<>());
+            }
+        });
+        return liveData;
     }
 
     public LiveData<List<com.example.save.data.models.TransactionWithApproval>> getMemberTransactionsWithApproval(
             String memberName) {
-        return new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<com.example.save.data.models.TransactionWithApproval>> liveData = new MutableLiveData<>(new ArrayList<>());
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getTransactions(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call,
+                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<com.example.save.data.models.TransactionWithApproval> list = new ArrayList<>();
+                    for (com.example.save.data.models.TransactionEntity tx : response.body().getData()) {
+                        if (memberName == null || memberName.equalsIgnoreCase(tx.getMemberName())) {
+                            list.add(new com.example.save.data.models.TransactionWithApproval(tx, false));
+                        }
+                    }
+                    liveData.postValue(list);
+                } else {
+                    liveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.TransactionEntity>> call, Throwable t) {
+                liveData.postValue(new ArrayList<>());
+            }
+        });
+        return liveData;
     }
 
     public double getPayoutAmount() {
@@ -673,33 +762,21 @@ public class MemberRepository {
         MutableLiveData<List<com.example.save.data.models.LoanWithApproval>> liveData = new MutableLiveData<>(new ArrayList<>());
         
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.getLoans(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>>() {
+        apiService.getLoans(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>>() {
             @Override
-            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> call, Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> response) {
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> call, Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<com.example.save.data.models.LoanWithApproval> pendingLoans = new ArrayList<>();
-                    for (com.example.save.data.models.LoanRequest lr : response.body().getData()) {
-                        if ("PENDING".equalsIgnoreCase(lr.getStatus()) || (lr.getStatus() != null && lr.getStatus().startsWith("PENDING"))) {
-                            com.example.save.data.models.LoanEntity entity = new com.example.save.data.models.LoanEntity();
-                            entity.setId(lr.getId());
-                            entity.setMemberName(lr.getMemberName());
-                            entity.setAmount(lr.getAmount());
-                            entity.setReason(lr.getReason());
-                            try {
-                                entity.setDateRequested(java.text.DateFormat.getDateInstance().parse(lr.getRequestDate()));
-                            } catch (Exception e) {
-                                entity.setDateRequested(new java.util.Date());
-                            }
-                            entity.setStatus(lr.getStatus());
-                            pendingLoans.add(new com.example.save.data.models.LoanWithApproval(entity, false));
+                    for (com.example.save.data.models.LoanEntity loan : response.body().getData()) {
+                        if ("PENDING".equalsIgnoreCase(loan.getStatus()) || (loan.getStatus() != null && loan.getStatus().startsWith("PENDING"))) {
+                            pendingLoans.add(new com.example.save.data.models.LoanWithApproval(loan, false));
                         }
                     }
                     liveData.postValue(pendingLoans);
                 }
             }
 
-            @Override
-            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanRequest>> call, Throwable t) {
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> call, Throwable t) {
                 liveData.postValue(new ArrayList<>());
             }
         });

@@ -51,15 +51,7 @@ public class MemberSummaryFragment extends Fragment {
         binding.rvConsistency.setLayoutManager(new LinearLayoutManager(requireContext()));
         
         List<MemberConsistency> data = new ArrayList<>();
-        // Sarah: 100% Paid (6 blue segments)
-        data.add(new MemberConsistency("1", "Sarah Namubiru", "100%", new int[]{0,0,0,0,0,0}));
-        
-        // James: 95% (One Late in Sep)
-        // 0: Paid, 1: Late, 2: Missed
-        data.add(new MemberConsistency("2", "James Okello", "95%", new int[]{0,0,1,0,0,0}));
-        
-        // Brenda: 88% (One Missed in Aug)
-        data.add(new MemberConsistency("3", "Brenda Kyomya", "88%", new int[]{0,2,0,0,0,0}));
+        // TODO: Populate with real member consistency data from backend
 
         binding.rvConsistency.setAdapter(new ConsistencyAdapter(data));
     }

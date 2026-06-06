@@ -161,9 +161,11 @@ public class MemberMainActivity extends BaseActivity {
     private void setupBottomNavigation() {
         binding.navDashboard.setOnClickListener(v -> switchToDashboard());
 
+        // Make Payment navigation replaces Loans
         binding.navLoans.setOnClickListener(v -> {
             updateNavHighlight(binding.txtLoans, binding.imgLoans);
-            loadFragment(new LoansFragment(), true);
+            // Open Stash (Make Payments) instead of Loans
+            loadFragment(StashFragment.newInstance(), true);
         });
 
         binding.navAction.setOnClickListener(v -> {
@@ -187,25 +189,38 @@ public class MemberMainActivity extends BaseActivity {
         if (overlay != null) {
             overlay.findViewById(R.id.btnCloseOverlay).setOnClickListener(v -> hideQuickActions());
             overlay.findViewById(R.id.quickActionsDim).setOnClickListener(v -> hideQuickActions());
-            
-            View actionPay = overlay.findViewById(R.id.cardMyStashOverlay);
-            if (actionPay != null) {
-                actionPay.setOnClickListener(v -> {
+
+            // Members action
+            View actionMembers = overlay.findViewById(R.id.cardMembersOverlay);
+            if (actionMembers != null) {
+                actionMembers.setOnClickListener(v -> {
                     shouldReopenQuickActions = true;
                     hideQuickActions();
-                    getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    loadFragment(StashFragment.newInstance(), true);
+                    loadFragment(new MembersFragment(), true);
                 });
             }
 
-            // Hide actions not intended for Members or now decentralized
+            // Make Polls action (new)
+            View actionPolls = overlay.findViewById(R.id.cardMakePollsOverlay);
+            if (actionPolls != null) {
+                actionPolls.setOnClickListener(v -> {
+                    shouldReopenQuickActions = true;
+                    hideQuickActions();
+                    loadFragment(new PollsFragment(), true);
+                });
+            }
+
+            // Hide Make Payment (Stash) action as it's removed
+            View actionPay = overlay.findViewById(R.id.cardMyStashOverlay);
+            if (actionPay != null) {
+                actionPay.setVisibility(View.GONE);
+            }
+
+            // Hide other actions not intended for Members
             View actionAnalysis = overlay.findViewById(R.id.cardAnalysisOverlay);
             View actionApprovals = overlay.findViewById(R.id.cardApprovalsOverlay);
-            View actionPolls = overlay.findViewById(R.id.cardMakePollsOverlay);
-            
             if (actionAnalysis != null) actionAnalysis.setVisibility(View.GONE);
             if (actionApprovals != null) actionApprovals.setVisibility(View.GONE);
-            if (actionPolls != null) actionPolls.setVisibility(View.GONE);
         }
     }
 
@@ -216,8 +231,18 @@ public class MemberMainActivity extends BaseActivity {
         overlayRoot.setAlpha(0f);
         overlayRoot.animate().alpha(1f).setDuration(400).start();
 
-        // Animate FAB - Rotate Plus to X
-        findViewById(R.id.navActionPlusIcon).animate().rotation(45f).setDuration(300).start();
+        // Rotate Plus icon (45° to turn into X)
+        findViewById(R.id.navActionPlusIcon).animate()
+                .rotation(45f).setDuration(300).start();
+
+        // Spin the same icon (the Save logo inside the nav circle) a full 360°
+        ImageView navLogo = findViewById(R.id.navActionPlusIcon);
+        if (navLogo != null) {
+            navLogo.animate()
+                    .rotationBy(360f)   // full spin on open
+                    .setDuration(500)
+                    .start();
+        }
 
         // Animate FAB ring rotation (Dashed circle)
         View ring = findViewById(R.id.navActionDashedRing);
@@ -261,6 +286,15 @@ public class MemberMainActivity extends BaseActivity {
         // Rotate plus back
         findViewById(R.id.navActionPlusIcon).animate().rotation(0f).setDuration(300).start();
 
+        // Spin the logo (the same icon inside the nav circle) 360° when closing quick actions (returns to original orientation)
+        ImageView navLogo = findViewById(R.id.navActionPlusIcon);
+        if (navLogo != null) {
+            navLogo.animate()
+                    .rotationBy(360f)   // full spin back
+                    .setDuration(500)
+                    .start();
+        }
+
         View overlayRoot = binding.quickActionsOverlay.getRoot();
         overlayRoot.animate().alpha(0f).setDuration(300).withEndAction(() -> overlayRoot.setVisibility(View.GONE)).start();
     }
@@ -303,7 +337,11 @@ public class MemberMainActivity extends BaseActivity {
         if (frag instanceof DashboardFragment) {
             updateNavHighlight(binding.txtDashboard, binding.imgDashboard);
             setBottomNavVisible(true);
-        } else if (frag instanceof LoansFragment || frag instanceof LoanApplicationFragment) {
+        } else if (frag instanceof StashFragment) {
+            // Highlight Make Payment (previously Loans) when Stash is displayed
+            updateNavHighlight(binding.txtLoans, binding.imgLoans);
+            setBottomNavVisible(true);
+        } else if (frag instanceof LoanApplicationFragment) {
             updateNavHighlight(binding.txtLoans, binding.imgLoans);
             setBottomNavVisible(true);
         } else if (frag instanceof QueueFragment) {

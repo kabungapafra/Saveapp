@@ -31,11 +31,12 @@
                 <!-- Theme toggle button — to the left of the bell -->
 
                 <ImageView
+                    android:id="@+id/logoImage"
                     android:layout_width="114dp"
                     android:layout_height="38dp"
                     android:scaleType="fitStart"
                     android:src="@drawable/save_logo"
-                    app:tint="@color/brand_blue" />
+                    app:tint="@color/icon_tint" />
 
                 <FrameLayout
                     android:id="@+id/btnThemeToggle"
@@ -50,7 +51,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_theme_toggle"
-                        app:tint="@color/brand_blue" />
+                        app:tint="@color/icon_tint" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -66,7 +67,7 @@
                         android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_notifications"
-                        app:tint="@color/brand_blue" />
+                        app:tint="@color/icon_tint" />
 
                     <View
                         android:id="@+id/notificationIndicator"

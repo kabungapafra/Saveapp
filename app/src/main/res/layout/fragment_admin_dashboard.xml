@@ -126,7 +126,7 @@
                                 android:id="@+id/tvInterestLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Interest Earned"
+                                android:text="Paid So‑far"
                                 android:textColor="#E9F2FB"
                                 android:textSize="@dimen/text_size_xs" />
 
@@ -151,7 +151,7 @@
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Savings Targets" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold" />
-                        <TextView android:id="@+id/viewAllTargets" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="View All" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_small" android:textStyle="bold" />
+                        <!-- View All removed -->
                     </RelativeLayout>
                     <LinearLayout
                         android:id="@+id/containerSavingsTargets"
@@ -161,13 +161,13 @@
                         android:layout_marginTop="20dp">
                         
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                            <TextView android:id="@+id/tvTarget1Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Emergency Fund" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs"/>
+                            <TextView android:id="@+id/tvTarget1Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Monthly Projected Collection" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs"/>
                             <TextView android:id="@+id/tvTarget1Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 0 / UGX 0" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs" android:textStyle="bold"/>
                         </RelativeLayout>
                         <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/pbTarget1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:progress="0" app:indicatorColor="@color/dashboard_accent_blue" app:trackColor="@color/v_page_bg" app:trackCornerRadius="4dp" app:trackThickness="6dp"/>
 
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
-                            <TextView android:id="@+id/tvTarget2Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Community Project" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs"/>
+                            <TextView android:id="@+id/tvTarget2Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Year Projection" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs"/>
                             <TextView android:id="@+id/tvTarget2Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="UGX 0 / UGX 0" android:textColor="@color/dashboard_text_secondary" android:textSize="@dimen/text_size_xs" android:textStyle="bold"/>
                         </RelativeLayout>
                         <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/pbTarget2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:progress="0" app:indicatorColor="@color/dashboard_accent_orange" app:trackColor="@color/v_page_bg" app:trackCornerRadius="4dp" app:trackThickness="6dp"/>

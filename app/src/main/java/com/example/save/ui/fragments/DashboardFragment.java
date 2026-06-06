@@ -212,6 +212,8 @@ public class DashboardFragment extends Fragment {
         v.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.anim_press));
     }
 
+
+
     @Override
     public void onResume() {
         super.onResume();

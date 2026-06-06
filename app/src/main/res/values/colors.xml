@@ -19,6 +19,7 @@
     <color name="divider_color">#E0E0E0</color>
     <color name="icon_tint_primary">#1A1A1A</color>
     <color name="icon_tint_secondary">#666666</color>
+    <color name="icon_tint">@color/brand_blue</color>
     <color name="background_success_light">#E8F5E9</color>
     <color name="background_error_light">#FFEBEE</color>
     <color name="gradient_start_lilac">#F3F0FF</color>

@@ -159,7 +159,7 @@ public class MembersViewModel extends AndroidViewModel {
         repository.submitLoanRequest(request, callback);
     }
 
-    public LiveData<List<com.example.save.data.models.LoanRequest>> getLoanRequests() {
+    public LiveData<List<com.example.save.data.models.LoanEntity>> getLoanRequests() {
         return repository.getLoanRequests();
     }
 

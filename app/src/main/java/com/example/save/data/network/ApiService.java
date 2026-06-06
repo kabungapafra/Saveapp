@@ -54,13 +54,19 @@ public interface ApiService {
     @GET("transactions")
     Call<PaginatedResponse<com.example.save.data.models.TransactionEntity>> getTransactions(@Query("limit") int limit, @Query("offset") int offset);
 
+    @POST("transactions/deposits")
+    Call<com.example.save.data.models.Transaction> makeDeposit(@Body com.example.save.data.models.DepositRequest request);
+
 
 
     @POST("loans")
     Call<com.example.save.data.models.LoanRequest> submitLoan(@Body com.example.save.data.models.LoanRequest request);
 
     @GET("loans")
-    Call<PaginatedResponse<com.example.save.data.models.LoanRequest>> getLoans(@Query("limit") int limit, @Query("offset") int offset);
+    Call<PaginatedResponse<com.example.save.data.models.LoanEntity>> getLoans(@Query("limit") int limit, @Query("offset") int offset);
+
+    @GET("loans/{id}")
+    Call<com.example.save.data.models.LoanEntity> getLoan(@retrofit2.http.Path("id") String loanId);
 
     @POST("members/{id}/invite")
     Call<ApiResponse> sendMemberInvite(@retrofit2.http.Path("id") String id);

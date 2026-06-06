@@ -39,6 +39,14 @@ public class CreatePollFragment extends Fragment {
     private TextView tvSelectedCount;
     private TextView chipSecretary, chipModerator, chipCustom;
 
+    // Live Data binding views
+    private TextView tvJordanName, tvJordanRole, tvJordanAvatar;
+    private TextView tvAlexName, tvAlexRole, tvAlexAvatar;
+    private TextView tvSarahName, tvSarahRole, tvSarahAvatar;
+    private TextView tvMarcusName, tvMarcusRole, tvMarcusAvatar;
+    private View rowJordan, rowAlex, rowSarah, rowMarcus;
+    private java.util.List<com.example.save.data.models.Member> activeMembers = new java.util.ArrayList<>();
+
     public static CreatePollFragment newInstance() {
         return new CreatePollFragment();
     }
@@ -57,6 +65,15 @@ public class CreatePollFragment extends Fragment {
         setupRoleCards();
         setupMemberRows(view);
         setupLaunchButton(view);
+
+        com.example.save.ui.viewmodels.MembersViewModel membersViewModel = 
+                new androidx.lifecycle.ViewModelProvider(requireActivity()).get(com.example.save.ui.viewmodels.MembersViewModel.class);
+        membersViewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
+            if (members != null && !members.isEmpty()) {
+                activeMembers = new java.util.ArrayList<>(members);
+                bindRealMembers();
+            }
+        });
     }
 
     private void initViews(View view) {
@@ -64,6 +81,11 @@ public class CreatePollFragment extends Fragment {
         cardTreasurer = view.findViewById(R.id.cardTreasurer);
         badgeAdminSelected = view.findViewById(R.id.badgeAdminSelected);
         badgeTreasurerSelected = view.findViewById(R.id.badgeTreasurerSelected);
+
+        rowJordan = view.findViewById(R.id.rowJordan);
+        rowAlex = view.findViewById(R.id.rowAlex);
+        rowSarah = view.findViewById(R.id.rowSarah);
+        rowMarcus = view.findViewById(R.id.rowMarcus);
 
         checkJordan = view.findViewById(R.id.checkJordan);
         checkAlex = view.findViewById(R.id.checkAlex);
@@ -75,10 +97,83 @@ public class CreatePollFragment extends Fragment {
         btnSarah = view.findViewById(R.id.btnSarah);
         btnMarcus = view.findViewById(R.id.btnMarcus);
 
+        tvJordanName = view.findViewById(R.id.tvJordanName);
+        tvJordanRole = view.findViewById(R.id.tvJordanRole);
+        tvJordanAvatar = view.findViewById(R.id.tvJordanAvatar);
+
+        tvAlexName = view.findViewById(R.id.tvAlexName);
+        tvAlexRole = view.findViewById(R.id.tvAlexRole);
+        tvAlexAvatar = view.findViewById(R.id.tvAlexAvatar);
+
+        tvSarahName = view.findViewById(R.id.tvSarahName);
+        tvSarahRole = view.findViewById(R.id.tvSarahRole);
+        tvSarahAvatar = view.findViewById(R.id.tvSarahAvatar);
+
+        tvMarcusName = view.findViewById(R.id.tvMarcusName);
+        tvMarcusRole = view.findViewById(R.id.tvMarcusRole);
+        tvMarcusAvatar = view.findViewById(R.id.tvMarcusAvatar);
+
         tvSelectedCount = view.findViewById(R.id.tvSelectedCount);
         chipSecretary = view.findViewById(R.id.chipSecretary);
         chipModerator = view.findViewById(R.id.chipModerator);
         chipCustom = view.findViewById(R.id.chipCustom);
+    }
+
+    private void bindRealMembers() {
+        int size = activeMembers.size();
+        
+        // Helper to get initials
+        java.util.function.Function<String, String> getInitials = name -> {
+            if (name == null || name.trim().isEmpty()) return "??";
+            String[] parts = name.trim().split("\\s+");
+            if (parts.length >= 2) {
+                return (parts[0].substring(0, 1) + parts[1].substring(0, 1)).toUpperCase();
+            } else if (parts[0].length() >= 2) {
+                return parts[0].substring(0, 2).toUpperCase();
+            } else {
+                return parts[0].toUpperCase();
+            }
+        };
+
+        if (size > 0) {
+            rowJordan.setVisibility(View.VISIBLE);
+            com.example.save.data.models.Member m = activeMembers.get(0);
+            tvJordanName.setText(m.getName());
+            tvJordanRole.setText(m.getRole());
+            tvJordanAvatar.setText(getInitials.apply(m.getName()));
+        } else {
+            rowJordan.setVisibility(View.GONE);
+        }
+
+        if (size > 1) {
+            rowAlex.setVisibility(View.VISIBLE);
+            com.example.save.data.models.Member m = activeMembers.get(1);
+            tvAlexName.setText(m.getName());
+            tvAlexRole.setText(m.getRole());
+            tvAlexAvatar.setText(getInitials.apply(m.getName()));
+        } else {
+            rowAlex.setVisibility(View.GONE);
+        }
+
+        if (size > 2) {
+            rowSarah.setVisibility(View.VISIBLE);
+            com.example.save.data.models.Member m = activeMembers.get(2);
+            tvSarahName.setText(m.getName());
+            tvSarahRole.setText(m.getRole());
+            tvSarahAvatar.setText(getInitials.apply(m.getName()));
+        } else {
+            rowSarah.setVisibility(View.GONE);
+        }
+
+        if (size > 3) {
+            rowMarcus.setVisibility(View.VISIBLE);
+            com.example.save.data.models.Member m = activeMembers.get(3);
+            tvMarcusName.setText(m.getName());
+            tvMarcusRole.setText(m.getRole());
+            tvMarcusAvatar.setText(getInitials.apply(m.getName()));
+        } else {
+            rowMarcus.setVisibility(View.GONE);
+        }
     }
 
     // ── Role Card Selection ──────────────────────────────────────────────────
@@ -129,11 +224,6 @@ public class CreatePollFragment extends Fragment {
     // ── Member Selection ─────────────────────────────────────────────────────
 
     private void setupMemberRows(View view) {
-        View rowJordan = view.findViewById(R.id.rowJordan);
-        View rowAlex = view.findViewById(R.id.rowAlex);
-        View rowSarah = view.findViewById(R.id.rowSarah);
-        View rowMarcus = view.findViewById(R.id.rowMarcus);
-
         rowJordan.setOnClickListener(v -> toggleMember(0));
         btnJordan.setOnClickListener(v -> toggleMember(0));
 
@@ -150,6 +240,7 @@ public class CreatePollFragment extends Fragment {
     }
 
     private void toggleMember(int index) {
+        if (index >= activeMembers.size()) return;
         switch (index) {
             case 0: jordanSelected = !jordanSelected; break;
             case 1: alexSelected = !alexSelected; break;
@@ -177,10 +268,11 @@ public class CreatePollFragment extends Fragment {
 
     private void updateSelectedCount() {
         int count = 0;
-        if (jordanSelected) count++;
-        if (alexSelected) count++;
-        if (sarahSelected) count++;
-        if (marcusSelected) count++;
+        int size = activeMembers.size();
+        if (size > 0 && jordanSelected) count++;
+        if (size > 1 && alexSelected) count++;
+        if (size > 2 && sarahSelected) count++;
+        if (size > 3 && marcusSelected) count++;
         tvSelectedCount.setText(count + " selected");
         tvSelectedCount.setVisibility(count > 0 ? View.VISIBLE : View.INVISIBLE);
     }
@@ -190,10 +282,11 @@ public class CreatePollFragment extends Fragment {
     private void setupLaunchButton(View view) {
         view.findViewById(R.id.btnLaunch).setOnClickListener(v -> {
             int count = 0;
-            if (jordanSelected) count++;
-            if (alexSelected) count++;
-            if (sarahSelected) count++;
-            if (marcusSelected) count++;
+            int size = activeMembers.size();
+            if (size > 0 && jordanSelected) count++;
+            if (size > 1 && alexSelected) count++;
+            if (size > 2 && sarahSelected) count++;
+            if (size > 3 && marcusSelected) count++;
 
             if (count == 0) {
                 Toast.makeText(getContext(), "Please nominate at least one member", Toast.LENGTH_SHORT).show();

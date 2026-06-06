@@ -18,6 +18,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.save.R;
 import com.example.save.data.models.Member;
 import com.example.save.ui.viewmodels.MembersViewModel;
+import com.example.save.util.ViewUtils;
 
 public class LoanPaymentFragment extends Fragment {
 
@@ -201,22 +202,24 @@ public class LoanPaymentFragment extends Fragment {
         radioMTN.setChecked(!isAirtel);
 
         if (isAirtel) {
-            cardAirtel.setBackgroundResource(R.drawable.bg_item_premium_white);
+            // Use safe utility to avoid invalid resource ID errors
+            ViewUtils.safeSetBackground(R.drawable.bg_item_premium_white, cardAirtel);
             cardAirtel.setElevation(com.example.save.utils.UIUtils.dpToPx(getContext(), 4));
             radioAirtel.setButtonTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#215DA1")));
             etPhoneNumber.setHint("e.g. 0755123456");
 
-            cardMTN.setBackgroundResource(R.drawable.bg_payment_card_unselected);
+            ViewUtils.safeSetBackground(R.drawable.bg_payment_card_unselected, cardMTN);
             cardMTN.setElevation(0f);
             radioMTN.setButtonTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#CBD5E1")));
         } else {
-            cardMTN.setBackgroundResource(R.drawable.bg_item_premium_white);
+            ViewUtils.safeSetBackground(R.drawable.bg_item_premium_white, cardMTN);
             cardMTN.setElevation(com.example.save.utils.UIUtils.dpToPx(getContext(), 4));
             radioMTN.setButtonTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#215DA1")));
             etPhoneNumber.setHint("e.g. 0772123890");
 
-            cardAirtel.setBackgroundResource(R.drawable.bg_item_premium_white);
-            cardAirtel.setBackgroundResource(R.drawable.bg_payment_card_unselected);
+            // First set premium then unselected for Airtel card
+            ViewUtils.safeSetBackground(R.drawable.bg_item_premium_white, cardAirtel);
+            ViewUtils.safeSetBackground(R.drawable.bg_payment_card_unselected, cardAirtel);
             cardAirtel.setElevation(0f);
             radioAirtel.setButtonTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#CBD5E1")));
         }

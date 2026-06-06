@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.save.R;
 import com.example.save.databinding.FragmentAdminLoansBinding;
-import com.example.save.data.models.LoanRequest;
+import com.example.save.data.models.LoanEntity;
+import com.example.save.data.models.LoanEntity;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.ui.adapters.LoanBorrowerAdapter;
 import com.example.save.ui.adapters.ApprovalsAdapter;
@@ -33,7 +34,7 @@ public class AdminLoansFragment extends Fragment {
     private MembersViewModel viewModel;
     private LoanBorrowerAdapter adapter;
     private ApprovalsAdapter approvalsAdapter;
-    private List<LoanRequest> allRequests = new ArrayList<>();
+    private List<LoanEntity> allRequests = new ArrayList<>();
     private String currentFilter = "ALL";
     private String searchQuery = "";
 
@@ -91,7 +92,7 @@ public class AdminLoansFragment extends Fragment {
         binding.rvLoans.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new LoanBorrowerAdapter(new LoanBorrowerAdapter.OnLoanActionListener() {
             @Override
-            public void onApprove(LoanRequest request) {
+            public void onApprove(LoanEntity request) {
                 com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getContext());
                 String adminPhone = session.getUserPhone();
                 viewModel.initiateLoanApproval(request.getId(), adminPhone, (success, message) -> {
@@ -102,22 +103,22 @@ public class AdminLoansFragment extends Fragment {
             }
 
             @Override
-            public void onDecline(LoanRequest request) {
+            public void onDecline(LoanEntity request) {
                 showRejectDialog(request);
             }
 
             @Override
-            public void onRemind(LoanRequest request) {
+            public void onRemind(LoanEntity request) {
                 Toast.makeText(getContext(), "Reminder sent to " + request.getMemberName(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onViewDetails(LoanRequest request) {
+            public void onViewDetails(LoanEntity request) {
                 Toast.makeText(getContext(), "Details for " + request.getMemberName(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onSendAlert(LoanRequest request) {
+            public void onSendAlert(LoanEntity request) {
                 Toast.makeText(getContext(), "Late payment alert sent to " + request.getMemberName(),
                         Toast.LENGTH_SHORT).show();
             }
@@ -146,7 +147,7 @@ public class AdminLoansFragment extends Fragment {
         binding.rvPendingApprovals.setAdapter(approvalsAdapter);
     }
 
-    private void showRejectDialog(LoanRequest request) {
+    private void showRejectDialog(LoanEntity request) {
         String formattedAmount = "UGX " + String.format(Locale.US, "%,.0f", request.getAmount());
         DeclineLoanRequestFragment fragment = DeclineLoanRequestFragment.newInstance(
                 request.getId(),
@@ -264,8 +265,8 @@ public class AdminLoansFragment extends Fragment {
     }
 
     private void applyFilters() {
-        List<LoanRequest> filteredList = new ArrayList<>();
-        for (LoanRequest req : allRequests) {
+        List<LoanEntity> filteredList = new ArrayList<>();
+        for (LoanEntity req : allRequests) {
             boolean matchesSearch = req.getMemberName().toLowerCase().contains(searchQuery);
             boolean matchesCategory = currentFilter.equals("ALL")
                     || (currentFilter.equals("ACTIVE") && "ACTIVE".equals(req.getStatus()))
@@ -289,12 +290,12 @@ public class AdminLoansFragment extends Fragment {
         }
     }
 
-    private void calculateStats(List<LoanRequest> requests) {
+    private void calculateStats(List<LoanEntity> requests) {
         double totalActiveAmount = 0;
         double totalDisbursedAmount = 0;
         int pendingCount = 0;
 
-        for (LoanRequest req : requests) {
+        for (LoanEntity req : requests) {
             if ("PENDING".equals(req.getStatus())) {
                 pendingCount++;
             } else if ("ACTIVE".equals(req.getStatus()) || "LATE".equals(req.getStatus())) {
