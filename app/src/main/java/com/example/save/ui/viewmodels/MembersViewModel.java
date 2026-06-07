@@ -15,10 +15,21 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class MembersViewModel extends AndroidViewModel {
     private final MemberRepository repository;
+    private final androidx.lifecycle.MutableLiveData<Long> depositEvent = new androidx.lifecycle.MutableLiveData<>(0L);
 
     public MembersViewModel(@NonNull Application application) {
         super(application);
         this.repository = MemberRepository.getInstance(application);
+    }
+
+    public androidx.lifecycle.LiveData<Long> getDepositEvent() {
+        return depositEvent;
+    }
+
+    public void postDepositEvent() {
+        Long current = depositEvent.getValue();
+        if (current == null) current = 0L;
+        depositEvent.postValue(current + 1);
     }
 
     public LiveData<List<Member>> getMembers() {
@@ -108,7 +119,19 @@ public class MembersViewModel extends AndroidViewModel {
     // Payment/Contribution - Now uses backend API with callback
     public void makePayment(Member member, double amount, String phoneNumber, String paymentMethod,
             MemberRepository.PaymentCallback callback) {
-        repository.makePayment(member, amount, phoneNumber, paymentMethod, callback);
+        // Wrap the original callback to emit a deposit event on success
+        repository.makePayment(member, amount, phoneNumber, paymentMethod, new MemberRepository.PaymentCallback() {
+            @Override
+            public void onResult(boolean success, String message) {
+                if (success) {
+                    // Notify observers that a deposit has been completed
+                    postDepositEvent();
+                }
+                if (callback != null) {
+                    callback.onResult(success, message);
+                }
+            }
+        });
     }
 
     public void refreshMembers(MemberRepository.MemberAddCallback callback) {

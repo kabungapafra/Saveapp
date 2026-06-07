@@ -56,6 +56,16 @@ public class DashboardFragment extends Fragment {
         
         // Ensure members are synced
         viewModel.syncMembers();
+        viewModel.getDepositEvent().observe(getViewLifecycleOwner(), v -> {
+            if (binding != null) {
+                viewModel.syncMembers();
+                // Refresh balance, progress, and transaction list
+                loadDashboardData();
+                // Also reload recent transactions
+                allCachedTransactions.clear();
+                loadRecentTransactions();
+            }
+        });
     }
 
     private void initializeViews() {
@@ -217,13 +227,12 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Reload transactions every time the fragment comes back into view.
-        // This ensures a deposit just made is immediately visible without
-        // needing a full app restart.
-        if (binding != null) {
-            allCachedTransactions.clear();
-            loadRecentTransactions();
-        }
+        // Refresh entire dashboard when returning to the fragment.
+        // This updates balance, progress, and transaction list.
+        loadDashboardData();
+        // Also reload recent transactions to reflect new deposits.
+        allCachedTransactions.clear();
+        loadRecentTransactions();
     }
 
     @Override

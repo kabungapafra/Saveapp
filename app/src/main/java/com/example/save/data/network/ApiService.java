@@ -45,7 +45,7 @@ public interface ApiService {
     @POST("auth/reset-password")
     Call<ApiResponse> resetPassword(@Body com.example.save.data.network.ResetPasswordRequest request);
 
-    @GET("analytics/summary")
+    @GET("analytics/dashboard")
     Call<com.example.save.data.models.DashboardSummaryResponse> getDashboardSummary();
 
     @retrofit2.http.DELETE("groups")

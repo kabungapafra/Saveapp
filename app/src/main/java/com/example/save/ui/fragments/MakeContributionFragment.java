@@ -105,6 +105,8 @@ public class MakeContributionFragment extends Fragment {
                                     if (success) {
                                         Toast.makeText(getContext(), "Contribution Successful!", Toast.LENGTH_LONG).show();
                                         ReceiptUtils.generateAndShareReceipt(getContext(), member.getName(), (double) currentAmount, "Contribution", new Date());
+                                        // Notify dashboard of new deposit
+                                        viewModel.postDepositEvent();
                                         if (getActivity() != null) {
                                             getActivity().onBackPressed();
                                         }
