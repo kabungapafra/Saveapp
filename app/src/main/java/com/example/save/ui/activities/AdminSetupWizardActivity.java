@@ -58,7 +58,8 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // callback holder
+    private String verifiedOtpCode; // stores the real 6‑digit OTP after user entry
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +158,24 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
 
         final android.app.ProgressDialog finalDialog = progressDialog;
         
+        // Ensure adminPassword is not null
+        if (adminPassword == null) {
+            Toast.makeText(this, "Admin PIN is missing", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Trim whitespace
+        adminPassword = adminPassword.trim();
+        // Debug log password length (do NOT log the actual PIN in production)
+        android.util.Log.d("AdminSetup", "Admin PIN length=" + adminPassword.length());
+        // Ensure password is trimmed
+        adminPassword = adminPassword != null ? adminPassword.trim() : null;
+        // Log the PIN length for debugging (avoid logging actual PIN in production)
+        android.util.Log.d("AdminSetup", "Admin PIN length=" + (adminPassword != null ? adminPassword.length() : "null"));
+        // Validate admin PIN (must be exactly 4 numeric digits)
+        if (!com.example.save.utils.ValidationUtils.isValidPin(adminPassword)) {
+            Toast.makeText(this, "Admin PIN must be exactly 4 numeric digits", Toast.LENGTH_SHORT).show();
+            return;
+        }
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
                 .setPhoneNumber(adminPhone)
                 .setTimeout(60L, TimeUnit.SECONDS)
@@ -278,6 +297,8 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
                             Toast.makeText(AdminSetupWizardActivity.this, "Verification session expired. Please resend code.", Toast.LENGTH_LONG).show();
                             return;
                         }
+                        // Save the real OTP code for backend request
+                        verifiedOtpCode = code;
                         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
                         signInWithPhoneAuthCredential(credential);
                     }
@@ -316,14 +337,43 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
         config.setLatePenaltyRate(latePenalty);
         config.setCurrency(currency);
 
-        // Prepare Admin User Data
+        // Validate required admin fields before sending registration
+        if (adminName == null || adminName.isEmpty()) {
+            Toast.makeText(this, "Admin name is required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (groupName == null || groupName.isEmpty()) {
+            Toast.makeText(this, "Group name is required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Validate required admin fields before sending registration
+        if (adminName == null || adminName.isEmpty()) {
+            Toast.makeText(this, "Admin name is required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (adminPhone == null || adminPhone.isEmpty()) {
+            Toast.makeText(this, "Admin phone is required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (adminPassword == null || adminPassword.isEmpty()) {
+            Toast.makeText(this, "Admin PIN is required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (groupName == null || groupName.isEmpty()) {
+            Toast.makeText(this, "Group name is required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Log the password being sent to backend (masked for security)
+        android.util.Log.d("AdminSetup", "Sending admin registration: phone=" + adminPhone + ", name=" + adminName + ", group=" + groupName + ", PIN length=" + (adminPassword != null ? adminPassword.length() : "null"));
         com.example.save.data.network.OtpVerificationRequest registrationRequest = new com.example.save.data.network.OtpVerificationRequest(
                 adminPhone,
-                "FIREBASE_VERIFIED", // Placeholder since Firebase verified it
+                "FIREBASE_VERIFIED", // Firebase verified placeholder
                 adminName,
                 adminPassword,
-                groupName
-        );
+                groupName);
+
+        // Log the payload for debugging (avoid logging password in production)
+        android.util.Log.d("AdminSetup", "Sending admin registration: phone=" + adminPhone + ", name=" + adminName + ", group=" + groupName);
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(this).create(com.example.save.data.network.ApiService.class);

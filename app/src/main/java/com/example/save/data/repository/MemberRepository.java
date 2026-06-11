@@ -308,30 +308,38 @@ public class MemberRepository {
     }
 
     public void makePayment(Member m, double a, String p, String pm, PaymentCallback cb) {
-        // Build deposit request payload
-        com.example.save.data.models.DepositRequest request = new com.example.save.data.models.DepositRequest();
-        request.setMemberId(m.getId());
-        request.setAmount(a);
-        request.setPaymentMethod(pm);
-        request.setDescription("Monthly Contribution via " + pm);
+    // Build deposit request payload
+    com.example.save.data.models.DepositRequest request = new com.example.save.data.models.DepositRequest();
+    request.setMemberId(m.getId());
+    request.setAmount(a);
+    request.setPaymentMethod(pm);
+    request.setDescription("Monthly Contribution via " + pm);
 
-        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.makeDeposit(request).enqueue(new retrofit2.Callback<com.example.save.data.models.Transaction>() {
-            @Override
-            public void onResponse(retrofit2.Call<com.example.save.data.models.Transaction> call, retrofit2.Response<com.example.save.data.models.Transaction> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    if (cb != null) cb.onResult(true, "Deposit successful");
-                } else {
-                    if (cb != null) cb.onResult(false, "Deposit failed: " + response.code());
+    ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+    apiService.makeDeposit(request).enqueue(new retrofit2.Callback<com.example.save.data.models.Transaction>() {
+        @Override
+        public void onResponse(retrofit2.Call<com.example.save.data.models.Transaction> call, retrofit2.Response<com.example.save.data.models.Transaction> response) {
+            if (response.isSuccessful() && response.body() != null) {
+                if (cb != null) cb.onResult(true, "Deposit successful");
+            } else {
+                String errorMsg = "Deposit failed: " + response.code();
+                try {
+                    if (response.errorBody() != null) {
+                        errorMsg = response.errorBody().string();
+                    }
+                } catch (Exception e) {
+                    // ignore parsing errors
                 }
+                if (cb != null) cb.onResult(false, errorMsg);
             }
+        }
 
-            @Override
-            public void onFailure(retrofit2.Call<com.example.save.data.models.Transaction> call, Throwable t) {
-                if (cb != null) cb.onResult(false, "Network error: " + t.getMessage());
-            }
-        });
-    }
+        @Override
+        public void onFailure(retrofit2.Call<com.example.save.data.models.Transaction> call, Throwable t) {
+            if (cb != null) cb.onResult(false, "Network error: " + t.getMessage());
+        }
+    });
+}
 
 
 

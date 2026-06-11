@@ -179,16 +179,27 @@ public class AdminLoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (password.isEmpty()) {
-            Toast.makeText(this, "Please enter your PIN", Toast.LENGTH_SHORT).show();
+        // Validation for 4‑digit numeric PIN
+        if (!password.matches("\\d{4}")) {
+            Toast.makeText(this, "PIN must be exactly 4 numeric digits", Toast.LENGTH_SHORT).show();
+            binding.passwordInput.requestFocus();
+            return;
+        }
+        // Trim any whitespace just in case
+        password = password.trim();
+        // Enforce 4‑digit PIN length
+        if (password.length() != 4) {
+            Toast.makeText(this, "PIN must be exactly 4 digits", Toast.LENGTH_SHORT).show();
             binding.passwordInput.requestFocus();
             return;
         }
 
+        // Disable button and show OTP sending status
         binding.loginButton.setEnabled(false);
-        binding.loginButtonText.setText("Logging in...");
+        binding.loginButtonText.setText("Sending OTP...");
 
-        performBackendLogin();
+        // Initiate Firebase phone verification
+        startPhoneVerification(phone);
     }
 
     private void startPhoneVerification(String phone) {

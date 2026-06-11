@@ -48,8 +48,8 @@ public class OtpFragment extends Fragment {
 
         binding.verifyButton.setOnClickListener(v -> {
             String otpCode = getOtpFromInputs();
-            if (otpCode.length() < 6) {
-                Toast.makeText(getContext(), "Please enter the 6-digit code", Toast.LENGTH_SHORT).show();
+            if (otpCode.length() != 6) {
+                Toast.makeText(getContext(), "Please enter exactly a 6-digit code", Toast.LENGTH_SHORT).show();
                 return;
             }
 
