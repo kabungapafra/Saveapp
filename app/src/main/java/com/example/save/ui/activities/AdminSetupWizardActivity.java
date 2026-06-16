@@ -93,10 +93,10 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
         if (intent == null || intent.getData() == null) return;
         
         android.net.Uri data = intent.getData();
-        if ("saveapp".equals(data.getScheme()) && "otp".equals(data.getHost())) {
+        if ("save app".equals(data.getScheme()) && "otp".equals(data.getHost())) {
             String code = data.getQueryParameter("code");
             if (code != null && !code.isEmpty()) {
-                // If we are on the OTP step, we can auto-fill or just store it
+                // If we are on the OTP step, we can autofill or just store it
                 // For now, let's toast and we can improve by passing it to the fragment
                 Toast.makeText(this, "OTP Received from link: " + code, Toast.LENGTH_LONG).show();
                 

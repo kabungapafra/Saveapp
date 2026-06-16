@@ -202,18 +202,61 @@
                     </LinearLayout>
 
                     <!-- Send Message button -->
+                    <!-- Delete Member button (hidden) -->
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnSendMessage"
+                        android:id="@+id/btnDeleteMember"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="➤  Send Message"
+                        android:text="Delete Member"
                         android:textAllCaps="false"
-                        android:textColor="@color/action_card_text"
+                        android:textColor="@android:color/white"
                         android:textSize="15sp"
-                        app:backgroundTint="@color/action_card_bg"
+                        app:backgroundTint="@color/red_primary"
+                        app:cornerRadius="12dp"
+                        app:icon="@null"
+                        android:visibility="gone" />
+
+                    <!-- Promote button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPromoteMember"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Promote"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="15sp"
+                        app:backgroundTint="@color/brand_blue"
                         app:cornerRadius="12dp"
                         app:icon="@null" />
+
+                    <!-- Demote button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDemoteMember"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Demote"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="15sp"
+                        app:backgroundTint="@color/red_primary"
+                        app:cornerRadius="12dp"
+                        app:icon="@null" />
+
+                    <!-- Old toggle button hidden -->
+                    <ImageButton
+                        android:id="@+id/btnPromoteDemote"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_swap_vert"
+                        app:tint="@color/brand_blue"
+                        android:visibility="gone" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

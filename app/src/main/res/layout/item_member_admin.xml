@@ -90,8 +90,19 @@
                 android:background="@drawable/bg_circle_red_light"
                 android:padding="8dp"
                 android:src="@drawable/ic_delete"
-                android:visibility="gone"
                 app:tint="#EF4444" />
+
+            <!-- Promote / Demote button -->
+            <ImageButton
+                android:id="@+id/btnPromoteDemote"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_toStartOf="@id/btnRemoveMember"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_swap_vert"
+                app:tint="@color/brand_blue" />
 
         </LinearLayout>
 

@@ -43,6 +43,8 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void onMoreActionsClick(View view, Member member, int position);
 
         void onDeleteClick(Member member, int position);
+
+        void onPromoteDemoteClick(Member member, int position);
     }
 
     // Default constructor
@@ -216,7 +218,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             String savedImage = session.getProfileImage(normalizedPhone);
             
             // Remove delete bin icon as requested
-            binding.btnRemoveMember.setVisibility(View.GONE);
+            binding.btnRemoveMember.setVisibility(View.VISIBLE);
 
             if (savedImage != null && !savedImage.isEmpty()) {
                 binding.tvInitials.setVisibility(View.GONE);
@@ -236,6 +238,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 itemView.setOnClickListener(v -> listener.onMemberClick(member));
 
                 binding.btnRemoveMember.setOnClickListener(v -> listener.onDeleteClick(member, position));
+                binding.btnPromoteDemote.setOnClickListener(v -> listener.onPromoteDemoteClick(member, position));
             }
         }
 

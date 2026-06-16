@@ -326,11 +326,12 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Bottom Text -->
+            <!-- Admin link -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -345,6 +346,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Admin Portal"
+                    android:textColor="@color/login_button_blue"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/manrope"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- New member onboarding link -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New member? "
+                    android:textColor="@color/v_text_mid"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/manrope" />
+
+                <TextView
+                    android:id="@+id/joinGroupLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Join Your Group"
                     android:textColor="@color/login_button_blue"
                     android:textSize="15sp"
                     android:fontFamily="@font/manrope"

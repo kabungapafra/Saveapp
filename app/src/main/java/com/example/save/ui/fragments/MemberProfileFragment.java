@@ -20,6 +20,7 @@ import com.example.save.ui.viewmodels.MembersViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.widget.Toast;
 import java.util.Locale;
 
 public class MemberProfileFragment extends Fragment {
@@ -79,6 +80,60 @@ public class MemberProfileFragment extends Fragment {
     private void updateUI(Member member) {
         binding.tvMemberName.setText(member.getName());
         binding.tvMemberRole.setText("Member since January 2024");
+
+        // Hide delete button as per user request
+        binding.btnDeleteMember.setVisibility(View.GONE);
+
+        // Promote button logic (makes member an Administrator)
+        binding.btnPromoteMember.setOnClickListener(v -> {
+            if (member != null) {
+                member.setRole("Administrator");
+                // Find position in current list and update
+                List<Member> currentList = viewModel.getMembers().getValue();
+                int position = -1;
+                if (currentList != null) {
+                    for (int i = 0; i < currentList.size(); i++) {
+                        Member m = currentList.get(i);
+                        if (m.getPhone() != null && m.getPhone().equals(member.getPhone())) {
+                            position = i;
+                            break;
+                        }
+                    }
+                }
+                if (position >= 0) {
+                    viewModel.updateMember(position, member);
+                    Toast.makeText(requireContext(), "Role updated to Administrator", Toast.LENGTH_SHORT).show();
+                    binding.tvMemberRole.setText(member.getRole());
+                } else {
+                    Toast.makeText(requireContext(), "Failed to locate member", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        // Demote button logic (makes member a regular Member)
+        binding.btnDemoteMember.setOnClickListener(v -> {
+            if (member != null) {
+                member.setRole("Member");
+                List<Member> currentList = viewModel.getMembers().getValue();
+                int position = -1;
+                if (currentList != null) {
+                    for (int i = 0; i < currentList.size(); i++) {
+                        Member m = currentList.get(i);
+                        if (m.getPhone() != null && m.getPhone().equals(member.getPhone())) {
+                            position = i;
+                            break;
+                        }
+                    }
+                }
+                if (position >= 0) {
+                    viewModel.updateMember(position, member);
+                    Toast.makeText(requireContext(), "Role updated to Member", Toast.LENGTH_SHORT).show();
+                    binding.tvMemberRole.setText(member.getRole());
+                } else {
+                    Toast.makeText(requireContext(), "Failed to locate member", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         
         // Handle Profile Picture vs Initials
         com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
@@ -119,6 +174,7 @@ public class MemberProfileFragment extends Fragment {
         int loans = member.getShortfallAmount() > 0 ? 1 : 0;
         binding.tvStreak.setText(String.valueOf(loans)); // Note: ID is tvStreak mapped to Active Loans count in design
     }
+
 
     private void loadTransactions(String memberName) {
         viewModel.getLatestMemberTransactions(memberName).observe(getViewLifecycleOwner(), entities -> {

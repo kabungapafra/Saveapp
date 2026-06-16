@@ -3,6 +3,7 @@ package com.example.save.data.repository;
 import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.annotation.Nullable;
 
 import com.example.save.data.models.Member;
 import com.example.save.data.models.MemberEntity;
@@ -125,7 +126,15 @@ public class MemberRepository {
                     if (callback != null)
                         callback.onResult(true, "Member registered in PostgreSQL", response.body().getOtp());
                 } else if (callback != null) {
-                    callback.onResult(false, "Registration failed", null);
+                    String errorMsg = "Registration failed";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg = response.errorBody().string();
+                        }
+                    } catch (Exception e) {
+                        // ignore
+                    }
+                    callback.onResult(false, errorMsg, null);
                 }
             }
 
@@ -155,7 +164,7 @@ public class MemberRepository {
     }
 
     public interface MemberRegistrationCallback {
-        void onResult(boolean success, String message, String otp);
+        void onResult(boolean success, String message, @Nullable String otp);
     }
 
     public interface PasswordChangeCallback {

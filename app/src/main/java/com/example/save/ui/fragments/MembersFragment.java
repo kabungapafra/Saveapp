@@ -273,6 +273,15 @@ public class MembersFragment extends Fragment {
                     showRemoveMemberConfirmation(member);
                 }
             }
+
+            @Override
+            public void onPromoteDemoteClick(Member member, int position) {
+                if (isAdmin) {
+                    boolean isAdminMember = member.getRole().equalsIgnoreCase("Administrator") || member.getRole().equalsIgnoreCase("Admin");
+                    member.setRole(isAdminMember ? "Member" : "Administrator");
+                    viewModel.updateMember(position, member);
+                }
+            }
         });
         adapter.setAdmin(isAdmin);
         binding.membersRecyclerView.setAdapter(adapter);
@@ -361,11 +370,12 @@ public class MembersFragment extends Fragment {
                     }
 
                     if (success) {
-                        dialog.dismiss();
-                        showSuccessAnimation(name, generatedOtp, phone);
-                    } else {
-                        Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_SHORT).show();
-                    }
+    dialog.dismiss();
+    Toast.makeText(getContext(), "Member added successfully", Toast.LENGTH_SHORT).show();
+    // LiveData will refresh members list automatically
+} else {
+    Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_SHORT).show();
+}
                 });
             });
         });
@@ -398,13 +408,12 @@ public class MembersFragment extends Fragment {
             successAnimation.setProgress(0f);
             successAnimation.playAnimation();
 
-            // After animation ends, skip OTP dialog and go to success fragment
             new android.os.Handler().postDelayed(() -> {
                 animationOverlay.setVisibility(View.GONE);
-                navigateToSuccess(name);
-            }, 2500);
+                showInviteDialog(name, phone);
+            }, 2000);
         } else {
-            navigateToSuccess(name);
+            showInviteDialog(name, phone);
         }
     }
 
@@ -417,71 +426,65 @@ public class MembersFragment extends Fragment {
                 .commit();
     }
 
-    private void showOTPDialog(String memberName, String otp, String phone) {
-        if (getContext() == null)
-            return;
+    /**
+     * Shows the member invite dialog after admin adds a new member.
+     * No PIN/OTP is generated — the member self-registers via Firebase OTP
+     * using the OtpRequestActivity onboarding flow.
+     */
+    private void showInviteDialog(String memberName, String phone) {
+        if (getContext() == null) return;
+
         android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs",
                 Context.MODE_PRIVATE);
         String groupName = prefs.getString("group_name", "Your Group");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        com.example.save.databinding.DialogMemberCredentialsBinding credBinding = com.example.save.databinding.DialogMemberCredentialsBinding
-                .inflate(LayoutInflater.from(getContext()));
+        com.example.save.databinding.DialogMemberCredentialsBinding credBinding =
+                com.example.save.databinding.DialogMemberCredentialsBinding
+                        .inflate(LayoutInflater.from(getContext()));
         builder.setView(credBinding.getRoot());
 
         credBinding.tvCredGroupName.setText(groupName);
         credBinding.tvCredMemberName.setText(memberName);
         credBinding.tvCredPhone.setText(phone);
-        credBinding.tvCredOTP.setText(otp);
-
-        // Optional: Update with database values once loaded to ensure sync
-        viewModel.getMemberByNameLive(memberName).observe(getViewLifecycleOwner(), member -> {
-            if (member != null) {
-                credBinding.tvCredMemberName.setText(member.getName());
-            }
-        });
+        // tvCredOTP is hidden in layout — leave blank
 
         AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-        // Set Dialog Size to 95% width
         dialog.show();
         android.util.DisplayMetrics displayMetrics = new android.util.DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = (int) (displayMetrics.widthPixels * 0.95);
         dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        String credentialsMessage = String.format(
-                "🎉 *Welcome to %s!*\n\nYour login credentials:\n\n👤 *Name:* %s\n📱 *Phone:* %s\n🔐 *Code:* %s\n\nDownload the app to get started! 🚀",
-                groupName, memberName, phone, otp);
-
-        // Format OTP with spaces for visual match: "8 8 2  1 4 9"
-        StringBuilder formattedOtp = new StringBuilder();
-        for (int i = 0; i < otp.length(); i++) {
-            formattedOtp.append(otp.charAt(i));
-            if (i == 2)
-                formattedOtp.append("  ");
-            else if (i < otp.length() - 1)
-                formattedOtp.append(" ");
-        }
-        credBinding.tvCredOTP.setText(formattedOtp.toString());
-
-
+        // Share message — tells the member exactly how to onboard
+        String shareMessage = String.format(
+                "🎉 You've been added to *%s* on Save!\n\n"
+                + "To join:\n"
+                + "1. Download the Save app\n"
+                + "2. Tap \"New member? Join Your Group\"\n"
+                + "3. Enter group name: *%s*\n"
+                + "4. Enter your phone: *%s*\n"
+                + "5. Verify via OTP and set your PIN\n\n"
+                + "See you inside! 🚀",
+                groupName, groupName, phone);
 
         credBinding.btnShareDetails.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, credentialsMessage);
-            startActivity(Intent.createChooser(intent, "Share via"));
+            intent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(intent, "Share invite via"));
         });
 
         credBinding.btnDone.setOnClickListener(v -> {
             dialog.dismiss();
-            getParentFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                    .replace(((ViewGroup) getView().getParent()).getId(), MemberSuccessFragment.newInstance(memberName))
-                    .addToBackStack(null)
-                    .commit();
+            if (getView() != null) {
+                getParentFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                        .replace(((ViewGroup) getView().getParent()).getId(), MemberSuccessFragment.newInstance(memberName))
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
         credBinding.btnCloseCredentials.setOnClickListener(v -> dialog.dismiss());
     }
@@ -532,10 +535,10 @@ public class MembersFragment extends Fragment {
     }
 
     private void showResetPasswordConfirmation(Member member) {
-        new MaterialAlertDialogBuilder(getContext()).setTitle("Reset Password")
-                .setMessage("Reset for " + member.getName() + "?")
-                .setPositiveButton("Reset", (d, w) -> showOTPDialog(member.getName(), viewModel.resetPassword(member), member.getPhone()))
-                .setNegativeButton("Cancel", null).show();
+        new MaterialAlertDialogBuilder(getContext()).setTitle("Reset PIN")
+                .setMessage(member.getName() + " will need to use the \"Forgot PIN\" flow in the app to reset their PIN via OTP.")
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     private void showRemoveMemberConfirmation(Member member) {

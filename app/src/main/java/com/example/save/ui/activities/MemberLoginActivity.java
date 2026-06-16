@@ -140,6 +140,12 @@ public class MemberLoginActivity extends AppCompatActivity {
             finish();
         });
 
+        binding.joinGroupLink.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OtpRequestActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
         binding.passwordToggle.setOnClickListener(v -> togglePassword(binding.passwordInput, binding.passwordToggle));
     }
 
