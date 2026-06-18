@@ -259,21 +259,29 @@ public class MembersViewModel extends AndroidViewModel {
 
 
     public LiveData<Member> getMemberByPhoneLive(String phone) {
-        androidx.lifecycle.MutableLiveData<Member> liveData = new androidx.lifecycle.MutableLiveData<>();
-        repository.getExecutor().execute(() -> {
-            Member member = repository.getMemberByPhone(phone);
-            liveData.postValue(member);
+        return androidx.lifecycle.Transformations.map(repository.getMembers(), members -> {
+            if (members != null && phone != null) {
+                for (Member m : members) {
+                    if (phone.equals(m.getPhone())) {
+                        return m;
+                    }
+                }
+            }
+            return null;
         });
-        return liveData;
     }
 
     public LiveData<Member> getMemberByNameLive(String name) {
-        androidx.lifecycle.MutableLiveData<Member> liveData = new androidx.lifecycle.MutableLiveData<>();
-        repository.getExecutor().execute(() -> {
-            Member member = repository.getMemberByName(name);
-            liveData.postValue(member);
+        return androidx.lifecycle.Transformations.map(repository.getMembers(), members -> {
+            if (members != null && name != null) {
+                for (Member m : members) {
+                    if (name.equals(m.getName())) {
+                        return m;
+                    }
+                }
+            }
+            return null;
         });
-        return liveData;
     }
 
     public LiveData<List<Member>> getMonthlyRecipientsLive(int limit) {
