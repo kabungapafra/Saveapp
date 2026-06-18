@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.save.R;
 import com.example.save.data.models.Member;
 import com.example.save.databinding.DialogAddMemberBinding;
-import com.example.save.databinding.DialogMemberProfileBinding;
 import com.example.save.databinding.FragmentMembersBinding;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.utils.ValidationUtils;
@@ -370,12 +369,14 @@ public class MembersFragment extends Fragment {
                     }
 
                     if (success) {
-    dialog.dismiss();
-    Toast.makeText(getContext(), "Member added successfully", Toast.LENGTH_SHORT).show();
-    // LiveData will refresh members list automatically
-} else {
-    Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_SHORT).show();
-}
+                        dialog.dismiss();
+                        // Refresh members list to show the newly added member
+                        viewModel.syncMembers();
+                        // Directly navigate to success screen without OTP/Invite dialog
+                        navigateToSuccess(newMember.getName());
+                    } else {
+                        Toast.makeText(getContext(), "Failed: " + message, Toast.LENGTH_SHORT).show();
+                    }
                 });
             });
         });
