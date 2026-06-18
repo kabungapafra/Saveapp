@@ -434,6 +434,15 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
         SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
         prefs.edit()
                 .putString("group_name", groupName)
+                .putString("currency", currency)
+                .putFloat("contribution_amount", (float) contributionAmount)
+                .putString("contribution_frequency", contributionFrequency)
+                .putFloat("payout_amount", (float) payoutAmount)
+                .putFloat("retention_percentage", (float) retentionPercentage)
+                .putFloat("max_loan_amount", (float) maxLoanAmount)
+                .putFloat("interest_rate", (float) interest_rate)
+                .putInt("repayment_period", repaymentPeriod)
+                .putBoolean("require_guarantor", requireGuarantor)
                 .putBoolean("wizard_completed", true)
                 .apply();
 
