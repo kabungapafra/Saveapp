@@ -77,7 +77,7 @@
                     android:id="@+id/tvRecipientDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Scheduled for Jan 15"
+                    android:text=""
                     android:textSize="11sp"
                     android:textColor="@color/project_primary"
                     android:layout_marginBottom="4dp"
@@ -95,7 +95,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
-                        android:text="500000"
+                        android:text=""
                         android:textSize="14sp"
                         android:textStyle="bold"/>
                 </com.google.android.material.textfield.TextInputLayout>

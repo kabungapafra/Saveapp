@@ -98,7 +98,7 @@
                                     android:layout_height="match_parent"
                                     android:fontFamily="@font/manrope_bold"
                                     android:gravity="center"
-                                    android:text="DC"
+                                    android:text=""
                                     android:textColor="@color/brand_blue"
                                     android:textSize="28sp"
                                     android:visibility="visible" />
@@ -121,7 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="David Chen"
+                        android:text=""
                         android:textColor="@color/v_text_dark"
                         android:textSize="20sp" />
 
@@ -145,7 +145,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:fontFamily="@font/manrope_medium"
-                            android:text="Member since January 2022"
+                            android:text=""
                             android:textColor="@color/v_text_mid"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -202,50 +202,54 @@
                     </LinearLayout>
 
                     <!-- Send Message button -->
-                    <!-- Delete Member button (hidden) -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnDeleteMember"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="Delete Member"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:textSize="15sp"
-                        app:backgroundTint="@color/red_primary"
-                        app:cornerRadius="12dp"
-                        app:icon="@null"
-                        android:visibility="gone" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDeleteMember"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:fontFamily="@font/manrope_bold"
+            android:text="Delete Member"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            app:backgroundTint="@color/red_primary"
+            app:cornerRadius="12dp"
+            app:icon="@null" />
+        <!-- Promote and Demote buttons side by side -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
 
-                    <!-- Promote button -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnPromoteMember"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="Promote"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:textSize="15sp"
-                        app:backgroundTint="@color/brand_blue"
-                        app:cornerRadius="12dp"
-                        app:icon="@null" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPromoteMember"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Promote"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                app:backgroundTint="@color/brand_blue"
+                app:cornerRadius="12dp"
+                app:icon="@null" />
 
-                    <!-- Demote button -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnDemoteMember"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="Demote"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:textSize="15sp"
-                        app:backgroundTint="@color/red_primary"
-                        app:cornerRadius="12dp"
-                        app:icon="@null" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDemoteMember"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Demote"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                app:backgroundTint="@color/red_primary"
+                app:cornerRadius="12dp"
+                app:icon="@null" />
+        </LinearLayout>
 
                     <!-- Old toggle button hidden -->
                     <ImageButton
@@ -292,7 +296,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="UGX 4,200.00"
+                        android:text=""
                         android:textColor="@color/v_text_dark"
                         android:textSize="26sp" />
 
@@ -339,7 +343,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="UGX 1,550.00"
+                        android:text=""
                         android:textColor="@color/brand_blue"
                         android:textSize="26sp" />
 
@@ -399,7 +403,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="1"
+                        android:text=""
                         android:textColor="@color/v_text_dark"
                         android:textSize="26sp" />
 
@@ -420,7 +424,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
                             android:fontFamily="@font/manrope_medium"
-                            android:text="Next payment in 5 days"
+                            android:text=""
                             android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -429,6 +433,7 @@
 
             <!-- ── Active Loan Details ── -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvActiveLoanDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -509,7 +514,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="UGX 2,000.00"
+                                android:text=""
                                 android:textColor="@color/v_text_dark"
                                 android:textSize="20sp" />
                         </LinearLayout>
@@ -535,7 +540,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="5% APR"
+                                android:text=""
                                 android:textColor="@color/brand_blue"
                                 android:textSize="20sp" />
                         </LinearLayout>
@@ -549,7 +554,7 @@
                         android:layout_height="8dp"
                         android:layout_marginBottom="6dp"
                         android:max="100"
-                        android:progress="65"
+                        android:progress="0"
                         android:progressTint="@color/brand_blue"
                         android:progressBackgroundTint="#EBF3FD" />
 
@@ -560,19 +565,21 @@
                         android:layout_marginBottom="14dp">
 
                         <TextView
+                            android:id="@+id/tvLoanPaid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_medium"
-                            android:text="Paid: UGX 1,300.00"
+                            android:text="Paid: UGX 0.00"
                             android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
 
                         <TextView
+                            android:id="@+id/tvLoanRemaining"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:fontFamily="@font/manrope_medium"
-                            android:text="Remaining: UGX 700.00"
+                            android:text="Remaining: UGX 0.00"
                             android:textColor="@color/v_text_mid"
                             android:textSize="12sp" />
                     </RelativeLayout>
@@ -630,7 +637,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
-                                    android:text="Oct 15, 2023"
+                                    android:text=""
                                     android:textColor="@color/v_text_dark"
                                     android:textSize="14sp" />
                             </LinearLayout>

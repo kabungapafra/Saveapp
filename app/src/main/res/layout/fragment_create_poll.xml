@@ -320,7 +320,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="2 selected"
+                        android:text="0 selected"
                         android:textColor="@color/brand_blue"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -389,7 +389,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="JD"
+                                android:text=""
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
                         </RelativeLayout>
@@ -420,7 +420,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="Jordan Davis"
+                            android:text=""
                             android:textColor="@color/v_text_dark"
                             android:textSize="14sp" />
                         <TextView
@@ -475,7 +475,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="AM"
+                                android:text=""
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
                         </RelativeLayout>
@@ -506,7 +506,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="Alex Martinez"
+                            android:text=""
                             android:textColor="@color/v_text_dark"
                             android:textSize="14sp" />
                         <TextView
@@ -561,7 +561,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="SC"
+                                android:text=""
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
                         </RelativeLayout>
@@ -592,7 +592,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="Sarah Chen"
+                            android:text=""
                             android:textColor="@color/v_text_dark"
                             android:textSize="14sp" />
                         <TextView
@@ -648,7 +648,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="MK"
+                                android:text=""
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
                         </RelativeLayout>
@@ -679,7 +679,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="Marcus King"
+                            android:text=""
                             android:textColor="@color/v_text_dark"
                             android:textSize="14sp" />
                         <TextView

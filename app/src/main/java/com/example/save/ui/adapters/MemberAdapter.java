@@ -186,8 +186,8 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             // Reliability based on credit score (0-100)
             binding.tvMemberReliability.setText(member.getCreditScore() + ".0%");
 
-            // Random or calculated rank for demo
-            int rank = (position % 5) + 1;
+            // Actual list rank
+            int rank = position + 1;
             binding.tvMemberRank.setText("#" + rank + (rank == 1 ? " Top" : ""));
             binding.tvMemberRank.setTextColor(rank == 1 ? Color.parseColor("#FF8A00")
                     : Color.parseColor("#94A3B8"));
@@ -218,7 +218,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             String savedImage = session.getProfileImage(normalizedPhone);
             
             // Remove delete bin icon as requested
-            binding.btnRemoveMember.setVisibility(View.VISIBLE);
+            // btnRemoveMember view removed from layout
 
             if (savedImage != null && !savedImage.isEmpty()) {
                 binding.tvInitials.setVisibility(View.GONE);
@@ -237,7 +237,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (listener != null) {
                 itemView.setOnClickListener(v -> listener.onMemberClick(member));
 
-                binding.btnRemoveMember.setOnClickListener(v -> listener.onDeleteClick(member, position));
+                // binding.btnRemoveMember.setOnClickListener(v -> listener.onDeleteClick(member, position)); // removed bin icon
                 binding.btnPromoteDemote.setOnClickListener(v -> listener.onPromoteDemoteClick(member, position));
             }
         }

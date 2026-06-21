@@ -75,7 +75,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="14,250,000"
+                                android:text=""
                                 android:textColor="@color/permanent_white"
                                 android:textSize="36sp"
                                 android:lineHeight="40sp" />
@@ -116,7 +116,7 @@
                                     android:paddingHorizontal="16dp"
                                     android:paddingVertical="8dp"
                                     android:fontFamily="@font/manrope_bold"
-                                    android:text="92"
+                                    android:text=""
                                     android:textColor="@color/permanent_white"
                                     android:textSize="26sp" />
                             </com.google.android.material.card.MaterialCardView>
@@ -146,10 +146,11 @@
                                     android:alpha="0.8" />
 
                                 <TextView
+                                    android:id="@+id/tvReliabilityLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
-                                    android:text="Very High"
+                                    android:text="--"
                                     android:textColor="@color/permanent_white"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -158,7 +159,7 @@
                                 android:id="@+id/pulseProgressBar"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:progress="88"
+                                android:progress="0"
                                 app:indicatorColor="@color/v_pink_progress_start"
                                 app:trackColor="#33FFFFFF"
                                 app:trackCornerRadius="99dp"
@@ -234,30 +235,33 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tvAlertName"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/manrope_bold"
-                                    android:text="Arthur Museveni"
+                                    android:text="--"
                                     android:textColor="@color/v_text_dark"
                                     android:textSize="15sp" />
 
                                 <TextView
+                                    android:id="@+id/tvAlertDescription"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="3dp"
                                     android:fontFamily="@font/manrope_medium"
-                                    android:text="Missed 2 of last 3 contributions"
+                                    android:text="--"
                                     android:textColor="@color/v_text_muted"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tvAlertPercentage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="64%"
+                                android:text="--"
                                 android:textColor="@color/v_red_alert"
                                 android:textSize="18sp" />
                         </RelativeLayout>

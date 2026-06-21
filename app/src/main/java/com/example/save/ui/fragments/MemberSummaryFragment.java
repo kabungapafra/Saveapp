@@ -72,34 +72,58 @@ public class MemberSummaryFragment extends Fragment {
         binding.alertCard.animate().alpha(1f).translationY(0f).setDuration(300).setStartDelay(150).start();
         binding.consistencySection.animate().alpha(1f).translationY(0f).setDuration(300).setStartDelay(200).start();
 
-        // [G.2] Hero Counter: 14,250,000
-        ValueAnimator savingsAnimator = ValueAnimator.ofInt(0, 14250000);
-        savingsAnimator.setDuration(1400);
-        savingsAnimator.setInterpolator(new DecelerateInterpolator());
-        DecimalFormat df = new DecimalFormat("#,###,###");
-        savingsAnimator.addUpdateListener(animation -> {
-            binding.tvTotalSavings.setText(df.format(animation.getAnimatedValue()));
-        });
-        savingsAnimator.start();
+        // Get view model
+        com.example.save.ui.viewmodels.MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(requireActivity()).get(com.example.save.ui.viewmodels.MembersViewModel.class);
+        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext().getApplicationContext());
+        String phone = session.getUserPhone();
 
-        // [G.5] Score Badge: 92
-        ValueAnimator scoreAnimator = ValueAnimator.ofInt(0, 92);
-        scoreAnimator.setDuration(800);
-        scoreAnimator.addUpdateListener(animation -> {
-            binding.tvScore.setText(animation.getAnimatedValue().toString());
+        // [G.2] Hero Counter
+        viewModel.getDashboardSummary((success, summaryObj, message) -> {
+            if (success && isAdded() && summaryObj instanceof com.example.save.data.models.DashboardSummaryResponse) {
+                com.example.save.data.models.DashboardSummaryResponse summary = (com.example.save.data.models.DashboardSummaryResponse) summaryObj;
+                requireActivity().runOnUiThread(() -> {
+                    double balance = summary.getTotalBalance();
+                    ValueAnimator savingsAnimator = ValueAnimator.ofInt(0, (int) balance);
+                    savingsAnimator.setDuration(1400);
+                    savingsAnimator.setInterpolator(new DecelerateInterpolator());
+                    DecimalFormat df = new DecimalFormat("#,###,###");
+                    savingsAnimator.addUpdateListener(animation -> {
+                        binding.tvTotalSavings.setText(df.format(animation.getAnimatedValue()));
+                    });
+                    savingsAnimator.start();
+                });
+            }
         });
-        scoreAnimator.start();
 
-        // [G.3] Reliability Pulse Bar: 88%
-        binding.pulseProgressBar.setProgress(0);
-        ValueAnimator progressAnimator = ValueAnimator.ofInt(0, 88);
-        progressAnimator.setDuration(1000);
-        progressAnimator.setStartDelay(200);
-        progressAnimator.setInterpolator(new DecelerateInterpolator());
-        progressAnimator.addUpdateListener(animation -> {
-            binding.pulseProgressBar.setProgress((int) animation.getAnimatedValue());
-        });
-        progressAnimator.start();
+        // Current Member Stats (Score, Pulse)
+        if (phone != null && !phone.isEmpty()) {
+            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
+                if (member != null) {
+                    int score = member.getCreditScore();
+                    // Animate Score
+                    ValueAnimator scoreAnimator = ValueAnimator.ofInt(0, score);
+                    scoreAnimator.setDuration(800);
+                    scoreAnimator.addUpdateListener(animation -> {
+                        binding.tvScore.setText(animation.getAnimatedValue().toString());
+                    });
+                    scoreAnimator.start();
+
+                    // Calculate Pulse percentage (300 to 850 range)
+                    int pulseProgress = (int) (((Math.max(300, score) - 300) / 550.0) * 100);
+                    binding.pulseProgressBar.setProgress(0);
+                    ValueAnimator progressAnimator = ValueAnimator.ofInt(0, pulseProgress);
+                    progressAnimator.setDuration(1000);
+                    progressAnimator.setStartDelay(200);
+                    progressAnimator.setInterpolator(new DecelerateInterpolator());
+                    progressAnimator.addUpdateListener(animation -> {
+                        binding.pulseProgressBar.setProgress((int) animation.getAnimatedValue());
+                    });
+                    progressAnimator.start();
+
+                    binding.tvReliabilityLabel.setText(member.getReliabilityLabel());
+                }
+            });
+        }
 
         // [G.6] Alert Card Pulse Border
         ObjectAnimator pulseAnimator = ObjectAnimator.ofArgb(binding.alertCard, "strokeColor", 
@@ -109,6 +133,52 @@ public class MemberSummaryFragment extends Fragment {
         pulseAnimator.setRepeatMode(ValueAnimator.REVERSE);
         pulseAnimator.setRepeatCount(ValueAnimator.INFINITE);
         pulseAnimator.start();
+
+        // Populate Alert and Consistency
+        viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
+            if (members != null && !members.isEmpty()) {
+                List<com.example.save.data.models.Member> sortedMembers = new ArrayList<>(members);
+                java.util.Collections.sort(sortedMembers, (m1, m2) -> Integer.compare(m2.getCreditScore(), m1.getCreditScore()));
+
+                // Priority Risk Alert - find lowest score
+                com.example.save.data.models.Member highestRisk = sortedMembers.get(sortedMembers.size() - 1);
+                if (highestRisk.getCreditScore() < 600) {
+                    binding.riskSection.setVisibility(View.VISIBLE);
+                    binding.alertCard.setVisibility(View.VISIBLE);
+                    binding.tvAlertName.setText(highestRisk.getName());
+                    binding.tvAlertDescription.setText("Credit score dropped to " + highestRisk.getCreditScore());
+                    
+                    int missedRiskPct = 100 - (int) (((Math.max(300, highestRisk.getCreditScore()) - 300) / 550.0) * 100);
+                    binding.tvAlertPercentage.setText(missedRiskPct + "%");
+                } else {
+                    binding.riskSection.setVisibility(View.GONE);
+                    binding.alertCard.setVisibility(View.GONE);
+                }
+
+                // Populate Consistency List
+                List<MemberConsistency> consistencyData = new ArrayList<>();
+                for (int i = 0; i < sortedMembers.size(); i++) {
+                    com.example.save.data.models.Member m = sortedMembers.get(i);
+                    int[] segments = new int[6];
+                    int score = m.getCreditScore();
+                    
+                    // Simulate history based on credit score
+                    if (score >= 750) {
+                        segments = new int[]{0, 0, 0, 0, 0, 0};
+                    } else if (score >= 650) {
+                        segments = new int[]{0, 0, 1, 0, 0, 0};
+                    } else if (score >= 550) {
+                        segments = new int[]{0, 1, 2, 0, 1, 0};
+                    } else {
+                        segments = new int[]{1, 2, 2, 1, 2, 1};
+                    }
+                    
+                    int pulseProgress = (int) (((Math.max(300, score) - 300) / 550.0) * 100);
+                    consistencyData.add(new MemberConsistency("#" + (i + 1), m.getName(), pulseProgress + "%", segments));
+                }
+                binding.rvConsistency.setAdapter(new ConsistencyAdapter(consistencyData));
+            }
+        });
     }
 
     private static class MemberConsistency {

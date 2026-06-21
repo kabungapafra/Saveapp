@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_bold"
-                android:text="Sunrise Cooperative"
+                android:text=""
                 android:textColor="@color/v_text_dark"
                 android:textSize="13sp" />
 
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_medium"
-                android:text="Oct 24 • REF# TXN1"
+                android:text=""
                 android:textColor="@color/v_text_muted"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -62,7 +62,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/manrope_bold"
             android:gravity="end"
-            android:text="+1,200,000"
+            android:text=""
             android:textColor="#10B981"
             android:textSize="13sp" />
     </LinearLayout>

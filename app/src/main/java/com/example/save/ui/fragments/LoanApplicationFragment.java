@@ -101,6 +101,7 @@ public class LoanApplicationFragment extends Fragment {
         });
         updateSummary();
         loadMembers();
+        populateApplicantProfile();
     }
 
     private void setupInitialState() {
@@ -174,20 +175,45 @@ public class LoanApplicationFragment extends Fragment {
 
     private void showAddGuarantorDialog() {
         if (availableMembers.isEmpty()) {
-            addGuarantorChip("AN", "Alex Nkutu", getNextColor());
+            Toast.makeText(getContext(), "No group members available to select as guarantors", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String[] memberNames = new String[availableMembers.size()];
-        for (int i = 0; i < availableMembers.size(); i++) {
-            memberNames[i] = availableMembers.get(i).getName();
-        }
-
-        // Navigate to AddGuarantorFragment instead of showing AlertDialog
+        // Navigate to AddGuarantorFragment
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new AddGuarantorFragment())
                 .addToBackStack(null)
                 .commit();
+    }
+
+    /** Populate the LOAN SUMMARY applicant profile banner with real member data. */
+    private void populateApplicantProfile() {
+        SessionManager session = SessionManager.getInstance(requireContext());
+        String userName = session.getUserName();
+        if (userName == null || userName.isEmpty()) return;
+
+        // Set name immediately from session
+        if (binding.tvApplicantName != null) {
+            binding.tvApplicantName.setText(userName);
+        }
+
+        // Observe member record for savings & credit score
+        viewModel.getMemberByNameLive(userName).observe(getViewLifecycleOwner(), member -> {
+            if (member == null || binding == null) return;
+
+            // Savings
+            if (binding.tvApplicantSavings != null) {
+                java.text.NumberFormat fmt = java.text.NumberFormat.getNumberInstance(Locale.US);
+                binding.tvApplicantSavings.setText("UGX " + fmt.format(member.getContributionPaid()));
+            }
+
+            // Credit score
+            if (binding.tvApplicantCredit != null) {
+                double score = member.getCreditScore();
+                String label = score >= 90 ? "SAFE" : score >= 75 ? "STABLE" : score >= 60 ? "MODERATE" : "AT RISK";
+                binding.tvApplicantCredit.setText(String.format(Locale.US, "%.0f (%s)", score, label));
+            }
+        });
     }
 
     private String getNextColor() {

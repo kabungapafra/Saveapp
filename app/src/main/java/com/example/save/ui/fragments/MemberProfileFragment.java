@@ -79,10 +79,30 @@ public class MemberProfileFragment extends Fragment {
 
     private void updateUI(Member member) {
         binding.tvMemberName.setText(member.getName());
-        binding.tvMemberRole.setText("Member since January 2024");
+        String joinedDate = member.getJoinedDate();
+        if (joinedDate != null && !joinedDate.isEmpty()) {
+            binding.tvMemberRole.setText("Joined " + formatJoinDate(joinedDate));
+        } else {
+            binding.tvMemberRole.setText("");
+        }
+        // Delete member button (text button)
+        binding.btnDeleteMember.setVisibility(View.VISIBLE);
+        binding.btnDeleteMember.setOnClickListener(v -> {
+            if (member != null) {
+                viewModel.removeMember(member, (success, message) -> {
+                    if (getActivity() == null) return;
+                    if (success) {
+                        Toast.makeText(requireContext(), "Member removed successfully", Toast.LENGTH_SHORT).show();
+                        requireActivity().onBackPressed();
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to remove member: " + message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
 
-        // Hide delete button as per user request
-        binding.btnDeleteMember.setVisibility(View.GONE);
+
+
 
         // Promote button logic (makes member an Administrator)
         binding.btnPromoteMember.setOnClickListener(v -> {
@@ -173,8 +193,34 @@ public class MemberProfileFragment extends Fragment {
         // Active Loans
         int loans = member.getShortfallAmount() > 0 ? 1 : 0;
         binding.tvStreak.setText(String.valueOf(loans)); // Note: ID is tvStreak mapped to Active Loans count in design
+        
+        if (member.getShortfallAmount() > 0) {
+            binding.cvActiveLoanDetails.setVisibility(View.VISIBLE);
+            binding.tvCreditScore.setText(String.format(Locale.getDefault(), "UGX %,.0f", member.getShortfallAmount()));
+            binding.tvReliability.setText("5% APR");
+            binding.tvLoanPaid.setText("Paid: UGX 0");
+            binding.tvLoanRemaining.setText(String.format(Locale.getDefault(), "Remaining: UGX %,.0f", member.getShortfallAmount()));
+            binding.loanProgressBar.setProgress(0);
+        } else {
+            binding.cvActiveLoanDetails.setVisibility(View.GONE);
+        }
     }
 
+
+    private String formatJoinDate(String iso) {
+        String[] formats = {
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS",
+            "yyyy-MM-dd'T'HH:mm:ss",
+            "yyyy-MM-dd"
+        };
+        for (String fmt : formats) {
+            try {
+                java.util.Date d = new java.text.SimpleDateFormat(fmt, java.util.Locale.getDefault()).parse(iso);
+                if (d != null) return new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault()).format(d);
+            } catch (java.text.ParseException ignored) {}
+        }
+        return iso;
+    }
 
     private void loadTransactions(String memberName) {
         viewModel.getLatestMemberTransactions(memberName).observe(getViewLifecycleOwner(), entities -> {

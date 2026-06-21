@@ -104,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="450,000"
+                        android:text=""
                         android:textColor="@color/v_text_dark"
                         android:textSize="36sp" />
 
@@ -125,7 +125,7 @@
                         android:fontFamily="@font/manrope_bold"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
-                        android:text="75% Repaid"
+                        android:text=""
                         android:textColor="#92400E"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -161,7 +161,7 @@
                     android:fontFamily="@font/manrope_bold"
                     android:hint="0"
                     android:inputType="numberDecimal"
-                    android:text="150,000"
+                    android:text=""
                     android:textColor="@color/v_text_dark"
                     android:textSize="28sp"
                     app:layout_constraintEnd_toStartOf="@id/currencyGroup"
@@ -302,7 +302,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/manrope_medium"
-                        android:text="0755 • • • 432"
+                        android:text=""
                         android:textColor="@color/v_text_mid"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -371,7 +371,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/manrope_medium"
-                        android:text="0772 • • • 891"
+                        android:text=""
                         android:textColor="@color/v_text_mid"
                         android:textSize="13sp" />
                 </LinearLayout>

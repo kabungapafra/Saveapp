@@ -21,6 +21,7 @@ public class MemberEntity {
     private double autoPayAmount;
     private int autoPayDay;
     private int creditScore;
+    @com.google.gson.annotations.SerializedName("created_at")
     private String joinedDate;
     private double loanBalance;
     private boolean isActive;

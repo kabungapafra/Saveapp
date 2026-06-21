@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope"
-                    android:text="UGX 12,500.00"
+                    android:text=""
                     android:textColor="@color/dashboard_text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="Due: Oct 24, 2023"
+                    android:text=""
                     android:textColor="@color/dashboard_text_secondary"
                     android:textSize="11sp" />
             </RelativeLayout>
@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="4dp"
-                android:text="Overdue: 4 days"
+                android:text=""
                 android:textColor="#E11D48"
                 android:textSize="11sp"
                 android:textStyle="bold"

@@ -155,7 +155,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:text="#TK-94021"
+                                android:text=""
                                 android:textColor="@color/brand_blue"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />

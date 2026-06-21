@@ -173,7 +173,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="UGX 35,000"
+                                android:text=""
                                 android:textColor="#2563EB"
                                 android:textSize="19sp"
                                 android:textStyle="bold" />
@@ -197,11 +197,12 @@
                                 android:textColor="@color/v_text_mid"
                                 android:textSize="15sp" />
                             <TextView
+                                android:id="@+id/tvConfirmInterestRate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="12% p.a."
+                                android:text=""
                                 android:textColor="@color/v_text_dark"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />

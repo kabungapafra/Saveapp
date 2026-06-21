@@ -100,7 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="1,250,000"
+                            android:text=""
                             android:textColor="@color/brand_blue"
                             android:textSize="32sp" />
 
@@ -136,7 +136,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="Goal Reached: 100%"
+                            android:text="Goal Reached"
                             android:textColor="#92400E"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -212,7 +212,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope"
-                            android:text="+256 772 · · · 890"
+                            android:text=""
                             android:textColor="@color/v_text_mid"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -272,7 +272,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="1,250,000 UGX"
+                            android:text=""
                             android:textColor="@color/v_text_dark"
                             android:textSize="13sp" />
                     </RelativeLayout>
@@ -295,7 +295,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="- 6,250 UGX"
+                            android:text=""
                             android:textColor="@color/v_text_dark"
                             android:textSize="13sp" />
                     </RelativeLayout>
@@ -325,7 +325,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="1,243,750 UGX"
+                            android:text=""
                             android:textColor="@color/brand_blue"
                             android:textSize="16sp" />
                     </RelativeLayout>

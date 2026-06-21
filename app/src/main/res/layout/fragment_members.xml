@@ -298,17 +298,19 @@
             </LinearLayout>
 
             <!-- Members List -->
+
+            <!-- View More Link -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/membersRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_member_admin" />
 
-            <!-- View More Link -->
             <LinearLayout
                 android:id="@+id/viewMoreLayout"
                 android:layout_width="wrap_content"
@@ -346,17 +348,67 @@
                 android:textColor="@color/v_text_dark"
                 android:textSize="@dimen/text_size_normal" />
 
+            <!-- Column Headers -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.4"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="MEMBER"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:text="CONTRIBUTED"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:text="RELIABILITY"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="end"
+                    android:text="JOINED"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
             <!-- Insights RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTechnicalInsights"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="20dp"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="2"
+                tools:itemCount="3"
                 tools:listitem="@layout/item_technical_insight" />
 
         </LinearLayout>

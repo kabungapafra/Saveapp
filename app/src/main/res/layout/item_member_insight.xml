@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.2"
         android:fontFamily="@font/manrope_bold"
-        android:text="Julia Vance"
+        android:text=""
         android:textColor="@color/v_text_dark"
         android:textSize="13sp" />
 
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope_bold"
-            android:text="98.4"
+            android:text=""
             android:textColor="#10B981"
             android:textSize="12sp" />
     </LinearLayout>
@@ -56,7 +56,7 @@
             android:fontFamily="@font/manrope_bold"
             android:paddingHorizontal="10dp"
             android:paddingVertical="2dp"
-            android:text="VIP"
+            android:text=""
             android:textColor="@color/brand_blue"
             android:textSize="10sp" />
     </FrameLayout>
@@ -68,7 +68,7 @@
         android:layout_weight="1"
         android:fontFamily="@font/manrope_medium"
         android:gravity="end"
-        android:text="Oct 12"
+        android:text=""
         android:textColor="@color/v_text_mid"
         android:textSize="12sp" />
 

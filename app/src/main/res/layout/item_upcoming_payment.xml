@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="UGX 50,000"
+            android:text=""
             android:textColor="#546E7A"
             android:textSize="12sp" />
     </LinearLayout>
@@ -71,7 +71,7 @@
         android:paddingTop="6dp"
         android:paddingEnd="10dp"
         android:paddingBottom="6dp"
-        android:text="2 Days"
+        android:text=""
         android:textColor="@color/deep_blue"
         android:textSize="10sp"
         app:drawableStartCompat="@drawable/ic_schedule"

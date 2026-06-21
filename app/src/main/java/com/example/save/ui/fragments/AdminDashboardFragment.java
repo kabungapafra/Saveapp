@@ -248,8 +248,10 @@ public class AdminDashboardFragment extends Fragment {
                         updateBalanceDisplay();
 
                         NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
-                        binding.monthlyContrib.setText(ugFormat.format(summary.getMonthlyContributions()).replace("UGX", "UGX "));
-                        binding.interestEarned.setText(ugFormat.format(summary.getInterestEarned()).replace("UGX", "UGX "));
+                        // Monthly contribution = configured per-member amount for this cycle
+                        binding.monthlyContrib.setText(ugFormat.format(summary.getContributionAmount()).replace("UGX", "UGX "));
+                        // Paid so far = admin's own contribution_paid for this cycle
+                        binding.interestEarned.setText(ugFormat.format(summary.getPersonalSavings()).replace("UGX", "UGX "));
 
                         // Calculate projected collections
                         double projectedMonthly = summary.getMonthlyContributions() * 1.05; // 5% growth assumption

@@ -39,7 +39,7 @@
             android:id="@+id/activityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Payment Received"
+            android:text=""
             android:textColor="#263238"
             android:textSize="15sp"
             android:fontFamily="sans-serif-medium" />
@@ -48,7 +48,7 @@
             android:id="@+id/activityDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 mins ago"
+            android:text=""
             android:textColor="#90A4AE"
             android:textSize="12sp"
             android:layout_marginTop="2dp" />
@@ -59,7 +59,7 @@
         android:id="@+id/activityAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+ UGX 50,000"
+        android:text=""
         android:textColor="#4CAF50"
         android:textSize="15sp"
         android:fontFamily="sans-serif-bold" />

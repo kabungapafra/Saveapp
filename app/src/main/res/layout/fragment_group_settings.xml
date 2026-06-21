@@ -51,7 +51,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/manrope_medium"
-            android:text="Created October 2023  |  12 Members"
+            android:text=""
             android:textColor="@color/v_text_mid"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +101,7 @@
                 <LinearLayout android:id="@+id/rowContribution" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_wallet_safe_blue" app:tint="@color/brand_blue" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Contribution Amount" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                    <TextView android:id="@+id/valContribution" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="UGX 500" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <TextView android:id="@+id/valContribution" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="" android:textColor="@color/brand_blue" android:textSize="14sp" />
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
@@ -109,7 +109,7 @@
                 <LinearLayout android:id="@+id/rowFrequency" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_calendar_month" app:tint="@color/brand_blue" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Frequency" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                    <TextView android:id="@+id/valFrequency" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="Monthly" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <TextView android:id="@+id/valFrequency" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="" android:textColor="@color/brand_blue" android:textSize="14sp" />
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
@@ -117,7 +117,7 @@
                 <LinearLayout android:id="@+id/rowPayoutAmount" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_money" app:tint="@color/brand_blue" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Payout Amount" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                    <TextView android:id="@+id/valPayoutAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="UGX 50,000" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <TextView android:id="@+id/valPayoutAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="" android:textColor="@color/brand_blue" android:textSize="14sp" />
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
@@ -125,7 +125,7 @@
                 <LinearLayout android:id="@+id/rowRecipients" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_people" app:tint="@color/brand_blue" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Recipients" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                    <TextView android:id="@+id/valRecipients" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="1 Member" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <TextView android:id="@+id/valRecipients" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="" android:textColor="@color/brand_blue" android:textSize="14sp" />
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
@@ -133,7 +133,7 @@
                 <LinearLayout android:id="@+id/rowLateFee" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_clock_orange" app:tint="@color/brand_blue" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Late Fee" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                    <TextView android:id="@+id/valLateFee" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="UGX 25" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <TextView android:id="@+id/valLateFee" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="" android:textColor="@color/brand_blue" android:textSize="14sp" />
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
@@ -141,7 +141,7 @@
                 <LinearLayout android:id="@+id/rowLoanInterest" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_trending_up" app:tint="@color/brand_blue" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Loan Interest" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                    <TextView android:id="@+id/valLoanInterest" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="5%" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <TextView android:id="@+id/valLoanInterest" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="" android:textColor="@color/brand_blue" android:textSize="14sp" />
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
@@ -149,7 +149,7 @@
                 <LinearLayout android:id="@+id/rowLoanLateFee" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_warning" app:tint="@color/brand_blue" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Loan Late Fee" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                    <TextView android:id="@+id/valLoanLateFee" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="UGX 50" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <TextView android:id="@+id/valLoanLateFee" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="" android:textColor="@color/brand_blue" android:textSize="14sp" />
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
@@ -157,7 +157,7 @@
                 <LinearLayout android:id="@+id/rowStartDate" android:layout_width="match_parent" android:layout_height="64dp" android:background="?attr/selectableItemBackground" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_calendar_month" app:tint="@color/brand_blue" />
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:fontFamily="@font/manrope_medium" android:text="Start Date" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                    <TextView android:id="@+id/valStartDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="Oct 1, 2023" android:textColor="@color/brand_blue" android:textSize="14sp" />
+                    <TextView android:id="@+id/valStartDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold" android:text="" android:textColor="@color/brand_blue" android:textSize="14sp" />
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginStart="8dp" android:src="@drawable/ic_chevron_right" app:tint="@color/v_text_muted" />
                 </LinearLayout>
 
@@ -166,7 +166,7 @@
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_automatic_payouts" app:tint="@color/brand_blue" />
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_medium" android:text="Automatic Payouts" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                        <TextView android:id="@+id/tvNextAutomaticPayoutDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Next Payout: Oct 28, 2023" android:textColor="@color/brand_blue" android:textSize="12sp" />
+                        <TextView android:id="@+id/tvNextAutomaticPayoutDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/brand_blue" android:textSize="12sp" />
                     </LinearLayout>
                     <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchAutomaticPayouts" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" app:thumbTint="@color/white" app:trackTint="@color/brand_blue" />
                 </LinearLayout>
@@ -176,7 +176,7 @@
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_calendar" app:tint="@color/brand_blue" />
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/manrope_medium" android:text="Scheduled Contributions" android:textColor="@color/v_text_dark" android:textSize="15sp" />
-                        <TextView android:id="@+id/tvNextContributionDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Next: Oct 24, 2023" android:textColor="@color/brand_blue" android:textSize="12sp" />
+                        <TextView android:id="@+id/tvNextContributionDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/brand_blue" android:textSize="12sp" />
                     </LinearLayout>
                     <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchScheduledContributions" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" app:thumbTint="@color/white" app:trackTint="@color/brand_blue" />
                 </LinearLayout>

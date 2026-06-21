@@ -179,12 +179,12 @@
     <string name="_0_500">0 / 500</string>
 
     <!-- Voting and Polls -->
-    <string name="jordan_trustee">Jordan Davis - Trustee</string>
-    <string name="alex_m_votes">Alex Martinez - 42 Votes</string>
-    <string name="jordy_dev">\@jordy_dev</string>
-    <string name="alex_m">\@alex_m</string>
-    <string name="schen_88">\@schen_88</string>
-    <string name="mking_official">\@mking_official</string>
+    <string name="jordan_trustee"></string>
+    <string name="alex_m_votes"></string>
+    <string name="jordy_dev"></string>
+    <string name="alex_m"></string>
+    <string name="schen_88"></string>
+    <string name="mking_official"></string>
     <string name="new_member">NEW MEMBER</string>
     <string name="financial_reports">Financial Reports</string>
     <string name="monthly">Monthly</string>

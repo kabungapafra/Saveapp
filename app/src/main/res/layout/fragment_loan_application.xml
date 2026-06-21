@@ -120,7 +120,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:inputType="number"
-                        android:text="1000000"
+                        android:text=""
                         android:textColor="@color/v_text_dark"
                         android:textSize="28sp"
                         android:textStyle="bold"
@@ -305,93 +305,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical">
-
-                        <!-- CHIP 1 — Jane Doe -->
-                        <LinearLayout
-                            android:id="@+id/chipJaneDoe"
-                            android:layout_width="wrap_content"
-                            android:layout_height="38dp"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:background="@drawable/bg_guarantor_chip"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:layout_marginEnd="10dp">
-
-                            <TextView
-                                android:layout_width="26dp"
-                                android:layout_height="26dp"
-                                android:background="@drawable/bg_avatar_blue"
-                                android:gravity="center"
-                                android:text="JD"
-                                android:textColor="#FFFFFF"
-                                android:textSize="10sp"
-                                android:textStyle="bold"
-                                android:layout_marginEnd="8dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Jane Doe"
-                                android:textColor="@color/v_text_dark"
-                                android:textSize="13sp" />
-
-                            <TextView
-                                android:id="@+id/removeChipJane"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="  ×"
-                                android:textColor="@color/v_text_muted"
-                                android:textSize="16sp"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:padding="4dp" />
-                        </LinearLayout>
-
-                        <!-- CHIP 2 — Mike Kalema -->
-                        <LinearLayout
-                            android:id="@+id/chipMikeKalema"
-                            android:layout_width="wrap_content"
-                            android:layout_height="38dp"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:background="@drawable/bg_guarantor_chip"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:layout_marginEnd="10dp">
-
-                            <TextView
-                                android:layout_width="26dp"
-                                android:layout_height="26dp"
-                                android:background="@drawable/bg_avatar_purple"
-                                android:gravity="center"
-                                android:text="MK"
-                                android:textColor="#FFFFFF"
-                                android:textSize="10sp"
-                                android:textStyle="bold"
-                                android:layout_marginEnd="8dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Mike Kalema"
-                                android:textColor="@color/v_text_dark"
-                                android:textSize="13sp" />
-
-                            <TextView
-                                android:id="@+id/removeChipMike"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="  ×"
-                                android:textColor="@color/v_text_muted"
-                                android:textSize="16sp"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:padding="4dp" />
-                        </LinearLayout>
-
+                        <!-- Guarantor chips added dynamically at runtime -->
                     </LinearLayout>
                 </HorizontalScrollView>
 
@@ -434,7 +348,98 @@
                     android:textSize="10sp"
                     android:textStyle="bold"
                     android:letterSpacing="0.14"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="8dp" />
+
+                <!-- ── APPLICANT PROFILE ROW ── -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#28FFFFFF"
+                    android:padding="12dp"
+                    android:layout_marginBottom="16dp">
+
+                    <!-- Applicant name & label -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="APPLICANT"
+                            android:textColor="#99FFFFFF"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:id="@+id/tvApplicantName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:text="—" />
+                    </LinearLayout>
+
+                    <!-- Savings -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SAVINGS"
+                            android:textColor="#99FFFFFF"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:id="@+id/tvApplicantSavings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:text="UGX 0" />
+                    </LinearLayout>
+
+                    <!-- Credit Score -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CREDIT"
+                            android:textColor="#99FFFFFF"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:id="@+id/tvApplicantCredit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:text="—" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <!-- Interest Rate row -->
                 <LinearLayout
@@ -447,7 +452,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Interest Rate (15%)"
+                        android:text="Interest Rate"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp" />
 
@@ -480,7 +485,7 @@
                         android:id="@+id/tvSummaryFee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="UGX 25,000"
+                        android:text=""
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         android:textStyle="bold" />

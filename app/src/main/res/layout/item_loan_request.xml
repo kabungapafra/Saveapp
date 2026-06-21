@@ -26,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Alice Johnson"
+                android:text=""
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -68,7 +68,7 @@
                     android:id="@+id/tvAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="UGX 200,000"
+                    android:text=""
                     android:textColor="@color/deep_blue"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -91,7 +91,7 @@
                     android:id="@+id/tvDuration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6 months"
+                    android:text=""
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -114,7 +114,7 @@
                     android:id="@+id/tvRepayment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="UGX 210,000"
+                    android:text=""
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -127,18 +127,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Guarantor: Bob Smith"
+            android:text=""
             android:textColor="@color/text_secondary"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvReason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Reason: Medical emergency"
+            android:text=""
             android:textColor="@color/text_secondary"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone" />
             
         <!-- Alias for compatibility with existing LoansAdapter -->
         <TextView
@@ -152,7 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Requested: Jan 12, 2026"
+            android:text=""
             android:textColor="#CCCCCC"
             android:textSize="12sp" />
 

@@ -103,7 +103,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
-                                    android:text="UGX 5,000,000"
+                                    android:text="—"
                                     android:textColor="@color/brand_blue"
                                     android:textSize="13sp"
                                     android:textStyle="bold" />
@@ -127,7 +127,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
-                                    android:text="10.0%"
+                                    android:text="—"
                                     android:textColor="@color/dashboard_text_primary"
                                     android:textSize="13sp"
                                     android:textStyle="bold" />
@@ -151,7 +151,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
-                                    android:text="3 Months"
+                                    android:text="—"
                                     android:textColor="@color/dashboard_text_primary"
                                     android:textSize="13sp"
                                     android:textStyle="bold" />
@@ -198,7 +198,7 @@
                                 android:layout_below="@id/tvActiveLoansLabel"
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/manrope"
-                                android:text="UGX 45,000"
+                                android:text="UGX 0"
                                 android:textColor="@color/action_card_text"
                                 android:textSize="@dimen/text_size_xxxl"
                                 android:textStyle="bold" />
@@ -259,7 +259,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="6dp"
-                                    android:text="12"
+                                    android:text="0"
                                     android:textColor="@color/dashboard_text_primary"
                                     android:textSize="@dimen/text_size_large"
                                     android:textStyle="bold" />
@@ -295,7 +295,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="6dp"
-                                    android:text="UGX 128.4k"
+                                    android:text="UGX 0"
                                     android:textColor="@color/dashboard_text_primary"
                                     android:textSize="@dimen/text_size_large"
                                     android:textStyle="bold" />
@@ -349,7 +349,7 @@
                         tools:listitem="@layout/item_approval_loan" />
 
                     <TextView
-                        android:id="@+id/tv_no_approvals"
+                        android:id="@+id/tvNoApprovals"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -573,7 +573,7 @@
                 </HorizontalScrollView>
 
                 <TextView
-                    android:id="@+id/tv_empty_state"
+                    android:id="@+id/tvEmptyState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"

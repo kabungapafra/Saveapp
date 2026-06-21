@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:text="Your loan request for UGX 35,000.00 has been sent to the group admins for review. You'll be notified once it's processed."
+                android:text=""
                 android:textColor="@color/v_text_mid"
                 android:textSize="14sp" />
 
@@ -239,7 +239,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:fontFamily="sans-serif-bold"
-                            android:text="UGX 35,000.00"
+                            android:text=""
                             android:textColor="@color/brand_blue"
                             android:textSize="14sp" />
                     </RelativeLayout>
@@ -295,7 +295,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="sans-serif-medium"
                     android:letterSpacing="0.05"
-                    android:text="TRANSACTION ID: SAVE-REQ-2024-X"
+                    android:text=""
                     android:textColor="#94A3B8"
                     android:textSize="11sp" />
             </LinearLayout>

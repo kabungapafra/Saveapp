@@ -22,8 +22,9 @@ public class Member {
     private String nextPayoutDate;
     private String nextPaymentDueDate;
     private int creditScore;
+    @com.google.gson.annotations.SerializedName("created_at")
     private String joinedDate;
-    
+
     @com.google.gson.annotations.SerializedName("reliability_label")
     private String reliabilityLabel;
     
@@ -128,6 +129,8 @@ public class Member {
 
     // Payment / Contribution Fields for Installments
     private double contributionTarget;
+
+    @com.google.gson.annotations.SerializedName("contribution_paid")
     private double contributionPaid;
 
     public double getContributionTarget() {

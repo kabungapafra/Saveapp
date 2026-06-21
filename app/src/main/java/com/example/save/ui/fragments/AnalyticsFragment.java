@@ -191,7 +191,7 @@ public class AnalyticsFragment extends Fragment {
                 for (Loan l : loans) {
                     totalInterest += l.getInterest();
                 }
-                binding.tvInterestEarned.setText(formatCurrencyCompact(totalInterest > 0 ? totalInterest : 6800000.0));
+                binding.tvInterestEarned.setText(formatCurrencyCompact(totalInterest > 0 ? totalInterest : 0.0));
                 updateHealthIndex(null, loans);
             }
         });
@@ -207,19 +207,19 @@ public class AnalyticsFragment extends Fragment {
 
         // Forecast chart data
         membersViewModel.getSavingsTrend().observe(getViewLifecycleOwner(), entries -> {
-            updateForecastChart();
+            updateForecastChart(entries);
         });
 
-        // Fallback — draw chart with spec data immediately
-        updateForecastChart();
+        // Fallback — draw chart with spec data immediately (removed demo data)
+        updateForecastChart(new ArrayList<>());
     }
 
     private void updateHealthIndex(List<Member> members, List<Loan> loans) {
         if (binding == null) return;
 
-        int consistency = 68;
-        int riskMitigation = 82;
-        int reserveRatio = 91;
+        int consistency = 0;
+        int riskMitigation = 0;
+        int reserveRatio = 0;
 
         if (members != null && !members.isEmpty()) {
             double totalPaid = 0;
@@ -268,15 +268,18 @@ public class AnalyticsFragment extends Fragment {
         chart.setRenderer(new com.example.save.ui.views.RoundedBarChartRenderer(chart, chart.getAnimator(), chart.getViewPortHandler(), 20f));
     }
 
-    private void updateForecastChart() {
+    private void updateForecastChart(List<com.github.mikephil.charting.data.Entry> entries) {
         if (binding == null) return;
 
         List<BarEntry> barEntries = new ArrayList<>();
-        barEntries.add(new BarEntry(0, 45f));
-        barEntries.add(new BarEntry(1, 58f));
-        barEntries.add(new BarEntry(2, 72f));
-        barEntries.add(new BarEntry(3, 86f));
-        barEntries.add(new BarEntry(4, 100f));
+        if (entries != null && !entries.isEmpty()) {
+            for (com.github.mikephil.charting.data.Entry e : entries) {
+                barEntries.add(new BarEntry(e.getX(), e.getY()));
+            }
+        } else {
+            // Optional empty state placeholder
+            barEntries.add(new BarEntry(0, 0f));
+        }
 
         BarDataSet set = new BarDataSet(barEntries, "Forecast");
         int[] colors = new int[]{

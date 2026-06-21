@@ -203,7 +203,7 @@
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Active Loans" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
-                        <TextView android:id="@+id/viewAllLoans" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:background="@drawable/bg_status_pills" android:backgroundTint="#E9F2FB" android:paddingHorizontal="10dp" android:paddingVertical="4dp" android:text="24 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_xs" android:textStyle="bold"/>
+                        <TextView android:id="@+id/viewAllLoans" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:background="@drawable/bg_status_pills" android:backgroundTint="#E9F2FB" android:paddingHorizontal="10dp" android:paddingVertical="4dp" android:text="0 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_xs" android:textStyle="bold"/>
                     </RelativeLayout>
                     <LinearLayout
                         android:id="@+id/containerActiveLoans"
@@ -309,17 +309,17 @@
                         </RelativeLayout>
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp">
                             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="December Cycle" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
-                                <TextView android:id="@+id/tvContributionDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dec 05 &amp; Dec 19" android:textColor="@color/v_text_muted" android:textSize="@dimen/text_size_xs"/>
+                                <TextView android:id="@+id/tvCycle1Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cycle 1" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
+                                <TextView android:id="@+id/tvContributionDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/v_text_muted" android:textSize="@dimen/text_size_xs"/>
                             </LinearLayout>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:text="UGX 24,000 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
+                            <TextView android:id="@+id/tvCycle1Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:text="--" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
                         </RelativeLayout>
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
                             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="January Cycle" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
-                                <TextView android:id="@+id/tvPayoutDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Jan 02 &amp; Jan 16" android:textColor="@color/v_text_muted" android:textSize="@dimen/text_size_xs"/>
+                                <TextView android:id="@+id/tvCycle2Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cycle 2" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
+                                <TextView android:id="@+id/tvPayoutDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/v_text_muted" android:textSize="@dimen/text_size_xs"/>
                             </LinearLayout>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:text="UGX 24,000 Total" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
+                            <TextView android:id="@+id/tvCycle2Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:text="--" android:textColor="@color/dashboard_accent_blue" android:textSize="@dimen/text_size_small" android:textStyle="bold"/>
                         </RelativeLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

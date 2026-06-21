@@ -194,12 +194,12 @@ public class AdminLoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Disable button and show OTP sending status
+        // Disable button and show logging in status
         binding.loginButton.setEnabled(false);
-        binding.loginButtonText.setText("Sending OTP...");
+        binding.loginButtonText.setText("Logging in...");
 
-        // Initiate Firebase phone verification
-        startPhoneVerification(phone);
+        // Directly call backend login since PIN verification handles auth
+        performBackendLogin();
     }
 
     private void startPhoneVerification(String phone) {

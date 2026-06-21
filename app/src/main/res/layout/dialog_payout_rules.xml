@@ -80,7 +80,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="2000000"
+                android:text=""
                 android:gravity="center"/>
         </LinearLayout>
         

@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="UGX 500,000"
+                        android:text=""
                         android:textColor="@color/brand_blue"
                         android:textSize="28sp" />
 
@@ -152,7 +152,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/manrope"
-                            android:text="May 12, 2026"
+                            android:text=""
                             android:textColor="@color/v_text_dark"
                             android:textSize="15sp" />
 

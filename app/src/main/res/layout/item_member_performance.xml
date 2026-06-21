@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/manrope_bold"
                 android:gravity="center"
-                android:text="SC"
+                android:text=""
                 android:textColor="@color/v_text_mid"
                 android:textSize="12sp" />
         </FrameLayout>
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_bold"
-                android:text="Sunrise Cooperative"
+                android:text=""
                 android:textColor="@color/v_text_dark"
                 android:textSize="13sp" />
 
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_medium"
-                android:text="Top 1 Contributor"
+                android:text=""
                 android:textColor="@color/v_text_muted"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -74,7 +74,7 @@
                 android:fontFamily="@font/manrope_bold"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
-                android:text="99.2%"
+                android:text=""
                 android:textColor="#10B981"
                 android:textSize="10sp" />
 
@@ -83,7 +83,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:progress="99"
+                android:progress="0"
                 app:indicatorColor="#10B981"
                 app:trackColor="#D1FAE5"
                 app:trackCornerRadius="4dp"
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope_bold"
             android:gravity="end"
-            android:text="12.4"
+            android:text=""
             android:textColor="@color/v_text_dark"
             android:textSize="14sp" />
     </LinearLayout>

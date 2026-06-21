@@ -85,6 +85,8 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             LoanViewHolder loanHolder = (LoanViewHolder) holder;
             loanHolder.tvApplicantName.setText(item.getTitle());
             loanHolder.tvAmount.setText("UGX " + String.format(Locale.US, "%,.0f", item.getAmount()));
+            loanHolder.tvScore.setText("0");
+            loanHolder.tvTier.setText("Standard");
             
             if (item.hasApproved() || "COMPLETED".equals(item.getStatus())) {
                 loanHolder.btnApprove.setText("APPROVED");
@@ -127,13 +129,9 @@ public class ApprovalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             tvApplicantName = itemView.findViewById(R.id.tvApplicantName);
             tvAmount = itemView.findViewById(R.id.tvAmount);
-            // using tvScore / tvTier implicitly by grabbing the text views inside the layout (in production, assign explicit IDs)
-            // Edit: Let's assume we didn't add IDs for score and tier in item_approval_loan.xml
-            // Since we know they are purely dummy right now, we can skip updating them dynamically and just leave them as-is.
-            // But we can assign ids if we want.
+            tvScore = itemView.findViewById(R.id.tvScore);
+            tvTier = itemView.findViewById(R.id.tvTier);
             btnApprove = itemView.findViewById(R.id.btnApprove);
-            
-            // We just let the XML values stay for SCORE and TIER for now as it's static.
         }
     }
 

@@ -89,6 +89,9 @@ public class MemberRepository {
                         m.setReliabilityColor(entity.getReliabilityColor());
                         m.setEligible(entity.isEligible());
                         m.setStatus(entity.getStatus());
+                        m.setJoinedDate(entity.getJoinedDate());
+                        m.setHasReceivedPayout(entity.isHasReceivedPayout());
+                        m.setShortfallAmount(entity.getShortfallAmount());
 
                         models.add(m);
                     }

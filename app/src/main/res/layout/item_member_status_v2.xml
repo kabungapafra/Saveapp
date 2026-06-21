@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/manrope_medium"
-            android:text="UGX 200k"
+            android:text=""
             android:textColor="@color/h_slate_400"
             android:textSize="11sp" />
     </LinearLayout>

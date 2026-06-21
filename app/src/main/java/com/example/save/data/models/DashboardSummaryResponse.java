@@ -30,6 +30,9 @@ public class DashboardSummaryResponse {
     @SerializedName("interest_earned")
     private double interestEarned;
 
+    @SerializedName("contribution_amount")
+    private double contributionAmount;
+
     // Getters
     public int getTotalMembers() { return totalMembers; }
     public int getActiveMembers() { return activeMembers; }
@@ -40,4 +43,5 @@ public class DashboardSummaryResponse {
     public String getAdminName() { return adminName; }
     public double getMonthlyContributions() { return monthlyContributions; }
     public double getInterestEarned() { return interestEarned; }
+    public double getContributionAmount() { return contributionAmount; }
 }

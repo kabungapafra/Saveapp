@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.save.R;
+import com.example.save.data.models.Member;
 import com.example.save.data.models.Transaction;
 import com.example.save.databinding.FragmentDashboardBinding;
 import com.example.save.ui.activities.MemberMainActivity;
@@ -131,10 +132,27 @@ public class DashboardFragment extends Fragment {
                     String formatted = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG")).format(summary.getTotalBalance());
                     binding.tvBalanceAmount.setText(formatted.replace("UGX", "UGX "));
                     binding.tvCircleName.setText(summary.getGroupName());
-                    
-                    double mySavings = summary.getPersonalSavings();
-                    // We might need the target from the member record if it's not in the summary
-                    // For now, let's just show the savings amount if we can find a place for it
+                    binding.tvPooledFunds.setText(formatted.replace("UGX", "UGX "));
+
+                    android.content.SharedPreferences adminPrefs = requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
+                    String payoutAmtStr = adminPrefs.getString("rule_edit_payout_amount", "UGX 0").replaceAll("[^0-9]", "");
+                    double targetPayout = 0;
+                    try {
+                        targetPayout = Double.parseDouble(payoutAmtStr);
+                    } catch (NumberFormatException e) {
+                        targetPayout = 0;
+                    }
+
+                    int payoutPercent = targetPayout > 0 ? (int) Math.min((summary.getTotalBalance() / targetPayout) * 100, 100) : 0;
+                    binding.payoutProgress.setProgress(payoutPercent);
+                    binding.tvPayoutProgressPercent.setText(payoutPercent + "%");
+
+                    java.text.NumberFormat nf = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+                    String payoutFormatted = nf.format(targetPayout).replace("UGX", "UGX ");
+                    binding.tvPayoutAmount.setText(payoutFormatted);
+
+                    String nextPayoutDateStr = adminPrefs.getString("rule_next_payout_date", "TBD");
+                    binding.tvPayoutDate.setText(nextPayoutDateStr);
                 });
             }
         });
@@ -142,10 +160,20 @@ public class DashboardFragment extends Fragment {
         if (phone != null && !phone.isEmpty()) {
             viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
+                    binding.tvGreetingName.setText("Welcome back, " + member.getName());
+                    binding.tvMemberStatus.setText("Member since " + (member.getJoinedDate() != null ? member.getJoinedDate() : "Jan 2024") + " · ID " + member.getFormattedId());
+
                     double mySavings = member.getContributionPaid();
                     double target = member.getContributionTarget();
                     int progress = target > 0 ? (int) ((mySavings / target) * 100) : 0;
                     binding.goalProgress.setProgress(progress);
+                    binding.tvGoalProgressPercentTop.setText(progress + "%");
+                    binding.tvGoalProgressPercentCenter.setText(progress + "%");
+
+                    java.text.NumberFormat nf = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+                    String paidStr = nf.format(mySavings).replace("UGX", "UGX ");
+                    String targetStr = nf.format(target).replace("UGX", "UGX ");
+                    binding.tvGoalProgressTarget.setText(paidStr + " of " + targetStr);
                 }
             });
         }
@@ -154,11 +182,78 @@ public class DashboardFragment extends Fragment {
         loadRecentTransactions();
     }
 
+    private String calculatePayoutDate(int position, String basePayoutDate, android.content.Context context) {
+        if (basePayoutDate == null || basePayoutDate.isEmpty() || basePayoutDate.contains("Not")
+                || basePayoutDate.equals("TBD")) {
+            return "TBD";
+        }
+        
+        android.content.SharedPreferences prefs = context.getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
+        String frequency = prefs.getString("rule_frequency", "Monthly");
+        String recipientsStr = prefs.getString("rule_edit_recipients", "1 Member").replaceAll("[^0-9]", "");
+        int recipients = 1;
+        try {
+            recipients = Integer.parseInt(recipientsStr);
+            if (recipients < 1) recipients = 1;
+        } catch (NumberFormatException e) {
+            recipients = 1;
+        }
+
+        int cyclesToAdd = position / recipients;
+
+        if (cyclesToAdd == 0) return basePayoutDate;
+
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault());
+            java.util.Date date = sdf.parse(basePayoutDate);
+            if (date == null) return basePayoutDate;
+
+            java.util.Calendar cal = java.util.Calendar.getInstance();
+            cal.setTime(date);
+
+            for (int i = 0; i < cyclesToAdd; i++) {
+                switch (frequency) {
+                    case "Daily": cal.add(java.util.Calendar.DAY_OF_YEAR, 1); break;
+                    case "Weekly": cal.add(java.util.Calendar.WEEK_OF_YEAR, 1); break;
+                    case "Bi-weekly": cal.add(java.util.Calendar.WEEK_OF_YEAR, 2); break;
+                    case "Monthly": cal.add(java.util.Calendar.MONTH, 1); break;
+                    case "Every 2 Months": cal.add(java.util.Calendar.MONTH, 2); break;
+                    case "Every 3 Months": cal.add(java.util.Calendar.MONTH, 3); break;
+                    case "Every 4 Months": cal.add(java.util.Calendar.MONTH, 4); break;
+                    case "Every 5 Months": cal.add(java.util.Calendar.MONTH, 5); break;
+                    case "Every 6 Months": cal.add(java.util.Calendar.MONTH, 6); break;
+                }
+            }
+
+            return sdf.format(cal.getTime());
+        } catch (Exception e) {
+            return basePayoutDate;
+        }
+    }
+
+    private String calculateRemainingDays(String targetDateStr) {
+        if (targetDateStr == null || targetDateStr.equals("TBD") || targetDateStr.contains("Not")) {
+            return "-- Days";
+        }
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault());
+            java.util.Date targetDate = sdf.parse(targetDateStr);
+            if (targetDate != null) {
+                long diff = targetDate.getTime() - System.currentTimeMillis();
+                long days = (diff + (1000 * 60 * 60 * 24) - 1) / (1000 * 60 * 60 * 24);
+                if (days < 0) return "0 Days";
+                return days + " Days";
+            }
+        } catch (Exception e) {
+            // ignore
+        }
+        return "14 Days";
+    }
+
     private void updateExtraStats() {
         if (getContext() == null) return;
         
         int slots = requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE).getInt("slots_per_round", 5);
-        // Label removed in high-fidelity redesign as it's integrated into the Active Circle card
 
         android.content.SharedPreferences adminPrefs = requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
         String schedPayoutDate = adminPrefs.getString("rule_next_payout_date", "TBD");
@@ -178,17 +273,114 @@ public class DashboardFragment extends Fragment {
         });
 
         String phone = SessionManager.getInstance(requireContext()).getUserPhone();
-        if (phone != null && !phone.isEmpty()) {
-            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), currentMember -> {
-                // Update additional stats if components are added to UI
-            });
-        }
         
         viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
             if (members != null) {
                 memberAdapter.setMembers(members, phone);
+
+                // --- BIND QUEUE AND POSITION STATS DYNAMICALLY ---
+                List<Member> sortedMembers = new ArrayList<>(members);
+                // Sort by credit score descending
+                java.util.Collections.sort(sortedMembers, (m1, m2) -> Integer.compare(m2.getCreditScore(), m1.getCreditScore()));
+
+                int myIndex = -1;
+                for (int i = 0; i < sortedMembers.size(); i++) {
+                    if (sortedMembers.get(i).getPhone().equals(phone)) {
+                        myIndex = i;
+                        break;
+                    }
+                }
+                
+                if (myIndex != -1) {
+                    Member me = sortedMembers.get(myIndex);
+                    
+                    binding.tvUserPosition.setText("You are #" + (myIndex + 1) + " of " + sortedMembers.size());
+                    
+                    int roundsCompleted = 0;
+                    for (Member m : sortedMembers) {
+                        if (m.hasReceivedPayout()) {
+                            roundsCompleted++;
+                        }
+                    }
+                    int currentRound = Math.min(roundsCompleted + 1, sortedMembers.size());
+                    binding.tvRoundPosition.setText("Round " + currentRound + " of " + sortedMembers.size());
+                    
+                    String freq = adminPrefs.getString("rule_frequency", "Monthly");
+                    binding.tvCircleSubName.setText(sortedMembers.size() + " members · " + freq + " · " + sortedMembers.size() + " rounds");
+                    
+                    // Last Recipient
+                    Member lastRecipient = null;
+                    for (int i = sortedMembers.size() - 1; i >= 0; i--) {
+                        Member m = sortedMembers.get(i);
+                        if (m.hasReceivedPayout()) {
+                            lastRecipient = m;
+                            break;
+                        }
+                    }
+                    if (lastRecipient != null) {
+                        binding.tvLastRecipientName.setText(lastRecipient.getName());
+                        binding.tvLastRecipientDate.setText(lastRecipient.getPayoutDate() != null ? lastRecipient.getPayoutDate() : "Completed");
+                    } else {
+                        binding.tvLastRecipientName.setText("None");
+                        binding.tvLastRecipientDate.setText("No payouts yet");
+                    }
+                    
+                    // Next Recipient
+                    Member nextRecipient = null;
+                    for (Member m : sortedMembers) {
+                        if (!m.hasReceivedPayout()) {
+                            nextRecipient = m;
+                            break;
+                        }
+                    }
+                    if (nextRecipient != null) {
+                        String name = nextRecipient.getPhone().equals(phone) ? "You (" + nextRecipient.getName() + ")" : nextRecipient.getName();
+                        binding.tvNextRecipientName.setText(name);
+                        
+                        int nextRecipIdx = sortedMembers.indexOf(nextRecipient);
+                        String nextDate = calculatePayoutDate(nextRecipIdx, schedPayoutDate, requireContext());
+                        binding.tvNextRecipientDate.setText(nextDate);
+                    } else {
+                        binding.tvNextRecipientName.setText("None");
+                        binding.tvNextRecipientDate.setText("All paid");
+                    }
+                    
+                    // YOUR PAYOUT card
+                    binding.tvYourPayoutRecipientName.setText(me.getName());
+                    
+                    if (me.hasReceivedPayout()) {
+                        binding.tvYourPayoutRecipientDate.setText("Paid on: " + me.getPayoutDate());
+                        binding.tvYourPayoutAmount.setText("Paid");
+                    } else {
+                        String myDate = calculatePayoutDate(myIndex, schedPayoutDate, requireContext());
+                        binding.tvYourPayoutRecipientDate.setText("Receiving: " + myDate);
+                        
+                        String payoutAmtStr = adminPrefs.getString("rule_edit_payout_amount", "UGX 0");
+                        binding.tvYourPayoutAmount.setText(payoutAmtStr);
+                    }
+                    
+                    if (nextRecipient != null && nextRecipient.getPhone().equals(phone)) {
+                        binding.tvYourTurnBadge.setVisibility(View.VISIBLE);
+                        binding.tvYourTurnBadge.setText("Your turn next");
+                    } else if (me.hasReceivedPayout()) {
+                        binding.tvYourTurnBadge.setVisibility(View.VISIBLE);
+                        binding.tvYourTurnBadge.setText("Received Payout");
+                    } else {
+                        binding.tvYourTurnBadge.setVisibility(View.GONE);
+                    }
+                }
             }
         });
+
+        // Set remaining settings values
+        String contributionAmount = adminPrefs.getString("rule_edit_contribution_amount", "UGX 0");
+        String payoutAmount = adminPrefs.getString("rule_edit_payout_amount", "UGX 0");
+        String latePenalty = adminPrefs.getString("rule_edit_late_fee", "UGX 0") + " / day";
+        
+        binding.tvContributionPerMember.setText(contributionAmount);
+        binding.tvTotalPayoutPerRound.setText(payoutAmount);
+        binding.tvLatePenalty.setText(latePenalty);
+        binding.tvRemainingDays.setText(calculateRemainingDays(schedPayoutDate));
     }
 
     private void loadRecentTransactions() {

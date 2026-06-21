@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:fontFamily="@font/manrope_bold"
-            android:text="Alex Johnson"
+            android:text=""
             android:textColor="@color/v_text_dark"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintEnd_toStartOf="@id/actionLayout"
@@ -80,25 +80,11 @@
                 android:textColor="#10B981"
                 android:textSize="10sp" />
 
-            <ImageView
-                android:id="@+id/btnRemoveMember"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/bg_circle_red_light"
-                android:padding="8dp"
-                android:src="@drawable/ic_delete"
-                app:tint="#EF4444" />
-
             <!-- Promote / Demote button -->
             <ImageButton
                 android:id="@+id/btnPromoteDemote"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_toStartOf="@id/btnRemoveMember"
-                android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_swap_vert"
@@ -137,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="UGX 12,450.00"
+                    android:text=""
                     android:textColor="@color/brand_blue"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -162,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="98.4%"
+                    android:text=""
                     android:textColor="@color/v_text_dark"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -188,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="#1 Top"
+                    android:text=""
                     android:textColor="#FF8A00"
                     android:textSize="12sp" />
             </LinearLayout>
