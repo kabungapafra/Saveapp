@@ -40,7 +40,10 @@ public class NotificationsViewModel extends AndroidViewModel {
         repository.markAllAsRead();
     }
 
-    // Testing helper - Removed to prevent spam
+    public void fetchNotifications() {
+        repository.fetchFromServer();
+    }
+
     public void createTestNotification() {
         // Disabled
     }

@@ -182,7 +182,8 @@ public class AdminDashboardFragment extends Fragment {
     private void updateScheduleUI() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("SaveAppPrefs", Context.MODE_PRIVATE);
         String contrib = prefs.getString("sched_contrib_date", "");
-        String payout = prefs.getString("sched_payout_date", "");
+        String payout = requireActivity().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE)
+                .getString("rule_next_payout_date", "");
 
         if (contrib.isEmpty()) {
             binding.sectionPayoutSchedule.setVisibility(View.GONE);
@@ -258,11 +259,12 @@ public class AdminDashboardFragment extends Fragment {
                         for (MemberEntity e : queue) {
                             Member m = new Member(e.getName(), "member", e.isActive(), e.getPhone());
                             m.setHasReceivedPayout(e.isHasReceivedPayout());
+                            if (e.getPayoutDate() != null) m.setPayoutDate(e.getPayoutDate());
                             memberList.add(m);
                         }
-                        SharedPreferences qPrefs = requireActivity()
-                                .getSharedPreferences("SaveAppPrefs", Context.MODE_PRIVATE);
-                        String payoutDate = qPrefs.getString("sched_payout_date", "");
+                        String payoutDate = requireActivity()
+                                .getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE)
+                                .getString("rule_next_payout_date", "");
                         if (payoutAdapter != null) payoutAdapter.updateList(memberList, payoutDate);
                         binding.tvNoUpcomingPayouts.setVisibility(memberList.isEmpty() ? View.VISIBLE : View.GONE);
                         binding.rvDashboardPayouts.setVisibility(memberList.isEmpty() ? View.GONE : View.VISIBLE);

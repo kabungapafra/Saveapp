@@ -56,6 +56,7 @@ public class NotificationsFragment extends Fragment {
         });
 
         observeViewModel();
+        viewModel.fetchNotifications();
         return view;
     }
 

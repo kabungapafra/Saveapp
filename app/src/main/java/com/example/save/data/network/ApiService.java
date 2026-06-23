@@ -109,4 +109,13 @@ public interface ApiService {
 
     @POST("notifications/update-token")
     Call<ApiResponse> updateFcmToken(@Body com.example.save.services.SaveFirebaseMessagingService.FcmTokenRequest request);
+
+    @retrofit2.http.GET("notifications")
+    Call<java.util.List<com.example.save.data.models.Notification>> getNotifications();
+
+    @POST("notifications/{id}/read")
+    Call<ApiResponse> markNotificationRead(@retrofit2.http.Path("id") String id);
+
+    @POST("notifications/read-all")
+    Call<ApiResponse> markAllNotificationsRead();
 }
