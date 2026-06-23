@@ -73,7 +73,13 @@ public class AdminMainActivity extends BaseActivity {
         }
 
         setupBottomNavigation();
-        
+
+        // Re-hydrate group settings from the server-persisted config so admin-set
+        // rules survive a reinstall (local ChamaPrefs are wiped on uninstall, but
+        // the SystemConfig row is durable server-side). Repopulates ChamaPrefs.
+        com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
+                .fetchSystemConfig(null);
+
         // Initial setup
         if (savedInstanceState == null) {
             String startFragClass = getIntent().getStringExtra("start_fragment");
@@ -181,10 +187,16 @@ public class AdminMainActivity extends BaseActivity {
 
     private void setupBottomNavigation() {
         binding.navDashboard.setOnClickListener(v -> switchToDashboard());
-        binding.navLoans.setOnClickListener(v -> loadFragment(new AdminLoansFragment(), true));
-        binding.navPayouts.setOnClickListener(v -> loadFragment(new QueueFragment(), true));
-        binding.navSettings.setOnClickListener(v -> loadFragment(new SettingsFragment(), true));
+        binding.navLoans.setOnClickListener(v -> switchToTab(new AdminLoansFragment()));
+        binding.navPayouts.setOnClickListener(v -> switchToTab(new QueueFragment()));
+        binding.navSettings.setOnClickListener(v -> switchToTab(new SettingsFragment()));
         binding.navAction.setOnClickListener(v -> showQuickActions());
+    }
+
+    private void switchToTab(Fragment fragment) {
+        getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        loadFragment(fragment, false);
+        syncNavUI();
     }
 
     public void switchToDashboard() {
@@ -310,15 +322,21 @@ public class AdminMainActivity extends BaseActivity {
         overlayRoot.setAlpha(0f);
         overlayRoot.animate().alpha(1f).setDuration(300).start();
 
-        // Rotate plus to X
+        // Rotate logo 45° (open gesture)
         View plusIcon = binding.navActionPlusIcon;
         if (plusIcon != null) plusIcon.animate().rotation(45f).setDuration(300).start();
-        
-        // Animate FAB ring rotation
+
+        // Full 360° spin on open (same as member side)
+        ImageView navLogo = binding.navActionPlusIcon;
+        if (navLogo != null) {
+            navLogo.animate().rotationBy(360f).setDuration(500).start();
+        }
+
+        // Animate FAB ring rotation (4000ms — matches member side)
         View ring = binding.navActionDashedRing;
         if (ring != null) {
             ringAnimator = android.animation.ObjectAnimator.ofFloat(ring, "rotation", 0f, 360f);
-            ringAnimator.setDuration(3000);
+            ringAnimator.setDuration(4000);
             ringAnimator.setRepeatCount(android.animation.ObjectAnimator.INFINITE);
             ringAnimator.setInterpolator(new android.view.animation.LinearInterpolator());
             ringAnimator.start();
@@ -392,9 +410,15 @@ public class AdminMainActivity extends BaseActivity {
             if (ring != null) ring.animate().rotation(0f).setDuration(300).start();
         }
 
-        // Rotate X back to Plus
+        // Rotate logo back to 0
         View plusIcon = binding.navActionPlusIcon;
         if (plusIcon != null) plusIcon.animate().rotation(0f).setDuration(300).start();
+
+        // Full 360° spin on close (same as member side)
+        ImageView navLogo = binding.navActionPlusIcon;
+        if (navLogo != null) {
+            navLogo.animate().rotationBy(360f).setDuration(500).start();
+        }
 
         View overlay = binding.quickActionsOverlay.getRoot();
         if (overlay == null) return;

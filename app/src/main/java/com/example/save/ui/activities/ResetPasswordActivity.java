@@ -36,8 +36,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private ActivityResetpasswordBinding binding;
 
-    private String userPhone      = "";
-    private String mVerificationId = "";
+    private String userPhone        = "";
+    private String mVerificationId  = "";
+    private String mFirebaseIdToken = "";
     private FirebaseAuth mAuth;
 
     @Override
@@ -96,11 +97,27 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
                     @Override
                     public void onVerificationCompleted(PhoneAuthCredential credential) {
-                        // Firebase auto-verified — skip OTP entry, go to PIN change
-                        binding.loadingOverlay.setVisibility(View.GONE);
-                        binding.fragmentContainer.setVisibility(View.GONE);
-                        binding.resetCard.setVisibility(View.VISIBLE);
-                        showPasswordStep();
+                        // Firebase auto-verified — sign in to obtain ID token, then show PIN change
+                        mAuth.signInWithCredential(credential).addOnCompleteListener(
+                                ResetPasswordActivity.this, task -> {
+                                    if (task.isSuccessful() && mAuth.getCurrentUser() != null) {
+                                        mAuth.getCurrentUser().getIdToken(false)
+                                                .addOnSuccessListener(result -> {
+                                                    mFirebaseIdToken = result.getToken() != null
+                                                            ? result.getToken() : "";
+                                                    binding.loadingOverlay.setVisibility(View.GONE);
+                                                    binding.fragmentContainer.setVisibility(View.GONE);
+                                                    binding.resetCard.setVisibility(View.VISIBLE);
+                                                    showPasswordStep();
+                                                });
+                                    } else {
+                                        binding.loadingOverlay.setVisibility(View.GONE);
+                                        binding.resetCard.setVisibility(View.VISIBLE);
+                                        Toast.makeText(ResetPasswordActivity.this,
+                                                "Auto-verification failed. Please try again.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     }
 
                     @Override
@@ -163,10 +180,19 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private void verifyAndShowPinChange(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        binding.fragmentContainer.setVisibility(View.GONE);
-                        binding.resetCard.setVisibility(View.VISIBLE);
-                        showPasswordStep();
+                    if (task.isSuccessful() && mAuth.getCurrentUser() != null) {
+                        mAuth.getCurrentUser().getIdToken(false)
+                                .addOnSuccessListener(result -> {
+                                    mFirebaseIdToken = result.getToken() != null
+                                            ? result.getToken() : "";
+                                    binding.fragmentContainer.setVisibility(View.GONE);
+                                    binding.resetCard.setVisibility(View.VISIBLE);
+                                    showPasswordStep();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Could not get verification token. Please try again.",
+                                            Toast.LENGTH_SHORT).show();
+                                });
                     } else {
                         Toast.makeText(this, "Invalid code. Please try again.",
                                 Toast.LENGTH_SHORT).show();
@@ -219,10 +245,19 @@ public class ResetPasswordActivity extends AppCompatActivity {
         binding.actionButton.setText("Resetting…");
         binding.loadingIndicator.setVisibility(View.VISIBLE);
 
+        if (mFirebaseIdToken == null || mFirebaseIdToken.isEmpty()) {
+            Toast.makeText(this, "Verification expired. Please re-verify your phone.", Toast.LENGTH_SHORT).show();
+            binding.actionButton.setEnabled(true);
+            binding.actionButton.setText(R.string.reset_pin_button);
+            binding.loadingIndicator.setVisibility(View.GONE);
+            return;
+        }
+
         com.example.save.data.network.ResetPasswordRequest request =
                 new com.example.save.data.network.ResetPasswordRequest();
         request.setPhone(userPhone);
         request.setNewPassword(newPin);
+        request.setIdToken(mFirebaseIdToken);
 
         com.example.save.data.network.ApiService api =
                 com.example.save.data.network.RetrofitClient

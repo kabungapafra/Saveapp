@@ -231,16 +231,25 @@
                 android:id="@+id/sectionRecentPayouts"
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="20dp" android:paddingTop="16dp">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Recent Payouts" android:textColor="@color/dashboard_text_primary" android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tvNoRecentPayouts"
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:gravity="center"
-                    android:padding="20dp"
-                    android:text="No recent payouts"
-                    android:textColor="@color/v_text_muted"
-                    android:textSize="@dimen/text_size_xs" />
+                    app:cardBackgroundColor="@color/card_surface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/divider_color">
+                    <TextView
+                        android:id="@+id/tvNoRecentPayouts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:padding="20dp"
+                        android:text="No recent payouts"
+                        android:textColor="@color/v_text_muted"
+                        android:textSize="@dimen/text_size_xs" />
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
             <!-- Upcoming Payouts -->

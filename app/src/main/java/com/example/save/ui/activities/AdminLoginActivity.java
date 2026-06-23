@@ -322,6 +322,10 @@ public class AdminLoginActivity extends AppCompatActivity {
                     com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
                             .fetchSystemConfig(null);
 
+                    // Register FCM token with server for push notifications
+                    com.example.save.services.SaveFirebaseMessagingService
+                            .registerTokenWithServer(getApplicationContext());
+
                     android.content.SharedPreferences prefs = getSharedPreferences("ChamaPrefs", MODE_PRIVATE);
                     prefs.edit()
                             .putString("admin_name", loginResponse.getName())

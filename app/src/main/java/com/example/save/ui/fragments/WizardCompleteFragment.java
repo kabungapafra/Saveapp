@@ -57,8 +57,9 @@ public class WizardCompleteFragment extends Fragment {
             
             tvSummaryContribution.setText(String.format(Locale.getDefault(), "%s %,.0f", symbol, activity.getContributionAmount()));
             tvSummaryFrequency.setText(activity.getContributionFrequency());
-            tvSummaryPayout.setText(String.format(Locale.getDefault(), "%s %,.0f", symbol, activity.getPayoutAmount()));
-            tvSummaryRetention.setText(String.format(Locale.getDefault(), "%.1f%%", activity.getRetentionPercentage()));
+            double retention = activity.getRetentionPercentage();
+            tvSummaryPayout.setText(String.format(Locale.getDefault(), "%.1f%% kept as savings", retention));
+            tvSummaryRetention.setText(String.format(Locale.getDefault(), "%.1f%%", retention));
         }
     }
 }

@@ -29,6 +29,8 @@ public class QueueFragment extends Fragment {
     private PayoutQueueAdapter adapter;
     private ApprovalsAdapter approvalsAdapter;
     private MembersViewModel viewModel;
+    private double configContributionAmount = 0;
+    private double configRetentionPct = 0;
 
     public static QueueFragment newInstance() {
         return new QueueFragment();
@@ -50,7 +52,14 @@ public class QueueFragment extends Fragment {
         setupRecyclerView();
         observeData();
         setupGenericInteractions();
-        
+
+        viewModel.fetchSystemConfig((success, config, message) -> {
+            if (success && config != null) {
+                configContributionAmount = config.getContributionAmount();
+                configRetentionPct = config.getRetentionPercentage();
+            }
+        });
+
         // Ensure data is synced
         viewModel.syncMembers();
     }
@@ -60,7 +69,11 @@ public class QueueFragment extends Fragment {
             if (getActivity() != null) getActivity().onBackPressed();
         });
 
-        // Decentralized Approvals - Header Click (Today's Work Restoration)
+        boolean isAdmin = getActivity() instanceof com.example.save.ui.activities.AdminMainActivity;
+        if (!isAdmin) {
+            binding.llPendingApprovals.setVisibility(View.GONE);
+        }
+
         binding.btnApprovalsHeader.setOnClickListener(v -> {
             if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
                 ((com.example.save.ui.activities.AdminMainActivity) getActivity()).loadFragment(new ApprovalsFragment(), true);
@@ -72,8 +85,7 @@ public class QueueFragment extends Fragment {
         String payoutDate = requireContext()
                 .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
                 .getString("rule_next_payout_date", "TBD");
-        double payoutAmount = viewModel.getPayoutAmount();
-        adapter = new PayoutQueueAdapter(new ArrayList<>(), payoutAmount, payoutDate);
+        adapter = new PayoutQueueAdapter(new ArrayList<>(), 0, payoutDate);
         binding.rvQueue.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvQueue.setAdapter(adapter);
 
@@ -114,6 +126,12 @@ public class QueueFragment extends Fragment {
                     .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
                     .getString("rule_next_payout_date", "TBD");
             adapter.updateList(members, payoutDate);
+
+            if (configContributionAmount > 0) {
+                double totalCollected = configContributionAmount * members.size();
+                double payout = totalCollected * (1.0 - configRetentionPct / 100.0);
+                adapter.setPayoutAmount(payout);
+            }
         });
 
         // Observe Payout Approvals (Today's Work Restoration)

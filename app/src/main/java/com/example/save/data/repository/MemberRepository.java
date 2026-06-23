@@ -367,7 +367,7 @@ public class MemberRepository {
 
                     // Numeric rules
                     editor.putString("rule_edit_contribution_amount", "UGX " + (int) config.getContributionAmount());
-                    editor.putString("rule_edit_payout_amount", "UGX " + (int) config.getPayoutAmount());
+                    editor.putString("rule_edit_retention", (int) config.getRetentionPercentage() + "%");
                     editor.putString("rule_edit_late_fee", "UGX " + (int) config.getLatePenaltyRate());
                     editor.putString("rule_edit_loan_interest", (int) config.getLoanInterestRate() + "%");
                     editor.putString("rule_edit_loan_late_fee", "UGX " + (int) config.getLoanLateFee());
@@ -443,6 +443,7 @@ public class MemberRepository {
             public void onResponse(Call<com.example.save.data.models.DashboardSummaryResponse> call,
                     Response<com.example.save.data.models.DashboardSummaryResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    groupBalance.postValue(response.body().getTotalBalance());
                     if (cb != null)
                         cb.onResult(true, response.body(), "Summary loaded");
                 } else if (cb != null) {
@@ -807,7 +808,27 @@ public class MemberRepository {
     }
 
     public LiveData<List<com.example.save.data.models.LoanWithApproval>> getMemberLoansWithApproval(String memberName) {
-        return new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<com.example.save.data.models.LoanWithApproval>> liveData = new MutableLiveData<>(new ArrayList<>());
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getLoans(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> call,
+                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                    List<com.example.save.data.models.LoanWithApproval> result = new ArrayList<>();
+                    for (com.example.save.data.models.LoanEntity e : response.body().getData()) {
+                        if (memberName != null && memberName.equalsIgnoreCase(e.getMemberName())) {
+                            boolean approved = "ACTIVE".equalsIgnoreCase(e.getStatus()) || "APPROVED".equalsIgnoreCase(e.getStatus());
+                            result.add(new com.example.save.data.models.LoanWithApproval(e, approved));
+                        }
+                    }
+                    liveData.postValue(result);
+                }
+            }
+            @Override
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> call, Throwable t) {}
+        });
+        return liveData;
     }
 
     public boolean hasAdminApproved(String type, String id, String adminPhone) {
@@ -833,7 +854,14 @@ public class MemberRepository {
     }
 
     public double getContributionTarget() {
-        return 0;
+        String str = appContext.getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
+                .getString("rule_edit_contribution_amount", "0")
+                .replaceAll("[^0-9.]", "");
+        try {
+            return Double.parseDouble(str) * 12;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     public void setContributionTarget(double target) {

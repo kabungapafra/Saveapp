@@ -306,6 +306,10 @@ public void onVerificationFailed(FirebaseException e) {
                     com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
                             .fetchSystemConfig(null);
 
+                    // Register FCM token with server for push notifications
+                    com.example.save.services.SaveFirebaseMessagingService
+                            .registerTokenWithServer(getApplicationContext());
+
                     Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
                     intent.putExtra("member_name", loginResponse.getName());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

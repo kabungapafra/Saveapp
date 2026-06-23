@@ -133,7 +133,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat"
-                        android:text="Total Balance"
+                        android:text="My Balance"
                         android:textColor="#B3FFFFFF"
                         android:textSize="@dimen/text_size_xs" />
 
@@ -148,6 +148,34 @@
                         android:text="UGX 0"
                         android:textColor="#FFFFFF"
                         android:textSize="@dimen/text_size_xxxl" />
+
+                    <!-- Group total balance row -->
+                    <LinearLayout
+                        android:id="@+id/rowGroupBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvBalanceAmount"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Group total  "
+                            android:textColor="#80FFFFFF"
+                            android:textSize="@dimen/text_size_xs" />
+
+                        <TextView
+                            android:id="@+id/tvGroupBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:text="UGX 0"
+                            android:textColor="#CCFFFFFF"
+                            android:textSize="@dimen/text_size_xs" />
+                    </LinearLayout>
 
                     <com.google.android.material.card.MaterialCardView android:layout_width="36dp" android:layout_height="36dp" android:layout_alignParentEnd="true" android:layout_alignTop="@id/tvBalanceAmount" app:cardBackgroundColor="#2EFFFFFF" app:cardCornerRadius="11dp" app:cardElevation="0dp">
                         <ImageView

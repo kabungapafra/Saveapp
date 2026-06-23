@@ -20,6 +20,10 @@ public class GroupSettingsFragment extends Fragment {
     // Guard flag: prevents toggle change-listeners from calling syncConfigToServer()
     // while we are programmatically restoring values from SharedPrefs / server.
     private boolean isLoadingRules = false;
+    // Becomes true once the server config has been pulled into local prefs. Until
+    // then we must not push prefs back to the server, or a fresh install (empty
+    // prefs => defaults) would overwrite the admin's durable saved settings.
+    private boolean serverConfigLoaded = false;
 
     @Nullable
     @Override
@@ -55,14 +59,14 @@ public class GroupSettingsFragment extends Fragment {
             showFrequencyDialog();
         });
 
-        binding.rowPayoutAmount.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            showEditNumberDialog("Edit Payout Amount", binding.valPayoutAmount.getText().toString(), binding.valPayoutAmount, "UGX ");
-        });
-
         binding.rowRecipients.setOnClickListener(v -> {
             applyClickAnimation(v);
             showEditNumberDialog("Edit Recipients", binding.valRecipients.getText().toString(), binding.valRecipients, " Member(s)");
+        });
+
+        binding.rowRetentionPct.setOnClickListener(v -> {
+            applyClickAnimation(v);
+            showEditNumberDialog("Edit Retention", binding.valRetentionPct.getText().toString(), binding.valRetentionPct, "%");
         });
 
         binding.rowLateFee.setOnClickListener(v -> {
@@ -368,8 +372,8 @@ public class GroupSettingsFragment extends Fragment {
 
         binding.valContribution.setText(prefs.getString("rule_edit_contribution_amount", "UGX 500"));
         binding.valFrequency.setText(prefs.getString("rule_frequency", "Monthly"));
-        binding.valPayoutAmount.setText(prefs.getString("rule_edit_payout_amount", "UGX 50,000"));
         binding.valRecipients.setText(prefs.getString("rule_edit_recipients", "1 Member"));
+        binding.valRetentionPct.setText(prefs.getString("rule_edit_retention", "10%"));
         binding.valLateFee.setText(prefs.getString("rule_edit_late_fee", "UGX 25"));
         binding.valLoanInterest.setText(prefs.getString("rule_edit_loan_interest", "5%"));
         binding.valLoanLateFee.setText(prefs.getString("rule_edit_loan_late_fee", "UGX 50"));
@@ -390,7 +394,11 @@ public class GroupSettingsFragment extends Fragment {
         com.example.save.data.repository.MemberRepository.getInstance(requireContext())
             .fetchSystemConfig((success, config, message) -> {
                 if (success && isAdded() && config != null) {
-                    requireActivity().runOnUiThread(() -> loadFinancialRules());
+                    requireActivity().runOnUiThread(() -> {
+                        loadFinancialRules();
+                        // Safe to sync edits now that prefs reflect the server.
+                        serverConfigLoaded = true;
+                    });
                 }
             });
     }
@@ -402,6 +410,12 @@ public class GroupSettingsFragment extends Fragment {
     }
 
     private void syncConfigToServer() {
+        // Block until the server config has been loaded into prefs, otherwise a
+        // fresh install would push default values over the admin's saved settings.
+        if (!serverConfigLoaded) {
+            Toast.makeText(getContext(), "Loading current settings… please try again in a moment", Toast.LENGTH_SHORT).show();
+            return;
+        }
         android.content.SharedPreferences prefs = requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
         com.example.save.data.models.SystemConfig config = new com.example.save.data.models.SystemConfig();
         
@@ -409,9 +423,9 @@ public class GroupSettingsFragment extends Fragment {
             String contributionStr = prefs.getString("rule_edit_contribution_amount", "UGX 500").replaceAll("[^0-9.]", "");
             config.setContributionAmount(Double.parseDouble(contributionStr.isEmpty() ? "0" : contributionStr));
             
-            String payoutStr = prefs.getString("rule_edit_payout_amount", "UGX 50000").replaceAll("[^0-9.]", "");
-            config.setPayoutAmount(Double.parseDouble(payoutStr.isEmpty() ? "0" : payoutStr));
-            
+            String retentionStr = prefs.getString("rule_edit_retention", "10%").replaceAll("[^0-9.]", "");
+            config.setRetentionPercentage(Double.parseDouble(retentionStr.isEmpty() ? "0" : retentionStr));
+
             String lateFeeStr = prefs.getString("rule_edit_late_fee", "UGX 25").replaceAll("[^0-9.]", "");
             config.setLatePenaltyRate(Double.parseDouble(lateFeeStr.isEmpty() ? "0" : lateFeeStr));
             
@@ -460,8 +474,8 @@ public class GroupSettingsFragment extends Fragment {
     private void disableAdminControls() {
         binding.rowContribution.setClickable(false);
         binding.rowFrequency.setClickable(false);
-        binding.rowPayoutAmount.setClickable(false);
         binding.rowRecipients.setClickable(false);
+        binding.rowRetentionPct.setClickable(false);
         binding.rowLateFee.setClickable(false);
         binding.rowLoanInterest.setClickable(false);
         binding.rowLoanLateFee.setClickable(false);

@@ -44,4 +44,8 @@ public class LoansViewModel extends AndroidViewModel {
     public List<Loan> getLoansSync() {
         return repository.getLoansSync();
     }
+
+    public void refresh() {
+        repository.refresh();
+    }
 }

@@ -41,7 +41,6 @@ public class AdminSetupWizardActivity extends AppCompatActivity {
     private double contributionAmount;
     private String contributionFrequency;
     private double latePenalty;
-    private double payoutAmount;
     private double retentionPercentage;
     private double maxLoanAmount;
     private double interest_rate;
@@ -363,17 +362,30 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
             Toast.makeText(this, "Group name is required", Toast.LENGTH_SHORT).show();
             return;
         }
-        // Log the password being sent to backend (masked for security)
-        android.util.Log.d("AdminSetup", "Sending admin registration: phone=" + adminPhone + ", name=" + adminName + ", group=" + groupName + ", PIN length=" + (adminPassword != null ? adminPassword.length() : "null"));
-        com.example.save.data.network.OtpVerificationRequest registrationRequest = new com.example.save.data.network.OtpVerificationRequest(
-                adminPhone,
-                "FIREBASE_VERIFIED", // Firebase verified placeholder
-                adminName,
-                adminPassword,
-                groupName);
+        // Retrieve Firebase ID token to prove phone ownership, then proceed with registration
+        if (mAuth == null || mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Session expired. Please redo phone verification.", Toast.LENGTH_SHORT).show();
+            currentStep = 8;
+            loadStep(currentStep);
+            return;
+        }
 
-        // Log the payload for debugging (avoid logging password in production)
-        android.util.Log.d("AdminSetup", "Sending admin registration: phone=" + adminPhone + ", name=" + adminName + ", group=" + groupName);
+        mAuth.getCurrentUser().getIdToken(false)
+                .addOnSuccessListener(idTokenResult -> registerAdminWithToken(idTokenResult.getToken(), config))
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Could not get verification token. Please re-verify your phone.", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void registerAdminWithToken(String idToken, com.example.save.data.models.SystemConfig config) {
+        com.example.save.data.network.OtpVerificationRequest registrationRequest =
+                new com.example.save.data.network.OtpVerificationRequest(
+                        adminPhone,
+                        "FIREBASE_VERIFIED",
+                        adminName,
+                        adminPassword,
+                        groupName,
+                        idToken);
 
         com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
                 .getClient(this).create(com.example.save.data.network.ApiService.class);
@@ -437,7 +449,6 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
                 .putString("currency", currency)
                 .putFloat("contribution_amount", (float) contributionAmount)
                 .putString("contribution_frequency", contributionFrequency)
-                .putFloat("payout_amount", (float) payoutAmount)
                 .putFloat("retention_percentage", (float) retentionPercentage)
                 .putFloat("max_loan_amount", (float) maxLoanAmount)
                 .putFloat("interest_rate", (float) interest_rate)
@@ -445,6 +456,10 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
                 .putBoolean("require_guarantor", requireGuarantor)
                 .putBoolean("wizard_completed", true)
                 .apply();
+
+        // Register FCM token with server
+        com.example.save.services.SaveFirebaseMessagingService
+                .registerTokenWithServer(getApplicationContext());
 
         Intent intent = new Intent(this, AdminMainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -465,8 +480,7 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
         this.latePenalty = penalty;
     }
 
-    public void setPayoutSettings(double amount, double retention) {
-        this.payoutAmount = amount;
+    public void setRetentionPercentage(double retention) {
         this.retentionPercentage = retention;
     }
 
@@ -481,7 +495,6 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
     public String getCurrency() { return currency; }
     public double getContributionAmount() { return contributionAmount; }
     public String getContributionFrequency() { return contributionFrequency; }
-    public double getPayoutAmount() { return payoutAmount; }
     public double getRetentionPercentage() { return retentionPercentage; }
 
     public String getAdminName() { return adminName; }

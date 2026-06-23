@@ -35,6 +35,8 @@ public class DashboardFragment extends Fragment {
     private TransactionAdapter transactionAdapter;
 
     private final List<Transaction> allCachedTransactions = new ArrayList<>();
+    private double configContributionAmount = 0;
+    private double configRetentionPct = 0;
 
     private com.example.save.ui.adapters.DashboardMemberAdapter memberAdapter;
 
@@ -96,7 +98,10 @@ public class DashboardFragment extends Fragment {
     }
 
     private void applyFilters() {
-        List<Transaction> filteredList = new ArrayList<>(allCachedTransactions);
+        List<Transaction> filteredList = new ArrayList<>();
+        for (Transaction t : allCachedTransactions) {
+            if (t.isCredit()) filteredList.add(t); // My Contributions = deposits only
+        }
 
         if (filteredList.isEmpty()) {
             binding.rvDashboardTransactions.setVisibility(View.GONE);
@@ -125,23 +130,28 @@ public class DashboardFragment extends Fragment {
         SessionManager session = SessionManager.getInstance(requireContext().getApplicationContext());
         String phone = session.getUserPhone();
 
+        viewModel.fetchSystemConfig((success, config, message) -> {
+            if (success && config != null) {
+                configContributionAmount = config.getContributionAmount();
+                configRetentionPct = config.getRetentionPercentage();
+            }
+        });
+
         viewModel.getDashboardSummary((success, summaryObj, message) -> {
             if (success && isAdded() && summaryObj instanceof com.example.save.data.models.DashboardSummaryResponse) {
                 com.example.save.data.models.DashboardSummaryResponse summary = (com.example.save.data.models.DashboardSummaryResponse) summaryObj;
                 requireActivity().runOnUiThread(() -> {
                     String formatted = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG")).format(summary.getTotalBalance());
-                    binding.tvBalanceAmount.setText(formatted.replace("UGX", "UGX "));
+                    binding.tvGroupBalance.setText(formatted.replace("UGX", "UGX "));
                     binding.tvCircleName.setText(summary.getGroupName());
                     binding.tvPooledFunds.setText(formatted.replace("UGX", "UGX "));
 
                     android.content.SharedPreferences adminPrefs = requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
-                    String payoutAmtStr = adminPrefs.getString("rule_edit_payout_amount", "UGX 0").replaceAll("[^0-9]", "");
-                    double targetPayout = 0;
-                    try {
-                        targetPayout = Double.parseDouble(payoutAmtStr);
-                    } catch (NumberFormatException e) {
-                        targetPayout = 0;
-                    }
+                    java.util.List<com.example.save.data.models.Member> currentMembers = viewModel.getMembers().getValue();
+                    int memberCount = currentMembers != null ? currentMembers.size() : 0;
+                    double targetPayout = configContributionAmount > 0 && memberCount > 0
+                            ? configContributionAmount * memberCount * (1.0 - configRetentionPct / 100.0)
+                            : 0;
 
                     int payoutPercent = targetPayout > 0 ? (int) Math.min((summary.getTotalBalance() / targetPayout) * 100, 100) : 0;
                     binding.payoutProgress.setProgress(payoutPercent);
@@ -161,18 +171,27 @@ public class DashboardFragment extends Fragment {
             viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
                     binding.tvGreetingName.setText("Welcome back, " + member.getName());
-                    binding.tvMemberStatus.setText("Member since " + (member.getJoinedDate() != null ? member.getJoinedDate() : "Jan 2024") + " · ID " + member.getFormattedId());
+                    String joinDate = member.getJoinedDate() != null ? member.getJoinedDate() : "2024";
+                    binding.tvMemberStatus.setText("Member since " + joinDate);
 
+                    java.text.NumberFormat nf = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+
+                    // Personal balance on the balance card
+                    double personalBalance = member.getContributionPaid();
+                    binding.tvBalanceAmount.setText(nf.format(personalBalance).replace("UGX", "UGX "));
+
+                    // Goal: use yearly target from system config (contribution × 12)
                     double mySavings = member.getContributionPaid();
-                    double target = member.getContributionTarget();
-                    int progress = target > 0 ? (int) ((mySavings / target) * 100) : 0;
+                    double yearlyTarget = configContributionAmount > 0
+                            ? configContributionAmount * 12
+                            : member.getContributionTarget();
+                    int progress = yearlyTarget > 0 ? (int) Math.min((mySavings / yearlyTarget) * 100, 100) : 0;
                     binding.goalProgress.setProgress(progress);
                     binding.tvGoalProgressPercentTop.setText(progress + "%");
                     binding.tvGoalProgressPercentCenter.setText(progress + "%");
 
-                    java.text.NumberFormat nf = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
                     String paidStr = nf.format(mySavings).replace("UGX", "UGX ");
-                    String targetStr = nf.format(target).replace("UGX", "UGX ");
+                    String targetStr = nf.format(yearlyTarget).replace("UGX", "UGX ");
                     binding.tvGoalProgressTarget.setText(paidStr + " of " + targetStr);
                 }
             });
@@ -354,9 +373,14 @@ public class DashboardFragment extends Fragment {
                     } else {
                         String myDate = calculatePayoutDate(myIndex, schedPayoutDate, requireContext());
                         binding.tvYourPayoutRecipientDate.setText("Receiving: " + myDate);
-                        
-                        String payoutAmtStr = adminPrefs.getString("rule_edit_payout_amount", "UGX 0");
-                        binding.tvYourPayoutAmount.setText(payoutAmtStr);
+
+                        double myPayout = configContributionAmount > 0 && !sortedMembers.isEmpty()
+                                ? configContributionAmount * sortedMembers.size() * (1.0 - configRetentionPct / 100.0)
+                                : 0;
+                        String myPayoutStr = myPayout > 0
+                                ? "UGX " + java.text.NumberFormat.getIntegerInstance().format((long) myPayout)
+                                : "TBD";
+                        binding.tvYourPayoutAmount.setText(myPayoutStr);
                     }
                     
                     if (nextRecipient != null && nextRecipient.getPhone().equals(phone)) {
@@ -374,11 +398,18 @@ public class DashboardFragment extends Fragment {
 
         // Set remaining settings values
         String contributionAmount = adminPrefs.getString("rule_edit_contribution_amount", "UGX 0");
-        String payoutAmount = adminPrefs.getString("rule_edit_payout_amount", "UGX 0");
         String latePenalty = adminPrefs.getString("rule_edit_late_fee", "UGX 0") + " / day";
-        
+        java.util.List<com.example.save.data.models.Member> settingsMembers = viewModel.getMembers().getValue();
+        int settingsMemberCount = settingsMembers != null ? settingsMembers.size() : 0;
+        double totalPayout = configContributionAmount > 0 && settingsMemberCount > 0
+                ? configContributionAmount * settingsMemberCount * (1.0 - configRetentionPct / 100.0)
+                : 0;
+        String totalPayoutStr = totalPayout > 0
+                ? "UGX " + java.text.NumberFormat.getIntegerInstance().format((long) totalPayout)
+                : adminPrefs.getString("rule_edit_contribution_amount", "UGX 0");
+
         binding.tvContributionPerMember.setText(contributionAmount);
-        binding.tvTotalPayoutPerRound.setText(payoutAmount);
+        binding.tvTotalPayoutPerRound.setText(totalPayoutStr);
         binding.tvLatePenalty.setText(latePenalty);
         binding.tvRemainingDays.setText(calculateRemainingDays(schedPayoutDate));
     }

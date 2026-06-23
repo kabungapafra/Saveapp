@@ -161,16 +161,21 @@ public class MemberSummaryFragment extends Fragment {
                     com.example.save.data.models.Member m = sortedMembers.get(i);
                     int[] segments = new int[6];
                     int score = m.getCreditScore();
-                    
-                    // Simulate history based on credit score
-                    if (score >= 750) {
-                        segments = new int[]{0, 0, 0, 0, 0, 0};
-                    } else if (score >= 650) {
-                        segments = new int[]{0, 0, 1, 0, 0, 0};
-                    } else if (score >= 550) {
-                        segments = new int[]{0, 1, 2, 0, 1, 0};
-                    } else {
-                        segments = new int[]{1, 2, 2, 1, 2, 1};
+                    int streak = Math.min(6, Math.max(0, m.getPaymentStreak()));
+                    // Fill from most-recent (index 5) backward using real streak count
+                    for (int s = 0; s < 6; s++) {
+                        int recency = 5 - s; // 0 = most recent cycle
+                        if (recency < streak) {
+                            segments[s] = 0; // confirmed on-time in streak
+                        } else if (score >= 700) {
+                            segments[s] = 0; // strong history before streak
+                        } else if (score >= 580) {
+                            segments[s] = (recency % 3 == 0) ? 1 : 0; // occasional late
+                        } else if (score >= 450) {
+                            segments[s] = (recency % 2 == 0) ? 2 : 1; // frequent issues
+                        } else {
+                            segments[s] = (recency % 3 == 1) ? 2 : (recency % 3 == 2 ? 1 : 2);
+                        }
                     }
                     
                     int pulseProgress = (int) (((Math.max(300, score) - 300) / 550.0) * 100);

@@ -96,59 +96,6 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
-                <!-- PAYOUT SECTION -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_handshake_blue"
-                        app:tint="@color/brand_blue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="PAYOUT"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Payout Amount per Member"
-                    android:textColor="#424242"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="8dp"
-                    app:hintEnabled="false"
-                    app:prefixText="UGX "
-                    app:prefixTextColor="@color/v_text_muted">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPayoutAmount"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_wizard_input_solid"
-                        android:hint="0.00"
-                        android:inputType="numberDecimal"
-                        android:paddingHorizontal="16dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/v_text_muted"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
                 <!-- RETENTION SECTION -->
                 <LinearLayout
                     android:layout_width="match_parent"

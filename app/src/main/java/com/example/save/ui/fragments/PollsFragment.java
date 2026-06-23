@@ -39,7 +39,6 @@ public class PollsFragment extends Fragment {
             }
         });
 
-
         setupWebView();
     }
 
@@ -55,11 +54,9 @@ public class PollsFragment extends Fragment {
             @Override
             public void onPageFinished(android.webkit.WebView view, String url) {
                 super.onPageFinished(view, url);
-                // Apply Android theme
                 String role = (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) ? "admin" : "member";
                 boolean isDark = com.example.save.utils.ThemeUtils.isDarkMode(requireContext(), role);
                 view.evaluateJavascript("document.documentElement.setAttribute('data-theme','" + (isDark ? "dark" : "light") + "');", null);
-                // Pass role status to JS
                 if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
                     view.loadUrl("javascript:setRole('member')");
                 } else {
@@ -81,9 +78,8 @@ public class PollsFragment extends Fragment {
         @JavascriptInterface
         public void onCreatePollClicked() {
             if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
-                getActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(), "Only Admins can create new polls", Toast.LENGTH_SHORT).show();
-                });
+                getActivity().runOnUiThread(() ->
+                        Toast.makeText(getContext(), "Only Admins can create new polls", Toast.LENGTH_SHORT).show());
                 return;
             }
             if (getActivity() != null) {
@@ -98,6 +94,7 @@ public class PollsFragment extends Fragment {
                 });
             }
         }
+
         @JavascriptInterface
         public void onCastVoteClicked() {
             if (getActivity() != null) {
@@ -112,6 +109,7 @@ public class PollsFragment extends Fragment {
                 });
             }
         }
+
         @JavascriptInterface
         public void onActiveStandingsClicked() {
             if (getActivity() != null) {

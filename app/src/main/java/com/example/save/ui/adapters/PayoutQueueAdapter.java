@@ -38,6 +38,11 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
         this.basePayoutDate = basePayoutDate;
     }
 
+    public void setPayoutAmount(double payoutAmount) {
+        this.payoutAmount = payoutAmount;
+        notifyDataSetChanged();
+    }
+
     public void updateList(List<Member> newList) {
         this.members = newList;
         notifyDataSetChanged();

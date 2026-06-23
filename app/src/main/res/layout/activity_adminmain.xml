@@ -194,22 +194,22 @@
             android:id="@+id/navActionDashedRing"
             android:background="@drawable/bg_nav_center_dashed_ring_white" />
 
-        <!-- Teal FAB (52dp) -->
+        <!-- Blue FAB (52dp) -->
         <View
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:layout_gravity="center"
-            android:background="@drawable/bg_nav_center_action_white"
+            android:background="@drawable/bg_nav_center_action_blue"
             android:elevation="2dp" />
 
-        <!-- White Plus Icon -->
+        <!-- App Logo Icon -->
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="center"
             android:elevation="3dp"
             android:id="@+id/navActionPlusIcon"
-            android:src="@drawable/ic_add"
+            android:src="@drawable/save_logo"
             app:tint="#FFFFFF" />
 
     </FrameLayout>

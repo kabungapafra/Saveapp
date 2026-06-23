@@ -1,11 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/v_page_bg">
 
-    <WebView
-        android:id="@+id/webView"
+    <!-- Header -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payout Audit"
+            android:fontFamily="@font/manrope_bold"
+            android:textSize="24sp"
+            android:textColor="@color/v_text_dark" />
+
+        <TextView
+            android:id="@+id/tvPayoutSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="All payout disbursements"
+            android:fontFamily="@font/manrope_medium"
+            android:textSize="13sp"
+            android:textColor="@color/v_text_muted" />
+    </LinearLayout>
+
+    <!-- Summary Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_card_surface"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvTotalDisbursed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UGX 0"
+                android:fontFamily="@font/manrope_bold"
+                android:textSize="15sp"
+                android:textColor="@color/brand_blue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Disbursed"
+                android:fontFamily="@font/manrope_medium"
+                android:textSize="11sp"
+                android:textColor="@color/v_text_muted" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvPayoutCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:fontFamily="@font/manrope_bold"
+                android:textSize="15sp"
+                android:textColor="@color/v_text_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Payouts"
+                android:fontFamily="@font/manrope_medium"
+                android:textSize="11sp"
+                android:textColor="@color/v_text_muted" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvRetentionTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UGX 0"
+                android:fontFamily="@font/manrope_bold"
+                android:textSize="15sp"
+                android:textColor="#10B981" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retained"
+                android:fontFamily="@font/manrope_medium"
+                android:textSize="11sp"
+                android:textColor="@color/v_text_muted" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Section label -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="8dp"
+        android:text="PAYOUT HISTORY"
+        android:fontFamily="@font/manrope_bold"
+        android:textSize="10sp"
+        android:textColor="@color/v_text_muted" />
+
+    <!-- Empty state -->
+    <TextView
+        android:id="@+id/tvEmptyPayouts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No payout records yet"
+        android:fontFamily="@font/manrope_medium"
+        android:textSize="14sp"
+        android:textColor="@color/v_text_muted"
+        android:gravity="center"
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp"
+        android:visibility="gone" />
+
+    <!-- List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPayoutHistory"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:clipToPadding="false" />
+
+</LinearLayout>

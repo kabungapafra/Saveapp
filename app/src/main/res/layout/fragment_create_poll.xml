@@ -753,7 +753,7 @@
                     android:layout_marginTop="14dp"
                     android:fontFamily="sans-serif"
                     android:gravity="center"
-                    android:text="By launching, all group members will be notified to cast their votes. This poll will remain open for 48 hours."
+                    android:text="By launching, all group members will be notified to cast their votes. This poll will automatically expire after 24 hours."
                     android:textColor="@color/v_text_muted"
                     android:textSize="12sp" />
 

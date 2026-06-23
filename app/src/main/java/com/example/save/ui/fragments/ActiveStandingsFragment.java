@@ -4,27 +4,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.save.R;
-import com.example.save.data.models.Member;
-import com.example.save.ui.viewmodels.MembersViewModel;
-
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import com.example.save.data.models.Poll;
+import com.example.save.data.models.PollNominee;
+import com.example.save.data.network.ApiService;
+import com.example.save.data.network.RetrofitClient;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActiveStandingsFragment extends Fragment {
 
@@ -33,8 +36,10 @@ public class ActiveStandingsFragment extends Fragment {
     }
 
     private RecyclerView rvStandings;
-    private MembersViewModel viewModel;
-    private StandingsAdapter adapter;
+    private View emptyState;
+    private View loadingIndicator;
+    private PollsAdapter adapter;
+    private boolean isAdmin;
 
     @Nullable
     @Override
@@ -45,15 +50,14 @@ public class ActiveStandingsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
+        super.onViewCreated(view, savedInstanceState);
 
-        // Back button
+        isAdmin = getActivity() instanceof com.example.save.ui.activities.AdminMainActivity;
+
         View btnBack = view.findViewById(R.id.btnBack);
         if (btnBack != null) btnBack.setOnClickListener(v -> {
             if (getActivity() != null) getActivity().onBackPressed();
         });
-
-        // Notifications button
         View btnBell = view.findViewById(R.id.btnBell);
         if (btnBell != null) btnBell.setOnClickListener(v -> {
             if (getActivity() instanceof com.example.save.ui.activities.AdminMainActivity) {
@@ -64,78 +68,176 @@ public class ActiveStandingsFragment extends Fragment {
         });
 
         rvStandings = view.findViewById(R.id.rvStandings);
-        if (rvStandings != null) {
-            adapter = new StandingsAdapter();
-            rvStandings.setLayoutManager(new LinearLayoutManager(getContext()));
-            rvStandings.setAdapter(adapter);
-        }
+        emptyState = view.findViewById(R.id.emptyState);
+        loadingIndicator = view.findViewById(R.id.loadingIndicator);
 
-        viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
-            if (members != null && adapter != null) {
-                // Sort by contribution paid descending
-                List<Member> sorted = new ArrayList<>(members);
-                sorted.sort((a, b) -> Double.compare(b.getContributionPaid(), a.getContributionPaid()));
-                adapter.setMembers(sorted);
-            }
-        });
+        adapter = new PollsAdapter(isAdmin, this::endPoll);
+        rvStandings.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvStandings.setAdapter(adapter);
+
+        loadPolls();
     }
 
-    // Inner adapter
-    private static class StandingsAdapter extends RecyclerView.Adapter<StandingsAdapter.VH> {
-        private List<Member> members = new ArrayList<>();
-        private static final String[] AVATAR_COLORS = {"#FBBF24","#F87171","#A78BFA","#34D399","#60A5FA"};
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadPolls();
+    }
 
-        void setMembers(List<Member> m) { this.members = m; notifyDataSetChanged(); }
+    private void loadPolls() {
+        if (loadingIndicator != null) loadingIndicator.setVisibility(View.VISIBLE);
+        if (emptyState != null) emptyState.setVisibility(View.GONE);
+        if (rvStandings != null) rvStandings.setVisibility(View.GONE);
 
-        @NonNull @Override
+        RetrofitClient.getClient(requireContext())
+                .create(ApiService.class)
+                .getPolls()
+                .enqueue(new Callback<List<Poll>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<Poll>> call,
+                                           @NonNull Response<List<Poll>> response) {
+                        if (!isAdded()) return;
+                        loadingIndicator.setVisibility(View.GONE);
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<Poll> active = new ArrayList<>();
+                            for (Poll p : response.body()) {
+                                if ("active".equals(p.getStatus())) active.add(p);
+                            }
+                            if (active.isEmpty()) {
+                                showEmpty();
+                            } else {
+                                adapter.setPolls(active);
+                                rvStandings.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            showEmpty();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<List<Poll>> call, @NonNull Throwable t) {
+                        if (!isAdded()) return;
+                        loadingIndicator.setVisibility(View.GONE);
+                        showEmpty();
+                        Toast.makeText(getContext(), "Could not load polls", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void endPoll(String pollId) {
+        RetrofitClient.getClient(requireContext())
+                .create(ApiService.class)
+                .closePoll(pollId)
+                .enqueue(new Callback<Poll>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Poll> call, @NonNull Response<Poll> response) {
+                        if (!isAdded()) return;
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Poll ended", Toast.LENGTH_SHORT).show();
+                            loadPolls();
+                        } else {
+                            Toast.makeText(getContext(), "Could not end poll", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Poll> call, @NonNull Throwable t) {
+                        if (!isAdded()) return;
+                        Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void showEmpty() {
+        emptyState.setVisibility(View.VISIBLE);
+        rvStandings.setVisibility(View.GONE);
+    }
+
+    // ── Adapter ──────────────────────────────────────────────────────────────
+
+    private static class PollsAdapter extends RecyclerView.Adapter<PollsAdapter.VH> {
+
+        interface EndPollCallback { void onEnd(String pollId); }
+
+        private List<Poll> polls = new ArrayList<>();
+        private final boolean isAdmin;
+        private final EndPollCallback endCallback;
+
+        PollsAdapter(boolean isAdmin, EndPollCallback endCallback) {
+            this.isAdmin = isAdmin;
+            this.endCallback = endCallback;
+        }
+
+        void setPolls(List<Poll> list) {
+            polls = list;
+            notifyDataSetChanged();
+        }
+
+        @NonNull
+        @Override
         public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_member_status_v2, parent, false);
+                    .inflate(R.layout.item_poll, parent, false);
             return new VH(v);
         }
 
         @Override
         public void onBindViewHolder(@NonNull VH h, int pos) {
-            Member m = members.get(pos);
-            if (h.tvName != null) h.tvName.setText(m.getName());
-            if (h.tvRank != null) h.tvRank.setText("#" + (pos + 1));
-            if (h.tvInitials != null) {
-                String[] parts = m.getName().trim().split("\\s+");
-                String initials = parts.length > 1
-                        ? ("" + parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase()
-                        : m.getName().substring(0, Math.min(2, m.getName().length())).toUpperCase();
-                h.tvInitials.setText(initials);
+            Poll p = polls.get(pos);
+
+            h.tvRole.setText(p.getRole() != null ? p.getRole().toUpperCase() : "POLL");
+            h.tvTitle.setText(p.getTitle());
+            h.tvGroupName.setText(p.getGroupName());
+            h.tvCreatedBy.setText("Created by " + p.getCreatedByName());
+
+            // Per-nominee vote percentages
+            h.nomineesContainer.removeAllViews();
+            List<PollNominee> nominees = p.getNominees();
+            int total = p.getTotalVotes();
+
+            if (nominees != null) {
+                for (PollNominee nominee : nominees) {
+                    int votes = nominee.getVoteCount();
+                    int pct = total > 0 ? Math.round((votes / (float) total) * 100) : 0;
+
+                    View row = LayoutInflater.from(h.itemView.getContext())
+                            .inflate(R.layout.item_nominee_vote_row, h.nomineesContainer, false);
+
+                    ((TextView) row.findViewById(R.id.tvNomineeName))
+                            .setText(nominee.getMemberName());
+                    ((TextView) row.findViewById(R.id.tvVotePct))
+                            .setText(String.format(Locale.getDefault(), "%d%%", pct));
+                    LinearProgressIndicator pb = row.findViewById(R.id.pbNomineeVotes);
+                    pb.setProgress(pct);
+
+                    h.nomineesContainer.addView(row);
+                }
             }
-            if (h.tvAmount != null) {
-                double amt = m.getContributionPaid();
-                if (amt >= 1_000_000) h.tvAmount.setText(String.format(Locale.getDefault(), "UGX %.1fM", amt / 1_000_000));
-                else if (amt >= 1000) h.tvAmount.setText(String.format(Locale.getDefault(), "UGX %.0fK", amt / 1000));
-                else h.tvAmount.setText(String.format(Locale.getDefault(), "UGX %.0f", amt));
-            }
-            if (h.tvStatus != null) {
-                String label = m.getReliabilityLabel();
-                h.tvStatus.setText(label != null ? label : "—");
-            }
-            int colorIdx = Math.abs(m.getName().hashCode()) % AVATAR_COLORS.length;
-            if (h.ivAvatar != null) {
-                h.ivAvatar.setBackgroundTintList(
-                        ColorStateList.valueOf(Color.parseColor(AVATAR_COLORS[colorIdx])));
+
+            // End Poll — admin only
+            if (isAdmin) {
+                h.btnEndPoll.setVisibility(View.VISIBLE);
+                h.btnEndPoll.setOnClickListener(v -> endCallback.onEnd(p.getId()));
+            } else {
+                h.btnEndPoll.setVisibility(View.GONE);
             }
         }
 
-        @Override public int getItemCount() { return members.size(); }
+        @Override
+        public int getItemCount() { return polls.size(); }
 
         static class VH extends RecyclerView.ViewHolder {
-            TextView tvName, tvInitials, tvAmount, tvStatus, tvRank;
-            com.google.android.material.imageview.ShapeableImageView ivAvatar;
+            TextView tvRole, tvTitle, tvGroupName, tvCreatedBy, btnEndPoll;
+            LinearLayout nomineesContainer;
+
             VH(View v) {
                 super(v);
-                tvName = v.findViewById(R.id.tvMemberName);
-                tvInitials = v.findViewById(R.id.tvMemberInitials);
-                tvAmount = v.findViewById(R.id.tvMemberAmount);
-                tvStatus = v.findViewById(R.id.tvMemberStatusPill);
-                tvRank = v.findViewById(R.id.tvMemberTurnInfo);
-                ivAvatar = v.findViewById(R.id.ivMemberAvatar);
+                tvRole = v.findViewById(R.id.tvPollRole);
+                tvTitle = v.findViewById(R.id.tvPollTitle);
+                tvGroupName = v.findViewById(R.id.tvPollGroupName);
+                tvCreatedBy = v.findViewById(R.id.tvCreatedBy);
+                btnEndPoll = v.findViewById(R.id.btnEndPoll);
+                nomineesContainer = v.findViewById(R.id.nomineesVoteContainer);
             }
         }
     }

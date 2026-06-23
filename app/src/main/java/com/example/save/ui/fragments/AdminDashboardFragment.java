@@ -29,9 +29,25 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+
+import com.example.save.data.models.LoanEntity;
+import com.example.save.data.models.Member;
+import com.example.save.data.models.MemberEntity;
+import com.example.save.data.models.PaginatedResponse;
+import com.example.save.data.models.PayoutEntity;
+import com.example.save.data.models.TransactionEntity;
+import com.example.save.data.network.ApiService;
+import com.example.save.data.network.RetrofitClient;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import java.util.LinkedHashMap;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AdminDashboardFragment extends Fragment {
 
@@ -78,6 +94,8 @@ public class AdminDashboardFragment extends Fragment {
         setupListeners();
         setupGrowthChart();
         loadDashboardData();
+        loadActiveLoans();
+        loadPayoutSections();
         updateScheduleUI();
         setupEntranceAnimations();
         observeViewModel();
@@ -123,11 +141,14 @@ public class AdminDashboardFragment extends Fragment {
             applyClickAnimation(v);
             com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "admin");
         });
-// View All Targets button removed as per UI redesign
-// binding.viewAllTargets.setOnClickListener(v -> {
-//     applyClickAnimation(v);
-//     Toast.makeText(getContext(), "Navigating to Targets", Toast.LENGTH_SHORT).show();
-// });
+        binding.sectionSavingsTargets.setOnClickListener(v -> {
+            applyClickAnimation(v);
+            if (getActivity() instanceof AdminMainActivity) {
+                ((AdminMainActivity) getActivity()).loadFragment(SavingsTargetsFragment.newInstance(), true);
+            } else if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
+                ((com.example.save.ui.activities.MemberMainActivity) getActivity()).loadFragment(SavingsTargetsFragment.newInstance());
+            }
+        });
 
         binding.viewAllLoans.setOnClickListener(v -> {
             applyClickAnimation(v);
@@ -177,11 +198,8 @@ public class AdminDashboardFragment extends Fragment {
         binding.sectionRecentPayouts.setVisibility(View.VISIBLE);
         binding.sectionUpcomingPayouts.setVisibility(View.VISIBLE);
 
-        // Reset trackers to clean state if no real data
         binding.pbTarget1.setProgress(0);
         binding.pbTarget2.setProgress(0);
-        binding.tvTarget1Amount.setText("UGX 0 / UGX 0");
-        binding.tvTarget2Amount.setText("UGX 0 / UGX 0");
     }
 
     private void observeViewModel() {
@@ -190,15 +208,116 @@ public class AdminDashboardFragment extends Fragment {
                 loadDashboardData();
                 String currentUserPhone = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserPhone();
                 if (memberAdapter != null) memberAdapter.setMembers(members, currentUserPhone);
-                if (payoutAdapter != null) payoutAdapter.updateList(members);
-                
-                binding.tvNoUpcomingPayouts.setVisibility(members.isEmpty() ? View.VISIBLE : View.GONE);
-                binding.rvDashboardPayouts.setVisibility(members.isEmpty() ? View.GONE : View.VISIBLE);
             }
         });
 
         notificationsViewModel.getUnreadCount().observe(getViewLifecycleOwner(), count -> {
             binding.notificationBadgeDot.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+        });
+    }
+
+    private void loadPayoutSections() {
+        ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
+        NumberFormat fmt = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+
+        // Fetch config + total contributors to compute real payout amount
+        // Uses getDashboardSummary for total_contributors (admin + members) and
+        // getSystemConfig for retention_percentage (not in summary)
+        api.getSystemConfig().enqueue(new Callback<com.example.save.data.models.SystemConfig>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.SystemConfig> call,
+                    Response<com.example.save.data.models.SystemConfig> response) {
+                if (!isAdded() || binding == null || !response.isSuccessful() || response.body() == null) return;
+                com.example.save.data.models.SystemConfig cfg = response.body();
+                api.getDashboardSummary().enqueue(new Callback<com.example.save.data.models.DashboardSummaryResponse>() {
+                    @Override
+                    public void onResponse(Call<com.example.save.data.models.DashboardSummaryResponse> call2,
+                            Response<com.example.save.data.models.DashboardSummaryResponse> r2) {
+                        int contributors = (r2.isSuccessful() && r2.body() != null)
+                                ? r2.body().getTotalContributors() : 1;
+                        double monthly = cfg.getContributionAmount() * contributors;
+                        double payoutAmt = monthly * (1.0 - cfg.getRetentionPercentage() / 100.0);
+                        if (payoutAdapter != null) payoutAdapter.setPayoutAmount(payoutAmt);
+                    }
+                    @Override public void onFailure(Call<com.example.save.data.models.DashboardSummaryResponse> call2, Throwable t) {}
+                });
+            }
+            @Override public void onFailure(Call<com.example.save.data.models.SystemConfig> call, Throwable t) {}
+        });
+
+        // ---- Upcoming payouts: payout queue (members who haven't received payout yet) ----
+        api.getPayoutQueue().enqueue(new Callback<List<MemberEntity>>() {
+            @Override
+            public void onResponse(Call<List<MemberEntity>> call, Response<List<MemberEntity>> response) {
+                if (!isAdded() || binding == null) return;
+                requireActivity().runOnUiThread(() -> {
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<MemberEntity> queue = response.body();
+                        // Convert MemberEntity list to Member list for the adapter
+                        List<Member> memberList = new ArrayList<>();
+                        for (MemberEntity e : queue) {
+                            Member m = new Member(e.getName(), "member", e.isActive(), e.getPhone());
+                            m.setHasReceivedPayout(e.isHasReceivedPayout());
+                            memberList.add(m);
+                        }
+                        SharedPreferences qPrefs = requireActivity()
+                                .getSharedPreferences("SaveAppPrefs", Context.MODE_PRIVATE);
+                        String payoutDate = qPrefs.getString("sched_payout_date", "");
+                        if (payoutAdapter != null) payoutAdapter.updateList(memberList, payoutDate);
+                        binding.tvNoUpcomingPayouts.setVisibility(memberList.isEmpty() ? View.VISIBLE : View.GONE);
+                        binding.rvDashboardPayouts.setVisibility(memberList.isEmpty() ? View.GONE : View.VISIBLE);
+                    } else {
+                        binding.tvNoUpcomingPayouts.setVisibility(View.VISIBLE);
+                        binding.rvDashboardPayouts.setVisibility(View.GONE);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<List<MemberEntity>> call, Throwable t) {
+                if (!isAdded() || binding == null) return;
+                requireActivity().runOnUiThread(() -> {
+                    binding.tvNoUpcomingPayouts.setVisibility(View.VISIBLE);
+                    binding.rvDashboardPayouts.setVisibility(View.GONE);
+                });
+            }
+        });
+
+        // ---- Recent payouts ----
+        api.getPayouts(5, 0).enqueue(new Callback<PaginatedResponse<PayoutEntity>>() {
+            @Override
+            public void onResponse(Call<PaginatedResponse<PayoutEntity>> call,
+                    Response<PaginatedResponse<PayoutEntity>> response) {
+                if (!isAdded() || binding == null) return;
+                requireActivity().runOnUiThread(() -> {
+                    if (response.isSuccessful() && response.body() != null
+                            && response.body().getData() != null
+                            && !response.body().getData().isEmpty()) {
+                        List<PayoutEntity> payouts = response.body().getData();
+                        StringBuilder sb = new StringBuilder();
+                        for (PayoutEntity p : payouts) {
+                            String name = p.getMemberName() != null ? p.getMemberName() : "—";
+                            String amount = fmt.format(p.getNetAmount()).replace("UGX", "UGX ");
+                            String date = p.getExecutedAt() != null && p.getExecutedAt().length() >= 10
+                                    ? p.getExecutedAt().substring(0, 10) : "—";
+                            sb.append("• ").append(name).append("  ").append(amount)
+                              .append("  ").append(date).append("\n");
+                        }
+                        binding.tvNoRecentPayouts.setText(sb.toString().trim());
+                        binding.tvNoRecentPayouts.setTextColor(
+                                androidx.core.content.ContextCompat.getColor(requireContext(),
+                                        com.example.save.R.color.v_text_dark));
+                    } else {
+                        binding.tvNoRecentPayouts.setText("No recent payouts");
+                        binding.tvNoRecentPayouts.setTextColor(
+                                androidx.core.content.ContextCompat.getColor(requireContext(),
+                                        com.example.save.R.color.v_text_muted));
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<PaginatedResponse<PayoutEntity>> call, Throwable t) {}
         });
     }
 
@@ -248,16 +367,29 @@ public class AdminDashboardFragment extends Fragment {
                         updateBalanceDisplay();
 
                         NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
-                        // Monthly contribution = configured per-member amount for this cycle
+                        // Monthly contribution = per-member amount set by admin (same for everyone)
                         binding.monthlyContrib.setText(ugFormat.format(summary.getContributionAmount()).replace("UGX", "UGX "));
                         // Paid so far = admin's own contribution_paid for this cycle
                         binding.interestEarned.setText(ugFormat.format(summary.getPersonalSavings()).replace("UGX", "UGX "));
 
-                        // Calculate projected collections
-                        double projectedMonthly = summary.getMonthlyContributions() * 1.05; // 5% growth assumption
-                        double projectedYearly = projectedMonthly * 12;
-                        binding.tvTarget1Amount.setText(ugFormat.format(projectedMonthly).replace("UGX", "UGX "));
-                        binding.tvTarget2Amount.setText(ugFormat.format(projectedYearly).replace("UGX", "UGX "));
+                        double expectedMonthly = summary.getContributionAmount() * summary.getTotalContributors();
+                        double expectedYearly = expectedMonthly * 12;
+
+                        int prog1 = expectedMonthly > 0
+                                ? (int) Math.min(100, (summary.getMonthlyContributions() / expectedMonthly) * 100)
+                                : 0;
+                        int prog2 = expectedYearly > 0
+                                ? (int) Math.min(100, (summary.getYearlyContributions() / expectedYearly) * 100)
+                                : 0;
+                        binding.pbTarget1.setProgress(prog1);
+                        binding.pbTarget2.setProgress(prog2);
+
+                        String t1 = ugFormat.format(summary.getMonthlyContributions()).replace("UGX", "UGX ")
+                                + " / " + ugFormat.format(expectedMonthly).replace("UGX", "UGX ");
+                        String t2 = ugFormat.format(summary.getYearlyContributions()).replace("UGX", "UGX ")
+                                + " / " + ugFormat.format(expectedYearly).replace("UGX", "UGX ");
+                        binding.tvTarget1Amount.setText(t1);
+                        binding.tvTarget2Amount.setText(t2);
                     });
                 }
             });
@@ -305,6 +437,7 @@ public class AdminDashboardFragment extends Fragment {
         xAxis.setDrawGridLines(false);
         xAxis.setTextColor(Color.parseColor("#94A3B8"));
         xAxis.setTextSize(10f);
+        xAxis.setGranularity(1f);
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawGridLines(true);
@@ -314,20 +447,106 @@ public class AdminDashboardFragment extends Fragment {
         leftAxis.setAxisMinimum(0f);
         chart.getAxisRight().setEnabled(false);
 
-        viewModel.getSavingsTrend().observe(getViewLifecycleOwner(), trendEntries -> {
-            if (trendEntries == null || trendEntries.isEmpty()) {
-                // If no real data, show a subtle empty state or flat line
-                ArrayList<BarEntry> emptyEntries = new ArrayList<>();
-                for(int i=0; i<7; i++) emptyEntries.add(new BarEntry(i, 0.1f));
-                updateChartData(chart, emptyEntries);
-                return;
-            }
+        // Build last-7-months buckets (key = "yyyy-MM")
+        LinkedHashMap<String, Float> monthMap = new LinkedHashMap<>();
+        ArrayList<String> monthLabels = new ArrayList<>();
+        SimpleDateFormat keyFmt = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
+        SimpleDateFormat labelFmt = new SimpleDateFormat("MMM", Locale.getDefault());
+        for (int i = 6; i >= 0; i--) {
+            Calendar bucket = Calendar.getInstance();
+            bucket.add(Calendar.MONTH, -i);
+            monthMap.put(keyFmt.format(bucket.getTime()), 0f);
+            monthLabels.add(labelFmt.format(bucket.getTime()));
+        }
 
-            ArrayList<BarEntry> barEntries = new ArrayList<>();
-            for (com.github.mikephil.charting.data.Entry e : trendEntries) {
-                barEntries.add(new BarEntry(e.getX(), e.getY()));
+        ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
+        api.getTransactions(100, 0).enqueue(new Callback<PaginatedResponse<TransactionEntity>>() {
+            @Override
+            public void onResponse(Call<PaginatedResponse<TransactionEntity>> call,
+                    Response<PaginatedResponse<TransactionEntity>> response) {
+                if (!isAdded() || binding == null || !response.isSuccessful() || response.body() == null) return;
+                for (TransactionEntity tx : response.body().getData()) {
+                    if (!"CONTRIBUTION".equalsIgnoreCase(tx.getType())) continue;
+                    if (!"APPROVED".equalsIgnoreCase(tx.getStatus())) continue;
+                    if (tx.getDate() == null) continue;
+                    String key = keyFmt.format(tx.getDate());
+                    if (monthMap.containsKey(key)) {
+                        monthMap.put(key, monthMap.get(key) + (float) tx.getAmount());
+                    }
+                }
+                ArrayList<BarEntry> barEntries = new ArrayList<>();
+                int idx = 0;
+                for (float val : monthMap.values()) barEntries.add(new BarEntry(idx++, val));
+                requireActivity().runOnUiThread(() -> {
+                    xAxis.setValueFormatter(new IndexAxisValueFormatter(monthLabels));
+                    updateChartData(chart, barEntries);
+                });
             }
-            updateChartData(chart, barEntries);
+            @Override
+            public void onFailure(Call<PaginatedResponse<TransactionEntity>> call, Throwable t) {
+                if (!isAdded() || binding == null) return;
+                ArrayList<BarEntry> empty = new ArrayList<>();
+                for (int i = 0; i < 7; i++) empty.add(new BarEntry(i, 0f));
+                requireActivity().runOnUiThread(() -> {
+                    xAxis.setValueFormatter(new IndexAxisValueFormatter(monthLabels));
+                    updateChartData(chart, empty);
+                });
+            }
+        });
+    }
+
+    private void loadActiveLoans() {
+        ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
+        api.getLoans(100, 0).enqueue(new Callback<PaginatedResponse<LoanEntity>>() {
+            @Override
+            public void onResponse(Call<PaginatedResponse<LoanEntity>> call,
+                    Response<PaginatedResponse<LoanEntity>> response) {
+                if (!isAdded() || binding == null || !response.isSuccessful() || response.body() == null) return;
+                List<LoanEntity> allLoans = response.body().getData();
+                List<LoanEntity> activeLoans = new ArrayList<>();
+                if (allLoans != null) {
+                    for (LoanEntity loan : allLoans) {
+                        String st = loan.getStatus();
+                        if ("ACTIVE".equalsIgnoreCase(st) || "APPROVED".equalsIgnoreCase(st)) {
+                            activeLoans.add(loan);
+                        }
+                    }
+                }
+                requireActivity().runOnUiThread(() -> {
+                    binding.viewAllLoans.setText(activeLoans.size() + " Total");
+                    if (activeLoans.isEmpty()) {
+                        binding.containerActiveLoans.setVisibility(View.GONE);
+                        binding.tvNoLoans.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                    binding.tvNoLoans.setVisibility(View.GONE);
+                    binding.containerActiveLoans.setVisibility(View.VISIBLE);
+                    binding.containerActiveLoans.removeAllViews();
+                    NumberFormat fmt = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+                    SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                    int limit = Math.min(3, activeLoans.size());
+                    for (int i = 0; i < limit; i++) {
+                        LoanEntity loan = activeLoans.get(i);
+                        View row = LayoutInflater.from(requireContext()).inflate(
+                                R.layout.item_loan_active, binding.containerActiveLoans, false);
+                        String name = loan.getMemberName() != null ? loan.getMemberName() : "—";
+                        ((android.widget.TextView) row.findViewById(R.id.tvMemberName)).setText(name);
+                        double totalDue = loan.getAmount() + loan.getInterest();
+                        ((android.widget.TextView) row.findViewById(R.id.tvTotalDue))
+                                .setText(fmt.format(totalDue).replace("USh", "UGX"));
+                        String dueStr = loan.getDueDate() != null ? dateFmt.format(loan.getDueDate()) : "—";
+                        ((android.widget.TextView) row.findViewById(R.id.tvDueDate)).setText("Due: " + dueStr);
+                        double repaid = loan.getRepaidAmount();
+                        int progress = totalDue > 0 ? (int) Math.min(100, (repaid / totalDue) * 100) : 0;
+                        ((com.google.android.material.progressindicator.LinearProgressIndicator)
+                                row.findViewById(R.id.progressBarRepayment)).setProgress(progress);
+                        String paidLabel = fmt.format(repaid).replace("USh", "UGX") + " (" + progress + "%)";
+                        ((android.widget.TextView) row.findViewById(R.id.tvRepaidAmount)).setText("Paid: " + paidLabel);
+                        binding.containerActiveLoans.addView(row);
+                    }
+                });
+            }
+            @Override public void onFailure(Call<PaginatedResponse<LoanEntity>> call, Throwable t) {}
         });
     }
 

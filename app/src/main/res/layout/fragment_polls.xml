@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/v_page_bg">
 
-    <!-- Transparent Header with Back Arrow Only -->
     <RelativeLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"

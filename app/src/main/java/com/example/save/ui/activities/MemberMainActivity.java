@@ -67,7 +67,13 @@ public class MemberMainActivity extends BaseActivity {
         }
 
         setupBottomNavigation();
-        
+
+        // Re-hydrate group settings from the server-persisted config so the group
+        // rules survive a reinstall (local ChamaPrefs are wiped on uninstall, but
+        // the SystemConfig row is durable server-side). Repopulates ChamaPrefs.
+        com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
+                .fetchSystemConfig(null);
+
         // Initial setup - default back to original Member Dashboard
         if (savedInstanceState == null) {
             loadFragment(new DashboardFragment(), false);
@@ -158,15 +164,17 @@ public class MemberMainActivity extends BaseActivity {
         }
     }
 
+    private void switchToTab(Fragment fragment) {
+        getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        loadFragment(fragment, false);
+        syncNavUI();
+    }
+
     private void setupBottomNavigation() {
         binding.navDashboard.setOnClickListener(v -> switchToDashboard());
 
         // Make Payment navigation replaces Loans
-        binding.navLoans.setOnClickListener(v -> {
-            updateNavHighlight(binding.txtLoans, binding.imgLoans);
-            // Open Stash (Make Payments) instead of Loans
-            loadFragment(StashFragment.newInstance(), true);
-        });
+        binding.navLoans.setOnClickListener(v -> switchToTab(StashFragment.newInstance()));
 
         binding.navAction.setOnClickListener(v -> {
             applyClickAnimation(v);
@@ -174,15 +182,9 @@ public class MemberMainActivity extends BaseActivity {
             else showQuickActions();
         });
 
-        binding.navPayouts.setOnClickListener(v -> {
-            updateNavHighlight(binding.txtPayouts, binding.imgPayouts);
-            loadFragment(new QueueFragment(), true);
-        });
+        binding.navPayouts.setOnClickListener(v -> switchToTab(new QueueFragment()));
 
-        binding.navSettings.setOnClickListener(v -> {
-            updateNavHighlight(binding.txtSettings, binding.imgSettings);
-            loadFragment(new SettingsFragment(), true);
-        });
+        binding.navSettings.setOnClickListener(v -> switchToTab(new SettingsFragment()));
 
         // Setup Quick Actions
         View overlay = findViewById(R.id.quickActionsOverlay);

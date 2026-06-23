@@ -16,7 +16,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class WizardPayoutFragment extends Fragment {
 
-    private TextInputEditText etPayoutAmount;
     private TextInputEditText etRetention;
 
     @Nullable
@@ -24,7 +23,6 @@ public class WizardPayoutFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wizard_payout, container, false);
         
-        etPayoutAmount = view.findViewById(R.id.etPayoutAmount);
         etRetention = view.findViewById(R.id.etRetention);
         
         return view;
@@ -37,12 +35,6 @@ public class WizardPayoutFragment extends Fragment {
         // Restore data from activity if available
         if (getActivity() instanceof AdminSetupWizardActivity) {
             AdminSetupWizardActivity activity = (AdminSetupWizardActivity) getActivity();
-
-            double payout = activity.getPayoutAmount();
-            if (payout > 0) {
-                etPayoutAmount.setText(String.valueOf(payout));
-            }
-
             double retention = activity.getRetentionPercentage();
             if (retention > 0) {
                 etRetention.setText(String.valueOf(retention));
@@ -51,15 +43,9 @@ public class WizardPayoutFragment extends Fragment {
     }
 
     public boolean validateAndSave() {
-        if (etPayoutAmount == null || etRetention == null) return false;
+        if (etRetention == null) return false;
 
-        String payoutStr = etPayoutAmount.getText().toString().trim();
         String retentionStr = etRetention.getText().toString().trim();
-
-        if (payoutStr.isEmpty()) {
-            etPayoutAmount.setError("Payout amount is required");
-            return false;
-        }
 
         if (retentionStr.isEmpty()) {
             etRetention.setError("Retention percentage is required");
@@ -67,7 +53,6 @@ public class WizardPayoutFragment extends Fragment {
         }
 
         try {
-            double payout = Double.parseDouble(payoutStr);
             double retention = Double.parseDouble(retentionStr);
 
             if (retention < 0 || retention > 100) {
@@ -76,7 +61,7 @@ public class WizardPayoutFragment extends Fragment {
             }
 
             if (getActivity() instanceof AdminSetupWizardActivity) {
-                ((AdminSetupWizardActivity) getActivity()).setPayoutSettings(payout, retention);
+                ((AdminSetupWizardActivity) getActivity()).setRetentionPercentage(retention);
             }
             return true;
         } catch (NumberFormatException e) {

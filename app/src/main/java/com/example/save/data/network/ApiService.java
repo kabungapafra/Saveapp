@@ -45,7 +45,7 @@ public interface ApiService {
     @POST("auth/reset-password")
     Call<ApiResponse> resetPassword(@Body com.example.save.data.network.ResetPasswordRequest request);
 
-    @GET("analytics/dashboard")
+    @GET("analytics/dashboard/summary")
     Call<com.example.save.data.models.DashboardSummaryResponse> getDashboardSummary();
 
     @retrofit2.http.DELETE("groups")
@@ -64,6 +64,12 @@ public interface ApiService {
 
     @GET("loans")
     Call<PaginatedResponse<com.example.save.data.models.LoanEntity>> getLoans(@Query("limit") int limit, @Query("offset") int offset);
+
+    @GET("payouts")
+    Call<PaginatedResponse<com.example.save.data.models.PayoutEntity>> getPayouts(@Query("limit") int limit, @Query("offset") int offset);
+
+    @GET("payouts/queue")
+    Call<java.util.List<com.example.save.data.models.MemberEntity>> getPayoutQueue();
 
     @GET("loans/{id}")
     Call<com.example.save.data.models.LoanEntity> getLoan(@retrofit2.http.Path("id") String loanId);
@@ -85,4 +91,22 @@ public interface ApiService {
 
     @POST("auth/onboarding/set-password")
     Call<LoginResponse> setOnboardingPassword(@Body OnboardingSetPasswordRequest request);
+
+    @GET("polls")
+    Call<java.util.List<com.example.save.data.models.Poll>> getPolls();
+
+    @POST("polls")
+    Call<com.example.save.data.models.Poll> createPoll(@Body PollCreateRequest request);
+
+    @POST("polls/{pollId}/vote")
+    Call<com.example.save.data.models.Poll> castVote(
+            @retrofit2.http.Path("pollId") String pollId,
+            @Body CastVoteRequestBody request);
+
+    @PUT("polls/{pollId}/close")
+    Call<com.example.save.data.models.Poll> closePoll(
+            @retrofit2.http.Path("pollId") String pollId);
+
+    @POST("notifications/update-token")
+    Call<ApiResponse> updateFcmToken(@Body com.example.save.services.SaveFirebaseMessagingService.FcmTokenRequest request);
 }

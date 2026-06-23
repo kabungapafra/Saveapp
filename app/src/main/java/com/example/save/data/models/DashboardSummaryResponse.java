@@ -27,11 +27,17 @@ public class DashboardSummaryResponse {
     @SerializedName("monthly_contributions")
     private double monthlyContributions;
 
+    @SerializedName("yearly_contributions")
+    private double yearlyContributions;
+
     @SerializedName("interest_earned")
     private double interestEarned;
 
     @SerializedName("contribution_amount")
     private double contributionAmount;
+
+    @SerializedName("total_contributors")
+    private int totalContributors;
 
     // Getters
     public int getTotalMembers() { return totalMembers; }
@@ -42,6 +48,8 @@ public class DashboardSummaryResponse {
     public String getGroupName() { return groupName; }
     public String getAdminName() { return adminName; }
     public double getMonthlyContributions() { return monthlyContributions; }
+    public double getYearlyContributions() { return yearlyContributions; }
     public double getInterestEarned() { return interestEarned; }
     public double getContributionAmount() { return contributionAmount; }
+    public int getTotalContributors() { return totalContributors > 0 ? totalContributors : getTotalMembers(); }
 }
