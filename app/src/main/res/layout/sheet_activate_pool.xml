@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="32dp"
+    android:background="@color/card_surface">
+
+    <!-- Drag handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        android:background="#CBD5E1"
+        android:backgroundTint="#CBD5E1" />
+
+    <!-- Sheet title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
+        android:text="Set Up Savings Pool"
+        android:textColor="@color/dashboard_text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="20dp"
+        android:text="Admin sets the total, deadline and payout date. Amount is divided equally."
+        android:textColor="@color/dashboard_text_secondary"
+        android:textSize="12sp" />
+
+    <!-- Total savings amount -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/dashboard_bg"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_money"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="Total savings amount"
+                android:textColor="@color/dashboard_text_secondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvAmountPreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UGX 0"
+                android:textColor="@color/dashboard_accent_green"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPoolAmount"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/card_surface"
+            android:hint="Enter amount in UGX"
+            android:inputType="numberDecimal"
+            android:paddingHorizontal="12dp"
+            android:textColor="@color/dashboard_text_primary"
+            android:textColorHint="@color/dashboard_text_secondary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Per-member split preview -->
+    <LinearLayout
+        android:id="@+id/rowSplitPreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_badge_success"
+        android:backgroundTint="#F0FDF4"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_check_circle"
+            app:tint="@color/dashboard_accent_green" />
+
+        <TextView
+            android:id="@+id/tvSplitPreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text=""
+            android:textColor="@color/dashboard_accent_green"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Saving date -->
+    <LinearLayout
+        android:id="@+id/rowSaveDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/dashboard_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saving date"
+                android:textColor="@color/dashboard_text_secondary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tvSaveDateDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Tap to pick"
+                android:textColor="@color/dashboard_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_calendar_month"
+            app:tint="@color/dashboard_accent_green" />
+    </LinearLayout>
+
+    <!-- Receiving date -->
+    <LinearLayout
+        android:id="@+id/rowReceiveDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/dashboard_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Receiving date"
+                android:textColor="@color/dashboard_text_secondary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tvReceiveDateDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Tap to pick"
+                android:textColor="@color/dashboard_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_calendar_month"
+            app:tint="@color/dashboard_accent_green" />
+    </LinearLayout>
+
+    <!-- Activate button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfirmActivate"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="16dp"
+        android:text="Activate Pool"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/brand_blue"
+        app:cornerRadius="14dp" />
+
+</LinearLayout>

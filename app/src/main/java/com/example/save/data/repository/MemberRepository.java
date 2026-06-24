@@ -315,8 +315,32 @@ public class MemberRepository {
     }
 
     public void executePayout(Member m, double a, boolean d, String adminEmail, PayoutCallback cb) {
-        if (cb != null)
-            cb.onResult(true, "Payout executed (Mock)");
+        if (m == null || m.getPhone() == null) {
+            if (cb != null) cb.onResult(false, "Member phone is required");
+            return;
+        }
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        com.example.save.data.models.PayoutCreateRequest req =
+                new com.example.save.data.models.PayoutCreateRequest(m.getPhone(), a, d);
+        apiService.createPayout(req).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (cb != null) cb.onResult(true, "Payout submitted. Awaiting admin approval.");
+                } else {
+                    String msg = "Payout failed";
+                    try {
+                        if (response.errorBody() != null) msg = response.errorBody().string();
+                    } catch (Exception ignored) {}
+                    if (cb != null) cb.onResult(false, msg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                if (cb != null) cb.onResult(false, "Network error: " + t.getMessage());
+            }
+        });
     }
 
     public void makePayment(Member m, double a, String p, String pm, PaymentCallback cb) {
@@ -561,22 +585,25 @@ public class MemberRepository {
 
     public void submitLoanRequest(com.example.save.data.models.LoanRequest request, LoanSubmissionCallback callback) {
         ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
-        apiService.submitLoan(request).enqueue(new Callback<com.example.save.data.models.LoanRequest>() {
+        apiService.submitLoan(request).enqueue(new Callback<com.example.save.data.models.LoanEntity>() {
             @Override
-            public void onResponse(Call<com.example.save.data.models.LoanRequest> call, Response<com.example.save.data.models.LoanRequest> response) {
+            public void onResponse(Call<com.example.save.data.models.LoanEntity> call, Response<com.example.save.data.models.LoanEntity> response) {
                 if (response.isSuccessful()) {
                     if (callback != null)
                         callback.onResult(true, "Loan request submitted");
                 } else {
-                    if (callback != null)
-                        callback.onResult(false, "Submission failed");
+                    String msg = "Submission failed";
+                    try {
+                        if (response.errorBody() != null) msg = response.errorBody().string();
+                    } catch (Exception ignored) {}
+                    if (callback != null) callback.onResult(false, msg);
                 }
             }
 
             @Override
-            public void onFailure(Call<com.example.save.data.models.LoanRequest> call, Throwable t) {
+            public void onFailure(Call<com.example.save.data.models.LoanEntity> call, Throwable t) {
                 if (callback != null)
-                    callback.onResult(false, "Network error");
+                    callback.onResult(false, "Network error: " + t.getMessage());
             }
         });
     }
@@ -909,6 +936,89 @@ public class MemberRepository {
                     callback.onResult(false, "Network error");
             }
         });
+    }
+
+    public void approvePayout(String payoutId, ApprovalCallback callback) {
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.approvePayout(payoutId).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (callback != null) callback.onResult(true, "Payout approved");
+                } else {
+                    if (callback != null) callback.onResult(false, "Payout approval failed: " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                if (callback != null) callback.onResult(false, "Network error");
+            }
+        });
+    }
+
+    public LiveData<List<com.example.save.data.models.PayoutEntity>> getMemberPayoutHistory(String memberName) {
+        MutableLiveData<List<com.example.save.data.models.PayoutEntity>> liveData = new MutableLiveData<>(new ArrayList<>());
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getPayouts(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>> call,
+                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                    List<com.example.save.data.models.PayoutEntity> list = new ArrayList<>();
+                    for (com.example.save.data.models.PayoutEntity p : response.body().getData()) {
+                        if (memberName == null || memberName.equalsIgnoreCase(p.getMemberName())) {
+                            list.add(p);
+                        }
+                    }
+                    liveData.postValue(list);
+                } else {
+                    liveData.postValue(new ArrayList<>());
+                }
+            }
+            @Override
+            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>> call, Throwable t) {
+                liveData.postValue(new ArrayList<>());
+            }
+        });
+        return liveData;
+    }
+
+    public LiveData<List<com.example.save.data.models.ApprovalRequest>> getPendingPayoutApprovals() {
+        MutableLiveData<List<com.example.save.data.models.ApprovalRequest>> liveData =
+                new MutableLiveData<>(new ArrayList<>());
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getPayouts(100, 0).enqueue(
+                new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>>() {
+                    @Override
+                    public void onResponse(
+                            Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>> call,
+                            Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                            List<com.example.save.data.models.ApprovalRequest> pending = new ArrayList<>();
+                            for (com.example.save.data.models.PayoutEntity p : response.body().getData()) {
+                                if ("PENDING".equalsIgnoreCase(p.getStatus())) {
+                                    pending.add(new com.example.save.data.models.ApprovalRequest(
+                                            p.getId(),
+                                            "DISBURSEMENT",
+                                            p.getMemberName(),
+                                            p.getAmount(),
+                                            "Payout Disbursement",
+                                            null,
+                                            p.getStatus(),
+                                            false));
+                                }
+                            }
+                            liveData.postValue(pending);
+                        }
+                    }
+                    @Override
+                    public void onFailure(
+                            Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>> call,
+                            Throwable t) {
+                        liveData.postValue(new ArrayList<>());
+                    }
+                });
+        return liveData;
     }
 
     public void approveTransaction(String txId, String adminPhone, ApprovalCallback callback) {

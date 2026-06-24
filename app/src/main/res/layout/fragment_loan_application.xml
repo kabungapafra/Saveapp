@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/v_page_bg"
     android:clipToPadding="false"
-    android:paddingBottom="32dp">
+    android:paddingBottom="120dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -176,10 +176,11 @@
                     android:max="11"
                     android:progress="5"
                     android:progressTint="@color/brand_blue"
-                    android:thumb="@drawable/bg_avatar_blue"
-                    android:thumbTint="@color/brand_blue"
+                    android:thumb="@drawable/thumb_slider_blue"
                     android:progressBackgroundTint="@color/divider_color"
-                    android:splitTrack="false" />
+                    android:splitTrack="false"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -446,7 +447,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="18dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -466,30 +467,6 @@
                         tools:text="UGX 150,000" />
                 </LinearLayout>
 
-                <!-- Processing Fee row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="18dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Processing Fee"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvSummaryFee"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
 
                 <!-- Divider -->
                 <View

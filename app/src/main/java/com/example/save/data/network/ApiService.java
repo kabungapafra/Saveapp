@@ -60,10 +60,16 @@ public interface ApiService {
 
 
     @POST("loans")
-    Call<com.example.save.data.models.LoanRequest> submitLoan(@Body com.example.save.data.models.LoanRequest request);
+    Call<com.example.save.data.models.LoanEntity> submitLoan(@Body com.example.save.data.models.LoanRequest request);
 
     @GET("loans")
     Call<PaginatedResponse<com.example.save.data.models.LoanEntity>> getLoans(@Query("limit") int limit, @Query("offset") int offset);
+
+    @POST("payouts")
+    Call<ApiResponse> createPayout(@Body com.example.save.data.models.PayoutCreateRequest request);
+
+    @POST("payouts/{id}/approve")
+    Call<ApiResponse> approvePayout(@retrofit2.http.Path("id") String payoutId);
 
     @GET("payouts")
     Call<PaginatedResponse<com.example.save.data.models.PayoutEntity>> getPayouts(@Query("limit") int limit, @Query("offset") int offset);
@@ -118,4 +124,19 @@ public interface ApiService {
 
     @POST("notifications/read-all")
     Call<ApiResponse> markAllNotificationsRead();
+
+    // ── Savings Pool ──────────────────────────────────────────────────────────
+
+    @POST("savings-pool")
+    Call<com.example.save.data.models.SavingsPool> createSavingsPool(
+            @Body com.example.save.data.models.SavingsPoolRequest request);
+
+    @GET("savings-pool/active")
+    Call<com.example.save.data.models.SavingsPool> getActiveSavingsPool();
+
+    @POST("savings-pool/{id}/trigger-payout")
+    Call<ApiResponse> triggerPoolPayout(@retrofit2.http.Path("id") String poolId);
+
+    @POST("savings-pool/{id}/cancel")
+    Call<ApiResponse> cancelSavingsPool(@retrofit2.http.Path("id") String poolId);
 }

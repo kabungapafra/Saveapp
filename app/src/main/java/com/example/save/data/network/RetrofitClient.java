@@ -2,11 +2,17 @@ package com.example.save.data.network;
 
 import android.content.Context;
 import com.example.save.utils.SessionManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -53,9 +59,29 @@ public class RetrofitClient {
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
 
+        // FastAPI serializes datetime as ISO-8601 (with or without microseconds).
+        // Default Gson can't parse this format — configure a lenient date adapter.
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, (JsonDeserializer<Date>) (json, typeOfT, ctx2) -> {
+                    String s = json.getAsString();
+                    String[] formats = {
+                            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS",
+                            "yyyy-MM-dd'T'HH:mm:ss",
+                            "yyyy-MM-dd'T'HH:mm:ss.SSS",
+                            "yyyy-MM-dd"
+                    };
+                    for (String fmt : formats) {
+                        try {
+                            return new SimpleDateFormat(fmt, Locale.US).parse(s);
+                        } catch (Exception ignored) { }
+                    }
+                    return null;
+                })
+                .create();
+
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();
     }

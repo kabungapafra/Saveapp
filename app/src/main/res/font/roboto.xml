@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<font-family xmlns:app="http://schemas.android.com/apk/res-auto">
-    <font app:fontProviderAuthority="com.google.android.gms.fonts"
-          app:fontProviderPackage="com.google.android.gms"
-          app:fontProviderQuery="name=Roboto&amp;weight=500"
-          app:fontProviderCerts="@array/com_google_android_gms_fonts_certs"
-          app:fontStyle="normal"
-          app:fontWeight="500" />
-    <font app:fontProviderAuthority="com.google.android.gms.fonts"
-          app:fontProviderPackage="com.google.android.gms"
-          app:fontProviderQuery="name=Roboto&amp;weight=700"
-          app:fontProviderCerts="@array/com_google_android_gms_fonts_certs"
-          app:fontStyle="normal"
-          app:fontWeight="700" />
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <font
+        android:font="@font/roboto"
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        app:font="@font/roboto"
+        app:fontStyle="normal"
+        app:fontWeight="400"
+        app:fontProviderAuthority="com.google.android.gms.fonts"
+        app:fontProviderPackage="com.google.android.gms"
+        app:fontProviderQuery="name=Roboto"
+        app:fontProviderCerts="@array/com_google_android_gms_fonts_certs" />
+    <font
+        android:font="@font/roboto"
+        android:fontStyle="normal"
+        android:fontWeight="500"
+        app:font="@font/roboto"
+        app:fontStyle="normal"
+        app:fontWeight="500"
+        app:fontProviderAuthority="com.google.android.gms.fonts"
+        app:fontProviderPackage="com.google.android.gms"
+        app:fontProviderQuery="name=Roboto&amp;weight=500"
+        app:fontProviderCerts="@array/com_google_android_gms_fonts_certs" />
+    <font
+        android:font="@font/roboto"
+        android:fontStyle="normal"
+        android:fontWeight="700"
+        app:font="@font/roboto"
+        app:fontStyle="normal"
+        app:fontWeight="700"
+        app:fontProviderAuthority="com.google.android.gms.fonts"
+        app:fontProviderPackage="com.google.android.gms"
+        app:fontProviderQuery="name=Roboto&amp;weight=700"
+        app:fontProviderCerts="@array/com_google_android_gms_fonts_certs" />
 </font-family>

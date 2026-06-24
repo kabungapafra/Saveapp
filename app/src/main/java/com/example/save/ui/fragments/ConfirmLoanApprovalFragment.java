@@ -124,6 +124,12 @@ public class ConfirmLoanApprovalFragment extends Fragment {
     }
 
     private void navigateToSuccess() {
+        // Schedule a 24h disbursement-confirmation notification for admin
+        if (getContext() != null && loanId != null) {
+            com.example.save.utils.PaymentScheduler.scheduleLoanDisbursement(
+                    requireContext(), loanId,
+                    amountStr != null ? amountStr : "—");
+        }
         if (getActivity() != null) {
             getActivity().getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)

@@ -98,16 +98,19 @@ public class DashboardFragment extends Fragment {
     }
 
     private void applyFilters() {
-        List<Transaction> filteredList = new ArrayList<>();
-        for (Transaction t : allCachedTransactions) {
-            if (t.isCredit()) filteredList.add(t); // My Contributions = deposits only
-        }
-
-        if (filteredList.isEmpty()) {
+        if (allCachedTransactions.isEmpty()) {
             binding.rvDashboardTransactions.setVisibility(View.GONE);
         } else {
             binding.rvDashboardTransactions.setVisibility(View.VISIBLE);
-            transactionAdapter.updateTransactions(filteredList);
+            transactionAdapter.updateTransactions(new ArrayList<>(allCachedTransactions));
+        }
+
+        // Show date of most recent contribution (debit) in savings card
+        for (Transaction t : allCachedTransactions) {
+            if (!t.isCredit() && binding != null) {
+                binding.tvLastContributionDate.setText(t.getDate());
+                break;
+            }
         }
     }
 
@@ -146,23 +149,6 @@ public class DashboardFragment extends Fragment {
                     binding.tvCircleName.setText(summary.getGroupName());
                     binding.tvPooledFunds.setText(formatted.replace("UGX", "UGX "));
 
-                    android.content.SharedPreferences adminPrefs = requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE);
-                    java.util.List<com.example.save.data.models.Member> currentMembers = viewModel.getMembers().getValue();
-                    int memberCount = currentMembers != null ? currentMembers.size() : 0;
-                    double targetPayout = configContributionAmount > 0 && memberCount > 0
-                            ? configContributionAmount * memberCount * (1.0 - configRetentionPct / 100.0)
-                            : 0;
-
-                    int payoutPercent = targetPayout > 0 ? (int) Math.min((summary.getTotalBalance() / targetPayout) * 100, 100) : 0;
-                    binding.payoutProgress.setProgress(payoutPercent);
-                    binding.tvPayoutProgressPercent.setText(payoutPercent + "%");
-
-                    java.text.NumberFormat nf = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
-                    String payoutFormatted = nf.format(targetPayout).replace("UGX", "UGX ");
-                    binding.tvPayoutAmount.setText(payoutFormatted);
-
-                    String nextPayoutDateStr = adminPrefs.getString("rule_next_payout_date", "TBD");
-                    binding.tvPayoutDate.setText(nextPayoutDateStr);
                 });
             }
         });
@@ -180,19 +166,22 @@ public class DashboardFragment extends Fragment {
                     double personalBalance = member.getContributionPaid();
                     binding.tvBalanceAmount.setText(nf.format(personalBalance).replace("UGX", "UGX "));
 
-                    // Goal: use yearly target from system config (contribution × 12)
+                    // Savings Card
                     double mySavings = member.getContributionPaid();
                     double yearlyTarget = configContributionAmount > 0
                             ? configContributionAmount * 12
                             : member.getContributionTarget();
-                    int progress = yearlyTarget > 0 ? (int) Math.min((mySavings / yearlyTarget) * 100, 100) : 0;
-                    binding.goalProgress.setProgress(progress);
-                    binding.tvGoalProgressPercentTop.setText(progress + "%");
-                    binding.tvGoalProgressPercentCenter.setText(progress + "%");
+                    int savingsPct = yearlyTarget > 0 ? (int) Math.min((mySavings / yearlyTarget) * 100, 100) : 0;
+                    binding.tvAvailableSavingsAmount.setText(nf.format(mySavings).replace("UGX", "UGX "));
+                    binding.tvTotalContributions.setText(nf.format(mySavings).replace("UGX", "UGX "));
+                    binding.savingsGrowthProgress.setProgress(savingsPct);
+                    binding.tvSavingsGrowthPct.setText(savingsPct + "%");
 
-                    String paidStr = nf.format(mySavings).replace("UGX", "UGX ");
-                    String targetStr = nf.format(yearlyTarget).replace("UGX", "UGX ");
-                    binding.tvGoalProgressTarget.setText(paidStr + " of " + targetStr);
+                    // Loan Balance Card
+                    String memberName = member.getName();
+                    viewModel.getMemberLoansWithApproval(memberName).observe(getViewLifecycleOwner(), loans -> {
+                        if (loans != null) bindLoanData(loans, nf);
+                    });
                 }
             });
         }
@@ -416,28 +405,102 @@ public class DashboardFragment extends Fragment {
 
     private void loadRecentTransactions() {
         String phone = SessionManager.getInstance(requireContext()).getUserPhone();
-        if (phone != null && !phone.isEmpty()) {
-            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
-                if (member != null) {
-                    viewModel.getMemberTransactionsWithApproval(member.getName()).observe(getViewLifecycleOwner(), transactionItems -> {
-                        if (transactionItems != null) {
-                            allCachedTransactions.clear();
-                            for (com.example.save.data.models.TransactionWithApproval item : transactionItems) {
-                                com.example.save.data.models.TransactionEntity entity = item.transaction;
-                                int iconRes = entity.isPositive() ? R.drawable.ic_money : R.drawable.ic_loan;
-                                int color = entity.isPositive() ? 0xFF4CAF50 : 0xFFF44336;
-                                String description = entity.getDescription();
-                                if ("PENDING_APPROVAL".equals(entity.getStatus()) || "PENDING".equals(entity.getStatus())) {
-                                    description += " (Pending: " + item.approvalCount + " Approvals)";
-                                    color = 0xFFFF9800;
-                                }
-                                allCachedTransactions.add(new Transaction(description, new java.text.SimpleDateFormat("MMM dd, hh:mm a", Locale.getDefault()).format(entity.getDate()), entity.getAmount(), entity.isPositive(), iconRes, color));
-                            }
-                            applyFilters();
-                        }
-                    });
+        if (phone == null || phone.isEmpty()) return;
+        viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
+            if (member == null) return;
+            viewModel.getMemberTransactionsWithApproval(member.getName()).observe(getViewLifecycleOwner(), transactionItems -> {
+                if (transactionItems == null) return;
+                allCachedTransactions.clear();
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd, hh:mm a", Locale.getDefault());
+                for (com.example.save.data.models.TransactionWithApproval item : transactionItems) {
+                    com.example.save.data.models.TransactionEntity entity = item.transaction;
+                    boolean isCredit = "PAYOUT".equalsIgnoreCase(entity.getType());
+                    int iconRes = isCredit ? R.drawable.ic_money : R.drawable.ic_loan;
+                    int color = isCredit ? 0xFF4CAF50 : 0xFFF44336;
+                    String description = entity.getDescription();
+                    if ("PENDING_APPROVAL".equals(entity.getStatus()) || "PENDING".equals(entity.getStatus())) {
+                        description += " (Pending: " + item.approvalCount + " Approvals)";
+                        color = 0xFFFF9800;
+                    }
+                    allCachedTransactions.add(new Transaction(description, sdf.format(entity.getDate()), entity.getAmount(), isCredit, iconRes, color));
                 }
+                applyFilters();
             });
+            viewModel.getMemberPayoutHistory(member.getName()).observe(getViewLifecycleOwner(), payouts -> {
+                if (payouts == null) return;
+                java.text.SimpleDateFormat iso = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+                java.text.SimpleDateFormat display = new java.text.SimpleDateFormat("MMM dd, hh:mm a", Locale.getDefault());
+                for (com.example.save.data.models.PayoutEntity p : payouts) {
+                    if (!"APPROVED".equalsIgnoreCase(p.getStatus()) && !"EXECUTED".equalsIgnoreCase(p.getStatus())) continue;
+                    String dateStr = p.getExecutedAt() != null ? p.getExecutedAt() : p.getCreatedAt();
+                    String formattedDate = dateStr;
+                    if (dateStr != null) {
+                        try { formattedDate = display.format(iso.parse(dateStr)); } catch (Exception ignored) {}
+                    }
+                    double displayAmount = p.getNetAmount() > 0 ? p.getNetAmount() : p.getAmount();
+                    allCachedTransactions.add(new Transaction("Payout Received", formattedDate, displayAmount, true, R.drawable.ic_money, 0xFF4CAF50));
+                }
+                applyFilters();
+            });
+        });
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void bindLoanData(List<com.example.save.data.models.LoanWithApproval> loans,
+                              java.text.NumberFormat nf) {
+        if (binding == null) return;
+
+        com.example.save.data.models.LoanEntity activeLoan = null;
+        for (com.example.save.data.models.LoanWithApproval item : loans) {
+            String s = item.loan != null ? item.loan.getStatus() : "";
+            if ("APPROVED".equalsIgnoreCase(s) || "ACTIVE".equalsIgnoreCase(s) || "OVERDUE".equalsIgnoreCase(s)) {
+                activeLoan = item.loan;
+                break;
+            }
+        }
+
+        if (activeLoan == null) {
+            binding.tvNoActiveLoanMsg.setVisibility(View.VISIBLE);
+            binding.loanDetailsLayout.setVisibility(View.GONE);
+            binding.tvLoanStatusBadge.setText("NONE");
+            binding.tvLoanStatusBadge.setBackgroundTintList(
+                    android.content.res.ColorStateList.valueOf(0xFFF1F5F9));
+            binding.tvLoanStatusBadge.setTextColor(0xFF94A3B8);
+            return;
+        }
+
+        binding.tvNoActiveLoanMsg.setVisibility(View.GONE);
+        binding.loanDetailsLayout.setVisibility(View.VISIBLE);
+
+        double totalDue = activeLoan.getAmount() + activeLoan.getInterest();
+        double repaid = activeLoan.getRepaidAmount();
+        double remaining = Math.max(totalDue - repaid, 0);
+        int repaymentPct = totalDue > 0 ? (int) Math.min((repaid / totalDue) * 100, 100) : 0;
+
+        binding.tvRemainingBalance.setText(nf.format(remaining).replace("UGX", "UGX "));
+        binding.tvOriginalLoanAmount.setText(nf.format(totalDue).replace("UGX", "UGX "));
+        binding.tvAmountRepaid.setText(nf.format(repaid).replace("UGX", "UGX "));
+        binding.loanRepaymentProgress.setProgress(repaymentPct);
+        binding.tvLoanRepaymentPct.setText(repaymentPct + "%");
+
+        if (activeLoan.getDueDate() != null) {
+            binding.tvLoanDueDate.setText(
+                    new java.text.SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+                            .format(activeLoan.getDueDate()));
+        } else {
+            binding.tvLoanDueDate.setText("--");
+        }
+
+        String status = activeLoan.getStatus();
+        binding.tvLoanStatusBadge.setText(status != null ? status.toUpperCase() : "ACTIVE");
+        if ("OVERDUE".equalsIgnoreCase(status)) {
+            binding.tvLoanStatusBadge.setBackgroundTintList(
+                    android.content.res.ColorStateList.valueOf(0xFFFFE4E6));
+            binding.tvLoanStatusBadge.setTextColor(0xFFEF4444);
+        } else {
+            binding.tvLoanStatusBadge.setBackgroundTintList(
+                    android.content.res.ColorStateList.valueOf(0xFFDBEAFE));
+            binding.tvLoanStatusBadge.setTextColor(0xFF215DA1);
         }
     }
 

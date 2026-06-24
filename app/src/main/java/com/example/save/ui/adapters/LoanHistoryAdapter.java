@@ -53,20 +53,42 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
             holder.tvDate.setText("Unknown Date");
         }
 
-        // Status Logic
-        if ("PENDING".equalsIgnoreCase(loan.getStatus())) {
-            holder.tvPaidBadge.setText("Pending (" + item.approvalCount + "/" + adminCount + ")");
-            holder.tvPaidBadge.setTextColor(
-                    holder.itemView.getContext().getResources().getColor(android.R.color.holo_orange_dark));
-            holder.tvPaidBadge.setBackgroundResource(R.drawable.badge_background_pending);
-            // exists or just text color
-        } else if ("ACTIVE".equalsIgnoreCase(loan.getStatus())) {
-            holder.tvPaidBadge.setText("Active");
-            holder.tvPaidBadge.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.deep_blue));
-        } else {
-            holder.tvPaidBadge.setText("PAID OFF");
-            holder.tvPaidBadge.setTextColor(
-                    holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+        // Status badge
+        String status = loan.getStatus() != null ? loan.getStatus().toUpperCase() : "";
+        switch (status) {
+            case "PENDING":
+                holder.tvPaidBadge.setText("Pending (" + item.approvalCount + "/" + adminCount + ")");
+                holder.tvPaidBadge.setTextColor(0xFFD97706);
+                holder.tvPaidBadge.setBackgroundResource(R.drawable.badge_background_pending);
+                break;
+            case "APPROVED":
+                holder.tvPaidBadge.setText("Approved");
+                holder.tvPaidBadge.setTextColor(0xFF2563EB);
+                holder.tvPaidBadge.setBackgroundResource(R.drawable.badge_background_pending);
+                break;
+            case "DISBURSED":
+            case "ACTIVE":
+                holder.tvPaidBadge.setText("Active");
+                holder.tvPaidBadge.setTextColor(0xFF16A34A);
+                holder.tvPaidBadge.setBackgroundResource(R.drawable.bg_badge_success);
+                break;
+            case "LATE":
+            case "OVERDUE":
+                holder.tvPaidBadge.setText("Overdue");
+                holder.tvPaidBadge.setTextColor(0xFFDC2626);
+                holder.tvPaidBadge.setBackgroundResource(R.drawable.bg_badge_red);
+                break;
+            case "REPAID":
+            case "PAID":
+                holder.tvPaidBadge.setText("Paid Off");
+                holder.tvPaidBadge.setTextColor(0xFF16A34A);
+                holder.tvPaidBadge.setBackgroundResource(R.drawable.bg_badge_success);
+                break;
+            default:
+                holder.tvPaidBadge.setText(status.isEmpty() ? "Unknown" : status);
+                holder.tvPaidBadge.setTextColor(0xFF6B7280);
+                holder.tvPaidBadge.setBackgroundResource(R.drawable.badge_background_pending);
+                break;
         }
     }
 

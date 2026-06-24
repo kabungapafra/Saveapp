@@ -22,18 +22,25 @@
             android:paddingEnd="24dp"
             android:paddingBottom="32dp">
 
-            <!-- Squircle Logo Container -->
+            <!-- Logo — glow layer sits behind the image -->
             <FrameLayout
                 android:id="@+id/logoContainer"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/bg_logo_squircle">
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginBottom="32dp">
+
+                <View
+                    android:id="@+id/logoGlow"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_logo_glow"
+                    android:alpha="0.7" />
 
                 <ImageView
                     android:id="@+id/logoImage"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/app_logo"

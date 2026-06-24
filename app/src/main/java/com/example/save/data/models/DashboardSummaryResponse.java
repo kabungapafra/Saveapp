@@ -39,6 +39,12 @@ public class DashboardSummaryResponse {
     @SerializedName("total_contributors")
     private int totalContributors;
 
+    @SerializedName("available_savings")
+    private double availableSavings;
+
+    @SerializedName("loan_balance")
+    private double loanBalance;
+
     // Getters
     public int getTotalMembers() { return totalMembers; }
     public int getActiveMembers() { return activeMembers; }
@@ -52,4 +58,6 @@ public class DashboardSummaryResponse {
     public double getInterestEarned() { return interestEarned; }
     public double getContributionAmount() { return contributionAmount; }
     public int getTotalContributors() { return totalContributors > 0 ? totalContributors : getTotalMembers(); }
+    public double getAvailableSavings() { return availableSavings; }
+    public double getLoanBalance() { return loanBalance; }
 }

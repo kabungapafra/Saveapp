@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -177,6 +179,15 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name="com.example.save.receivers.PaymentApprovalReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.save.POOL_APPROVAL" />
+                <action android:name="com.example.save.LOAN_APPROVAL" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

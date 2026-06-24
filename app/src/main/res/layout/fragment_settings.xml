@@ -360,7 +360,7 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Scheduled Card -->
+                    <!-- Analysis Card -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardAutomation"
                         android:layout_width="0dp"
@@ -382,22 +382,22 @@
                                 android:layout_height="44dp"
                                 android:layout_marginBottom="12dp"
                                 android:background="@drawable/bg_icon_circle_blue"
-                                android:backgroundTint="#FFF7ED" />
+                                android:backgroundTint="#EEF2FF" />
 
                             <ImageView
                                 android:layout_width="22dp"
                                 android:layout_height="22dp"
                                 android:layout_marginTop="-48dp"
                                 android:layout_marginStart="11dp"
-                                android:src="@drawable/ic_clock_orange"
-                                app:tint="#F97316" />
+                                android:src="@drawable/ic_analytics"
+                                app:tint="@color/brand_blue" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="26dp"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="Scheduled"
+                                android:text="Analysis"
                                 android:textColor="@color/v_text_dark"
                                 android:textSize="@dimen/text_size_xs" />
 
@@ -405,7 +405,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
-                                android:text="Auto-pay, reminders"
+                                android:text="Insights and stats"
                                 android:textColor="@color/v_text_muted"
                                 android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>

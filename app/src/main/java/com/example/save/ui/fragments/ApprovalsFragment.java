@@ -54,17 +54,24 @@ public class ApprovalsFragment extends Fragment {
             public void onApproveClick(ApprovalsAdapter.ApprovalItem item) {
                 if ("LOAN".equals(item.getType())) {
                     viewModel.approveLoan(item.getId(), adminPhone, (success, message) -> {
-                        if (isAdded()) {
-                            requireActivity().runOnUiThread(() ->
-                                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
-                        }
+                        if (isAdded()) requireActivity().runOnUiThread(() -> {
+                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                            if (success) {
+                                String amtFmt = "UGX " + String.format(java.util.Locale.US, "%,.0f", item.getAmount());
+                                com.example.save.utils.PaymentScheduler.scheduleLoanDisbursement(
+                                        requireContext(), item.getId(), amtFmt);
+                            }
+                        });
+                    });
+                } else if ("DISBURSEMENT".equals(item.getType())) {
+                    viewModel.approvePayout(item.getId(), (success, message) -> {
+                        if (isAdded()) requireActivity().runOnUiThread(() ->
+                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
                     });
                 } else {
                     viewModel.approveTransaction(item.getId(), adminPhone, (success, message) -> {
-                        if (isAdded()) {
-                            requireActivity().runOnUiThread(() ->
-                                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
-                        }
+                        if (isAdded()) requireActivity().runOnUiThread(() ->
+                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show());
                     });
                 }
             }
@@ -78,7 +85,7 @@ public class ApprovalsFragment extends Fragment {
                                 .loadFragment(ConfirmLoanApprovalFragment.newInstance(item.getId(), item.getTitle(), amountStr), true);
                     } else {
                         ((com.example.save.ui.activities.AdminMainActivity) getActivity())
-                                .loadFragment(PayoutConfirmationFragment.newInstance(item.getId(), amountStr), true);
+                                .loadFragment(PayoutConfirmationFragment.newInstance(item.getId(), amountStr, item.getType()), true);
                     }
                 }
             }

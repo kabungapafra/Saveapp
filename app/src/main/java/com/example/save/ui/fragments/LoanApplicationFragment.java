@@ -22,11 +22,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.save.R;
+import com.example.save.data.models.DashboardSummaryResponse;
 import com.example.save.data.models.LoanRequest;
 import com.example.save.data.models.Member;
+import com.example.save.data.models.SystemConfig;
+import com.example.save.data.network.ApiService;
+import com.example.save.data.network.RetrofitClient;
 import com.example.save.databinding.FragmentLoanApplicationBinding;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.utils.SessionManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -38,8 +46,9 @@ public class LoanApplicationFragment extends Fragment {
     private FragmentLoanApplicationBinding binding;
     private MembersViewModel viewModel;
 
-    private static final double INTEREST_RATE = 0.15;
-    private static final double PROCESSING_FEE = 25000.0;
+    private double interestRate = 0.15; // default; replaced by server config on load
+    private double totalGroupBalance = 0;
+    private double nextPayoutAmount = 0;
 
     private List<Member> availableMembers = new ArrayList<>();
     private List<Member> selectedGuarantors = new ArrayList<>();
@@ -102,10 +111,54 @@ public class LoanApplicationFragment extends Fragment {
         updateSummary();
         loadMembers();
         populateApplicantProfile();
+        fetchConfigAndBalance();
     }
 
-    private void setupInitialState() {
+    private void setupInitialState() {}
 
+    private void fetchConfigAndBalance() {
+        ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
+        api.getSystemConfig().enqueue(new Callback<SystemConfig>() {
+            @Override
+            public void onResponse(Call<SystemConfig> call, Response<SystemConfig> response) {
+                if (!isAdded() || binding == null) return;
+                if (response.isSuccessful() && response.body() != null) {
+                    interestRate = response.body().getLoanInterestRate() / 100.0;
+                    nextPayoutAmount = response.body().getContributionAmount()
+                            * (1 - response.body().getRetentionPercentage() / 100.0);
+                    updateSummary();
+                    updateSavingsDisplay();
+                }
+            }
+            @Override public void onFailure(Call<SystemConfig> call, Throwable t) {}
+        });
+
+        api.getDashboardSummary().enqueue(new Callback<DashboardSummaryResponse>() {
+            @Override
+            public void onResponse(Call<DashboardSummaryResponse> call, Response<DashboardSummaryResponse> response) {
+                if (!isAdded() || binding == null) return;
+                if (response.isSuccessful() && response.body() != null) {
+                    totalGroupBalance = response.body().getTotalBalance();
+                    updateSavingsDisplay();
+                }
+            }
+            @Override public void onFailure(Call<DashboardSummaryResponse> call, Throwable t) {}
+        });
+    }
+
+    private void updateSavingsDisplay() {
+        if (binding == null) return;
+        double available = totalGroupBalance - nextPayoutAmount;
+        if (available <= 0 || totalGroupBalance <= 0) return;
+        // Re-read member savings from what was already set in populateApplicantProfile
+        // We just reformat if we now have the balance
+        viewModel.getMemberByNameLive(SessionManager.getInstance(requireContext()).getUserName())
+                .observe(getViewLifecycleOwner(), member -> {
+                    if (member == null || binding == null) return;
+                    double savings = member.getContributionPaid();
+                    double pct = available > 0 ? (savings / available) * 100.0 : 0;
+                    binding.tvApplicantSavings.setText(String.format(Locale.US, "%.1f%%", pct));
+                });
     }
 
     private void loadMembers() {
@@ -160,17 +213,17 @@ public class LoanApplicationFragment extends Fragment {
     private void updateSummary() {
         String amountStr = binding.etLoanAmount.getText().toString().replaceAll("[^0-9]", "");
         double amount = amountStr.isEmpty() ? 0 : Double.parseDouble(amountStr);
-        int duration = binding.seekDuration.getProgress() + 1; // 1 to 12
+        int duration = binding.seekDuration.getProgress() + 1;
 
-        double interest = amount * INTEREST_RATE;
-        double total = amount + interest + PROCESSING_FEE;
+        double interest = amount * interestRate;
+        double total = amount + interest;
         double monthly = duration > 0 ? (total / duration) : 0;
 
         NumberFormat fmt = NumberFormat.getNumberInstance(Locale.US);
-        binding.tvSummaryInterest.setText("UGX " + fmt.format(interest));
-        binding.tvSummaryFee.setText("UGX " + fmt.format(PROCESSING_FEE));
+        // Show rate % and the computed interest amount
+        binding.tvSummaryInterest.setText(String.format(Locale.US, "%.1f%%  (UGX %s)", interestRate * 100, fmt.format(interest)));
         binding.tvSummaryTotal.setText("UGX " + fmt.format(total));
-        binding.tvSummaryMonthly.setText("UGX " + Math.round(monthly)); 
+        binding.tvSummaryMonthly.setText("UGX " + fmt.format(Math.round(monthly)));
     }
 
     private void showAddGuarantorDialog() {
@@ -304,9 +357,9 @@ public class LoanApplicationFragment extends Fragment {
             return;
         }
 
-        // Use empty guarantor info if none selected
-        String guarantorName = "";
-        String guarantorPhone = "";
+        // Use null when no guarantor selected — empty strings fail backend min_length validation
+        String guarantorName = null;
+        String guarantorPhone = null;
         if (!selectedGuarantors.isEmpty()) {
             guarantorName = selectedGuarantors.get(0).getName();
             guarantorPhone = selectedGuarantors.get(0).getPhone();

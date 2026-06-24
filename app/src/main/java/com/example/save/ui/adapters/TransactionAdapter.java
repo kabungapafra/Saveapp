@@ -44,9 +44,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.tvType.setText(transaction.getType());
         holder.tvDate.setText(transaction.getDate());
 
-        // Format amount with +/- prefix
-        String amountText = String.format(Locale.getDefault(), "%s %,.0f",
-                transaction.isCredit() ? "+" : "-",
+        // Format amount with +/– prefix and UGX currency
+        String amountText = String.format(Locale.getDefault(), "%s UGX %,.0f",
+                transaction.isCredit() ? "+" : "–",
                 Math.abs(transaction.getAmount()));
         holder.tvAmount.setText(amountText);
 

@@ -292,23 +292,108 @@ public class AdminLoansFragment extends Fragment {
 
     private void calculateStats(List<LoanEntity> requests) {
         double totalActiveAmount = 0;
-        double totalDisbursedAmount = 0;
-        int pendingCount = 0;
+        double overdueAmount = 0;
+        int activeCount = 0;
+        LoanEntity latestLoan = null;
 
         for (LoanEntity req : requests) {
-            if ("PENDING".equals(req.getStatus())) {
-                pendingCount++;
-            } else if ("ACTIVE".equals(req.getStatus()) || "LATE".equals(req.getStatus())) {
+            String status = req.getStatus();
+            if ("ACTIVE".equals(status) || "APPROVED".equals(status)
+                    || "PENDING".equals(status) || "DISBURSED".equals(status)) {
                 totalActiveAmount += req.getAmount();
-                totalDisbursedAmount += req.getAmount();
-            } else if ("APPROVED".equals(req.getStatus())) {
-                totalDisbursedAmount += req.getAmount();
+                activeCount++;
+                if (latestLoan == null) latestLoan = req;
+            }
+            if ("LATE".equals(status) || "OVERDUE".equals(status)) {
+                overdueAmount += req.getAmount();
+                if (latestLoan == null) latestLoan = req;
             }
         }
 
         binding.tvTotalActiveLoans.setText("UGX " + formatAmount(totalActiveAmount));
-        binding.tvDisbursedAmount.setText("UGX " + formatAmount(totalDisbursedAmount));
-        binding.tvPendingCount.setText(String.valueOf(pendingCount));
+        binding.tvDisbursedAmount.setText("UGX " + formatAmount(overdueAmount));
+        binding.tvPendingCount.setText(String.valueOf(activeCount));
+
+        populateLoanTracker(latestLoan);
+    }
+
+    private void populateLoanTracker(LoanEntity loan) {
+        if (loan == null) {
+            binding.tvTrackerAmount.setText("--");
+            binding.tvTrackerStatusPill.setText("--");
+            binding.tvTrackerSubtitle.setText("No active loan");
+            binding.pbTrackerRepaid.setProgress(0);
+            binding.tvTrackerRepaidPct.setText("0% repaid");
+            int gray = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.divider_color);
+            setStep(binding.ivStepPending, false, gray);
+            setStep(binding.ivStepApproved, false, gray);
+            setStep(binding.ivStepDisbursed, false, gray);
+            setStep(binding.ivStepRepaid, false, gray);
+            binding.lineStep1.setBackgroundColor(gray);
+            binding.lineStep2.setBackgroundColor(gray);
+            binding.lineStep3.setBackgroundColor(gray);
+            return;
+        }
+
+        NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+        binding.tvTrackerAmount.setText(ugFormat.format(loan.getAmount()).replace("UGX", "UGX "));
+
+        String status = loan.getStatus() != null ? loan.getStatus() : "PENDING";
+        binding.tvTrackerStatusPill.setText(capitalize(status));
+
+        String subtitle = "Outstanding";
+        if (loan.getDueDate() != null) {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+            subtitle = "Outstanding · next repayment " + sdf.format(loan.getDueDate());
+        }
+        binding.tvTrackerSubtitle.setText(subtitle);
+
+        int pct = 0;
+        if (loan.getAmount() > 0 && loan.getRepaidAmount() > 0) {
+            pct = (int) Math.min(100, (loan.getRepaidAmount() / loan.getAmount()) * 100);
+        }
+        binding.pbTrackerRepaid.setProgress(pct);
+        binding.tvTrackerRepaidPct.setText(pct + "% repaid");
+
+        boolean isApproved = "APPROVED".equals(status) || "DISBURSED".equals(status)
+                || "ACTIVE".equals(status) || "LATE".equals(status) || "OVERDUE".equals(status) || "REPAID".equals(status);
+        boolean isDisbursed = "DISBURSED".equals(status) || "ACTIVE".equals(status)
+                || "LATE".equals(status) || "OVERDUE".equals(status) || "REPAID".equals(status);
+        boolean isRepaid = "REPAID".equals(status);
+
+        int green = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.dashboard_accent_green);
+        int divider = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.divider_color);
+        int textGreen = green;
+        int textGray = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.dashboard_text_secondary);
+
+        // Pending is always the first completed step
+        setStep(binding.ivStepPending, true, green);
+        binding.tvLabelPending.setTextColor(textGreen);
+        setStep(binding.ivStepApproved, isApproved, green);
+        binding.tvStepApproved.setTextColor(isApproved ? textGreen : textGray);
+        setStep(binding.ivStepDisbursed, isDisbursed, green);
+        binding.tvStepDisbursed.setTextColor(isDisbursed ? textGreen : textGray);
+        setStep(binding.ivStepRepaid, isRepaid, green);
+        binding.tvStepRepaid.setTextColor(isRepaid ? textGreen : textGray);
+
+        binding.lineStep1.setBackgroundColor(isApproved ? green : divider);
+        binding.lineStep2.setBackgroundColor(isDisbursed ? green : divider);
+        binding.lineStep3.setBackgroundColor(isRepaid ? green : divider);
+    }
+
+    private void setStep(android.widget.ImageView iv, boolean done, int color) {
+        if (done) {
+            iv.setImageResource(R.drawable.ic_check_circle);
+            iv.setColorFilter(color);
+        } else {
+            iv.setImageResource(R.drawable.bg_circle_outline_gray);
+            iv.clearColorFilter();
+        }
+    }
+
+    private String capitalize(String s) {
+        if (s == null || s.isEmpty()) return s;
+        return s.charAt(0) + s.substring(1).toLowerCase();
     }
 
     private String formatAmount(double amount) {

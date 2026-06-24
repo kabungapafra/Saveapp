@@ -156,4 +156,5 @@
     <color name="loan_btn_start">#3B8CF8</color>
     <color name="loan_btn_end">#215DA1</color>
     <color name="red_primary">#EF4444</color>
+    <color name="logo_tint">#215DA1</color>
 </resources>

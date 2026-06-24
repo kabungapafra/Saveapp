@@ -210,4 +210,5 @@
     <string name="pdf_icon">PDF Icon</string>
     <string name="excel_icon">Excel Icon</string>
     <string name="csv_icon">CSV Icon</string>
+    <string name="members">Members</string>
 </resources>

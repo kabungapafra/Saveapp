@@ -1,16 +1,20 @@
 package com.example.save.data.models;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 public class TransactionEntity {
     private String id;
+    @SerializedName("member_name")
     private String memberName;
-    private String type; // CONTRIBUTION, LOAN_REPAYMENT, etc.
+    private String type;
     private double amount;
     private String description;
     private Date date;
-    private String status; // PENDING_APPROVAL, APPROVED, REJECTED
-    private boolean isPositive; // true for income, false for payout
+    private String status;
+    // Gson strips "is" prefix from boolean fields — use SerializedName to be safe
+    @SerializedName("is_positive")
+    private boolean isPositive;
 
     public TransactionEntity() {}
 

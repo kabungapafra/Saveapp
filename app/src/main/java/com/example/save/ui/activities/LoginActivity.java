@@ -29,34 +29,73 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
 
-        // Animate Logo Image (Heartbeat) - NOT the container
-        android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,
-                R.anim.heartbeat);
-        binding.logoImage.startAnimation(heartbeat);
-
+        startPremiumLogoAnimations();
         startCascadingAnimations();
+    }
+
+    private void startPremiumLogoAnimations() {
+        // 1. Scale + fade-in on load
+        binding.logoImage.setAlpha(0f);
+        binding.logoImage.setScaleX(0.6f);
+        binding.logoImage.setScaleY(0.6f);
+        binding.logoImage.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(700)
+                .setInterpolator(new android.view.animation.OvershootInterpolator(1.2f))
+                .start();
+
+        // 2. Floating motion — smooth vertical oscillation
+        android.animation.ObjectAnimator floatAnim = android.animation.ObjectAnimator.ofFloat(
+                binding.logoContainer, "translationY", 0f, -14f);
+        floatAnim.setDuration(2200);
+        floatAnim.setRepeatMode(android.animation.ValueAnimator.REVERSE);
+        floatAnim.setRepeatCount(android.animation.ValueAnimator.INFINITE);
+        floatAnim.setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator());
+        floatAnim.setStartDelay(700);
+        floatAnim.start();
+
+        // 3. Glow pulse — alpha breathing on the glow ring
+        android.animation.ObjectAnimator glowPulse = android.animation.ObjectAnimator.ofFloat(
+                binding.logoGlow, "alpha", 0.3f, 0.85f);
+        glowPulse.setDuration(1800);
+        glowPulse.setRepeatMode(android.animation.ValueAnimator.REVERSE);
+        glowPulse.setRepeatCount(android.animation.ValueAnimator.INFINITE);
+        glowPulse.setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator());
+        glowPulse.start();
+
+        // 4. Subtle glow scale pulse
+        android.animation.ObjectAnimator glowScale = android.animation.ObjectAnimator.ofFloat(
+                binding.logoGlow, "scaleX", 1f, 1.15f);
+        android.animation.ObjectAnimator glowScaleY = android.animation.ObjectAnimator.ofFloat(
+                binding.logoGlow, "scaleY", 1f, 1.15f);
+        for (android.animation.ObjectAnimator anim : new android.animation.ObjectAnimator[]{glowScale, glowScaleY}) {
+            anim.setDuration(1800);
+            anim.setRepeatMode(android.animation.ValueAnimator.REVERSE);
+            anim.setRepeatCount(android.animation.ValueAnimator.INFINITE);
+            anim.setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator());
+            anim.start();
+        }
     }
 
     private void startCascadingAnimations() {
         android.view.animation.Animation slideUp = android.view.animation.AnimationUtils.loadAnimation(this,
                 R.anim.slide_up_fade);
-
-        // Sequence: Logo -> Title -> Tagline -> Features -> Buttons
-        binding.logoContainer.startAnimation(slideUp);
+        slideUp.setStartOffset(300);
 
         // Title and Tagline (Delayed)
-        slideUp.setStartOffset(200);
         binding.titleText.startAnimation(slideUp);
         binding.taglineText.startAnimation(slideUp);
 
         // Features (Delayed)
         slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
-        slideUp.setStartOffset(400);
+        slideUp.setStartOffset(500);
         binding.featureCardsLayout.startAnimation(slideUp);
 
         // Buttons (Delayed)
         slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
-        slideUp.setStartOffset(600);
+        slideUp.setStartOffset(700);
         binding.memberButton.startAnimation(slideUp);
         binding.adminButton.startAnimation(slideUp);
     }

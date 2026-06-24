@@ -16,6 +16,29 @@ import java.util.List;
 public class MembersViewModel extends AndroidViewModel {
     private final MemberRepository repository;
     private final androidx.lifecycle.MutableLiveData<Long> depositEvent = new androidx.lifecycle.MutableLiveData<>(0L);
+    private final androidx.lifecycle.MutableLiveData<com.example.save.data.models.DashboardSummaryResponse> dashboardCache = new androidx.lifecycle.MutableLiveData<>();
+    private final androidx.lifecycle.MutableLiveData<java.util.List<Member>> payoutQueueCache = new androidx.lifecycle.MutableLiveData<>();
+    private final androidx.lifecycle.MutableLiveData<java.util.List<com.example.save.data.models.TransactionEntity>> recentTransactionsCache = new androidx.lifecycle.MutableLiveData<>();
+
+    public androidx.lifecycle.LiveData<com.example.save.data.models.DashboardSummaryResponse> getDashboardCache() {
+        return dashboardCache;
+    }
+
+    public androidx.lifecycle.LiveData<java.util.List<Member>> getPayoutQueueCache() {
+        return payoutQueueCache;
+    }
+
+    public void setPayoutQueueCache(java.util.List<Member> list) {
+        payoutQueueCache.postValue(list);
+    }
+
+    public androidx.lifecycle.LiveData<java.util.List<com.example.save.data.models.TransactionEntity>> getRecentTransactionsCache() {
+        return recentTransactionsCache;
+    }
+
+    public void setRecentTransactionsCache(java.util.List<com.example.save.data.models.TransactionEntity> list) {
+        recentTransactionsCache.postValue(list);
+    }
 
     public MembersViewModel(@NonNull Application application) {
         super(application);
@@ -238,6 +261,10 @@ public class MembersViewModel extends AndroidViewModel {
         return repository.getMemberTransactionsWithApproval(memberName);
     }
 
+    public LiveData<List<com.example.save.data.models.PayoutEntity>> getMemberPayoutHistory(String memberName) {
+        return repository.getMemberPayoutHistory(memberName);
+    }
+
     // Payout Configuration
     public double getPayoutAmount() {
         return repository.getPayoutAmount();
@@ -374,9 +401,12 @@ public class MembersViewModel extends AndroidViewModel {
                 .getPendingTransactionsWithApproval(adminPhone);
         LiveData<List<com.example.save.data.models.LoanWithApproval>> loanSource = repository
                 .getPendingLoansWithApproval(adminPhone);
+        LiveData<List<com.example.save.data.models.ApprovalRequest>> payoutSource = repository
+                .getPendingPayoutApprovals();
 
-        mediator.addSource(txSource, txs -> combineApprovals(mediator, txs, loanSource.getValue()));
-        mediator.addSource(loanSource, loans -> combineApprovals(mediator, txSource.getValue(), loans));
+        mediator.addSource(txSource, txs -> combineApprovals(mediator, txs, loanSource.getValue(), payoutSource.getValue()));
+        mediator.addSource(loanSource, loans -> combineApprovals(mediator, txSource.getValue(), loans, payoutSource.getValue()));
+        mediator.addSource(payoutSource, payouts -> combineApprovals(mediator, txSource.getValue(), loanSource.getValue(), payouts));
 
         return mediator;
     }
@@ -388,13 +418,13 @@ public class MembersViewModel extends AndroidViewModel {
     private void combineApprovals(
             androidx.lifecycle.MutableLiveData<List<com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem>> mediator,
             List<com.example.save.data.models.TransactionWithApproval> transactions,
-            List<com.example.save.data.models.LoanWithApproval> loans) {
+            List<com.example.save.data.models.LoanWithApproval> loans,
+            List<com.example.save.data.models.ApprovalRequest> payouts) {
 
         java.util.List<com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem> combined = new java.util.ArrayList<>();
 
         if (transactions != null) {
             for (com.example.save.data.models.TransactionWithApproval item : transactions) {
-                // Include all pending items, even if already approved by this admin
                 combined.add(new ApprovalItemImpl(
                         item.transaction.getId(),
                         "PAYOUT",
@@ -409,7 +439,6 @@ public class MembersViewModel extends AndroidViewModel {
 
         if (loans != null) {
             for (com.example.save.data.models.LoanWithApproval item : loans) {
-                // Include all pending items, even if already approved by this admin
                 combined.add(new ApprovalItemImpl(
                         item.loan.getId(),
                         "LOAN",
@@ -422,8 +451,27 @@ public class MembersViewModel extends AndroidViewModel {
             }
         }
 
-        // Sort by date (newest first)
-        java.util.Collections.sort(combined, (a, b) -> b.getDate().compareTo(a.getDate()));
+        if (payouts != null) {
+            for (com.example.save.data.models.ApprovalRequest p : payouts) {
+                combined.add(new ApprovalItemImpl(
+                        p.getId(),
+                        "DISBURSEMENT",
+                        p.getTitle(),
+                        p.getAmount(),
+                        p.getDescription(),
+                        p.getDate(),
+                        p.getStatus(),
+                        p.hasApproved()));
+            }
+        }
+
+        // Sort by date (newest first) — items with null date go to end
+        java.util.Collections.sort(combined, (a, b) -> {
+            if (a.getDate() == null && b.getDate() == null) return 0;
+            if (a.getDate() == null) return 1;
+            if (b.getDate() == null) return -1;
+            return b.getDate().compareTo(a.getDate());
+        });
 
         mediator.setValue(combined);
     }
@@ -515,26 +563,41 @@ public class MembersViewModel extends AndroidViewModel {
     }
 
     public void getDashboardSummary(MemberRepository.SummaryCallback callback) {
-        repository.getDashboardSummary(callback);
+        repository.getDashboardSummary((success, data, message) -> {
+            if (success && data instanceof com.example.save.data.models.DashboardSummaryResponse) {
+                dashboardCache.postValue((com.example.save.data.models.DashboardSummaryResponse) data);
+            }
+            callback.onResult(success, data, message);
+        });
     }
 
     // --- Decentralized Approvals Implementation ---
 
+    public void approvePayout(String payoutId, MemberRepository.ApprovalCallback callback) {
+        repository.approvePayout(payoutId, callback);
+    }
+
     public void processApproval(com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem item, boolean approve, MemberRepository.ApprovalCallback callback) {
         com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplication());
         String adminPhone = session.getUserPhone();
-        
+
         if ("LOAN".equalsIgnoreCase(item.getType())) {
             if (approve) {
                 repository.initiateLoanApproval(item.getId(), adminPhone, callback);
             } else {
                 repository.rejectLoanRequest(item.getId(), "Rejected by Admin", (success, message) -> callback.onResult(success, message));
             }
+        } else if ("DISBURSEMENT".equalsIgnoreCase(item.getType())) {
+            if (approve) {
+                repository.approvePayout(item.getId(), callback);
+            } else {
+                callback.onResult(false, "Payout rejection not supported");
+            }
         } else {
             if (approve) {
                 repository.approveTransaction(item.getId(), adminPhone, callback);
             } else {
-                callback.onResult(false, "Rejection not implemented for payouts yet");
+                callback.onResult(false, "Rejection not implemented for transactions yet");
             }
         }
     }
@@ -545,9 +608,11 @@ public class MembersViewModel extends AndroidViewModel {
 
         LiveData<List<com.example.save.data.models.TransactionWithApproval>> txSource = repository.getPendingTransactionsWithApproval(adminPhone);
         LiveData<List<com.example.save.data.models.LoanWithApproval>> loanSource = repository.getPendingLoansWithApproval(adminPhone);
+        LiveData<List<com.example.save.data.models.ApprovalRequest>> payoutSource = repository.getPendingPayoutApprovals();
 
-        mediator.addSource(txSource, txs -> combineToApprovalRequests(mediator, txs, loanSource.getValue()));
-        mediator.addSource(loanSource, loans -> combineToApprovalRequests(mediator, txSource.getValue(), loans));
+        mediator.addSource(txSource, txs -> combineToApprovalRequests(mediator, txs, loanSource.getValue(), payoutSource.getValue()));
+        mediator.addSource(loanSource, loans -> combineToApprovalRequests(mediator, txSource.getValue(), loans, payoutSource.getValue()));
+        mediator.addSource(payoutSource, payouts -> combineToApprovalRequests(mediator, txSource.getValue(), loanSource.getValue(), payouts));
 
         return mediator;
     }
@@ -555,7 +620,8 @@ public class MembersViewModel extends AndroidViewModel {
     private void combineToApprovalRequests(
             androidx.lifecycle.MutableLiveData<List<com.example.save.data.models.ApprovalRequest>> mediator,
             List<com.example.save.data.models.TransactionWithApproval> transactions,
-            List<com.example.save.data.models.LoanWithApproval> loans) {
+            List<com.example.save.data.models.LoanWithApproval> loans,
+            List<com.example.save.data.models.ApprovalRequest> payouts) {
 
         java.util.List<com.example.save.data.models.ApprovalRequest> combined = new java.util.ArrayList<>();
 
@@ -587,7 +653,16 @@ public class MembersViewModel extends AndroidViewModel {
             }
         }
 
-        java.util.Collections.sort(combined, (a, b) -> b.getDate().compareTo(a.getDate()));
+        if (payouts != null) {
+            combined.addAll(payouts);
+        }
+
+        java.util.Collections.sort(combined, (a, b) -> {
+            if (a.getDate() == null && b.getDate() == null) return 0;
+            if (a.getDate() == null) return 1;
+            if (b.getDate() == null) return -1;
+            return b.getDate().compareTo(a.getDate());
+        });
         mediator.setValue(combined);
     }
 }

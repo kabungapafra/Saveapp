@@ -1,14 +1,18 @@
 package com.example.save.ui.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.save.R;
 import com.example.save.data.models.Member;
-import com.example.save.databinding.ItemPayoutQueueBinding;
+import com.example.save.utils.SessionManager;
 
 import java.util.List;
 
@@ -57,9 +61,8 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
     @NonNull
     @Override
     public QueueViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemPayoutQueueBinding itemBinding = ItemPayoutQueueBinding.inflate(
-                LayoutInflater.from(parent.getContext()), parent, false);
-        return new QueueViewHolder(itemBinding);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_payout_row, parent, false);
+        return new QueueViewHolder(v);
     }
 
     private OnItemClickListener listener;
@@ -75,27 +78,55 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
     @Override
     public void onBindViewHolder(@NonNull QueueViewHolder holder, int position) {
         Member member = members.get(position);
-        holder.rank.setText(String.valueOf(position + 1));
-        holder.name.setText(member.getName());
+        boolean paid = member.hasReceivedPayout();
 
-        String displayDate;
-        if (member.hasReceivedPayout()) {
-            displayDate = "Paid on: " + member.getPayoutDate();
-            holder.date.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
-                    android.R.color.holo_green_dark));
-            holder.amount.setText("Paid");
+        // Avatar: photo if saved for this member's phone, else initials
+        String name = member.getName() != null ? member.getName() : "?";
+        android.content.Context ctx = holder.itemView.getContext();
+        String photoPath = SessionManager.getInstance(ctx).getProfileImage(member.getPhone());
+
+        if (photoPath != null && !photoPath.isEmpty()) {
+            holder.avatarInitials.setVisibility(View.GONE);
+            holder.avatarPhoto.setVisibility(View.VISIBLE);
+            Glide.with(ctx)
+                    .load(photoPath)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_person)
+                    .error(R.drawable.ic_person)
+                    .into(holder.avatarPhoto);
         } else {
-            displayDate = "Receiving: " + calculatePayoutDate(position, holder.itemView.getContext());
-            holder.date.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(),
-                    android.R.color.darker_gray));
-            holder.amount.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(payoutAmount));
+            holder.avatarPhoto.setVisibility(View.GONE);
+            holder.avatarInitials.setVisibility(View.VISIBLE);
+            String initial = name.isEmpty() ? "?" : String.valueOf(name.charAt(0)).toUpperCase();
+            holder.avatarInitials.setText(initial);
+            if (paid) {
+                holder.avatarInitials.setBackgroundTintList(
+                        android.content.res.ColorStateList.valueOf(0xFFDCFCE7));
+                holder.avatarInitials.setTextColor(0xFF16A34A);
+            } else {
+                holder.avatarInitials.setBackgroundTintList(
+                        android.content.res.ColorStateList.valueOf(0xFFE8F4FD));
+                holder.avatarInitials.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), com.example.save.R.color.dashboard_text_primary));
+            }
         }
-        holder.date.setText(displayDate);
+
+        holder.title.setText(name);
+
+        if (paid) {
+            holder.subtitle.setText("Paid on: " + member.getPayoutDate());
+            holder.amount.setText("Paid");
+            holder.amount.setTextColor(0xFF2E7D32);
+        } else {
+            holder.subtitle.setText("Receiving: " + calculatePayoutDate(position, holder.itemView.getContext()));
+            String amtStr = "UGX " + java.text.NumberFormat.getIntegerInstance().format(payoutAmount);
+            holder.amount.setText(amtStr);
+            holder.amount.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), com.example.save.R.color.dashboard_text_primary));
+        }
+
+        holder.divider.setVisibility(position == members.size() - 1 ? View.GONE : View.VISIBLE);
 
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(member);
-            }
+            if (listener != null) listener.onItemClick(member);
         });
     }
 
@@ -154,14 +185,19 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
     }
 
     static class QueueViewHolder extends RecyclerView.ViewHolder {
-        TextView rank, name, date, amount;
+        TextView avatarInitials;
+        ImageView avatarPhoto;
+        TextView title, subtitle, amount;
+        View divider;
 
-        QueueViewHolder(ItemPayoutQueueBinding itemBinding) {
-            super(itemBinding.getRoot());
-            rank = itemBinding.tvRank;
-            name = itemBinding.tvName;
-            date = itemBinding.tvDate;
-            amount = itemBinding.tvAmount;
+        QueueViewHolder(@NonNull View v) {
+            super(v);
+            avatarInitials = v.findViewById(R.id.tvAvatarInitials);
+            avatarPhoto    = v.findViewById(R.id.ivAvatarPhoto);
+            title          = v.findViewById(R.id.tvRowTitle);
+            subtitle       = v.findViewById(R.id.tvRowSubtitle);
+            amount         = v.findViewById(R.id.tvRowAmount);
+            divider        = v.findViewById(R.id.viewRowDivider);
         }
     }
 }

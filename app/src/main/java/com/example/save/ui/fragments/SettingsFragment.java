@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
 import com.example.save.databinding.FragmentSettingsBinding;
+import com.example.save.ui.activities.AdminMainActivity;
 import com.example.save.utils.SessionManager;
 
 public class SettingsFragment extends Fragment {
@@ -166,7 +167,9 @@ public class SettingsFragment extends Fragment {
 
         binding.cardAutomation.setOnClickListener(v -> {
             applyClickAnimation(v);
-            Toast.makeText(getContext(), "Scheduled Actions settings", Toast.LENGTH_SHORT).show();
+            if (getActivity() instanceof AdminMainActivity) {
+                ((AdminMainActivity) getActivity()).loadFragment(AnalyticsFragment.newInstance(true), true);
+            }
         });
 
         binding.cardGeneral.setOnClickListener(v -> {

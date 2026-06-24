@@ -86,6 +86,7 @@
     <color name="h_red_700">#F87171</color>
     <color name="h_red_50">#450A0A</color>
     <color name="h_red_100">#7F1D1D</color>
+    <color name="logo_tint">#FFFFFF</color>
     <!-- Nav dashed ring is gray in dark mode -->
     <color name="nav_ring_color">#94A3B8</color>
 

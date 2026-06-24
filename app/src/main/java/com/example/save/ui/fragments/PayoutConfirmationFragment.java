@@ -20,10 +20,15 @@ public class PayoutConfirmationFragment extends Fragment {
     private String txId, amountStr;
 
     public static PayoutConfirmationFragment newInstance(String txId, String amount) {
+        return newInstance(txId, amount, "PAYOUT");
+    }
+
+    public static PayoutConfirmationFragment newInstance(String txId, String amount, String type) {
         PayoutConfirmationFragment fragment = new PayoutConfirmationFragment();
         Bundle args = new Bundle();
         args.putString("tx_id", txId);
         args.putString("amount", amount);
+        args.putString("item_type", type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,7 +37,7 @@ public class PayoutConfirmationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPayoutConfirmationBinding.inflate(inflater, container, false);
-        
+
         if (getArguments() != null) {
             txId = getArguments().getString("tx_id");
             amountStr = getArguments().getString("amount");
@@ -51,16 +56,17 @@ public class PayoutConfirmationFragment extends Fragment {
     private void setupClickListeners() {
         binding.btnConfirmPayout.setOnClickListener(v -> {
             applyClickAnimation(v);
-            
-            com.example.save.ui.viewmodels.MembersViewModel viewModel = 
+
+            com.example.save.ui.viewmodels.MembersViewModel viewModel =
                 new androidx.lifecycle.ViewModelProvider(requireActivity()).get(com.example.save.ui.viewmodels.MembersViewModel.class);
-            
-            com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext());
-            
+
+            final String itemType = getArguments() != null
+                    ? getArguments().getString("item_type", "PAYOUT") : "PAYOUT";
+
             if (txId != null) {
                 viewModel.processApproval(new com.example.save.ui.adapters.ApprovalsAdapter.ApprovalItem() {
                     @Override public String getId() { return txId; }
-                    @Override public String getType() { return "PAYOUT"; }
+                    @Override public String getType() { return itemType; }
                     @Override public String getTitle() { return ""; }
                     @Override public double getAmount() { return 0; }
                     @Override public String getDescription() { return ""; }

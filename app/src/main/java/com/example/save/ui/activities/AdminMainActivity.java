@@ -5,8 +5,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +30,7 @@ import com.example.save.ui.fragments.LoanSubmittedSuccessFragment;
 import com.example.save.ui.fragments.PollsFragment;
 import com.example.save.ui.fragments.QueueFragment;
 import com.example.save.ui.fragments.SettingsFragment;
+import com.example.save.ui.fragments.SavingsFragment;
 import com.example.save.ui.fragments.StashFragment;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.utils.NotificationHelper;
@@ -40,10 +39,7 @@ import com.example.save.utils.PermissionUtils;
 public class AdminMainActivity extends BaseActivity {
 
     private ActivityAdminmainBinding binding;
-    private boolean isQuickActionsOpen = false;
-    private android.animation.ObjectAnimator ringAnimator;
     private long lastBackPressTime = 0;
-    private boolean shouldReopenQuickActions = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +90,8 @@ public class AdminMainActivity extends BaseActivity {
                 loadFragment(new AdminDashboardFragment(), false);
             }
             
-            updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
-            
-            // Premium Entry Animation for Nav Bar
-            binding.navContainer.setTranslationY(200f);
-            binding.navAction.setTranslationY(200f);
-            binding.navContainer.animate().translationY(0f).setDuration(800).setInterpolator(new android.view.animation.OvershootInterpolator(1.2f)).start();
-            binding.navAction.animate().translationY(0f).setDuration(800).setInterpolator(new android.view.animation.OvershootInterpolator(1.2f)).start();
+            updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.pillDashboard);
+
         }
 
         // Sync Nav UI on back stack changes
@@ -110,14 +101,8 @@ public class AdminMainActivity extends BaseActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (isQuickActionsOpen) {
-                    closeQuickActions();
-                } else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     getSupportFragmentManager().popBackStackImmediate();
-                    if (shouldReopenQuickActions) {
-                        shouldReopenQuickActions = false;
-                        openQuickActions();
-                    }
                 } else {
                     Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                     if (!(current instanceof AdminDashboardFragment)) {
@@ -144,53 +129,21 @@ public class AdminMainActivity extends BaseActivity {
     private void setupRefreshLayout() {
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.brand_blue);
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white);
-        
+
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
-            // Start spinning the dotted circle
-            startRingSpinning();
-            
-            // Simulate refresh logic
             binding.swipeRefreshLayout.postDelayed(() -> {
                 binding.swipeRefreshLayout.setRefreshing(false);
-                stopRingSpinning();
                 Toast.makeText(this, "Dashboard updated", Toast.LENGTH_SHORT).show();
             }, 2000);
         });
     }
 
-    private void startRingSpinning() {
-        if (ringAnimator != null && ringAnimator.isRunning()) return;
-        
-        View ring = binding.navActionDashedRing;
-        if (ring == null) return;
-        
-        ringAnimator = android.animation.ObjectAnimator.ofFloat(ring, "rotation", 0f, 360f);
-        ringAnimator.setDuration(1000);
-        ringAnimator.setRepeatCount(android.animation.ObjectAnimator.INFINITE);
-        ringAnimator.setInterpolator(new android.view.animation.LinearInterpolator());
-        ringAnimator.start();
-    }
-
-    private void stopRingSpinning() {
-        if (ringAnimator != null && !isQuickActionsOpen) {
-            ringAnimator.cancel();
-            View ring = binding.navActionDashedRing;
-            if (ring != null) {
-                ring.animate()
-                    .rotation(0f)
-                    .setDuration(500)
-                    .setInterpolator(new android.view.animation.DecelerateInterpolator())
-                    .start();
-            }
-        }
-    }
-
     private void setupBottomNavigation() {
         binding.navDashboard.setOnClickListener(v -> switchToDashboard());
+        binding.navSavings.setOnClickListener(v -> switchToTab(SavingsFragment.newInstance()));
         binding.navLoans.setOnClickListener(v -> switchToTab(new AdminLoansFragment()));
         binding.navPayouts.setOnClickListener(v -> switchToTab(new QueueFragment()));
         binding.navSettings.setOnClickListener(v -> switchToTab(new SettingsFragment()));
-        binding.navAction.setOnClickListener(v -> showQuickActions());
     }
 
     private void switchToTab(Fragment fragment) {
@@ -200,9 +153,9 @@ public class AdminMainActivity extends BaseActivity {
     }
 
     public void switchToDashboard() {
-        // Pop everything to return to clean root
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         loadFragment(new AdminDashboardFragment(), false);
+        updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.pillDashboard);
     }
 
     public void showNotifications() {
@@ -226,23 +179,26 @@ public class AdminMainActivity extends BaseActivity {
     private void syncNavUI() {
         Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (frag instanceof AdminDashboardFragment) {
-            updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
+            updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.pillDashboard);
+            setBottomNavVisible(true);
+        } else if (frag instanceof SavingsFragment) {
+            updateNavUI(binding.navSavings, binding.txtSavings, binding.imgSavings, binding.pillSavings);
             setBottomNavVisible(true);
         } else if (frag instanceof AdminLoansFragment || frag instanceof LoanApplicationFragment) {
-            updateNavUI(binding.navLoans, binding.txtLoans, binding.imgLoans);
+            updateNavUI(binding.navLoans, binding.txtLoans, binding.imgLoans, binding.pillLoans);
             setBottomNavVisible(true);
         } else if (frag instanceof QueueFragment) {
-            updateNavUI(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
+            updateNavUI(binding.navPayouts, binding.txtPayouts, binding.imgPayouts, binding.pillPayouts);
+            setBottomNavVisible(true);
+        } else if (frag instanceof AnalyticsFragment) {
             setBottomNavVisible(true);
         } else if (frag instanceof SettingsFragment) {
-            updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings);
+            updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings, binding.pillSettings);
             setBottomNavVisible(true);
-        } else if (frag instanceof StashFragment || frag instanceof PollsFragment || frag instanceof AnalyticsFragment) {
-            // These are sub-screens that should NOT show the bottom nav
+        } else if (frag instanceof StashFragment || frag instanceof PollsFragment) {
             setBottomNavVisible(false);
         } else if (frag instanceof com.example.save.ui.fragments.SupportFragment) {
-            // Support Hub is a normal screen — show nav, highlight Settings
-            updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings);
+            updateNavUI(binding.navSettings, binding.txtSettings, binding.imgSettings, binding.pillSettings);
             setBottomNavVisible(true);
         } else {
             // Immersive chat flow only: ConnectingAgent, LiveChat, ChatFeedback, TicketSuccess
@@ -250,183 +206,32 @@ public class AdminMainActivity extends BaseActivity {
         }
     }
 
-    private void updateNavUI(LinearLayout selectedLayout, TextView selectedText, ImageView selectedImage) {
+    private void updateNavUI(LinearLayout selectedLayout, TextView selectedText,
+                             ImageView selectedImage, LinearLayout selectedPill) {
         resetAllNavItems();
-        int activeColor = Color.parseColor("#FFFFFF"); // Active White
+        if (selectedPill != null) selectedPill.setBackgroundResource(R.drawable.bg_nav_pill_active);
+        if (selectedImage != null) selectedImage.setImageTintList(ColorStateList.valueOf(Color.WHITE));
         if (selectedText != null) {
-            selectedText.setTextColor(activeColor);
-        }
-        if (selectedImage != null) {
-            selectedImage.setImageTintList(ColorStateList.valueOf(activeColor));
-
-            // Premium Spring-Loaded "Floating Pop" Animation
-            selectedImage.animate()
-                .translationY(-12f)
-                .scaleX(1.3f)
-                .scaleY(1.3f)
-                .rotation(15f)
-                .setDuration(400)
-                .setInterpolator(new android.view.animation.OvershootInterpolator(2.0f))
-                .withEndAction(() -> {
-                    selectedImage.animate()
-                        .rotation(0f)
-                        .setDuration(200)
-                        .start();
-                }).start();
+            selectedText.setVisibility(View.VISIBLE);
+            selectedText.setTextColor(Color.WHITE);
         }
     }
 
     private void resetAllNavItems() {
-        resetNavItem(binding.navDashboard, binding.txtDashboard, binding.imgDashboard);
-        resetNavItem(binding.navPayouts, binding.txtPayouts, binding.imgPayouts);
-        resetNavItem(binding.navLoans, binding.txtLoans, binding.imgLoans);
-        resetNavItem(binding.navSettings, binding.txtSettings, binding.imgSettings);
+        resetNavItem(binding.txtDashboard, binding.imgDashboard, binding.pillDashboard);
+        resetNavItem(binding.txtSavings,   binding.imgSavings,   binding.pillSavings);
+        resetNavItem(binding.txtLoans,     binding.imgLoans,     binding.pillLoans);
+        resetNavItem(binding.txtPayouts,   binding.imgPayouts,   binding.pillPayouts);
+        resetNavItem(binding.txtSettings,  binding.imgSettings,  binding.pillSettings);
     }
 
-    private void resetNavItem(LinearLayout layout, TextView text, ImageView image) {
-        int inactiveColor = Color.parseColor("#B3FFFFFF"); // Muted White
-        if (text != null) {
-            text.setTextColor(inactiveColor);
-        }
-        if (image != null) {
-            image.setImageTintList(ColorStateList.valueOf(inactiveColor));
-            
-            // Reset translation, scale and rotation with a smooth snap back
-            image.animate()
-                .translationY(0f)
-                .scaleX(1.0f)
-                .scaleY(1.0f)
-                .rotation(0f)
-                .setDuration(300)
-                .setInterpolator(new android.view.animation.DecelerateInterpolator())
-                .start();
-        }
+    private void resetNavItem(TextView text, ImageView image, LinearLayout pill) {
+        int inactiveColor = Color.parseColor("#9CA3AF");
+        if (pill != null) pill.setBackground(null);
+        if (image != null) image.setImageTintList(ColorStateList.valueOf(inactiveColor));
+        if (text != null) text.setVisibility(View.GONE);
     }
 
-    public void showQuickActions() {
-        if (isQuickActionsOpen) {
-            closeQuickActions();
-        } else {
-            openQuickActions();
-        }
-    }
-
-    private void openQuickActions() {
-        if (binding == null || binding.quickActionsOverlay == null) return;
-        
-        isQuickActionsOpen = true;
-        View overlayRoot = binding.quickActionsOverlay.getRoot();
-        if (overlayRoot == null) return;
-        
-        overlayRoot.setVisibility(View.VISIBLE);
-        overlayRoot.setAlpha(0f);
-        overlayRoot.animate().alpha(1f).setDuration(300).start();
-
-        // Rotate logo 45° (open gesture)
-        View plusIcon = binding.navActionPlusIcon;
-        if (plusIcon != null) plusIcon.animate().rotation(45f).setDuration(300).start();
-
-        // Full 360° spin on open (same as member side)
-        ImageView navLogo = binding.navActionPlusIcon;
-        if (navLogo != null) {
-            navLogo.animate().rotationBy(360f).setDuration(500).start();
-        }
-
-        // Animate FAB ring rotation (4000ms — matches member side)
-        View ring = binding.navActionDashedRing;
-        if (ring != null) {
-            ringAnimator = android.animation.ObjectAnimator.ofFloat(ring, "rotation", 0f, 360f);
-            ringAnimator.setDuration(4000);
-            ringAnimator.setRepeatCount(android.animation.ObjectAnimator.INFINITE);
-            ringAnimator.setInterpolator(new android.view.animation.LinearInterpolator());
-            ringAnimator.start();
-        }
-
-        // Staggered Cascade Animation for cards
-        android.view.ViewGroup container = overlayRoot.findViewById(R.id.cardContainer);
-        if (container != null) {
-            for (int i = 0; i < container.getChildCount(); i++) {
-                android.view.View child = container.getChildAt(i);
-                if (child != null) {
-                    child.setAlpha(0f);
-                    child.setTranslationY(50f);
-                    child.animate()
-                        .alpha(1f)
-                        .translationY(0f)
-                        .setDuration(400)
-                        .setStartDelay(100 + (i * 100))
-                        .setInterpolator(new android.view.animation.DecelerateInterpolator())
-                        .start();
-                }
-            }
-        }
-
-        // Setup listeners via binding for safety
-        com.example.save.databinding.LayoutQuickActionsOverlayBinding overlayBinding = binding.quickActionsOverlay;
-        
-        if (overlayBinding.btnCloseOverlay != null) {
-            overlayBinding.btnCloseOverlay.setOnClickListener(v -> closeQuickActions());
-        }
-        
-        if (overlayBinding.quickActionsDim != null) {
-            overlayBinding.quickActionsDim.setOnClickListener(v -> closeQuickActions());
-        }
-
-        if (overlayBinding.cardMembersOverlay != null && overlayBinding.cardMembersOverlay.getRoot() != null) {
-            overlayBinding.cardMembersOverlay.getRoot().setOnClickListener(v -> {
-                shouldReopenQuickActions = true;
-                closeQuickActions();
-                getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                loadFragment(new MembersFragment(), true);
-            });
-        }
-
-        if (overlayBinding.cardAnalysisOverlay != null && overlayBinding.cardAnalysisOverlay.getRoot() != null) {
-            overlayBinding.cardAnalysisOverlay.getRoot().setOnClickListener(v -> {
-                shouldReopenQuickActions = true;
-                closeQuickActions();
-                getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                loadFragment(AnalyticsFragment.newInstance(true), true);
-            });
-        }
-
-        if (overlayBinding.cardMyStashOverlay != null && overlayBinding.cardMyStashOverlay.getRoot() != null) {
-            overlayBinding.cardMyStashOverlay.getRoot().setOnClickListener(v -> {
-                shouldReopenQuickActions = true;
-                closeQuickActions();
-                getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                loadFragment(StashFragment.newInstance(), true);
-            });
-        }
-    }
-
-    private void closeQuickActions() {
-        isQuickActionsOpen = false;
-
-        // Stop ring animation
-        if (ringAnimator != null) {
-            ringAnimator.cancel();
-            View ring = binding.navActionDashedRing;
-            if (ring != null) ring.animate().rotation(0f).setDuration(300).start();
-        }
-
-        // Rotate logo back to 0
-        View plusIcon = binding.navActionPlusIcon;
-        if (plusIcon != null) plusIcon.animate().rotation(0f).setDuration(300).start();
-
-        // Full 360° spin on close (same as member side)
-        ImageView navLogo = binding.navActionPlusIcon;
-        if (navLogo != null) {
-            navLogo.animate().rotationBy(360f).setDuration(500).start();
-        }
-
-        View overlay = binding.quickActionsOverlay.getRoot();
-        if (overlay == null) return;
-
-        overlay.animate().alpha(0f).setDuration(300).withEndAction(() -> {
-            overlay.setVisibility(View.GONE);
-        }).start();
-    }
 
     private void handleIntentExtras(Intent intent) {
         if (intent != null && intent.hasExtra("NAVIGATE_TO")) {
@@ -438,13 +243,8 @@ public class AdminMainActivity extends BaseActivity {
     }
 
     public void setBottomNavVisible(boolean visible) {
-        if (binding != null) {
-            if (binding.navContainer != null) {
-                binding.navContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
-            }
-            if (binding.navAction != null) {
-                binding.navAction.setVisibility(visible ? View.VISIBLE : View.GONE);
-            }
+        if (binding != null && binding.navContainer != null) {
+            binding.navContainer.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
     }
 

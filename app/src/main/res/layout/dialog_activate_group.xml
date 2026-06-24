@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="16dp">
+
+    <!-- Total savings amount -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total savings amount (UGX)"
+        android:textColor="@color/dashboard_text_secondary"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusBottomEnd="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPoolAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="e.g. 500000"
+            android:inputType="numberDecimal"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Equal split preview -->
+    <TextView
+        android:id="@+id/tvSplitPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text=""
+        android:textColor="@color/dashboard_accent_green"
+        android:textSize="11sp" />
+
+    <!-- Saving date (deadline to contribute) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saving date (contribution deadline)"
+        android:textColor="@color/dashboard_text_secondary"
+        android:textSize="12sp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="4dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_calendar_month">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSaveDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tap to pick date"
+            android:focusable="false"
+            android:clickable="true"
+            android:cursorVisible="false"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Receiving date (when money is distributed) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Receiving date (when members get the money)"
+        android:textColor="@color/dashboard_text_secondary"
+        android:textSize="12sp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="4dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_calendar_month">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etReceiveDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tap to pick date"
+            android:focusable="false"
+            android:clickable="true"
+            android:cursorVisible="false"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
