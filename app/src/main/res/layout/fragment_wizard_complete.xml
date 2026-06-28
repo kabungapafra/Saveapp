@@ -1,141 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fillViewport="true">
+    android:background="@color/v_page_bg"
+    android:clipToPadding="false"
+    android:paddingBottom="24dp"
+    android:scrollbars="none">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/v_text_dark" />
-
-        <!-- Progress Indicator Row -->
-        <TextView
-            android:id="@+id/tvSectionLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="REVIEW"
-            android:textColor="@color/brand_blue"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnBack" />
-
-        <TextView
-            android:id="@+id/tvStepIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Step 5 of 7"
-            android:textColor="@color/v_text_muted"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/tvSectionLabel"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/pbStepProgress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        <!-- Blue header -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_marginTop="12dp"
-            android:progress="71"
-            android:progressDrawable="@drawable/bg_wizard_progress"
-            app:layout_constraintTop_toBottomOf="@id/tvSectionLabel" />
+            android:layout_height="wrap_content"
+            android:background="@color/brand_blue"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="52dp"
+            android:paddingBottom="32dp"
+            android:paddingHorizontal="24dp">
 
-        <ImageView
-            android:id="@+id/ivSuccess"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/ic_check_circle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pbStepProgress" />
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="start"
+                android:background="@drawable/bg_avatar_circle"
+                android:backgroundTint="#2EFFFFFF"
+                android:padding="8dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="#FFFFFF" />
 
+            <!-- Step dots -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <View android:layout_width="8dp" android:layout_height="6dp"
+                    android:background="#4DFFFFFF" android:layout_marginEnd="5dp" />
+                <View android:layout_width="8dp" android:layout_height="6dp"
+                    android:background="#4DFFFFFF" android:layout_marginEnd="5dp" />
+                <View android:layout_width="20dp" android:layout_height="6dp"
+                    android:background="#FFFFFF" android:layout_marginEnd="5dp" />
+                <View android:layout_width="8dp" android:layout_height="6dp"
+                    android:background="#4DFFFFFF" />
+            </LinearLayout>
+
+            <!-- Success icon -->
+            <ImageView
+                android:id="@+id/ivSuccess"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_avatar_circle"
+                android:backgroundTint="#2EFFFFFF"
+                android:padding="16dp"
+                android:src="@drawable/ic_check_circle"
+                app:tint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Review Your Setup"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/manrope_medium"
+                android:gravity="center"
+                android:text="Confirm everything looks right before finishing."
+                android:textColor="#B3C8E8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/manrope_medium"
+                android:text="Step 3 of 5"
+                android:textColor="#80FFFFFF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- Group info card -->
         <TextView
-            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:text="All Set!"
-            android:textColor="@color/v_text_dark"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivSuccess" />
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/manrope_bold"
+            android:letterSpacing="0.08"
+            android:text="GROUP"
+            android:textColor="@color/brand_blue"
+            android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/tvSubtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:paddingHorizontal="16dp"
-            android:text="Your group is ready to go. Review your settings below before finishing."
-            android:textColor="@color/v_text_mid"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
-
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginHorizontal="20dp"
             app:cardBackgroundColor="@color/card_surface"
             app:cardCornerRadius="20dp"
-            app:cardElevation="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0">
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:paddingVertical="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SUMMARY"
-                    android:textColor="@color/brand_blue"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="#EEEEEE" />
-
-                <!-- Group Name -->
+                <!-- Group Name row -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/manrope_medium"
                         android:text="Group Name"
                         android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
@@ -144,125 +150,231 @@
                         android:id="@+id/tvSummaryGroupName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
                         android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/v_text_dark"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
-                <!-- Contribution -->
+                <View android:layout_width="match_parent" android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="20dp" android:background="#F1F5F9" />
+
+                <!-- Currency row -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Contribution"
+                        android:fontFamily="@font/manrope_medium"
+                        android:text="Currency"
                         android:textColor="@color/v_text_muted"
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/tvSummaryContribution"
+                        android:id="@+id/tvSummaryCurrency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
                         android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Frequency -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Frequency"
-                        android:textColor="@color/v_text_muted"
+                        android:textColor="@color/v_text_dark"
                         android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvSummaryFrequency"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Payout -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Payout"
-                        android:textColor="@color/v_text_muted"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvSummaryPayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Retention -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Retention"
-                        android:textColor="@color/v_text_muted"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvSummaryRetention"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Contribution rules card -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/manrope_bold"
+            android:letterSpacing="0.08"
+            android:text="CONTRIBUTIONS"
+            android:textColor="@color/brand_blue"
+            android:textSize="11sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:cardBackgroundColor="@color/card_surface"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:fontFamily="@font/manrope_medium"
+                        android:text="Amount" android:textColor="@color/v_text_muted" android:textSize="14sp" />
+                    <TextView android:id="@+id/tvSummaryContribution" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold"
+                        android:text="-" android:textColor="@color/v_text_dark" android:textSize="14sp" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="20dp" android:background="#F1F5F9" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:fontFamily="@font/manrope_medium"
+                        android:text="Frequency" android:textColor="@color/v_text_muted" android:textSize="14sp" />
+                    <TextView android:id="@+id/tvSummaryFrequency" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold"
+                        android:text="-" android:textColor="@color/v_text_dark" android:textSize="14sp" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="20dp" android:background="#F1F5F9" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:fontFamily="@font/manrope_medium"
+                        android:text="Late Penalty" android:textColor="@color/v_text_muted" android:textSize="14sp" />
+                    <TextView android:id="@+id/tvSummaryPayout" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold"
+                        android:text="-" android:textColor="@color/v_text_dark" android:textSize="14sp" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="20dp" android:background="#F1F5F9" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:fontFamily="@font/manrope_medium"
+                        android:text="Retention" android:textColor="@color/v_text_muted" android:textSize="14sp" />
+                    <TextView android:id="@+id/tvSummaryRetention" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold"
+                        android:text="-" android:textColor="@color/v_text_dark" android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Loan rules card -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/manrope_bold"
+            android:letterSpacing="0.08"
+            android:text="LOANS"
+            android:textColor="@color/brand_blue"
+            android:textSize="11sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:cardBackgroundColor="@color/card_surface"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:fontFamily="@font/manrope_medium"
+                        android:text="Max Loan" android:textColor="@color/v_text_muted" android:textSize="14sp" />
+                    <TextView android:id="@+id/tvSummaryMaxLoan" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold"
+                        android:text="-" android:textColor="@color/v_text_dark" android:textSize="14sp" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="20dp" android:background="#F1F5F9" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:fontFamily="@font/manrope_medium"
+                        android:text="Interest Rate" android:textColor="@color/v_text_muted" android:textSize="14sp" />
+                    <TextView android:id="@+id/tvSummaryInterest" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold"
+                        android:text="-" android:textColor="@color/v_text_dark" android:textSize="14sp" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="20dp" android:background="#F1F5F9" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:fontFamily="@font/manrope_medium"
+                        android:text="Repayment" android:textColor="@color/v_text_muted" android:textSize="14sp" />
+                    <TextView android:id="@+id/tvSummaryRepayment" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:fontFamily="@font/manrope_bold"
+                        android:text="-" android:textColor="@color/v_text_dark" android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="24dp"
+            android:fontFamily="@font/manrope_medium"
             android:gravity="center"
-            android:text="You can always adjust these settings later\nin the group administration panel."
+            android:text="You can adjust these settings later in Group Settings."
             android:textColor="@color/v_text_muted"
-            android:textSize="14sp"
-            tools:layout_editor_absoluteX="88dp"
-            tools:layout_editor_absoluteY="16dp" />
+            android:textSize="13sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

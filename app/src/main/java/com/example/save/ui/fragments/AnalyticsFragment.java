@@ -27,47 +27,26 @@ import com.example.save.R;
 import com.example.save.databinding.FragmentAnalyticsBinding;
 import com.example.save.databinding.ItemMemberPerformanceBinding;
 import com.example.save.databinding.ItemTransactionLedgerBinding;
-import com.example.save.ui.viewmodels.LoansViewModel;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.data.models.DashboardSummaryResponse;
 import com.example.save.data.models.TransactionEntity;
-import com.example.save.data.models.Loan;
 import com.example.save.data.models.Member;
-import com.example.save.data.network.ApiService;
-import com.example.save.data.network.RetrofitClient;
-
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.animation.Easing;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AnalyticsFragment extends Fragment {
 
     private FragmentAnalyticsBinding binding;
     private MembersViewModel membersViewModel;
-    private LoansViewModel loansViewModel;
     private MemberPerformanceAdapter performanceAdapter;
     private TransactionLedgerAdapter ledgerAdapter;
 
-    // Cached values — updated incrementally from each data source
+    // Cached values from the dashboard summary — all real, backend-provided figures
     private double cachedTotalBalance = 0;
-    private double cachedActiveLoans = 0;
-    private int cachedConsistency = 0;
-    private int cachedRiskMitigation = 0;
+    private double cachedLoanBalance = 0;
     private double cachedContribAmount = 0;
     private int cachedTotalContributors = 0;
 
@@ -106,11 +85,9 @@ public class AnalyticsFragment extends Fragment {
         }
 
         membersViewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
-        loansViewModel = new ViewModelProvider(requireActivity()).get(LoansViewModel.class);
 
         setupRecyclerViews();
         setupClickListeners();
-        setupBarChart();
         updateUI();
 
         return binding.getRoot();
@@ -136,22 +113,13 @@ public class AnalyticsFragment extends Fragment {
         binding.btnViewAllMembers.setOnClickListener(v -> navigateToMemberSummary());
         binding.cardMemberPerformance.setOnClickListener(v -> navigateToMemberSummary());
 
-        if (binding.cardPayoutPerformance != null) {
-            binding.cardPayoutPerformance.setOnClickListener(v ->
-                getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, PayoutAuditFragment.newInstance())
-                    .addToBackStack(null).commit());
-        }
-
-        binding.cardLiquiditySummary.setOnClickListener(v ->
+        binding.cardPayoutPerformance.setOnClickListener(v ->
             getParentFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.fragment_container, LiquidityDashboardFragment.newInstance())
+                .replace(R.id.fragment_container, PayoutAuditFragment.newInstance())
                 .addToBackStack(null).commit());
 
         binding.swipeRefresh.setOnRefreshListener(() -> {
             membersViewModel.syncMembers();
-            loansViewModel.refresh();
             loadSummaryData();
         });
     }
@@ -170,46 +138,24 @@ public class AnalyticsFragment extends Fragment {
 
     private void updateLiquidityDisplay() {
         if (binding == null) return;
-        double available = Math.max(0, cachedTotalBalance - cachedActiveLoans);
+        double available = Math.max(0, cachedTotalBalance - cachedLoanBalance);
         binding.tvCurrentLiquidity.setText(formatCurrencyCompact(available));
     }
 
     private void updateUI() {
         if (binding == null) return;
 
-        // 1. Dashboard summary → balance, gross contributions, interest, consistency
+        // 1. Dashboard summary → balance, contributions, interest, outstanding loans, liquidity
         loadSummaryData();
 
-        // 2. Loans → active loans total + risk mitigation score
-        loansViewModel.getLoans().observe(getViewLifecycleOwner(), loans -> {
-            if (loans == null || binding == null) return;
-            double activeLoansTotal = 0;
-            int healthy = 0, total = 0;
-            for (Loan l : loans) {
-                String st = l.getStatus();
-                if ("ACTIVE".equalsIgnoreCase(st) || "APPROVED".equalsIgnoreCase(st)) {
-                    activeLoansTotal += l.getAmount();
-                    total++;
-                    if ("HEALTHY".equals(calculateLoanHealth(l))) healthy++;
-                }
-            }
-            cachedActiveLoans = activeLoansTotal;
-            cachedRiskMitigation = total > 0 ? (int) ((healthy / (double) total) * 100) : 100;
-            requireActivity().runOnUiThread(() -> {
-                if (binding == null) return;
-                updateLiquidityDisplay();
-                updateHealthIndex();
-            });
-        });
-
-        // 3. Members → performance table
+        // 2. Members → top contributors table
         membersViewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
             if (members == null || binding == null) return;
             performanceAdapter.setMembers(members);
             if (binding.swipeRefresh != null) binding.swipeRefresh.setRefreshing(false);
         });
 
-        // 4. Transactions → ledger
+        // 3. Transactions → recent ledger
         membersViewModel.getRecentTransactions().observe(getViewLifecycleOwner(), transactions -> {
             if (transactions == null || binding == null) return;
             ledgerAdapter.setTransactions(transactions);
@@ -225,142 +171,34 @@ public class AnalyticsFragment extends Fragment {
             }
             DashboardSummaryResponse s = (DashboardSummaryResponse) summaryObj;
             cachedTotalBalance = s.getTotalBalance();
+            cachedLoanBalance = s.getLoanBalance();
             cachedContribAmount = s.getContributionAmount();
             cachedTotalContributors = s.getTotalContributors();
 
-            double expectedMonthly = s.getContributionAmount() * s.getTotalContributors();
-            cachedConsistency = expectedMonthly > 0
-                    ? (int) Math.min(100, (s.getMonthlyContributions() / expectedMonthly) * 100) : 0;
+            double monthlyTarget = s.getContributionAmount() * s.getTotalContributors();
+            int monthlyPct = monthlyTarget > 0
+                    ? (int) Math.min(100, (s.getMonthlyContributions() / monthlyTarget) * 100) : 0;
 
             requireActivity().runOnUiThread(() -> {
                 if (binding == null) return;
 
-                // Hero card — total group balance
+                // Hero — total group balance
                 animateNumber(binding.tvTotalLiquidity, s.getTotalBalance(), "UGX %,.0f");
 
-                // Gross contributions (all approved contributions this year)
-                binding.tvGrossContributions.setText(formatCurrencyCompact(s.getYearlyContributions()));
-                double yearlyTarget = s.getContributionAmount() * s.getTotalContributors() * 12;
-                int grossPct = yearlyTarget > 0
-                        ? (int) Math.min(100, (s.getYearlyContributions() / yearlyTarget) * 100) : 0;
-                animateProgressBar(binding.progressGross, grossPct);
+                // Contributions this month + year to date
+                binding.tvMonthlyContributions.setText(formatCurrencyCompact(s.getMonthlyContributions()));
+                animateProgressBar(binding.progressMonthly, monthlyPct);
+                binding.tvMonthlyTargetLabel.setText(monthlyPct + "% of monthly target");
+                binding.tvYearlyContributions.setText(formatCurrencyCompact(s.getYearlyContributions()));
 
-                // Interest earned (from approved/active/completed loans)
+                // Outstanding loans + interest earned
+                binding.tvOutstandingLoans.setText(formatCurrencyCompact(s.getLoanBalance()));
                 binding.tvInterestEarned.setText(formatCurrencyCompact(s.getInterestEarned()));
 
                 updateLiquidityDisplay();
-                updateHealthIndex();
                 if (binding.swipeRefresh != null) binding.swipeRefresh.setRefreshing(false);
             });
-
-            loadForecastChart();
         });
-    }
-
-    private void loadForecastChart() {
-        if (!isAdded() || binding == null) return;
-        ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
-
-        // Build last 4 months buckets
-        LinkedHashMap<String, Float> monthMap = new LinkedHashMap<>();
-        SimpleDateFormat keyFmt = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-        for (int i = 3; i >= 0; i--) {
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.MONTH, -i);
-            monthMap.put(keyFmt.format(c.getTime()), 0f);
-        }
-
-        api.getTransactions(100, 0).enqueue(new Callback<PaginatedResponse<TransactionEntity>>() {
-            @Override
-            public void onResponse(Call<PaginatedResponse<TransactionEntity>> call,
-                    Response<PaginatedResponse<TransactionEntity>> response) {
-                if (!isAdded() || binding == null || !response.isSuccessful() || response.body() == null) return;
-                for (TransactionEntity tx : response.body().getData()) {
-                    if (!"CONTRIBUTION".equalsIgnoreCase(tx.getType())) continue;
-                    if (!"APPROVED".equalsIgnoreCase(tx.getStatus())) continue;
-                    if (tx.getDate() == null) continue;
-                    String key = keyFmt.format(tx.getDate());
-                    if (monthMap.containsKey(key)) monthMap.put(key, monthMap.get(key) + (float) tx.getAmount());
-                }
-                List<BarEntry> entries = new ArrayList<>();
-                int idx = 0;
-                float lastActual = 0;
-                for (float val : monthMap.values()) {
-                    entries.add(new BarEntry(idx++, val));
-                    if (val > 0) lastActual = val;
-                }
-                // 5th bar: projected next month
-                float projected = (float) (cachedContribAmount * cachedTotalContributors);
-                if (projected <= 0) projected = lastActual;
-                entries.add(new BarEntry(idx, projected));
-                requireActivity().runOnUiThread(() -> updateForecastChart(entries));
-            }
-            @Override
-            public void onFailure(Call<PaginatedResponse<TransactionEntity>> call, Throwable t) {}
-        });
-    }
-
-    private void updateHealthIndex() {
-        if (binding == null) return;
-        int reserveRatio = cachedTotalBalance > 0
-                ? (int) Math.min(100, Math.max(0, ((cachedTotalBalance - cachedActiveLoans) / cachedTotalBalance) * 100))
-                : 0;
-        int score = (cachedConsistency + cachedRiskMitigation + reserveRatio) / 3;
-
-        binding.tvConsistencyPct.setText(cachedConsistency + "%");
-        animateProgressBar(binding.progressConsistency, cachedConsistency);
-        binding.tvRiskPct.setText(cachedRiskMitigation + "%");
-        animateProgressBar(binding.progressRisk, cachedRiskMitigation);
-        binding.tvReservePct.setText(reserveRatio + "%");
-        animateProgressBar(binding.progressReserve, reserveRatio);
-        binding.tvHealthScore.setText(score + "%");
-        animateProgressBar(binding.progressLiquidity, score);
-    }
-
-    private void setupBarChart() {
-        if (binding == null) return;
-        BarChart chart = binding.forecastChart;
-        chart.getDescription().setEnabled(false);
-        chart.getLegend().setEnabled(false);
-        chart.getXAxis().setEnabled(false);
-        chart.getAxisLeft().setEnabled(false);
-        chart.getAxisRight().setEnabled(false);
-        chart.setTouchEnabled(false);
-        chart.setDrawGridBackground(false);
-        chart.setScaleEnabled(false);
-        chart.setRenderer(new com.example.save.ui.views.RoundedBarChartRenderer(
-                chart, chart.getAnimator(), chart.getViewPortHandler(), 20f));
-    }
-
-    private void updateForecastChart(List<BarEntry> barEntries) {
-        if (binding == null) return;
-        if (barEntries == null || barEntries.isEmpty()) {
-            barEntries = new ArrayList<>();
-            barEntries.add(new BarEntry(0, 0f));
-        }
-
-        BarDataSet set = new BarDataSet(barEntries, "Forecast");
-        // 5 shades from lightest (oldest) to orange (projection)
-        int[] colors = new int[]{
-            android.graphics.Color.parseColor("#BFDBFE"),
-            android.graphics.Color.parseColor("#93C5FD"),
-            android.graphics.Color.parseColor("#60A5FA"),
-            android.graphics.Color.parseColor("#3B82F6"),
-            android.graphics.Color.parseColor("#FF8A00")  // forecast bar is orange
-        };
-        // Assign colors cyclically in case fewer bars
-        int[] assignedColors = new int[barEntries.size()];
-        for (int i = 0; i < barEntries.size(); i++) {
-            assignedColors[i] = colors[Math.min(i, colors.length - 1)];
-        }
-        set.setColors(assignedColors);
-        set.setDrawValues(false);
-
-        BarData data = new BarData(set);
-        data.setBarWidth(0.6f);
-        binding.forecastChart.setData(data);
-        binding.forecastChart.invalidate();
-        binding.forecastChart.animateY(1200, Easing.EaseOutCubic);
     }
 
     private void animateNumber(TextView view, double target, String format) {
@@ -392,28 +230,24 @@ public class AnalyticsFragment extends Fragment {
         anim.start();
     }
 
-    private void animateProgressBar(com.google.android.material.progressindicator.CircularProgressIndicator bar, int target) {
-        if (bar == null) return;
-        ObjectAnimator anim = ObjectAnimator.ofInt(bar, "progress", 0, target);
-        anim.setDuration(900);
-        anim.setInterpolator(new DecelerateInterpolator());
-        anim.setStartDelay(300);
-        anim.start();
-    }
-
-    private String calculateLoanHealth(Loan loan) {
-        if (loan.getDueDate() == null) return "HEALTHY";
-        long diff = loan.getDueDate().getTime() - new Date().getTime();
-        long daysDiff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-        if (daysDiff < 0) return "OVERDUE";
-        else if (daysDiff <= 7) return "AT_RISK";
-        else return "HEALTHY";
-    }
-
     private void exportReport(String type) {
+        if (getContext() != null) {
+            android.widget.Toast.makeText(getContext(),
+                    "Generating " + ("EXCEL".equalsIgnoreCase(type) ? "Excel report" : "PDF") + "…",
+                    android.widget.Toast.LENGTH_SHORT).show();
+        }
         membersViewModel.getComprehensiveReport((success, report, message) -> {
+            if (!isAdded() || getContext() == null) return;
             if (success && report != null) {
-                com.example.save.utils.ReportUtils.generateAndShareReport(getContext(), report);
+                if ("EXCEL".equalsIgnoreCase(type)) {
+                    com.example.save.utils.ReportUtils.generateAndShareExcel(getContext(), report);
+                } else {
+                    com.example.save.utils.ReportUtils.generateAndShareReport(getContext(), report);
+                }
+            } else {
+                android.widget.Toast.makeText(getContext(),
+                        message != null ? message : "Could not generate report",
+                        android.widget.Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -450,7 +284,7 @@ public class AnalyticsFragment extends Fragment {
                         m.getName().substring(0, Math.min(2, m.getName().length())).toUpperCase());
             }
 
-            // Use yearly per-member target from live summary (cachedContribAmount * 12)
+            // Yearly per-member target from live summary (contribution amount × 12)
             double yearlyTarget = cachedContribAmount > 0
                     ? cachedContribAmount * 12
                     : membersViewModel.getContributionTarget();

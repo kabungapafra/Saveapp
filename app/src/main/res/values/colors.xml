@@ -63,12 +63,15 @@
     <color name="blue_glow_color">#215DA1</color>
     <color name="login_button_blue">#215DA1</color>
 
-    <!-- Neumorphic Design Tokens (Web-Matched) -->
-    <color name="neumorphic_bg">#ECEEF2</color>
-    <color name="neumorphic_card_bg">#F0F2F6</color>
-    <color name="neumorphic_shadow_light">#E6FFFFFF</color>
-    <color name="neumorphic_shadow_dark">#A3B1C6</color>
-    <color name="neumorphic_ring_border">#C8D6E8</color>
+    <!-- Neumorphic Design Tokens (Web-Matched: Stitch soft-ui mockup) -->
+    <color name="neumorphic_bg">#F6F7F8</color>
+    <color name="neumorphic_card_bg">#F6F7F8</color>
+    <color name="neumorphic_shadow_light">#FFFFFF</color>
+    <color name="neumorphic_shadow_dark">#D1D9E6</color>
+    <color name="neumorphic_ring_border">#B9D6F6</color>
+    <!-- Onboarding accent colors (exact mockup) -->
+    <color name="onboard_primary">#137FEC</color>
+    <color name="onboard_secondary">#F97316</color>
 
     <!-- Member Performance Summary (High-Fidelity Tokens) -->
     <color name="v_blue_hero_start">#215DA1</color>
@@ -96,7 +99,7 @@
     <color name="neumorphic_blue">#215DA1</color>
     <color name="neumorphic_orange">#FF8A00</color>
     <color name="card_premium_icon_bg">#E9F2FB</color>
-    <color name="neumorphic_blue_active">#215DA1</color>
+    <color name="neumorphic_blue_active">#137FEC</color>
     <color name="neumorphic_dot_inactive">#C8D6E8</color>
     <color name="text_slate_900">#0F172A</color>
     <color name="h_blue_50">#EFF6FF</color>

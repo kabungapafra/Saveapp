@@ -8,7 +8,7 @@
         android:top="8dp">
         <shape android:shape="rectangle">
             <corners android:radius="24dp" />
-            <solid android:color="#99A3B1C6" /> <!-- Exactly 60% alpha -->
+            <solid android:color="#99D1D9E6" /> <!-- soft-ui dark shadow, 60% alpha -->
         </shape>
     </item>
 
@@ -20,7 +20,7 @@
         android:top="0dp">
         <shape android:shape="rectangle">
             <corners android:radius="24dp" />
-            <solid android:color="#E6FFFFFF" /> <!-- Exactly 90% alpha -->
+            <solid android:color="#FFFFFF" /> <!-- soft-ui light shadow -->
         </shape>
     </item>
 

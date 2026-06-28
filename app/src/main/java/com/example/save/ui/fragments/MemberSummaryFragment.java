@@ -1,32 +1,41 @@
 package com.example.save.ui.fragments;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.save.R;
 import com.example.save.databinding.FragmentMemberSummaryBinding;
-import com.example.save.databinding.ItemMemberConsistencyBinding;
+import com.example.save.databinding.ItemMemberPerformanceBinding;
+import com.example.save.data.models.DashboardSummaryResponse;
+import com.example.save.data.models.Member;
+import com.example.save.ui.viewmodels.MembersViewModel;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
+/**
+ * Top Contributors — full ranked list of members by amount contributed.
+ * Reached from the Financial Analysis "Top Contributors" card, so it mirrors that
+ * ranking (real contribution_paid vs. yearly target) rather than credit-score risk.
+ */
 public class MemberSummaryFragment extends Fragment {
 
     private FragmentMemberSummaryBinding binding;
+    private MembersViewModel viewModel;
+    private final ContributorAdapter adapter = new ContributorAdapter();
+
+    // Per-member yearly target = contribution amount × 12 (from live config)
+    private double cachedContribAmount = 0;
 
     public static MemberSummaryFragment newInstance() {
         return new MemberSummaryFragment();
@@ -43,251 +52,107 @@ public class MemberSummaryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupRecyclerView();
-        startAnimations();
-    }
+        viewModel = new ViewModelProvider(requireActivity()).get(MembersViewModel.class);
 
-    private void setupRecyclerView() {
+        binding.backButton.setOnClickListener(v -> {
+            if (getActivity() != null) getActivity().onBackPressed();
+        });
+
         binding.rvConsistency.setLayoutManager(new LinearLayoutManager(requireContext()));
-        
-        List<MemberConsistency> data = new ArrayList<>();
-        // TODO: Populate with real member consistency data from backend
+        binding.rvConsistency.setAdapter(adapter);
 
-        binding.rvConsistency.setAdapter(new ConsistencyAdapter(data));
+        loadSummary();
+        observeMembers();
     }
 
-    private void startAnimations() {
-        // [G.1] Staggered Entrance
-        binding.heroCard.setAlpha(0f);
-        binding.heroCard.setTranslationY(14f);
-        binding.riskSection.setAlpha(0f);
-        binding.riskSection.setTranslationY(14f);
-        binding.alertCard.setAlpha(0f);
-        binding.alertCard.setTranslationY(14f);
-        binding.consistencySection.setAlpha(0f);
-        binding.consistencySection.setTranslationY(14f);
-
-        binding.heroCard.animate().alpha(1f).translationY(0f).setDuration(300).setStartDelay(0).start();
-        binding.riskSection.animate().alpha(1f).translationY(0f).setDuration(300).setStartDelay(100).start();
-        binding.alertCard.animate().alpha(1f).translationY(0f).setDuration(300).setStartDelay(150).start();
-        binding.consistencySection.animate().alpha(1f).translationY(0f).setDuration(300).setStartDelay(200).start();
-
-        // Get view model
-        com.example.save.ui.viewmodels.MembersViewModel viewModel = new androidx.lifecycle.ViewModelProvider(requireActivity()).get(com.example.save.ui.viewmodels.MembersViewModel.class);
-        com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(requireContext().getApplicationContext());
-        String phone = session.getUserPhone();
-
-        // [G.2] Hero Counter
+    private void loadSummary() {
         viewModel.getDashboardSummary((success, summaryObj, message) -> {
-            if (success && isAdded() && summaryObj instanceof com.example.save.data.models.DashboardSummaryResponse) {
-                com.example.save.data.models.DashboardSummaryResponse summary = (com.example.save.data.models.DashboardSummaryResponse) summaryObj;
-                requireActivity().runOnUiThread(() -> {
-                    double balance = summary.getTotalBalance();
-                    ValueAnimator savingsAnimator = ValueAnimator.ofInt(0, (int) balance);
-                    savingsAnimator.setDuration(1400);
-                    savingsAnimator.setInterpolator(new DecelerateInterpolator());
-                    DecimalFormat df = new DecimalFormat("#,###,###");
-                    savingsAnimator.addUpdateListener(animation -> {
-                        binding.tvTotalSavings.setText(df.format(animation.getAnimatedValue()));
-                    });
-                    savingsAnimator.start();
-                });
-            }
-        });
-
-        // Current Member Stats (Score, Pulse)
-        if (phone != null && !phone.isEmpty()) {
-            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
-                if (member != null) {
-                    int score = member.getCreditScore();
-                    // Animate Score
-                    ValueAnimator scoreAnimator = ValueAnimator.ofInt(0, score);
-                    scoreAnimator.setDuration(800);
-                    scoreAnimator.addUpdateListener(animation -> {
-                        binding.tvScore.setText(animation.getAnimatedValue().toString());
-                    });
-                    scoreAnimator.start();
-
-                    // Calculate Pulse percentage (300 to 850 range)
-                    int pulseProgress = (int) (((Math.max(300, score) - 300) / 550.0) * 100);
-                    binding.pulseProgressBar.setProgress(0);
-                    ValueAnimator progressAnimator = ValueAnimator.ofInt(0, pulseProgress);
-                    progressAnimator.setDuration(1000);
-                    progressAnimator.setStartDelay(200);
-                    progressAnimator.setInterpolator(new DecelerateInterpolator());
-                    progressAnimator.addUpdateListener(animation -> {
-                        binding.pulseProgressBar.setProgress((int) animation.getAnimatedValue());
-                    });
-                    progressAnimator.start();
-
-                    binding.tvReliabilityLabel.setText(member.getReliabilityLabel());
-                }
+            if (!success || !isAdded() || binding == null
+                    || !(summaryObj instanceof DashboardSummaryResponse)) return;
+            DashboardSummaryResponse s = (DashboardSummaryResponse) summaryObj;
+            cachedContribAmount = s.getContributionAmount();
+            requireActivity().runOnUiThread(() -> {
+                if (binding == null) return;
+                binding.tvTotalContributions.setText(formatCurrency(s.getYearlyContributions()));
+                adapter.notifyDataSetChanged();
             });
-        }
-
-        // [G.6] Alert Card Pulse Border
-        ObjectAnimator pulseAnimator = ObjectAnimator.ofArgb(binding.alertCard, "strokeColor", 
-                requireContext().getColor(R.color.v_alert_border), 
-                requireContext().getColor(R.color.v_red_missed));
-        pulseAnimator.setDuration(2000);
-        pulseAnimator.setRepeatMode(ValueAnimator.REVERSE);
-        pulseAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        pulseAnimator.start();
-
-        // Populate Alert and Consistency
-        viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
-            if (members != null && !members.isEmpty()) {
-                List<com.example.save.data.models.Member> sortedMembers = new ArrayList<>(members);
-                java.util.Collections.sort(sortedMembers, (m1, m2) -> Integer.compare(m2.getCreditScore(), m1.getCreditScore()));
-
-                // Priority Risk Alert - find lowest score
-                com.example.save.data.models.Member highestRisk = sortedMembers.get(sortedMembers.size() - 1);
-                if (highestRisk.getCreditScore() < 600) {
-                    binding.riskSection.setVisibility(View.VISIBLE);
-                    binding.alertCard.setVisibility(View.VISIBLE);
-                    binding.tvAlertName.setText(highestRisk.getName());
-                    binding.tvAlertDescription.setText("Credit score dropped to " + highestRisk.getCreditScore());
-                    
-                    int missedRiskPct = 100 - (int) (((Math.max(300, highestRisk.getCreditScore()) - 300) / 550.0) * 100);
-                    binding.tvAlertPercentage.setText(missedRiskPct + "%");
-                } else {
-                    binding.riskSection.setVisibility(View.GONE);
-                    binding.alertCard.setVisibility(View.GONE);
-                }
-
-                // Populate Consistency List
-                List<MemberConsistency> consistencyData = new ArrayList<>();
-                for (int i = 0; i < sortedMembers.size(); i++) {
-                    com.example.save.data.models.Member m = sortedMembers.get(i);
-                    int[] segments = new int[6];
-                    int score = m.getCreditScore();
-                    int streak = Math.min(6, Math.max(0, m.getPaymentStreak()));
-                    // Fill from most-recent (index 5) backward using real streak count
-                    for (int s = 0; s < 6; s++) {
-                        int recency = 5 - s; // 0 = most recent cycle
-                        if (recency < streak) {
-                            segments[s] = 0; // confirmed on-time in streak
-                        } else if (score >= 700) {
-                            segments[s] = 0; // strong history before streak
-                        } else if (score >= 580) {
-                            segments[s] = (recency % 3 == 0) ? 1 : 0; // occasional late
-                        } else if (score >= 450) {
-                            segments[s] = (recency % 2 == 0) ? 2 : 1; // frequent issues
-                        } else {
-                            segments[s] = (recency % 3 == 1) ? 2 : (recency % 3 == 2 ? 1 : 2);
-                        }
-                    }
-                    
-                    int pulseProgress = (int) (((Math.max(300, score) - 300) / 550.0) * 100);
-                    consistencyData.add(new MemberConsistency("#" + (i + 1), m.getName(), pulseProgress + "%", segments));
-                }
-                binding.rvConsistency.setAdapter(new ConsistencyAdapter(consistencyData));
-            }
         });
     }
 
-    private static class MemberConsistency {
-        String rank;
-        String name;
-        String percentage;
-        int[] segments; // 0=PAID, 1=LATE, 2=MISSED
+    private void observeMembers() {
+        viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
+            if (binding == null) return;
+            List<Member> sorted = new ArrayList<>(members != null ? members : new ArrayList<>());
+            Collections.sort(sorted, (a, b) -> Double.compare(b.getContributionPaid(), a.getContributionPaid()));
+            adapter.setMembers(sorted);
 
-        MemberConsistency(String rank, String name, String percentage, int[] segments) {
-            this.rank = rank;
-            this.name = name;
-            this.percentage = percentage;
-            this.segments = segments;
-        }
+            boolean empty = sorted.isEmpty();
+            binding.tvEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
+            binding.rvConsistency.setVisibility(empty ? View.GONE : View.VISIBLE);
+            binding.tvMemberCount.setText(empty
+                    ? "Members ranked by amount contributed"
+                    : sorted.size() + " members ranked by amount contributed");
+        });
     }
 
-    private class ConsistencyAdapter extends RecyclerView.Adapter<ConsistencyAdapter.ViewHolder> {
-        private final List<MemberConsistency> items;
-
-        ConsistencyAdapter(List<MemberConsistency> items) {
-            this.items = items;
-        }
-
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ItemMemberConsistencyBinding itemBinding = ItemMemberConsistencyBinding.inflate(
-                    LayoutInflater.from(parent.getContext()), parent, false);
-            return new ViewHolder(itemBinding);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            MemberConsistency member = items.get(position);
-            holder.binding.tvRank.setText(member.rank);
-            holder.binding.tvMemberName.setText(member.name);
-            holder.binding.tvPercentage.setText(member.percentage);
-            
-            // Set segment colors based on status
-            setSegmentColor(holder.binding.m1, member.segments[0]);
-            setSegmentColor(holder.binding.m2, member.segments[1]);
-            setSegmentColor(holder.binding.m3, member.segments[2]);
-            setSegmentColor(holder.binding.m4, member.segments[3]);
-            setSegmentColor(holder.binding.m5, member.segments[4]);
-            setSegmentColor(holder.binding.m6, member.segments[5]);
-
-            // [G.1] Staggered Row Animation
-            holder.binding.getRoot().setAlpha(0f);
-            holder.binding.getRoot().setTranslationY(14f);
-            holder.binding.getRoot().animate()
-                    .alpha(1f)
-                    .translationY(0f)
-                    .setDuration(300)
-                    .setStartDelay(280L + (position * 80L))
-                    .start();
-
-            // [G.4] Segment Chart Animation
-            animateSegment(holder.binding.m1, position, 0);
-            animateSegment(holder.binding.m2, position, 1);
-            animateSegment(holder.binding.m3, position, 2);
-            animateSegment(holder.binding.m4, position, 3);
-            animateSegment(holder.binding.m5, position, 4);
-            animateSegment(holder.binding.m6, position, 5);
-        }
-
-        private void setSegmentColor(View view, int status) {
-            int color;
-            switch(status) {
-                case 1: color = requireContext().getColor(R.color.v_brown_late); break;
-                case 2: color = requireContext().getColor(R.color.v_red_missed); break;
-                default: color = requireContext().getColor(R.color.v_blue); break;
-            }
-            view.setBackgroundTintList(ColorStateList.valueOf(color));
-        }
-
-        private void animateSegment(View view, int memberIndex, int segmentIndex) {
-            view.setScaleX(0f);
-            view.setAlpha(0f);
-            view.animate()
-                    .scaleX(1f)
-                    .alpha(1f)
-                    .setDuration(250)
-                    .setStartDelay((memberIndex * 200L) + (segmentIndex * 60L))
-                    .setInterpolator(new AccelerateDecelerateInterpolator())
-                    .start();
-        }
-
-        @Override
-        public int getItemCount() {
-            return items.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            final ItemMemberConsistencyBinding binding;
-            ViewHolder(ItemMemberConsistencyBinding binding) {
-                super(binding.getRoot());
-                this.binding = binding;
-            }
-        }
+    private String formatCurrency(double amount) {
+        if (amount >= 1_000_000) return String.format(Locale.getDefault(), "UGX %.1fM", amount / 1_000_000);
+        if (amount >= 1_000) return String.format(Locale.getDefault(), "UGX %.1fK", amount / 1_000);
+        return String.format(Locale.getDefault(), "UGX %.0f", amount);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    // ─── ADAPTER ──────────────────────────────────────────────────────────────
+
+    private class ContributorAdapter extends RecyclerView.Adapter<ContributorAdapter.ViewHolder> {
+        private List<Member> members = new ArrayList<>();
+
+        void setMembers(List<Member> members) {
+            this.members = members;
+            notifyDataSetChanged();
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new ViewHolder(ItemMemberPerformanceBinding.inflate(
+                    LayoutInflater.from(parent.getContext()), parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            Member m = members.get(position);
+            holder.binding.tvMemberName.setText(m.getName() != null ? m.getName() : "—");
+            if (m.getName() != null && !m.getName().isEmpty()) {
+                holder.binding.tvAvatarInitials.setText(
+                        m.getName().substring(0, Math.min(2, m.getName().length())).toUpperCase());
+            }
+
+            double yearlyTarget = cachedContribAmount > 0
+                    ? cachedContribAmount * 12
+                    : viewModel.getContributionTarget();
+            int progress = (yearlyTarget > 0)
+                    ? (int) Math.min(100, Math.max(0, (m.getContributionPaid() / yearlyTarget) * 100))
+                    : 0;
+
+            holder.binding.progressEfficiency.setProgress(progress);
+            holder.binding.tvEfficiencyPct.setText(progress + "%");
+            holder.binding.tvEfficiencyValue.setText(
+                    String.format(Locale.getDefault(), "%.1f", m.getContributionPaid() / 1_000_000.0));
+            holder.binding.tvMemberSub.setText("Rank #" + (position + 1));
+        }
+
+        @Override
+        public int getItemCount() { return members.size(); }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            final ItemMemberPerformanceBinding binding;
+            ViewHolder(ItemMemberPerformanceBinding b) { super(b.getRoot()); this.binding = b; }
+        }
     }
 }

@@ -14,23 +14,44 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.save.R;
+import com.example.save.data.network.ApiService;
+import com.example.save.data.network.GoogleLoginRequest;
+import com.example.save.data.network.LoginResponse;
+import com.example.save.data.network.RetrofitClient;
 import com.example.save.databinding.ActivityAdminregBinding;
+import com.example.save.utils.SessionManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AdminLoginActivity extends AppCompatActivity {
 
     private ActivityAdminregBinding binding;
     private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    private ActivityResultLauncher<Intent> googleSignInLauncher;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
@@ -42,6 +63,16 @@ public class AdminLoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
         getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignInLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> handleGoogleSignInResult(result.getData()));
 
         setupPhoneAuthCallbacks();
 
@@ -72,6 +103,9 @@ public class AdminLoginActivity extends AppCompatActivity {
         binding.sideSignUpTab.setOnClickListener(this::onsingupClick);
         binding.memberPortalLink.setOnClickListener(v -> navigateToMemberPortal());
         binding.passwordToggle.setOnClickListener(v -> togglePassword(binding.passwordInput, binding.passwordToggle));
+        binding.googleButton.setOnClickListener(v ->
+                mGoogleSignInClient.signOut().addOnCompleteListener(this, task ->
+                        googleSignInLauncher.launch(mGoogleSignInClient.getSignInIntent())));
 
         // Animate Logo Image (Heartbeat)
         android.view.animation.Animation heartbeat = android.view.animation.AnimationUtils.loadAnimation(this,
@@ -340,19 +374,32 @@ public class AdminLoginActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
                     finish();
                 } else {
-                    String errorMessage = "Login failed";
+                    String errorMessage;
                     try {
-                        if (response.errorBody() != null) {
-                            String errorJson = response.errorBody().string();
-                            // Simple extraction if it's a FastAPI detail JSON
-                            if (errorJson.contains("\"detail\":\"")) {
-                                errorMessage = errorJson.split("\"detail\":\"")[1].split("\"")[0];
+                        okhttp3.ResponseBody errBody = response.errorBody();
+                        if (errBody == null) {
+                            errorMessage = "Login error (code " + response.code() + ")";
+                        } else {
+                            String raw = errBody.string().trim();
+                            if (raw.isEmpty()) {
+                                errorMessage = "Login error (code " + response.code() + ")";
                             } else {
-                                errorMessage = "Error: " + response.code();
+                                errorMessage = raw;
+                                String[] parts = raw.split("\"");
+                                for (int i = 0; i + 2 < parts.length; i++) {
+                                    String key = parts[i].trim();
+                                    if ("detail".equals(key) || "error".equals(key) || "message".equals(key)) {
+                                        String val = parts[i + 2].trim();
+                                        if (!val.isEmpty() && !val.startsWith("{") && !val.startsWith("[")) {
+                                            errorMessage = val;
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         }
                     } catch (Exception e) {
-                        errorMessage = "Login failed: " + response.message();
+                        errorMessage = "Login error: " + e.getMessage();
                     }
                     Toast.makeText(AdminLoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                 }
@@ -381,6 +428,98 @@ public class AdminLoginActivity extends AppCompatActivity {
             toggleIcon.setAlpha(0.9f);
         }
         editText.setSelection(editText.getText().length());
+    }
+
+
+    private void handleGoogleSignInResult(Intent data) {
+        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        try {
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            String idToken = account.getIdToken();
+            if (idToken == null) {
+                Toast.makeText(this, "Google sign-in failed: no token", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+            binding.loginButton.setEnabled(false);
+            mAuth.signInWithCredential(credential).addOnCompleteListener(this, authTask -> {
+                if (authTask.isSuccessful() && authTask.getResult().getUser() != null) {
+                    authTask.getResult().getUser().getIdToken(true).addOnCompleteListener(tokenTask -> {
+                        if (tokenTask.isSuccessful()) {
+                            performGoogleBackendLogin(tokenTask.getResult().getToken());
+                        } else {
+                            binding.loginButton.setEnabled(true);
+                            Toast.makeText(this, "Google sign-in failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    binding.loginButton.setEnabled(true);
+                    Toast.makeText(this, "Google authentication failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (ApiException e) {
+            if (e.getStatusCode() != com.google.android.gms.common.api.CommonStatusCodes.CANCELED) {
+                Toast.makeText(this, "Google sign-in error: " + e.getStatusCode(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void performGoogleBackendLogin(String firebaseToken) {
+        GoogleLoginRequest req = new GoogleLoginRequest(firebaseToken);
+        req.setLoginType("admin");
+        ApiService api = RetrofitClient.getClient(this).create(ApiService.class);
+        api.googleLogin(req).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                binding.loginButton.setEnabled(true);
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse body = response.body();
+                    String groupName = body.getGroupName() != null ? body.getGroupName() : "";
+                    SessionManager session = SessionManager.getInstance(getApplicationContext());
+                    session.createLoginSession(body.getName(), "", body.getRole(), false, body.isCreator());
+                    session.saveLastGroup(groupName);
+                    session.saveJwtToken(body.getToken());
+                    RetrofitClient.getInstance(getApplicationContext()).updateToken(body.getToken());
+                    com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
+                            .fetchSystemConfig(null);
+                    com.example.save.services.SaveFirebaseMessagingService
+                            .registerTokenWithServer(getApplicationContext());
+                    getSharedPreferences("ChamaPrefs", MODE_PRIVATE).edit()
+                            .putString("admin_name", body.getName())
+                            .putString("group_name", groupName)
+                            .apply();
+                    Intent intent = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
+                    intent.putExtra("admin_name", body.getName());
+                    intent.putExtra("group_name", groupName);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
+                    finish();
+                } else {
+                    String msg = "Google login failed";
+                    try {
+                        okhttp3.ResponseBody errBody = response.errorBody();
+                        if (errBody != null) {
+                            String raw = errBody.string();
+                            String[] parts = raw.split("\"");
+                            for (int i = 0; i + 2 < parts.length; i++) {
+                                if ("detail".equals(parts[i].trim()) || "error".equals(parts[i].trim())) {
+                                    msg = parts[i + 2].trim();
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (Exception ignored) {}
+                    Toast.makeText(AdminLoginActivity.this, msg, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                binding.loginButton.setEnabled(true);
+                Toast.makeText(AdminLoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

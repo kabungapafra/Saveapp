@@ -1,127 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/v_page_bg">
 
+    <!-- HEADER -->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/card_surface"
+        android:elevation="4dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_input_bg_circle">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/v_text_dark" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/poppins"
+            android:text="Make Contribution"
+            android:textColor="@color/v_text_dark"
+            android:textSize="@dimen/text_size_normal" />
+    </RelativeLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="40dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="32dp">
 
-            <!-- Header -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp">
-
-                <FrameLayout
-                    android:id="@+id/btnBack"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_circular_back_button"
-                    android:elevation="4dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_arrow_back"
-                        app:tint="#1E293B" />
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Make Contribution"
-                    android:textColor="@color/v_text_dark"
-                    android:textSize="20sp"
-                    android:fontFamily="sans-serif-black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- Hero Amount Card -->
+            <!-- AMOUNT HERO (brand gradient) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="@color/card_surface"
                 app:cardCornerRadius="24dp"
-                app:cardElevation="8dp"
+                app:cardElevation="6dp"
                 app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_premium_blue"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="32dp"
-                    android:gravity="center_horizontal">
+                    android:padding="24dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ENTER AMOUNT"
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="14sp"
-                        android:letterSpacing="0.05"
+                        android:alpha="0.85"
                         android:fontFamily="sans-serif-medium"
-                        android:layout_marginBottom="16dp" />
+                        android:letterSpacing="0.08"
+                        android:text="CONTRIBUTION AMOUNT"
+                        android:textColor="@color/permanent_white"
+                        android:textSize="@dimen/text_size_xs" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:layout_marginTop="14dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:fontFamily="@font/poppins"
                             android:text="UGX"
-                            android:textColor="@color/brand_blue"
-                            android:textSize="26sp"
-                            android:fontFamily="sans-serif-black"
-                            android:layout_marginEnd="24dp" />
+                            android:textColor="@color/permanent_white"
+                            android:textSize="22sp" />
 
                         <EditText
                             android:id="@+id/etAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="0"
-                            android:textColorHint="@color/v_text_muted"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="44sp"
-                            android:fontFamily="sans-serif-black"
-                            android:inputType="number"
                             android:background="@null"
-                            android:textCursorDrawable="@null"
+                            android:fontFamily="@font/poppins"
+                            android:hint="0"
                             android:imeOptions="actionDone"
-                            android:maxLines="1" />
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:minWidth="100dp"
+                            android:textColor="@color/permanent_white"
+                            android:textColorHint="#80FFFFFF"
+                            android:textCursorDrawable="@null"
+                            android:textSize="44sp" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/v_page_bg"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="32dp" />
+                        android:layout_marginBottom="20dp"
+                        android:background="@color/divider_color" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -131,113 +133,116 @@
                         <TextView
                             android:id="@+id/btnQuickAmount1"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
+                            android:layout_height="44dp"
                             android:layout_marginEnd="8dp"
-                            android:background="@drawable/bg_quick_amount_button"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_badge_success"
+                            android:backgroundTint="#26FFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:fontFamily="@font/manrope_bold"
                             android:gravity="center"
                             android:text="+10,000"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="14sp"
-                            android:fontFamily="sans-serif-medium"
-                            android:clickable="true"
-                            android:focusable="true" />
+                            android:textColor="@color/permanent_white"
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/btnQuickAmount2"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
+                            android:layout_height="44dp"
                             android:layout_marginHorizontal="4dp"
-                            android:background="@drawable/bg_quick_amount_button"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_badge_success"
+                            android:backgroundTint="#26FFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:fontFamily="@font/manrope_bold"
                             android:gravity="center"
                             android:text="+50,000"
-                            android:textColor="@color/brand_blue"
-                            android:textSize="14sp"
-                            android:fontFamily="sans-serif-medium"
-                            android:clickable="true"
-                            android:focusable="true" />
+                            android:textColor="@color/permanent_white"
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/btnQuickAmount3"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
+                            android:layout_height="44dp"
                             android:layout_marginStart="8dp"
-                            android:background="@drawable/bg_quick_amount_button"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_badge_success"
+                            android:backgroundTint="#26FFFFFF"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:fontFamily="@font/manrope_bold"
                             android:gravity="center"
                             android:text="+100,000"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="14sp"
-                            android:fontFamily="sans-serif-medium"
-                            android:clickable="true"
-                            android:focusable="true" />
+                            android:textColor="@color/permanent_white"
+                            android:textSize="13sp" />
                     </LinearLayout>
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Payment Method Selection -->
+            <!-- PAYMENT METHOD -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Payment Method"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Payment Method"
                 android:textColor="@color/v_text_dark"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-black"
-                android:layout_marginBottom="16dp" />
+                android:textSize="16sp" />
 
-            <!-- Airtel Option -->
+            <!-- Airtel -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btnAirtel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/bg_payment_method_card"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="14dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/airtelIconCard"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    app:cardCornerRadius="12dp"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
                     app:cardBackgroundColor="#ED1B24"
+                    app:cardCornerRadius="12dp"
                     app:strokeWidth="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
-                    
+                    app:layout_constraintTop_toTopOf="parent">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
-                        android:src="@drawable/ic_airtel_brand"
-                        android:scaleType="centerInside" />
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_airtel_brand" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintStart_toEndOf="@id/airtelIconCard"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/airtelCheck"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintStart_toEndOf="@id/airtelIconCard"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
                         android:text="Airtel Mobile Money"
                         android:textColor="@color/v_text_dark"
-                        android:textSize="16sp"
-                        android:fontFamily="sans-serif-black" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_medium"
                         android:text="Instant Processing"
                         android:textColor="@color/v_text_muted"
                         android:textSize="13sp" />
@@ -248,9 +253,9 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_check_circle_blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/airtelEmptyCircle"
@@ -259,63 +264,63 @@
                     android:background="@drawable/bg_circular_back_button"
                     android:backgroundTint="@color/v_page_bg"
                     android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- MTN Option -->
+            <!-- MTN -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btnMTN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/bg_payment_method_card"
-                android:padding="16dp"
-                android:layout_marginBottom="32dp"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:padding="14dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/mtnIconCard"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    app:cardCornerRadius="12dp"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
                     app:cardBackgroundColor="#FFCC00"
+                    app:cardCornerRadius="12dp"
                     app:strokeWidth="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
-                    
+                    app:layout_constraintTop_toTopOf="parent">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
-                        android:src="@drawable/ic_mtn_brand"
-                        android:scaleType="centerInside" />
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_mtn_brand" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintStart_toEndOf="@id/mtnIconCard"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/mtnCheck"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintStart_toEndOf="@id/mtnIconCard"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
                         android:text="MTN Mobile Money"
                         android:textColor="@color/v_text_dark"
-                        android:textSize="16sp"
-                        android:fontFamily="sans-serif-black" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_medium"
                         android:text="Instant Processing"
                         android:textColor="@color/v_text_muted"
                         android:textSize="13sp" />
@@ -327,9 +332,9 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_check_circle_blue"
                     android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/mtnEmptyCircle"
@@ -337,55 +342,56 @@
                     android:layout_height="24dp"
                     android:background="@drawable/bg_circular_back_button"
                     android:backgroundTint="@color/v_page_bg"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Action Button -->
+            <!-- CONFIRM -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnConfirm"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/manrope_bold"
+                android:stateListAnimator="@null"
                 android:text="Confirm Contribution"
                 android:textAllCaps="false"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-black"
                 android:textColor="#FFFFFF"
+                android:textSize="17sp"
                 app:backgroundTint="@color/brand_blue"
-                app:cornerRadius="20dp"
+                app:cornerRadius="16dp"
                 app:icon="@drawable/ic_arrow_right"
                 app:iconGravity="textEnd"
                 app:iconPadding="12dp"
-                app:iconTint="#FFFFFF"
-                android:layout_marginBottom="24dp"
-                android:elevation="8dp" />
+                app:iconTint="#FFFFFF" />
 
-            <!-- Footer -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginEnd="6dp"
                     android:src="@drawable/ic_lock"
-                    app:tint="@color/v_text_muted"
-                    android:layout_marginEnd="8dp" />
+                    app:tint="@color/v_text_muted" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.05"
                     android:text="SECURED WITH 256-BIT ENCRYPTION"
                     android:textColor="@color/v_text_muted"
-                    android:textSize="12sp"
-                    android:letterSpacing="0.05" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

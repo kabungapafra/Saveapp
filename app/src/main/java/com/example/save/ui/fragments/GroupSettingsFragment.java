@@ -260,9 +260,6 @@ public class GroupSettingsFragment extends Fragment {
             if (binding.tvNextAutomaticPayoutDate != null) {
                 binding.tvNextAutomaticPayoutDate.setText("Next Payout: " + nextDateStr);
             }
-            if (binding.tvNextContributionDate != null) {
-                binding.tvNextContributionDate.setText("Next: " + nextDateStr);
-            }
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -272,11 +269,6 @@ public class GroupSettingsFragment extends Fragment {
     private void setupButtons() {
         // No Back or Save buttons as per immersive redesign
         
-        binding.btnInviteOthers.setOnClickListener(v -> {
-            applyClickAnimation(v);
-            Toast.makeText(getContext(), "Invite link copied to clipboard", Toast.LENGTH_SHORT).show();
-        });
-
         binding.btnDeleteGroup.setOnClickListener(v -> {
             applyClickAnimation(v);
             new androidx.appcompat.app.AlertDialog.Builder(requireContext())
@@ -325,30 +317,6 @@ public class GroupSettingsFragment extends Fragment {
             syncConfigToServer();
         });
 
-        binding.switchScheduledContributions.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isLoadingRules) return;
-            String state = isChecked ? "enabled" : "disabled";
-            Toast.makeText(getContext(), "Scheduled Contributions " + state, Toast.LENGTH_SHORT).show();
-            requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE).edit().putBoolean("switch_scheduled_contributions", isChecked).apply();
-            syncConfigToServer();
-        });
-
-        binding.switchSmartRoundups.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isLoadingRules) return;
-            String state = isChecked ? "enabled" : "disabled";
-            Toast.makeText(getContext(), "Smart Round-ups " + state, Toast.LENGTH_SHORT).show();
-            requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE).edit().putBoolean("switch_smart_roundups", isChecked).apply();
-            syncConfigToServer();
-        });
-
-        binding.switchAutomatedCycle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isLoadingRules) return;
-            String state = isChecked ? "enabled" : "disabled";
-            Toast.makeText(getContext(), "Automated Cycle " + state, Toast.LENGTH_SHORT).show();
-            requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE).edit().putBoolean("switch_automated_cycle", isChecked).apply();
-            syncConfigToServer();
-        });
-
         binding.switchLoanRequests.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isLoadingRules) return;
             String state = isChecked ? "enabled" : "disabled";
@@ -380,9 +348,6 @@ public class GroupSettingsFragment extends Fragment {
         binding.valStartDate.setText(prefs.getString("rule_start_date", "Oct 1, 2023"));
 
         binding.switchAutomaticPayouts.setChecked(prefs.getBoolean("switch_automatic_payouts", true));
-        binding.switchScheduledContributions.setChecked(prefs.getBoolean("switch_scheduled_contributions", true));
-        binding.switchSmartRoundups.setChecked(prefs.getBoolean("switch_smart_roundups", false));
-        binding.switchAutomatedCycle.setChecked(prefs.getBoolean("switch_automated_cycle", true));
         binding.switchLoanRequests.setChecked(prefs.getBoolean("switch_loan_requests", true));
         binding.switchNotifications.setChecked(prefs.getBoolean("group_push_notifications", true));
 
@@ -481,9 +446,6 @@ public class GroupSettingsFragment extends Fragment {
         binding.rowLoanLateFee.setClickable(false);
         binding.rowStartDate.setClickable(false);
         binding.switchAutomaticPayouts.setEnabled(false);
-        binding.switchScheduledContributions.setEnabled(false);
-        binding.switchSmartRoundups.setEnabled(false);
-        binding.switchAutomatedCycle.setEnabled(false);
         binding.switchLoanRequests.setEnabled(false);
     }
 

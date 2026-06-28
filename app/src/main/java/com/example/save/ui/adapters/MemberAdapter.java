@@ -181,10 +181,11 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public void bind(Member member, int position, OnMemberClickListener listener, boolean isUserAdmin) {
             binding.tvMemberName.setText(member.getName());
-            binding.tvMemberContributed.setText(String.format("$%,.2f", member.getContributionPaid()));
+            binding.tvMemberContributed.setText(formatCompact(member.getContributionPaid()));
 
-            // Reliability based on credit score (0-100)
-            binding.tvMemberReliability.setText(member.getCreditScore() + ".0%");
+            // Reliability label from backend (e.g. RELIABLE / ELIGIBLE)
+            String reliability = member.getReliabilityLabel();
+            binding.tvMemberReliability.setText(reliability != null ? reliability : "—");
 
             // Actual list rank
             int rank = position + 1;
@@ -252,6 +253,12 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             int colorIdx = Math.abs(name != null ? name.hashCode() : 0) % AVATAR_COLORS.length;
             imageView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(AVATAR_COLORS[colorIdx])));
         }
+    }
+
+    private static String formatCompact(double amount) {
+        if (amount >= 1_000_000) return String.format(java.util.Locale.getDefault(), "UGX %.1fM", amount / 1_000_000);
+        if (amount >= 1_000) return String.format(java.util.Locale.getDefault(), "UGX %.0fK", amount / 1_000);
+        return String.format(java.util.Locale.getDefault(), "UGX %.0f", amount);
     }
 
     private static String getInitials(String name) {

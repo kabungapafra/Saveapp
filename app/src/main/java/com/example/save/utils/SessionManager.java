@@ -190,7 +190,11 @@ public class SessionManager {
     }
 
     public void saveProfileImage(String uri) {
-        String phone = getUserPhone();
+        saveProfileImage(getUserPhone(), uri);
+    }
+
+    /** Cache an avatar path/uri for a specific member phone (used to rehydrate from server). */
+    public void saveProfileImage(String phone, String uri) {
         if (phone != null && !phone.isEmpty()) {
             memPref.edit().putString(KEY_PROFILE_IMAGE + "_" + phone, uri).apply();
         }

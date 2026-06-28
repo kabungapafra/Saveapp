@@ -8,7 +8,7 @@
         android:top="8dp">
         <shape android:shape="rectangle">
             <corners android:radius="44dp" />
-            <solid android:color="#50A3B1C6" />
+            <solid android:color="#50D1D9E6" />
         </shape>
     </item>
 
@@ -20,11 +20,11 @@
         android:top="0dp">
         <shape android:shape="rectangle">
             <corners android:radius="44dp" />
-            <solid android:color="#E0FFFFFF" />
+            <solid android:color="#FFFFFFFF" />
         </shape>
     </item>
 
-    <!-- Card body — SAME as background #ECEEF2 -->
+    <!-- Card body — SAME as background #F6F7F8 -->
     <item
         android:bottom="5dp"
         android:left="5dp"
@@ -32,7 +32,7 @@
         android:top="5dp">
         <shape android:shape="rectangle">
             <corners android:radius="44dp" />
-            <solid android:color="#ECEEF2" />
+            <solid android:color="#F6F7F8" />
         </shape>
     </item>
 </layer-list>

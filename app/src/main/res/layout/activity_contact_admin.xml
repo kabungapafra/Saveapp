@@ -1,204 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_primary">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Header -->
-    <LinearLayout
-        android:id="@+id/headerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/deep_blue"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="20dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_back"
-                app:tint="#FFFFFF" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Back"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Contact Admin"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="60dp"
-            android:layout_height="1dp" />
-    </LinearLayout>
-
-    <!-- Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+        android:layout_height="match_parent"
+        android:background="@color/v_page_bg"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Admin Info Card -->
-            <androidx.cardview.widget.CardView
+            <!-- Header -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
+                android:background="@color/brand_blue"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="48dp"
+                android:paddingBottom="20dp"
+                android:paddingHorizontal="20dp">
+
+                <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_avatar_circle"
+                    android:backgroundTint="#2EFFFFFF"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Contact Admin"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <!-- Admin info card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                app:cardBackgroundColor="@color/card_surface"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="2dp"
-                android:layout_marginBottom="24dp">
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="24dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Group Administrator"
-                        android:textSize="12sp"
-                        android:textColor="@color/v_text_muted"
-                        android:layout_marginBottom="4dp" />
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/bg_avatar_circle"
+                        android:backgroundTint="#EBF0FF"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/brand_blue" />
 
                     <TextView
                         android:id="@+id/tvAdminName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Admin Name"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_primary"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Group:"
-                        android:textSize="12sp"
-                        android:textColor="@color/v_text_muted"
-                        android:layout_marginBottom="4dp" />
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Group Administrator"
+                        android:textColor="@color/v_text_dark"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tvGroupName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Group Name"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_primary"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/manrope_medium"
+                        android:text="Your Group"
+                        android:textColor="@color/v_text_muted"
+                        android:textSize="13sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCallAdmin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:paddingHorizontal="24dp"
+                        android:text="Call Admin"
+                        android:textSize="13sp"
+                        app:backgroundTint="@color/brand_blue"
+                        app:cornerRadius="22dp"
+                        app:icon="@drawable/ic_phone"
+                        app:iconGravity="start"
+                        app:iconPadding="6dp" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Quick Actions -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCallAdmin"
+            <!-- Message form card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Call Admin"
-                android:layout_marginBottom="12dp"
-                app:icon="@drawable/ic_call"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-
-
-
-            <!-- Message Form -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/card_surface"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="2dp"
-                android:layout_marginBottom="16dp">
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="24dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Send Message"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_primary"
-                        android:layout_marginBottom="16dp" />
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Send a Message"
+                        android:textColor="@color/v_text_dark"
+                        android:textSize="15sp" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Subject"
-                        app:boxStrokeColor="@color/deep_blue"
-                        android:layout_marginBottom="16dp">
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Subject"
+                        android:textColor="@color/v_text_dark"
+                        android:textSize="13sp" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etSubject"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="text"
-                            android:textSize="16sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSubject"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Message"
-                        app:boxStrokeColor="@color/deep_blue">
+                        android:layout_height="52dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/bg_wizard_input_solid"
+                        android:fontFamily="@font/manrope_medium"
+                        android:hint="e.g. Contribution query"
+                        android:inputType="text"
+                        android:paddingHorizontal="16dp"
+                        android:textColor="@color/v_text_dark"
+                        android:textColorHint="@color/v_text_muted"
+                        android:textSize="14sp" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etMessage"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textMultiLine"
-                            android:minLines="4"
-                            android:gravity="top"
-                            android:textSize="16sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Message"
+                        android:textColor="@color/v_text_dark"
+                        android:textSize="13sp" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="130dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/bg_wizard_input_solid"
+                        android:fontFamily="@font/manrope_medium"
+                        android:gravity="top|start"
+                        android:hint="Type your message here..."
+                        android:inputType="textMultiLine"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:textColor="@color/v_text_dark"
+                        android:textColorHint="@color/v_text_muted"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSendMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Send via SMS"
+                        android:textSize="15sp"
+                        app:backgroundTint="@color/brand_blue"
+                        app:cornerRadius="14dp" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSendMessage"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Send Message"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                app:cornerRadius="12dp"
-                android:backgroundTint="@color/deep_blue" />
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

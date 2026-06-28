@@ -26,9 +26,9 @@
 
             <TextView
                 android:id="@+id/tvPollRole"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_pill_light_blue"
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
@@ -84,6 +84,16 @@
             android:fontFamily="sans-serif"
             android:textColor="@color/v_text_muted"
             android:textSize="12sp" />
+
+        <!-- Time remaining -->
+        <TextView
+            android:id="@+id/tvTimeRemaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif"
+            android:textColor="#64748B"
+            android:textSize="11sp" />
 
         <!-- Divider -->
         <View

@@ -33,7 +33,6 @@ import com.example.save.databinding.FragmentMembersBinding;
 import com.example.save.ui.viewmodels.MembersViewModel;
 import com.example.save.utils.ValidationUtils;
 import com.example.save.ui.adapters.MemberAdapter;
-import com.example.save.ui.adapters.TechnicalInsightsAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -54,7 +53,6 @@ public class MembersFragment extends Fragment {
     private FragmentMembersBinding binding;
     private MembersViewModel viewModel;
     private MemberAdapter adapter;
-    private TechnicalInsightsAdapter insightsAdapter;
     private List<Member> currentMembersList = new ArrayList<>();
     private String currentTab = "All";
     private String searchQuery = "";
@@ -88,6 +86,11 @@ public class MembersFragment extends Fragment {
         viewModel.syncMembers();
 
         binding.btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
+
+        String groupName = requireContext()
+                .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
+                .getString("group_name", "YOUR GROUP");
+        binding.tvGroupSubtitle.setText(groupName.toUpperCase());
 
         // Check for auto-open argument
         if (getArguments() != null && getArguments().getBoolean("SHOW_ADD_DIALOG", false)) {
@@ -236,10 +239,8 @@ public class MembersFragment extends Fragment {
                     filterAndApply();
                 }
 
-                // Update Technical Insights
-                if (insightsAdapter != null) {
-                    insightsAdapter.updateList(members);
-                }
+                // Update summary strip (counts reflect the full group, not the filtered view)
+                updateSummary(members);
 
                 binding.membersRecyclerView.setVisibility(adapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
                 binding.emptyStateLayout.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
@@ -284,11 +285,24 @@ public class MembersFragment extends Fragment {
         });
         adapter.setAdmin(isAdmin);
         binding.membersRecyclerView.setAdapter(adapter);
+    }
 
-        // Setup Insights RecyclerView
-        binding.rvTechnicalInsights.setLayoutManager(new LinearLayoutManager(getContext()));
-        insightsAdapter = new TechnicalInsightsAdapter();
-        binding.rvTechnicalInsights.setAdapter(insightsAdapter);
+    /** Populates the blue summary strip with live group counts. */
+    private void updateSummary(List<Member> members) {
+        if (binding == null || members == null) return;
+        int total = members.size();
+        int active = 0;
+        int admins = 0;
+        for (Member m : members) {
+            if (m.isActive()) active++;
+            String role = m.getRole();
+            if (role != null && (role.equalsIgnoreCase("Administrator") || role.equalsIgnoreCase("Admin"))) {
+                admins++;
+            }
+        }
+        binding.tvStatTotal.setText(String.valueOf(total));
+        binding.tvStatActive.setText(String.valueOf(active));
+        binding.tvStatAdmins.setText(String.valueOf(admins));
     }
 
     public void showAddMemberDialog() {
@@ -385,22 +399,29 @@ public class MembersFragment extends Fragment {
     private void updateRoleUI(DialogAddMemberBinding binding, boolean isMemberSelected) {
         Context context = binding.getRoot().getContext();
         int brandBlue = ContextCompat.getColor(context, R.color.brand_blue);
-        int slate200 = ContextCompat.getColor(context, R.color.slate_200);
-        int slate50 = ContextCompat.getColor(context, R.color.slate_50);
+        int surfaceColor = ContextCompat.getColor(context, R.color.card_surface);
+        int inputBgColor = ContextCompat.getColor(context, R.color.v_input_bg);
+        int textDark = ContextCompat.getColor(context, R.color.v_text_dark);
+        int textMuted = ContextCompat.getColor(context, R.color.v_text_muted);
+        int dividerColor = ContextCompat.getColor(context, R.color.divider_color);
 
         float density = context.getResources().getDisplayMetrics().density;
 
-        // Member Card
-        binding.cardRoleMember.setStrokeColor(isMemberSelected ? brandBlue : slate200);
+        // Member card — blue stroke + white bg when selected; grey bg + no stroke when not
+        binding.cardRoleMember.setCardBackgroundColor(isMemberSelected ? surfaceColor : inputBgColor);
+        binding.cardRoleMember.setStrokeColor(isMemberSelected ? brandBlue : dividerColor);
         binding.cardRoleMember.setStrokeWidth(isMemberSelected ? (int)(2 * density) : (int)(1 * density));
-        binding.cardRoleMember.setCardBackgroundColor(isMemberSelected ? android.graphics.Color.WHITE : slate50);
+        binding.cardRoleMember.setCardElevation(isMemberSelected ? 2f : 0f);
         binding.checkMember.setVisibility(isMemberSelected ? View.VISIBLE : View.GONE);
-        
-        // Admin Card
-        binding.cardRoleAdmin.setStrokeColor(!isMemberSelected ? brandBlue : slate200);
+        binding.titleMember.setTextColor(isMemberSelected ? brandBlue : textDark);
+
+        // Admin card — blue stroke + white bg when selected; grey bg + no stroke when not
+        binding.cardRoleAdmin.setCardBackgroundColor(!isMemberSelected ? surfaceColor : inputBgColor);
+        binding.cardRoleAdmin.setStrokeColor(!isMemberSelected ? brandBlue : dividerColor);
         binding.cardRoleAdmin.setStrokeWidth(!isMemberSelected ? (int)(2 * density) : (int)(1 * density));
-        binding.cardRoleAdmin.setCardBackgroundColor(!isMemberSelected ? android.graphics.Color.WHITE : slate50);
+        binding.cardRoleAdmin.setCardElevation(!isMemberSelected ? 2f : 0f);
         binding.checkAdmin.setVisibility(!isMemberSelected ? View.VISIBLE : View.GONE);
+        binding.titleAdmin.setTextColor(!isMemberSelected ? brandBlue : textDark);
     }
 
     private void showSuccessAnimation(String name, String otp, String phone) {

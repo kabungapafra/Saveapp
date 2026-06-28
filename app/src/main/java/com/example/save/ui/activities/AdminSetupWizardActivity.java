@@ -15,12 +15,9 @@ import com.example.save.R;
 import com.example.save.databinding.ActivityAdminSetupWizardBinding;
 import com.example.save.ui.fragments.WizardGroupInfoFragment;
 import com.example.save.ui.fragments.WizardContributionFragment;
-import com.example.save.ui.fragments.WizardRulesFragment;
-import com.example.save.ui.fragments.WizardPayoutFragment;
 import com.example.save.ui.fragments.WizardCompleteFragment;
 import com.example.save.ui.fragments.LegalAgreementFragment;
 import com.example.save.ui.fragments.OtpFragment;
-import com.example.save.ui.fragments.WizardAddMembersInfoFragment;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -123,14 +120,10 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
             isValid = ((WizardGroupInfoFragment) currentFragment).validateAndSave();
         } else if (currentFragment instanceof WizardContributionFragment) {
             isValid = ((WizardContributionFragment) currentFragment).validateAndSave();
-        } else if (currentFragment instanceof WizardPayoutFragment) {
-            isValid = ((WizardPayoutFragment) currentFragment).validateAndSave();
-        } else if (currentFragment instanceof WizardRulesFragment) {
-            isValid = ((WizardRulesFragment) currentFragment).validateAndSave();
         }
 
         if (isValid) {
-            if (currentStep < 8) {
+            if (currentStep < 5) {
                 currentStep++;
                 loadStep(currentStep);
             } else {
@@ -164,12 +157,7 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
         }
         // Trim whitespace
         adminPassword = adminPassword.trim();
-        // Debug log password length (do NOT log the actual PIN in production)
-        android.util.Log.d("AdminSetup", "Admin PIN length=" + adminPassword.length());
-        // Ensure password is trimmed
         adminPassword = adminPassword != null ? adminPassword.trim() : null;
-        // Log the PIN length for debugging (avoid logging actual PIN in production)
-        android.util.Log.d("AdminSetup", "Admin PIN length=" + (adminPassword != null ? adminPassword.length() : "null"));
         // Validate admin PIN (must be exactly 4 numeric digits)
         if (!com.example.save.utils.ValidationUtils.isValidPin(adminPassword)) {
             Toast.makeText(this, "Admin PIN must be exactly 4 numeric digits", Toast.LENGTH_SHORT).show();
@@ -259,35 +247,23 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
             case 1:
                 fragment = new WizardGroupInfoFragment();
                 binding.btnNext.setText("Continue");
+                binding.footer.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 fragment = new WizardContributionFragment();
                 binding.btnNext.setText("Continue");
+                binding.footer.setVisibility(View.VISIBLE);
                 break;
             case 3:
-                fragment = new WizardPayoutFragment();
-                binding.btnNext.setText("Continue");
+                fragment = new WizardCompleteFragment();
+                binding.btnNext.setText("Looks Good →");
+                binding.footer.setVisibility(View.VISIBLE);
                 break;
             case 4:
-                fragment = new WizardRulesFragment();
-                binding.btnNext.setText("Continue");
-                binding.footer.setVisibility(View.VISIBLE);
+                fragment = new LegalAgreementFragment();
+                binding.footer.setVisibility(View.GONE);
                 break;
             case 5:
-                fragment = new WizardAddMembersInfoFragment();
-                binding.btnNext.setText("Continue to Review");
-                binding.footer.setVisibility(View.VISIBLE);
-                break;
-            case 6:
-                fragment = new WizardCompleteFragment();
-                binding.btnNext.setText("Go to Legal Center");
-                binding.footer.setVisibility(View.VISIBLE);
-                break;
-            case 7:
-                fragment = new LegalAgreementFragment();
-                binding.footer.setVisibility(View.GONE); // Legal has its own internal buttons
-                break;
-            case 8:
                 OtpFragment otpFragment = OtpFragment.newInstanceForRegistration(adminName, groupName, adminPhone, "", adminPassword);
                 otpFragment.setOtpListener(new OtpFragment.OtpListener() {
                     @Override
@@ -296,7 +272,6 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
                             Toast.makeText(AdminSetupWizardActivity.this, "Verification session expired. Please resend code.", Toast.LENGTH_LONG).show();
                             return;
                         }
-                        // Save the real OTP code for backend request
                         verifiedOtpCode = code;
                         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
                         signInWithPhoneAuthCredential(credential);
@@ -365,7 +340,7 @@ private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks; // cal
         // Retrieve Firebase ID token to prove phone ownership, then proceed with registration
         if (mAuth == null || mAuth.getCurrentUser() == null) {
             Toast.makeText(this, "Session expired. Please redo phone verification.", Toast.LENGTH_SHORT).show();
-            currentStep = 8;
+            currentStep = 5;
             loadStep(currentStep);
             return;
         }

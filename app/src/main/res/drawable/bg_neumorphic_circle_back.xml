@@ -7,7 +7,7 @@
         android:right="0dp"
         android:top="10dp">
         <shape android:shape="oval">
-            <solid android:color="#21A3B1C6" /> <!-- 13% alpha deep spread -->
+            <solid android:color="#21D1D9E6" /> <!-- 13% alpha deep spread -->
         </shape>
     </item>
 
@@ -18,7 +18,7 @@
         android:right="0dp"
         android:top="6dp">
         <shape android:shape="oval">
-            <solid android:color="#8DA3B1C6" /> <!-- 55% alpha main shadow -->
+            <solid android:color="#8DD1D9E6" /> <!-- 55% alpha main shadow -->
         </shape>
     </item>
 
@@ -40,7 +40,7 @@
         android:right="4dp"
         android:top="4dp">
         <shape android:shape="oval">
-            <solid android:color="#ECEEF2" />
+            <solid android:color="#F6F7F8" />
         </shape>
     </item>
 </layer-list>

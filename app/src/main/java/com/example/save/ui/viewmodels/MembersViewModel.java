@@ -63,6 +63,12 @@ public class MembersViewModel extends AndroidViewModel {
         repository.syncMembers();
     }
 
+    /** Upload the current member's avatar (base64) so it persists across reinstall. */
+    public void updateProfileImage(String memberId, String base64,
+            MemberRepository.MemberAddCallback callback) {
+        repository.updateProfileImage(memberId, base64, callback);
+    }
+
     public LiveData<List<Member>> searchMembers(String query) {
         androidx.lifecycle.MutableLiveData<List<Member>> liveData = new androidx.lifecycle.MutableLiveData<>();
         liveData.setValue(repository.searchMembers(query));
@@ -548,6 +554,10 @@ public class MembersViewModel extends AndroidViewModel {
     // System Config & Logic
     public void updateSystemConfig(Object update, MemberRepository.ConfigCallback callback) {
         repository.updateSystemConfig(update, callback);
+    }
+
+    public void getLoanSummary(MemberRepository.LoanSummaryCallback callback) {
+        repository.getLoanSummary(callback);
     }
 
     public void fetchSystemConfig(MemberRepository.ConfigCallback callback) {

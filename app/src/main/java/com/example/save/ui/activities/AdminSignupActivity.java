@@ -69,19 +69,23 @@ public class AdminSignupActivity extends AppCompatActivity {
     }
 
     private void startCascadingAnimations() {
+        // Logo bounce-in
+        android.view.animation.Animation logoBounce = android.view.animation.AnimationUtils.loadAnimation(this,
+                R.anim.logo_bounce_in);
+        binding.logoImage.startAnimation(logoBounce);
+
+        // Form slides up after logo settles
         android.view.animation.Animation slideUp = android.view.animation.AnimationUtils.loadAnimation(this,
                 R.anim.slide_up_fade);
-
-        // Entire Form Card (Cascading from top)
+        slideUp.setStartOffset(350);
         binding.loginCard.startAnimation(slideUp);
 
-        // Individual Focus on Action Elements
         slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
-        slideUp.setStartOffset(300);
+        slideUp.setStartOffset(550);
         binding.signupButton.startAnimation(slideUp);
-        
+
         slideUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up_fade);
-        slideUp.setStartOffset(500);
+        slideUp.setStartOffset(700);
         binding.alreadyHaveAccount.startAnimation(slideUp);
     }
 

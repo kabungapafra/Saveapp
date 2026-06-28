@@ -63,7 +63,7 @@
                 android:paddingTop="32dp"
                 android:paddingBottom="8dp">
 
-                <!-- Group name label (replaces "Community Fund Vote") -->
+                <!-- Group name label -->
                 <TextView
                     android:id="@+id/tvGroupName"
                     android:layout_width="wrap_content"
@@ -125,6 +125,17 @@
                         android:text=""
                         android:textColor="@color/v_text_mid"
                         android:textSize="12sp" />
+
+                    <!-- Time remaining -->
+                    <TextView
+                        android:id="@+id/tvTimeRemaining"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif"
+                        android:text=""
+                        android:textColor="#64748B"
+                        android:textSize="11sp" />
                 </LinearLayout>
 
                 <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -176,141 +187,19 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <!-- Nominee 1 -->
-                <LinearLayout
-                    android:id="@+id/cardJordan"
+                <!-- Nominees RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNominees"
                     android:layout_width="match_parent"
-                    android:layout_height="84dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/bg_neumorphic_card_raised"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="20dp">
-
-                    <FrameLayout
-                        android:layout_width="52dp"
-                        android:layout_height="52dp">
-                        <RelativeLayout
-                            android:layout_width="52dp"
-                            android:layout_height="52dp"
-                            android:background="@drawable/bg_avatar_purple">
-                            <TextView
-                                android:id="@+id/tvNominee1Initials"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="?"
-                                android:textColor="#FFFFFF"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvNominee1Name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text=""
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/tvNominee1Role"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="sans-serif"
-                            android:text=""
-                            android:textColor="@color/v_text_mid"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/radioJordan"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:src="@drawable/bg_circle_outline_gray" />
-                </LinearLayout>
-
-                <!-- Nominee 2 -->
-                <LinearLayout
-                    android:id="@+id/cardAlex"
-                    android:layout_width="match_parent"
-                    android:layout_height="84dp"
-                    android:layout_marginBottom="24dp"
-                    android:background="@drawable/bg_neumorphic_card_raised"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="20dp">
-
-                    <FrameLayout
-                        android:layout_width="52dp"
-                        android:layout_height="52dp">
-                        <RelativeLayout
-                            android:layout_width="52dp"
-                            android:layout_height="52dp"
-                            android:background="@drawable/bg_avatar_blue">
-                            <TextView
-                                android:id="@+id/tvNominee2Initials"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="?"
-                                android:textColor="#FFFFFF"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvNominee2Name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text=""
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/tvNominee2Role"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="sans-serif"
-                            android:text=""
-                            android:textColor="@color/v_text_mid"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/radioAlex"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:src="@drawable/bg_circle_outline_gray" />
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
 
                 <!-- Abstain Option -->
                 <LinearLayout
                     android:id="@+id/cardAbstain"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_rounded_gray"
                     android:clickable="true"
                     android:focusable="true"

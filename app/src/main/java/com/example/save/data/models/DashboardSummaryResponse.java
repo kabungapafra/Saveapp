@@ -45,6 +45,27 @@ public class DashboardSummaryResponse {
     @SerializedName("loan_balance")
     private double loanBalance;
 
+    @SerializedName("my_interest_share")
+    private double myInterestShare;
+
+    @SerializedName("monthly_target")
+    private double monthlyTarget;
+
+    @SerializedName("yearly_target")
+    private double yearlyTarget;
+
+    @SerializedName("monthly_target_progress")
+    private int monthlyTargetProgress;
+
+    @SerializedName("yearly_target_progress")
+    private int yearlyTargetProgress;
+
+    @SerializedName("upcoming_payout_amount")
+    private double upcomingPayoutAmount;
+
+    @SerializedName("next_contribution_date")
+    private String nextContributionDate;
+
     // Getters
     public int getTotalMembers() { return totalMembers; }
     public int getActiveMembers() { return activeMembers; }
@@ -60,4 +81,11 @@ public class DashboardSummaryResponse {
     public int getTotalContributors() { return totalContributors > 0 ? totalContributors : getTotalMembers(); }
     public double getAvailableSavings() { return availableSavings; }
     public double getLoanBalance() { return loanBalance; }
+    public double getMyInterestShare() { return myInterestShare; }
+    public double getMonthlyTarget() { return monthlyTarget; }
+    public double getYearlyTarget() { return yearlyTarget; }
+    public int getMonthlyTargetProgress() { return monthlyTargetProgress; }
+    public int getYearlyTargetProgress() { return yearlyTargetProgress; }
+    public double getUpcomingPayoutAmount() { return upcomingPayoutAmount; }
+    public String getNextContributionDate() { return nextContributionDate != null ? nextContributionDate : "--"; }
 }

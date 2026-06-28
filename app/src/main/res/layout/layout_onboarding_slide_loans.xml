@@ -4,199 +4,221 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/neumorphic_bg"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:paddingTop="24dp">
+    android:background="@color/neumorphic_bg">
 
-    <!-- HEADER: Center 'Loans' -->
+    <!-- HEADER: centered "Loans" -->
     <TextView
         android:id="@+id/header_loans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/manrope_bold"
         android:text="Loans"
-        android:textColor="@color/v_text_dark"
-        android:textSize="17sp"
+        android:textColor="@color/neumorphic_text_dark"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- HERO GRID: Final Pixel-Perfect Centered Spacing Logic -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- HERO GRID (2 cols, right column staggered down) -->
+    <LinearLayout
         android:id="@+id/grid_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/header_loans">
+        android:layout_marginHorizontal="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/text_section"
+        app:layout_constraintTop_toBottomOf="@id/header_loans"
+        app:layout_constraintVertical_bias="0.45">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/vertical_center_guideline"
-            android:layout_width="wrap_content"
+        <!-- Left column -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <!-- Card 1: CREDIT (Column 1 Row 1) -->
-        <FrameLayout
-            android:id="@+id/card_1"
-            android:layout_width="155dp"
-            android:layout_height="175dp"
-            android:layout_marginEnd="6dp"
-            android:background="@drawable/bg_neumorphic_card_raised"
-            app:layout_constraintEnd_toStartOf="@id/vertical_center_guideline"
-            app:layout_constraintTop_toTopOf="parent">
+            <!-- CREDIT -->
+            <FrameLayout
+                android:id="@+id/card_1"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@drawable/bg_neumorphic_card_raised">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:background="@drawable/bg_neumorphic_icon_inset"
-                    android:padding="13dp"
-                    android:src="@drawable/ic_money_banknote" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:letterSpacing="0.12"
-                    android:text="CREDIT"
-                    android:textColor="@color/v_text_mid"
-                    android:textSize="11sp" />
-            </LinearLayout>
-        </FrameLayout>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-        <!-- Card 2: TRUST (Column 2 Row 1 - Offset 65dp) -->
-        <FrameLayout
-            android:id="@+id/card_2"
-            android:layout_width="155dp"
-            android:layout_height="175dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/bg_neumorphic_card_raised"
-            app:layout_constraintStart_toEndOf="@id/vertical_center_guideline"
-            app:layout_constraintTop_toTopOf="parent">
+                    <FrameLayout
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:background="@drawable/bg_neumorphic_icon_inset">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_money_banknote"
+                            app:tint="@color/onboard_secondary" />
+                    </FrameLayout>
 
-                <ImageView
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:background="@drawable/bg_neumorphic_icon_inset"
-                    android:padding="13dp"
-                    android:src="@drawable/ic_handshake_blue" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:letterSpacing="0.1"
+                        android:text="CREDIT"
+                        android:textColor="@color/neumorphic_text_muted"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </FrameLayout>
 
-                <TextView
+            <!-- SUPPORT -->
+            <FrameLayout
+                android:id="@+id/card_3"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_neumorphic_card_raised">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:letterSpacing="0.12"
-                    android:text="TRUST"
-                    android:textColor="@color/v_text_mid"
-                    android:textSize="11sp" />
-            </LinearLayout>
-        </FrameLayout>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-        <!-- Card 3: SUPPORT (Column 1 Row 2 - 12dp gap) -->
-        <FrameLayout
-            android:id="@+id/card_3"
-            android:layout_width="155dp"
-            android:layout_height="175dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="6dp"
-            android:background="@drawable/bg_neumorphic_card_raised"
-            app:layout_constraintEnd_toStartOf="@id/vertical_center_guideline"
-            app:layout_constraintTop_toBottomOf="@id/card_1">
+                    <FrameLayout
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:background="@drawable/bg_neumorphic_icon_inset">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_hand_holding_heart"
+                            app:tint="@color/onboard_primary" />
+                    </FrameLayout>
 
-                <ImageView
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:background="@drawable/bg_neumorphic_icon_inset"
-                    android:padding="13dp"
-                    android:src="@drawable/ic_hand_holding_heart" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:letterSpacing="0.1"
+                        android:text="SUPPORT"
+                        android:textColor="@color/neumorphic_text_muted"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
 
-                <TextView
+        <!-- Right column (staggered down) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="32dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- TRUST -->
+            <FrameLayout
+                android:id="@+id/card_2"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@drawable/bg_neumorphic_card_raised">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:letterSpacing="0.12"
-                    android:text="SUPPORT"
-                    android:textColor="@color/v_text_mid"
-                    android:textSize="11sp" />
-            </LinearLayout>
-        </FrameLayout>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-        <!-- Card 4: GROWTH (Column 2 Row 2 - 12dp gap) -->
-        <FrameLayout
-            android:id="@+id/card_4"
-            android:layout_width="155dp"
-            android:layout_height="175dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_neumorphic_card_raised"
-            app:layout_constraintStart_toEndOf="@id/vertical_center_guideline"
-            app:layout_constraintTop_toBottomOf="@id/card_2">
+                    <FrameLayout
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:background="@drawable/bg_neumorphic_icon_inset">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_handshake_blue"
+                            app:tint="@color/onboard_primary" />
+                    </FrameLayout>
 
-                <ImageView
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:background="@drawable/bg_neumorphic_icon_inset"
-                    android:padding="13dp"
-                    android:src="@drawable/ic_trending_up" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:letterSpacing="0.1"
+                        android:text="TRUST"
+                        android:textColor="@color/neumorphic_text_muted"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </FrameLayout>
 
-                <TextView
+            <!-- GROWTH -->
+            <FrameLayout
+                android:id="@+id/card_4"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_neumorphic_card_raised">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:letterSpacing="0.12"
-                    android:text="GROWTH"
-                    android:textColor="@color/v_text_mid"
-                    android:textSize="11sp" />
-            </LinearLayout>
-        </FrameLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-    <!-- TEXT SECTION -->
+                    <FrameLayout
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:background="@drawable/bg_neumorphic_icon_inset">
+
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_trending_up"
+                            app:tint="@color/onboard_secondary" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:letterSpacing="0.1"
+                        android:text="GROWTH"
+                        android:textColor="@color/neumorphic_text_muted"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- TEXT -->
     <LinearLayout
         android:id="@+id/text_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="28dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="56dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/grid_container">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/title"
@@ -205,8 +227,8 @@
             android:fontFamily="@font/manrope_bold"
             android:gravity="center"
             android:text="Fair Group Loans"
-            android:textColor="@color/v_text_dark"
-            android:textSize="30sp"
+            android:textColor="@color/neumorphic_text_dark"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <TextView
@@ -216,10 +238,10 @@
             android:layout_marginTop="12dp"
             android:fontFamily="@font/manrope_medium"
             android:gravity="center"
-            android:lineSpacingMultiplier="1.65"
+            android:lineSpacingMultiplier="1.5"
             android:text="Access community-backed credit with low interest rates. Empowering every member of your group."
-            android:textColor="@color/v_text_mid"
-            android:textSize="15sp" />
+            android:textColor="#475569"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

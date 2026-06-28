@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <!-- Page Title Section -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,6 +27,19 @@
                 android:paddingHorizontal="20dp"
                 android:paddingTop="48dp"
                 android:paddingBottom="24dp">
+
+                <!-- Back button -->
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_icon_circle_gray_light"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_arrow_back"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:tint="#1E293B" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <!-- Admin Card (Selected) -->
+                        <!-- Admin Card (Selected by default) -->
                         <FrameLayout
                             android:id="@+id/cardAdmin"
                             android:layout_width="130dp"
@@ -90,6 +102,7 @@
                             android:layout_marginEnd="12dp"
                             android:background="@drawable/bg_role_card_selected"
                             android:clickable="true"
+                            android:focusable="true"
                             android:foreground="?attr/selectableItemBackgroundBorderless">
 
                             <LinearLayout
@@ -160,6 +173,7 @@
                             android:layout_marginEnd="12dp"
                             android:background="@drawable/bg_role_card_unselected"
                             android:clickable="true"
+                            android:focusable="true"
                             android:foreground="?attr/selectableItemBackgroundBorderless">
 
                             <LinearLayout
@@ -243,14 +257,14 @@
                             android:layout_height="34dp"
                             android:layout_marginEnd="8dp"
                             android:background="@drawable/bg_pill_white_border"
+                            android:clickable="true"
+                            android:focusable="true"
                             android:fontFamily="sans-serif"
                             android:gravity="center"
                             android:paddingHorizontal="16dp"
                             android:text="Secretary"
                             android:textColor="@color/v_text_mid"
-                            android:textSize="13sp"
-                            android:clickable="true"
-                            android:focusable="true" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/chipModerator"
@@ -258,28 +272,28 @@
                             android:layout_height="34dp"
                             android:layout_marginEnd="8dp"
                             android:background="@drawable/bg_pill_white_border"
+                            android:clickable="true"
+                            android:focusable="true"
                             android:fontFamily="sans-serif"
                             android:gravity="center"
                             android:paddingHorizontal="16dp"
                             android:text="Moderator"
                             android:textColor="@color/v_text_mid"
-                            android:textSize="13sp"
-                            android:clickable="true"
-                            android:focusable="true" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/chipCustom"
                             android:layout_width="wrap_content"
                             android:layout_height="34dp"
                             android:background="@drawable/bg_pill_white_border"
+                            android:clickable="true"
+                            android:focusable="true"
                             android:fontFamily="sans-serif"
                             android:gravity="center"
                             android:paddingHorizontal="16dp"
                             android:text="+ Custom"
                             android:textColor="@color/v_text_mid"
-                            android:textSize="13sp"
-                            android:clickable="true"
-                            android:focusable="true" />
+                            android:textSize="13sp" />
 
                     </LinearLayout>
                 </HorizontalScrollView>
@@ -323,7 +337,8 @@
                         android:text="0 selected"
                         android:textColor="@color/brand_blue"
                         android:textSize="13sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="invisible" />
                 </LinearLayout>
 
                 <!-- Search Bar -->
@@ -352,360 +367,36 @@
                         android:background="@null"
                         android:fontFamily="sans-serif"
                         android:hint="Search members by name or tag..."
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:textColor="@color/v_text_dark"
                         android:textColorHint="@color/v_text_muted"
-                        android:textSize="14sp"
-                        android:inputType="text"
-                        android:maxLines="1" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
-                <!-- Member List -->
-
-                <!-- Jordan Davis — Selected -->
-                <LinearLayout
-                    android:id="@+id/rowJordan"
+                <!-- Member RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNominees"
                     android:layout_width="match_parent"
-                    android:layout_height="68dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_white_rounded_16"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="14dp">
+                    android:nestedScrollingEnabled="false" />
 
-                    <!-- Avatar with check -->
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp">
-                        <RelativeLayout
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
-                            android:background="@drawable/bg_avatar_purple">
-                            <TextView
-                                android:id="@+id/tvJordanAvatar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text=""
-                                android:textColor="#FFFFFF"
-                                android:textSize="14sp" />
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:id="@+id/checkJordan"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="bottom|end"
-                            android:background="@drawable/bg_circle_blue"
-                            android:visibility="visible">
-                            <ImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_check"
-                                app:tint="#FFFFFF" />
-                        </RelativeLayout>
-                    </FrameLayout>
- 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvJordanName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text=""
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tvJordanRole"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="sans-serif"
-                            android:text="@string/jordy_dev"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/btnJordan"
-                        android:layout_width="80dp"
-                        android:layout_height="34dp"
-                        android:background="@drawable/bg_btn_member_selected"
-                        android:fontFamily="@font/manrope_bold"
-                        android:gravity="center"
-                        android:text="Selected"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="12sp"
-                        android:clickable="true"
-                        android:focusable="true" />
-                </LinearLayout>
-
-                <!-- Alex Martinez — Selected -->
-                <LinearLayout
-                    android:id="@+id/rowAlex"
+                <!-- Empty state -->
+                <TextView
+                    android:id="@+id/tvNoMembers"
                     android:layout_width="match_parent"
-                    android:layout_height="68dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_white_rounded_16"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="14dp">
-
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp">
-                        <RelativeLayout
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
-                            android:background="@drawable/bg_avatar_blue">
-                            <TextView
-                                android:id="@+id/tvAlexAvatar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text=""
-                                android:textColor="#FFFFFF"
-                                android:textSize="14sp" />
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:id="@+id/checkAlex"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="bottom|end"
-                            android:background="@drawable/bg_circle_blue"
-                            android:visibility="visible">
-                            <ImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_check"
-                                app:tint="#FFFFFF" />
-                        </RelativeLayout>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvAlexName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text=""
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tvAlexRole"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="sans-serif"
-                            android:text="@string/alex_m"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/btnAlex"
-                        android:layout_width="80dp"
-                        android:layout_height="34dp"
-                        android:background="@drawable/bg_btn_member_selected"
-                        android:fontFamily="@font/manrope_bold"
-                        android:gravity="center"
-                        android:text="Selected"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="12sp"
-                        android:clickable="true"
-                        android:focusable="true" />
-                </LinearLayout>
-
-                <!-- Sarah Chen — Not selected -->
-                <LinearLayout
-                    android:id="@+id/rowSarah"
-                    android:layout_width="match_parent"
-                    android:layout_height="68dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_white_rounded_16"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="14dp">
-
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp">
-                        <RelativeLayout
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
-                            android:background="@drawable/bg_badge_peach">
-                            <TextView
-                                android:id="@+id/tvSarahAvatar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text=""
-                                android:textColor="#FFFFFF"
-                                android:textSize="14sp" />
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:id="@+id/checkSarah"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="bottom|end"
-                            android:background="@drawable/bg_circle_blue"
-                            android:visibility="gone">
-                            <ImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_check"
-                                app:tint="#FFFFFF" />
-                        </RelativeLayout>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvSarahName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text=""
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tvSarahRole"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="sans-serif"
-                            android:text="@string/schen_88"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/btnSarah"
-                        android:layout_width="80dp"
-                        android:layout_height="34dp"
-                        android:background="@drawable/bg_btn_member_unselected"
-                        android:fontFamily="@font/manrope_bold"
-                        android:gravity="center"
-                        android:text="Select"
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="12sp"
-                        android:clickable="true"
-                        android:focusable="true" />
-                </LinearLayout>
-
-                <!-- Marcus King — Not selected -->
-                <LinearLayout
-                    android:id="@+id/rowMarcus"
-                    android:layout_width="match_parent"
-                    android:layout_height="68dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/bg_white_rounded_16"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="14dp">
-
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp">
-                        <RelativeLayout
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
-                            android:background="@drawable/bg_badge_lavender">
-                            <TextView
-                                android:id="@+id/tvMarcusAvatar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text=""
-                                android:textColor="#FFFFFF"
-                                android:textSize="14sp" />
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:id="@+id/checkMarcus"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="bottom|end"
-                            android:background="@drawable/bg_circle_blue"
-                            android:visibility="gone">
-                            <ImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_check"
-                                app:tint="#FFFFFF" />
-                        </RelativeLayout>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvMarcusName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text=""
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tvMarcusRole"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="sans-serif"
-                            android:text="@string/mking_official"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/btnMarcus"
-                        android:layout_width="80dp"
-                        android:layout_height="34dp"
-                        android:background="@drawable/bg_btn_member_unselected"
-                        android:fontFamily="@font/manrope_bold"
-                        android:gravity="center"
-                        android:text="Select"
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="12sp"
-                        android:clickable="true"
-                        android:focusable="true" />
-                </LinearLayout>
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="No members found"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -730,7 +421,16 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
+                    <ProgressBar
+                        android:id="@+id/launchProgress"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:indeterminateTint="#FFFFFF"
+                        android:visibility="gone" />
+
                     <ImageView
+                        android:id="@+id/ivLaunchIcon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginEnd="10dp"
@@ -738,6 +438,7 @@
                         app:tint="#FFFFFF" />
 
                     <TextView
+                        android:id="@+id/tvLaunchText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
@@ -761,6 +462,5 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

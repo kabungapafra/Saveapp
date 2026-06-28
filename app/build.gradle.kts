@@ -96,6 +96,9 @@ dependencies {
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.crashlytics)
 
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
     
     // Glide - Image Loading
     implementation("com.github.bumptech.glide:glide:4.16.0")

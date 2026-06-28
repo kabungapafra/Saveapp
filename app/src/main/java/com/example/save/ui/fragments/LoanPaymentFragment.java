@@ -26,13 +26,15 @@ public class LoanPaymentFragment extends Fragment {
     private Member currentMember; // In real app, this would be the logged-in user
 
     private android.widget.EditText etAmount, etPhoneNumber;
-    private android.widget.TextView btnMax, tvRemainingAmount, tvRepaidPercentBadge;
+    private android.widget.TextView tvRemainingAmount, tvRepaidPercentBadge, tvPrincipal, tvInterest, tvDueDate;
+    private com.google.android.material.button.MaterialButton btnQuarter, btnHalf, btnMax;
     private android.widget.RadioButton radioAirtel, radioMTN;
-    private android.view.View cardAirtel, cardMTN;
-    private com.google.android.material.progressindicator.CircularProgressIndicator loanProgressRail;
+    private android.view.View cardAirtel, cardMTN, emptyState, contentScroll, bottomAction;
+    private com.google.android.material.progressindicator.LinearProgressIndicator loanProgressRail;
     private com.airbnb.lottie.LottieAnimationView successAnimation;
     private android.view.View animationOverlay;
     private com.example.save.data.models.LoanEntity activeLoan;
+    private double outstandingAmount = 0;
 
     public LoanPaymentFragment() {
         // Required empty public constructor
@@ -65,10 +67,18 @@ public class LoanPaymentFragment extends Fragment {
     private void initializeViews(View view) {
         etAmount = view.findViewById(R.id.etAmount);
         etPhoneNumber = view.findViewById(R.id.etPhoneNumber);
+        btnQuarter = view.findViewById(R.id.btnQuarter);
+        btnHalf = view.findViewById(R.id.btnHalf);
         btnMax = view.findViewById(R.id.btnMax);
         tvRemainingAmount = view.findViewById(R.id.tvRemainingAmount);
         tvRepaidPercentBadge = view.findViewById(R.id.tvRepaidPercentBadge);
+        tvPrincipal = view.findViewById(R.id.tvPrincipal);
+        tvInterest = view.findViewById(R.id.tvInterest);
+        tvDueDate = view.findViewById(R.id.tvDueDate);
         loanProgressRail = view.findViewById(R.id.loanProgressRail);
+        emptyState = view.findViewById(R.id.emptyState);
+        contentScroll = view.findViewById(R.id.contentScroll);
+        bottomAction = view.findViewById(R.id.bottomAction);
 
         cardAirtel = view.findViewById(R.id.cardAirtel);
         cardMTN = view.findViewById(R.id.cardMTN);
@@ -98,6 +108,10 @@ public class LoanPaymentFragment extends Fragment {
             viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
                 if (member != null) {
                     currentMember = member;
+                    // Prefill the member's own number (they can change it)
+                    if (etPhoneNumber.getText().toString().trim().isEmpty() && member.getPhone() != null) {
+                        etPhoneNumber.setText(member.getPhone());
+                    }
                     // Load active loan data
                     loadActiveLoan();
                 }
@@ -121,28 +135,43 @@ public class LoanPaymentFragment extends Fragment {
     }
 
     private void updateLoanUI(com.example.save.data.models.LoanEntity loan) {
-        if (loan != null) {
-            java.text.NumberFormat nf = java.text.NumberFormat.getIntegerInstance();
+        boolean hasLoan = loan != null
+                && (loan.getAmount() + loan.getInterest() - loan.getRepaidAmount()) > 0;
 
-            double totalToPay = loan.getAmount() + loan.getInterest();
-            double outstanding = totalToPay - loan.getRepaidAmount();
-            double progress = (loan.getRepaidAmount() / totalToPay) * 100;
+        // Toggle between the repayment form and the "all clear" empty state
+        emptyState.setVisibility(hasLoan ? View.GONE : View.VISIBLE);
+        contentScroll.setVisibility(hasLoan ? View.VISIBLE : View.GONE);
+        bottomAction.setVisibility(hasLoan ? View.VISIBLE : View.GONE);
 
-            tvRemainingAmount.setText(nf.format(outstanding));
-            loanProgressRail.setProgress((int) progress);
-            tvRepaidPercentBadge.setText(String.format(java.util.Locale.US, "%.0f%% Repaid", progress));
-
-            etAmount.setText(nf.format(outstanding));
+        if (!hasLoan) {
+            outstandingAmount = 0;
+            return;
         }
+
+        java.text.NumberFormat nf = java.text.NumberFormat.getIntegerInstance();
+
+        double totalToPay = loan.getAmount() + loan.getInterest();
+        double outstanding = totalToPay - loan.getRepaidAmount();
+        double progress = totalToPay > 0 ? (loan.getRepaidAmount() / totalToPay) * 100 : 0;
+        outstandingAmount = outstanding;
+
+        tvRemainingAmount.setText("UGX " + nf.format(outstanding));
+        loanProgressRail.setProgress((int) Math.round(progress));
+        tvRepaidPercentBadge.setText(String.format(java.util.Locale.US, "%.0f%% repaid", progress));
+
+        tvPrincipal.setText(nf.format(loan.getAmount()));
+        tvInterest.setText(nf.format(loan.getInterest()));
+        tvDueDate.setText(loan.getDueDate() != null
+                ? new java.text.SimpleDateFormat("MMM d", java.util.Locale.getDefault()).format(loan.getDueDate())
+                : "—");
+
+        etAmount.setText(nf.format(outstanding));
     }
 
     private void setupListeners() {
-        btnMax.setOnClickListener(v -> {
-            if (activeLoan != null) {
-                double outstanding = (activeLoan.getAmount() + activeLoan.getInterest()) - activeLoan.getRepaidAmount();
-                etAmount.setText(String.format(java.util.Locale.US, "%.0f", outstanding));
-            }
-        });
+        btnQuarter.setOnClickListener(v -> setAmountFraction(0.25));
+        btnHalf.setOnClickListener(v -> setAmountFraction(0.50));
+        btnMax.setOnClickListener(v -> setAmountFraction(1.0));
 
         cardAirtel.setOnClickListener(v -> selectPaymentMethod(true));
         cardMTN.setOnClickListener(v -> selectPaymentMethod(false));
@@ -165,10 +194,23 @@ public class LoanPaymentFragment extends Fragment {
                     return;
                 }
 
-                double amount = Double.parseDouble(amountStr);
+                double amount;
+                try {
+                    amount = Double.parseDouble(amountStr);
+                } catch (NumberFormatException e) {
+                    etAmount.setError("Invalid amount");
+                    return;
+                }
                 if (amount <= 0) {
                     etAmount.setError("Invalid amount");
                     return;
+                }
+
+                // Never let a member overpay the loan
+                if (outstandingAmount > 0 && amount > outstandingAmount) {
+                    amount = outstandingAmount;
+                    etAmount.setText(java.text.NumberFormat.getIntegerInstance().format(outstandingAmount));
+                    Toast.makeText(getContext(), "Amount capped to the outstanding balance", Toast.LENGTH_SHORT).show();
                 }
 
                 if (currentMember != null && activeLoan != null) {
@@ -195,6 +237,14 @@ public class LoanPaymentFragment extends Fragment {
                 }
             });
         }
+    }
+
+    /** Sets the amount field to a fraction of the outstanding balance (25% / 50% / full). */
+    private void setAmountFraction(double fraction) {
+        if (outstandingAmount <= 0) return;
+        double value = Math.round(outstandingAmount * fraction);
+        etAmount.setText(java.text.NumberFormat.getIntegerInstance().format(value));
+        etAmount.setSelection(etAmount.getText().length());
     }
 
     private void selectPaymentMethod(boolean isAirtel) {

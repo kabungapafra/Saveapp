@@ -52,6 +52,9 @@ public class MemberEntity {
     @com.google.gson.annotations.SerializedName("is_eligible")
     private boolean isEligible;
 
+    @com.google.gson.annotations.SerializedName("profile_image")
+    private String profileImage;
+
     public MemberEntity() {}
 
     public MemberEntity(String name, String role, String phone) {
@@ -72,6 +75,8 @@ public class MemberEntity {
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
+    public String getProfileImage() { return profileImage; }
+    public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
     public String getPayoutDate() { return payoutDate; }

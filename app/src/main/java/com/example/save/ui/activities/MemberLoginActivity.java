@@ -3,12 +3,23 @@ package com.example.save.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 import com.example.save.R;
 import com.example.save.databinding.ActivityMemberLoginBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -21,6 +32,8 @@ public class MemberLoginActivity extends AppCompatActivity {
 
     private ActivityMemberLoginBinding binding;
     private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    private ActivityResultLauncher<Intent> googleSignInLauncher;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
@@ -33,6 +46,16 @@ public class MemberLoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
         getWindow().setBackgroundDrawableResource(R.color.dashboard_bg);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignInLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> handleGoogleSignInResult(result.getData()));
 
         setupPhoneAuthCallbacks();
 
@@ -120,7 +143,8 @@ public class MemberLoginActivity extends AppCompatActivity {
         });
 
         binding.googleButton.setOnClickListener(v -> {
-            // Future Google Login
+            mGoogleSignInClient.signOut().addOnCompleteListener(this, task ->
+                    googleSignInLauncher.launch(mGoogleSignInClient.getSignInIntent()));
         });
 
         binding.forgotPasswordText.setOnClickListener(v -> {
@@ -296,12 +320,12 @@ public void onVerificationFailed(FirebaseException e) {
                 binding.loginButtonText.setText("Login");
                 if (response.isSuccessful() && response.body() != null) {
                     com.example.save.data.network.LoginResponse loginResponse = response.body();
+
                     com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(getApplicationContext());
                     session.createLoginSession(loginResponse.getName(), phone, loginResponse.getRole(), false, loginResponse.isCreator());
                     session.saveLastGroup(groupName);
                     session.saveJwtToken(loginResponse.getToken());
 
-                    // Update Retrofit singleton token
                     // Restore all financial rule settings from server after login
                     com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
                             .fetchSystemConfig(null);
@@ -317,7 +341,34 @@ public void onVerificationFailed(FirebaseException e) {
                     overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
                     finish();
                 } else {
-                    Toast.makeText(MemberLoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                    String errorMessage;
+                    try {
+                        okhttp3.ResponseBody errBody = response.errorBody();
+                        if (errBody == null) {
+                            errorMessage = "Login error (code " + response.code() + ")";
+                        } else {
+                            String raw = errBody.string().trim();
+                            if (raw.isEmpty()) {
+                                errorMessage = "Login error (code " + response.code() + ")";
+                            } else {
+                                errorMessage = raw;
+                                String[] parts = raw.split("\"");
+                                for (int i = 0; i + 2 < parts.length; i++) {
+                                    String key = parts[i].trim();
+                                    if ("detail".equals(key) || "error".equals(key) || "message".equals(key)) {
+                                        String val = parts[i + 2].trim();
+                                        if (!val.isEmpty() && !val.startsWith("{") && !val.startsWith("[")) {
+                                            errorMessage = val;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        errorMessage = "Login error: " + e.getMessage();
+                    }
+                    Toast.makeText(MemberLoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -325,6 +376,100 @@ public void onVerificationFailed(FirebaseException e) {
             public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
                 binding.loginButton.setEnabled(true);
                 binding.loginButtonText.setText("Login");
+                Toast.makeText(MemberLoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void handleGoogleSignInResult(android.content.Intent data) {
+        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        try {
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            String idToken = account.getIdToken();
+            if (idToken == null) {
+                Toast.makeText(this, "Google sign-in failed: no token", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+            binding.loginButton.setEnabled(false);
+            mAuth.signInWithCredential(credential).addOnCompleteListener(this, authTask -> {
+                if (authTask.isSuccessful() && authTask.getResult().getUser() != null) {
+                    authTask.getResult().getUser().getIdToken(true).addOnCompleteListener(tokenTask -> {
+                        if (tokenTask.isSuccessful()) {
+                            String firebaseToken = tokenTask.getResult().getToken();
+                            performGoogleBackendLogin(firebaseToken);
+                        } else {
+                            binding.loginButton.setEnabled(true);
+                            Toast.makeText(this, "Google sign-in failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    binding.loginButton.setEnabled(true);
+                    Toast.makeText(this, "Google authentication failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (ApiException e) {
+            if (e.getStatusCode() != com.google.android.gms.common.api.CommonStatusCodes.CANCELED) {
+                Toast.makeText(this, "Google sign-in error: " + e.getStatusCode(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void performGoogleBackendLogin(String firebaseToken) {
+        com.example.save.data.network.GoogleLoginRequest req =
+                new com.example.save.data.network.GoogleLoginRequest(firebaseToken);
+        req.setLoginType("member");
+
+        com.example.save.data.network.ApiService apiService = com.example.save.data.network.RetrofitClient
+                .getClient(this).create(com.example.save.data.network.ApiService.class);
+
+        apiService.googleLogin(req).enqueue(new retrofit2.Callback<com.example.save.data.network.LoginResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<com.example.save.data.network.LoginResponse> call,
+                                   retrofit2.Response<com.example.save.data.network.LoginResponse> response) {
+                binding.loginButton.setEnabled(true);
+                if (response.isSuccessful() && response.body() != null) {
+                    com.example.save.data.network.LoginResponse loginResponse = response.body();
+                    String groupName = loginResponse.getGroupName() != null ? loginResponse.getGroupName() : "";
+                    com.example.save.utils.SessionManager session =
+                            com.example.save.utils.SessionManager.getInstance(getApplicationContext());
+                    session.createLoginSession(loginResponse.getName(), "", loginResponse.getRole(), false, loginResponse.isCreator());
+                    session.saveLastGroup(groupName);
+                    session.saveJwtToken(loginResponse.getToken());
+                    com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
+                            .fetchSystemConfig(null);
+                    com.example.save.services.SaveFirebaseMessagingService
+                            .registerTokenWithServer(getApplicationContext());
+                    Intent intent = new Intent(MemberLoginActivity.this, MemberMainActivity.class);
+                    intent.putExtra("member_name", loginResponse.getName());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);
+                    finish();
+                } else {
+                    String msg = "Login failed";
+                    try {
+                        okhttp3.ResponseBody errBody = response.errorBody();
+                        if (errBody != null) {
+                            String raw = errBody.string().trim();
+                            String[] parts = raw.split("\"");
+                            for (int i = 0; i + 2 < parts.length; i++) {
+                                String key = parts[i].trim();
+                                if ("detail".equals(key) || "error".equals(key) || "message".equals(key)) {
+                                    msg = parts[i + 2].trim();
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (Exception ignored) {}
+                    Snackbar.make(binding.getRoot(), msg, Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.example.save.data.network.LoginResponse> call, Throwable t) {
+                binding.loginButton.setEnabled(true);
                 Toast.makeText(MemberLoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

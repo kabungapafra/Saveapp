@@ -65,6 +65,9 @@ public interface ApiService {
     @GET("loans")
     Call<PaginatedResponse<com.example.save.data.models.LoanEntity>> getLoans(@Query("limit") int limit, @Query("offset") int offset);
 
+    @GET("loans/summary")
+    Call<com.example.save.data.models.LoanSummaryResponse> getLoanSummary();
+
     @POST("payouts")
     Call<ApiResponse> createPayout(@Body com.example.save.data.models.PayoutCreateRequest request);
 
@@ -75,7 +78,10 @@ public interface ApiService {
     Call<PaginatedResponse<com.example.save.data.models.PayoutEntity>> getPayouts(@Query("limit") int limit, @Query("offset") int offset);
 
     @GET("payouts/queue")
-    Call<java.util.List<com.example.save.data.models.MemberEntity>> getPayoutQueue();
+    Call<com.example.save.data.models.PayoutQueueResponse> getPayoutQueue();
+
+    @PUT("payouts/queue/reorder")
+    Call<ApiResponse> reorderPayoutQueue(@Body com.example.save.data.models.ReorderRequest request);
 
     @GET("loans/{id}")
     Call<com.example.save.data.models.LoanEntity> getLoan(@retrofit2.http.Path("id") String loanId);
@@ -91,6 +97,12 @@ public interface ApiService {
 
     @POST("transactions/{id}/approve")
     Call<ApiResponse> approveTransaction(@retrofit2.http.Path("id") String txId, @Body ApprovalRequestDto request);
+
+    @POST("auth/google-login")
+    Call<LoginResponse> googleLogin(@Body GoogleLoginRequest request);
+
+    @POST("auth/link-google")
+    Call<ApiResponse> linkGoogleAccount(@Body GoogleLinkRequest request);
 
     @POST("auth/onboarding/check-phone")
     Call<ApiResponse> checkOnboardingPhone(@Body OnboardingCheckRequest request);
@@ -133,6 +145,9 @@ public interface ApiService {
 
     @GET("savings-pool/active")
     Call<com.example.save.data.models.SavingsPool> getActiveSavingsPool();
+
+    @POST("savings-pool/{id}/join")
+    Call<ApiResponse> joinSavingsPool(@retrofit2.http.Path("id") String poolId);
 
     @POST("savings-pool/{id}/trigger-payout")
     Call<ApiResponse> triggerPoolPayout(@retrofit2.http.Path("id") String poolId);

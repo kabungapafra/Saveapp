@@ -39,6 +39,12 @@ import com.example.save.ui.adapters.DashboardTxAdapter;
 import com.example.save.ui.adapters.PoolMemberAdapter;
 import com.example.save.utils.NotificationHelper;
 import com.example.save.utils.PaymentScheduler;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -61,12 +67,18 @@ public class SavingsFragment extends Fragment {
     private static final String PREFS                 = "ChamaPrefs";
     private static final String KEY_POOL_ACTIVE       = "pool_active";
     private static final String KEY_POOL_AMOUNT       = "pool_total_amount";
+    private static final String KEY_POOL_GIVE_OUT     = "pool_give_out";
+    private static final String KEY_POOL_COLLECTED    = "pool_collected";
+    private static final String KEY_POOL_IS_MEMBER    = "pool_is_member";
     private static final String KEY_POOL_SAVE_DATE    = "pool_save_date";
     private static final String KEY_POOL_RECEIVE_DATE = "pool_receive_date";
+    private static final String KEY_POOL_FREQUENCY    = "pool_frequency";
 
     private FragmentSavingsBinding binding;
     private DashboardTxAdapter contribAdapter;
     private List<MemberEntity> allMembers = new ArrayList<>();
+    // Members who explicitly joined the active pool (populated from server)
+    private List<com.example.save.data.models.SavingsPool.PoolMember> poolMembers = new ArrayList<>();
     private int totalMembers = 0;
     private double availableSavings = 0;
     private double monthlyContribPerMember = 0;
@@ -91,14 +103,31 @@ public class SavingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ugFmt.setGroupingUsed(true);
 
+        boolean isAdmin = "admin".equalsIgnoreCase(
+                com.example.save.utils.SessionManager.getInstance(requireContext()).getUserRole());
+
+        setupChart();
         setupContribList();
         restorePoolState();
         loadData();
 
-        binding.btnActivateGroup.setOnClickListener(v -> showActivateSheet());
+        if (isAdmin) {
+            binding.btnActivateGroup.setOnClickListener(v -> showActivateSheet());
+        } else {
+            binding.btnActivateGroup.setVisibility(View.GONE);
+            // Change inactive-state description to member-friendly message
+            // (the TextView is a direct child of layoutPoolInactive)
+            if (binding.layoutPoolInactive.getChildCount() > 0
+                    && binding.layoutPoolInactive.getChildAt(0) instanceof android.widget.TextView) {
+                ((android.widget.TextView) binding.layoutPoolInactive.getChildAt(0))
+                        .setText("No active savings pool yet. Your admin will activate one when it's time.");
+            }
+        }
+        binding.btnJoinPool.setOnClickListener(v -> joinPool());
         binding.cardGroupInfo.setOnClickListener(v -> {
             SharedPreferences p = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-            if (p.getBoolean(KEY_POOL_ACTIVE, false)) showDetailSheet();
+            if (p.getBoolean(KEY_POOL_ACTIVE, false) && p.getBoolean(KEY_POOL_IS_MEMBER, false))
+                showDetailSheet();
         });
     }
 
@@ -106,128 +135,76 @@ public class SavingsFragment extends Fragment {
 
     private void restorePoolState() {
         SharedPreferences p = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-        String saveDt = p.getString(KEY_POOL_SAVE_DATE, "--");
-        String recvDt = p.getString(KEY_POOL_RECEIVE_DATE, "--");
-        buildSavingsCalendar(saveDt, recvDt);
-        if (p.getBoolean(KEY_POOL_ACTIVE, false)) {
-            double amount = p.getFloat(KEY_POOL_AMOUNT, 0f);
-            renderActiveCard(amount, saveDt, recvDt);
+        if (!p.getBoolean(KEY_POOL_ACTIVE, false)) return;
+        double giveOut   = p.getFloat(KEY_POOL_GIVE_OUT, 0f);
+        String saveDt    = p.getString(KEY_POOL_SAVE_DATE, "--");
+        String recvDt    = p.getString(KEY_POOL_RECEIVE_DATE, "--");
+        if (p.getBoolean(KEY_POOL_IS_MEMBER, false)) {
+            double collected = p.getFloat(KEY_POOL_COLLECTED, 0f);
+            renderActiveCard(collected, giveOut, saveDt, recvDt);
+        } else {
+            renderJoinCard(giveOut, saveDt, recvDt);
         }
+    }
+
+    // ── chart ─────────────────────────────────────────────────────────────────
+
+    private void setupChart() {
+        BarChart chart = binding.chartSavingsGrowth;
+        chart.getDescription().setEnabled(false);
+        chart.getLegend().setEnabled(false);
+        chart.setTouchEnabled(false);
+        chart.setDrawGridBackground(false);
+        chart.setDrawBarShadow(false);
+        chart.setFitBars(true);
+        chart.getAxisRight().setEnabled(false);
+        chart.getAxisLeft().setEnabled(false);
+        chart.setExtraBottomOffset(4f);
+        XAxis x = chart.getXAxis();
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+        x.setDrawGridLines(false);
+        x.setDrawAxisLine(false);
+        x.setGranularity(1f);
+        x.setTextColor(Color.parseColor("#94A3B8"));
+        x.setTextSize(11f);
+    }
+
+    private void buildProjectionChart() {
+        if (binding == null) return;
+        double monthly = monthlyContribPerMember * Math.max(totalMembers, 1);
+        double base    = availableSavings;
+        Calendar now   = Calendar.getInstance();
+        String[] labels = new String[6];
+        float[]  values = new float[6];
+        String[] names  = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+        for (int i = 0; i < 6; i++) {
+            Calendar c = (Calendar) now.clone();
+            c.add(Calendar.MONTH, i);
+            labels[i] = names[c.get(Calendar.MONTH)];
+            values[i] = (float) (base + monthly * i);
+        }
+        if (base == 0 && monthly == 0) {
+            for (int i = 0; i < 6; i++) values[i] = (float) (500000 * (i + 1));
+        }
+        List<BarEntry> entries = new ArrayList<>();
+        for (int i = 0; i < 6; i++) entries.add(new BarEntry(i, values[i]));
+        BarDataSet ds = new BarDataSet(entries, "");
+        ds.setDrawValues(false);
+        int[] colors = new int[6];
+        colors[0] = Color.parseColor("#10B981");
+        for (int i = 1; i < 6; i++) colors[i] = Color.parseColor("#93C5FD");
+        ds.setColors(colors);
+        BarData bd = new BarData(ds);
+        bd.setBarWidth(0.55f);
+        BarChart chart = binding.chartSavingsGrowth;
+        chart.setData(bd);
+        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        chart.getXAxis().setLabelCount(6);
+        chart.animateY(600);
+        chart.invalidate();
     }
 
     // ── savings schedule calendar ──────────────────────────────────────────────
-
-    private void buildSavingsCalendar(String saveDateStr, String receiveDateStr) {
-        if (binding == null || !isAdded()) return;
-
-        // Pick the month to display: prefer the save date month, fall back to now
-        Calendar displayCal = Calendar.getInstance();
-        int saveDayHighlight   = -1;
-        int receiveDayHighlight = -1;
-
-        try {
-            if (saveDateStr != null && !saveDateStr.equals("--") && !saveDateStr.isEmpty()) {
-                Date sd = dateFmt.parse(saveDateStr);
-                Calendar sc = Calendar.getInstance();
-                sc.setTime(sd);
-                displayCal.set(sc.get(Calendar.YEAR), sc.get(Calendar.MONTH), 1);
-                saveDayHighlight = sc.get(Calendar.DAY_OF_MONTH);
-
-                // Legend labels
-                SimpleDateFormat shortFmt = new SimpleDateFormat("d MMM", Locale.getDefault());
-                binding.tvLegendSaveDate.setText(shortFmt.format(sd));
-            }
-        } catch (ParseException ignored) {}
-
-        try {
-            if (receiveDateStr != null && !receiveDateStr.equals("--") && !receiveDateStr.isEmpty()) {
-                Date rd = dateFmt.parse(receiveDateStr);
-                Calendar rc = Calendar.getInstance();
-                rc.setTime(rd);
-                // If receive is in a different month, keep displaying save month but mark if in same month
-                if (rc.get(Calendar.MONTH) == displayCal.get(Calendar.MONTH)
-                        && rc.get(Calendar.YEAR) == displayCal.get(Calendar.YEAR)) {
-                    receiveDayHighlight = rc.get(Calendar.DAY_OF_MONTH);
-                }
-                SimpleDateFormat shortFmt = new SimpleDateFormat("d MMM", Locale.getDefault());
-                binding.tvLegendReceiveDate.setText(shortFmt.format(rd));
-            }
-        } catch (ParseException ignored) {}
-
-        // Month/year header
-        SimpleDateFormat mFmt = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        binding.tvSavingsCalMonthYear.setText(mFmt.format(displayCal.getTime()));
-
-        int todayDay    = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        boolean isThisMonth = displayCal.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
-                && displayCal.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR);
-
-        int startOffset = displayCal.get(Calendar.DAY_OF_WEEK) - 1;
-        int daysInMonth = displayCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        float dp = getResources().getDisplayMetrics().density;
-        int cellH = (int) (38 * dp);
-
-        LinearLayout container = binding.containerSavingsCalRows;
-        container.removeAllViews();
-
-        int dayNum = 1;
-        for (int row = 0; row < 6; row++) {
-            if (dayNum > daysInMonth) break;
-            LinearLayout rowView = new LinearLayout(requireContext());
-            rowView.setOrientation(LinearLayout.HORIZONTAL);
-            rowView.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-            for (int col = 0; col < 7; col++) {
-                int cellIndex = row * 7 + col;
-                boolean active = cellIndex >= startOffset && dayNum <= daysInMonth;
-                int day = active ? dayNum : 0;
-
-                TextView cell = new TextView(requireContext());
-                LinearLayout.LayoutParams cp = new LinearLayout.LayoutParams(0, cellH, 1f);
-                cp.setMargins((int)(2*dp), (int)(2*dp), (int)(2*dp), (int)(2*dp));
-                cell.setLayoutParams(cp);
-                cell.setGravity(Gravity.CENTER);
-                cell.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12.5f);
-
-                if (active) {
-                    cell.setText(String.valueOf(day));
-                    if (day == saveDayHighlight && day == receiveDayHighlight) {
-                        cell.setBackground(makeCalOval("#2563EB"));
-                        cell.setTextColor(Color.WHITE);
-                        cell.setTypeface(null, Typeface.BOLD);
-                    } else if (day == saveDayHighlight) {
-                        cell.setBackground(makeCalOval("#2563EB"));
-                        cell.setTextColor(Color.WHITE);
-                        cell.setTypeface(null, Typeface.BOLD);
-                    } else if (day == receiveDayHighlight) {
-                        cell.setBackground(makeCalOval("#10B981"));
-                        cell.setTextColor(Color.WHITE);
-                        cell.setTypeface(null, Typeface.BOLD);
-                    } else if (isThisMonth && day == todayDay) {
-                        cell.setBackground(makeCalOval("#E2E8F0"));
-                        cell.setTextColor(Color.parseColor("#1E3A5F"));
-                        cell.setTypeface(null, Typeface.BOLD);
-                    } else {
-                        cell.setTextColor(Color.parseColor("#374151"));
-                    }
-                    dayNum++;
-                } else {
-                    cell.setText("");
-                }
-                rowView.addView(cell);
-            }
-            container.addView(rowView);
-        }
-    }
-
-    private GradientDrawable makeCalOval(String hex) {
-        GradientDrawable d = new GradientDrawable();
-        d.setShape(GradientDrawable.OVAL);
-        d.setColor(Color.parseColor(hex));
-        return d;
-    }
 
     // ── contributions list ─────────────────────────────────────────────────────
 
@@ -274,11 +251,16 @@ public class SavingsFragment extends Fragment {
                     binding.tvGroupMembers.setText(totalMembers + " members");
                     SharedPreferences p = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
                     if (p.getBoolean(KEY_POOL_ACTIVE, false)) {
-                        double amt    = p.getFloat(KEY_POOL_AMOUNT, 0f);
-                        String saveDt = p.getString(KEY_POOL_SAVE_DATE, "--");
-                        String recvDt = p.getString(KEY_POOL_RECEIVE_DATE, "--");
-                        renderActiveCard(amt, saveDt, recvDt);
+                        double giveOut = p.getFloat(KEY_POOL_GIVE_OUT, 0f);
+                        String saveDt  = p.getString(KEY_POOL_SAVE_DATE, "--");
+                        String recvDt  = p.getString(KEY_POOL_RECEIVE_DATE, "--");
+                        if (p.getBoolean(KEY_POOL_IS_MEMBER, false)) {
+                            renderActiveCard(p.getFloat(KEY_POOL_COLLECTED, 0f), giveOut, saveDt, recvDt);
+                        } else {
+                            renderJoinCard(giveOut, saveDt, recvDt);
+                        }
                     }
+                    buildProjectionChart();
                 });
             }
             @Override public void onFailure(Call<DashboardSummaryResponse> call, Throwable t) {}
@@ -289,6 +271,7 @@ public class SavingsFragment extends Fragment {
             public void onResponse(Call<SystemConfig> call, Response<SystemConfig> response) {
                 if (!isAdded() || !response.isSuccessful() || response.body() == null) return;
                 monthlyContribPerMember = response.body().getContributionAmount();
+                if (isAdded()) requireActivity().runOnUiThread(() -> buildProjectionChart());
             }
             @Override public void onFailure(Call<SystemConfig> call, Throwable t) {}
         });
@@ -325,18 +308,70 @@ public class SavingsFragment extends Fragment {
                         (response.isSuccessful()) ? response.body() : null;
                 if (pool == null) return;
 
-                // Convert server ISO dates back to "dd MMM yyyy" for display
                 String sd = isoToDisplay(pool.getSaveDate());
                 String rd = isoToDisplay(pool.getReceiveDate());
+
+                // Recompute correct values from contribPerPeriod + dates + frequency.
+                // DB values (total_amount, per_member_amount) may be stale if the pool
+                // was created during a race condition where member count was wrong.
+                double contrib   = pool.getContribPerPeriod();
+                String freqStr   = pool.getFrequency() != null ? pool.getFrequency() : "monthly";
+                long daysBetween = 30;
+                try {
+                    Date ds = isoFmt.parse(pool.getSaveDate().length() > 19
+                            ? pool.getSaveDate().substring(0, 19) : pool.getSaveDate());
+                    Date dr = isoFmt.parse(pool.getReceiveDate().length() > 19
+                            ? pool.getReceiveDate().substring(0, 19) : pool.getReceiveDate());
+                    if (ds != null && dr != null)
+                        daysBetween = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(dr.getTime() - ds.getTime());
+                } catch (ParseException ignored) {}
+
+                int periods;
+                switch (freqStr) {
+                    case "daily":  periods = (int) Math.max(daysBetween, 1); break;
+                    case "weekly": periods = (int) Math.max(daysBetween / 7, 1); break;
+                    default:       periods = (int) Math.max(daysBetween / 30, 1); break;
+                }
+
+                // Use the best available member count
+                int members = allMembers.size() > 0 ? allMembers.size()
+                            : totalMembers > 0 ? totalMembers
+                            : Math.max(pool.getMemberCount(), 1);
+
+                double giveOut;
+                double poolTotal;
+                if (contrib > 0) {
+                    // New pools: recompute from contrib_per_period
+                    giveOut   = contrib * periods;
+                    poolTotal = giveOut * members;
+                } else {
+                    // Old pools without contrib_per_period: use stored values
+                    giveOut   = pool.getPerMemberAmount();
+                    poolTotal = giveOut * members;
+                }
+
+                final double finalGiveOut   = giveOut;
+                final double finalCollected = pool.getAmountCollected();
+                final boolean isMember      = pool.isMember();
+                // Store joined pool members for detail sheet
+                poolMembers = pool.getJoinedMembers();
+
                 requireActivity().runOnUiThread(() -> {
                     requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
                             .putBoolean(KEY_POOL_ACTIVE, true)
-                            .putFloat(KEY_POOL_AMOUNT, (float) pool.getTotalAmount())
+                            .putBoolean(KEY_POOL_IS_MEMBER, isMember)
+                            .putFloat(KEY_POOL_AMOUNT, (float) poolTotal)
+                            .putFloat(KEY_POOL_GIVE_OUT, (float) finalGiveOut)
+                            .putFloat(KEY_POOL_COLLECTED, (float) finalCollected)
                             .putString(KEY_POOL_SAVE_DATE, sd)
                             .putString(KEY_POOL_RECEIVE_DATE, rd)
                             .putString("pool_id", pool.getId())
                             .apply();
-                    renderActiveCard(pool.getTotalAmount(), sd, rd);
+                    if (isMember) {
+                        renderActiveCard(finalCollected, finalGiveOut, sd, rd);
+                    } else {
+                        renderJoinCard(finalGiveOut, sd, rd);
+                    }
                 });
             }
             @Override public void onFailure(Call<com.example.save.data.models.SavingsPool> call, Throwable t) {}
@@ -355,29 +390,94 @@ public class SavingsFragment extends Fragment {
 
     // ── card rendering ─────────────────────────────────────────────────────────
 
-    private void renderActiveCard(double totalAmount, String saveDate, String receiveDate) {
+    private void renderJoinCard(double giveOut, String saveDate, String receiveDate) {
         if (binding == null) return;
-        int members = totalMembers > 0 ? totalMembers : 1;
-        double perMember = totalAmount / members;
+        binding.tvPoolStatus.setText("Active");
+        binding.tvPoolStatus.setTextColor(Color.parseColor("#065F46"));
+        binding.tvPoolStatus.setBackgroundResource(R.drawable.bg_badge_success);
+
+        binding.layoutPoolInactive.setVisibility(View.GONE);
+        binding.layoutPoolActive.setVisibility(View.GONE);
+        binding.layoutPoolJoin.setVisibility(View.VISIBLE);
+
+        binding.tvJoinGiveOut.setText("UGX " + ugFmt.format(giveOut));
+        int joined = poolMembers.size() > 0 ? poolMembers.size()
+                   : requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                       .getInt("pool_joined_count", 1);
+        binding.tvJoinMemberCount.setText(String.valueOf(joined));
+        binding.tvJoinSaveDate.setText(saveDate);
+        binding.tvJoinReceiveDate.setText(receiveDate);
+
+        binding.btnActivateGroup.setVisibility(View.GONE);
+    }
+
+    private void joinPool() {
+        SharedPreferences p = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        String poolId = p.getString("pool_id", null);
+        if (poolId == null) { Toast.makeText(getContext(), "Pool not found", Toast.LENGTH_SHORT).show(); return; }
+
+        binding.btnJoinPool.setEnabled(false);
+        binding.btnJoinPool.setText("Joining…");
+
+        ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
+        api.joinSavingsPool(poolId).enqueue(new Callback<com.example.save.data.network.ApiResponse>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.network.ApiResponse> call,
+                                   Response<com.example.save.data.network.ApiResponse> response) {
+                if (!isAdded()) return;
+                requireActivity().runOnUiThread(() -> {
+                    if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                        p.edit().putBoolean(KEY_POOL_IS_MEMBER, true).apply();
+                        Toast.makeText(getContext(), "You joined the pool!", Toast.LENGTH_SHORT).show();
+                        // Reload from server to get fresh state
+                        loadData();
+                    } else {
+                        binding.btnJoinPool.setEnabled(true);
+                        binding.btnJoinPool.setText("Join this Pool");
+                        String err = response.code() == 400 ? "Already joined" : "Failed to join";
+                        Toast.makeText(getContext(), err, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            @Override public void onFailure(Call<com.example.save.data.network.ApiResponse> call, Throwable t) {
+                if (!isAdded()) return;
+                requireActivity().runOnUiThread(() -> {
+                    binding.btnJoinPool.setEnabled(true);
+                    binding.btnJoinPool.setText("Join this Pool");
+                    Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    private void renderActiveCard(double collected, double giveOutPerMember, String saveDate, String receiveDate) {
+        if (binding == null) return;
 
         binding.tvPoolStatus.setText("Active");
         binding.tvPoolStatus.setTextColor(Color.parseColor("#065F46"));
         binding.tvPoolStatus.setBackgroundResource(R.drawable.bg_badge_success);
 
         binding.layoutPoolInactive.setVisibility(View.GONE);
+        binding.layoutPoolJoin.setVisibility(View.GONE);
         binding.layoutPoolActive.setVisibility(View.VISIBLE);
 
-        binding.tvPoolSavingsAvailable.setText("UGX " + ugFmt.format(availableSavings));
-        binding.tvPoolGiveOutAmount.setText("UGX " + ugFmt.format(perMember));
-        binding.tvPoolMemberCount.setText(String.valueOf(members));
+        // COLLECTED = actual money paid in so far (0 until members start contributing)
+        binding.tvPoolSavingsAvailable.setText("UGX " + ugFmt.format(collected));
+        binding.tvPoolGiveOutAmount.setText("UGX " + ugFmt.format(giveOutPerMember));
+        binding.tvPoolMemberCount.setText(totalMembers > 0 ? String.valueOf(totalMembers) : "--");
         binding.tvPoolSaveDate.setText(saveDate);
         binding.tvPoolReceiveDate.setText(receiveDate);
 
-        binding.btnActivateGroup.setText("Edit Pool");
-        binding.btnActivateGroup.setBackgroundTintList(
-                android.content.res.ColorStateList.valueOf(Color.parseColor("#10B981")));
-
-        buildSavingsCalendar(saveDate, receiveDate);
+        boolean adminRole = "admin".equalsIgnoreCase(
+                com.example.save.utils.SessionManager.getInstance(requireContext()).getUserRole());
+        if (adminRole) {
+            binding.btnActivateGroup.setVisibility(View.VISIBLE);
+            binding.btnActivateGroup.setText("Edit Pool");
+            binding.btnActivateGroup.setBackgroundTintList(
+                    android.content.res.ColorStateList.valueOf(Color.parseColor("#10B981")));
+        } else {
+            binding.btnActivateGroup.setVisibility(View.GONE);
+        }
     }
 
     // ── activate bottom sheet ──────────────────────────────────────────────────
@@ -388,25 +488,68 @@ public class SavingsFragment extends Fragment {
         View sv = LayoutInflater.from(requireContext()).inflate(R.layout.sheet_activate_pool, null);
         sheet.setContentView(sv);
 
-        TextInputEditText etAmount = sv.findViewById(R.id.etPoolAmount);
-        TextView tvAmountPreview   = sv.findViewById(R.id.tvAmountPreview);
-        TextView tvSaveDateDisplay = sv.findViewById(R.id.tvSaveDateDisplay);
-        TextView tvRecvDateDisplay = sv.findViewById(R.id.tvReceiveDateDisplay);
-        View rowPreview            = sv.findViewById(R.id.rowSplitPreview);
-        TextView tvSplitPreview    = sv.findViewById(R.id.tvSplitPreview);
-        View rowSaveDate           = sv.findViewById(R.id.rowSaveDate);
-        View rowReceiveDate        = sv.findViewById(R.id.rowReceiveDate);
+        TextInputEditText etAmount     = sv.findViewById(R.id.etPoolAmount);
+        TextView tvAmountPreview       = sv.findViewById(R.id.tvAmountPreview);
+        TextView tvSaveDateDisplay     = sv.findViewById(R.id.tvSaveDateDisplay);
+        TextView tvRecvDateDisplay     = sv.findViewById(R.id.tvReceiveDateDisplay);
+        View rowPreview                = sv.findViewById(R.id.rowSplitPreview);
+        TextView tvSplitPreview        = sv.findViewById(R.id.tvSplitPreview);
+        View rowSaveDate               = sv.findViewById(R.id.rowSaveDate);
+        View rowReceiveDate            = sv.findViewById(R.id.rowReceiveDate);
+        com.google.android.material.chip.ChipGroup chipGroupFreq = sv.findViewById(R.id.chipGroupFrequency);
 
-        final Calendar saveCal = Calendar.getInstance();
-        final Calendar recvCal = Calendar.getInstance();
+        final Calendar saveCal  = Calendar.getInstance();
+        final Calendar recvCal  = Calendar.getInstance();
         recvCal.add(Calendar.MONTH, 1);
+        final String[] freq = {"monthly"};
 
-        // Pre-fill existing pool values if editing; also sync the Calendar objects
-        // so the DatePicker opens on the previously chosen dates
+        // Recalculate give-out preview whenever amount, frequency, or dates change
+        Runnable updatePreview = () -> {
+            String raw = etAmount.getText() != null ? etAmount.getText().toString().trim() : "";
+            try {
+                double contrib = Double.parseDouble(raw);
+                int m = Math.max(totalMembers, 1);
+                long daysBetween = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(
+                        recvCal.getTimeInMillis() - saveCal.getTimeInMillis());
+                int periods;
+                String periodLabel;
+                switch (freq[0]) {
+                    case "daily":
+                        periods = (int) Math.max(daysBetween, 1);
+                        periodLabel = "day";
+                        break;
+                    case "weekly":
+                        periods = (int) Math.max(daysBetween / 7, 1);
+                        periodLabel = "week";
+                        break;
+                    default:
+                        periods = (int) Math.max(daysBetween / 30, 1);
+                        periodLabel = "month";
+                        break;
+                }
+                double giveOut = contrib * periods;
+                tvAmountPreview.setText("UGX " + ugFmt.format(contrib) + "/" + periodLabel);
+                tvSplitPreview.setText(
+                        "Give-out per member: UGX " + ugFmt.format(giveOut)
+                        + "\n" + periods + " " + periodLabel + (periods > 1 ? "s" : "")
+                        + " × UGX " + ugFmt.format(contrib));
+                rowPreview.setVisibility(View.VISIBLE);
+            } catch (NumberFormatException e) {
+                tvAmountPreview.setText("UGX 0");
+                rowPreview.setVisibility(View.GONE);
+            }
+        };
+
+        // Pre-fill existing pool values if editing
         SharedPreferences prefs = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
         if (prefs.getBoolean(KEY_POOL_ACTIVE, false)) {
-            float existing = prefs.getFloat(KEY_POOL_AMOUNT, 0f);
-            if (existing > 0) etAmount.setText(String.valueOf((long) existing));
+            // Back-calculate contribution per period from stored total
+            String storedFreq = prefs.getString(KEY_POOL_FREQUENCY, "monthly");
+            freq[0] = storedFreq;
+            if (storedFreq.equals("daily"))        sv.findViewById(R.id.chipDaily).performClick();
+            else if (storedFreq.equals("weekly"))  sv.findViewById(R.id.chipWeekly).performClick();
+            else                                   ((com.google.android.material.chip.Chip) sv.findViewById(R.id.chipMonthly)).setChecked(true);
+
             String sd = prefs.getString(KEY_POOL_SAVE_DATE, null);
             String rd = prefs.getString(KEY_POOL_RECEIVE_DATE, null);
             if (sd != null && !sd.equals("--")) {
@@ -417,32 +560,40 @@ public class SavingsFragment extends Fragment {
                 tvRecvDateDisplay.setText(rd);
                 try { recvCal.setTime(dateFmt.parse(rd)); } catch (ParseException ignored) {}
             }
+            // Back-calculate contrib per period from stored give-out and periods
+            float storedGiveOut = prefs.getFloat(KEY_POOL_GIVE_OUT, 0f);
+            if (storedGiveOut > 0) {
+                long days = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(
+                        recvCal.getTimeInMillis() - saveCal.getTimeInMillis());
+                int p = storedFreq.equals("daily") ? (int)Math.max(days,1)
+                      : storedFreq.equals("weekly") ? (int)Math.max(days/7,1)
+                      : (int)Math.max(days/30,1);
+                long contrib = Math.round(storedGiveOut / p);
+                etAmount.setText(String.valueOf(contrib));
+            }
         }
 
-        // Live split preview as admin types the amount
+        // Chip listener
+        chipGroupFreq.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            if (checkedIds.contains(R.id.chipDaily))        freq[0] = "daily";
+            else if (checkedIds.contains(R.id.chipWeekly)) freq[0] = "weekly";
+            else                                            freq[0] = "monthly";
+            updatePreview.run();
+        });
+
+        // Amount watcher
         etAmount.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int st, int c, int a) {}
             @Override public void onTextChanged(CharSequence s, int st, int b, int c) {}
-            @Override public void afterTextChanged(Editable s) {
-                try {
-                    double total = Double.parseDouble(s.toString().trim());
-                    int m = totalMembers > 0 ? totalMembers : 1;
-                    tvAmountPreview.setText("UGX " + ugFmt.format(total));
-                    tvSplitPreview.setText("Each of " + m + " members contributes UGX "
-                            + ugFmt.format(total / m));
-                    rowPreview.setVisibility(View.VISIBLE);
-                } catch (NumberFormatException e) {
-                    tvAmountPreview.setText("UGX 0");
-                    rowPreview.setVisibility(View.GONE);
-                }
-            }
+            @Override public void afterTextChanged(Editable s) { updatePreview.run(); }
         });
 
-        // Date pickers on the entire row (not just the TextView)
+        // Date pickers — re-run preview after a date is chosen
         rowSaveDate.setOnClickListener(dt ->
                 new DatePickerDialog(requireContext(), (dp, y, m, d) -> {
                     saveCal.set(y, m, d);
                     tvSaveDateDisplay.setText(dateFmt.format(saveCal.getTime()));
+                    updatePreview.run();
                 }, saveCal.get(Calendar.YEAR), saveCal.get(Calendar.MONTH),
                         saveCal.get(Calendar.DAY_OF_MONTH)).show());
 
@@ -450,6 +601,7 @@ public class SavingsFragment extends Fragment {
                 new DatePickerDialog(requireContext(), (dp, y, m, d) -> {
                     recvCal.set(y, m, d);
                     tvRecvDateDisplay.setText(dateFmt.format(recvCal.getTime()));
+                    updatePreview.run();
                 }, recvCal.get(Calendar.YEAR), recvCal.get(Calendar.MONTH),
                         recvCal.get(Calendar.DAY_OF_MONTH)).show());
 
@@ -459,7 +611,7 @@ public class SavingsFragment extends Fragment {
             String recvStr = tvRecvDateDisplay.getText().toString().trim();
 
             if (amtStr.isEmpty()) {
-                Toast.makeText(requireContext(), "Enter the total savings amount", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Enter contribution per " + freq[0], Toast.LENGTH_SHORT).show();
                 return;
             }
             if (saveStr.equals("Tap to pick")) {
@@ -471,51 +623,88 @@ public class SavingsFragment extends Fragment {
                 return;
             }
 
-            double total = Double.parseDouble(amtStr);
-            persistAndActivate(total, saveStr, recvStr);
+            double contrib = Double.parseDouble(amtStr);
+            persistAndActivate(contrib, freq[0], saveStr, recvStr);
             sheet.dismiss();
         });
 
         sheet.show();
     }
 
-    private void persistAndActivate(double totalAmount, String saveDate, String receiveDate) {
-        // Save locally so the card is immediately visible even if network is slow
+    private void persistAndActivate(double contribPerPeriod, String frequency, String saveDate, String receiveDate) {
+        String saveDateIso = toIso(saveDate);
+        String recvDateIso = toIso(receiveDate);
+        if (saveDateIso == null || recvDateIso == null) {
+            Toast.makeText(requireContext(), "Invalid dates", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Show optimistic local estimate while waiting for server (use loaded member count or 1)
+        int m = Math.max(totalMembers, 1);
+        long daysBetween;
+        try {
+            Date sd = dateFmt.parse(saveDate);
+            Date rd = dateFmt.parse(receiveDate);
+            daysBetween = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(rd.getTime() - sd.getTime());
+        } catch (ParseException e) { daysBetween = 30; }
+        int periods;
+        switch (frequency) {
+            case "daily":  periods = (int) Math.max(daysBetween, 1); break;
+            case "weekly": periods = (int) Math.max(daysBetween / 7, 1); break;
+            default:       periods = (int) Math.max(daysBetween / 30, 1); break;
+        }
+        double giveOutEstimate   = contribPerPeriod * periods;
+        double totalEstimate     = giveOutEstimate * m;
+
+        // Admin who activates becomes first pool member automatically
         requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
                 .putBoolean(KEY_POOL_ACTIVE, true)
-                .putFloat(KEY_POOL_AMOUNT, (float) totalAmount)
+                .putBoolean(KEY_POOL_IS_MEMBER, true)
+                .putFloat(KEY_POOL_AMOUNT, (float) totalEstimate)
+                .putFloat(KEY_POOL_GIVE_OUT, (float) giveOutEstimate)
+                .putFloat(KEY_POOL_COLLECTED, 0f)
                 .putString(KEY_POOL_SAVE_DATE, saveDate)
                 .putString(KEY_POOL_RECEIVE_DATE, receiveDate)
+                .putString(KEY_POOL_FREQUENCY, frequency)
                 .apply();
 
-        // Schedule local 24h pre-approval alarm for admin
-        int m = totalMembers > 0 ? totalMembers : 1;
-        String amtFmt = "UGX " + ugFmt.format(totalAmount / m) + " × " + m + " members";
-        PaymentScheduler.schedulePoolPayout(requireContext(), receiveDate, amtFmt);
+        renderActiveCard(0, giveOutEstimate, saveDate, receiveDate);
+        firePoolNotifications(totalEstimate, saveDate, receiveDate);
+        PaymentScheduler.schedulePoolPayout(requireContext(), receiveDate,
+                "UGX " + ugFmt.format(giveOutEstimate) + " per member");
 
-        renderActiveCard(totalAmount, saveDate, receiveDate);
-        firePoolNotifications(totalAmount, saveDate, receiveDate);
-
-        // Persist to backend (converts "dd MMM yyyy" → ISO datetime)
-        String saveDateIso  = toIso(saveDate);
-        String recvDateIso  = toIso(receiveDate);
-        if (saveDateIso != null && recvDateIso != null) {
-            ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
-            com.example.save.data.models.SavingsPoolRequest req =
-                    new com.example.save.data.models.SavingsPoolRequest(totalAmount, saveDateIso, recvDateIso);
-            api.createSavingsPool(req).enqueue(new Callback<com.example.save.data.models.SavingsPool>() {
-                @Override
-                public void onResponse(Call<com.example.save.data.models.SavingsPool> call,
-                                       Response<com.example.save.data.models.SavingsPool> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-                                .putString("pool_id", response.body().getId())
-                                .apply();
-                    }
+        // Send to backend — server computes exact totals from DB member count
+        ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
+        com.example.save.data.models.SavingsPoolRequest req =
+                new com.example.save.data.models.SavingsPoolRequest(contribPerPeriod, frequency, saveDateIso, recvDateIso);
+        api.createSavingsPool(req).enqueue(new Callback<com.example.save.data.models.SavingsPool>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.SavingsPool> call,
+                                   Response<com.example.save.data.models.SavingsPool> response) {
+                if (!isAdded() || binding == null) return;
+                if (response.isSuccessful() && response.body() != null) {
+                    com.example.save.data.models.SavingsPool pool = response.body();
+                    String sd2 = isoToDisplay(pool.getSaveDate());
+                    String rd2 = isoToDisplay(pool.getReceiveDate());
+                    // give-out = contribPerPeriod × periods (server computed)
+                    double confirmedGiveOut    = pool.getPerMemberAmount();
+                    double confirmedCollected  = pool.getAmountCollected();
+                    int confirmedMembers = allMembers.size() > 0 ? allMembers.size()
+                                        : totalMembers > 0 ? totalMembers
+                                        : Math.max(pool.getMemberCount(), 1);
+                    double confirmedTotal = confirmedGiveOut * confirmedMembers;
+                    requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+                            .putFloat(KEY_POOL_AMOUNT, (float) confirmedTotal)
+                            .putFloat(KEY_POOL_GIVE_OUT, (float) confirmedGiveOut)
+                            .putFloat(KEY_POOL_COLLECTED, (float) confirmedCollected)
+                            .putString("pool_id", pool.getId())
+                            .apply();
+                    requireActivity().runOnUiThread(() ->
+                            renderActiveCard(confirmedCollected, confirmedGiveOut, sd2, rd2));
                 }
-                @Override public void onFailure(Call<com.example.save.data.models.SavingsPool> call, Throwable t) {}
-            });
-        }
+            }
+            @Override public void onFailure(Call<com.example.save.data.models.SavingsPool> call, Throwable t) {}
+        });
 
         Toast.makeText(requireContext(), "Savings pool activated!", Toast.LENGTH_SHORT).show();
     }
@@ -534,11 +723,12 @@ public class SavingsFragment extends Fragment {
     private void showDetailSheet() {
         if (getContext() == null) return;
         SharedPreferences prefs = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-        double totalAmt  = prefs.getFloat(KEY_POOL_AMOUNT, 0f);
-        String saveDate  = prefs.getString(KEY_POOL_SAVE_DATE, "--");
-        String recvDate  = prefs.getString(KEY_POOL_RECEIVE_DATE, "--");
-        int members      = totalMembers > 0 ? totalMembers : 1;
-        double perMember = totalAmt / members;
+        double totalAmt   = prefs.getFloat(KEY_POOL_AMOUNT, 0f);
+        double giveOut    = prefs.getFloat(KEY_POOL_GIVE_OUT, 0f);
+        double collected  = prefs.getFloat(KEY_POOL_COLLECTED, 0f);
+        String saveDate   = prefs.getString(KEY_POOL_SAVE_DATE, "--");
+        String recvDate   = prefs.getString(KEY_POOL_RECEIVE_DATE, "--");
+        int members       = poolMembers.size() > 0 ? poolMembers.size() : 1;
 
         BottomSheetDialog sheet = new BottomSheetDialog(requireContext());
         View sv = LayoutInflater.from(requireContext()).inflate(R.layout.sheet_pool_detail, null);
@@ -548,16 +738,18 @@ public class SavingsFragment extends Fragment {
         ((TextView) sv.findViewById(R.id.tvDetailPoolName)).setText(groupName + " — Savings Pool");
         ((TextView) sv.findViewById(R.id.tvDetailDates)).setText(
                 "Save by " + saveDate + "  ·  Receive " + recvDate);
+        // Show actual collected amount (0 until members pay)
         ((TextView) sv.findViewById(R.id.tvDetailSavingsAvailable)).setText(
-                "UGX " + ugFmt.format(availableSavings));
+                "UGX " + ugFmt.format(collected));
         ((TextView) sv.findViewById(R.id.tvDetailTarget)).setText(
                 "Target: UGX " + ugFmt.format(totalAmt));
         ((TextView) sv.findViewById(R.id.tvDetailMemberCount)).setText(String.valueOf(members));
         ((TextView) sv.findViewById(R.id.tvDetailPerMember)).setText(
-                "UGX " + ugFmt.format(perMember));
+                "UGX " + ugFmt.format(giveOut));
         ((TextView) sv.findViewById(R.id.tvDetailMembersLabel)).setText(members + " total");
 
-        int pct = totalAmt > 0 ? (int) Math.min(100, (availableSavings / totalAmt) * 100) : 0;
+        // Progress: collected vs target
+        int pct = totalAmt > 0 ? (int) Math.min(100, (collected / totalAmt) * 100) : 0;
         com.google.android.material.progressindicator.LinearProgressIndicator pb =
                 sv.findViewById(R.id.pbPoolProgress);
         pb.setProgress(pct);
@@ -567,7 +759,23 @@ public class SavingsFragment extends Fragment {
         RecyclerView rv = sv.findViewById(R.id.rvPoolMembers);
         rv.setLayoutManager(new LinearLayoutManager(requireContext()));
         rv.setAdapter(memberAdapter);
-        memberAdapter.setItems(allMembers);
+
+        if (!poolMembers.isEmpty()) {
+            memberAdapter.setItems(poolMembers);
+        } else {
+            // Pool members not loaded yet — re-fetch active pool to get them
+            ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
+            api.getActiveSavingsPool().enqueue(new Callback<com.example.save.data.models.SavingsPool>() {
+                @Override
+                public void onResponse(Call<com.example.save.data.models.SavingsPool> call,
+                                       Response<com.example.save.data.models.SavingsPool> response) {
+                    if (!isAdded() || response.body() == null) return;
+                    poolMembers = response.body().getJoinedMembers();
+                    requireActivity().runOnUiThread(() -> memberAdapter.setItems(poolMembers));
+                }
+                @Override public void onFailure(Call<com.example.save.data.models.SavingsPool> call, Throwable t) {}
+            });
+        }
 
         sheet.show();
     }

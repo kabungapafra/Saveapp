@@ -4,93 +4,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/v_page_bg"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:scrollbars="none">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/v_text_dark" />
-
-        <!-- Progress Indicator Row -->
-        <TextView
-            android:id="@+id/tvSectionLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="GROUP SETUP"
-            android:textColor="@color/brand_blue"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnBack" />
-
-        <TextView
-            android:id="@+id/tvStepIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Step 1 of 7"
-            android:textColor="@color/v_text_muted"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/tvSectionLabel"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/pbStepProgress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_marginTop="12dp"
-            android:progress="14"
-            android:progressDrawable="@drawable/bg_wizard_progress"
-            app:layout_constraintTop_toBottomOf="@id/tvSectionLabel" />
-
-        <!-- Title & Subtitle -->
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Save together"
-            android:textColor="@color/v_text_dark"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pbStepProgress" />
-
-        <TextView
-            android:id="@+id/tvSubtitle"
+        <!-- Blue header -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Define the core details of your saving circle."
-            android:textColor="@color/v_text_mid"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+            android:background="@color/brand_blue"
+            android:orientation="vertical"
+            android:paddingTop="52dp"
+            android:paddingBottom="28dp"
+            android:paddingHorizontal="24dp">
 
-        <!-- Main Form Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/mainCard"
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_avatar_circle"
+                android:backgroundTint="#2EFFFFFF"
+                android:padding="8dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="#FFFFFF" />
+
+            <!-- Step dots -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <View android:layout_width="20dp" android:layout_height="6dp"
+                    android:background="#FFFFFF" android:layout_marginEnd="5dp" />
+                <View android:layout_width="8dp" android:layout_height="6dp"
+                    android:background="#4DFFFFFF" android:layout_marginEnd="5dp" />
+                <View android:layout_width="8dp" android:layout_height="6dp"
+                    android:background="#4DFFFFFF" android:layout_marginEnd="5dp" />
+                <View android:layout_width="8dp" android:layout_height="6dp"
+                    android:background="#4DFFFFFF" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Group Basics"
+                android:textColor="#FFFFFF"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/manrope_medium"
+                android:text="Give your savings circle a name and currency."
+                android:textColor="#B3C8E8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvStepIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/manrope_medium"
+                android:text="Step 1 of 5"
+                android:textColor="#80FFFFFF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- Form card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_margin="20dp"
             app:cardBackgroundColor="@color/card_surface"
-            app:cardCornerRadius="24dp"
+            app:cardCornerRadius="20dp"
             app:cardElevation="2dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
-            app:layout_constraintVertical_bias="0">
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,81 +97,59 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
-                <!-- Basic Info Section Header -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_info"
-                        app:tint="@color/brand_blue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="BASIC INFO"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Group Name Field -->
+                <!-- Group Name -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_bold"
                     android:text="Group Name"
                     android:textColor="@color/v_text_dark"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="13sp" />
 
                 <EditText
                     android:id="@+id/etGroupName"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="24dp"
                     android:background="@drawable/bg_wizard_input_solid"
-                    android:hint="e.g. Summer Trip 2024"
+                    android:fontFamily="@font/manrope_medium"
+                    android:hint="e.g. Kampala Savers 2024"
                     android:inputType="textCapWords"
                     android:paddingHorizontal="16dp"
                     android:textColor="@color/v_text_dark"
                     android:textColorHint="@color/v_text_muted"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
-                <!-- Currency Field -->
+                <!-- Currency -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_bold"
                     android:text="Currency"
                     android:textColor="@color/v_text_dark"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="13sp" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_wizard_input_solid">
 
                     <TextView
                         android:id="@+id/tvCurrencyText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/manrope_medium"
                         android:gravity="center_vertical"
                         android:paddingHorizontal="16dp"
                         android:text="UGX - Uganda Shillings"
                         android:textColor="@color/v_text_dark"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:layout_gravity="end|center_vertical"
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_chevron_down"
@@ -187,86 +164,8 @@
                         android:visibility="invisible" />
                 </FrameLayout>
 
-                <!-- Financial Goal Section Header -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_money"
-                        app:tint="@color/brand_blue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="FINANCIAL GOAL"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Monthly Contribution Field -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Monthly Contribution"
-                    android:textColor="@color/v_text_dark"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="8dp"
-                    app:hintEnabled="false"
-                    app:prefixText="UGX "
-                    app:prefixTextColor="@color/v_text_muted">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etMonthlyContribution"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_wizard_input_solid"
-                        android:hint="0.00"
-                        android:inputType="numberDecimal"
-                        android:paddingHorizontal="16dp"
-                        android:textColor="@color/v_text_dark"
-                        android:textColorHint="@color/v_text_muted"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Goal Hint -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:src="@drawable/ic_help_outline"
-                        app:tint="@color/v_text_muted" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="Total goal will be calculated based on member count."
-                        android:textColor="@color/v_text_muted"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/v_page_bg">
@@ -10,339 +9,452 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="100dp">
+        android:paddingBottom="80dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingTop="20dp">
+            android:orientation="vertical">
 
-
-            <!-- Screen Header -->
+            <!-- ── HEADER ── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="28dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:background="@drawable/bg_account_header_v2"
+                android:orientation="vertical"
+                android:paddingTop="52dp"
+                android:paddingBottom="28dp"
+                android:paddingHorizontal="20dp">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btnBack"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
+                <!-- Back row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
+                        android:id="@+id/btnBack"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_circle_white"
+                        android:backgroundTint="#33FFFFFF"
+                        android:padding="9dp"
                         android:src="@drawable/ic_arrow_left"
-                        app:tint="#1E293B" />
-                </com.google.android.material.card.MaterialCardView>
+                        app:tint="#FFFFFF" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="Wallets"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <!-- Security badge -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:text="Wallet &amp; Payments"
-                    android:textColor="@color/v_text_dark"
-                    android:textSize="24sp" />
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_account_hero_overlay"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/bg_circle_white"
+                        android:backgroundTint="#33FFFFFF"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_shield_auth"
+                        app:tint="#FFFFFF" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Secure Connection"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="256-bit encrypted"
+                            android:textColor="#80FFFFFF"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge_online"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:text="Protected"
+                        android:textColor="#16A34A"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/manrope_bold" />
+                </LinearLayout>
+
             </LinearLayout>
 
-            <!-- Secure Connection Banner -->
+            <!-- ── BODY ── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/bg_card_surface"
-                android:backgroundTint="@color/v_input_bg"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="20dp">
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="16dp">
 
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_input_bg_circle"
-                    android:backgroundTint="@color/v_input_bg"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_shield_auth"
-                    app:tint="@color/brand_blue" />
-
+                <!-- LINKED ACCOUNTS header -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/manrope_bold"
+                        android:letterSpacing="0.08"
+                        android:text="LINKED ACCOUNTS"
+                        android:textColor="@color/v_text_muted"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge_admin"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:text="2 Active"
+                        android:textColor="@color/brand_blue"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/manrope_bold" />
+                </LinearLayout>
+
+                <!-- Airtel Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="@color/card_surface"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <!-- Logo -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/logoWrapperAirtel"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="@color/v_page_bg">
+
+                            <ImageView
+                                android:id="@+id/logoAirtel"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="8dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_airtel_brand" />
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Info -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Airtel Mobile Money"
+                                android:textColor="@color/v_text_dark"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Personal · Save App"
+                                android:textColor="@color/v_text_muted"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- Status -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/bg_icon_circle_blue"
+                                android:backgroundTint="#16A34A" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Active"
+                                android:textColor="#16A34A"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- MTN Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="@color/card_surface"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <!-- Logo -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/logoWrapperMTN"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="@color/v_page_bg">
+
+                            <ImageView
+                                android:id="@+id/logoMTN"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="8dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_mtn_brand" />
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Info -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="MTN Mobile Money"
+                                android:textColor="@color/v_text_dark"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Personal · Save App"
+                                android:textColor="@color/v_text_muted"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- Status -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/bg_icon_circle_blue"
+                                android:backgroundTint="#16A34A" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Active"
+                                android:textColor="#16A34A"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Add Payment Method -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:background="@color/card_surface"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/brand_blue" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="Secure Connection"
-                        android:textColor="@color/v_text_dark"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/manrope_medium"
-                        android:text="Your data is encrypted with 256-bit security."
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="13sp" />
+                        android:text="Add Payment Method"
+                        android:textColor="@color/brand_blue"
+                        android:textSize="@dimen/text_size_xs" />
                 </LinearLayout>
-            </LinearLayout>
 
-            <!-- Linked Accounts Header -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
-
+                <!-- PREFERENCES header -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
                     android:fontFamily="@font/manrope_bold"
-                    android:letterSpacing="0.05"
-                    android:text="LINKED ACCOUNTS"
-                    android:textColor="@color/v_text_mid"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/manrope_bold"
-                    android:text="2 Active"
-                    android:textColor="@color/brand_blue"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <!-- Airtel Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/card_surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/logoWrapperAirtel"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="@color/v_page_bg"
-                        app:strokeWidth="1dp">
-
-                        <ImageView
-                            android:id="@+id/logoAirtel"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="8dp"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_airtel_brand" />
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_toEndOf="@id/logoWrapperAirtel"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="Airtel Mobile Money"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Save App"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- MTN Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/card_surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/logoWrapperMTN"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="@color/v_page_bg"
-                        app:strokeWidth="1dp">
-
-                        <ImageView
-                            android:id="@+id/logoMTN"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="8dp"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_mtn_brand" />
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_toEndOf="@id/logoWrapperMTN"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_bold"
-                            android:text="MTN Mobile Money"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="@font/manrope_medium"
-                            android:text="Save App"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Bottom Info Banner -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="@color/card_surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:strokeColor="#E2E8F0"
-                app:strokeWidth="1dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:lineSpacingExtra="4dp"
-                    android:padding="20dp"
-                    android:text="Your financial security is our priority. All transactions are protected with bank-grade encryption and real-time monitoring."
+                    android:letterSpacing="0.08"
+                    android:text="PREFERENCES"
                     android:textColor="@color/v_text_muted"
-                    android:textSize="13sp" />
-            </androidx.cardview.widget.CardView>
+                    android:textSize="12sp" />
 
-            <!-- Account Settings Header -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/manrope_bold"
-                android:letterSpacing="0.05"
-                android:text="ACCOUNT SETTINGS"
-                android:textColor="@color/v_text_mid"
-                android:textSize="14sp" />
-
-            <!-- Transaction Alerts -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:paddingVertical="8dp">
-
-                <ImageView
-                    android:id="@+id/iconAlerts"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_notifications"
-                    app:tint="@color/v_text_mid" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- Settings card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/iconAlerts"
-                    android:fontFamily="@font/manrope_medium"
-                    android:text="Transaction Alerts"
-                    android:textColor="@color/v_text_dark"
-                    android:textSize="16sp" />
+                    app:cardBackgroundColor="@color/card_surface"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp">
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:checked="true"
-                    app:thumbTint="@color/brand_blue"
-                    app:trackTint="@color/v_input_bg" />
-            </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-            <!-- Spending Limits -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:paddingVertical="8dp">
+                        <!-- Transaction Alerts -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="16dp">
 
-                <ImageView
-                    android:id="@+id/iconLimits"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_account_balance_wallet"
-                    app:tint="@color/v_text_mid" />
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_icon_circle_blue"
+                                android:backgroundTint="#E9F2FB"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_notifications"
+                                app:tint="@color/brand_blue" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/iconLimits"
-                    android:fontFamily="@font/manrope_medium"
-                    android:text="Spending Limits"
-                    android:textColor="@color/v_text_dark"
-                    android:textSize="16sp" />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Transaction Alerts"
+                                android:textColor="@color/v_text_dark"
+                                android:textSize="@dimen/text_size_xs" />
 
-            </RelativeLayout>
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                app:thumbTint="@color/brand_blue"
+                                app:trackTint="@color/v_page_bg" />
+                        </LinearLayout>
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="16dp"
+                            android:background="@color/v_page_bg" />
+
+                        <!-- Spending Limits -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="16dp">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_icon_circle_blue"
+                                android:backgroundTint="#F0FDF4"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_account_balance_wallet"
+                                app:tint="#16A34A" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Spending Limits"
+                                android:textColor="@color/v_text_dark"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_chevron_right"
+                                app:tint="#D1D5DB" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

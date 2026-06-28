@@ -7,392 +7,514 @@
     android:background="@color/v_page_bg">
 
     <!-- HEADER -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:background="@color/card_surface"
+        android:elevation="4dp"
         android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_input_bg_circle"
+            android:padding="10dp"
             android:src="@drawable/ic_arrow_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/brand_blue" />
+            app:tint="@color/v_text_dark" />
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:src="@drawable/save_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/poppins"
+            android:text="Repay Loan"
+            android:textColor="@color/v_text_dark"
+            android:textSize="@dimen/text_size_normal" />
 
         <ImageView
             android:id="@+id/btnHistory"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_input_bg_circle"
+            android:padding="9dp"
             android:src="@drawable/ic_history"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/brand_blue" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:tint="@color/v_text_dark" />
+    </RelativeLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <!-- EMPTY STATE (no active loan) -->
+    <LinearLayout
+        android:id="@+id/emptyState"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="40dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_shield_check"
+            app:tint="#10B981" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/manrope_bold"
+            android:text="You're all clear!"
+            android:textColor="@color/v_text_dark"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/manrope_medium"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.4"
+            android:text="You have no active loan to repay right now."
+            android:textColor="@color/v_text_muted"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- CONTENT -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@id/bottomAction"
         app:layout_constraintTop_toBottomOf="@id/header">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="24dp"
-            android:paddingTop="32dp">
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp">
 
-            <!-- CIRCULAR PROGRESS SECTION -->
-            <FrameLayout
-                android:id="@+id/progressContainer"
-                android:layout_width="260dp"
-                android:layout_height="260dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/loanProgressRail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:indicatorColor="@color/brand_blue"
-                    app:indicatorSize="240dp"
-                    app:trackColor="#E1EAFE"
-                    app:trackThickness="16dp"
-                    android:progress="75"
-                    app:trackCornerRadius="8dp" />
+            <!-- LOAN SUMMARY HERO -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="6dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:background="@drawable/bg_card_premium_blue"
+                    android:orientation="vertical"
+                    android:padding="22dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="REMAINING"
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="14sp"
-                        android:letterSpacing="0.05" />
+                        android:alpha="0.85"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.08"
+                        android:text="OUTSTANDING BALANCE"
+                        android:textColor="@color/permanent_white"
+                        android:textSize="@dimen/text_size_xs" />
 
                     <TextView
                         android:id="@+id/tvRemainingAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text=""
-                        android:textColor="@color/v_text_dark"
-                        android:textSize="36sp" />
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="UGX 0"
+                        android:textColor="@color/permanent_white"
+                        android:textSize="@dimen/text_size_xxxl"
+                        tools:text="UGX 550,000" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/loanProgressRail"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="UGX"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="15sp" />
+                        android:layout_marginTop="16dp"
+                        android:progress="0"
+                        app:indicatorColor="@color/permanent_white"
+                        app:trackColor="#55FFFFFF"
+                        app:trackCornerRadius="6dp"
+                        app:trackThickness="8dp" />
 
                     <TextView
                         android:id="@+id/tvRepaidPercentBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/bg_pill_repaid_badge"
-                        android:fontFamily="@font/manrope_bold"
-                        android:paddingHorizontal="16dp"
-                        android:paddingVertical="8dp"
-                        android:text=""
-                        android:textColor="#92400E"
+                        android:layout_marginTop="10dp"
+                        android:alpha="0.9"
+                        android:fontFamily="@font/manrope_medium"
+                        android:text="0% repaid"
+                        android:textColor="@color/permanent_white"
                         android:textSize="13sp" />
-                </LinearLayout>
-            </FrameLayout>
 
-            <!-- AMOUNT TO PAY SECTION -->
-            <TextView
-                android:id="@+id/lblAmountToPay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:fontFamily="@font/manrope_medium"
-                android:text="Amount to Pay"
-                android:textColor="@color/v_text_mid"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progressContainer" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="18dp"
+                        android:background="@color/divider_color" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/amountInputContainer"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_repayment_amount_input"
-                android:paddingHorizontal="20dp"
-                app:layout_constraintTop_toBottomOf="@id/lblAmountToPay">
-
-                <EditText
-                    android:id="@+id/etAmount"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:fontFamily="@font/manrope_bold"
-                    android:hint="0"
-                    android:inputType="numberDecimal"
-                    android:text=""
-                    android:textColor="@color/v_text_dark"
-                    android:textSize="28sp"
-                    app:layout_constraintEnd_toStartOf="@id/currencyGroup"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <LinearLayout
-                    android:id="@+id/currencyGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Loan breakdown -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="UGX"
-                        android:layout_marginEnd="12dp"
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="15sp" />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/btnMax"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_max_button"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:fontFamily="@font/manrope_bold"
-                        android:paddingHorizontal="16dp"
-                        android:paddingVertical="8dp"
-                        android:text="MAX"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="12sp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.8"
+                                android:fontFamily="@font/montserrat"
+                                android:text="Principal"
+                                android:textColor="@color/permanent_white"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/tvPrincipal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="—"
+                                android:textColor="@color/permanent_white"
+                                android:textSize="14sp"
+                                tools:text="500,000" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.8"
+                                android:fontFamily="@font/montserrat"
+                                android:text="Interest"
+                                android:textColor="@color/permanent_white"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/tvInterest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="—"
+                                android:textColor="@color/permanent_white"
+                                android:textSize="14sp"
+                                tools:text="50,000" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.8"
+                                android:fontFamily="@font/montserrat"
+                                android:text="Due date"
+                                android:textColor="@color/permanent_white"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/tvDueDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="—"
+                                android:textColor="@color/permanent_white"
+                                android:textSize="14sp"
+                                tools:text="Aug 15" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- PHONE NUMBER SECTION -->
+            <!-- AMOUNT TO PAY -->
             <TextView
-                android:id="@+id/lblPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/manrope_medium"
-                android:text="Phone Number"
-                android:textColor="@color/v_text_mid"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/amountInputContainer" />
+                android:fontFamily="@font/manrope_bold"
+                android:text="Amount to Pay"
+                android:textColor="@color/v_text_dark"
+                android:textSize="15sp" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/phoneInputContainer"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_repayment_amount_input"
-                android:paddingHorizontal="20dp"
-                app:layout_constraintTop_toBottomOf="@id/lblPhoneNumber">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/card_surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/divider_color"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="UGX"
+                        android:textColor="@color/v_text_muted"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/etAmount"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="@font/manrope_bold"
+                        android:hint="0"
+                        android:inputType="number"
+                        android:textColor="@color/v_text_dark"
+                        android:textColorHint="@color/v_text_muted"
+                        android:textSize="24sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Quick amounts -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnQuarter"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="25%"
+                    android:textAllCaps="false"
+                    android:textColor="@color/brand_blue"
+                    android:textSize="13sp"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="@color/divider_color"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnHalf"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="50%"
+                    android:textAllCaps="false"
+                    android:textColor="@color/brand_blue"
+                    android:textSize="13sp"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="@color/divider_color"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnMax"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Full"
+                    android:textAllCaps="false"
+                    android:textColor="@color/brand_blue"
+                    android:textSize="13sp"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="@color/divider_color"
+                    app:strokeWidth="1dp" />
+            </LinearLayout>
+
+            <!-- PHONE NUMBER -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Mobile Money Number"
+                android:textColor="@color/v_text_dark"
+                android:textSize="15sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/card_surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/divider_color"
+                app:strokeWidth="1dp">
 
                 <EditText
                     android:id="@+id/etPhoneNumber"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
                     android:background="@null"
                     android:fontFamily="@font/manrope_bold"
                     android:hint="e.g. 0755123456"
                     android:inputType="phone"
+                    android:paddingHorizontal="18dp"
                     android:textColor="@color/v_text_dark"
-                    android:textSize="18sp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:textColorHint="@color/v_text_muted"
+                    android:textSize="17sp" />
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- PAYMENT METHOD SECTION -->
+            <!-- PAYMENT METHOD -->
             <TextView
-                android:id="@+id/lblPaymentMethod"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/manrope_medium"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/manrope_bold"
                 android:text="Payment Method"
-                android:textColor="@color/v_text_mid"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/phoneInputContainer" />
+                android:textColor="@color/v_text_dark"
+                android:textSize="15sp" />
 
-            <!-- Airtel Money Item -->
+            <!-- Airtel -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardAirtel"
                 android:layout_width="match_parent"
-                android:layout_height="88dp"
-                android:layout_marginTop="16dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/bg_item_premium_white"
                 android:elevation="4dp"
-                android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/lblPaymentMethod">
+                android:paddingHorizontal="16dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/logoAirtel"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/v_page_bg">
+                    app:strokeColor="@color/v_page_bg"
+                    app:strokeWidth="1dp">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_airtel_logo"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:src="@drawable/ic_airtel_logo" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:orientation="vertical"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Airtel Money"
+                    android:textColor="@color/v_text_dark"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/radioAirtel"
                     app:layout_constraintStart_toEndOf="@id/logoAirtel"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="Airtel Money"
-                        android:textColor="@color/v_text_dark"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tvAirtelNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/manrope_medium"
-                        android:text=""
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="13sp" />
-                </LinearLayout>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <RadioButton
                     android:id="@+id/radioAirtel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:buttonTint="@color/brand_blue"
+                    android:checked="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- MTN MoMo Item -->
+            <!-- MTN -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardMTN"
                 android:layout_width="match_parent"
-                android:layout_height="88dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="32dp"
                 android:background="@drawable/bg_payment_card_unselected"
-                android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/cardAirtel">
+                android:paddingHorizontal="16dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/logoMTN"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/v_page_bg">
+                    app:strokeColor="@color/v_page_bg"
+                    app:strokeWidth="1dp">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_mtn_logo"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:src="@drawable/ic_mtn_logo" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:orientation="vertical"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="MTN MoMo"
+                    android:textColor="@color/v_text_dark"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/radioMTN"
                     app:layout_constraintStart_toEndOf="@id/logoMTN"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="MTN MoMo"
-                        android:textColor="@color/v_text_dark"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tvMTNNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/manrope_medium"
-                        android:text=""
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="13sp" />
-                </LinearLayout>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <RadioButton
                     android:id="@+id/radioMTN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="false"
                     android:buttonTint="@color/v_text_muted"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                app:layout_constraintTop_toBottomOf="@id/cardMTN"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <!-- FOOTER ACTION -->
@@ -400,38 +522,65 @@
         android:id="@+id/bottomAction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/card_surface"
+        android:elevation="8dp"
         android:orientation="vertical"
-        android:padding="20dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPayLoan"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="58dp"
             android:fontFamily="@font/manrope_bold"
+            android:stateListAnimator="@null"
             android:text="Pay Now"
             android:textAllCaps="false"
-            android:textSize="18sp"
+            android:textSize="17sp"
             app:backgroundTint="@color/brand_blue"
             app:cornerRadius="16dp"
             app:icon="@drawable/ic_lock"
             app:iconGravity="textStart"
-            app:iconPadding="12dp"
-            app:iconTint="#FFFFFF"
-            android:elevation="8dp"
-            android:stateListAnimator="@null" />
+            app:iconPadding="10dp"
+            app:iconTint="#FFFFFF" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawablePadding="6dp"
             android:fontFamily="@font/manrope_bold"
-            android:letterSpacing="0.1"
-            android:text="SECURE SSL ENCRYPTED TRANSACTION"
+            android:gravity="center_vertical"
+            android:letterSpacing="0.08"
+            android:text="SECURE ENCRYPTED TRANSACTION"
             android:textColor="@color/v_text_muted"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            app:drawableTint="@color/v_text_muted" />
     </LinearLayout>
+
+    <!-- SUCCESS ANIMATION OVERLAY -->
+    <View
+        android:id="@+id/animationOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:elevation="100dp"
+        android:visibility="gone" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/successAnimation"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:elevation="101dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/success_animation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

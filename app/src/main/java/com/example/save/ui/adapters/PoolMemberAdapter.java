@@ -9,16 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.save.R;
-import com.example.save.data.models.MemberEntity;
+import com.example.save.data.models.SavingsPool;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PoolMemberAdapter extends RecyclerView.Adapter<PoolMemberAdapter.VH> {
 
-    private List<MemberEntity> items = new ArrayList<>();
+    private List<SavingsPool.PoolMember> items = new ArrayList<>();
 
-    public void setItems(List<MemberEntity> list) {
+    public void setItems(List<SavingsPool.PoolMember> list) {
         items = list != null ? list : new ArrayList<>();
         notifyDataSetChanged();
     }
@@ -33,9 +33,8 @@ public class PoolMemberAdapter extends RecyclerView.Adapter<PoolMemberAdapter.VH
 
     @Override
     public void onBindViewHolder(@NonNull VH h, int position) {
-        MemberEntity m = items.get(position);
-
-        String name = m.getName() != null ? m.getName() : "Unknown";
+        SavingsPool.PoolMember m = items.get(position);
+        String name = m.getName() != null && !m.getName().isEmpty() ? m.getName() : "Unknown";
         h.tvName.setText(name);
         h.tvPhone.setText(m.getPhone() != null ? m.getPhone() : "--");
         h.tvInitials.setText(initials(name));

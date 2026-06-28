@@ -44,6 +44,11 @@ public class PayoutAuditFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        View back = view.findViewById(R.id.btnBack);
+        if (back != null) back.setOnClickListener(v -> {
+            if (getActivity() != null) getActivity().onBackPressed();
+        });
+
         RecyclerView rv = view.findViewById(R.id.rvPayoutHistory);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -94,7 +99,8 @@ public class PayoutAuditFragment extends Fragment {
     private static class PayoutAuditAdapter extends RecyclerView.Adapter<PayoutAuditAdapter.VH> {
         private List<PayoutEntity> data;
         private final NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
-        private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+        private final SimpleDateFormat inFmt = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        private final SimpleDateFormat outFmt = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 
         PayoutAuditAdapter(List<PayoutEntity> data) {
             this.data = data;
@@ -109,7 +115,7 @@ public class PayoutAuditFragment extends Fragment {
         @Override
         public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_transaction_ledger, parent, false);
+                    .inflate(R.layout.item_payout_audit, parent, false);
             return new VH(v);
         }
 
@@ -118,33 +124,42 @@ public class PayoutAuditFragment extends Fragment {
             PayoutEntity p = data.get(position);
             holder.tvName.setText(p.getMemberName() != null ? p.getMemberName() : "Unknown");
 
-            String dateStr = "";
-            if (p.getExecutedAt() != null && !p.getExecutedAt().isEmpty()) {
-                dateStr = p.getExecutedAt().substring(0, Math.min(10, p.getExecutedAt().length()));
-            } else if (p.getCreatedAt() != null && !p.getCreatedAt().isEmpty()) {
-                dateStr = p.getCreatedAt().substring(0, Math.min(10, p.getCreatedAt().length()));
+            // Date • Retained subtitle
+            String raw = (p.getExecutedAt() != null && !p.getExecutedAt().isEmpty())
+                    ? p.getExecutedAt() : p.getCreatedAt();
+            String dateStr = formatDate(raw);
+            if (p.getRetentionAmount() > 0) {
+                dateStr += " • Retained " + ugFormat.format(p.getRetentionAmount()).replace("UGX", "UGX ");
             }
             holder.tvDate.setText(dateStr);
 
-            String status = p.getStatus() != null ? p.getStatus() : "PENDING";
-            holder.tvBadge.setText(status);
-            if ("APPROVED".equalsIgnoreCase(status) || "COMPLETED".equalsIgnoreCase(status)) {
-                holder.tvBadge.setBackgroundTintList(
-                        android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#DCFCE7")));
-                holder.tvBadge.setTextColor(android.graphics.Color.parseColor("#16A34A"));
-            } else if ("PENDING".equalsIgnoreCase(status)) {
-                holder.tvBadge.setBackgroundTintList(
-                        android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FEF9C3")));
-                holder.tvBadge.setTextColor(android.graphics.Color.parseColor("#CA8A04"));
+            // Status pill
+            String status = p.getStatus() != null ? p.getStatus().toUpperCase(Locale.getDefault()) : "PENDING";
+            holder.tvStatus.setText(status);
+            int bg, fg;
+            if ("APPROVED".equals(status) || "COMPLETED".equals(status)) {
+                bg = 0xFFDCFCE7; fg = 0xFF16A34A;
+            } else if ("PENDING".equals(status)) {
+                bg = 0xFFFEF9C3; fg = 0xFFCA8A04;
             } else {
-                holder.tvBadge.setBackgroundTintList(
-                        android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FEE2E2")));
-                holder.tvBadge.setTextColor(android.graphics.Color.parseColor("#DC2626"));
+                bg = 0xFFFEE2E2; fg = 0xFFDC2626;
             }
+            holder.tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(bg));
+            holder.tvStatus.setTextColor(fg);
 
-            String amountStr = ugFormat.format(p.getNetAmount()).replace("UGX", "UGX ");
-            holder.tvAmount.setText(amountStr);
-            holder.tvAmount.setTextColor(android.graphics.Color.parseColor("#2563EB"));
+            holder.tvAmount.setText(ugFormat.format(p.getNetAmount()).replace("UGX", "UGX "));
+        }
+
+        private String formatDate(String raw) {
+            if (raw == null || raw.isEmpty()) return "—";
+            String datePart = raw.length() >= 10 ? raw.substring(0, 10) : raw;
+            try {
+                java.util.Date d = inFmt.parse(datePart);
+                if (d != null) return outFmt.format(d);
+            } catch (java.text.ParseException ignored) {
+                // fall through to raw value
+            }
+            return datePart;
         }
 
         @Override
@@ -153,13 +168,13 @@ public class PayoutAuditFragment extends Fragment {
         }
 
         static class VH extends RecyclerView.ViewHolder {
-            TextView tvName, tvDate, tvBadge, tvAmount;
+            TextView tvName, tvDate, tvStatus, tvAmount;
             VH(View v) {
                 super(v);
-                tvName = v.findViewById(R.id.tvTxMemberName);
-                tvDate = v.findViewById(R.id.tvTxDateRef);
-                tvBadge = v.findViewById(R.id.tvTxTypeBadge);
-                tvAmount = v.findViewById(R.id.tvTxAmount);
+                tvName = v.findViewById(R.id.tvName);
+                tvDate = v.findViewById(R.id.tvDate);
+                tvStatus = v.findViewById(R.id.tvStatus);
+                tvAmount = v.findViewById(R.id.tvAmount);
             }
         }
     }

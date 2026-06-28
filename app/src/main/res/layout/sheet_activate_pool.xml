@@ -91,6 +91,61 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <!-- Payment frequency -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/dashboard_bg"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment frequency"
+            android:textColor="@color/dashboard_text_secondary"
+            android:textSize="12sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupFrequency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:singleSelection="true"
+            app:selectionRequired="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipDaily"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daily"
+                android:textSize="13sp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipWeekly"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weekly"
+                android:textSize="13sp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMonthly"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monthly"
+                android:checked="true"
+                android:textSize="13sp" />
+
+        </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
+
     <!-- Per-member split preview -->
     <LinearLayout
         android:id="@+id/rowSplitPreview"
@@ -123,96 +178,106 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Saving date -->
+    <!-- Date pickers row: Save date + Receive date side by side -->
     <LinearLayout
-        android:id="@+id/rowSaveDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="12dp"
-        android:background="@color/dashboard_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="14dp"
-        android:clickable="true"
-        android:focusable="true">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Saving date"
-                android:textColor="@color/dashboard_text_secondary"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/tvSaveDateDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Tap to pick"
-                android:textColor="@color/dashboard_text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_calendar_month"
-            app:tint="@color/dashboard_accent_green" />
-    </LinearLayout>
-
-    <!-- Receiving date -->
-    <LinearLayout
-        android:id="@+id/rowReceiveDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/dashboard_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="14dp"
-        android:clickable="true"
-        android:focusable="true">
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <!-- Saving date card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/rowSaveDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_marginEnd="6dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="#EFF6FF"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#BFDBFE"
+            app:strokeWidth="1.5dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Receiving date"
-                android:textColor="@color/dashboard_text_secondary"
-                android:textSize="11sp" />
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="14dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="14dp">
 
-            <TextView
-                android:id="@+id/tvReceiveDateDisplay"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save by"
+                    android:textColor="#64748B"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.04" />
+
+                <TextView
+                    android:id="@+id/tvSaveDateDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:text="Tap to pick"
+                    android:textColor="#1D4ED8"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Receiving date card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/rowReceiveDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="#F0FDF4"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#A7F3D0"
+            app:strokeWidth="1.5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Tap to pick"
-                android:textColor="@color/dashboard_text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="14dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="14dp">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_calendar_month"
-            app:tint="@color/dashboard_accent_green" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Receive on"
+                    android:textColor="#64748B"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.04" />
+
+                <TextView
+                    android:id="@+id/tvReceiveDateDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:text="Tap to pick"
+                    android:textColor="#059669"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 
     <!-- Activate button -->

@@ -4,134 +4,155 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/v_page_bg"
-    android:fillViewport="true">
+    android:clipToPadding="false"
+    android:paddingBottom="24dp"
+    android:scrollbars="none">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/v_text_dark" />
+        <!-- Blue header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/brand_blue"
+            android:orientation="vertical"
+            android:paddingTop="52dp"
+            android:paddingBottom="28dp"
+            android:paddingHorizontal="24dp">
 
-        <!-- Progress Indicator Row -->
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_avatar_circle"
+                android:backgroundTint="#2EFFFFFF"
+                android:padding="8dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="#FFFFFF" />
+
+            <!-- Step dots -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <View android:layout_width="8dp" android:layout_height="6dp"
+                    android:background="#4DFFFFFF" android:layout_marginEnd="5dp" />
+                <View android:layout_width="20dp" android:layout_height="6dp"
+                    android:background="#FFFFFF" android:layout_marginEnd="5dp" />
+                <View android:layout_width="8dp" android:layout_height="6dp"
+                    android:background="#4DFFFFFF" android:layout_marginEnd="5dp" />
+                <View android:layout_width="8dp" android:layout_height="6dp"
+                    android:background="#4DFFFFFF" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Group Rules"
+                android:textColor="#FFFFFF"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/manrope_medium"
+                android:text="Set contributions, penalties, and loan policies."
+                android:textColor="#B3C8E8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/manrope_medium"
+                android:text="Step 2 of 5"
+                android:textColor="#80FFFFFF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- ── CONTRIBUTION section ── -->
         <TextView
-            android:id="@+id/tvSectionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/manrope_bold"
+            android:letterSpacing="0.08"
             android:text="CONTRIBUTIONS"
             android:textColor="@color/brand_blue"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnBack" />
+            android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/tvStepIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Step 2 of 7"
-            android:textColor="@color/v_text_muted"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/tvSectionLabel"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/pbStepProgress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_marginTop="12dp"
-            android:progress="28"
-            android:progressDrawable="@drawable/bg_wizard_progress"
-            app:layout_constraintTop_toBottomOf="@id/tvSectionLabel" />
-
-        <!-- Title & Subtitle -->
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Contribute"
-            android:textColor="@color/v_text_dark"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pbStepProgress" />
-
-        <TextView
-            android:id="@+id/tvSubtitle"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Set the timing and penalties for your members."
-            android:textColor="@color/v_text_mid"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginHorizontal="20dp"
             app:cardBackgroundColor="@color/card_surface"
             app:cardCornerRadius="20dp"
-            app:cardElevation="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0">
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="20dp">
 
-                <!-- CONTRIBUTION SECTION -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_schedule"
-                        app:tint="@color/brand_blue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="TIMING"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
+                <!-- Contribution Amount -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Frequency"
-                    android:textColor="#424242"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Contribution Amount"
+                    android:textColor="@color/v_text_dark"
+                    android:textSize="13sp" />
 
-                <RelativeLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="20dp"
+                    app:hintEnabled="false"
+                    app:prefixText="UGX "
+                    app:prefixTextColor="@color/v_text_muted">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etContributionAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_wizard_input_solid"
+                        android:fontFamily="@font/manrope_medium"
+                        android:hint="0.00"
+                        android:inputType="numberDecimal"
+                        android:paddingHorizontal="16dp"
+                        android:textColor="@color/v_text_dark"
+                        android:textColorHint="@color/v_text_muted"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Frequency -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Frequency"
+                    android:textColor="@color/v_text_dark"
+                    android:textSize="13sp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/bg_wizard_input_solid">
 
                     <Spinner
@@ -139,56 +160,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
+                        android:fontFamily="@font/manrope_medium"
                         android:paddingHorizontal="16dp"
                         android:spinnerMode="dropdown" />
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="end|center_vertical"
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_chevron_down"
                         app:tint="@color/v_text_muted" />
-                </RelativeLayout>
+                </FrameLayout>
 
-                <!-- PENALTY SECTION -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_warning"
-                        app:tint="@color/brand_blue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="LATE PENALTY"
-                        android:textColor="@color/brand_blue"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
+                <!-- Late Penalty -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_bold"
                     android:text="Late Penalty (%)"
-                    android:textColor="#424242"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/v_text_dark"
+                    android:textSize="13sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="20dp"
                     app:hintEnabled="false"
                     app:suffixText="%"
                     app:suffixTextColor="@color/v_text_muted">
@@ -198,40 +196,223 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_wizard_input_solid"
+                        android:fontFamily="@font/manrope_medium"
                         android:hint="5"
                         android:inputType="numberDecimal"
                         android:paddingHorizontal="16dp"
                         android:text="5"
-                        android:textColor="@color/black"
+                        android:textColor="@color/v_text_dark"
                         android:textColorHint="@color/v_text_muted"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Retention -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Payout Retention (%)"
+                    android:textColor="@color/v_text_dark"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_medium"
+                    android:text="Portion held back from each payout"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    app:hintEnabled="false"
+                    app:suffixText="%"
+                    app:suffixTextColor="@color/v_text_muted">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etRetention"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_wizard_input_solid"
+                        android:fontFamily="@font/manrope_medium"
+                        android:hint="5"
+                        android:inputType="numberDecimal"
+                        android:paddingHorizontal="16dp"
+                        android:textColor="@color/v_text_dark"
+                        android:textColorHint="@color/v_text_muted"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── LOAN RULES section ── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/manrope_bold"
+            android:letterSpacing="0.08"
+            android:text="LOAN RULES"
+            android:textColor="@color/brand_blue"
+            android:textSize="11sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:cardBackgroundColor="@color/card_surface"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Max Loan Amount -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Max Loan Amount per Member"
+                    android:textColor="@color/v_text_dark"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="20dp"
+                    app:hintEnabled="false"
+                    app:prefixText="UGX "
+                    app:prefixTextColor="@color/v_text_muted">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etMaxLoanAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_wizard_input_solid"
+                        android:fontFamily="@font/manrope_medium"
+                        android:hint="0.00"
+                        android:inputType="numberDecimal"
+                        android:paddingHorizontal="16dp"
+                        android:textColor="@color/v_text_dark"
+                        android:textColorHint="@color/v_text_muted"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Interest Rate -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Interest Rate (%)"
+                    android:textColor="@color/v_text_dark"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="20dp"
+                    app:hintEnabled="false"
+                    app:suffixText="%"
+                    app:suffixTextColor="@color/v_text_muted">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etInterestRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_wizard_input_solid"
+                        android:fontFamily="@font/manrope_medium"
+                        android:hint="10"
+                        android:inputType="numberDecimal"
+                        android:paddingHorizontal="16dp"
+                        android:text="10"
+                        android:textColor="@color/v_text_dark"
+                        android:textColorHint="@color/v_text_muted"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Repayment Period -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Repayment Period (Months)"
+                    android:textColor="@color/v_text_dark"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etRepaymentPeriod"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/bg_wizard_input_solid"
+                    android:fontFamily="@font/manrope_medium"
+                    android:hint="12"
+                    android:inputType="number"
+                    android:paddingHorizontal="16dp"
+                    android:text="12"
+                    android:textColor="@color/v_text_dark"
+                    android:textColorHint="@color/v_text_muted"
+                    android:textSize="15sp" />
+
+                <!-- Require Guarantor toggle row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_wizard_input_solid"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="14dp">
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_help_outline"
-                        app:tint="@color/v_text_muted" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="Require Guarantor"
+                            android:textColor="@color/v_text_dark"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/manrope_medium"
+                            android:text="Members need a guarantor for loans"
+                            android:textColor="@color/v_text_muted"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchRequireGuarantor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="Penalties help ensure members contribute on time."
-                        android:textColor="@color/v_text_muted"
-                        android:textSize="12sp" />
+                        android:checked="true"
+                        app:thumbTint="@color/switch_thumb_tint"
+                        app:trackTint="@color/switch_track_blue"
+                        app:thumbElevation="4dp" />
                 </LinearLayout>
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

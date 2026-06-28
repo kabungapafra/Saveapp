@@ -77,9 +77,22 @@ public class MemberRepository {
             public void onResponse(Call<com.example.save.data.models.PaginatedResponse<MemberEntity>> call, Response<com.example.save.data.models.PaginatedResponse<MemberEntity>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Member> models = new ArrayList<>();
+                    List<String[]> avatarsToRehydrate = new ArrayList<>();
+                    com.example.save.utils.SessionManager session =
+                            com.example.save.utils.SessionManager.getInstance(appContext);
                     for (MemberEntity entity : response.body().getData()) {
                         Member m = new Member(entity.getName(), entity.getRole(), true, entity.getPhone());
                         m.setId(entity.getId());
+
+                        // Rehydrate the avatar from the server when it isn't cached locally
+                        // (e.g. after the app was uninstalled and reinstalled).
+                        String b64 = entity.getProfileImage();
+                        if (b64 != null && !b64.isEmpty() && entity.getPhone() != null) {
+                            String normalized = entity.getPhone().replaceAll("[^0-9+]", "");
+                            if (session.getProfileImage(normalized) == null) {
+                                avatarsToRehydrate.add(new String[]{normalized, b64});
+                            }
+                        }
                         m.setContributionPaid(entity.getContributionPaid());
                         m.setContributionTarget(entity.getContributionTarget());
                         m.setCreditScore(entity.getCreditScore());
@@ -96,6 +109,7 @@ public class MemberRepository {
                         models.add(m);
                     }
                     membersLiveData.postValue(models);
+                    rehydrateAvatars(avatarsToRehydrate);
                     isSyncing = false;
                     if (callback != null)
                         callback.onResult(true, "Synced from PostgreSQL");
@@ -220,6 +234,10 @@ public class MemberRepository {
 
     public interface ApiResponseCallback {
         void onResult(boolean success, String message);
+    }
+
+    public interface LoanSummaryCallback {
+        void onResult(boolean success, com.example.save.data.models.LoanSummaryResponse summary, String message);
     }
 
     public int getActiveMemberCount() {
@@ -458,6 +476,115 @@ public class MemberRepository {
     }
 
     public void getComprehensiveReport(ReportCallback cb) {
+        if (cb == null) return;
+        ApiService api = RetrofitClient.getClient(appContext).create(ApiService.class);
+
+        // 1) Dashboard summary (balances, totals, group name)
+        api.getDashboardSummary().enqueue(new Callback<com.example.save.data.models.DashboardSummaryResponse>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.DashboardSummaryResponse> call,
+                    Response<com.example.save.data.models.DashboardSummaryResponse> response) {
+                final com.example.save.data.models.DashboardSummaryResponse summary =
+                        response.isSuccessful() ? response.body() : null;
+                if (summary == null) {
+                    cb.onResult(false, null, "Could not load report data");
+                    return;
+                }
+                // 2) Loans
+                api.getLoans(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>>() {
+                    @Override
+                    public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> c,
+                            Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> r) {
+                        final List<com.example.save.data.models.LoanEntity> loans =
+                                (r.isSuccessful() && r.body() != null) ? r.body().getData() : new ArrayList<>();
+                        // 3) Payouts
+                        api.getPayouts(100, 0).enqueue(new Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>>() {
+                            @Override
+                            public void onResponse(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>> c2,
+                                    Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>> r2) {
+                                List<com.example.save.data.models.PayoutEntity> payouts =
+                                        (r2.isSuccessful() && r2.body() != null) ? r2.body().getData() : new ArrayList<>();
+                                cb.onResult(true, buildReport(summary, loans, payouts), "Report ready");
+                            }
+                            @Override
+                            public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.PayoutEntity>> c2, Throwable t) {
+                                cb.onResult(true, buildReport(summary, loans, new ArrayList<>()), "Report ready");
+                            }
+                        });
+                    }
+                    @Override
+                    public void onFailure(Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> c, Throwable t) {
+                        cb.onResult(true, buildReport(summary, new ArrayList<>(), new ArrayList<>()), "Report ready");
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call<com.example.save.data.models.DashboardSummaryResponse> call, Throwable t) {
+                cb.onResult(false, null, "Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    /** Assembles a ComprehensiveReportResponse from the available endpoints (no single backend endpoint exists). */
+    private ComprehensiveReportResponse buildReport(
+            com.example.save.data.models.DashboardSummaryResponse summary,
+            List<com.example.save.data.models.LoanEntity> loanEntities,
+            List<com.example.save.data.models.PayoutEntity> payoutEntities) {
+
+        ComprehensiveReportResponse report = new ComprehensiveReportResponse();
+        report.setGeneratedAt(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault())
+                .format(new java.util.Date()));
+        report.setGroupName(summary.getGroupName());
+        report.setTotalBalance(summary.getTotalBalance());
+        report.setTotalMembers(summary.getTotalMembers());
+        report.setTotalContributions(summary.getYearlyContributions());
+
+        // Members (from local cache populated by the members list screen)
+        List<Member> members = getAllMembers();
+        report.setMembers(members != null ? members : new ArrayList<>());
+
+        // Active loans → detail list + aggregates
+        List<com.example.save.data.models.Loan> activeLoans = new ArrayList<>();
+        double activeLoansAmount = 0;
+        if (loanEntities != null) {
+            for (com.example.save.data.models.LoanEntity e : loanEntities) {
+                String st = e.getStatus() != null ? e.getStatus() : "";
+                if (!"ACTIVE".equalsIgnoreCase(st) && !"APPROVED".equalsIgnoreCase(st)) continue;
+                com.example.save.data.models.Loan loan = new com.example.save.data.models.Loan(
+                        e.getId(), e.getMemberId(), e.getMemberName(), e.getAmount(), e.getInterest(),
+                        e.getReason(), e.getDateRequested(), st);
+                loan.setDueDate(e.getDueDate());
+                loan.setRepaidAmount(e.getRepaidAmount());
+                activeLoans.add(loan);
+                activeLoansAmount += e.getAmount();
+            }
+        }
+        report.setActiveLoans(activeLoans);
+        report.setActiveLoansCount(activeLoans.size());
+        report.setActiveLoansAmount(activeLoansAmount);
+
+        // Payouts → detail list (as TransactionEntity) + total
+        List<com.example.save.data.models.TransactionEntity> payoutTx = new ArrayList<>();
+        double totalPayouts = 0;
+        java.text.SimpleDateFormat iso = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        if (payoutEntities != null) {
+            for (com.example.save.data.models.PayoutEntity p : payoutEntities) {
+                java.util.Date d = null;
+                String raw = (p.getExecutedAt() != null && !p.getExecutedAt().isEmpty()) ? p.getExecutedAt() : p.getCreatedAt();
+                if (raw != null && raw.length() >= 10) {
+                    try { d = iso.parse(raw.substring(0, 10)); } catch (java.text.ParseException ignored) { }
+                }
+                com.example.save.data.models.TransactionEntity tx = new com.example.save.data.models.TransactionEntity(
+                        p.getId(), p.getMemberName(), p.getNetAmount(), "Payout", d, false,
+                        p.getStatus(), "PAYOUT");
+                payoutTx.add(tx);
+                totalPayouts += p.getNetAmount();
+            }
+        }
+        report.setPayouts(payoutTx);
+        report.setTotalPayoutsAmount(totalPayouts);
+
+        return report;
     }
 
     public void getDashboardSummary(SummaryCallback cb) {
@@ -479,6 +606,27 @@ public class MemberRepository {
             public void onFailure(Call<com.example.save.data.models.DashboardSummaryResponse> call, Throwable t) {
                 if (cb != null)
                     cb.onResult(false, null, "Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    /** Fetches server-computed loan aggregates for the loan-management screen. */
+    public void getLoanSummary(LoanSummaryCallback cb) {
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.getLoanSummary().enqueue(new Callback<com.example.save.data.models.LoanSummaryResponse>() {
+            @Override
+            public void onResponse(Call<com.example.save.data.models.LoanSummaryResponse> call,
+                    Response<com.example.save.data.models.LoanSummaryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (cb != null) cb.onResult(true, response.body(), "Loan summary loaded");
+                } else if (cb != null) {
+                    cb.onResult(false, null, "Failed to load loan summary: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.save.data.models.LoanSummaryResponse> call, Throwable t) {
+                if (cb != null) cb.onResult(false, null, "Network error: " + t.getMessage());
             }
         });
     }
@@ -542,6 +690,55 @@ public class MemberRepository {
                     callback.onResult(false, "Network error: " + t.getMessage());
             }
         });
+    }
+
+    /** Decode base64 avatars off the main thread, cache them as files, and store the paths. */
+    private void rehydrateAvatars(List<String[]> pending) {
+        if (pending == null || pending.isEmpty()) return;
+        executor.execute(() -> {
+            com.example.save.utils.SessionManager session =
+                    com.example.save.utils.SessionManager.getInstance(appContext);
+            for (String[] pair : pending) {
+                String normalized = pair[0];
+                String b64 = pair[1];
+                try {
+                    byte[] bytes = android.util.Base64.decode(b64, android.util.Base64.DEFAULT);
+                    java.io.File file = new java.io.File(appContext.getFilesDir(),
+                            "profile_remote_" + normalized.replaceAll("[^0-9]", "") + ".jpg");
+                    java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
+                    fos.write(bytes);
+                    fos.flush();
+                    fos.close();
+                    session.saveProfileImage(normalized, file.getAbsolutePath());
+                } catch (Exception ignored) {
+                    // Skip a malformed avatar; the rest still rehydrate.
+                }
+            }
+        });
+    }
+
+    /** Upload a member's avatar (base64) to the server so it survives reinstall. */
+    public void updateProfileImage(String memberId, String base64, MemberAddCallback callback) {
+        if (memberId == null || memberId.isEmpty()) {
+            if (callback != null) callback.onResult(false, "No member id");
+            return;
+        }
+        ApiService apiService = RetrofitClient.getClient(appContext).create(ApiService.class);
+        apiService.updateMember(memberId, MemberUpdateRequest.forProfileImage(base64))
+                .enqueue(new Callback<MemberEntity>() {
+                    @Override
+                    public void onResponse(Call<MemberEntity> call, Response<MemberEntity> response) {
+                        if (callback != null)
+                            callback.onResult(response.isSuccessful(),
+                                    response.isSuccessful() ? "Photo saved" : "Failed to save photo");
+                    }
+
+                    @Override
+                    public void onFailure(Call<MemberEntity> call, Throwable t) {
+                        if (callback != null)
+                            callback.onResult(false, "Network error: " + t.getMessage());
+                    }
+                });
     }
 
     public void updateMember(int position, Member member) {

@@ -41,8 +41,6 @@
                 android:text="Financial Analysis"
                 android:textColor="@color/v_text_dark"
                 android:textSize="@dimen/text_size_normal" />
-
-
         </RelativeLayout>
 
         <!-- SCROLLABLE CONTENT -->
@@ -60,13 +58,13 @@
                 android:orientation="vertical"
                 android:paddingBottom="32dp">
 
-                <!-- ===== HERO CARD: TOTAL PORTFOLIO LIQUIDITY ===== -->
+                <!-- ===== HERO CARD: TOTAL GROUP BALANCE ===== -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="4dp"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="6dp"
                     app:strokeWidth="0dp">
@@ -78,62 +76,36 @@
                         android:orientation="vertical"
                         android:padding="24dp">
 
-                        <!-- Label + subtitle -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:alpha="0.8"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.08"
+                            android:text="TOTAL GROUP BALANCE"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xs" />
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tvTotalLiquidity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="UGX 0"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xxxl"
+                            tools:text="UGX 45,200,000" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="TOTAL GROUP PAYMENTS"
-                                    android:textColor="@color/permanent_white"
-                                    android:textSize="@dimen/text_size_xs"
-                                    android:letterSpacing="0.08"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:alpha="0.8" />
-
-                                <TextView
-                                    android:id="@+id/tvTotalLiquidity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="6dp"
-                                    android:fontFamily="@font/poppins"
-                                    tools:text="UGX 45,200,000"
-                                    android:text="UGX 0"
-                                    android:textColor="@color/permanent_white"
-                                    android:textSize="@dimen/text_size_xxxl" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:alpha="0.75"
-                                    android:fontFamily="@font/montserrat"
-                                    android:text=""
-                                    android:textColor="@color/permanent_white"
-                                    android:textSize="@dimen/text_size_xs" />
-                            </LinearLayout>
-
-                            <!-- Progress Ring -->
-                            <com.google.android.material.progressindicator.CircularProgressIndicator
-                                android:id="@+id/progressLiquidity"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:progress="0"
-                                app:indicatorColor="@color/h_green_600"
-                                app:indicatorSize="56dp"
-                                app:trackColor="@color/v_input_bg"
-                                app:trackThickness="5dp" />
-                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:alpha="0.75"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Net pooled funds across the group"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xs" />
 
                         <!-- Divider -->
                         <View
@@ -190,9 +162,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ===== METRIC ROW: GROSS CONTRIBUTIONS ===== -->
-
-                <!-- ===== METRIC ROW 1: GROSS CONTRIBUTIONS ===== -->
+                <!-- ===== CONTRIBUTIONS (MONTH + YEAR) ===== -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -224,67 +194,175 @@
                                     android:layout_width="16dp"
                                     android:layout_height="16dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_people"
+                                    android:src="@drawable/ic_money_banknote"
                                     app:tint="@color/v_blue" />
                             </FrameLayout>
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:layout_marginStart="12dp"
                                 android:fontFamily="@font/poppins"
-                                android:text="GROSS CONTRIBUTIONS"
+                                android:letterSpacing="0.05"
+                                android:text="CONTRIBUTIONS THIS MONTH"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs"
-                                android:letterSpacing="0.05" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/tvGrossContributions"
+                            android:id="@+id/tvMonthlyContributions"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:fontFamily="@font/poppins"
-                            tools:text="UGX 38.4M"
                             android:text="UGX 0"
                             android:textColor="@color/v_text_dark"
-                            android:textSize="@dimen/text_size_xl" />
+                            android:textSize="@dimen/text_size_xl"
+                            tools:text="UGX 3.2M" />
 
                         <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/progressGross"
+                            android:id="@+id/progressMonthly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="14dp"
                             android:progress="0"
                             app:indicatorColor="@color/v_blue"
                             app:trackColor="@color/v_input_bg"
                             app:trackCornerRadius="4dp"
                             app:trackThickness="8dp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
 
-                <!-- ===== METRIC ROW 2: INTEREST EARNED ===== -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
+                        <TextView
+                            android:id="@+id/tvMonthlyTargetLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/montserrat"
+                            android:text="of monthly target"
+                            android:textColor="@color/v_text_muted"
+                            android:textSize="@dimen/text_size_xs" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/card_surface"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginVertical="14dp"
+                            android:background="@color/v_input_bg" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/montserrat"
+                                android:text="Year to date"
+                                android:textColor="@color/v_text_mid"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/tvYearlyContributions"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="UGX 0"
+                                android:textColor="@color/v_text_dark"
+                                android:textSize="@dimen/text_size_small"
+                                tools:text="UGX 38.4M" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== OUTSTANDING LOANS + INTEREST EARNED (2-COLUMN) ===== -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <!-- Outstanding Loans -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="2dp"
+                        app:strokeWidth="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/card_surface"
+                            android:orientation="vertical"
+                            android:padding="18dp">
+
+                            <FrameLayout
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_input_bg_circle"
+                                android:backgroundTint="@color/v_input_bg">
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_loan"
+                                    app:tint="@color/dashboard_accent_orange" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/poppins"
+                                android:letterSpacing="0.05"
+                                android:text="OUTSTANDING LOANS"
+                                android:textColor="@color/v_text_muted"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/tvOutstandingLoans"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:fontFamily="@font/poppins"
+                                android:text="UGX 0"
+                                android:textColor="@color/v_text_dark"
+                                android:textSize="@dimen/text_size_large"
+                                tools:text="UGX 8.1M" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/montserrat"
+                                android:text="Principal + interest due"
+                                android:textColor="@color/v_text_muted"
+                                android:textSize="@dimen/text_size_xs" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Interest Earned -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="2dp"
+                        app:strokeWidth="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/card_surface"
+                            android:orientation="vertical"
+                            android:padding="18dp">
 
                             <FrameLayout
                                 android:layout_width="32dp"
@@ -302,49 +380,37 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
+                                android:layout_marginTop="12dp"
                                 android:fontFamily="@font/poppins"
+                                android:letterSpacing="0.05"
                                 android:text="INTEREST EARNED"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs"
-                                android:letterSpacing="0.05" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:id="@+id/tvInterestEarned"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
                                 android:fontFamily="@font/poppins"
-                                tools:text="UGX 6.8M"
                                 android:text="UGX 0"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="@dimen/text_size_xl" />
+                                android:textSize="@dimen/text_size_large"
+                                tools:text="UGX 6.8M" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:background="@drawable/bg_badge_success"
-                                android:backgroundTint="#D1FAE5"
-                                android:fontFamily="@font/poppins"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="2dp"
-                                android:text=""
-                                android:visibility="gone"
-                                android:textColor="@color/h_green_600"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/montserrat"
+                                android:text="From group loans"
+                                android:textColor="@color/v_text_muted"
                                 android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
-                <!-- ===== METRIC ROW 3: CURRENT LIQUIDITY ===== -->
+                <!-- ===== CURRENT LIQUIDITY ===== -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardLiquiditySummary"
                     android:layout_width="match_parent"
@@ -361,7 +427,7 @@
                         android:background="@color/card_surface"
                         android:padding="20dp">
 
-                        <!-- THE ORANGE BOARD ON THE LEFT (Pill-shaped) -->
+                        <!-- Orange accent pill -->
                         <View
                             android:id="@+id/orangeBoard"
                             android:layout_width="4dp"
@@ -374,8 +440,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/orangeBoard"
                             android:layout_marginStart="16dp"
+                            android:layout_toEndOf="@id/orangeBoard"
                             android:orientation="vertical">
 
                             <LinearLayout
@@ -393,19 +459,20 @@
                                         android:layout_width="16dp"
                                         android:layout_height="16dp"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/ic_trending_up"
+                                        android:src="@drawable/ic_wallet_safe_blue"
                                         app:tint="@color/dashboard_accent_orange" />
                                 </FrameLayout>
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:layout_marginStart="12dp"
                                     android:fontFamily="@font/poppins"
-                                    android:text="CURRENT LIQUIDITY"
+                                    android:letterSpacing="0.05"
+                                    android:text="AVAILABLE LIQUIDITY"
                                     android:textColor="@color/v_text_muted"
-                                    android:textSize="@dimen/text_size_xs"
-                                    android:letterSpacing="0.05" />
+                                    android:textSize="@dimen/text_size_xs" />
                             </LinearLayout>
 
                             <TextView
@@ -414,430 +481,21 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="@font/poppins"
-                                tools:text="UGX 12.2M"
                                 android:text="UGX 0"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="@dimen/text_size_xl" />
+                                android:textSize="@dimen/text_size_xl"
+                                tools:text="UGX 12.2M" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="@font/montserrat"
-                                android:text="Available for immediate disbursement"
+                                android:text="Balance available for disbursement"
                                 android:textColor="@color/v_text_muted"
                                 android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
                     </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- ===== GROUP HEALTH INDEX ===== -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="14dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/card_surface"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <!-- Header Row -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins"
-                                    android:text="Group Health Index"
-                                    android:textColor="@color/v_text_dark"
-                                    android:textSize="@dimen/text_size_small" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/montserrat"
-                                    android:text="Stability &amp; Compliance Score"
-                                    android:textColor="@color/v_text_muted"
-                                    android:textSize="@dimen/text_size_xs" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tvHealthScore"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins"
-                                    android:text="0%"
-                                    android:textColor="@color/h_green_600"
-                                    android:textSize="@dimen/text_size_xxl" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/bg_badge_success"
-                                    android:backgroundTint="@color/h_green_100"
-                                    android:fontFamily="@font/poppins"
-                                    android:paddingHorizontal="10dp"
-                                    android:paddingVertical="3dp"
-                                    android:text=""
-                                    android:visibility="gone"
-                                    android:textColor="@color/h_green_600"
-                                    android:textSize="@dimen/text_size_xs"
-                                    android:letterSpacing="0.1" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <!-- Divider -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginVertical="16dp"
-                            android:background="@color/v_input_bg" />
-
-                        <!-- Contribution Consistency Row -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/montserrat"
-                                android:text="Contribution Consistency"
-                                android:textColor="@color/v_text_mid"
-                                android:textSize="@dimen/text_size_xs" />
-
-                            <TextView
-                                android:id="@+id/tvConsistencyPct"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins"
-                                android:text="0%"
-                                android:textColor="@color/v_blue"
-                                android:textSize="@dimen/text_size_xs" />
-                        </LinearLayout>
-
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/progressConsistency"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="14dp"
-                            android:progress="0"
-                            app:indicatorColor="@color/v_blue"
-                            app:trackColor="@color/v_input_bg"
-                            app:trackCornerRadius="4dp"
-                            app:trackThickness="8dp" />
-
-                        <!-- Risk Mitigation Row -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/montserrat"
-                                android:text="Risk Mitigation Level"
-                                android:textColor="@color/v_text_mid"
-                                android:textSize="@dimen/text_size_xs" />
-
-                            <TextView
-                                android:id="@+id/tvRiskPct"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins"
-                                android:text="0%"
-                                android:textColor="@color/dashboard_accent_orange"
-                                android:textSize="@dimen/text_size_xs" />
-                        </LinearLayout>
-
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/progressRisk"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="14dp"
-                            android:progress="0"
-                            app:indicatorColor="@color/dashboard_accent_orange"
-                            app:trackColor="@color/v_input_bg"
-                            app:trackCornerRadius="4dp"
-                            app:trackThickness="8dp" />
-
-                        <!-- Reserve Ratio Row -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/montserrat"
-                                android:text="Reserve Ratio"
-                                android:textColor="@color/v_text_mid"
-                                android:textSize="@dimen/text_size_xs" />
-
-                            <TextView
-                                android:id="@+id/tvReservePct"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins"
-                                android:text="0%"
-                                android:textColor="@color/h_green_600"
-                                android:textSize="@dimen/text_size_xs" />
-                        </LinearLayout>
-
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/progressReserve"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="14dp"
-                            android:progress="0"
-                            app:indicatorColor="@color/dashboard_accent_green"
-                            app:trackColor="@color/v_input_bg"
-                            app:trackCornerRadius="4dp"
-                            app:trackThickness="8dp" />
-
-                        <!-- Analysis Text -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/v_page_bg"
-                            android:fontFamily="@font/montserrat"
-                            android:text=""
-                            android:visibility="gone"
-                            android:textColor="@color/v_text_mid"
-                            android:textSize="@dimen/text_size_xs"
-                            android:padding="12dp"
-                            android:lineSpacingMultiplier="1.4" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- ===== STRATEGIC INSIGHTS (FORECAST CHART) ===== -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="14dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/card_surface"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins"
-                            android:text="Strategic Insights"
-                            android:textColor="@color/v_text_dark"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="@font/montserrat"
-                            android:text="QUARTERLY FORECAST"
-                            android:textColor="@color/v_text_muted"
-                            android:textSize="@dimen/text_size_xs"
-                            android:letterSpacing="0.08" />
-
-                        <!-- Forecast Bar Chart -->
-                        <com.github.mikephil.charting.charts.BarChart
-                            android:id="@+id/forecastChart"
-                            android:layout_width="match_parent"
-                            android:layout_height="140dp"
-                            android:layout_marginTop="16dp" />
-
-                        <!-- Labels -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="4dp">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:fontFamily="@font/montserrat"
-                                android:text="Current"
-                                android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:fontFamily="@font/montserrat"
-                                android:text="Month 1"
-                                android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:fontFamily="@font/montserrat"
-                                android:text="Month 2"
-                                android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:fontFamily="@font/montserrat"
-                                android:text="Month 3"
-                                android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:fontFamily="@font/montserrat"
-                                android:text="Forecast"
-                                android:textColor="@color/v_blue"
-                                android:textSize="@dimen/text_size_xs" />
-                        </LinearLayout>
-
-                        <!-- Divider -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginVertical="16dp"
-                            android:background="@color/v_input_bg"
-                            android:visibility="gone" />
-
-                        <!-- Growth Accelerator Insight -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="top"
-                            android:orientation="horizontal"
-                            android:visibility="gone">
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:layout_marginTop="2dp"
-                                android:layout_marginEnd="12dp"
-                                android:src="@drawable/ic_trending_up"
-                                app:tint="@color/dashboard_accent_orange" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins"
-                                    android:text="Growth Accelerator"
-                                    android:textColor="@color/v_text_dark"
-                                    android:textSize="@dimen/text_size_xs" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:fontFamily="@font/montserrat"
-                                    android:text=""
-                                    android:textColor="@color/v_text_mid"
-                                    android:textSize="@dimen/text_size_xs"
-                                    android:lineSpacingMultiplier="1.2" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <!-- Yield Optimization Insight -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:gravity="top"
-                            android:orientation="horizontal"
-                            android:visibility="gone">
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:layout_marginTop="2dp"
-                                android:layout_marginEnd="12dp"
-                                android:src="@drawable/ic_check_circle"
-                                app:tint="@color/brand_blue" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins"
-                                    android:text="Yield Optimization"
-                                    android:textColor="@color/v_text_dark"
-                                    android:textSize="@dimen/text_size_xs" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:fontFamily="@font/montserrat"
-                                    android:text=""
-                                    android:textColor="@color/v_text_mid"
-                                    android:textSize="@dimen/text_size_xs"
-                                    android:lineSpacingMultiplier="1.2" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- ===== MEMBER PERFORMANCE SUMMARY ===== -->
@@ -870,7 +528,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/poppins"
-                                android:text="Member Performance Summary"
+                                android:text="Top Contributors"
                                 android:textColor="@color/v_text_dark"
                                 android:textSize="@dimen/text_size_small" />
 
@@ -898,10 +556,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:fontFamily="@font/montserrat"
-                                android:text="ENTITY"
+                                android:letterSpacing="0.08"
+                                android:text="MEMBER"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs"
-                                android:letterSpacing="0.08" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -909,10 +567,10 @@
                                 android:layout_weight="2"
                                 android:fontFamily="@font/montserrat"
                                 android:gravity="center"
-                                android:text="EFFICIENCY RATE"
+                                android:letterSpacing="0.06"
+                                android:text="TARGET MET"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs"
-                                android:letterSpacing="0.06" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -932,7 +590,6 @@
                             android:layout_marginVertical="10dp"
                             android:background="@color/v_input_bg" />
 
-                        <!-- Member Performance RecyclerView -->
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvMemberPerformance"
                             android:layout_width="match_parent"
@@ -941,35 +598,35 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ===== PAYOUT PERFORMANCE CARD ===== -->
+                <!-- ===== PAYOUT PERFORMANCE LINK ===== -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardPayoutPerformance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="14dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="0dp"
                     app:strokeColor="@color/divider_color"
-                    app:strokeWidth="1.5dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    app:strokeWidth="1.5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/card_surface"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="20dp"
-                        android:gravity="center_vertical">
+                        android:padding="20dp">
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="56dp"
                             android:layout_height="56dp"
+                            app:cardBackgroundColor="@color/v_page_bg"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="0dp"
-                            app:cardBackgroundColor="@color/v_page_bg"
                             app:strokeColor="@color/v_text_muted"
                             app:strokeWidth="1dp">
                             <ImageView
@@ -991,20 +648,20 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
-                                android:text="Payout Performance"
+                                android:letterSpacing="-0.01"
+                                android:text="Payout History"
                                 android:textColor="@color/v_text_dark"
-                                android:textSize="@dimen/text_size_normal"
-                                android:letterSpacing="-0.01"/>
+                                android:textSize="@dimen/text_size_normal" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="3dp"
                                 android:fontFamily="@font/montserrat"
-                                android:text="Audit and track automated disbursements"
+                                android:lineSpacingMultiplier="1.2"
+                                android:text="Audit and track member disbursements"
                                 android:textColor="@color/v_text_mid"
-                                android:textSize="@dimen/text_size_xs"
-                                android:lineSpacingMultiplier="1.2" />
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
 
                         <FrameLayout
@@ -1058,7 +715,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins"
-                                    android:text="Transactional Ledger"
+                                    android:text="Recent Transactions"
                                     android:textColor="@color/v_text_dark"
                                     android:textSize="@dimen/text_size_small" />
 
@@ -1066,55 +723,28 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/montserrat"
-                                    android:text="Real-time smart and active top-log entry"
+                                    android:text="Latest group money movements"
                                     android:textColor="@color/v_text_muted"
                                     android:textSize="@dimen/text_size_xs" />
                             </LinearLayout>
 
-                            <!-- Filter + Fullfill buttons -->
-                            <LinearLayout
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnFullLog"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/btnFilter"
-                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="34dp"
-                                    android:layout_marginEnd="6dp"
-                                    android:fontFamily="@font/poppins"
-                                    android:insetTop="0dp"
-                                    android:insetBottom="0dp"
-                                    android:text="Filter"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/v_text_mid"
-                                    android:textSize="@dimen/text_size_xs"
-                                    app:cornerRadius="8dp"
-                                    app:icon="@drawable/ic_filter"
-                                    app:iconSize="14dp"
-                                    app:iconTint="@color/v_text_mid"
-                                    app:strokeColor="#E2E8F0" />
-
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/btnFullLog"
-                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="34dp"
-                                    android:fontFamily="@font/poppins"
-                                    android:insetTop="0dp"
-                                    android:insetBottom="0dp"
-                                    android:text="Full log"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/v_text_mid"
-                                    android:textSize="@dimen/text_size_xs"
-                                    app:cornerRadius="8dp"
-                                    app:icon="@drawable/ic_history"
-                                    app:iconSize="14dp"
-                                    app:iconTint="@color/v_text_mid"
-                                    app:strokeColor="#E2E8F0" />
-                            </LinearLayout>
+                                android:layout_height="34dp"
+                                android:fontFamily="@font/poppins"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:text="Full log"
+                                android:textAllCaps="false"
+                                android:textColor="@color/v_text_mid"
+                                android:textSize="@dimen/text_size_xs"
+                                app:cornerRadius="8dp"
+                                app:icon="@drawable/ic_history"
+                                app:iconSize="14dp"
+                                app:iconTint="@color/v_text_mid"
+                                app:strokeColor="#E2E8F0" />
                         </LinearLayout>
 
                         <!-- Column Headers -->
@@ -1129,10 +759,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:fontFamily="@font/montserrat"
-                                android:text="TRANSACTION ENTITY"
+                                android:letterSpacing="0.06"
+                                android:text="MEMBER / REF"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs"
-                                android:letterSpacing="0.06" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -1140,10 +770,10 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/montserrat"
                                 android:gravity="center"
-                                android:text="CLASSIFICATION"
+                                android:letterSpacing="0.04"
+                                android:text="TYPE"
                                 android:textColor="@color/v_text_muted"
-                                android:textSize="@dimen/text_size_xs"
-                                android:letterSpacing="0.04" />
+                                android:textSize="@dimen/text_size_xs" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -1151,7 +781,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/montserrat"
                                 android:gravity="end"
-                                android:text="AMNT"
+                                android:text="AMOUNT"
                                 android:textColor="@color/v_text_muted"
                                 android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
@@ -1163,7 +793,6 @@
                             android:layout_marginVertical="10dp"
                             android:background="@color/v_input_bg" />
 
-                        <!-- Transactions RecyclerView -->
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvTransactionalLedger"
                             android:layout_width="match_parent"

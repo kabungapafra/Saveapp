@@ -1,285 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/v_page_bg">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- Gradient hero header -->
+    <FrameLayout
+        android:id="@+id/heroHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:liftOnScroll="false"
-        app:elevation="0dp">
+        android:layout_height="0dp"
+        android:background="@drawable/bg_signup_header_gradient"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_percent="0.38">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            app:contentInsetStart="0dp">
+        <!-- Decorative glow circle top-right -->
+        <View
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="-60dp"
+            android:layout_marginEnd="-60dp"
+            android:alpha="0.08"
+            android:background="@drawable/bg_avatar_circle"
+            android:backgroundTint="#FFFFFF" />
 
-            <ImageButton
-                android:id="@+id/btnBack"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Back"
-                android:src="@drawable/ic_arrow_back"
-                app:tint="@color/black" />
+        <!-- Decorative glow circle bottom-left -->
+        <View
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="start|bottom"
+            android:layout_marginStart="-40dp"
+            android:layout_marginBottom="-40dp"
+            android:alpha="0.06"
+            android:background="@drawable/bg_avatar_circle"
+            android:backgroundTint="#FFFFFF" />
+
+        <!-- Back button -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start|top"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/bg_avatar_circle"
+            android:backgroundTint="#22FFFFFF"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="#FFFFFF" />
+
+        <!-- Logo + title centred -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/logoImage"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/save_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/manrope_bold"
+                android:letterSpacing="0.02"
                 android:text="Create Account"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold" />
+                android:textColor="#FFFFFF"
+                android:textSize="26sp" />
 
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/manrope_medium"
+                android:text="Set up your admin profile to get started"
+                android:textColor="#90AECF"
+                android:textSize="13sp" />
 
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- Scrollable form -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="32dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/heroHeader"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:id="@+id/loginCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="28dp">
 
-            <!-- Logo — glow layer sits behind the image -->
+            <!-- Full Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Full Name"
+                android:textColor="@color/v_text_dark"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/adminNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_signup_input"
+                android:fontFamily="@font/manrope_medium"
+                android:hint="John Doe"
+                android:inputType="textPersonName"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/v_text_dark"
+                android:textColorHint="@color/v_text_muted"
+                android:textSize="15sp" />
+
+            <!-- Phone Number -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Phone Number"
+                android:textColor="@color/v_text_dark"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/phoneInput"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_signup_input"
+                android:fontFamily="@font/manrope_medium"
+                android:hint="+256 7XX XXX XXX"
+                android:inputType="phone"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/v_text_dark"
+                android:textColorHint="@color/v_text_muted"
+                android:textSize="15sp" />
+
+            <!-- PIN -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="PIN (4 digits)"
+                android:textColor="@color/v_text_dark"
+                android:textSize="13sp" />
+
             <FrameLayout
-                android:id="@+id/logoContainer"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="0dp">
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_signup_input">
 
-                <View
-                    android:id="@+id/logoGlow"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_logo_glow"
-                    android:alpha="0.7" />
+                <EditText
+                    android:id="@+id/passwordInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="48dp"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_medium"
+                    android:hint="● ● ● ●"
+                    android:inputType="numberPassword"
+                    android:maxLength="4"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/v_text_dark"
+                    android:textColorHint="@color/v_text_muted"
+                    android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/logoImage"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/app_logo"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/save_logo" />
+                    android:id="@+id/passwordToggle"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="14dp"
+                    android:src="@drawable/ic_visibility_off"
+                    app:tint="@color/v_text_muted" />
             </FrameLayout>
 
+            <!-- Confirm PIN -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="Create Account"
-                android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_size_xxxl"
-                android:textStyle="bold" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Confirm PIN"
+                android:textColor="@color/v_text_dark"
+                android:textSize="13sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Start your journey with Save"
-                android:textColor="@color/v_text_muted"
-                android:textSize="@dimen/text_size_small" />
-
-            <!-- Input Fields -->
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Full Name"
-                    android:textColor="@color/text_primary"
-                    android:textSize="@dimen/text_size_xs"
-                    android:textStyle="bold" />
+                android:layout_height="56dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/bg_signup_input">
 
                 <EditText
-                    android:id="@+id/adminNameInput"
+                    android:id="@+id/confirmPasswordInput"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/bg_signup_input"
-                    android:hint="John Doe"
-                    android:inputType="textPersonName"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="48dp"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_medium"
+                    android:hint="● ● ● ●"
+                    android:inputType="numberPassword"
+                    android:maxLength="4"
                     android:paddingHorizontal="16dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#BDBDBD"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textColor="@color/v_text_dark"
+                    android:textColorHint="@color/v_text_muted"
+                    android:textSize="16sp" />
 
+                <ImageView
+                    android:id="@+id/confirmPasswordToggle"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="14dp"
+                    android:src="@drawable/ic_visibility_off"
+                    app:tint="@color/v_text_muted" />
+            </FrameLayout>
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Phone Number"
-                    android:textColor="@color/text_primary"
-                    android:textSize="@dimen/text_size_xs"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/phoneInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/bg_signup_input"
-                    android:hint="+256 7XX XXX XXX"
-                    android:inputType="phone"
-                    android:paddingHorizontal="16dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#BDBDBD"
-                    android:textSize="@dimen/text_size_small" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="PIN"
-                    android:textColor="@color/text_primary"
-                    android:textSize="@dimen/text_size_xs"
-                    android:textStyle="bold" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/passwordInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_signup_input"
-                        android:hint="● ● ● ●"
-                        android:inputType="numberPassword"
-                        android:maxLength="4"
-                        android:paddingHorizontal="16dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="#BDBDBD"
-                        android:textSize="16sp" />
-
-                    <ImageView
-                        android:id="@+id/passwordToggle"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:src="@drawable/ic_visibility"
-                        app:tint="@color/v_text_muted" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Confirm PIN"
-                    android:textColor="@color/text_primary"
-                    android:textSize="@dimen/text_size_xs"
-                    android:textStyle="bold" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/confirmPasswordInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_signup_input"
-                        android:hint="● ● ● ●"
-                        android:inputType="numberPassword"
-                        android:maxLength="4"
-                        android:paddingHorizontal="16dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="#BDBDBD"
-                        android:textSize="16sp" />
-
-                    <ImageView
-                        android:id="@+id/confirmPasswordToggle"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:src="@drawable/ic_visibility"
-                        app:tint="@color/v_text_muted" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <!-- Signup Button -->
+            <!-- Next button -->
             <Button
                 android:id="@+id/signupButton"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="48dp"
+                android:layout_height="56dp"
                 android:background="@drawable/bg_signup_button"
                 app:backgroundTint="@null"
-                android:text="Next"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Next →"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_medium"
                     android:text="Already have an account? "
                     android:textColor="@color/v_text_muted"
-                    android:textSize="@dimen/text_size_xs" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/alreadyHaveAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
                     android:text="Sign In"
                     android:textColor="@color/brand_blue"
-                    android:textSize="@dimen/text_size_xs"
-                    android:textStyle="bold" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Placeholder for old components to maintain binding if needed, though we will clean up the Java -->
-            <EditText android:id="@+id/companyInput" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" tools:ignore="MissingConstraints" />
+            <!-- Hidden stubs for binding compatibility -->
+            <EditText android:id="@+id/companyInput" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
             <View android:id="@+id/sideTabContainer" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Fragment Container (for OTP) -->
+    <!-- Fragment container for OTP -->
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

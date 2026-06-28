@@ -76,7 +76,7 @@
 
         <activity
             android:name=".ui.activities.NavigationTestingActivity"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.Save" />
 
         <activity

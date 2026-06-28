@@ -1,45 +1,50 @@
 package com.example.save.ui.adapters;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.save.R;
-import com.example.save.data.models.Member;
+import com.example.save.data.models.PayoutQueueEntry;
 import com.example.save.utils.SessionManager;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * Consolidated adapter for the payout queue (upcoming and full queue)
- */
 public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.QueueViewHolder> {
-    private List<Member> members;
+
+    private List<PayoutQueueEntry> entries;
     private double payoutAmount;
-    private String basePayoutDate;
+    private boolean isAdmin;
+    private ItemTouchHelper touchHelper;
 
-    public PayoutQueueAdapter(List<Member> members) {
-        this.members = members;
-        this.payoutAmount = 0.0;
-        this.basePayoutDate = "TBD";
+    public interface OnReorderListener {
+        void onReordered(List<PayoutQueueEntry> newOrder);
     }
 
-    public PayoutQueueAdapter(List<Member> members, double payoutAmount, String basePayoutDate) {
-        this.members = members;
+    private OnReorderListener reorderListener;
+
+    public PayoutQueueAdapter(List<PayoutQueueEntry> entries, double payoutAmount, boolean isAdmin) {
+        this.entries = entries != null ? entries : new ArrayList<>();
         this.payoutAmount = payoutAmount;
-        this.basePayoutDate = basePayoutDate;
+        this.isAdmin = isAdmin;
     }
 
-    public PayoutQueueAdapter(List<Member> members, boolean isFullQueue, double payoutAmount, String basePayoutDate) {
-        this.members = members;
-        this.payoutAmount = payoutAmount;
-        this.basePayoutDate = basePayoutDate;
+    public void setTouchHelper(ItemTouchHelper helper) {
+        this.touchHelper = helper;
+    }
+
+    public void setOnReorderListener(OnReorderListener listener) {
+        this.reorderListener = listener;
     }
 
     public void setPayoutAmount(double payoutAmount) {
@@ -47,15 +52,30 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
         notifyDataSetChanged();
     }
 
-    public void updateList(List<Member> newList) {
-        this.members = newList;
+    public void updateEntries(List<PayoutQueueEntry> newEntries) {
+        this.entries = newEntries != null ? newEntries : new ArrayList<>();
         notifyDataSetChanged();
     }
 
-    public void updateList(List<Member> newList, String basePayoutDate) {
-        this.members = newList;
-        this.basePayoutDate = basePayoutDate;
-        notifyDataSetChanged();
+    public List<PayoutQueueEntry> getEntries() {
+        return entries;
+    }
+
+    public void onItemMoved(int from, int to) {
+        if (from < to) {
+            for (int i = from; i < to; i++) Collections.swap(entries, i, i + 1);
+        } else {
+            for (int i = from; i > to; i--) Collections.swap(entries, i, i - 1);
+        }
+        notifyItemMoved(from, to);
+    }
+
+    public void onDropFinished() {
+        // Reassign positions 1..N
+        for (int i = 0; i < entries.size(); i++) {
+            entries.get(i).setPosition(i + 1);
+        }
+        if (reorderListener != null) reorderListener.onReordered(new ArrayList<>(entries));
     }
 
     @NonNull
@@ -65,25 +85,14 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
         return new QueueViewHolder(v);
     }
 
-    private OnItemClickListener listener;
-
-    public interface OnItemClickListener {
-        void onItemClick(Member member);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
     @Override
     public void onBindViewHolder(@NonNull QueueViewHolder holder, int position) {
-        Member member = members.get(position);
-        boolean paid = member.hasReceivedPayout();
+        PayoutQueueEntry entry = entries.get(position);
+        boolean paid = entry.hasReceivedPayout();
 
-        // Avatar: photo if saved for this member's phone, else initials
-        String name = member.getName() != null ? member.getName() : "?";
+        String name = entry.getMemberName() != null ? entry.getMemberName() : "?";
         android.content.Context ctx = holder.itemView.getContext();
-        String photoPath = SessionManager.getInstance(ctx).getProfileImage(member.getPhone());
+        String photoPath = SessionManager.getInstance(ctx).getProfileImage(entry.getMemberPhone());
 
         if (photoPath != null && !photoPath.isEmpty()) {
             holder.avatarInitials.setVisibility(View.GONE);
@@ -106,97 +115,75 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
             } else {
                 holder.avatarInitials.setBackgroundTintList(
                         android.content.res.ColorStateList.valueOf(0xFFE8F4FD));
-                holder.avatarInitials.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), com.example.save.R.color.dashboard_text_primary));
+                holder.avatarInitials.setTextColor(
+                        androidx.core.content.ContextCompat.getColor(ctx, R.color.dashboard_text_primary));
             }
         }
 
+        holder.paidBadge.setVisibility(paid ? View.VISIBLE : View.GONE);
         holder.title.setText(name);
 
         if (paid) {
-            holder.subtitle.setText("Paid on: " + member.getPayoutDate());
-            holder.amount.setText("Paid");
-            holder.amount.setTextColor(0xFF2E7D32);
+            String when = entry.getActualPayoutDate() != null ? formatShortDate(entry.getActualPayoutDate()) : "Done";
+            holder.subtitle.setText("Paid on: " + when);
+            holder.amount.setText("Received");
+            holder.amount.setTextColor(0xFF10B981);
         } else {
-            holder.subtitle.setText("Receiving: " + calculatePayoutDate(position, holder.itemView.getContext()));
+            holder.subtitle.setText("Score: " + (int) entry.getCreditScore());
             String amtStr = "UGX " + java.text.NumberFormat.getIntegerInstance().format(payoutAmount);
             holder.amount.setText(amtStr);
-            holder.amount.setTextColor(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), com.example.save.R.color.dashboard_text_primary));
+            holder.amount.setTextColor(
+                    androidx.core.content.ContextCompat.getColor(ctx, R.color.dashboard_text_primary));
         }
 
-        holder.divider.setVisibility(position == members.size() - 1 ? View.GONE : View.VISIBLE);
+        // Show drag handle only for admins on unpaid items
+        if (isAdmin && !paid) {
+            holder.dragHandle.setVisibility(View.VISIBLE);
+            holder.dragHandle.setOnTouchListener((v, event) -> {
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN && touchHelper != null) {
+                    touchHelper.startDrag(holder);
+                }
+                return false;
+            });
+        } else {
+            holder.dragHandle.setVisibility(View.GONE);
+        }
 
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) listener.onItemClick(member);
-        });
+        holder.divider.setVisibility(position == entries.size() - 1 ? View.GONE : View.VISIBLE);
     }
 
-    private String calculatePayoutDate(int position, android.content.Context context) {
-        if (basePayoutDate == null || basePayoutDate.isEmpty() || basePayoutDate.contains("Not")
-                || basePayoutDate.equals("TBD")) {
-            return "TBD";
-        }
-        
-        android.content.SharedPreferences prefs = context.getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
-        String frequency = prefs.getString("rule_frequency", "Monthly");
-        String recipientsStr = prefs.getString("rule_edit_recipients", "1 Member").replaceAll("[^0-9]", "");
-        int recipients = 1;
+    private String formatShortDate(String iso) {
         try {
-            recipients = Integer.parseInt(recipientsStr);
-            if (recipients < 1) recipients = 1;
-        } catch (NumberFormatException e) {
-            recipients = 1;
-        }
-
-        int cyclesToAdd = position / recipients;
-
-        if (cyclesToAdd == 0) return basePayoutDate;
-
-        try {
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault());
-            java.util.Date date = sdf.parse(basePayoutDate);
-            if (date == null) return basePayoutDate;
-
-            java.util.Calendar cal = java.util.Calendar.getInstance();
-            cal.setTime(date);
-
-            for (int i = 0; i < cyclesToAdd; i++) {
-                switch (frequency) {
-                    case "Daily": cal.add(java.util.Calendar.DAY_OF_YEAR, 1); break;
-                    case "Weekly": cal.add(java.util.Calendar.WEEK_OF_YEAR, 1); break;
-                    case "Bi-weekly": cal.add(java.util.Calendar.WEEK_OF_YEAR, 2); break;
-                    case "Monthly": cal.add(java.util.Calendar.MONTH, 1); break;
-                    case "Every 2 Months": cal.add(java.util.Calendar.MONTH, 2); break;
-                    case "Every 3 Months": cal.add(java.util.Calendar.MONTH, 3); break;
-                    case "Every 4 Months": cal.add(java.util.Calendar.MONTH, 4); break;
-                    case "Every 5 Months": cal.add(java.util.Calendar.MONTH, 5); break;
-                    case "Every 6 Months": cal.add(java.util.Calendar.MONTH, 6); break;
-                }
-            }
-
-            return sdf.format(cal.getTime());
+            java.text.SimpleDateFormat in = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", java.util.Locale.US);
+            in.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+            java.util.Date d = in.parse(iso);
+            if (d == null) return iso.substring(0, 10);
+            java.text.SimpleDateFormat out = new java.text.SimpleDateFormat("MMM d", java.util.Locale.US);
+            return out.format(d);
         } catch (Exception e) {
-            return basePayoutDate;
+            return iso.length() >= 10 ? iso.substring(0, 10) : iso;
         }
     }
 
     @Override
     public int getItemCount() {
-        return members.size();
+        return entries.size();
     }
 
     static class QueueViewHolder extends RecyclerView.ViewHolder {
-        TextView avatarInitials;
-        ImageView avatarPhoto;
-        TextView title, subtitle, amount;
+        TextView avatarInitials, title, subtitle, amount;
+        ImageView avatarPhoto, paidBadge, dragHandle;
         View divider;
 
         QueueViewHolder(@NonNull View v) {
             super(v);
             avatarInitials = v.findViewById(R.id.tvAvatarInitials);
             avatarPhoto    = v.findViewById(R.id.ivAvatarPhoto);
+            paidBadge      = v.findViewById(R.id.ivPaidBadge);
             title          = v.findViewById(R.id.tvRowTitle);
             subtitle       = v.findViewById(R.id.tvRowSubtitle);
             amount         = v.findViewById(R.id.tvRowAmount);
+            dragHandle     = v.findViewById(R.id.ivDragHandle);
             divider        = v.findViewById(R.id.viewRowDivider);
         }
     }

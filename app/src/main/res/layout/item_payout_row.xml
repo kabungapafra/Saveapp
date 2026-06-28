@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,6 +14,16 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp">
+
+        <!-- Drag handle (only visible for unpaid members when admin) -->
+        <ImageView
+            android:id="@+id/ivDragHandle"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_drag_handle"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
 
         <!-- Avatar: photo when available, initials otherwise -->
         <FrameLayout
@@ -37,9 +48,20 @@
                 android:scaleType="centerCrop"
                 android:visibility="gone"
                 tools:ignore="ContentDescription" />
+
+            <!-- Paid checkmark overlay -->
+            <ImageView
+                android:id="@+id/ivPaidBadge"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/ic_check_circle"
+                app:tint="#10B981"
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
         </FrameLayout>
 
-        <!-- Name + date -->
+        <!-- Name + status -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -69,12 +91,12 @@
                 tools:text="Receiving: Jul 15, 2026" />
         </LinearLayout>
 
-        <!-- Amount -->
+        <!-- Status / Amount -->
         <TextView
             android:id="@+id/tvRowAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="@color/dashboard_text_primary"
             tools:text="UGX 1,200,000" />
@@ -84,7 +106,8 @@
     <View
         android:id="@+id/viewRowDivider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="68dp"
         android:background="#F2F4F7" />
 
 </LinearLayout>

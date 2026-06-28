@@ -58,6 +58,7 @@ public class AdminMainActivity extends BaseActivity {
 
         // Security Check: If it's the first login, force password change redirect
         com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(this);
+        session.saveBackgroundTime(0);
         if (session.isFirstLogin()) {
             Intent intent = new Intent(this, ResetPasswordActivity.class);
             intent.putExtra("phone", session.getUserPhone());
@@ -129,6 +130,9 @@ public class AdminMainActivity extends BaseActivity {
     private void setupRefreshLayout() {
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.brand_blue);
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white);
+        // Only enabled when the dashboard is active; disabled for all other fragments
+        // to prevent scroll interception on scrollable screens like GroupSettings.
+        binding.swipeRefreshLayout.setEnabled(true);
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
             binding.swipeRefreshLayout.postDelayed(() -> {
@@ -178,6 +182,8 @@ public class AdminMainActivity extends BaseActivity {
 
     private void syncNavUI() {
         Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        boolean isDashboard = frag instanceof AdminDashboardFragment;
+        binding.swipeRefreshLayout.setEnabled(isDashboard);
         if (frag instanceof AdminDashboardFragment) {
             updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.pillDashboard);
             setBottomNavVisible(true);

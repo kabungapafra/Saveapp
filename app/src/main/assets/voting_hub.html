@@ -16,9 +16,11 @@
             --page-bg:        #F8F9FB;
             --milestone-bg:   #F1F4F9;
             --shadow-sm:      0 2px 12px rgba(0,0,0,0.05);
+            --shadow-hover:   0 8px 28px rgba(0,0,0,0.10);
             --radius-card:    24px;
             --pill-bg:        #FFFFFF;
             --prog-track-bg:  #E2E8F0;
+            --transition:     0.2s ease;
         }
 
         [data-theme="dark"] {
@@ -31,6 +33,7 @@
             --page-bg:        #030712;
             --milestone-bg:   #1F2937;
             --shadow-sm:      0 2px 12px rgba(0,0,0,0.4);
+            --shadow-hover:   0 8px 28px rgba(0,0,0,0.5);
             --pill-bg:        #374151;
             --prog-track-bg:  #374151;
         }
@@ -40,7 +43,6 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         body {
@@ -52,12 +54,13 @@
             position: relative;
             user-select: none;
             overflow-x: hidden;
-            padding-bottom: 100px; /* Safe area for bottom navigation bar clearance */
+            padding-bottom: 100px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* [B] HEADER */
         .header {
-            padding: 72px 24px 24px;   /* Increased top padding for back arrow clearance */
+            padding: 72px 24px 24px;
             opacity: 0;
             transform: translateY(16px);
             animation: staggerEntrance 300ms ease-out forwards;
@@ -65,7 +68,7 @@
             justify-content: space-between;
             align-items: flex-start;
         }
-        
+
         .title {
             font-size: 36px;
             font-weight: 800;
@@ -80,8 +83,9 @@
             line-height: 1.5;
         }
 
-        /* [C] CARD 1 — CREATE NEW POLL */
+        /* [C] CARD 1 — CREATE NEW POLL (hidden by default; shown for admins only) */
         .card-large {
+            display: none;
             background: var(--card-bg);
             border-radius: var(--radius-card);
             padding: 28px;
@@ -90,6 +94,15 @@
             opacity: 0;
             transform: translateY(16px);
             animation: staggerEntrance 300ms ease-out 80ms forwards;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .card-large:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        .card-large:active {
+            transform: scale(0.98);
         }
         .btn-plus {
             width: 64px;
@@ -99,8 +112,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.35);
             margin-bottom: 24px;
+            transition: box-shadow var(--transition);
+        }
+        .card-large:hover .btn-plus {
+            box-shadow: 0 12px 28px rgba(37,99,235,0.45);
         }
         .card-large h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
         .card-large p { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; }
@@ -131,22 +148,29 @@
             padding: 24px 20px;
             box-shadow: var(--shadow-sm);
             position: relative;
-            overflow: hidden; /* Clips the accent bar correctly */
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
         }
-        
+        .split-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        .split-card:active {
+            transform: scale(0.97);
+        }
         .split-card.accented {
-            padding-left: 32px; /* Increased padding from thick bar */
+            padding-left: 32px;
         }
 
-        /* FINAL CORRECTED THICK ACCENT BAR */
         .card-accent-strip {
             position: absolute;
             left: 0;
             top: 0;
-            width: 7px; /* 7px thick as shown in crop */
+            width: 7px;
             height: 100%;
             background: var(--brown);
-            border-radius: 0 2px 2px 0; /* Match slight rounding on inner edge */
+            border-radius: 0 2px 2px 0;
         }
 
         .icon-box {
@@ -157,6 +181,10 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
+            transition: transform var(--transition);
+        }
+        .split-card:hover .icon-box {
+            transform: scale(1.08);
         }
         .bg-blue-soft { background: var(--blue-icon-bg); }
         .bg-brown-soft { background: var(--brown-icon-bg); }
@@ -202,7 +230,7 @@
         }
         .card-milestone h2 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
         .card-milestone p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
-        
+
         .prog-track {
             height: 8px;
             background: var(--prog-track-bg);
@@ -214,6 +242,7 @@
             width: 0%;
             height: 100%;
             background: var(--blue);
+            border-radius: 99px;
             transition: width 1s ease-out 600ms;
         }
         .prog-labels { display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; color: var(--text-muted); }
@@ -235,8 +264,8 @@
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes dotWave {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.6); opacity: 0.6; }
+            0%, 100% { transform: translateY(-50%) scale(1); opacity: 1; }
+            50% { transform: translateY(-50%) scale(1.6); opacity: 0.6; }
         }
     </style>
 </head>
@@ -247,10 +276,9 @@
             <h1 class="title">Voting Hub</h1>
             <p class="subtitle">Shape your group's future by participating in active polls and governance.</p>
         </div>
-        
     </div>
 
-    <div id="cardCreatePoll" class="card-large" onclick="if(window.Android) window.Android.onCreatePollClicked();" style="cursor: pointer;">
+    <div id="cardCreatePoll" class="card-large" onclick="if(window.Android) window.Android.onCreatePollClicked();">
         <div class="btn-plus">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </div>
@@ -262,21 +290,18 @@
     </div>
 
     <div class="split-row">
-        <div class="split-card" onclick="if(window.Android) window.Android.onActiveStandingsClicked();" style="cursor: pointer;">
+        <div class="split-card" onclick="if(window.Android) window.Android.onActiveStandingsClicked();">
             <div class="icon-box bg-blue-soft">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--blue)"><rect x="3" y="11" width="4" height="10" rx="1"></rect><rect x="10" y="5" width="4" height="16" rx="1"></rect><rect x="17" y="5" width="4" height="16" rx="1"></rect></svg>
             </div>
             <h3>Active Standings</h3>
             <p>View real-time tallies and current leaderboards.</p>
         </div>
-        
-        <div class="split-card accented" onclick="if(window.Android) window.Android.onCastVoteClicked();" style="cursor: pointer;">
-            <!-- RESTORED: FULL HEIGHT 7PX ACCENT BAR -->
+
+        <div class="split-card accented" onclick="if(window.Android) window.Android.onCastVoteClicked();">
             <div class="card-accent-strip"></div>
-            
             <div class="dot-indicator"></div>
             <div class="icon-box bg-brown-soft">
-                <!-- FINAL CORRECTED 2x2 GRID ICON -->
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--brown)">
                     <rect x="4" y="4" width="7" height="7" rx="1.5"></rect>
                     <rect x="13" y="4" width="7" height="7" rx="1.5"></rect>
@@ -313,16 +338,20 @@
     </div>
 
     <script>
-        window.onload = () => {
-            setTimeout(() => { document.getElementById('fill').style.width = '75%'; }, 100);
+        window.onload = function() {
+            setTimeout(function() {
+                var fill = document.getElementById('fill');
+                if (fill) fill.style.width = '75%';
+            }, 100);
         };
 
         function setRole(role) {
-            if (role === 'member') {
-                const card = document.getElementById('cardCreatePoll');
-                if (card) card.style.display = 'none';
+            var card = document.getElementById('cardCreatePoll');
+            if (role === 'admin' && card) {
+                card.style.display = 'block';
             }
         }
+
         // ── Android Theme Sync ──────────────────────────────────────
         function applyThemeFromAndroid() {
             var isDark = false;

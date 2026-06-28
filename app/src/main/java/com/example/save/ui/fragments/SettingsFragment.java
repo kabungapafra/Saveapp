@@ -38,9 +38,10 @@ public class SettingsFragment extends Fragment {
 
     private void applyRoleBasedVisibility() {
         if (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) {
-            // Hide Admin-specific items for Members
             binding.cardAutomation.setVisibility(View.GONE);
             binding.cardGeneral.setVisibility(View.GONE);
+            binding.dividerBeforeAnalysis.setVisibility(View.GONE);
+            binding.dividerBeforeGroupSettings.setVisibility(View.GONE);
             binding.badgeAdmin.setVisibility(View.GONE);
         }
     }
@@ -226,14 +227,14 @@ public class SettingsFragment extends Fragment {
     }
 
     private void startEntranceAnimations() {
-        binding.userHeroCard.setAlpha(0f);
-        binding.userHeroCard.setTranslationY(40f);
+        binding.headerContainer.setAlpha(0f);
+        binding.headerContainer.setTranslationY(40f);
         binding.statsStrip.setAlpha(0f);
         binding.statsStrip.setTranslationY(40f);
         binding.bodyContent.setAlpha(0f);
         binding.bodyContent.setTranslationY(40f);
 
-        binding.userHeroCard.animate().alpha(1f).translationY(0f).setDuration(400).setStartDelay(100).start();
+        binding.headerContainer.animate().alpha(1f).translationY(0f).setDuration(400).setStartDelay(100).start();
         binding.statsStrip.animate().alpha(1f).translationY(0f).setDuration(400).setStartDelay(200).start();
         binding.bodyContent.animate().alpha(1f).translationY(0f).setDuration(500).setStartDelay(300).start();
     }
@@ -247,12 +248,26 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Directly restore the nav bar — guaranteed to work regardless of syncNavUI timing
         if (getActivity() != null) {
             View navContainer = getActivity().findViewById(R.id.navContainer);
             if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
             View navAction = getActivity().findViewById(R.id.navAction);
             if (navAction != null) navAction.setVisibility(View.VISIBLE);
+            // Settings has no pull-to-refresh — disable so scroll-up doesn't trigger it
+            androidx.swiperefreshlayout.widget.SwipeRefreshLayout srl =
+                    getActivity().findViewById(R.id.swipeRefreshLayout);
+            if (srl != null) srl.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Re-enable pull-to-refresh for other fragments (e.g. Dashboard)
+        if (getActivity() != null) {
+            androidx.swiperefreshlayout.widget.SwipeRefreshLayout srl =
+                    getActivity().findViewById(R.id.swipeRefreshLayout);
+            if (srl != null) srl.setEnabled(true);
         }
     }
 

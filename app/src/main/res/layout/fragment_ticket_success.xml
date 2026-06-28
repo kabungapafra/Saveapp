@@ -1,291 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/v_page_bg">
+    android:background="#FFFFFF"
+    android:clipChildren="false">
 
-    <!-- Top Nav -->
-    <RelativeLayout
-        android:id="@+id/navBar"
+    <!-- CONFETTI -->
+    <FrameLayout
+        android:id="@+id/confettiContainer"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:paddingHorizontal="24dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:clipChildren="false">
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_arrow_left"
-            app:tint="@color/brand_blue" />
+        <View android:layout_width="18dp" android:layout_height="7dp" android:background="#EF4444" android:rotation="35" android:layout_gravity="top|start" android:layout_marginStart="28dp" android:layout_marginTop="52dp"/>
+        <View android:layout_width="10dp" android:layout_height="10dp" android:background="@drawable/shape_circle_blue" android:backgroundTint="#3B82F6" android:layout_gravity="top|start" android:layout_marginStart="95dp" android:layout_marginTop="22dp"/>
+        <View android:layout_width="14dp" android:layout_height="6dp" android:background="#06B6D4" android:rotation="-18" android:layout_gravity="top|start" android:layout_marginStart="14dp" android:layout_marginTop="95dp"/>
+        <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/shape_circle_blue" android:backgroundTint="#EC4899" android:layout_gravity="top|start" android:layout_marginStart="52dp" android:layout_marginTop="138dp"/>
+        <View android:layout_width="16dp" android:layout_height="6dp" android:background="#22C55E" android:rotation="22" android:layout_gravity="top|start" android:layout_marginStart="140dp" android:layout_marginTop="48dp"/>
+        <View android:layout_width="8dp" android:layout_height="8dp" android:background="@drawable/shape_circle_blue" android:backgroundTint="#EF4444" android:layout_gravity="top|start" android:layout_marginStart="175dp" android:layout_marginTop="18dp"/>
+        <View android:layout_width="10dp" android:layout_height="10dp" android:background="@drawable/shape_circle_blue" android:backgroundTint="#06B6D4" android:layout_gravity="top|start" android:layout_marginStart="22dp" android:layout_marginTop="190dp"/>
+
+        <View android:layout_width="18dp" android:layout_height="7dp" android:background="#3B82F6" android:rotation="-28" android:layout_gravity="top|end" android:layout_marginEnd="35dp" android:layout_marginTop="28dp"/>
+        <View android:layout_width="14dp" android:layout_height="14dp" android:background="@drawable/shape_circle_blue" android:backgroundTint="#EF4444" android:layout_gravity="top|end" android:layout_marginEnd="110dp" android:layout_marginTop="14dp"/>
+        <View android:layout_width="10dp" android:layout_height="10dp" android:background="@drawable/shape_circle_blue" android:backgroundTint="#06B6D4" android:layout_gravity="top|end" android:layout_marginEnd="18dp" android:layout_marginTop="78dp"/>
+        <View android:layout_width="16dp" android:layout_height="6dp" android:background="#EC4899" android:rotation="15" android:layout_gravity="top|end" android:layout_marginEnd="68dp" android:layout_marginTop="105dp"/>
+        <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/shape_circle_blue" android:backgroundTint="#22C55E" android:layout_gravity="top|end" android:layout_marginEnd="145dp" android:layout_marginTop="72dp"/>
+        <View android:layout_width="8dp" android:layout_height="8dp" android:background="@drawable/shape_circle_blue" android:backgroundTint="#F97316" android:layout_gravity="top|end" android:layout_marginEnd="28dp" android:layout_marginTop="145dp"/>
+
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_star" app:tint="#EF4444" android:layout_gravity="top|start" android:layout_marginStart="42dp" android:layout_marginTop="30dp"/>
+        <ImageView android:layout_width="14dp" android:layout_height="14dp" android:src="@drawable/ic_star" app:tint="#3B82F6" android:layout_gravity="top|start" android:layout_marginStart="130dp" android:layout_marginTop="155dp"/>
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_star" app:tint="#06B6D4" android:layout_gravity="top|end" android:layout_marginEnd="55dp" android:layout_marginTop="55dp"/>
+        <ImageView android:layout_width="14dp" android:layout_height="14dp" android:src="@drawable/ic_star" app:tint="#EC4899" android:layout_gravity="top|end" android:layout_marginEnd="130dp" android:layout_marginTop="135dp"/>
+
+    </FrameLayout>
+
+    <!-- CONTENT -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="28dp">
+
+        <RelativeLayout
+            android:id="@+id/navBar"
+            android:layout_width="match_parent" android:layout_height="64dp">
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="44dp" android:layout_height="44dp"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_left"
+                app:tint="@color/v_text_dark" />
+            <TextView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Support"
+                android:textColor="@color/v_text_dark"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+        <!-- Blue circle icon -->
+        <FrameLayout
+            android:layout_width="100dp" android:layout_height="100dp"
+            android:background="@drawable/shape_circle_blue"
+            android:backgroundTint="@color/brand_blue"
+            android:elevation="4dp">
+            <ImageView
+                android:layout_width="50dp" android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_support_filled"
+                app:tint="#FFFFFF" />
+        </FrameLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Support"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/manrope_bold"
+            android:gravity="center"
+            android:text="Ticket Submitted&#10;Successfully!"
             android:textColor="@color/v_text_dark"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:textSize="26sp" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/navBar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:clipToPadding="false"
-        android:paddingBottom="40dp">
+        <TextView
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/manrope"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:text="Our team has received your request. We'll get back to you within 24 hours."
+            android:textColor="@color/v_text_mid"
+            android:textSize="14sp" />
 
+        <!-- Ticket ID row -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="40dp"
-            android:gravity="center_horizontal">
-
-            <!-- Brand Logo -->
-            <ImageView
-                android:layout_width="140dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="32dp"
-                android:src="@drawable/save_logo"
-                android:scaleType="fitCenter" />
-
-            <!-- Success Animation Concept -->
-            <FrameLayout
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:layout_marginTop="40dp">
-
-                <!-- Concentric Circles for Success -->
-                <View
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:background="@drawable/bg_circle_white"
-                    android:alpha="0.4"
-                    android:layout_gravity="center" />
-                
-                <View
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:background="@drawable/bg_circle_white"
-                    android:layout_gravity="center" />
-
-                <!-- Checkmark -->
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_success_checkmark"
-                    app:tint="@color/brand_blue" />
-
-                <!-- Decorative Dots (Simulated) -->
-                <View
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/bg_circle_blue"
-                    android:alpha="0.8" />
-                
-                <View
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_gravity="bottom|start"
-                    android:layout_marginBottom="32dp"
-                    android:layout_marginStart="8dp"
-                    android:background="#FFD5A1" />
-            </FrameLayout>
-
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_badge_lavender"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Ticket Submitted Successfully!"
-                android:textColor="@color/v_text_dark"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Our team has received your request. We'll get back to you within 24 hours."
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope"
+                android:text="Ticket "
                 android:textColor="@color/v_text_mid"
-                android:textSize="14sp"
-                android:textAlignment="center" />
-
-            <!-- Ticket Detail Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                app:cardBackgroundColor="@color/card_surface"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="12dp"
-                app:strokeWidth="0dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="24dp">
-                    
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="TICKET ID"
-                                android:textColor="@color/v_text_muted"
-                                android:textSize="10sp"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:id="@+id/tvTicketId"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text=""
-                                android:textColor="@color/brand_blue"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                        
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:gravity="end"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="CATEGORY"
-                                android:textColor="@color/v_text_muted"
-                                android:textSize="10sp"
-                                android:textStyle="bold" />
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                app:cardBackgroundColor="@color/v_page_bg"
-                                app:cardCornerRadius="16dp"
-                                app:cardElevation="0dp"
-                                app:strokeWidth="0dp">
-                                <TextView
-                                    android:id="@+id/tvCategoryName"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingHorizontal="16dp"
-                                    android:paddingVertical="6dp"
-                                    android:text="Payment Issue"
-                                    android:textColor="@color/v_text_dark"
-                                    android:textSize="12sp" />
-                            </com.google.android.material.card.MaterialCardView>
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="24dp"
-                        android:background="@color/v_page_bg" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:cardBackgroundColor="#FEF3E7"
-                            app:cardCornerRadius="12dp"
-                            app:cardElevation="0dp">
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_stopwatch"
-                                app:tint="#F97316" />
-                        </com.google.android.material.card.MaterialCardView>
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Estimated Response"
-                                android:textColor="@color/v_text_dark"
-                                android:textSize="13sp"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Today by 5:00 PM"
-                                android:textColor="@color/v_text_muted"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Done Button -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnDone"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="48dp"
-                app:cardBackgroundColor="@color/brand_blue"
-                app:cardCornerRadius="32dp"
-                app:cardElevation="8dp"
-                app:strokeWidth="0dp">
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        app:cardBackgroundColor="#EEF1FB"
-                        app:cardCornerRadius="18dp"
-                        app:cardElevation="0dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="24dp"
-                            android:paddingVertical="8dp"
-                            android:text="TRANSACTION SECURELY PROCESSED"
-                            android:textColor="@color/brand_blue"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:letterSpacing="0.05" />
-                    </com.google.android.material.card.MaterialCardView>
-                </FrameLayout>
-            </com.google.android.material.card.MaterialCardView>
-
+                android:textSize="13sp" />
             <TextView
-                android:id="@+id/btnStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="View Ticket Status"
+                android:id="@+id/tvTicketId"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope_bold"
+                android:text="#—"
                 android:textColor="@color/brand_blue"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
+                android:textSize="13sp" />
+            <TextView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/manrope"
+                android:text="· "
+                android:textColor="@color/v_text_mid"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/tvCategoryName"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope_bold"
+                android:text="—"
+                android:textColor="@color/brand_blue"
+                android:textSize="13sp" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <!-- BUTTONS -->
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="32dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDone"
+            android:layout_width="match_parent" android:layout_height="60dp"
+            android:fontFamily="@font/manrope_bold"
+            android:insetTop="0dp" android:insetBottom="0dp"
+            android:text="Back to Home"
+            android:textAllCaps="false" android:textSize="16sp"
+            app:backgroundTint="@color/brand_blue"
+            app:cornerRadius="30dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStatus"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/manrope_bold"
+            android:insetTop="0dp" android:insetBottom="0dp"
+            android:text="Track Ticket Status"
+            android:textAllCaps="false" android:textColor="@color/brand_blue" android:textSize="15sp"
+            app:cornerRadius="30dp"
+            app:strokeColor="@color/brand_blue" app:strokeWidth="1.5dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

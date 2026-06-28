@@ -22,7 +22,6 @@ import com.example.save.ui.viewmodels.NotificationsViewModel;
 import com.example.save.data.repository.MemberRepository;
 
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -147,7 +146,8 @@ public class AdminDashboardFragment extends Fragment {
 
         binding.btnThemeToggle.setOnClickListener(v -> {
             applyClickAnimation(v);
-            com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), "admin");
+            String role = (getActivity() instanceof com.example.save.ui.activities.MemberMainActivity) ? "member" : "admin";
+            com.example.save.utils.ThemeUtils.toggleTheme(requireContext(), role);
         });
 
         binding.sectionSavingsTargets.setOnClickListener(v -> {
@@ -211,43 +211,6 @@ public class AdminDashboardFragment extends Fragment {
         binding.sectionUpcomingPayouts.setVisibility(View.VISIBLE);
         binding.pbTarget1.setProgress(0);
         binding.pbTarget2.setProgress(0);
-        binding.tvNextContribDate.setText(computeNextContributionDate());
-    }
-
-    private String computeNextContributionDate() {
-        android.content.SharedPreferences prefs =
-                requireContext().getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
-        String startDateStr = prefs.getString("rule_start_date", "");
-        String frequency = prefs.getString("rule_frequency", "Monthly");
-        if (startDateStr == null || startDateStr.isEmpty()) return "--";
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault());
-            java.util.Date date = sdf.parse(startDateStr);
-            if (date == null) return "--";
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            Calendar today = Calendar.getInstance();
-            today.set(Calendar.HOUR_OF_DAY, 0);
-            today.set(Calendar.MINUTE, 0);
-            today.set(Calendar.SECOND, 0);
-            today.set(Calendar.MILLISECOND, 0);
-            while (cal.before(today)) {
-                switch (frequency) {
-                    case "Daily":        cal.add(Calendar.DAY_OF_YEAR, 1); break;
-                    case "Weekly":       cal.add(Calendar.WEEK_OF_YEAR, 1); break;
-                    case "Bi-weekly":    cal.add(Calendar.WEEK_OF_YEAR, 2); break;
-                    case "Every 2 Months": cal.add(Calendar.MONTH, 2); break;
-                    case "Every 3 Months": cal.add(Calendar.MONTH, 3); break;
-                    case "Every 4 Months": cal.add(Calendar.MONTH, 4); break;
-                    case "Every 5 Months": cal.add(Calendar.MONTH, 5); break;
-                    case "Every 6 Months": cal.add(Calendar.MONTH, 6); break;
-                    default:             cal.add(Calendar.MONTH, 1); break;
-                }
-            }
-            return sdf.format(cal.getTime());
-        } catch (Exception e) {
-            return "--";
-        }
     }
 
     private void observeViewModel() {
@@ -265,54 +228,19 @@ public class AdminDashboardFragment extends Fragment {
     private void loadPayoutSections() {
         ApiService api = RetrofitClient.getClient(requireContext()).create(ApiService.class);
 
-        // Fetch payout amount from config, then load queue
-        api.getSystemConfig().enqueue(new Callback<com.example.save.data.models.SystemConfig>() {
+        api.getPayoutQueue().enqueue(new Callback<com.example.save.data.models.PayoutQueueResponse>() {
             @Override
-            public void onResponse(Call<com.example.save.data.models.SystemConfig> call,
-                    Response<com.example.save.data.models.SystemConfig> response) {
-                if (!isAdded() || binding == null || !response.isSuccessful() || response.body() == null) return;
-                com.example.save.data.models.SystemConfig cfg = response.body();
-
-                String frequency = cfg.getFrequency() != null ? cfg.getFrequency()
-                        : requireContext().getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE)
-                                .getString("rule_frequency", "Monthly");
-                requireActivity().runOnUiThread(() -> {
-                    if (binding != null) binding.tvPayoutFrequency.setText(frequency);
-                });
-
-                api.getDashboardSummary().enqueue(new Callback<com.example.save.data.models.DashboardSummaryResponse>() {
-                    @Override
-                    public void onResponse(Call<com.example.save.data.models.DashboardSummaryResponse> call2,
-                            Response<com.example.save.data.models.DashboardSummaryResponse> r2) {
-                        int contributors = (r2.isSuccessful() && r2.body() != null)
-                                ? r2.body().getTotalContributors() : 1;
-                        double payoutAmt = cfg.getContributionAmount() * contributors
-                                * (1.0 - cfg.getRetentionPercentage() / 100.0);
-                        requireActivity().runOnUiThread(() -> {
-                            if (binding != null) {
-                                java.text.NumberFormat fmt = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "UG"));
-                                binding.tvUpcomingPayoutAmount.setText(fmt.format(payoutAmt).replace("UGX", "UGX "));
-                            }
-                        });
-                    }
-                    @Override public void onFailure(Call<com.example.save.data.models.DashboardSummaryResponse> c, Throwable t) {}
-                });
-            }
-            @Override public void onFailure(Call<com.example.save.data.models.SystemConfig> call, Throwable t) {}
-        });
-
-        api.getPayoutQueue().enqueue(new Callback<List<MemberEntity>>() {
-            @Override
-            public void onResponse(Call<List<MemberEntity>> call, Response<List<MemberEntity>> response) {
+            public void onResponse(Call<com.example.save.data.models.PayoutQueueResponse> call, Response<com.example.save.data.models.PayoutQueueResponse> response) {
                 if (!isAdded() || binding == null) return;
                 requireActivity().runOnUiThread(() -> {
-                    if (response.isSuccessful() && response.body() != null) {
-                        List<MemberEntity> queue = response.body();
+                    if (response.isSuccessful() && response.body() != null
+                            && response.body().getQueue() != null) {
+                        List<com.example.save.data.models.PayoutQueueEntry> queue = response.body().getQueue();
                         List<Member> memberList = new ArrayList<>();
-                        for (MemberEntity e : queue) {
-                            Member m = new Member(e.getName(), "member", e.isActive(), e.getPhone());
-                            m.setHasReceivedPayout(e.isHasReceivedPayout());
-                            if (e.getPayoutDate() != null) m.setPayoutDate(e.getPayoutDate());
+                        for (com.example.save.data.models.PayoutQueueEntry e : queue) {
+                            Member m = new Member(e.getMemberName(), "member", true, e.getMemberPhone());
+                            m.setHasReceivedPayout(e.hasReceivedPayout());
+                            if (e.getActualPayoutDate() != null) m.setPayoutDate(e.getActualPayoutDate());
                             memberList.add(m);
                         }
                         String payoutDate = requireActivity()
@@ -324,27 +252,19 @@ public class AdminDashboardFragment extends Fragment {
                 });
             }
             @Override
-            public void onFailure(Call<List<MemberEntity>> call, Throwable t) {}
+            public void onFailure(Call<com.example.save.data.models.PayoutQueueResponse> call, Throwable t) {}
         });
     }
 
     private void applyUpcomingPayout(List<Member> members, String payoutDate) {
         if (!isAdded() || binding == null) return;
-        // Date
         binding.tvUpcomingPayoutDate.setText(
                 (payoutDate != null && !payoutDate.isEmpty()) ? payoutDate : "--");
-        // Next receiver = first member who hasn't received payout yet
         Member next = null;
         for (Member m : members) {
             if (!m.hasReceivedPayout()) { next = m; break; }
         }
-        binding.tvUpcomingPayoutReceiver.setText(
-                next != null ? next.getName() : "--");
-        // Frequency pill
-        String freq = requireContext()
-                .getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE)
-                .getString("rule_frequency", "Monthly");
-        binding.tvPayoutFrequency.setText(freq);
+        binding.tvUpcomingPayoutReceiver.setText(next != null ? next.getName() : "--");
     }
 
     private void loadAdminData() {
@@ -392,50 +312,61 @@ public class AdminDashboardFragment extends Fragment {
                 }
             });
         } else {
-            // LOAD MEMBER SPECIFIC DATA
             binding.tvBalanceLabel.setText("My Total Savings");
             String phone = com.example.save.utils.SessionManager.getInstance(requireContext()).getUserPhone();
             if (phone != null) {
+                // Instant: apply cached member data right now if available
+                com.example.save.data.models.Member cached = viewModel.getMemberByPhone(phone);
+                if (cached != null) applyMemberData(cached);
+                // Live: update when data arrives / changes
                 viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
-                    if (member != null) {
-                        totalBalanceValue = member.getContributionPaid();
-                        updateBalanceDisplay();
-                        
-                        NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
-                        binding.monthlyContrib.setText(ugFormat.format(member.getContributionTarget()).replace("UGX", "UGX "));
-                        binding.interestEarned.setText(ugFormat.format(member.getLoanBalance()).replace("UGX", "UGX "));
-                        binding.tvInterestLabel.setText("Active Loans");
-                        binding.tvMonthlyLabel.setText("Savings Target");
-                    }
+                    if (member != null) applyMemberData(member);
                 });
             }
+            // Load group-level summary (next contribution date, payout amount, targets)
+            viewModel.getDashboardSummary((success, summaryObj, message) -> {
+                if (success && isAdded() && summaryObj instanceof com.example.save.data.models.DashboardSummaryResponse) {
+                    com.example.save.data.models.DashboardSummaryResponse summary =
+                            (com.example.save.data.models.DashboardSummaryResponse) summaryObj;
+                    requireActivity().runOnUiThread(() -> applyDashboardSummary(summary));
+                }
+            });
         }
     }
 
     private void applyDashboardSummary(com.example.save.data.models.DashboardSummaryResponse summary) {
         if (!isAdded() || binding == null) return;
-        totalBalanceValue = summary.getTotalBalance();
-        updateBalanceDisplay();
+        // For members keep their personal balance (set by applyMemberData); only admin uses group total
+        if (isAdmin) {
+            totalBalanceValue = summary.getTotalBalance();
+            updateBalanceDisplay();
+            NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+            binding.monthlyContrib.setText(ugFormat.format(summary.getAvailableSavings()).replace("UGX", "UGX "));
+            binding.interestEarned.setText(ugFormat.format(summary.getLoanBalance()).replace("UGX", "UGX "));
+        }
 
         NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
-        binding.monthlyContrib.setText(ugFormat.format(summary.getAvailableSavings()).replace("UGX", "UGX "));
-        binding.interestEarned.setText(ugFormat.format(summary.getLoanBalance()).replace("UGX", "UGX "));
 
-        double expectedMonthly = summary.getContributionAmount() * summary.getTotalContributors();
-        double expectedYearly = expectedMonthly * 12;
+        binding.pbTarget1.setProgress(summary.getMonthlyTargetProgress());
+        binding.pbTarget2.setProgress(summary.getYearlyTargetProgress());
+        binding.tvTarget1Amount.setText(ugFormat.format(summary.getMonthlyTarget()).replace("UGX", "UGX ").replace("USh", "UGX "));
+        binding.tvTarget2Amount.setText(ugFormat.format(summary.getYearlyTarget()).replace("UGX", "UGX ").replace("USh", "UGX "));
 
-        int prog1 = expectedMonthly > 0
-                ? (int) Math.min(100, (summary.getMonthlyContributions() / expectedMonthly) * 100) : 0;
-        int prog2 = expectedYearly > 0
-                ? (int) Math.min(100, (summary.getYearlyContributions() / expectedYearly) * 100) : 0;
-        binding.pbTarget1.setProgress(prog1);
-        binding.pbTarget2.setProgress(prog2);
+        binding.tvNextContribDate.setText(summary.getNextContributionDate());
 
-        // Show only the projected target — not the collected amount
-        binding.tvTarget1Amount.setText(
-                ugFormat.format(expectedMonthly).replace("UGX", "UGX ").replace("USh", "UGX "));
-        binding.tvTarget2Amount.setText(
-                ugFormat.format(expectedYearly).replace("UGX", "UGX ").replace("USh", "UGX "));
+        java.text.NumberFormat fmt = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "UG"));
+        binding.tvUpcomingPayoutAmount.setText(fmt.format(summary.getUpcomingPayoutAmount()).replace("UGX", "UGX "));
+    }
+
+    private void applyMemberData(com.example.save.data.models.Member member) {
+        if (!isAdded() || binding == null) return;
+        totalBalanceValue = member.getContributionPaid();
+        updateBalanceDisplay();
+        NumberFormat ugFormat = NumberFormat.getCurrencyInstance(new Locale("en", "UG"));
+        binding.monthlyContrib.setText(ugFormat.format(member.getContributionTarget()).replace("UGX", "UGX "));
+        binding.interestEarned.setText(ugFormat.format(member.getLoanBalance()).replace("UGX", "UGX "));
+        binding.tvInterestLabel.setText("Active Loans");
+        binding.tvMonthlyLabel.setText("Savings Target");
     }
 
     private void updateBalanceDisplay() {
@@ -500,13 +431,16 @@ public class AdminDashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Restore nav bar directly when returning to Admin dashboard
         if (getActivity() != null) {
             View navContainer = getActivity().findViewById(R.id.navContainer);
             if (navContainer != null) navContainer.setVisibility(View.VISIBLE);
             View navAction = getActivity().findViewById(R.id.navAction);
             if (navAction != null) navAction.setVisibility(View.VISIBLE);
         }
+        // Refresh data every time this screen is shown
+        viewModel.syncMembers();
+        loadDashboardData();
+        loadRecentTransactions();
     }
 
     @Override

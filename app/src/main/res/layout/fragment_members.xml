@@ -8,7 +8,6 @@
     tools:context=".ui.fragments.MembersFragment">
 
     <!-- Custom Header -->
-
     <RelativeLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
@@ -17,8 +16,7 @@
         android:paddingHorizontal="20dp"
         android:paddingTop="25dp"
         android:paddingBottom="20dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/btnBack"
@@ -45,15 +43,15 @@
                 android:textSize="@dimen/text_size_medium" />
 
             <TextView
+                android:id="@+id/tvGroupSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_bold"
                 android:letterSpacing="0.05"
-                android:text="INVEST &amp; SAVE CLUB"
+                android:text="YOUR GROUP"
                 android:textColor="@color/brand_blue"
                 android:textSize="@dimen/text_size_xs" />
         </LinearLayout>
-
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -69,6 +67,116 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <!-- Summary Strip -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="6dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_premium_blue"
+                    android:orientation="horizontal"
+                    android:paddingVertical="20dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvStatTotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:text="0"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xl"
+                            tools:text="12" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.8"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Members"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xs" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/divider_color" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvStatActive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:text="0"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xl"
+                            tools:text="10" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.8"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Active"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xs" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/divider_color" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvStatAdmins"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:text="0"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xl"
+                            tools:text="2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.8"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Admins"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xs" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Search Bar -->
             <androidx.cardview.widget.CardView
@@ -95,7 +203,7 @@
                         android:drawablePadding="12dp"
                         android:drawableTint="@color/v_text_muted"
                         android:fontFamily="@font/manrope_medium"
-                        android:hint="Search by name, status, or score..."
+                        android:hint="Search members by name or phone..."
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:paddingHorizontal="16dp"
@@ -117,137 +225,114 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Add Members Card (Today's Work Restoration) -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnAddMemberCard"
+            <!-- Action Buttons Row -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/action_card_bg"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        app:cardBackgroundColor="@color/action_card_icon_bg"
-                        app:cardCornerRadius="14dp"
-                        app:cardElevation="0dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_person"
-                            app:tint="@color/action_card_text" />
-                    </com.google.android.material.card.MaterialCardView>
+                <!-- Add New Member -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btnAddMemberCard"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="@color/action_card_bg"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:background="@drawable/bg_circle_white_border">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_person_add"
+                                app:tint="#FFFFFF" />
+                        </FrameLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="Add New Member"
-                            android:textColor="@color/action_card_text"
-                            android:textSize="@dimen/text_size_normal" />
+                            android:text="Add Member"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_medium"
-                            android:text="Invite someone to join the group"
-                            android:textColor="@color/action_card_subtext"
-                            android:textSize="@dimen/text_size_xs" />
+                            android:text="Invite to group"
+                            android:textColor="#B3FFFFFF"
+                            android:textSize="11sp" />
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_chevron_right"
-                        app:tint="@color/action_card_text" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Start a New Poll Card (Today's Work Restoration) -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardMakePoll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="12dp"
-                app:cardBackgroundColor="@color/action_card_bg"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        app:cardBackgroundColor="@color/action_card_icon_bg"
-                        app:cardCornerRadius="14dp"
-                        app:cardElevation="0dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_how_to_vote"
-                            app:tint="@color/action_card_text" />
-                    </com.google.android.material.card.MaterialCardView>
+                <!-- Start a New Poll -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMakePoll"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="#059669"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:background="@drawable/bg_circle_white_border">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_how_to_vote"
+                                app:tint="#FFFFFF" />
+                        </FrameLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:fontFamily="@font/manrope_bold"
-                            android:text="Start a New Poll"
-                            android:textColor="@color/action_card_text"
-                            android:textSize="@dimen/text_size_normal" />
+                            android:text="New Poll"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:fontFamily="@font/manrope_medium"
-                            android:text="Vote on members or payout changes"
-                            android:textColor="@color/action_card_subtext"
-                            android:textSize="@dimen/text_size_xs" />
+                            android:text="Start a group vote"
+                            android:textColor="#B3FFFFFF"
+                            android:textSize="11sp" />
                     </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_chevron_right"
-                        app:tint="@color/action_card_text" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <!-- Members List Heading -->
             <TextView
@@ -255,7 +340,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="28dp"
                 android:fontFamily="@font/manrope_bold"
                 android:text="Members"
                 android:textColor="@color/v_text_dark"
@@ -298,9 +383,6 @@
             </LinearLayout>
 
             <!-- Members List -->
-
-            <!-- View More Link -->
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/membersRecyclerView"
                 android:layout_width="match_parent"
@@ -310,106 +392,6 @@
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_member_admin" />
-
-            <LinearLayout
-                android:id="@+id/viewMoreLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/manrope_bold"
-                    android:text="View all members"
-                    android:textColor="@color/brand_blue"
-                    android:textSize="@dimen/text_size_xs" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginStart="4dp"
-                    android:src="@drawable/ic_chevron_right"
-                    app:tint="@color/brand_blue" />
-            </LinearLayout>
-
-            <!-- Technical Insights Header -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="40dp"
-                android:fontFamily="@font/manrope_bold"
-                android:text="Technical Insights"
-                android:textColor="@color/v_text_dark"
-                android:textSize="@dimen/text_size_normal" />
-
-            <!-- Column Headers -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.4"
-                    android:fontFamily="@font/manrope_bold"
-                    android:text="MEMBER"
-                    android:textColor="@color/v_text_muted"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/manrope_bold"
-                    android:gravity="center"
-                    android:text="CONTRIBUTED"
-                    android:textColor="@color/v_text_muted"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:fontFamily="@font/manrope_bold"
-                    android:gravity="center"
-                    android:text="RELIABILITY"
-                    android:textColor="@color/v_text_muted"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:fontFamily="@font/manrope_bold"
-                    android:gravity="end"
-                    android:text="JOINED"
-                    android:textColor="@color/v_text_muted"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <!-- Insights RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTechnicalInsights"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:clipToPadding="false"
-                android:paddingHorizontal="20dp"
-                android:nestedScrollingEnabled="false"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_technical_insight" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

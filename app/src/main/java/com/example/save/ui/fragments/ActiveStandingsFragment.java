@@ -190,6 +190,13 @@ public class ActiveStandingsFragment extends Fragment {
             h.tvGroupName.setText(p.getGroupName());
             h.tvCreatedBy.setText("Created by " + p.getCreatedByName());
 
+            // Time remaining
+            if (h.tvTimeRemaining != null) {
+                String timeLeft = formatTimeRemaining(p.getExpiresAt());
+                h.tvTimeRemaining.setText(timeLeft);
+                h.tvTimeRemaining.setVisibility(timeLeft.isEmpty() ? View.GONE : View.VISIBLE);
+            }
+
             // Per-nominee vote percentages
             h.nomineesContainer.removeAllViews();
             List<PollNominee> nominees = p.getNominees();
@@ -226,8 +233,30 @@ public class ActiveStandingsFragment extends Fragment {
         @Override
         public int getItemCount() { return polls.size(); }
 
+        static String formatTimeRemaining(String expiresAt) {
+            if (expiresAt == null || expiresAt.isEmpty()) return "";
+            try {
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
+                        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", java.util.Locale.US);
+                sdf.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+                java.util.Date expiry = sdf.parse(expiresAt);
+                if (expiry == null) return "";
+                long diffMs = expiry.getTime() - System.currentTimeMillis();
+                if (diffMs <= 0) return "Expired";
+                long diffHours = diffMs / (1000 * 60 * 60);
+                long diffMins = (diffMs % (1000 * 60 * 60)) / (1000 * 60);
+                if (diffHours < 1) {
+                    if (diffMins < 5) return "Closes soon";
+                    return diffMins + "m left";
+                }
+                return diffHours + "h " + diffMins + "m left";
+            } catch (Exception e) {
+                return "";
+            }
+        }
+
         static class VH extends RecyclerView.ViewHolder {
-            TextView tvRole, tvTitle, tvGroupName, tvCreatedBy, btnEndPoll;
+            TextView tvRole, tvTitle, tvGroupName, tvCreatedBy, btnEndPoll, tvTimeRemaining;
             LinearLayout nomineesContainer;
 
             VH(View v) {
@@ -238,6 +267,7 @@ public class ActiveStandingsFragment extends Fragment {
                 tvCreatedBy = v.findViewById(R.id.tvCreatedBy);
                 btnEndPoll = v.findViewById(R.id.btnEndPoll);
                 nomineesContainer = v.findViewById(R.id.nomineesVoteContainer);
+                tvTimeRemaining = v.findViewById(R.id.tvTimeRemaining);
             }
         }
     }

@@ -3,403 +3,197 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/v_page_bg">
 
+        <!-- TOP HEADER -->
+        <RelativeLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/card_surface"
+            android:elevation="4dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_input_bg_circle"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/v_text_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/poppins"
+                android:text="Top Contributors"
+                android:textColor="@color/v_text_dark"
+                android:textSize="@dimen/text_size_normal" />
+        </RelativeLayout>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false">
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerLayout">
 
             <LinearLayout
+                android:id="@+id/heroCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="24dp">
+                android:paddingBottom="32dp">
 
-                <!-- ===== HERO SECTION: TOTAL SAVINGS ===== -->
+                <!-- ===== HERO: TOTAL CONTRIBUTIONS (YTD) ===== -->
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/heroCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="48dp"
-                    android:layout_marginBottom="24dp"
+                    android:layout_marginTop="24dp"
                     app:cardCornerRadius="24dp"
-                    app:cardElevation="12dp"
+                    app:cardElevation="6dp"
                     app:strokeWidth="0dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_hero_blue_gradient"
-                        android:padding="22dp">
-
-                        <!-- Decorative Circle in Corner -->
-                        <View
-                            android:layout_width="180dp"
-                            android:layout_height="180dp"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginTop="-40dp"
-                            android:layout_marginEnd="-40dp"
-                            android:background="@drawable/bg_v_hero_decorative_circle" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="8dp"
-                                android:fontFamily="@font/manrope_medium"
-                                android:text="Group Total Savings"
-                                android:textColor="@color/permanent_white"
-                                android:textSize="13sp"
-                                android:alpha="0.85" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="UGX"
-                                android:textColor="@color/permanent_white"
-                                android:textSize="28sp" />
-
-                            <TextView
-                                android:id="@+id/tvTotalSavings"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text=""
-                                android:textColor="@color/permanent_white"
-                                android:textSize="36sp"
-                                android:lineHeight="40sp" />
-                        </LinearLayout>
-
-                        <!-- Score Badge (Glassmorphic Pill) -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="3dp"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="SCORE"
-                                android:letterSpacing="0.15"
-                                android:textColor="@color/permanent_white"
-                                android:textSize="9sp"
-                                android:alpha="0.75" />
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:cardBackgroundColor="#2EFFFFFF"
-                                app:cardCornerRadius="12dp"
-                                app:cardElevation="0dp"
-                                app:strokeColor="#4DFFFFFF"
-                                app:strokeWidth="1dp">
-
-                                <TextView
-                                    android:id="@+id/tvScore"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingHorizontal="16dp"
-                                    android:paddingVertical="8dp"
-                                    android:fontFamily="@font/manrope_bold"
-                                    android:text=""
-                                    android:textColor="@color/permanent_white"
-                                    android:textSize="26sp" />
-                            </com.google.android.material.card.MaterialCardView>
-                        </LinearLayout>
-
-                        <!-- Reliability Pulse (Bottom Card) -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="150dp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="8dp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/manrope_medium"
-                                    android:text="Reliability Pulse"
-                                    android:textColor="@color/permanent_white"
-                                    android:textSize="12sp"
-                                    android:alpha="0.8" />
-
-                                <TextView
-                                    android:id="@+id/tvReliabilityLabel"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/manrope_bold"
-                                    android:text="--"
-                                    android:textColor="@color/permanent_white"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-
-                            <com.google.android.material.progressindicator.LinearProgressIndicator
-                                android:id="@+id/pulseProgressBar"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:progress="0"
-                                app:indicatorColor="@color/v_pink_progress_start"
-                                app:trackColor="#33FFFFFF"
-                                app:trackCornerRadius="99dp"
-                                app:trackThickness="7dp" />
-                        </LinearLayout>
-
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- ===== SECTION: PRIORITY RISK ALERTS ===== -->
-                <LinearLayout
-                    android:id="@+id/riskSection"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/ic_warning"
-                        app:tint="@color/v_amber_warning" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="Priority Risk Alerts"
-                        android:textColor="@color/v_text_dark"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/alertCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="24dp"
-                    app:cardBackgroundColor="@color/v_alert_bg"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/v_alert_border"
-                    app:strokeWidth="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_card_premium_blue"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="24dp">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="14dp">
+                            android:alpha="0.8"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.08"
+                            android:text="TOTAL CONTRIBUTIONS (YTD)"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xs" />
 
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/ivAlertAvatar"
-                                android:layout_width="52dp"
-                                android:layout_height="52dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_profile_placeholder"
-                                app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.MediumComponent" />
+                        <TextView
+                            android:id="@+id/tvTotalContributions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="UGX 0"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xxxl"
+                            tools:text="UGX 38,400,000" />
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="12dp"
-                                android:layout_toEndOf="@id/ivAlertAvatar"
-                                android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tvMemberCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:alpha="0.75"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Members ranked by amount contributed"
+                            android:textColor="@color/permanent_white"
+                            android:textSize="@dimen/text_size_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                                <TextView
-                                    android:id="@+id/tvAlertName"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/manrope_bold"
-                                    android:text="--"
-                                    android:textColor="@color/v_text_dark"
-                                    android:textSize="15sp" />
+                <!-- ===== RANKED CONTRIBUTOR LIST ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/consistencySection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
 
-                                <TextView
-                                    android:id="@+id/tvAlertDescription"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="3dp"
-                                    android:fontFamily="@font/manrope_medium"
-                                    android:text="--"
-                                    android:textColor="@color/v_text_muted"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/card_surface"
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-                            <TextView
-                                android:id="@+id/tvAlertPercentage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:fontFamily="@font/manrope_bold"
-                                android:text="--"
-                                android:textColor="@color/v_red_alert"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-
+                        <!-- Column Headers -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btnRemind"
+                            <TextView
                                 android:layout_width="0dp"
-                                android:layout_height="40dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_weight="1"
-                                android:backgroundTint="@color/v_brown_dark_btn"
-                                android:fontFamily="@font/manrope_bold"
-                                android:insetTop="0dp"
-                                android:insetBottom="0dp"
-                                android:text="Remind Member"
-                                android:textAllCaps="false"
-                                android:textColor="#FFFFFF"
-                                android:textSize="13sp"
-                                app:cornerRadius="10dp"
-                                app:elevation="4dp" />
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/montserrat"
+                                android:letterSpacing="0.08"
+                                android:text="MEMBER"
+                                android:textColor="@color/v_text_muted"
+                                android:textSize="@dimen/text_size_xs" />
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btnViewHistory"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            <TextView
                                 android:layout_width="0dp"
-                                android:layout_height="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/montserrat"
+                                android:gravity="center"
+                                android:letterSpacing="0.06"
+                                android:text="TARGET MET"
+                                android:textColor="@color/v_text_muted"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/manrope_bold"
-                                android:insetTop="0dp"
-                                android:insetBottom="0dp"
-                                android:text="View History"
-                                android:textAllCaps="false"
-                                android:textColor="@color/v_text_dark"
-                                android:textSize="13sp"
-                                app:cornerRadius="10dp"
-                                app:strokeColor="@color/v_text_muted"
-                                app:strokeWidth="1.5dp" />
+                                android:fontFamily="@font/montserrat"
+                                android:gravity="end"
+                                android:text="AMT (M)"
+                                android:textColor="@color/v_text_muted"
+                                android:textSize="@dimen/text_size_xs" />
                         </LinearLayout>
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="@color/v_input_bg" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvConsistency"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            tools:listitem="@layout/item_member_performance" />
+
+                        <!-- Empty state -->
+                        <TextView
+                            android:id="@+id/tvEmpty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/montserrat"
+                            android:gravity="center"
+                            android:padding="16dp"
+                            android:text="No contributors yet"
+                            android:textColor="@color/v_text_muted"
+                            android:textSize="@dimen/text_size_xs"
+                            android:visibility="gone" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ===== SECTION: MEMBER CONSISTENCY ===== -->
-                <RelativeLayout
-                    android:id="@+id/consistencySection"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="Member Consistency"
-                        android:textColor="@color/v_text_dark"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="Last 6 Months"
-                        android:textColor="@color/v_blue"
-                        android:textSize="13sp" />
-                </RelativeLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvConsistency"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingHorizontal="16dp"
-                    tools:listitem="@layout/item_member_consistency" />
-
-                <!-- LEGEND -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="80dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
-                        android:background="@drawable/bg_circle_white"
-                        android:backgroundTint="@color/v_blue" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="PAID"
-                        android:textColor="@color/v_text_muted"
-                        android:textSize="11sp" />
-
-                    <View
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
-                        android:layout_marginStart="20dp"
-                        android:background="@drawable/bg_circle_white"
-                        android:backgroundTint="@color/v_brown_late" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="LATE"
-                        android:textColor="@color/v_text_muted"
-                        android:textSize="11sp" />
-
-                    <View
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
-                        android:layout_marginStart="20dp"
-                        android:background="@drawable/bg_circle_white"
-                        android:backgroundTint="@color/v_red_missed" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="MISSED"
-                        android:textColor="@color/v_text_muted"
-                        android:textSize="11sp" />
-                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Save</string>
+    <!-- Web Client ID from Firebase Console → Authentication → Sign-in method → Google → Web SDK configuration -->
+    <string name="default_web_client_id">969533466825-junbjjcbamtllbcubitrarco28kf8qam.apps.googleusercontent.com</string>
     <string name="app_logo">app_logo</string>
     <string name="onboard">onboard</string>
     <string name="back">Back</string>
