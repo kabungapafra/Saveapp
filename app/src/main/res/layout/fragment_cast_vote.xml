@@ -9,104 +9,91 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="80dp"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:paddingBottom="100dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Top Header -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp">
-
-                <ImageView
-                    android:id="@+id/btnClose"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_close"
-                    app:tint="@color/v_text_dark" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/manrope_bold"
-                    android:gravity="center"
-                    android:text="Cast Your Vote"
-                    android:textColor="@color/v_text_dark"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/btnInfo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_info"
-                    app:tint="@color/v_text_dark" />
-            </LinearLayout>
-
-            <!-- Header Section -->
+            <!-- ── HERO HEADER ─────────────────────────────────────── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:background="@drawable/bg_gradient_blue_card"
                 android:orientation="vertical"
-                android:paddingTop="32dp"
-                android:paddingBottom="8dp">
+                android:paddingHorizontal="24dp"
+                android:paddingTop="52dp"
+                android:paddingBottom="28dp">
 
-                <!-- Group name label -->
+                <!-- Top bar: close + info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="24dp">
+
+                    <ImageView
+                        android:id="@+id/btnClose"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_circle_white_border"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_close"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:tint="#FFFFFF" />
+
+                    <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+
+                    <ImageView
+                        android:id="@+id/btnInfo"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_circle_white_border"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_info"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <!-- Election label -->
                 <TextView
                     android:id="@+id/tvGroupName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_pill_light_blue"
-                    android:fontFamily="@font/manrope_bold"
-                    android:letterSpacing="0.05"
+                    android:background="@drawable/bg_circle_white_border"
                     android:paddingHorizontal="12dp"
-                    android:paddingVertical="6dp"
-                    android:text="CURRENT ELECTION"
-                    android:textColor="@color/brand_blue"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:paddingVertical="5dp"
                     android:fontFamily="@font/manrope_bold"
-                    android:text="Active Ballot"
-                    android:textColor="@color/v_text_dark"
-                    android:textSize="32sp"
-                    android:textStyle="bold" />
+                    android:text="ACTIVE BALLOT"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:alpha="0.85"
+                    android:layout_marginBottom="12dp" />
 
+                <!-- Poll title -->
                 <TextView
                     android:id="@+id/tvPollTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="Nomination for Group Admin"
-                    android:textColor="@color/v_text_mid"
-                    android:textSize="16sp" />
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Nomination Poll"
+                    android:textColor="#FFFFFF"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
 
-                <!-- Voting participation progress bar -->
+                <!-- Vote progress + time row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="24dp">
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -114,7 +101,7 @@
                         android:layout_weight="1"
                         android:fontFamily="sans-serif"
                         android:text="Participation"
-                        android:textColor="@color/v_text_muted"
+                        android:textColor="#B3FFFFFF"
                         android:textSize="12sp" />
 
                     <TextView
@@ -123,18 +110,20 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
                         android:text=""
-                        android:textColor="@color/v_text_mid"
+                        android:textColor="#FFFFFF"
                         android:textSize="12sp" />
 
-                    <!-- Time remaining -->
                     <TextView
                         android:id="@+id/tvTimeRemaining"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:fontFamily="sans-serif"
+                        android:background="@drawable/bg_circle_white_border"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="3dp"
+                        android:fontFamily="@font/manrope_bold"
                         android:text=""
-                        android:textColor="#64748B"
+                        android:textColor="#FFFFFF"
                         android:textSize="11sp" />
                 </LinearLayout>
 
@@ -142,108 +131,152 @@
                     android:id="@+id/pbVoting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:paddingHorizontal="24dp"
                     android:progress="0"
-                    app:indicatorColor="@color/brand_blue"
-                    app:trackColor="@color/v_page_bg"
+                    app:indicatorColor="#FFFFFF"
+                    app:trackColor="#40FFFFFF"
                     app:trackCornerRadius="4dp"
                     app:trackThickness="6dp" />
 
             </LinearLayout>
 
-            <!-- Nominees Section -->
+            <!-- ── ONE VOTE NOTICE ─────────────────────────────────── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp">
+                android:background="#FFF8F0"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_info"
+                    app:tint="#D97706" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:text="You have one vote. Choose carefully — this cannot be changed."
+                    android:textColor="#92400E"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- ── NOMINEES SECTION ────────────────────────────────── -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/card_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="16dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/manrope_bold"
-                        android:letterSpacing="0.08"
-                        android:text="NOMINEES"
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:text="1 Vote Allowed"
-                        android:textColor="#92400E"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <!-- Nominees RecyclerView -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvNominees"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false" />
-
-                <!-- Abstain Option -->
-                <LinearLayout
-                    android:id="@+id/cardAbstain"
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_rounded_gray"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="20dp">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_block_abstain" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="Abstain"
-                        android:textColor="@color/v_text_mid"
-                        android:textSize="16sp" />
+                        android:letterSpacing="0.07"
+                        android:text="NOMINEES"
+                        android:textColor="@color/v_text_muted"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="14dp" />
 
-                    <ImageView
-                        android:id="@+id/radioAbstain"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:src="@drawable/bg_circle_outline_gray" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvNominees"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginVertical="8dp"
+                        android:background="@color/divider_color" />
+
+                    <!-- Abstain -->
+                    <LinearLayout
+                        android:id="@+id/cardAbstain"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:background="@drawable/bg_rounded_gray"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp">
+
+                        <RelativeLayout
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:background="@drawable/bg_icon_circle_gray_light">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_block_abstain" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_bold"
+                                android:text="Abstain"
+                                android:textColor="@color/v_text_dark"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="Skip this vote"
+                                android:textColor="@color/v_text_muted"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/radioAbstain"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/bg_circle_outline_gray" />
+                    </LinearLayout>
+
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-
-            <!-- Submit Button Section -->
+            <!-- ── SUBMIT BUTTON ───────────────────────────────────── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingBottom="24dp">
+                android:paddingHorizontal="16dp"
+                android:paddingTop="16dp">
 
                 <LinearLayout
                     android:id="@+id/btnSubmitVote"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="58dp"
                     android:background="@drawable/bg_loan_submit_btn"
                     android:clickable="true"
                     android:focusable="true"
@@ -257,12 +290,11 @@
                         android:fontFamily="@font/manrope_bold"
                         android:text="Submit My Vote"
                         android:textColor="#FFFFFF"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="17sp" />
 
                     <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_check_circle"
                         app:tint="#FFFFFF" />
                 </LinearLayout>
@@ -270,20 +302,18 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:fontFamily="sans-serif"
                     android:gravity="center"
-                    android:lineSpacingExtra="4dp"
-                    android:text="Your vote is encrypted and stored securely in the Digital Vault.\nThis action cannot be undone."
+                    android:text="Your vote is anonymous and cannot be undone."
                     android:textColor="@color/v_text_muted"
                     android:textSize="12sp" />
-
             </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Empty/loading state overlay -->
+    <!-- Empty state -->
     <LinearLayout
         android:id="@+id/emptyState"
         android:layout_width="match_parent"
@@ -293,13 +323,20 @@
         android:padding="32dp"
         android:visibility="gone">
 
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_how_to_vote"
+            app:tint="@color/v_text_muted" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/manrope_bold"
-            android:text="No polls to vote on"
+            android:text="No polls right now"
             android:textColor="@color/v_text_mid"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -308,9 +345,9 @@
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif"
             android:gravity="center"
-            android:text="You have already voted on all active polls, or there are none right now."
+            android:text="You've voted on all active polls, or none have been created yet."
             android:textColor="@color/v_text_muted"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <ProgressBar

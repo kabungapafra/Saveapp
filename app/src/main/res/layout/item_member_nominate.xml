@@ -1,95 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="68dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:background="@drawable/bg_white_rounded_16"
-    android:clickable="true"
-    android:focusable="true"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingHorizontal="14dp">
+    app:cardBackgroundColor="@color/v_page_bg"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/divider_color"
+    app:strokeWidth="1dp">
 
-    <!-- Avatar with check badge -->
-    <FrameLayout
-        android:layout_width="44dp"
-        android:layout_height="44dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
 
-        <RelativeLayout
+        <!-- Avatar with check badge -->
+        <FrameLayout
             android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="@drawable/bg_avatar_purple">
+            android:layout_height="44dp">
+
+            <RelativeLayout
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_avatar_purple">
+
+                <TextView
+                    android:id="@+id/tvInitials"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="?"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ivCheck"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/bg_circle_blue"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_check"
+                    app:tint="#FFFFFF" />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <!-- Name + role -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvInitials"
+                android:id="@+id/tvMemberName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:fontFamily="@font/manrope_bold"
-                android:text="?"
-                android:textColor="#FFFFFF"
+                android:text=""
+                android:textColor="@color/v_text_dark"
                 android:textSize="14sp" />
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/ivCheck"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_gravity="bottom|end"
-            android:background="@drawable/bg_circle_blue"
-            android:visibility="gone">
+            <TextView
+                android:id="@+id/tvMemberRole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif"
+                android:text=""
+                android:textColor="@color/v_text_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
 
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_check"
-                app:tint="#FFFFFF" />
-        </RelativeLayout>
-    </FrameLayout>
-
-    <!-- Name and role -->
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
+        <!-- Select button -->
         <TextView
-            android:id="@+id/tvMemberName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btnSelect"
+            android:layout_width="76dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_btn_member_unselected"
+            android:clickable="true"
+            android:focusable="true"
             android:fontFamily="@font/manrope_bold"
-            android:text=""
-            android:textColor="@color/v_text_dark"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tvMemberRole"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:fontFamily="sans-serif"
-            android:text=""
-            android:textColor="@color/v_text_muted"
+            android:gravity="center"
+            android:text="Select"
+            android:textColor="@color/brand_blue"
             android:textSize="12sp" />
+
     </LinearLayout>
 
-    <!-- Select / Selected button -->
-    <TextView
-        android:id="@+id/btnSelect"
-        android:layout_width="80dp"
-        android:layout_height="34dp"
-        android:background="@drawable/bg_btn_member_unselected"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/manrope_bold"
-        android:gravity="center"
-        android:text="Select"
-        android:textColor="@color/v_text_mid"
-        android:textSize="12sp" />
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -2,10 +2,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/v_page_bg">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,52 +12,79 @@
         android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_premium_blue"
+            android:orientation="vertical"
             android:paddingHorizontal="24dp"
-            android:paddingTop="32dp"
-            android:paddingBottom="16dp">
+            android:paddingTop="48dp"
+            android:paddingBottom="28dp">
 
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_icon_circle_gray_light"
-                android:padding="8dp"
-                android:src="@drawable/ic_arrow_back"
-                app:tint="#1E293B"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_circle_white_border"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_arrow_back"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:tint="#FFFFFF" />
+
+                <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/btnBell"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_circle_white_border"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_notifications"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:tint="#FFFFFF" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_circle_white_border"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="5dp"
+                android:fontFamily="@font/manrope_bold"
+                android:text="LIVE RESULTS"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:alpha="0.85"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope_bold"
                 android:text="Active Standings"
-                android:textColor="#0F172A"
-                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/btnBack"
-                app:layout_constraintEnd_toStartOf="@id/btnBell"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="16dp"
-                app:layout_constraintHorizontal_bias="0"/>
+                android:layout_marginBottom="6dp" />
 
-            <ImageView
-                android:id="@+id/btnBell"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_icon_circle_gray_light"
-                android:padding="8dp"
-                android:src="@drawable/ic_notifications"
-                app:tint="#1E293B"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Real-time vote counts for ongoing group elections."
+                android:textColor="#CCE0FF"
+                android:textSize="13sp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -66,13 +92,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:paddingHorizontal="16dp"
         android:paddingTop="16dp"
         android:paddingBottom="100dp"
-        android:paddingHorizontal="24dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/item_poll" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <!-- Empty state, centered over the RecyclerView area -->
     <LinearLayout
         android:id="@+id/emptyState"
         android:layout_width="match_parent"
@@ -83,13 +107,20 @@
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_polls_teal"
+            app:tint="@color/v_text_muted" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/manrope_bold"
             android:text="No active polls"
-            android:textColor="#64748B"
-            android:textSize="16sp"
+            android:textColor="@color/v_text_mid"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -99,8 +130,8 @@
             android:fontFamily="sans-serif"
             android:gravity="center"
             android:text="Active polls created by the admin will appear here."
-            android:textColor="#94A3B8"
-            android:textSize="13sp" />
+            android:textColor="@color/v_text_muted"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <ProgressBar

@@ -4,129 +4,149 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
+    android:layout_marginBottom="14dp"
     app:cardBackgroundColor="@color/card_surface"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="20dp"
     app:cardElevation="2dp"
-    app:strokeColor="@color/divider_color"
-    app:strokeWidth="1dp">
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- Role badge + Status -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvPollRole"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_pill_light_blue"
-                android:fontFamily="@font/manrope_bold"
-                android:letterSpacing="0.05"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="4dp"
-                android:text="ADMIN"
-                android:textColor="@color/brand_blue"
-                android:textSize="10sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvPollStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_status_pills"
-                android:backgroundTint="#D1FAE5"
-                android:fontFamily="@font/manrope_bold"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="4dp"
-                android:text="Active"
-                android:textColor="#065F46"
-                android:textSize="11sp" />
-        </LinearLayout>
-
-        <!-- Poll title -->
-        <TextView
-            android:id="@+id/tvPollTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/manrope_bold"
-            android:text="Admin Nomination Poll"
-            android:textColor="@color/v_text_dark"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- Group name -->
-        <TextView
-            android:id="@+id/tvPollGroupName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/v_text_mid"
-            android:textSize="13sp" />
-
-        <!-- Created by -->
-        <TextView
-            android:id="@+id/tvCreatedBy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/v_text_muted"
-            android:textSize="12sp" />
-
-        <!-- Time remaining -->
-        <TextView
-            android:id="@+id/tvTimeRemaining"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:fontFamily="sans-serif"
-            android:textColor="#64748B"
-            android:textSize="11sp" />
-
-        <!-- Divider -->
+        <!-- Blue accent top strip -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/divider_color" />
+            android:layout_height="4dp"
+            android:background="@color/brand_blue" />
 
-        <!-- Nominee vote rows — injected programmatically -->
         <LinearLayout
-            android:id="@+id/nomineesVoteContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:padding="18dp">
 
-        <!-- End Poll button — visible to admin only -->
-        <TextView
-            android:id="@+id/btnEndPoll"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/bg_status_pills"
-            android:backgroundTint="#FEE2E2"
-            android:fontFamily="@font/manrope_bold"
-            android:gravity="center"
-            android:text="End Poll"
-            android:textColor="#DC2626"
-            android:textSize="13sp"
-            android:clickable="true"
-            android:focusable="true"
-            android:visibility="gone" />
+            <!-- Role badge + Status badge + Time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
 
+                <TextView
+                    android:id="@+id/tvPollRole"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_pill_light_blue"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.05"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:text="ADMIN"
+                    android:textColor="@color/brand_blue"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPollStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_status_pills"
+                    android:backgroundTint="#D1FAE5"
+                    android:fontFamily="@font/manrope_bold"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:text="Active"
+                    android:textColor="#065F46"
+                    android:textSize="10sp" />
+
+                <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/tvTimeRemaining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/v_text_muted"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <!-- Poll title -->
+            <TextView
+                android:id="@+id/tvPollTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Admin Nomination Poll"
+                android:textColor="@color/v_text_dark"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Created by -->
+            <TextView
+                android:id="@+id/tvCreatedBy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/v_text_muted"
+                android:textSize="12sp" />
+
+            <!-- Group name (hidden but kept for data binding) -->
+            <TextView
+                android:id="@+id/tvPollGroupName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:background="@color/divider_color" />
+
+            <!-- Nominees header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope_bold"
+                android:letterSpacing="0.07"
+                android:text="VOTE COUNT"
+                android:textColor="@color/v_text_muted"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Nominee vote rows (progress bars) -->
+            <LinearLayout
+                android:id="@+id/nomineesVoteContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <!-- End Poll button — admin only -->
+            <TextView
+                android:id="@+id/btnEndPoll"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_status_pills"
+                android:backgroundTint="#FEE2E2"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="End Poll Early"
+                android:textColor="#DC2626"
+                android:textSize="13sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
