@@ -88,8 +88,10 @@
                     android:layout_marginTop="3dp"
                     android:text="Home"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:fontFamily="@font/manrope_bold"
+                    android:maxLines="1"
+                    android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -124,8 +126,10 @@
                     android:layout_marginTop="3dp"
                     android:text="Savings"
                     android:textColor="#9CA3AF"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:fontFamily="@font/manrope_bold"
+                    android:maxLines="1"
+                    android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -161,8 +165,10 @@
                     android:layout_marginTop="3dp"
                     android:text="Loans"
                     android:textColor="#9CA3AF"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:fontFamily="@font/manrope_bold"
+                    android:maxLines="1"
+                    android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -197,8 +203,10 @@
                     android:layout_marginTop="3dp"
                     android:text="Activity"
                     android:textColor="#9CA3AF"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:fontFamily="@font/manrope_bold"
+                    android:maxLines="1"
+                    android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -233,8 +241,10 @@
                     android:layout_marginTop="3dp"
                     android:text="Profile"
                     android:textColor="#9CA3AF"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:fontFamily="@font/manrope_bold"
+                    android:maxLines="1"
+                    android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>
 

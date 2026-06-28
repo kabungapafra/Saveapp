@@ -89,10 +89,9 @@ public class AdminDashboardFragment extends Fragment {
         });
         viewModel.getPayoutQueueCache().observe(getViewLifecycleOwner(), members -> {
             if (members != null && isAdded() && binding != null) {
-                String payoutDate = requireActivity()
-                        .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
-                        .getString("rule_next_payout_date", "");
-                applyUpcomingPayout(members, payoutDate);
+                // Date comes from the live API call; pass null here so it shows "--" briefly
+                // rather than a stale/empty SharedPreferences value
+                applyUpcomingPayout(members, null);
             }
         });
         viewModel.getRecentTransactionsCache().observe(getViewLifecycleOwner(), txList -> {
@@ -237,16 +236,18 @@ public class AdminDashboardFragment extends Fragment {
                             && response.body().getQueue() != null) {
                         List<com.example.save.data.models.PayoutQueueEntry> queue = response.body().getQueue();
                         List<Member> memberList = new ArrayList<>();
+                        String nextPayoutDate = null;
                         for (com.example.save.data.models.PayoutQueueEntry e : queue) {
                             Member m = new Member(e.getMemberName(), "member", true, e.getMemberPhone());
                             m.setHasReceivedPayout(e.hasReceivedPayout());
                             if (e.getActualPayoutDate() != null) m.setPayoutDate(e.getActualPayoutDate());
                             memberList.add(m);
+                            // Use the first unpaid member's scheduled payout_date from API
+                            if (!e.hasReceivedPayout() && nextPayoutDate == null && e.getPayoutDate() != null) {
+                                nextPayoutDate = formatIsoToDisplay(e.getPayoutDate());
+                            }
                         }
-                        String payoutDate = requireActivity()
-                                .getSharedPreferences("ChamaPrefs", Context.MODE_PRIVATE)
-                                .getString("rule_next_payout_date", "");
-                        applyUpcomingPayout(memberList, payoutDate);
+                        applyUpcomingPayout(memberList, nextPayoutDate);
                         viewModel.setPayoutQueueCache(memberList);
                     }
                 });
@@ -254,6 +255,20 @@ public class AdminDashboardFragment extends Fragment {
             @Override
             public void onFailure(Call<com.example.save.data.models.PayoutQueueResponse> call, Throwable t) {}
         });
+    }
+
+    private String formatIsoToDisplay(String iso) {
+        if (iso == null) return "--";
+        try {
+            java.text.SimpleDateFormat in = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", java.util.Locale.US);
+            in.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+            java.util.Date d = in.parse(iso);
+            if (d == null) return iso.substring(0, Math.min(10, iso.length()));
+            java.text.SimpleDateFormat out = new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.US);
+            return out.format(d);
+        } catch (Exception e) {
+            return iso.length() >= 10 ? iso.substring(0, 10) : iso;
+        }
     }
 
     private void applyUpcomingPayout(List<Member> members, String payoutDate) {
@@ -265,6 +280,11 @@ public class AdminDashboardFragment extends Fragment {
             if (!m.hasReceivedPayout()) { next = m; break; }
         }
         binding.tvUpcomingPayoutReceiver.setText(next != null ? next.getName() : "--");
+        // Set frequency from SharedPreferences — saved there when admin saves settings
+        String freq = requireContext()
+                .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE)
+                .getString("rule_frequency", "");
+        binding.tvPayoutFrequency.setText(freq.isEmpty() ? "Monthly" : freq);
     }
 
     private void loadAdminData() {

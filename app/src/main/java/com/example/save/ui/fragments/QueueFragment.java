@@ -182,13 +182,12 @@ public class QueueFragment extends Fragment {
             }
         });
 
-        // Also refresh config for payout amount
         viewModel.fetchSystemConfig((success, config, message) -> {
             if (success && config != null && isAdded()) {
                 double contribution = config.getContributionAmount();
                 double retention = config.getRetentionPercentage();
-                // We don't know member count here — will be set when queue loads
-                adapter.setPayoutAmount(contribution * (1 - retention / 100.0));
+                // Store for use once queue size is known
+                binding.tvPayoutPerMember.setTag(new double[]{contribution, retention});
             }
         });
     }
@@ -228,18 +227,26 @@ public class QueueFragment extends Fragment {
             binding.tvNextBatchLabel.setText("All members paid! Queue resets soon.");
         }
 
-        // Payout amount = config amount × member count × (1 - retention%)
-        android.content.SharedPreferences prefs = requireContext()
-                .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
-        double contribution = Double.parseDouble(prefs.getString("rule_contribution_amount", "0").replaceAll("[^0-9.]", "").isEmpty() ? "0" : prefs.getString("rule_contribution_amount", "0").replaceAll("[^0-9.]", ""));
-        double retentionPct = 0;
-        try { retentionPct = Double.parseDouble(prefs.getString("rule_retention_pct", "0")); } catch (Exception ignored) {}
-        if (contribution > 0) {
-            adapter.setPayoutAmount(contribution * data.getTotal() * (1.0 - retentionPct / 100.0));
+        // Payout amount — prefer values fetched from API (stored in tag), fall back to SharedPreferences
+        double contribution = 0, retentionPct = 0;
+        Object tag = binding.tvPayoutPerMember.getTag();
+        if (tag instanceof double[]) {
+            double[] cr = (double[]) tag;
+            contribution = cr[0];
+            retentionPct = cr[1];
         }
-        binding.tvPayoutPerMember.setText("UGX " +
-                java.text.NumberFormat.getIntegerInstance().format(
-                        contribution * data.getTotal() * (1.0 - retentionPct / 100.0)));
+        if (contribution == 0) {
+            android.content.SharedPreferences prefs = requireContext()
+                    .getSharedPreferences("ChamaPrefs", android.content.Context.MODE_PRIVATE);
+            String raw = prefs.getString("rule_contribution_amount", "0").replaceAll("[^0-9.]", "");
+            try { contribution = raw.isEmpty() ? 0 : Double.parseDouble(raw); } catch (Exception ignored) {}
+            try { retentionPct = Double.parseDouble(prefs.getString("rule_retention_pct", "0")); } catch (Exception ignored) {}
+        }
+        double payout = contribution * data.getTotal() * (1.0 - retentionPct / 100.0);
+        if (payout > 0) {
+            adapter.setPayoutAmount(payout);
+            binding.tvPayoutPerMember.setText("UGX " + java.text.NumberFormat.getIntegerInstance().format(payout));
+        }
     }
 
     private void sendReorderToServer(List<PayoutQueueEntry> ordered) {

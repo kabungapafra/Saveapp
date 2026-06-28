@@ -129,8 +129,13 @@ public class PayoutQueueAdapter extends RecyclerView.Adapter<PayoutQueueAdapter.
             holder.amount.setText("Received");
             holder.amount.setTextColor(0xFF10B981);
         } else {
-            holder.subtitle.setText("Score: " + (int) entry.getCreditScore());
-            String amtStr = "UGX " + java.text.NumberFormat.getIntegerInstance().format(payoutAmount);
+            String dateLabel = entry.getPayoutDate() != null
+                    ? "Receiving: " + formatShortDate(entry.getPayoutDate())
+                    : "Position #" + entry.getPosition();
+            holder.subtitle.setText(dateLabel);
+            String amtStr = payoutAmount > 0
+                    ? "UGX " + java.text.NumberFormat.getIntegerInstance().format(payoutAmount)
+                    : "Pending";
             holder.amount.setText(amtStr);
             holder.amount.setTextColor(
                     androidx.core.content.ContextCompat.getColor(ctx, R.color.dashboard_text_primary));
