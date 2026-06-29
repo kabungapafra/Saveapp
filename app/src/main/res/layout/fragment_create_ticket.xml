@@ -298,10 +298,12 @@
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
                 <EditText
+                    android:id="@+id/etTicketSubject"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:hint="What can we help you with?"
+                    android:inputType="text"
                     android:paddingHorizontal="16dp"
                     android:textColor="@color/v_text_dark"
                     android:textColorHint="@color/v_text_muted"
@@ -326,11 +328,13 @@
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
                 <EditText
+                    android:id="@+id/etTicketDescription"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:gravity="top"
                     android:hint="Please describe your issue in detail..."
+                    android:inputType="textMultiLine"
                     android:padding="16dp"
                     android:textColor="@color/v_text_dark"
                     android:textColorHint="@color/v_text_muted"

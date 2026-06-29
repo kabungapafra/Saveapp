@@ -13,9 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.save.R;
+import com.example.save.data.network.ApiService;
+import com.example.save.data.network.RetrofitClient;
 import com.example.save.ui.activities.AdminMainActivity;
 import com.example.save.ui.activities.MemberMainActivity;
 import com.example.save.utils.ThemeUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LiveChatFragment extends Fragment {
 
@@ -83,6 +89,16 @@ public class LiveChatFragment extends Fragment {
         }
 
         @JavascriptInterface
+        public void loadChatMessages() {
+            fetchMessages();
+        }
+
+        @JavascriptInterface
+        public void sendChatMessage(String content) {
+            postMessage(content);
+        }
+
+        @JavascriptInterface
         public void openFeedback() {
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
@@ -98,9 +114,59 @@ public class LiveChatFragment extends Fragment {
         }
     }
 
+    /** Pull the member's real conversation (incl. admin replies) and render it in the WebView. */
+    private void fetchMessages() {
+        if (getContext() == null) return;
+        RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                .getSupportMessages().enqueue(new Callback<okhttp3.ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<okhttp3.ResponseBody> call,
+                                           @NonNull Response<okhttp3.ResponseBody> response) {
+                        if (!isAdded() || webView == null) return;
+                        String messagesJson = "[]";
+                        try {
+                            if (response.isSuccessful() && response.body() != null) {
+                                org.json.JSONObject obj = new org.json.JSONObject(response.body().string());
+                                org.json.JSONArray arr = obj.optJSONArray("messages");
+                                if (arr != null) messagesJson = arr.toString();
+                            }
+                        } catch (Exception ignored) { }
+                        final String js = "renderMessages(" + messagesJson + ");";
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                if (webView != null) webView.evaluateJavascript(js, null);
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<okhttp3.ResponseBody> call, @NonNull Throwable t) { }
+                });
+    }
+
+    /** Persist a member's outgoing message, then refresh from the server. */
+    private void postMessage(String content) {
+        if (getContext() == null || content == null || content.trim().isEmpty()) return;
+        java.util.Map<String, String> body = new java.util.HashMap<>();
+        body.put("content", content);
+        RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                .sendSupportMessage(body).enqueue(new Callback<okhttp3.ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<okhttp3.ResponseBody> call,
+                                           @NonNull Response<okhttp3.ResponseBody> response) {
+                        if (isAdded()) fetchMessages();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<okhttp3.ResponseBody> call, @NonNull Throwable t) { }
+                });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+        // Refresh the thread each time the screen is shown (picks up admin replies).
+        fetchMessages();
         if (getActivity() != null) {
             if (getActivity() instanceof AdminMainActivity) {
                 ((AdminMainActivity) getActivity()).setBottomNavVisible(false);

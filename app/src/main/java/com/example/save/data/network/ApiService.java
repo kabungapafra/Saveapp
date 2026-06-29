@@ -154,4 +154,14 @@ public interface ApiService {
 
     @POST("savings-pool/{id}/cancel")
     Call<ApiResponse> cancelSavingsPool(@retrofit2.http.Path("id") String poolId);
+
+    // ── Support: live chat & tickets ──────────────────────────────────────────
+    @GET("support/chat/messages")
+    Call<okhttp3.ResponseBody> getSupportMessages();
+
+    @POST("support/chat/messages")
+    Call<okhttp3.ResponseBody> sendSupportMessage(@Body java.util.Map<String, String> body);
+
+    @POST("support/tickets")
+    Call<okhttp3.ResponseBody> createSupportTicket(@Body java.util.Map<String, String> body);
 }
