@@ -60,8 +60,15 @@ public class LoanPaymentFragment extends Fragment {
         initializeViews(view);
         setupListeners();
 
+        // Default to the "no active loan" state until data arrives, so neither admin nor
+        // member ever sees a stray repayment form before the loan has loaded.
+        updateLoanUI(null);
+
         // Fetch current user and their loan info
         loadMemberData();
+        // Also fetch independent of the member lookup so the admin (whose member record may
+        // not resolve locally) gets the same data-driven behaviour as a member.
+        loadActiveLoan();
     }
 
     private void initializeViews(View view) {
@@ -120,18 +127,59 @@ public class LoanPaymentFragment extends Fragment {
     }
 
     private void loadActiveLoan() {
-        if (currentMember != null) {
-            // Fetch Active Loan from database (for display)
-            // NOTE: In production, this should come from backend API
-            java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
-                com.example.save.data.models.LoanEntity loan = viewModel
-                        .getActiveLoanForMember(currentMember.getName());
-                requireActivity().runOnUiThread(() -> {
-                    activeLoan = loan;
-                    updateLoanUI(loan);
-                });
-            });
+        if (!isAdded()) return;
+
+        // Identify the current user — prefer the resolved member, fall back to the session.
+        final String myId = currentMember != null ? currentMember.getId() : null;
+        final String myName = currentMember != null
+                ? currentMember.getName()
+                : com.example.save.utils.SessionManager.getInstance(requireContext()).getUserName();
+
+        com.example.save.data.network.ApiService api = com.example.save.data.network.RetrofitClient
+                .getClient(requireContext()).create(com.example.save.data.network.ApiService.class);
+
+        api.getLoans(100, 0).enqueue(
+                new retrofit2.Callback<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>>() {
+            @Override
+            public void onResponse(
+                    retrofit2.Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> call,
+                    retrofit2.Response<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> response) {
+                if (!isAdded()) return;
+                com.example.save.data.models.LoanEntity best = findMyActiveLoan(
+                        response.isSuccessful() && response.body() != null ? response.body().getData() : null,
+                        myId, myName);
+                activeLoan = best;
+                updateLoanUI(best);
+            }
+
+            @Override
+            public void onFailure(
+                    retrofit2.Call<com.example.save.data.models.PaginatedResponse<com.example.save.data.models.LoanEntity>> call,
+                    Throwable t) {
+                if (!isAdded()) return;
+                activeLoan = null;
+                updateLoanUI(null);
+            }
+        });
+    }
+
+    /** Picks the caller's own repayable (active/approved/overdue, still-owing) loan, or null. */
+    private static com.example.save.data.models.LoanEntity findMyActiveLoan(
+            java.util.List<com.example.save.data.models.LoanEntity> loans, String myId, String myName) {
+        if (loans == null) return null;
+        for (com.example.save.data.models.LoanEntity e : loans) {
+            boolean mine = (myId != null && myId.equals(e.getMemberId()))
+                    || (myName != null && myName.equalsIgnoreCase(e.getMemberName()));
+            if (!mine) continue;
+            String st = e.getStatus();
+            boolean repayable = "ACTIVE".equalsIgnoreCase(st)
+                    || "APPROVED".equalsIgnoreCase(st)
+                    || "OVERDUE".equalsIgnoreCase(st);
+            if (!repayable) continue;
+            if (e.getAmount() + e.getInterest() - e.getRepaidAmount() <= 0) continue;
+            return e;
         }
+        return null;
     }
 
     private void updateLoanUI(com.example.save.data.models.LoanEntity loan) {

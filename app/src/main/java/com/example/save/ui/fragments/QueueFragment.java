@@ -73,6 +73,7 @@ public class QueueFragment extends Fragment {
 
         if (!isAdmin) {
             binding.llPendingApprovals.setVisibility(View.GONE);
+            binding.tvDragHint.setVisibility(View.GONE);
         }
 
         binding.btnApprovalsHeader.setOnClickListener(v -> {
@@ -206,7 +207,15 @@ public class QueueFragment extends Fragment {
 
         // Hero stats
         binding.tvQueueCount.setText(String.valueOf(data.getTotal()));
-        binding.tvNextPayoutDate.setText("Cycle " + data.getCycleNumber());
+        // Show the actual scheduled date of the first unpaid member
+        String nextDate = "TBD";
+        for (PayoutQueueEntry e : queue) {
+            if (!e.hasReceivedPayout() && e.getPayoutDate() != null) {
+                nextDate = formatDisplayDate(e.getPayoutDate());
+                break;
+            }
+        }
+        binding.tvNextPayoutDate.setText(nextDate);
         binding.tvCycleLabel.setText("Round " + data.getCycleNumber());
 
         // Next 5 banner
@@ -249,6 +258,18 @@ public class QueueFragment extends Fragment {
         }
     }
 
+    private String formatDisplayDate(String iso) {
+        try {
+            java.text.SimpleDateFormat in = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", java.util.Locale.US);
+            in.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+            java.util.Date d = in.parse(iso);
+            if (d == null) return iso.substring(0, Math.min(10, iso.length()));
+            return new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.US).format(d);
+        } catch (Exception e) {
+            return iso.length() >= 10 ? iso.substring(0, 10) : iso;
+        }
+    }
+
     private void sendReorderToServer(List<PayoutQueueEntry> ordered) {
         List<ReorderRequest.PositionEntry> positions = new ArrayList<>();
         for (int i = 0; i < ordered.size(); i++) {
@@ -258,7 +279,11 @@ public class QueueFragment extends Fragment {
         api.reorderPayoutQueue(new ReorderRequest(positions)).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                if (isAdded() && (!response.isSuccessful())) {
+                if (!isAdded()) return;
+                if (response.isSuccessful()) {
+                    // Reload so each card shows the updated payout_date from the server
+                    loadQueue();
+                } else {
                     Toast.makeText(getContext(), "Failed to save order", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -25,6 +25,7 @@ import com.example.save.data.network.ApiService;
 import com.example.save.data.network.CastVoteRequestBody;
 import com.example.save.data.network.RetrofitClient;
 import com.example.save.ui.viewmodels.MembersViewModel;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.text.SimpleDateFormat;
@@ -53,7 +54,9 @@ public class CastVoteFragment extends Fragment {
     private View cardAbstain;
     private TextView tvGroupName, tvPollTitle, tvVoteProgress, tvTimeRemaining;
     private LinearProgressIndicator pbVoting;
-    private View emptyState, loadingIndicator;
+    private CircularProgressIndicator countdownRing;
+    private View countdownRingContainer;
+    private View emptyState, loadingIndicator, contentScroll;
     private RecyclerView rvNominees;
     private NomineeAdapter nomineeAdapter;
 
@@ -79,8 +82,11 @@ public class CastVoteFragment extends Fragment {
         tvVoteProgress = view.findViewById(R.id.tvVoteProgress);
         tvTimeRemaining = view.findViewById(R.id.tvTimeRemaining);
         pbVoting = view.findViewById(R.id.pbVoting);
+        countdownRing = view.findViewById(R.id.countdownRing);
+        countdownRingContainer = view.findViewById(R.id.countdownRingContainer);
         emptyState = view.findViewById(R.id.emptyState);
         loadingIndicator = view.findViewById(R.id.loadingIndicator);
+        contentScroll = view.findViewById(R.id.contentScroll);
         rvNominees = view.findViewById(R.id.rvNominees);
 
         nomineeAdapter = new NomineeAdapter();
@@ -145,6 +151,11 @@ public class CastVoteFragment extends Fragment {
     private void bindPoll(Poll poll) {
         currentPoll = poll;
 
+        // Active poll exists — show the ballot, hide the empty state
+        if (emptyState != null) emptyState.setVisibility(View.GONE);
+        if (contentScroll != null) contentScroll.setVisibility(View.VISIBLE);
+        if (rvNominees != null) rvNominees.setVisibility(View.VISIBLE);
+
         // Group name label
         String group = poll.getGroupName();
         tvGroupName.setText(group != null && !group.isEmpty() ? group.toUpperCase() : "CURRENT ELECTION");
@@ -159,12 +170,8 @@ public class CastVoteFragment extends Fragment {
         tvVoteProgress.setText(voted + " / " + total + " voted");
         pbVoting.setProgress(pct);
 
-        // Time remaining countdown
-        String timeLeft = formatTimeRemaining(poll.getExpiresAt());
-        if (tvTimeRemaining != null) {
-            tvTimeRemaining.setText(timeLeft);
-            tvTimeRemaining.setVisibility(timeLeft.isEmpty() ? View.GONE : View.VISIBLE);
-        }
+        // Time remaining countdown ring
+        bindCountdown(poll);
 
         // Populate nominees RecyclerView
         List<PollNominee> nominees = poll.getNominees();
@@ -172,8 +179,11 @@ public class CastVoteFragment extends Fragment {
     }
 
     private void showEmpty() {
-        if (emptyState != null) emptyState.setVisibility(View.VISIBLE);
+        // No active poll — hide the entire ballot so the "Abstain"/"Submit"
+        // controls don't appear when there's nothing to vote on.
+        if (contentScroll != null) contentScroll.setVisibility(View.GONE);
         if (rvNominees != null) rvNominees.setVisibility(View.GONE);
+        if (emptyState != null) emptyState.setVisibility(View.VISIBLE);
     }
 
     private void onSubmit(View v) {
@@ -227,27 +237,75 @@ public class CastVoteFragment extends Fragment {
                 });
     }
 
-    // ── Time formatting ───────────────────────────────────────────────────────
+    // ── Countdown ring ────────────────────────────────────────────────────────
 
-    private static String formatTimeRemaining(String expiresAt) {
-        if (expiresAt == null || expiresAt.isEmpty()) return "";
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            Date expiry = sdf.parse(expiresAt);
-            if (expiry == null) return "";
-            long diffMs = expiry.getTime() - System.currentTimeMillis();
-            if (diffMs <= 0) return "Expired";
-            long diffHours = diffMs / (1000 * 60 * 60);
-            long diffMins = (diffMs % (1000 * 60 * 60)) / (1000 * 60);
-            if (diffHours < 1) {
-                if (diffMins < 5) return "Closes soon";
-                return diffMins + "m left";
-            }
-            return diffHours + "h " + diffMins + "m left";
-        } catch (Exception e) {
-            return "";
+    private void bindCountdown(Poll poll) {
+        if (countdownRingContainer == null) return;
+        Date expiry = parseIso(poll.getExpiresAt());
+        Date start = parseIso(poll.getCreatedAt());
+        if (expiry == null) {
+            countdownRingContainer.setVisibility(View.GONE);
+            return;
         }
+        countdownRingContainer.setVisibility(View.VISIBLE);
+
+        long remainingMs = expiry.getTime() - System.currentTimeMillis();
+
+        // Ring fraction = time remaining / total poll duration
+        int progress;
+        if (start != null && expiry.getTime() > start.getTime()) {
+            double frac = remainingMs / (double) (expiry.getTime() - start.getTime());
+            progress = (int) Math.round(Math.max(0, Math.min(1, frac)) * 100);
+        } else {
+            progress = remainingMs > 0 ? 100 : 0;
+        }
+        countdownRing.setProgressCompat(progress, true);
+
+        // Colour by urgency: green → amber → red as the deadline approaches
+        int color = progress > 50 ? 0xFF4CAF50 : (progress > 20 ? 0xFFFFC107 : 0xFFFF5252);
+        countdownRing.setIndicatorColor(color);
+
+        tvTimeRemaining.setText(formatTimeShort(remainingMs));
+
+        // One gentle pulse on appear
+        countdownRingContainer.setScaleX(1f);
+        countdownRingContainer.setScaleY(1f);
+        countdownRingContainer.animate()
+                .scaleX(1.12f).scaleY(1.12f).setDuration(420)
+                .withEndAction(() -> {
+                    if (countdownRingContainer != null) {
+                        countdownRingContainer.animate().scaleX(1f).scaleY(1f).setDuration(420).start();
+                    }
+                }).start();
+    }
+
+    private static String formatTimeShort(long diffMs) {
+        if (diffMs <= 0) return "Ended";
+        long hours = diffMs / (1000 * 60 * 60);
+        long mins = (diffMs % (1000 * 60 * 60)) / (1000 * 60);
+        long days = hours / 24;
+        if (days >= 1) return days + "d";
+        if (hours >= 1) return hours + "h";
+        if (mins >= 1) return mins + "m";
+        return "<1m";
+    }
+
+    private static Date parseIso(String s) {
+        if (s == null || s.isEmpty()) return null;
+        String[] patterns = {
+            "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+            "yyyy-MM-dd'T'HH:mm:ss'Z'",
+            "yyyy-MM-dd'T'HH:mm:ss.SSS",
+            "yyyy-MM-dd'T'HH:mm:ss"
+        };
+        for (String p : patterns) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat(p, Locale.US);
+                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                return sdf.parse(s);
+            } catch (Exception ignored) {}
+        }
+        return null;
     }
 
     // ── Initials helper ───────────────────────────────────────────────────────

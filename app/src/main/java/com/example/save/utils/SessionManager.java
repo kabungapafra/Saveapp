@@ -195,8 +195,9 @@ public class SessionManager {
 
     /** Cache an avatar path/uri for a specific member phone (used to rehydrate from server). */
     public void saveProfileImage(String phone, String uri) {
-        if (phone != null && !phone.isEmpty()) {
-            memPref.edit().putString(KEY_PROFILE_IMAGE + "_" + phone, uri).apply();
+        String key = normalizePhoneKey(phone);
+        if (key != null && !key.isEmpty()) {
+            memPref.edit().putString(KEY_PROFILE_IMAGE + "_" + key, uri).apply();
         }
     }
 
@@ -205,10 +206,20 @@ public class SessionManager {
     }
 
     public String getProfileImage(String phone) {
-        if (phone != null && !phone.isEmpty()) {
-            return memPref.getString(KEY_PROFILE_IMAGE + "_" + phone, null);
+        String key = normalizePhoneKey(phone);
+        if (key != null && !key.isEmpty()) {
+            return memPref.getString(KEY_PROFILE_IMAGE + "_" + key, null);
         }
         return null;
+    }
+
+    /**
+     * Normalize a phone to a stable key (digits and leading +) so that saving and looking up
+     * an avatar always match, regardless of formatting. Cards, rehydration and the profile
+     * screen all funnel through here, keeping the key consistent everywhere.
+     */
+    private static String normalizePhoneKey(String phone) {
+        return phone == null ? null : phone.replaceAll("[^0-9+]", "");
     }
 
     // ────────────────────────────────────────────────────────────────────────

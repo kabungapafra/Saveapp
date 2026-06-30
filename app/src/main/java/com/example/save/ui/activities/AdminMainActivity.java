@@ -219,7 +219,7 @@ public class AdminMainActivity extends BaseActivity {
         if (selectedImage != null) selectedImage.setImageTintList(ColorStateList.valueOf(Color.WHITE));
         if (selectedText != null) {
             selectedText.setVisibility(View.VISIBLE);
-            selectedText.setTextColor(Color.WHITE);
+            selectedText.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.brand_blue));
         }
     }
 

@@ -7,6 +7,7 @@
     android:background="@color/v_page_bg">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -113,18 +114,36 @@
                         android:textColor="#FFFFFF"
                         android:textSize="12sp" />
 
-                    <TextView
-                        android:id="@+id/tvTimeRemaining"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/bg_circle_white_border"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="3dp"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text=""
-                        android:textColor="#FFFFFF"
-                        android:textSize="11sp" />
+                    <FrameLayout
+                        android:id="@+id/countdownRingContainer"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        android:layout_marginStart="12dp">
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/countdownRing"
+                            android:layout_width="46dp"
+                            android:layout_height="46dp"
+                            android:layout_gravity="center"
+                            android:indeterminate="false"
+                            android:progress="100"
+                            app:indicatorColor="#4CAF50"
+                            app:indicatorInset="0dp"
+                            app:indicatorSize="46dp"
+                            app:trackColor="#40FFFFFF"
+                            app:trackThickness="4dp" />
+
+                        <TextView
+                            android:id="@+id/tvTimeRemaining"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/manrope_bold"
+                            android:gravity="center"
+                            android:text=""
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp" />
+                    </FrameLayout>
                 </LinearLayout>
 
                 <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -318,6 +337,7 @@
         android:id="@+id/emptyState"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/v_page_bg"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="32dp"

@@ -38,50 +38,53 @@
             android:layout_height="0.8dp"
             android:background="@color/divider_color" />
 
-        <!-- Nav items: generous top + bottom padding for breathing room -->
+        <!-- Nav items -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingHorizontal="6dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="18dp">
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp">
 
-            <!-- HOME (active by default) -->
+            <!-- HOME -->
             <LinearLayout
                 android:id="@+id/nav_dashboard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/pill_dashboard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:layout_width="52dp"
+                    android:layout_height="32dp"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="10dp"
                     android:background="@drawable/bg_nav_pill_active">
 
                     <ImageView
                         android:id="@+id/img_dashboard"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@drawable/ic_home"
                         app:tint="#FFFFFF" />
-
-                    <TextView
-                        android:id="@+id/txt_dashboard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:text="Home"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:visibility="visible" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_dashboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="Home"
+                    android:textColor="@color/brand_blue"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:ellipsize="none"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <!-- SAVINGS -->
@@ -90,34 +93,37 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/pill_savings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:layout_width="52dp"
+                    android:layout_height="32dp"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="10dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/img_savings"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@drawable/ic_wallet_safe_blue"
                         app:tint="#9CA3AF" />
-
-                    <TextView
-                        android:id="@+id/txt_savings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:text="Savings"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_savings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="Savings"
+                    android:textColor="#9CA3AF"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:ellipsize="none"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <!-- LOANS -->
@@ -126,34 +132,37 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/pill_loans"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:layout_width="52dp"
+                    android:layout_height="32dp"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="10dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/img_loans"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@drawable/ic_bank_filled"
                         app:tint="#9CA3AF" />
-
-                    <TextView
-                        android:id="@+id/txt_loans"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:text="Loans"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_loans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="Loans"
+                    android:textColor="#9CA3AF"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:ellipsize="none"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <!-- ACTIVITY -->
@@ -162,34 +171,37 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/pill_payouts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:layout_width="52dp"
+                    android:layout_height="32dp"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="10dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/img_payouts"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@drawable/ic_history"
                         app:tint="#9CA3AF" />
-
-                    <TextView
-                        android:id="@+id/txt_payouts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:text="Activity"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_payouts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="Activity"
+                    android:textColor="#9CA3AF"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:ellipsize="none"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <!-- PROFILE -->
@@ -198,34 +210,37 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/pill_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:layout_width="52dp"
+                    android:layout_height="32dp"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="10dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/img_settings"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@drawable/ic_person"
                         app:tint="#9CA3AF" />
-
-                    <TextView
-                        android:id="@+id/txt_settings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:text="Profile"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="Profile"
+                    android:textColor="#9CA3AF"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:ellipsize="none"
+                    android:visibility="visible" />
             </LinearLayout>
 
         </LinearLayout>

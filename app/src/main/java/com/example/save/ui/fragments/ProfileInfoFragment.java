@@ -38,6 +38,10 @@ public class ProfileInfoFragment extends Fragment {
     private GoogleSignInClient mGoogleSignInClient;
     private SessionManager session;
     private String currentMemberId;
+    // The loaded member's own phone — the key the avatar cache + card adapters use.
+    // session.getUserPhone() can be stored in a different format (local vs international),
+    // so we must key the avatar off this, not the session phone.
+    private String avatarPhone;
 
     @Nullable
     @Override
@@ -51,7 +55,9 @@ public class ProfileInfoFragment extends Fragment {
                     if (uri != null) {
                         String localPath = saveImageToInternalStorage(uri);
                         if (localPath != null) {
-                            session.saveProfileImage(localPath);
+                            String key = (avatarPhone != null && !avatarPhone.isEmpty())
+                                    ? avatarPhone : session.getUserPhone();
+                            session.saveProfileImage(key, localPath);
                             loadAvatar(localPath);
                             uploadAvatar(localPath);
                         }
@@ -132,9 +138,14 @@ public class ProfileInfoFragment extends Fragment {
     }
 
     private void refreshAvatar() {
-        String phone = session.getUserPhone();
+        // Prefer the loaded member's phone (matches the card/rehydration cache key);
+        // fall back to the session phone before the member has loaded.
+        String phone = (avatarPhone != null && !avatarPhone.isEmpty()) ? avatarPhone : session.getUserPhone();
         String savedImage = session.getProfileImage(phone);
-        if (savedImage != null && new java.io.File(savedImage).exists()) {
+        // Mirror the card adapters: load any non-empty value and let Glide resolve it
+        // (file path, content:// URI, or remote URL). The earlier File.exists() gate
+        // silently skipped valid content URIs, which is why the photo never appeared here.
+        if (savedImage != null && !savedImage.isEmpty()) {
             loadAvatar(savedImage);
         }
     }
@@ -275,45 +286,64 @@ public class ProfileInfoFragment extends Fragment {
 
     private void loadProfileInfo() {
         if (getContext() == null) return;
-        
-        String userPhone = session.getUserPhone();
 
-        if (userPhone == null || userPhone.isEmpty()) {
-            Toast.makeText(getContext(), "User data not found", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        final String sessionName = session.getUserName();
+        String phone = session.getUserPhone();
+        // Some login paths store an empty phone — fall back to the persisted last-phone.
+        if (phone == null || phone.isEmpty()) phone = session.getLastPhone();
 
-        // Initially load from session
-        String sessionName = session.getUserName();
-
+        // Always show what the session already knows, so the screen is never blank.
         binding.etFullName.setText(sessionName);
-        binding.etPhone.setText(userPhone);
+        binding.etPhone.setText(phone);
         binding.tvDisplayName.setText(sessionName != null && !sessionName.isEmpty() ? sessionName : "—");
 
-        // Fetch real data from DB
-        viewModel.getMemberByPhoneLive(userPhone).observe(getViewLifecycleOwner(), member -> {
-            if (member != null) {
-                binding.etFullName.setText(member.getName());
-                binding.etPhone.setText(member.getPhone());
-                binding.tvDisplayName.setText(member.getName() != null ? member.getName() : "—");
+        if (phone != null && !phone.isEmpty()) {
+            // Preferred: resolve the member reactively by phone.
+            viewModel.getMemberByPhoneLive(phone).observe(getViewLifecycleOwner(), member -> {
+                if (member != null) {
+                    bindMember(member);
+                } else {
+                    viewModel.syncMembers();
+                }
+            });
+        } else if (sessionName != null && !sessionName.isEmpty()) {
+            // No phone on file — resolve the member by name from the synced list instead.
+            viewModel.getMembers().observe(getViewLifecycleOwner(), members -> {
+                if (members == null) return;
+                for (com.example.save.data.models.Member m : members) {
+                    if (sessionName.equalsIgnoreCase(m.getName())) {
+                        bindMember(m);
+                        break;
+                    }
+                }
+            });
+            viewModel.syncMembers();
+        } else {
+            // Truly nothing to go on.
+            Toast.makeText(getContext(), "User data not found", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-                String role = member.getRole() != null ? member.getRole().toUpperCase() : "MEMBER";
-                binding.tvRole.setText(role);
+    /** Binds a resolved member's details (and avatar key) into the profile UI. */
+    private void bindMember(com.example.save.data.models.Member member) {
+        if (binding == null || member == null) return;
+        binding.etFullName.setText(member.getName());
+        binding.etPhone.setText(member.getPhone());
+        binding.tvDisplayName.setText(member.getName() != null ? member.getName() : "—");
 
-                String id = member.getId();
-                binding.tvMemberId.setText("MEMBER ID #" + (id != null && !id.isEmpty()
-                        ? id.substring(0, Math.min(8, id.length())).toUpperCase()
-                        : "—"));
+        String role = member.getRole() != null ? member.getRole().toUpperCase() : "MEMBER";
+        binding.tvRole.setText(role);
 
-                currentMemberId = member.getId();
-                binding.tvMemberSince.setText(formatJoinDate(member.getJoinedDate()));
-                binding.tvStatus.setText(member.isActive() ? "Active" : "Inactive");
-                refreshAvatar();
-            } else {
-                // Trigger a sync if no data found locally
-                viewModel.syncMembers();
-            }
-        });
+        String id = member.getId();
+        binding.tvMemberId.setText("MEMBER ID #" + (id != null && !id.isEmpty()
+                ? id.substring(0, Math.min(8, id.length())).toUpperCase()
+                : "—"));
+
+        currentMemberId = member.getId();
+        avatarPhone = member.getPhone();
+        binding.tvMemberSince.setText(formatJoinDate(member.getJoinedDate()));
+        binding.tvStatus.setText(member.isActive() ? "Active" : "Inactive");
+        refreshAvatar();
     }
 
     /** Best-effort formatting of the backend join date (ISO/date string) to "MMM yyyy". */

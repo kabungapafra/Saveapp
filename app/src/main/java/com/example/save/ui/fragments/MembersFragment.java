@@ -102,8 +102,11 @@ public class MembersFragment extends Fragment {
         successAnimation = binding.successAnimation;
         animationOverlay = binding.animationOverlay;
 
-        // Add Member Card Click (Today's Work Restoration)
-        binding.btnAddMemberCard.setOnClickListener(v -> showAddMemberDialog());
+        if (isAdmin) {
+            binding.btnAddMemberCard.setOnClickListener(v -> showAddMemberDialog());
+        } else {
+            binding.btnAddMemberCard.setVisibility(View.GONE);
+        }
 
         // Make Poll Card Click (Today's Work Restoration)
         binding.cardMakePoll.setOnClickListener(v -> {

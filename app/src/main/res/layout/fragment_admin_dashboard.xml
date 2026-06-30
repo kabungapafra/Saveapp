@@ -387,6 +387,71 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Active Poll / Election banner — shown only when there is an active poll the user hasn't voted on -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/activePollBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/card_surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#FF5252"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <View
+                        android:id="@+id/activePollDot"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/bg_badge_red" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Active election"
+                            android:textColor="@color/dashboard_text_primary"
+                            android:textSize="@dimen/text_size_normal"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tvActivePollTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="A vote needs your attention"
+                            android:textColor="@color/dashboard_text_secondary"
+                            android:textSize="@dimen/text_size_xs" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_status_pills"
+                        android:backgroundTint="#FF5252"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:text="Vote now"
+                        android:textColor="#FFFFFF"
+                        android:textSize="@dimen/text_size_xs"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Quick Actions -->
             <LinearLayout
                 android:layout_width="match_parent"

@@ -122,13 +122,13 @@ public class MemberMainActivity extends BaseActivity {
     private void switchToTab(Fragment fragment) {
         getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         loadFragment(fragment, false);
-        syncNavUI();
+        binding.getRoot().post(this::syncNavUI);
     }
 
     public void switchToDashboard() {
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         loadFragment(AdminDashboardFragment.newInstance(false), false);
-        updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.pillDashboard);
+        binding.getRoot().post(() -> updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.pillDashboard));
     }
 
     public void showNotifications() {
@@ -185,7 +185,7 @@ public class MemberMainActivity extends BaseActivity {
         if (selectedImage != null) selectedImage.setImageTintList(ColorStateList.valueOf(Color.WHITE));
         if (selectedText != null) {
             selectedText.setVisibility(View.VISIBLE);
-            selectedText.setTextColor(Color.WHITE);
+            selectedText.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.brand_blue));
         }
     }
 
@@ -201,10 +201,7 @@ public class MemberMainActivity extends BaseActivity {
         int inactiveColor = Color.parseColor("#9CA3AF");
         if (pill != null) pill.setBackground(null);
         if (image != null) image.setImageTintList(ColorStateList.valueOf(inactiveColor));
-        if (text != null) {
-            text.setVisibility(View.VISIBLE);
-            text.setTextColor(inactiveColor);
-        }
+        if (text != null) text.setVisibility(View.GONE);
     }
 
     public void setBottomNavVisible(boolean visible) {

@@ -83,14 +83,15 @@
 
                 <TextView
                     android:id="@+id/txtDashboard"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
+                    android:gravity="center"
                     android:text="Home"
-                    android:textColor="#FFFFFF"
-                    android:textSize="9sp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:maxLines="1"
+                    android:textColor="@color/brand_blue"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
                     android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>
@@ -121,14 +122,15 @@
 
                 <TextView
                     android:id="@+id/txtLoans"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
+                    android:gravity="center"
                     android:text="Savings"
                     android:textColor="#9CA3AF"
-                    android:textSize="9sp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:maxLines="1"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
                     android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>
@@ -160,14 +162,15 @@
 
                 <TextView
                     android:id="@+id/txtSavings"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
+                    android:gravity="center"
                     android:text="Loans"
                     android:textColor="#9CA3AF"
-                    android:textSize="9sp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:maxLines="1"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
                     android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>
@@ -198,14 +201,15 @@
 
                 <TextView
                     android:id="@+id/txtPayouts"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
+                    android:gravity="center"
                     android:text="Activity"
                     android:textColor="#9CA3AF"
-                    android:textSize="9sp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:maxLines="1"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
                     android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>
@@ -236,14 +240,15 @@
 
                 <TextView
                     android:id="@+id/txtSettings"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
+                    android:gravity="center"
                     android:text="Profile"
                     android:textColor="#9CA3AF"
-                    android:textSize="9sp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:maxLines="1"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
                     android:ellipsize="none"
                     android:visibility="visible" />
             </LinearLayout>

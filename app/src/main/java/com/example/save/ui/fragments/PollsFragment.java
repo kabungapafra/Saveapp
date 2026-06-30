@@ -62,6 +62,7 @@ public class PollsFragment extends Fragment {
                 } else {
                     view.loadUrl("javascript:setRole('admin')");
                 }
+                loadPollStats();
             }
         });
         binding.webView.addJavascriptInterface(new WebAppInterface(), "Android");
@@ -130,6 +131,41 @@ public class PollsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         injectTheme();
+        // Refresh the Active/Voted/Closed counts (e.g. after returning from casting a vote)
+        loadPollStats();
+    }
+
+    private void loadPollStats() {
+        if (binding == null || getContext() == null) return;
+        com.example.save.data.network.RetrofitClient.getClient(requireContext())
+                .create(com.example.save.data.network.ApiService.class)
+                .getPolls()
+                .enqueue(new retrofit2.Callback<java.util.List<com.example.save.data.models.Poll>>() {
+            @Override
+            public void onResponse(retrofit2.Call<java.util.List<com.example.save.data.models.Poll>> call,
+                                   retrofit2.Response<java.util.List<com.example.save.data.models.Poll>> response) {
+                if (!isAdded() || binding == null) return;
+                int active = 0, voted = 0, closed = 0;
+                if (response.isSuccessful() && response.body() != null) {
+                    for (com.example.save.data.models.Poll p : response.body()) {
+                        if ("active".equals(p.getStatus())) active++;
+                        else if ("closed".equals(p.getStatus())) closed++;
+                        if (p.isHasVoted()) voted++;
+                    }
+                }
+                final int fa = active, fv = voted, fc = closed;
+                if (getActivity() == null) return;
+                getActivity().runOnUiThread(() -> {
+                    if (binding == null) return;
+                    binding.webView.evaluateJavascript(
+                            "setPollStats(" + fa + "," + fv + "," + fc + ");", null);
+                });
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<java.util.List<com.example.save.data.models.Poll>> call,
+                                  Throwable t) { }
+        });
     }
 
     private void injectTheme() {

@@ -342,7 +342,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_bold"
-                                android:text="Start New Poll"
+                                android:text="Polls"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp" />
 

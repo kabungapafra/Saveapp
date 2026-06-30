@@ -352,6 +352,16 @@
             }
         }
 
+        // Called by Android (PollsFragment) once poll data is fetched
+        function setPollStats(active, voted, closed) {
+            var a = document.getElementById('statActive');
+            var v = document.getElementById('statVoted');
+            var c = document.getElementById('statClosed');
+            if (a) a.textContent = active;
+            if (v) v.textContent = voted;
+            if (c) c.textContent = closed;
+        }
+
         function applyThemeFromAndroid() {
             var isDark = false;
             try {

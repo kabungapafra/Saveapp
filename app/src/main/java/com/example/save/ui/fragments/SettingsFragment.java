@@ -73,11 +73,41 @@ public class SettingsFragment extends Fragment {
             }
         }
 
-        String savedImage = session.getProfileImage();
-        if (savedImage != null) {
+        // Avatar: session.getProfileImage() keys off the session phone, which can be empty or
+        // stored in a different format than the member's phone. Resolve the member and key the
+        // avatar off its phone — the same value the card adapters use.
+        showAvatar(session.getProfileImage());          // instant best-effort
+        loadAvatarFromMember(name, phone);              // robust, member-keyed
+    }
+
+    /** Resolves the current user's member record and loads their avatar by the member's phone. */
+    private void loadAvatarFromMember(String name, String sessionPhone) {
+        SessionManager session = SessionManager.getInstance(requireContext());
+        String sessionKey = sessionPhone != null ? sessionPhone.replaceAll("[^0-9+]", "") : "";
+        com.example.save.ui.viewmodels.MembersViewModel vm =
+                new androidx.lifecycle.ViewModelProvider(requireActivity())
+                        .get(com.example.save.ui.viewmodels.MembersViewModel.class);
+        vm.getMembers().observe(getViewLifecycleOwner(), members -> {
+            if (members == null || binding == null) return;
+            for (com.example.save.data.models.Member m : members) {
+                String mKey = m.getPhone() != null ? m.getPhone().replaceAll("[^0-9+]", "") : "";
+                boolean mine = (!sessionKey.isEmpty() && sessionKey.equals(mKey))
+                        || (name != null && name.equalsIgnoreCase(m.getName()));
+                if (mine) {
+                    showAvatar(session.getProfileImage(m.getPhone()));
+                    break;
+                }
+            }
+        });
+        vm.syncMembers();
+    }
+
+    private void showAvatar(String img) {
+        if (binding == null) return;
+        if (img != null && !img.isEmpty()) {
             binding.imgAvatar.setVisibility(View.VISIBLE);
             com.bumptech.glide.Glide.with(this)
-                    .load(savedImage)
+                    .load(img)
                     .circleCrop()
                     .into(binding.imgAvatar);
         } else {
