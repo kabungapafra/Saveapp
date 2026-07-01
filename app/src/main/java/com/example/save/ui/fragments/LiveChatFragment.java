@@ -117,10 +117,31 @@ public class LiveChatFragment extends Fragment {
 
         @JavascriptInterface
         public void openFeedback() {
+            // End the chat on the backend first so the admin sees it as closed.
+            if (getContext() != null) {
+                RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                        .endChatMember().enqueue(new Callback<okhttp3.ResponseBody>() {
+                            @Override public void onResponse(@NonNull Call<okhttp3.ResponseBody> call,
+                                                            @NonNull Response<okhttp3.ResponseBody> response) {
+                                navigateToFeedback();
+                            }
+                            @Override public void onFailure(@NonNull Call<okhttp3.ResponseBody> call,
+                                                           @NonNull Throwable t) {
+                                navigateToFeedback();
+                            }
+                        });
+            } else {
+                navigateToFeedback();
+            }
+        }
+
+        private void navigateToFeedback() {
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     if (!isAdded()) return;
-                    isNavigatingToNextScreen = true; // Prevent nav bar restoration during transition
+                    isNavigatingToNextScreen = true;
+                    statusHandler.removeCallbacks(statusPollRunnable);
+                    statusHandler.removeCallbacks(msgPollRunnable);
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow,
                                                R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow)

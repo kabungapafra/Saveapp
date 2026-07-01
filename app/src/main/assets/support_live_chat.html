@@ -954,16 +954,20 @@ body {
     if (isTyping) scrollToBottom();
   }
 
-  // Called by Android (LiveChatFragment) with the full server-side history.
+  // Append-only render — avoids clearing the DOM on every poll (no more blinking).
+  let _renderedCount = 0;
   function renderMessages(messages, adminTyping) {
-    dynamicMessages.innerHTML = '';
-    (messages || []).forEach(m => {
+    const msgs = messages || [];
+    // Only append messages we haven't rendered yet.
+    for (let i = _renderedCount; i < msgs.length; i++) {
+      const m = msgs[i];
       const t = fmtTs(m.created_at);
       dynamicMessages.appendChild(
         m.sender_role === 'admin' ? agentBubble(m.content, t) : userBubble(m.content, t));
-    });
+    }
+    if (msgs.length > _renderedCount) scrollToBottom();
+    _renderedCount = msgs.length;
     showTypingIndicator(!!adminTyping);
-    scrollToBottom();
   }
 
   function sendMessage() {

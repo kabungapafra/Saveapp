@@ -12,9 +12,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
+import com.example.save.data.network.ApiService;
+import com.example.save.data.network.RetrofitClient;
 import com.example.save.databinding.FragmentSettingsBinding;
 import com.example.save.ui.activities.AdminMainActivity;
 import com.example.save.utils.SessionManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SettingsFragment extends Fragment {
 
@@ -229,13 +235,7 @@ public class SettingsFragment extends Fragment {
 
         binding.rowLiveChat.setOnClickListener(v -> {
             applyClickAnimation(v);
-            if (getParentFragmentManager() != null) {
-                getParentFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                        .replace(R.id.fragment_container, ConnectingAgentFragment.newInstance())
-                        .addToBackStack("SupportRoot")
-                        .commit();
-            }
+            openLiveChat();
         });
 
         binding.rowCallSupport.setOnClickListener(v -> {
@@ -267,6 +267,57 @@ public class SettingsFragment extends Fragment {
         binding.headerContainer.animate().alpha(1f).translationY(0f).setDuration(400).setStartDelay(100).start();
         binding.statsStrip.animate().alpha(1f).translationY(0f).setDuration(400).setStartDelay(200).start();
         binding.bodyContent.animate().alpha(1f).translationY(0f).setDuration(500).setStartDelay(300).start();
+    }
+
+    private void openLiveChat() {
+        if (!isAdded() || getContext() == null || getParentFragmentManager() == null) return;
+        RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                .getChatStatus().enqueue(new Callback<okhttp3.ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<okhttp3.ResponseBody> call,
+                                           @NonNull Response<okhttp3.ResponseBody> response) {
+                        if (!isAdded()) return;
+                        String status = "none";
+                        try {
+                            if (response.isSuccessful() && response.body() != null) {
+                                org.json.JSONObject obj = new org.json.JSONObject(response.body().string());
+                                status = obj.optString("status", "none");
+                            }
+                        } catch (Exception ignored) {}
+                        final androidx.fragment.app.Fragment dest;
+                        if ("open".equals(status) || "active".equals(status)) {
+                            dest = LiveChatFragment.newInstance();
+                        } else {
+                            dest = ConnectingAgentFragment.newInstance();
+                        }
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                if (!isAdded()) return;
+                                getParentFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out,
+                                                R.anim.fade_in, R.anim.fade_out)
+                                        .replace(R.id.fragment_container, dest)
+                                        .addToBackStack("SupportRoot")
+                                        .commit();
+                            });
+                        }
+                    }
+                    @Override
+                    public void onFailure(@NonNull Call<okhttp3.ResponseBody> call, @NonNull Throwable t) {
+                        if (!isAdded()) return;
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                if (!isAdded()) return;
+                                getParentFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out,
+                                                R.anim.fade_in, R.anim.fade_out)
+                                        .replace(R.id.fragment_container, ConnectingAgentFragment.newInstance())
+                                        .addToBackStack("SupportRoot")
+                                        .commit();
+                            });
+                        }
+                    }
+                });
     }
 
     private void applyClickAnimation(View v) {
