@@ -164,4 +164,35 @@ public interface ApiService {
 
     @POST("support/tickets")
     Call<okhttp3.ResponseBody> createSupportTicket(@Body java.util.Map<String, String> body);
+
+    // ── Chat request / accept flow ─────────────────────────────────────────
+    @POST("support/chat/request")
+    Call<okhttp3.ResponseBody> requestChat();
+
+    @GET("support/chat/status")
+    Call<okhttp3.ResponseBody> getChatStatus();
+
+    @POST("support/chat/end")
+    Call<okhttp3.ResponseBody> endChatMember();
+
+    // ── Admin-side chat ────────────────────────────────────────────────────
+    @GET("support/admin/chat/requests")
+    Call<okhttp3.ResponseBody> getAdminChatRequests();
+
+    @POST("support/admin/chat/{conv_id}/accept")
+    Call<okhttp3.ResponseBody> acceptChat(@retrofit2.http.Path("conv_id") String convId);
+
+    @POST("support/admin/chat/{conv_id}/decline")
+    Call<okhttp3.ResponseBody> declineChat(@retrofit2.http.Path("conv_id") String convId);
+
+    @GET("support/admin/chat/{conv_id}/messages")
+    Call<okhttp3.ResponseBody> getAdminChatMessages(@retrofit2.http.Path("conv_id") String convId);
+
+    @POST("support/admin/chat/{conv_id}/messages")
+    Call<okhttp3.ResponseBody> sendAdminMessage(
+            @retrofit2.http.Path("conv_id") String convId,
+            @Body java.util.Map<String, String> body);
+
+    @POST("support/admin/chat/{conv_id}/end")
+    Call<okhttp3.ResponseBody> endChatAdmin(@retrofit2.http.Path("conv_id") String convId);
 }

@@ -34,7 +34,14 @@
                 android:textStyle="bold"
                 tools:text="S"
                 tools:backgroundTint="#D1D5DB"
-                android:layout_margin="2dp" /> <!-- inside the border -->
+                android:layout_margin="2dp" />
+            <ImageView
+                android:id="@+id/ivAvatarImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:visibility="gone"
+                android:scaleType="centerCrop"/>
         </FrameLayout>
 
         <!-- Red Remove Badge -->

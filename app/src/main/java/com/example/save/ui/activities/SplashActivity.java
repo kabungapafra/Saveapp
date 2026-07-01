@@ -47,6 +47,13 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
 
+        // If launched from a notification tap, skip the splash animation entirely
+        // and route immediately so the user isn't stuck watching a 3.5-second screen.
+        if (getIntent() != null && getIntent().getBooleanExtra("from_notification", false)) {
+            navigateToNextScreen();
+            return;
+        }
+
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getDelegate().setLocalNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
@@ -160,15 +167,44 @@ public class SplashActivity extends AppCompatActivity {
         boolean isFirstTime = prefs.getBoolean("isFirstTime", true);
         com.example.save.utils.SessionManager session = com.example.save.utils.SessionManager.getInstance(this);
 
-        if (isFirstTime) {
+        String navigateTo = getIntent() != null ? getIntent().getStringExtra("NAVIGATE_TO") : null;
+        String convId = getIntent() != null ? getIntent().getStringExtra("conv_id") : null;
+
+        if (session.isLoggedIn() || session.hasLoggedInBefore()) {
+            // Check if the app is still within the 3-minute lock threshold.
+            // If so, skip the PIN screen and go directly to the main activity.
+            long lastBackground = session.getBackgroundTime();
+            long sinceBackground = System.currentTimeMillis() - lastBackground;
+            boolean needsPin = lastBackground != 0 && sinceBackground > 3 * 60 * 1000L;
+
+            if (session.isLoggedIn() && !needsPin && navigateTo != null) {
+                String role = session.getUserRole();
+                Intent i;
+                try {
+                    Class<?> target = "admin".equalsIgnoreCase(role)
+                            ? Class.forName("com.example.save.ui.activities.AdminMainActivity")
+                            : Class.forName("com.example.save.ui.activities.MemberMainActivity");
+                    i = new Intent(this, target);
+                } catch (ClassNotFoundException e) {
+                    i = new Intent(this, WelcomeBackActivity.class);
+                }
+                i.putExtra("NAVIGATE_TO", navigateTo);
+                if (convId != null) i.putExtra("conv_id", convId);
+                i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+                return;
+            }
+
+            Intent i = new Intent(this, WelcomeBackActivity.class);
+            if (navigateTo != null) i.putExtra("NAVIGATE_TO", navigateTo);
+            if (convId != null) i.putExtra("conv_id", convId);
+            startActivity(i);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        } else if (isFirstTime) {
             startActivity(new Intent(this, OnboardingActivity.class));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        } else if (session.isLoggedIn() || session.hasLoggedInBefore()) {
-            // Logged in or recognized, go to Welcome Back for PIN verification
-            startActivity(new Intent(this, WelcomeBackActivity.class));
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         } else {
-            // First time after install or cleared data
             startActivity(new Intent(this, LoginActivity.class));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }

@@ -279,4 +279,10 @@ public class Member {
 
     public String getStatus() { return status != null ? status : "PENDING"; }
     public void setStatus(String status) { this.status = status; }
+
+    @com.google.gson.annotations.SerializedName("profile_image")
+    private String profileImage;
+
+    public String getProfileImage() { return profileImage; }
+    public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 }

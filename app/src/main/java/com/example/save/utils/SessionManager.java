@@ -39,6 +39,7 @@ public class SessionManager {
 
     // ── Plain (memory) pref keys — survive process kill & encryption wipe ───
     private static final String KEY_LAST_PHONE     = "last_phone";
+    private static final String KEY_LAST_EMAIL     = "last_email";
     private static final String KEY_LAST_NAME      = "last_name";
     private static final String KEY_LAST_GROUP     = "last_group_name";
     private static final String KEY_LAST_ROLE      = "last_role";
@@ -154,6 +155,34 @@ public class SessionManager {
         editor.commit();
     }
 
+    /**
+     * Decodes the stored JWT and returns the "sub" claim, which the backend always
+     * sets to user.phone. This is the most reliable source of the user's phone — it
+     * is present in every token regardless of how the session was created (PIN or Google).
+     */
+    public String getPhoneFromToken() {
+        String token = getJwtToken();
+        if (token == null || token.isEmpty()) return "";
+        try {
+            String[] parts = token.split("\\.");
+            if (parts.length < 2) return "";
+            byte[] decoded = android.util.Base64.decode(
+                    parts[1], android.util.Base64.URL_SAFE | android.util.Base64.NO_PADDING);
+            String payload = new String(decoded, "UTF-8");
+            int subIdx = payload.indexOf("\"sub\"");
+            if (subIdx < 0) return "";
+            int colonIdx = payload.indexOf(":", subIdx);
+            if (colonIdx < 0) return "";
+            int openQuote = payload.indexOf("\"", colonIdx);
+            if (openQuote < 0) return "";
+            int closeQuote = payload.indexOf("\"", openQuote + 1);
+            if (closeQuote < 0) return "";
+            return payload.substring(openQuote + 1, closeQuote);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     public void setFirstLoginStatus(boolean isFirst) {
         editor.putBoolean(KEY_IS_FIRST_LOGIN, isFirst);
         editor.apply();
@@ -165,9 +194,14 @@ public class SessionManager {
 
     public boolean hasLoggedInBefore() { return memPref.getBoolean(KEY_HAS_LOGGED_IN, false); }
     public String  getLastPhone()      { return memPref.getString(KEY_LAST_PHONE, "");  }
+    public String  getLastEmail()      { return memPref.getString(KEY_LAST_EMAIL, "");  }
     public String  getLastName()       { return memPref.getString(KEY_LAST_NAME,  "");  }
     public String  getLastRole()       { return memPref.getString(KEY_LAST_ROLE,  "");  }
     public String  getLastGroup()      { return memPref.getString(KEY_LAST_GROUP, "");  }
+
+    public void saveLastEmail(String email) {
+        memPref.edit().putString(KEY_LAST_EMAIL, email).apply();
+    }
 
     public void saveLastGroup(String groupName) {
         memPref.edit().putString(KEY_LAST_GROUP, groupName).apply();

@@ -154,24 +154,35 @@ public class CreatePollFragment extends Fragment {
 
     private void openCustomRoleDialog() {
         if (getContext() == null) return;
-        EditText input = new EditText(getContext());
-        input.setHint("Enter role name");
-        input.setPadding(48, 24, 48, 24);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_custom_role, null);
 
-        new AlertDialog.Builder(getContext())
-                .setTitle("Custom Role")
-                .setView(input)
-                .setPositiveButton("Set", (dialog, which) -> {
-                    String custom = input.getText().toString().trim();
-                    if (!custom.isEmpty()) {
-                        chipCustom.setText(custom);
-                        selectedChipRole = custom;
-                        selectedRole = custom;
-                        updateRoleUI();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        EditText etRole = view.findViewById(R.id.etCustomRole);
+        view.findViewById(R.id.btnCancelRole).setOnClickListener(v -> dialog.dismiss());
+        view.findViewById(R.id.btnSetRole).setOnClickListener(v -> {
+            String custom = etRole.getText().toString().trim();
+            if (!custom.isEmpty()) {
+                chipCustom.setText(custom);
+                selectedChipRole = custom;
+                selectedRole = custom;
+                updateRoleUI();
+                dialog.dismiss();
+            } else {
+                etRole.setError("Please enter a role name");
+            }
+        });
+
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
+            dialog.getWindow().setLayout(width, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
     }
 
     private void updateRoleUI() {

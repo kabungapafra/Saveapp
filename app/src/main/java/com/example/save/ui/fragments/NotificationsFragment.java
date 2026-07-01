@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.save.ui.activities.AdminMainActivity;
+import com.example.save.ui.activities.MemberMainActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,6 +69,24 @@ public class NotificationsFragment extends Fragment {
         args.putBoolean("IS_ADMIN", isAdmin);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof AdminMainActivity)
+            ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
+        else if (getActivity() instanceof MemberMainActivity)
+            ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (getActivity() instanceof AdminMainActivity)
+            ((AdminMainActivity) getActivity()).setBottomNavVisible(true);
+        else if (getActivity() instanceof MemberMainActivity)
+            ((MemberMainActivity) getActivity()).setBottomNavVisible(true);
     }
 
     private void observeViewModel() {

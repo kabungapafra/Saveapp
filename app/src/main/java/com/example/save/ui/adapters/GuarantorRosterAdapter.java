@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.save.utils.SessionManager;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,10 +65,23 @@ public class GuarantorRosterAdapter extends RecyclerView.Adapter<GuarantorRoster
         String color = member.getReliabilityColor();
         
         holder.tvName.setText(member.getName());
-        
-        String initials = getInitials(member.getName());
-        holder.tvAvatar.setText(initials);
-        holder.tvAvatar.setBackgroundTintList(ColorStateList.valueOf(getAvatarColor(member.getName())));
+
+        String phone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
+        String savedImage = SessionManager.getInstance(holder.itemView.getContext()).getProfileImage(phone);
+        if (savedImage != null && !savedImage.isEmpty()) {
+            holder.tvAvatar.setVisibility(View.INVISIBLE);
+            holder.ivAvatar.setVisibility(View.VISIBLE);
+            Glide.with(holder.itemView.getContext())
+                    .load(savedImage)
+                    .circleCrop()
+                    .into(holder.ivAvatar);
+        } else {
+            holder.ivAvatar.setVisibility(View.GONE);
+            holder.tvAvatar.setVisibility(View.VISIBLE);
+            String initials = getInitials(member.getName());
+            holder.tvAvatar.setText(initials);
+            holder.tvAvatar.setBackgroundTintList(ColorStateList.valueOf(getAvatarColor(member.getName())));
+        }
 
         if (!isEligible) {
             holder.cardRoot.setCardBackgroundColor(Color.parseColor("#FAFAFA"));
@@ -112,6 +128,7 @@ public class GuarantorRosterAdapter extends RecyclerView.Adapter<GuarantorRoster
     static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardRoot;
         TextView tvAvatar;
+        ImageView ivAvatar;
         TextView tvName;
         TextView tvBadge;
         View viewUnselected;
@@ -122,6 +139,7 @@ public class GuarantorRosterAdapter extends RecyclerView.Adapter<GuarantorRoster
             super(itemView);
             cardRoot = itemView.findViewById(R.id.cardRoot);
             tvAvatar = itemView.findViewById(R.id.tvAvatar);
+            ivAvatar = itemView.findViewById(R.id.ivAvatar);
             tvName = itemView.findViewById(R.id.tvName);
             tvBadge = itemView.findViewById(R.id.tvBadge);
             viewUnselected = itemView.findViewById(R.id.viewUnselected);

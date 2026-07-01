@@ -73,6 +73,7 @@ public class MemberMainActivity extends BaseActivity {
         if (savedInstanceState == null) {
             loadFragment(AdminDashboardFragment.newInstance(false), false);
             updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.pillDashboard);
+            handleIntentExtras(getIntent());
         }
 
         getSupportFragmentManager().addOnBackStackChangedListener(this::syncNavUI);
@@ -129,6 +130,24 @@ public class MemberMainActivity extends BaseActivity {
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         loadFragment(AdminDashboardFragment.newInstance(false), false);
         binding.getRoot().post(() -> updateNavUI(binding.navDashboard, binding.txtDashboard, binding.imgDashboard, binding.pillDashboard));
+    }
+
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntentExtras(intent);
+    }
+
+    private void handleIntentExtras(android.content.Intent intent) {
+        if (intent != null && intent.hasExtra("NAVIGATE_TO")) {
+            String target = intent.getStringExtra("NAVIGATE_TO");
+            if ("NOTIFICATIONS".equals(target)) loadFragment(new NotificationsFragment(), true);
+            else if ("LIVE_CHAT".equals(target))
+                loadFragment(com.example.save.ui.fragments.LiveChatFragment.newInstance(), true);
+            else if ("CHAT_ENDED".equals(target))
+                loadFragment(com.example.save.ui.fragments.ChatFeedbackFragment.newInstance(), true);
+        }
     }
 
     public void showNotifications() {

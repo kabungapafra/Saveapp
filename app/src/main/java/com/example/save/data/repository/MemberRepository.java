@@ -87,10 +87,13 @@ public class MemberRepository {
                         // Rehydrate the avatar from the server when it isn't cached locally
                         // (e.g. after the app was uninstalled and reinstalled).
                         String b64 = entity.getProfileImage();
-                        if (b64 != null && !b64.isEmpty() && entity.getPhone() != null) {
-                            String normalized = entity.getPhone().replaceAll("[^0-9+]", "");
-                            if (session.getProfileImage(normalized) == null) {
-                                avatarsToRehydrate.add(new String[]{normalized, b64});
+                        if (b64 != null && !b64.isEmpty()) {
+                            m.setProfileImage(b64);
+                            if (entity.getPhone() != null) {
+                                String normalized = entity.getPhone().replaceAll("[^0-9+]", "");
+                                if (session.getProfileImage(normalized) == null) {
+                                    avatarsToRehydrate.add(new String[]{normalized, b64});
+                                }
                             }
                         }
                         m.setContributionPaid(entity.getContributionPaid());

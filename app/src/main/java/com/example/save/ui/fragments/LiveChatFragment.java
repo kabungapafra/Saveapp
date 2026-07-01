@@ -27,6 +27,18 @@ public class LiveChatFragment extends Fragment {
 
     private WebView webView;
     private boolean isNavigatingToNextScreen = false;
+    private final android.os.Handler statusHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private static final long STATUS_POLL_MS = 8000;
+    private static final long MSG_POLL_MS = 5000;
+
+    private final Runnable statusPollRunnable = this::checkChatStillActive;
+    private final Runnable msgPollRunnable = this::fetchAndScheduleMessages;
+
+    private void fetchAndScheduleMessages() {
+        fetchMessages();
+        if (!isNavigatingToNextScreen)
+            statusHandler.postDelayed(msgPollRunnable, MSG_POLL_MS);
+    }
 
     public static LiveChatFragment newInstance() {
         return new LiveChatFragment();
@@ -162,11 +174,55 @@ public class LiveChatFragment extends Fragment {
                 });
     }
 
+    private void checkChatStillActive() {
+        if (!isAdded() || isNavigatingToNextScreen || getContext() == null) return;
+        RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                .getChatStatus().enqueue(new Callback<okhttp3.ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<okhttp3.ResponseBody> call,
+                                           @NonNull Response<okhttp3.ResponseBody> response) {
+                        if (!isAdded() || isNavigatingToNextScreen) return;
+                        try {
+                            if (response.isSuccessful() && response.body() != null) {
+                                org.json.JSONObject obj = new org.json.JSONObject(response.body().string());
+                                String status = obj.optString("status", "active");
+                                if ("closed".equals(status)) {
+                                    // Admin ended the chat — navigate member to feedback
+                                    if (getActivity() != null) {
+                                        getActivity().runOnUiThread(() -> {
+                                            if (!isAdded() || isNavigatingToNextScreen) return;
+                                            isNavigatingToNextScreen = true;
+                                            getParentFragmentManager().beginTransaction()
+                                                    .setCustomAnimations(
+                                                            R.anim.transition_fade_in_slow,
+                                                            R.anim.transition_fade_out_slow,
+                                                            R.anim.transition_fade_in_slow,
+                                                            R.anim.transition_fade_out_slow)
+                                                    .replace(R.id.fragment_container,
+                                                            ChatFeedbackFragment.newInstance())
+                                                    .commitAllowingStateLoss();
+                                        });
+                                    }
+                                    return;
+                                }
+                            }
+                        } catch (Exception ignored) {}
+                        statusHandler.postDelayed(statusPollRunnable, STATUS_POLL_MS);
+                    }
+                    @Override
+                    public void onFailure(@NonNull Call<okhttp3.ResponseBody> call, @NonNull Throwable t) {
+                        if (isAdded()) statusHandler.postDelayed(statusPollRunnable, STATUS_POLL_MS);
+                    }
+                });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        // Refresh the thread each time the screen is shown (picks up admin replies).
         fetchMessages();
+        statusHandler.postDelayed(statusPollRunnable, STATUS_POLL_MS);
+        // Poll for new admin messages every 5 seconds.
+        statusHandler.postDelayed(msgPollRunnable, MSG_POLL_MS);
         if (getActivity() != null) {
             if (getActivity() instanceof AdminMainActivity) {
                 ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
@@ -191,8 +247,9 @@ public class LiveChatFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        statusHandler.removeCallbacks(statusPollRunnable);
+        statusHandler.removeCallbacks(msgPollRunnable);
         if (getActivity() != null) {
-            // Restore System UI
             View decorView = getActivity().getWindow().getDecorView();
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }

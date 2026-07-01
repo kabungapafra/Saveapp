@@ -202,8 +202,22 @@ public class WelcomeBackActivity extends AppCompatActivity {
         binding.loginProgress.setVisibility(View.VISIBLE);
         binding.loginArrow.setVisibility(View.GONE);
 
+        // Resolve the phone. For users whose first login was Google, lastPhone may be
+        // empty. Try JWT extraction first, then fall back to sending the saved Google
+        // email — the backend /login now accepts email as an identifier for Google users.
+        String phone = (lastPhone != null && !lastPhone.isEmpty())
+                ? lastPhone : session.getPhoneFromToken();
+
+        String emailFallback = "";
+        if (phone == null || phone.isEmpty()) {
+            emailFallback = session.getLastEmail();
+        }
+
         // Build login request using remembered credentials
-        LoginRequest req = new LoginRequest(lastPhone, password);
+        LoginRequest req = new LoginRequest(phone, password);
+        if (!emailFallback.isEmpty()) {
+            req.setEmail(emailFallback);
+        }
         req.setLoginType((lastRole == null || lastRole.isEmpty()) ? "member" : lastRole.toLowerCase());
         req.setGroupName(lastGroup);
 
@@ -222,7 +236,7 @@ public class WelcomeBackActivity extends AppCompatActivity {
                     LoginResponse body = response.body();
                     session.createLoginSession(
                             body.getName(),
-                            lastPhone,
+                            phone,
                             body.getRole(),
                             false,
                             body.isCreator());
@@ -290,7 +304,12 @@ public class WelcomeBackActivity extends AppCompatActivity {
             binding.loginButton.setEnabled(false);
             mAuth.signInWithCredential(credential).addOnCompleteListener(this, authTask -> {
                 if (authTask.isSuccessful() && authTask.getResult().getUser() != null) {
-                    authTask.getResult().getUser().getIdToken(true).addOnCompleteListener(tokenTask -> {
+                    com.google.firebase.auth.FirebaseUser fbUser = authTask.getResult().getUser();
+                    String googleEmail = fbUser.getEmail();
+                    if (googleEmail != null && !googleEmail.isEmpty()) {
+                        session.saveLastEmail(googleEmail);
+                    }
+                    fbUser.getIdToken(true).addOnCompleteListener(tokenTask -> {
                         if (tokenTask.isSuccessful()) {
                             performGoogleBackendLogin(tokenTask.getResult().getToken());
                         } else {
@@ -320,7 +339,11 @@ public class WelcomeBackActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     LoginResponse body = response.body();
                     String groupName = body.getGroupName() != null ? body.getGroupName() : lastGroup;
-                    session.createLoginSession(body.getName(), lastPhone, body.getRole(), false, body.isCreator());
+                    // Prefer phone from the server response so PIN login works afterward.
+                    // Falls back to lastPhone only if the server doesn't return one.
+                    String phoneToSave = (body.getPhone() != null && !body.getPhone().isEmpty())
+                            ? body.getPhone() : lastPhone;
+                    session.createLoginSession(body.getName(), phoneToSave, body.getRole(), false, body.isCreator());
                     session.saveLastGroup(groupName);
                     session.saveJwtToken(body.getToken());
                     com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
@@ -365,6 +388,11 @@ public class WelcomeBackActivity extends AppCompatActivity {
             intent = new Intent(this, MemberMainActivity.class);
             intent.putExtra("member_name",  body.getName());
         }
+        // Forward notification deep-link extras from SplashActivity
+        String navigateTo = getIntent() != null ? getIntent().getStringExtra("NAVIGATE_TO") : null;
+        if (navigateTo != null) intent.putExtra("NAVIGATE_TO", navigateTo);
+        String convId = getIntent() != null ? getIntent().getStringExtra("conv_id") : null;
+        if (convId != null) intent.putExtra("conv_id", convId);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow);

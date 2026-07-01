@@ -22,8 +22,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
+import com.example.save.data.network.ApiService;
+import com.example.save.data.network.RetrofitClient;
 import com.example.save.ui.activities.AdminMainActivity;
 import com.example.save.ui.activities.MemberMainActivity;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConnectingAgentFragment extends Fragment {
 
@@ -33,10 +39,16 @@ public class ConnectingAgentFragment extends Fragment {
     private View outerRing, midRing;
     private RelativeLayout badgePeach, badgeLavender;
 
-    private Handler animationHandler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private int dotStateIndex = 0;
     private int ellipsisCount = 0;
-    private Runnable connectTimeoutRunnable = this::navigateToLiveChat;
+    private boolean requestSent = false;
+    private boolean navigating = false;
+
+    // Poll every 4 seconds while waiting for admin acceptance
+    private static final long POLL_INTERVAL_MS = 4000;
+
+    private final Runnable pollRunnable = this::pollChatStatus;
 
     public static ConnectingAgentFragment newInstance() {
         return new ConnectingAgentFragment();
@@ -53,6 +65,134 @@ public class ConnectingAgentFragment extends Fragment {
         setupListeners();
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            if (getActivity() instanceof AdminMainActivity)
+                ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
+            else if (getActivity() instanceof MemberMainActivity) {
+                ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
+                ((MemberMainActivity) getActivity()).setHeaderVisible();
+            }
+            View decorView = getActivity().getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+        if (!requestSent) {
+            requestSent = true;
+            sendChatRequest();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(pollRunnable);
+        if (getActivity() != null)
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    // ── Backend interaction ────────────────────────────────────────────────────
+
+    private void sendChatRequest() {
+        if (getContext() == null) return;
+        RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                .requestChat().enqueue(new Callback<okhttp3.ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<okhttp3.ResponseBody> call,
+                                           @NonNull Response<okhttp3.ResponseBody> response) {
+                        if (!isAdded()) return;
+                        if (response.isSuccessful()) {
+                            // Request sent — start polling for admin response
+                            handler.postDelayed(pollRunnable, POLL_INTERVAL_MS);
+                        } else {
+                            showUnavailable("Couldn't reach support. Please try again.");
+                        }
+                    }
+                    @Override
+                    public void onFailure(@NonNull Call<okhttp3.ResponseBody> call, @NonNull Throwable t) {
+                        if (isAdded()) showUnavailable("No internet connection. Please try again.");
+                    }
+                });
+    }
+
+    private void pollChatStatus() {
+        if (!isAdded() || navigating || getContext() == null) return;
+        RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                .getChatStatus().enqueue(new Callback<okhttp3.ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<okhttp3.ResponseBody> call,
+                                           @NonNull Response<okhttp3.ResponseBody> response) {
+                        if (!isAdded() || navigating) return;
+                        try {
+                            if (response.isSuccessful() && response.body() != null) {
+                                org.json.JSONObject obj = new org.json.JSONObject(response.body().string());
+                                String status = obj.optString("status", "pending");
+                                handleStatusUpdate(status);
+                                return;
+                            }
+                        } catch (Exception ignored) {}
+                        // On parse error, keep polling
+                        handler.postDelayed(pollRunnable, POLL_INTERVAL_MS);
+                    }
+                    @Override
+                    public void onFailure(@NonNull Call<okhttp3.ResponseBody> call, @NonNull Throwable t) {
+                        if (isAdded()) handler.postDelayed(pollRunnable, POLL_INTERVAL_MS);
+                    }
+                });
+    }
+
+    private void handleStatusUpdate(String status) {
+        if (!isAdded() || getActivity() == null) return;
+        switch (status) {
+            case "active":
+            case "open":
+                navigating = true;
+                getActivity().runOnUiThread(() -> {
+                    if (!isAdded()) return;
+                    getParentFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow,
+                                    R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow)
+                            .replace(R.id.fragment_container, LiveChatFragment.newInstance())
+                            .commit();
+                });
+                break;
+            case "closed":
+                getActivity().runOnUiThread(() ->
+                        showUnavailable("The admin is currently unavailable. Please try again later."));
+                break;
+            default:
+                // Still pending — keep polling
+                handler.postDelayed(pollRunnable, POLL_INTERVAL_MS);
+                break;
+        }
+    }
+
+    private void showUnavailable(String message) {
+        if (!isAdded() || tvBodyText == null || tvHeading == null) return;
+        handler.removeCallbacks(pollRunnable);
+        tvHeading.setText("Unavailable");
+        tvBodyText.setText(message);
+        if (btnCancel != null) {
+            TextView cancelLabel = btnCancel.findViewWithTag("cancel_label");
+            if (cancelLabel != null) cancelLabel.setText("Go Back");
+        }
+    }
+
+    // ── UI setup (unchanged from original) ────────────────────────────────────
 
     private void initViews(View view) {
         dot1 = view.findViewById(R.id.dot1);
@@ -73,28 +213,19 @@ public class ConnectingAgentFragment extends Fragment {
     }
 
     private void setupAnimations() {
-        // 1. Entrance Animations
-        // We'll use simple translate/alpha animations via view.animate() or
-        // ObjectAnimator
-
-        // 2. Slow Rotate Outer Ring (12s linear)
         ObjectAnimator rotateAnim = ObjectAnimator.ofFloat(outerRing, "rotation", 0f, 360f);
         rotateAnim.setDuration(12000);
         rotateAnim.setRepeatCount(ValueAnimator.INFINITE);
         rotateAnim.setInterpolator(new LinearInterpolator());
         rotateAnim.start();
 
-        // 3. Pulse Mid Ring
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(midRing, "scaleX", 1f, 1.25f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(midRing, "scaleY", 1f, 1.25f);
         ObjectAnimator alpha = ObjectAnimator.ofFloat(midRing, "alpha", 1f, 0f);
-
         AnimatorSet pulseSet = new AnimatorSet();
         pulseSet.playTogether(scaleX, scaleY, alpha);
         pulseSet.setDuration(2000);
         pulseSet.setInterpolator(new DecelerateInterpolator());
-
-        // Loop pulse
         pulseSet.addListener(new android.animation.AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(android.animation.Animator animation) {
@@ -106,31 +237,10 @@ public class ConnectingAgentFragment extends Fragment {
         });
         pulseSet.start();
 
-        // 4. Dot Wave Animation (every 600ms)
-        animationHandler.post(dotWaveRunnable);
-
-        // 5. Floating Badges
+        handler.post(dotWaveRunnable);
         startFloatAnimation(badgePeach, 0);
-        startFloatAnimation(badgeLavender, 1250); // Offset phase
-
-        // 6. Ellipsis Animation
-        animationHandler.post(ellipsisRunnable);
-
-        // 7. Timeout to connect
-        animationHandler.postDelayed(connectTimeoutRunnable, 3500);
-    }
-
-    private void navigateToLiveChat() {
-        if (!isAdded() || getActivity() == null)
-            return;
-
-        boolean isNavigatingToLiveChat = true;
-
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow,
-                        R.anim.transition_fade_in_slow, R.anim.transition_fade_out_slow)
-                .replace(R.id.fragment_container, LiveChatFragment.newInstance())
-                .commit();
+        startFloatAnimation(badgeLavender, 1250);
+        handler.post(ellipsisRunnable);
     }
 
     private void startFloatAnimation(View view, long delay) {
@@ -143,125 +253,71 @@ public class ConnectingAgentFragment extends Fragment {
         floatAnim.start();
     }
 
-    private Runnable dotWaveRunnable = new Runnable() {
+    private final Runnable dotWaveRunnable = new Runnable() {
         @Override
         public void run() {
-            int dark = R.drawable.bg_dot_dark;
-            int mid = R.drawable.bg_dot_mid;
-            int pale = R.drawable.bg_dot_pale;
-
-            if (dotStateIndex == 0) {
-                dot1.setBackgroundResource(dark);
-                dot2.setBackgroundResource(mid);
-                dot3.setBackgroundResource(pale);
-            } else if (dotStateIndex == 1) {
-                dot1.setBackgroundResource(mid);
-                dot2.setBackgroundResource(dark);
-                dot3.setBackgroundResource(pale);
-            } else if (dotStateIndex == 2) {
-                dot1.setBackgroundResource(pale);
-                dot2.setBackgroundResource(dark);
-                dot3.setBackgroundResource(mid);
-            } else if (dotStateIndex == 3) {
-                dot1.setBackgroundResource(pale);
-                dot2.setBackgroundResource(mid);
-                dot3.setBackgroundResource(dark);
-            }
-
+            if (!isAdded()) return;
+            int dark = R.drawable.bg_dot_dark, mid = R.drawable.bg_dot_mid, pale = R.drawable.bg_dot_pale;
+            if (dotStateIndex == 0) { dot1.setBackgroundResource(dark); dot2.setBackgroundResource(mid); dot3.setBackgroundResource(pale); }
+            else if (dotStateIndex == 1) { dot1.setBackgroundResource(mid); dot2.setBackgroundResource(dark); dot3.setBackgroundResource(pale); }
+            else if (dotStateIndex == 2) { dot1.setBackgroundResource(pale); dot2.setBackgroundResource(dark); dot3.setBackgroundResource(mid); }
+            else { dot1.setBackgroundResource(pale); dot2.setBackgroundResource(mid); dot3.setBackgroundResource(dark); }
             dotStateIndex = (dotStateIndex + 1) % 4;
-            animationHandler.postDelayed(this, 600);
+            handler.postDelayed(this, 600);
         }
     };
 
-    private Runnable ellipsisRunnable = new Runnable() {
+    private final Runnable ellipsisRunnable = new Runnable() {
         @Override
         public void run() {
-            ellipsisCount = (ellipsisCount + 1) % 4;
-            StringBuilder dots = new StringBuilder();
-            for (int i = 0; i < ellipsisCount; i++) {
-                dots.append(".");
+            if (!isAdded() || tvHeading == null) return;
+            String current = tvHeading.getText().toString();
+            // Don't overwrite the "Unavailable" state
+            if (current.startsWith("Connecting") || current.isEmpty()) {
+                ellipsisCount = (ellipsisCount + 1) % 4;
+                StringBuilder dots = new StringBuilder();
+                for (int i = 0; i < ellipsisCount; i++) dots.append(".");
+                tvHeading.setText("Connecting you to an agent" + dots);
             }
-            tvHeading.setText("Connecting you to an agent" + dots.toString());
-            animationHandler.postDelayed(this, 500);
+            handler.postDelayed(this, 500);
         }
     };
 
     private void setupListeners() {
         btnCancel.setOnClickListener(v -> {
-            // Apply shake effect
             v.animate().scaleX(0.97f).scaleY(0.97f).setDuration(100).withEndAction(() -> {
                 ObjectAnimator shake = ObjectAnimator.ofFloat(v, "translationX", 0, -10, 10, -10, 10, 0);
                 shake.setDuration(300);
                 shake.start();
-
-                // Navigate back after shake
                 v.postDelayed(() -> {
-                    if (isAdded()) {
-                        requireActivity().onBackPressed();
+                    if (!isAdded()) return;
+                    handler.removeCallbacks(pollRunnable);
+                    // Cancel the pending request on the backend
+                    if (getContext() != null) {
+                        RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                                .endChatMember().enqueue(new Callback<okhttp3.ResponseBody>() {
+                                    @Override public void onResponse(@NonNull Call<okhttp3.ResponseBody> c, @NonNull Response<okhttp3.ResponseBody> r) {}
+                                    @Override public void onFailure(@NonNull Call<okhttp3.ResponseBody> c, @NonNull Throwable t) {}
+                                });
                     }
+                    requireActivity().onBackPressed();
                 }, 400);
             }).start();
         });
 
-        // Touch listener for scale effect on button down
         btnCancel.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    v.setScaleX(0.99f);
-                    v.setScaleY(0.99f);
-                    v.setBackgroundResource(R.drawable.bg_cancel_button); // We could use a selector here, but doing it
-                                                                          // in code for precision
+                    v.setScaleX(0.99f); v.setScaleY(0.99f);
+                    v.setBackgroundResource(R.drawable.bg_cancel_button);
                     v.setAlpha(0.8f);
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
-                    v.setScaleX(1f);
-                    v.setScaleY(1f);
-                    v.setAlpha(1f);
+                    v.setScaleX(1f); v.setScaleY(1f); v.setAlpha(1f);
                     break;
             }
             return false;
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getActivity() != null) {
-            if (getActivity() instanceof AdminMainActivity) {
-                ((AdminMainActivity) getActivity()).setBottomNavVisible(false);
-            } else if (getActivity() instanceof MemberMainActivity) {
-                ((MemberMainActivity) getActivity()).setBottomNavVisible(false);
-                ((MemberMainActivity) getActivity()).setHeaderVisible();
-            }
-
-            // Immersive Zero-Bar Mode
-            View decorView = getActivity().getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (getActivity() != null) {
-            // Restore System UI
-            View decorView = getActivity().getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        animationHandler.removeCallbacksAndMessages(null);
-        // Do NOT restore nav here — syncNavUI in the activity handles that
-        // when the user returns to a main tab via back navigation
     }
 }

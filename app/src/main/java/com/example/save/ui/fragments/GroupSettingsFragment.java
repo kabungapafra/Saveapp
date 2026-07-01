@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -271,15 +273,32 @@ public class GroupSettingsFragment extends Fragment {
         
         binding.btnDeleteGroup.setOnClickListener(v -> {
             applyClickAnimation(v);
-            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                .setTitle("Delete Group")
-                .setMessage("Are you sure you want to delete this group? This will permanently remove all members, transactions, and group data. This action cannot be undone.")
-                .setPositiveButton("DELETE", (dialog, which) -> {
-                    deleteGroup();
-                })
-                .setNegativeButton("CANCEL", null)
-                .show();
+            showDeleteGroupDialog();
         });
+    }
+
+    private void showDeleteGroupDialog() {
+        if (getContext() == null) return;
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_delete_group, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        view.findViewById(R.id.btnCancelDelete).setOnClickListener(v -> dialog.dismiss());
+        view.findViewById(R.id.btnConfirmDelete).setOnClickListener(v -> {
+            dialog.dismiss();
+            deleteGroup();
+        });
+
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.88);
+            dialog.getWindow().setLayout(width, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
     }
 
     private void deleteGroup() {

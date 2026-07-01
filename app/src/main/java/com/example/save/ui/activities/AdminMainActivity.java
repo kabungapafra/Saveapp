@@ -239,12 +239,28 @@ public class AdminMainActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntentExtras(intent);
+    }
+
     private void handleIntentExtras(Intent intent) {
         if (intent != null && intent.hasExtra("NAVIGATE_TO")) {
             String target = intent.getStringExtra("NAVIGATE_TO");
             if ("MEMBERS".equals(target)) loadFragment(new MembersFragment(), true);
             else if ("LOANS".equals(target)) loadFragment(new AdminLoansFragment(), true);
             else if ("SETTINGS".equals(target)) loadFragment(new SettingsFragment(), true);
+            else if ("NOTIFICATIONS".equals(target)) loadFragment(NotificationsFragment.newInstance(true), true);
+            else if ("CHAT_REQUESTS".equals(target)) {
+                String convId = intent.getStringExtra("conv_id");
+                loadFragment(com.example.save.ui.fragments.AdminChatRequestsFragment.newInstance(convId), true);
+            } else if ("ADMIN_LIVE_CHAT".equals(target)) {
+                String convId = intent.getStringExtra("conv_id");
+                if (convId != null)
+                    loadFragment(com.example.save.ui.fragments.AdminLiveChatFragment.newInstance(convId), true);
+            }
         }
     }
 

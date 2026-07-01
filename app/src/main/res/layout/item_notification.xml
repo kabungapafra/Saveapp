@@ -5,30 +5,31 @@
     android:id="@+id/cardNotification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
+    android:layout_marginBottom="8dp"
     app:cardBackgroundColor="@color/card_surface"
-    app:cardCornerRadius="24dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp"
     app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="10dp">
 
         <!-- Icon Container -->
         <FrameLayout
             android:id="@+id/iconContainer"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:background="@drawable/bg_icon_circle_blue_light"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/ivIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_loan"
                 app:tint="@color/brand_blue" />
@@ -39,12 +40,12 @@
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/manrope_bold"
             android:text=""
             android:textColor="@color/v_text_dark"
-            android:textSize="17sp"
+            android:textSize="13sp"
             app:layout_constraintEnd_toStartOf="@id/tvTime"
             app:layout_constraintStart_toEndOf="@id/iconContainer"
             app:layout_constraintTop_toTopOf="@id/iconContainer" />
@@ -57,15 +58,15 @@
             android:fontFamily="@font/manrope_medium"
             android:text=""
             android:textColor="@color/v_text_muted"
-            android:textSize="13sp"
+            android:textSize="11sp"
             app:layout_constraintEnd_toStartOf="@id/readIndicator"
             app:layout_constraintTop_toTopOf="@id/tvTitle" />
 
         <View
             android:id="@+id/readIndicator"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginStart="6dp"
             android:background="@drawable/bg_circle_blue_glow"
             app:layout_constraintBottom_toBottomOf="@id/tvTime"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,12 +77,12 @@
             android:id="@+id/tvMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="2dp"
             android:fontFamily="@font/manrope_medium"
-            android:lineSpacingExtra="4dp"
+            android:lineSpacingExtra="2dp"
             android:text=""
             android:textColor="@color/v_text_mid"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvTitle"
             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
@@ -91,7 +92,7 @@
             android:id="@+id/layoutActions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -104,18 +105,19 @@
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/brand_blue"
                 android:fontFamily="@font/manrope_bold"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:minWidth="0dp"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="4dp"
                 android:text="View Details"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                app:cornerRadius="12dp" />
+                android:textSize="12sp"
+                app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDismiss"
@@ -127,12 +129,13 @@
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:minWidth="0dp"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="4dp"
                 android:text="Dismiss"
                 android:textAllCaps="false"
                 android:textColor="@color/v_text_mid"
-                android:textSize="13sp"
-                app:cornerRadius="12dp" />
+                android:textSize="12sp"
+                app:cornerRadius="8dp" />
 
         </LinearLayout>
 

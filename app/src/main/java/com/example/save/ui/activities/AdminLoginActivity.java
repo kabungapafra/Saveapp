@@ -444,7 +444,12 @@ public class AdminLoginActivity extends AppCompatActivity {
             binding.loginButton.setEnabled(false);
             mAuth.signInWithCredential(credential).addOnCompleteListener(this, authTask -> {
                 if (authTask.isSuccessful() && authTask.getResult().getUser() != null) {
-                    authTask.getResult().getUser().getIdToken(true).addOnCompleteListener(tokenTask -> {
+                    com.google.firebase.auth.FirebaseUser fbUser = authTask.getResult().getUser();
+                    String googleEmail = fbUser.getEmail();
+                    if (googleEmail != null && !googleEmail.isEmpty()) {
+                        SessionManager.getInstance(getApplicationContext()).saveLastEmail(googleEmail);
+                    }
+                    fbUser.getIdToken(true).addOnCompleteListener(tokenTask -> {
                         if (tokenTask.isSuccessful()) {
                             performGoogleBackendLogin(tokenTask.getResult().getToken());
                         } else {
@@ -476,7 +481,8 @@ public class AdminLoginActivity extends AppCompatActivity {
                     LoginResponse body = response.body();
                     String groupName = body.getGroupName() != null ? body.getGroupName() : "";
                     SessionManager session = SessionManager.getInstance(getApplicationContext());
-                    session.createLoginSession(body.getName(), "", body.getRole(), false, body.isCreator());
+                    String phone = (body.getPhone() != null && !body.getPhone().isEmpty()) ? body.getPhone() : "";
+                    session.createLoginSession(body.getName(), phone, body.getRole(), false, body.isCreator());
                     session.saveLastGroup(groupName);
                     session.saveJwtToken(body.getToken());
                     RetrofitClient.getInstance(getApplicationContext()).updateToken(body.getToken());

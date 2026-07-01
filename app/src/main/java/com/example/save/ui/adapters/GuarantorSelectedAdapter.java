@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.example.save.utils.SessionManager;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,10 +59,23 @@ public class GuarantorSelectedAdapter extends RecyclerView.Adapter<GuarantorSele
             
             holder.tvName.setText(member.getName().split(" ")[0]);
             holder.tvName.setTextColor(Color.parseColor("#1A1D2E"));
-            
-            String initials = getInitials(member.getName());
-            holder.tvAvatarInitials.setText(initials);
-            holder.tvAvatarInitials.setBackgroundTintList(ColorStateList.valueOf(getAvatarColor(member.getName())));
+
+            String phone = member.getPhone() != null ? member.getPhone().replaceAll("[^0-9+]", "") : "";
+            String savedImage = SessionManager.getInstance(holder.itemView.getContext()).getProfileImage(phone);
+            if (savedImage != null && !savedImage.isEmpty()) {
+                holder.tvAvatarInitials.setVisibility(View.INVISIBLE);
+                holder.ivAvatarImage.setVisibility(View.VISIBLE);
+                Glide.with(holder.itemView.getContext())
+                        .load(savedImage)
+                        .circleCrop()
+                        .into(holder.ivAvatarImage);
+            } else {
+                holder.ivAvatarImage.setVisibility(View.GONE);
+                holder.tvAvatarInitials.setVisibility(View.VISIBLE);
+                String initials = getInitials(member.getName());
+                holder.tvAvatarInitials.setText(initials);
+                holder.tvAvatarInitials.setBackgroundTintList(ColorStateList.valueOf(getAvatarColor(member.getName())));
+            }
             
             holder.itemView.setOnClickListener(v -> listener.onRemoveClick(member));
         } else {
@@ -82,6 +99,7 @@ public class GuarantorSelectedAdapter extends RecyclerView.Adapter<GuarantorSele
     static class ViewHolder extends RecyclerView.ViewHolder {
         FrameLayout avatarContainer;
         TextView tvAvatarInitials;
+        ImageView ivAvatarImage;
         FrameLayout removeBadge;
         FrameLayout addSlotContainer;
         TextView tvName;
@@ -90,6 +108,7 @@ public class GuarantorSelectedAdapter extends RecyclerView.Adapter<GuarantorSele
             super(itemView);
             avatarContainer = itemView.findViewById(R.id.avatarContainer);
             tvAvatarInitials = itemView.findViewById(R.id.tvAvatarInitials);
+            ivAvatarImage = itemView.findViewById(R.id.ivAvatarImage);
             removeBadge = itemView.findViewById(R.id.removeBadge);
             addSlotContainer = itemView.findViewById(R.id.addSlotContainer);
             tvName = itemView.findViewById(R.id.tvName);

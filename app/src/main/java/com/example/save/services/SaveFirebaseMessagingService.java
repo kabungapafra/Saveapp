@@ -50,19 +50,27 @@ public class SaveFirebaseMessagingService extends FirebaseMessagingService {
             title = remoteMessage.getNotification().getTitle();
             body = remoteMessage.getNotification().getBody();
         }
-        // FCM data-only messages (sent when app is foregrounded)
+        // Data-only messages: backend omits the notification key so this fires in all app states
         if ((title == null || body == null) && !remoteMessage.getData().isEmpty()) {
             title = remoteMessage.getData().get("title");
             body = remoteMessage.getData().get("body");
         }
 
-        Log.d(TAG, "Message received: " + title);
+        String type = remoteMessage.getData().get("type");
+        String convId = remoteMessage.getData().get("conv_id");
+
+        Log.d(TAG, "Message received: " + title + " type=" + type);
         if (title != null && body != null) {
-            showNotification(title, body);
+            String navigateTo = resolveNavigateTo(type);
+            showNotification(title, body, navigateTo, convId);
         }
     }
 
     private void showNotification(String title, String body) {
+        showNotification(title, body, null, null);
+    }
+
+    private void showNotification(String title, String body, String navigateTo, String convId) {
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager == null) return;
 
@@ -73,24 +81,21 @@ public class SaveFirebaseMessagingService extends FirebaseMessagingService {
             manager.createNotificationChannel(channel);
         }
 
-        String role = SessionManager.getInstance(this).getUserRole();
-        Class<?> targetActivity;
+        Intent intent;
         try {
-            targetActivity = "admin".equalsIgnoreCase(role)
-                    ? Class.forName("com.example.save.ui.activities.AdminMainActivity")
-                    : Class.forName("com.example.save.ui.activities.MemberMainActivity");
+            Class<?> splash = Class.forName("com.example.save.ui.activities.SplashActivity");
+            intent = new Intent(this, splash);
         } catch (ClassNotFoundException e) {
-            try {
-                targetActivity = Class.forName("com.example.save.ui.activities.SplashActivity");
-            } catch (ClassNotFoundException ex) {
-                return;
-            }
+            return;
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("NAVIGATE_TO", navigateTo != null ? navigateTo : "NOTIFICATIONS");
+        if (convId != null) intent.putExtra("conv_id", convId);
+        intent.putExtra("from_notification", true);
 
-        Intent intent = new Intent(this, targetActivity);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                (int) System.currentTimeMillis(), intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notifications)
@@ -102,6 +107,18 @@ public class SaveFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent);
 
         manager.notify((int) System.currentTimeMillis(), builder.build());
+    }
+
+    private static String resolveNavigateTo(String type) {
+        if (type == null) return "NOTIFICATIONS";
+        switch (type) {
+            case "CHAT_REQUEST":         return "CHAT_REQUESTS";   // admin: see pending requests
+            case "CHAT_ACCEPTED":        return "LIVE_CHAT";        // member: go to chat
+            case "CHAT_DECLINED":        return "NOTIFICATIONS";    // member: see declined notice
+            case "CHAT_ENDED":           return "CHAT_ENDED";       // member: go to feedback
+            case "CHAT_ENDED_BY_MEMBER": return "NOTIFICATIONS";    // admin: just a notice
+            default:                     return "NOTIFICATIONS";
+        }
     }
 
     /**

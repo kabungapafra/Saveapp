@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class LoginRequest {
     private String phone;
+    private String email;
     private String password;
     private String loginType;
     private String groupName;
@@ -14,7 +15,7 @@ public class LoginRequest {
     }
 
     public void setPhone(String phone) { this.phone = phone; }
-
+    public void setEmail(String email) { this.email = email; }
     public void setLoginType(String type) { this.loginType = type; }
     public void setGroupName(String name) { this.groupName = name; }
 }

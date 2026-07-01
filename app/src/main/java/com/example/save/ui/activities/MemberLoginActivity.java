@@ -395,7 +395,12 @@ public void onVerificationFailed(FirebaseException e) {
             binding.loginButton.setEnabled(false);
             mAuth.signInWithCredential(credential).addOnCompleteListener(this, authTask -> {
                 if (authTask.isSuccessful() && authTask.getResult().getUser() != null) {
-                    authTask.getResult().getUser().getIdToken(true).addOnCompleteListener(tokenTask -> {
+                    com.google.firebase.auth.FirebaseUser fbUser = authTask.getResult().getUser();
+                    String googleEmail = fbUser.getEmail();
+                    if (googleEmail != null && !googleEmail.isEmpty()) {
+                        com.example.save.utils.SessionManager.getInstance(getApplicationContext()).saveLastEmail(googleEmail);
+                    }
+                    fbUser.getIdToken(true).addOnCompleteListener(tokenTask -> {
                         if (tokenTask.isSuccessful()) {
                             String firebaseToken = tokenTask.getResult().getToken();
                             performGoogleBackendLogin(firebaseToken);
@@ -434,7 +439,8 @@ public void onVerificationFailed(FirebaseException e) {
                     String groupName = loginResponse.getGroupName() != null ? loginResponse.getGroupName() : "";
                     com.example.save.utils.SessionManager session =
                             com.example.save.utils.SessionManager.getInstance(getApplicationContext());
-                    session.createLoginSession(loginResponse.getName(), "", loginResponse.getRole(), false, loginResponse.isCreator());
+                    String phone = (loginResponse.getPhone() != null && !loginResponse.getPhone().isEmpty()) ? loginResponse.getPhone() : "";
+                    session.createLoginSession(loginResponse.getName(), phone, loginResponse.getRole(), false, loginResponse.isCreator());
                     session.saveLastGroup(groupName);
                     session.saveJwtToken(loginResponse.getToken());
                     com.example.save.data.repository.MemberRepository.getInstance(getApplicationContext())
