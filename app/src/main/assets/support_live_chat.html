@@ -62,10 +62,10 @@ body {
   background-color: var(--page-bg);
   width: 100%;
   height: 100vh;
-  margin: 0 auto;
+  margin: 0;
   overflow: hidden;
-  position: relative;
-  max-width: 390px;
+  display: flex;
+  flex-direction: column;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -74,12 +74,7 @@ body {
    [B] SECTION 1 — CHAT HEADER BAR
    ════════════════════════════════════════ */
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  max-width: 390px;
+  flex-shrink: 0;
   height: 71px;
   background: var(--header-bg);
   border-bottom: 1px solid var(--border);
@@ -176,17 +171,13 @@ body {
    [C] SECTION 2 — CHAT MESSAGE AREA
    ════════════════════════════════════════ */
 .chat-area {
-  position: fixed;
-  top: 71px;
-  bottom: 87px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  max-width: 390px;
-  overflow-y: scroll;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 16px 16px 8px;
   background: var(--page-bg);
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
   display: flex;
   flex-direction: column;
 }
@@ -398,12 +389,7 @@ body {
    [E] SECTION 3 — CHAT INPUT BAR
    ════════════════════════════════════════ */
 .input-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  max-width: 390px;
+  flex-shrink: 0;
   background: var(--header-bg);
   border-top: 1px solid var(--border);
   padding: 10px 16px 24px 16px;

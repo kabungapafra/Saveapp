@@ -165,6 +165,9 @@ public interface ApiService {
     @POST("support/chat/typing")
     Call<okhttp3.ResponseBody> sendMemberTyping();
 
+    @POST("support/chat/feedback")
+    Call<okhttp3.ResponseBody> submitChatFeedback(@Body java.util.Map<String, Object> body);
+
     @POST("support/tickets")
     Call<okhttp3.ResponseBody> createSupportTicket(@Body java.util.Map<String, String> body);
 

@@ -16,9 +16,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.save.R;
+import com.example.save.data.network.ApiService;
+import com.example.save.data.network.RetrofitClient;
 import com.example.save.ui.activities.AdminMainActivity;
 import com.example.save.ui.activities.MemberMainActivity;
 import com.google.android.material.button.MaterialButton;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,16 +79,37 @@ public class ChatFeedbackFragment extends Fragment {
 
         MaterialButton btnSubmit = view.findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
-            if (getActivity() != null) {
-                // Jump back to the start of the support flow
-                boolean popped = getParentFragmentManager().popBackStackImmediate("SupportRoot", 0);
-                if (!popped) {
-                    // Fallback if tag not found
-                    getActivity().onBackPressed();
-                }
-            }
+            btnSubmit.setEnabled(false);
+            submitFeedback(selectedRating, btnSubmit);
         });
+    }
+
+    private void submitFeedback(int rating, MaterialButton btn) {
+        if (getContext() == null) { navigateAway(); return; }
+        Map<String, Object> body = new HashMap<>();
+        body.put("rating", rating);
+        RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                .submitChatFeedback(body).enqueue(new Callback<okhttp3.ResponseBody>() {
+                    @Override public void onResponse(@NonNull Call<okhttp3.ResponseBody> call,
+                                                    @NonNull Response<okhttp3.ResponseBody> response) {
+                        if (isAdded() && getActivity() != null)
+                            getActivity().runOnUiThread(() -> {
+                                Toast.makeText(getContext(), "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
+                                navigateAway();
+                            });
+                    }
+                    @Override public void onFailure(@NonNull Call<okhttp3.ResponseBody> call,
+                                                   @NonNull Throwable t) {
+                        if (isAdded() && getActivity() != null)
+                            getActivity().runOnUiThread(() -> navigateAway());
+                    }
+                });
+    }
+
+    private void navigateAway() {
+        if (getActivity() == null) return;
+        boolean popped = getParentFragmentManager().popBackStackImmediate("SupportRoot", 0);
+        if (!popped) getActivity().onBackPressed();
     }
 
     private void setupSelection(int rating) {
