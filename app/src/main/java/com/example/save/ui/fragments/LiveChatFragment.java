@@ -106,6 +106,11 @@ public class LiveChatFragment extends Fragment {
         }
 
         @JavascriptInterface
+        public void onTyping() {
+            postTypingPing();
+        }
+
+        @JavascriptInterface
         public void sendChatMessage(String content) {
             postMessage(content);
         }
@@ -136,23 +141,37 @@ public class LiveChatFragment extends Fragment {
                                            @NonNull Response<okhttp3.ResponseBody> response) {
                         if (!isAdded() || webView == null) return;
                         String messagesJson = "[]";
+                        boolean adminTyping = false;
                         try {
                             if (response.isSuccessful() && response.body() != null) {
                                 org.json.JSONObject obj = new org.json.JSONObject(response.body().string());
                                 org.json.JSONArray arr = obj.optJSONArray("messages");
                                 if (arr != null) messagesJson = arr.toString();
+                                adminTyping = obj.optBoolean("admin_typing", false);
                             }
                         } catch (Exception ignored) { }
-                        final String js = "renderMessages(" + messagesJson + ");";
+                        final String js = "renderMessages(" + messagesJson + "," + adminTyping + ");";
                         if (getActivity() != null) {
+                            final String finalJs = js;
                             getActivity().runOnUiThread(() -> {
-                                if (webView != null) webView.evaluateJavascript(js, null);
+                                if (webView != null) webView.evaluateJavascript(finalJs, null);
                             });
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<okhttp3.ResponseBody> call, @NonNull Throwable t) { }
+                });
+    }
+
+    private void postTypingPing() {
+        if (getContext() == null) return;
+        RetrofitClient.getClient(requireContext()).create(ApiService.class)
+                .sendMemberTyping().enqueue(new Callback<okhttp3.ResponseBody>() {
+                    @Override public void onResponse(@NonNull Call<okhttp3.ResponseBody> call,
+                                                    @NonNull Response<okhttp3.ResponseBody> response) {}
+                    @Override public void onFailure(@NonNull Call<okhttp3.ResponseBody> call,
+                                                   @NonNull Throwable t) {}
                 });
     }
 

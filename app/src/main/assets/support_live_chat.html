@@ -738,6 +738,11 @@ body {
 
 
   <div id="dynamicMessages"></div>
+  <div class="typing-indicator" id="typingIndicator" style="display:none;">
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+  </div>
 </div>
 
 <!-- INPUT BAR -->
@@ -750,7 +755,7 @@ body {
         <line x1="5" y1="12" x2="19" y2="12"></line>
       </svg>
     </button>
-    <input type="text" class="text-input" id="messageInput" placeholder="Type your message..." />
+    <input type="text" class="text-input" id="messageInput" placeholder="Type your message..." oninput="onTypingInput()" />
     <button class="send-btn" id="sendBtn" onclick="sendMessage()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" style="transform: rotate(-15deg); margin-left: -2px;">
         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -932,14 +937,32 @@ body {
     return el;
   }
 
+  // Called by Android when the member types — notifies backend.
+  let typingDebounce = null;
+  function onTypingInput() {
+    clearTimeout(typingDebounce);
+    typingDebounce = setTimeout(() => {
+      if (window.Android && window.Android.onTyping) window.Android.onTyping();
+    }, 300);
+  }
+
+  // Called by Android after each message poll with the admin typing state.
+  function showTypingIndicator(isTyping) {
+    const el = document.getElementById('typingIndicator');
+    if (!el) return;
+    el.style.display = isTyping ? 'flex' : 'none';
+    if (isTyping) scrollToBottom();
+  }
+
   // Called by Android (LiveChatFragment) with the full server-side history.
-  function renderMessages(messages) {
+  function renderMessages(messages, adminTyping) {
     dynamicMessages.innerHTML = '';
     (messages || []).forEach(m => {
       const t = fmtTs(m.created_at);
       dynamicMessages.appendChild(
         m.sender_role === 'admin' ? agentBubble(m.content, t) : userBubble(m.content, t));
     });
+    showTypingIndicator(!!adminTyping);
     scrollToBottom();
   }
 

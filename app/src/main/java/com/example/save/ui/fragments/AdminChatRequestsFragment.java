@@ -149,7 +149,7 @@ public class AdminChatRequestsFragment extends Fragment {
 
                 // Highlight the card that triggered the notification
                 if (convId.equals(highlightConvId)) {
-                    row.setBackgroundResource(R.color.brand_blue_light);
+                    row.setBackgroundResource(R.color.premium_blue_light);
                 }
                 requestsContainer.addView(row);
             } catch (Exception ignored) {}

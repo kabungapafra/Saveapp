@@ -162,6 +162,9 @@ public interface ApiService {
     @POST("support/chat/messages")
     Call<okhttp3.ResponseBody> sendSupportMessage(@Body java.util.Map<String, String> body);
 
+    @POST("support/chat/typing")
+    Call<okhttp3.ResponseBody> sendMemberTyping();
+
     @POST("support/tickets")
     Call<okhttp3.ResponseBody> createSupportTicket(@Body java.util.Map<String, String> body);
 

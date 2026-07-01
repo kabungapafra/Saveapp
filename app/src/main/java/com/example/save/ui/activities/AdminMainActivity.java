@@ -259,7 +259,7 @@ public class AdminMainActivity extends BaseActivity {
             } else if ("ADMIN_LIVE_CHAT".equals(target)) {
                 String convId = intent.getStringExtra("conv_id");
                 if (convId != null)
-                    loadFragment(com.example.save.ui.fragments.AdminLiveChatFragment.newInstance(convId), true);
+                    loadFragment(com.example.save.ui.fragments.AdminLiveChatFragment.newInstance(convId, null), true);
             }
         }
     }
