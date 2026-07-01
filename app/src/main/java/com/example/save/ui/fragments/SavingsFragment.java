@@ -355,6 +355,9 @@ public class SavingsFragment extends Fragment {
                 final boolean isMember      = pool.isMember();
                 // Store joined pool members for detail sheet
                 poolMembers = pool.getJoinedMembers();
+                final int joinedCount = poolMembers.size() > 0
+                        ? poolMembers.size()
+                        : Math.max(pool.getMemberCount(), 1);
 
                 requireActivity().runOnUiThread(() -> {
                     requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
@@ -366,6 +369,7 @@ public class SavingsFragment extends Fragment {
                             .putString(KEY_POOL_SAVE_DATE, sd)
                             .putString(KEY_POOL_RECEIVE_DATE, rd)
                             .putString("pool_id", pool.getId())
+                            .putInt("pool_joined_count", joinedCount)
                             .apply();
                     if (isMember) {
                         renderActiveCard(finalCollected, finalGiveOut, sd, rd);
@@ -464,7 +468,12 @@ public class SavingsFragment extends Fragment {
         // COLLECTED = actual money paid in so far (0 until members start contributing)
         binding.tvPoolSavingsAvailable.setText("UGX " + ugFmt.format(collected));
         binding.tvPoolGiveOutAmount.setText("UGX " + ugFmt.format(giveOutPerMember));
-        binding.tvPoolMemberCount.setText(totalMembers > 0 ? String.valueOf(totalMembers) : "--");
+        // Use joined pool members (from pool API) — not total group members.
+        int displayCount = poolMembers != null && !poolMembers.isEmpty()
+                ? poolMembers.size()
+                : requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                        .getInt("pool_joined_count", totalMembers > 0 ? totalMembers : 1);
+        binding.tvPoolMemberCount.setText(String.valueOf(displayCount));
         binding.tvPoolSaveDate.setText(saveDate);
         binding.tvPoolReceiveDate.setText(receiveDate);
 
