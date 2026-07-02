@@ -22,6 +22,7 @@ public class SetPasswordActivity extends AppCompatActivity {
 
     private ActivitySetPasswordBinding binding;
     private String phone;
+    private String idToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         phone = getIntent().getStringExtra("phone");
+        idToken = getIntent().getStringExtra("idToken");
 
         binding.submitButton.setOnClickListener(v -> submitPassword());
         binding.passwordToggle.setOnClickListener(v -> togglePassword(binding.passwordInput, binding.passwordToggle));
@@ -68,7 +70,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         binding.submitButton.setEnabled(false);
 
         ApiService api = RetrofitClient.getClient(this).create(ApiService.class);
-        api.setOnboardingPassword(new OnboardingSetPasswordRequest(phone, password))
+        api.setOnboardingPassword(new OnboardingSetPasswordRequest(phone, password, idToken))
                 .enqueue(new Callback<com.example.save.data.network.LoginResponse>() {
             @Override
             public void onResponse(Call<com.example.save.data.network.LoginResponse> call, Response<com.example.save.data.network.LoginResponse> response) {

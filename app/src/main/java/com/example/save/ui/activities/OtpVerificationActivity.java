@@ -50,16 +50,28 @@ public class OtpVerificationActivity extends AppCompatActivity {
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
-                    binding.loadingProgress.setVisibility(View.GONE);
-                    binding.verifyButton.setEnabled(true);
                     if (task.isSuccessful()) {
-                        // Success - proceed to Set Password
-                        Intent intent = new Intent(this, SetPasswordActivity.class);
-                        intent.putExtra("phone", phone);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        finish();
+                        // Fetch the Firebase ID token so SetPasswordActivity can prove
+                        // ownership of this phone number to the backend.
+                        task.getResult().getUser().getIdToken(false)
+                                .addOnCompleteListener(tokenTask -> {
+                                    binding.loadingProgress.setVisibility(View.GONE);
+                                    binding.verifyButton.setEnabled(true);
+                                    if (tokenTask.isSuccessful() && tokenTask.getResult() != null) {
+                                        String idToken = tokenTask.getResult().getToken();
+                                        Intent intent = new Intent(this, SetPasswordActivity.class);
+                                        intent.putExtra("phone", phone);
+                                        intent.putExtra("idToken", idToken);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(OtpVerificationActivity.this, "Verification failed, please try again", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     } else {
+                        binding.loadingProgress.setVisibility(View.GONE);
+                        binding.verifyButton.setEnabled(true);
                         Toast.makeText(OtpVerificationActivity.this, "Invalid OTP code", Toast.LENGTH_SHORT).show();
                     }
                 });
